@@ -223,20 +223,18 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                         if(tv_sport!=null)tv_sport.setEnabled(true);
                         try {
                             Weather weather = paseXml(response.getBody().in());
-                            if(weather!=null){
-                                tv_sport.setText("运动："+ StringUtil.withValue(weather.getSport()));
-                                String index="空气指数："+StringUtil.withValue(weather.getAqi());
-                                String temperature="室外温度："+(StringUtils.isEmpty(weather.getWenDu())?"未知":weather.getWenDu()+"℃");
-                                String quality="空气质量："+StringUtil.withValue(weather.getQuality());
-                                tv_air_index.setText(wrapperString(index,Color.parseColor("#75BA2B"),5,index.length()));
-                                tv_air_temperature.setText(wrapperString(temperature,Color.parseColor("#75BA2B"),5,temperature.length()));
-                                tv_air_quality.setText(wrapperString(quality,Color.parseColor("#75BA2B"),5,quality.length()));
-                                tv_air_quality1.setText(" 空气 "+StringUtil.withValue(weather.getQuality()));
+                            if (weather != null) {
+                                tv_sport.setText("运动：" + StringUtil.withValue(weather.getSport()));
+                                String index = "空气指数：" + StringUtil.withValue(weather.getAqi());
+                                String temperature = "室外温度：" + (StringUtils.isEmpty(weather.getWenDu()) ? "未知" : weather.getWenDu() + "℃");
+                                String quality = "空气质量：" + StringUtil.withValue(weather.getQuality());
+                                tv_air_index.setText(wrapperString(index, Color.parseColor("#75BA2B"), 5, index.length()));
+                                tv_air_temperature.setText(wrapperString(temperature, Color.parseColor("#75BA2B"), 5, temperature.length()));
+                                tv_air_quality.setText(wrapperString(quality, Color.parseColor("#75BA2B"), 5, quality.length()));
+                                tv_air_quality1.setText(" 空气 " + StringUtil.withValue(weather.getQuality()));
                             }
                             //Log.i("天气状况" + weather != null ? weather.toString() : null);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (XmlPullParserException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -284,7 +282,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     }
 
     //解析Xml
-    private Weather paseXml(InputStream is) throws XmlPullParserException, IOException {
+    private Weather paseXml(InputStream is) throws XmlPullParserException, IOException{
         XmlPullParser parser = Xml.newPullParser();
         Weather weather = null;
         parser.setInput(is, "utf-8");
@@ -329,22 +327,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         return weather;
 
     }
-
-    /*public static String convert(String utfString) {
-        StringBuilder sb = new StringBuilder();
-        int i = -1;
-        int pos = 0;
-
-        while ((i = utfString.indexOf("\\u", pos)) != -1) {
-            sb.append(utfString.substring(pos, i));
-            if (i + 5 < utfString.length()) {
-                pos = i + 6;
-                sb.append((char) Integer.parseInt(utfString.substring(i + 2, i + 6), 16));
-            }
-        }
-
-        return sb.toString();
-    }*/
 
     @Override
     public void onClick(View v) {

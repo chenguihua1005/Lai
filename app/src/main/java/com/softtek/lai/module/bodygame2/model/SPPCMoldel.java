@@ -18,7 +18,24 @@ public class SPPCMoldel {
     private int StarCou;
     private String UserName;
     private int acmCou;
+    private int Gender;
+    private String PCPhoto;
 
+    public String getPCPhoto() {
+        return PCPhoto;
+    }
+
+    public void setPCPhoto(String PCPhoto) {
+        this.PCPhoto = PCPhoto;
+    }
+
+    public int getGender() {
+        return Gender;
+    }
+
+    public void setGender(int gender) {
+        Gender = gender;
+    }
 
     public int getAccountId() {
         return AccountId;

@@ -5,6 +5,7 @@ import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
+import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -33,6 +35,7 @@ public interface BodyGameService {
             RequestCallback<ResponseData<ClassChangeModel>>callback
     );
     //获取学员列表
+
     @GET("/NewClass/ClMemberChange")
     void  doClMemberChange(
             @Header("token")String token,
@@ -46,11 +49,25 @@ public interface BodyGameService {
             @Header("token")String token,
             @Query("accountid")String accountid,
             @Query("classid")String classid,
-            RequestCallback<RequestCallback<memberDetialModel>>callback
+            RequestCallback<ResponseData<memberDetialModel>>callback
     );
     //顾问首页
     @GET("/HerbNewUser/GetSPIndexInformation")
     void getSPIndexInformation(@Header("token")String token,
                                RequestCallback<ResponseData<SPBodyGameInfo>> callback);
-
+    //首页检索
+    @GET("/HerbNewUser/SearchMember")
+    void doSearchMember(
+            @Header("token")String token,
+            @Query("AccountId")String AccountId,
+            @Query("Key")String Key,
+            RequestCallback<ResponseData<SearchMemberModel>>callback
+    );
+    @POST("/NewClass/ClmemberExit")
+    void doClmemberExit(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            @Query("classid")String classid,
+            RequestCallback<ResponseData>callback
+    );
 }

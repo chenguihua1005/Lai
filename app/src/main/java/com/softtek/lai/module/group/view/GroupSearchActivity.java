@@ -9,7 +9,6 @@ package com.softtek.lai.module.group.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,8 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -33,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -43,10 +38,7 @@ import zilla.libcore.util.Util;
  * 搜索跑团
  */
 @InjectLayout(R.layout.activity_group_search)
-public class GroupSearchActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGByNameOrCodeCallBack {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class GroupSearchActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGByNameOrCodeCallBack {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -121,23 +113,6 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

@@ -64,7 +64,6 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8dp"
                             android:layout_toRightOf="@+id/im_gender"
-                            android:text="好莱坞大片正"
                             android:textColor="#333333"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -84,7 +83,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="15dp"
-                            android:text="13811015468"
                             android:textColor="#333333"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -142,6 +140,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_remove_class"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -185,11 +184,11 @@
                         android:id="@+id/tv_personclassname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="班级：小康康健身班"
                         android:textColor="#333333"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_classdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
@@ -199,11 +198,11 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_SuperName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_personclassname"
                         android:layout_marginTop="13dp"
-                        android:text="助教：David"
                         android:textColor="#333333"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -218,6 +217,7 @@
                 android:orientation="vertical"
                 >
                 <RelativeLayout
+                    android:id="@+id/re_jianzh"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical">
@@ -258,25 +258,24 @@
                         android:id="@+id/tv_weightday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13"
                         android:layout_centerHorizontal="true"
                         android:textSize="14sp"
                         android:textColor="#333333"
                         android:textStyle="bold"
                         />
                     <TextView
+                        android:id="@+id/tv_mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="三月"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/tv_weightday"
                         android:textColor="#333333"
                         android:textSize="12sp"/>
                     </RelativeLayout>
                     <TextView
+                        android:id="@+id/tv_storycontent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="如果你无法简洁的表达你的想法，那么说明你还不够了解它刘恺威金额累计跌幅理解为克服了几点思考放假快递费就是看了看就是地方了多少坤敬府考试的减肥克里斯蒂交付考虑到附近疯了看电视剧kjsdf是的风口浪尖了宽带计费"
                         android:layout_toRightOf="@+id/re_date"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
@@ -298,6 +297,7 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/re_xunzhang"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical">
@@ -356,9 +356,9 @@
                             android:layout_marginTop="8dp"
                             >
                     <TextView
+                        android:id="@+id/tv_valuetext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="复测铜牌"
                         android:textColor="#666666"
                         android:textSize="9sp"/>
                         </LinearLayout>
@@ -388,9 +388,9 @@
                             android:layout_marginTop="8dp"
                             >
                             <TextView
+                                android:id="@+id/tv_valuetext2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="减重100斤奖章"
                                 android:textColor="#666666"
                                 android:textSize="9sp"/>/>
                         </LinearLayout>
@@ -420,9 +420,9 @@
                             android:layout_marginTop="8dp"
                             >
                             <TextView
+                                android:id="@+id/tv_valuetext3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="月冠军"
                                 android:textColor="#666666"
                                 android:textSize="9sp"/>/>
                         </LinearLayout>
@@ -441,9 +441,11 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/Re_personphoto"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -474,9 +476,11 @@
                         >
 
                         <ImageView
+                            android:id="@+id/im_pict1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -488,9 +492,11 @@
                         android:layout_marginRight="5dp">
 
                         <ImageView
+                            android:id="@+id/im_pict2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -500,9 +506,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -521,9 +529,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict4"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -535,9 +545,11 @@
                         android:layout_marginRight="5dp">
 
                         <ImageView
+                            android:id="@+id/im_pict5"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -547,9 +559,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict6"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -559,14 +573,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingBottom="10dp"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="14dp"
+                >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     >
                     <TextView
@@ -580,14 +595,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="left|center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <View
                         android:layout_width="0dp"
@@ -602,7 +620,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:paddingRight="10dp"
+                        >
 
                         <TextView
                             android:id="@+id/tv_total_loss_tip"
@@ -635,7 +654,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
                         <FrameLayout
                             android:layout_width="0dp"
                             android:layout_height="160dp"
@@ -743,13 +764,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#e5e5e5"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         />
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tablayout"
                         style="@style/myTabLayout1"
                         app:tabBackground="@drawable/tab_selornor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/tabcontent"

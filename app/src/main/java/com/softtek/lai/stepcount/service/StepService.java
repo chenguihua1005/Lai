@@ -215,7 +215,12 @@ public class StepService extends Service implements SensorEventListener {
 
 
     private void addBasePedoListener() {
-        stepDetector = new StepDetector(this);
+        if(sensorManager!=null&&stepDetector!=null){
+            sensorManager.unregisterListener(stepDetector);
+            sensorManager=null;
+            stepDetector=null;
+        }
+        stepDetector = new StepDetector();
         Sensor sensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
@@ -384,8 +389,6 @@ public class StepService extends Service implements SensorEventListener {
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
             if(Intent.ACTION_TIME_TICK.equals(action)){
-                //系统time_tick
-                //Log.i("系统发出了时间"+DateUtil.getInstance().getCurrentDate());
                 //检查日期
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(System.currentTimeMillis());
@@ -426,7 +429,6 @@ public class StepService extends Service implements SensorEventListener {
                 buffer.append(",");
                 buffer.append(todayStep);
                 //提交数据
-                com.github.snowdream.android.util.Log.i("步数数据开始上传.......................................");
                 com.github.snowdream.android.util.Log.i("步数>>" + buffer.toString());
                 ZillaApi.NormalRestAdapter.create(StepNetService.class)
                         .synStepCount(

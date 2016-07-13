@@ -1,15 +1,17 @@
 package com.softtek.lai.module.bodygame2.model;
 
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 7/12/2016.
  */
 public class memberDetialModel {
     private ClmInfoModel ClmInfo;
     private LossStoryModel LossStory;
-    private HonorListModel HonorList;
-    private PesonDatePhotoModel PhotoList;
+    private List<HonorListModel> HonorList;
+    private List<PesonDatePhotoModel> PhotoList;
 
-    public memberDetialModel(ClmInfoModel clmInfo, LossStoryModel lossStory, HonorListModel honorList, PesonDatePhotoModel photoList) {
+    public memberDetialModel(ClmInfoModel clmInfo, LossStoryModel lossStory, List<HonorListModel> honorList, List<PesonDatePhotoModel> photoList) {
         ClmInfo = clmInfo;
         LossStory = lossStory;
         HonorList = honorList;
@@ -32,19 +34,19 @@ public class memberDetialModel {
         LossStory = lossStory;
     }
 
-    public HonorListModel getHonorList() {
+    public List<HonorListModel> getHonorList() {
         return HonorList;
     }
 
-    public void setHonorList(HonorListModel honorList) {
+    public void setHonorList(List<HonorListModel> honorList) {
         HonorList = honorList;
     }
 
-    public PesonDatePhotoModel getPhotoList() {
+    public List<PesonDatePhotoModel> getPhotoList() {
         return PhotoList;
     }
 
-    public void setPhotoList(PesonDatePhotoModel photoList) {
+    public void setPhotoList(List<PesonDatePhotoModel> photoList) {
         PhotoList = photoList;
     }
 }

@@ -53,8 +53,8 @@ public class StoryDetailActivity extends BaseActivity implements View.OnClickLis
     TextView tv_date;
     @InjectView(R.id.cb_zan)
     CheckBox cb_zan;
-    @InjectView(R.id.im_heart)
-    ImageView im_heart;
+    @InjectView(R.id.ll_zan)
+    LinearLayout ll_zan;
     @InjectView(R.id.cgv_list_image)
     CustomGridView cgv_list_image;
     @InjectView(R.id.tv_zan_name)
@@ -112,9 +112,9 @@ public class StoryDetailActivity extends BaseActivity implements View.OnClickLis
             cb_zan.setText(log.getPriasenum());
             if (TextUtils.isEmpty(log.getUserNames()))
             {
-                im_heart.setVisibility(View.GONE);
-            }
-            else {
+                ll_left.setVisibility(View.GONE);
+            }else{
+                ll_left.setVisibility(View.VISIBLE);
                 tv_zan_name.setText(log.getUserNames());
             }
             if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
