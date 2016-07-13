@@ -87,7 +87,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
- * 荣誉榜
+ * 新學員錄入
  */
 @InjectLayout(R.layout.activity_joingame_detail)
 public class JoinGameDetailActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
@@ -260,11 +260,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(ConinfoEvent coninfoEvent) {
-        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + coninfoEvent.getConfirmInfoModel());
         getConfirmInfoModel = coninfoEvent.getConfirmInfoModel();
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
         change_photo = getConfirmInfoModel.getPhoto();
         upload_photo = getConfirmInfoModel.getPhoto();
         photo_backup = getConfirmInfoModel.getPhoto();
