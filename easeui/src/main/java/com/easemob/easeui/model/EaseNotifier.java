@@ -243,7 +243,7 @@ public class EaseNotifier {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(appContext)
                     .setSmallIcon(appContext.getApplicationInfo().icon)
                     .setWhen(System.currentTimeMillis())
-                    .setAutoCancel(true);
+                    .setAutoCancel(false);
 
             Intent msgIntent = appContext.getPackageManager().getLaunchIntentForPackage(packageName);
             if (notificationInfoProvider != null) {
@@ -286,7 +286,8 @@ public class EaseNotifier {
             Notification notification = mBuilder.build();
             if (isForeground) {
                 notificationManager.notify(foregroundNotifyID, notification);
-                notificationManager.cancel(foregroundNotifyID);
+                notificationManager.cancelAll();
+                //notificationManager.cancel(foregroundNotifyID);
             } else {
                 notificationManager.notify(notifyID, notification);
             }
