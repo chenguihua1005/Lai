@@ -90,7 +90,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EaseConstant.IS_GROUP_SENT="flase";
+        EaseConstant.IS_GROUP_SENT = "flase";
         activityInstance = this;
         //聊天人或群id
         toChatUsername = getIntent().getExtras().getString("userId");
@@ -108,29 +108,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onDisconnected(final int error) {
                 if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                    if (error == EMError.CONNECTION_CONFLICT) {
+                        EMChatManager.getInstance().logout(true, new EMCallBack() {
 
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            if (error == EMError.CONNECTION_CONFLICT) {
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
+
                                 handler.sendEmptyMessage(0);
+
                             }
-                        }
 
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onProgress(int progress, String status) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onError(int code, String message) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                    });
+                        });
+                    }
                 }
             }
 
