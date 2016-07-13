@@ -207,6 +207,15 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     }
 
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(0);
+        }
+
+    }
 
     @Override
     protected void lazyLoad() {

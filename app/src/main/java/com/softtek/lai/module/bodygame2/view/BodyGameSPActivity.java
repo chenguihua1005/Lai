@@ -94,7 +94,6 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tintManager.setStatusBarAlpha(0);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
         btn_contact.setOnClickListener(this);
@@ -216,6 +215,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                 current = 2;
                 break;
             case R.id.btn_fuce:
+                tintManager.setStatusBarAlpha(1);
                 btn_fuce.setProgress(1);
                 if (current == 3) {
                     return;
@@ -247,5 +247,6 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         tintManager.setStatusBarAlpha(alpha);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
+
 
 }
