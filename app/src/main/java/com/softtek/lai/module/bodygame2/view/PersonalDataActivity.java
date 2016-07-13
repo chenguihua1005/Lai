@@ -22,6 +22,7 @@ import com.softtek.lai.module.bodygame2.present.PersonDateManager;
 import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
+import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
@@ -191,7 +192,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent1);
                 break;
             case R.id.Re_personphoto:
-                Intent intent2=new Intent(this,UploadPhotoActivity.class);
+                Intent intent2=new Intent(this,PassPhotoActivity.class);
                 intent2.putExtra("accountId",accountId);
                 startActivity(intent2);
                 break;

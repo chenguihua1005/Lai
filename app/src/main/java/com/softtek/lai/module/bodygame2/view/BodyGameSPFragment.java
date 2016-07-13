@@ -1,11 +1,13 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -22,6 +24,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.MyListView;
+import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,10 +37,14 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_bodygame_sp)
-public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClickListener{
+public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClickListener,ObservableScrollView.ScrollViewListener{
 
+    @InjectView(R.id.scroll)
+    ObservableScrollView scroll;
     @InjectView(R.id.toolbar)
     RelativeLayout relativeLayout;
+    @InjectView(R.id.rl_color)
+    RelativeLayout rl_color;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.iv_banner)
@@ -117,11 +124,6 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     //请求
     SPManager manager;
 
-
-
-
-
-
     @Override
     protected void initViews() {
         int status=DisplayUtil.getStatusHeight(getActivity());
@@ -140,6 +142,34 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         ll_jindu.setOnClickListener(this);
         ll_honor.setOnClickListener(this);
         ll_zhujiao.setOnClickListener(this);
+        scroll.setScrollViewListener(this);
+        //学员点击item
+        mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SPPCMoldel model=pcModels.get(position);
+                Intent jumpStudent=new Intent(getContext(),PersonalDataActivity.class);
+                jumpStudent.putExtra("userId",(long)model.getAccountId());
+                jumpStudent.putExtra("classId",(long)model.getClassId());
+                startActivity(jumpStudent);
+            }
+        });
+        //大赛点击item
+        mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CompetitionModel model=competitionModels.get(position);
+                Intent jumpStudent=new Intent(getContext(),PersonalDataActivity.class);
+                jumpStudent.putExtra("userId",(long)model.getAccountId());
+                jumpStudent.putExtra("classId",(long)model.getClassId());
+                startActivity(jumpStudent);
+            }
+        });
+        scroll.post(new Runnable() {
+                    public void run() {
+                        scroll.smoothScrollTo(0, 0);
+                    }
+                });
     }
 
     @Override
@@ -149,20 +179,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         saiKuangAdapter=new SaiKuangAdapter(getContext(),competitionModels);
         mlv.setAdapter(sppcAdapter);
         mgv.setAdapter(saiKuangAdapter);
-        //学员点击item
-        mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
-        //大赛点击item
-        mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
     }
 
 
@@ -174,18 +191,22 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     public void onloadCompleted(SPBodyGameInfo info){
         if(info!=null){
+            String basePath=AddressManager.get("photoHost");
             //首页banner
-            //。。。
-            tv_totalperson.setText(info.getTotalPc());
-            tv_total_loss.setText(info.getTotalLoss());
-            tv_person_num.setText(info.getPcCount());
-            tv_loss_weight.setText(info.getLossTotal());
-            tv_fuce_per.setText(info.getRetest());
-            tv_new_class.setText(info.getNewClass());
-            tv_server_rank.setText(info.getPcNum());
-            tv_loss_rank.setText(info.getLossNum());
-            tv_fuce_rank.setText(info.getRNum());
-            tv_new_student.setText(info.getNewPc());
+            if(StringUtils.isNotEmpty(info.getBanner())){
+                Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect).into(iv_banner);
+            }
+            tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
+            tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
+            tv_person_num.setText(StringUtil.convertValue1(info.getPcCount()));
+            tv_loss_weight.setText(StringUtil.convertValue1(info.getLossTotal()));
+            tv_fuce_per.setText(StringUtil.convertValue1(info.getRetest()));
+            tv_new_class.setText(StringUtil.convertValue1(info.getNewClass()));
+            tv_server_rank.setText(StringUtil.convertValue1(info.getPcNum()));
+            tv_loss_rank.setText(StringUtil.convertValue1(info.getLossNum()));
+            tv_fuce_rank.setText(StringUtil.convertValue1(info.getRNum()));
+            tv_new_student.setText(StringUtil.convertValue1(info.getNewPc()));
             pcModels.clear();
             competitionModels.clear();
             pcModels.addAll(info.getSp_pc_three());
@@ -198,7 +219,6 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 ll_tips_content.setVisibility(View.GONE);
             }else{
                 ll_tip2.setVisibility(View.INVISIBLE);
-                String basePath= AddressManager.get("photoHost");
                 for (int i=0;i<tips.size();i++){
                     Tips tip=tips.get(i);
                     if(i==0){
@@ -228,8 +248,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-//                getActivity().finish();
-                startActivity(new Intent(getContext(),PersonalDataActivity.class));
+                getActivity().finish();
                 break;
             case R.id.iv_refresh:
                 //刷新
@@ -265,5 +284,17 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 //助教管理
                 break;
         }
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        float alpha=(1f*y/1000);
+        Context context=getContext();
+        if(context instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)context;
+            activity.setAlpha(alpha);
+            rl_color.setAlpha(alpha);
+        }
+
     }
 }
