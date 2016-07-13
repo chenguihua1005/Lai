@@ -105,7 +105,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private CircleImageView cir_downphoto_head_list;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
-    String accountid="0";
     boolean flag = true;
 
     String url;
