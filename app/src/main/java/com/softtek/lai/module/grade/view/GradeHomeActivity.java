@@ -464,7 +464,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getDynamicCallback(List<DynamicInfoModel> dynamicInfoModels) {
-        lv_dynamic.onRefreshComplete();
         try {
             if(dynamicInfoModels==null){
                 pageIndex=--pageIndex<1?1:pageIndex;

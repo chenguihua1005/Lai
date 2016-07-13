@@ -9,6 +9,8 @@ import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
 
+import java.util.List;
+
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -32,12 +34,14 @@ public interface BodyGameService {
             @Query("classid")String classid,
             RequestCallback<ResponseData<ClassChangeModel>>callback
     );
-    //获取班级学员列表
+    //获取学员列表
+
     @GET("/NewClass/ClMemberChange")
     void  doClMemberChange(
             @Header("token")String token,
             @Query("classid")String classid,
-            RequestCallback<ResponseData<MemberChangeModel>>callback
+            @Query("type")String type,
+            RequestCallback<ResponseData<MemberChangeModel>> callback
     );
     //获取个人资料
     @GET("/NewClass/GetClmemberDetial")

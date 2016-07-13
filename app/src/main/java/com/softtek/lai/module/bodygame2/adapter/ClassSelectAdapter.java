@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame2.model.ClassListModel;
 import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 
@@ -23,14 +24,14 @@ import java.util.List;
  */
 public class ClassSelectAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<ClassSelectModel> list;
+    private List<ClassListModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public ClassSelectAdapter(Context context, List<ClassSelectModel> list) {
+    public ClassSelectAdapter(Context context, List<ClassListModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -71,8 +72,8 @@ public class ClassSelectAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        ClassSelectModel model = list.get(position);
-        holder.text_month.setText(model.getClassMonth());
+        ClassListModel model = list.get(position);
+        holder.text_month.setText(model.getStartDate());
         holder.text_name.setText(model.getClassName());
         return convertView;
     }
