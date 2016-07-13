@@ -73,10 +73,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-//        if (!isTaskRoot()) {
-//            finish();
-//            return;
-//        }
+        /*if (!isTaskRoot()) {
+            finish();
+            return;
+        }*/
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
