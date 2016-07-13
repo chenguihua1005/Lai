@@ -133,7 +133,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 builder = null;
                                                 UserInfoModel.getInstance().loginOut();
                                                 LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
-                                                Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                                Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
