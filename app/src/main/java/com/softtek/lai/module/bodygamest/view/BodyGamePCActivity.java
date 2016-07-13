@@ -257,7 +257,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) {
-
         if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus() != null) {
             if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
                 flag = false;

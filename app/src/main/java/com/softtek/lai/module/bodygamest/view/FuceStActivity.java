@@ -110,7 +110,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     ImageView iv_email;
     private ProgressDialog progressDialog;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String loginid=userInfoModel.getUser().getUserid();
     String moblie=userInfoModel.getUser().getMobile();
 
     //保存数据点击
@@ -233,7 +233,13 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
         tv_title.setText("复测");
         retestPre=new RetestclassImp();
-        retestPre.doGetAudit(loginid,0,"");
+        Intent intent=getIntent();
+        loginid=intent.getStringExtra("accountId");
+        if (loginid==null)
+        {
+            loginid=UserInfoModel.getInstance().getUser().getUserid();
+        }
+        retestPre.doGetAudit(Long.parseLong(loginid),0,"");
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
@@ -611,7 +617,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setMessage("正在保存...");
             progressDialog.show();
-            retestPre.doPostWrite(loginid, loginid, retestWrite, this, progressDialog);
+            retestPre.doPostWrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, this, progressDialog);
         }
 
 

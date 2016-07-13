@@ -20,8 +20,10 @@ public class ClmInfoModel {
     private String beforeImage;
     private String beforeWeight;
     private String totalLoss;
+    private String Istest;
+    private String typedate;
 
-    public ClmInfoModel(String assistantId, String className, String endDate, String HXAccountId, String mobile, String photo, String startDate, String superName, String superType, String userName, String gender, String afterImage, String afterWeight, String beforeImage, String beforeWeight, String totalLoss) {
+    public ClmInfoModel(String assistantId, String className, String endDate, String HXAccountId, String mobile, String photo, String startDate, String superName, String superType, String userName, String gender, String afterImage, String afterWeight, String beforeImage, String beforeWeight, String totalLoss, String istest, String typedate) {
         AssistantId = assistantId;
         ClassName = className;
         EndDate = endDate;
@@ -38,6 +40,8 @@ public class ClmInfoModel {
         this.beforeImage = beforeImage;
         this.beforeWeight = beforeWeight;
         this.totalLoss = totalLoss;
+        Istest = istest;
+        this.typedate = typedate;
     }
 
     public String getAssistantId() {
@@ -166,5 +170,21 @@ public class ClmInfoModel {
 
     public void setTotalLoss(String totalLoss) {
         this.totalLoss = totalLoss;
+    }
+
+    public String getIstest() {
+        return Istest;
+    }
+
+    public void setIstest(String istest) {
+        Istest = istest;
+    }
+
+    public String getTypedate() {
+        return typedate;
+    }
+
+    public void setTypedate(String typedate) {
+        this.typedate = typedate;
     }
 }
