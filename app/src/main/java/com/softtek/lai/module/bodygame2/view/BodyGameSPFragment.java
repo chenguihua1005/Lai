@@ -1,9 +1,10 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,8 +16,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
-import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
-import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
@@ -24,6 +23,14 @@ import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2.present.SPManager;
+import com.softtek.lai.module.counselor.view.AssistantActivity;
+import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.counselor.view.SPHonorActivity;
+import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.softtek.lai.module.review.view.ReviewActivity;
+import com.softtek.lai.module.tips.model.AskHealthyModel;
+import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -106,6 +113,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_tag2;
     @InjectView(R.id.ll_tips_content)
     LinearLayout ll_tips_content;
+    @InjectView(R.id.fl)
+    FrameLayout fl;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -152,6 +161,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         ll_honor.setOnClickListener(this);
         ll_zhujiao.setOnClickListener(this);
         scroll.setScrollViewListener(this);
+        fl.setOnClickListener(this);
         //学员点击item
         mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -197,9 +207,10 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         Log.i("BodyGameSPFragment 加载数据");
         manager.getSPHomeInfo(this);
     }
-
+    SPBodyGameInfo info;
     public void onloadCompleted(SPBodyGameInfo info){
         if(info!=null){
+            this.info=info;
             String basePath=AddressManager.get("photoHost");
             //首页banner
             if(StringUtils.isNotEmpty(info.getBanner())){
@@ -222,7 +233,12 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             competitionModels.addAll(info.getCompetition());
             sppcAdapter.notifyDataSetChanged();
             saiKuangAdapter.notifyDataSetChanged();
-            tv_video_name.setText(info.getTips_video_name());
+            if(StringUtils.isNotEmpty(info.getTips_video_name())){
+                tv_video_name.setText(info.getTips_video_name());
+                fl.setVisibility(View.VISIBLE);
+            }else{
+                fl.setVisibility(View.GONE);
+            }
             List<Tips> tips=info.getTips_content();
             if(tips==null||tips.isEmpty()){
                 ll_tips_content.setVisibility(View.GONE);
@@ -285,35 +301,65 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.rl_student_more:
                 //我的学员 更多
-
+                startActivity(new Intent(getContext(), JingduActivity.class));
                 break;
             case R.id.ll_tip1:
                 //第一个tip
+                Tips tip1=info.getTips_content().get(0);
+                AskHealthyModel ask=new AskHealthyModel();
+                ask.setTips_Link(tip1.getTips_Link());
+                Intent tip1Intent=new Intent(getContext(), AskDetailActivity.class);
+                tip1Intent.putExtra("ask",ask);
+                startActivity(tip1Intent);
                 break;
             case R.id.ll_tip2:
                 //第二个tip
+                Tips tip2=info.getTips_content().get(1);
+                AskHealthyModel ask2=new AskHealthyModel();
+                ask2.setTips_Link(tip2.getTips_Link());
+                Intent tip2Intent=new Intent(getContext(), AskDetailActivity.class);
+                tip2Intent.putExtra("ask",ask2);
+                startActivity(tip2Intent);
                 break;
             case R.id.rl_tip:
                 //tips更多
                 startActivity(new Intent(getContext(), TipsActivity.class));
                 break;
+            case R.id.fl:
+                //视频
+                if(info!=null&&StringUtils.isNotEmpty(info.getTips_video_name())){
+                    Uri uri=Uri.parse(AddressManager.get("photoHost")+info.getTips_video_url());
+                    Intent intent=new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri,"video/*");
+                    startActivity(intent);
+                }
+                break;
             case R.id.rl_saikuang:
                 //大赛更多
+                startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.ll_new_student_record:
                 //新学员录入
+                Intent newStuRecord=new Intent(getContext(), JoinGameDetailActivity.class);
+                newStuRecord.putExtra("type","0");
+                startActivity(newStuRecord);
                 break;
             case R.id.ll_sp_review:
                 //往期回顾
+                startActivity(new Intent(getContext(), ReviewActivity.class));
                 break;
             case R.id.ll_jindu:
                 //当期进度
+                startActivity(new Intent(getContext(), JingduActivity.class));
                 break;
             case R.id.ll_honor:
                 //荣誉榜
+                Intent intent = new Intent(getContext(), SPHonorActivity.class);
+                startActivity(intent);
                 break;
             case R.id.ll_zhujiao:
                 //助教管理
+                startActivity(new Intent(getContext(), AssistantActivity.class));
                 break;
         }
     }

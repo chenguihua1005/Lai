@@ -19,6 +19,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
 import com.softtek.lai.module.bodygame2.present.PersonDateManager;
+import com.softtek.lai.module.bodygamest.view.FuceStActivity;
 import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
@@ -68,6 +69,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_loss_after_tip;
     @InjectView(R.id.tv_total_loss_tip)
     TextView tv_total_loss_tip;
+    @InjectView(R.id.ll_persondatefuce)
+    LinearLayout ll_persondatefuce;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -136,6 +139,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         re_xunzhang.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
+        ll_persondatefuce.setOnClickListener(this);
         tv_title.setText("个人资料");
         userId = getIntent().getLongExtra("userId", 0);
         classId = getIntent().getLongExtra("classId", 0);
@@ -197,6 +201,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
+            case R.id.ll_persondatefuce:
+
+                startActivity(new Intent(this, FuceStActivity.class));
+                break;
         }
     }
 
@@ -204,7 +212,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         if (data != null) {
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
-                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.default_icon_square).into(cir_headim);
+                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
             }
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());
@@ -328,7 +336,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             } else if (ty.equals("2")) {
                 tv_valuetext.setText("月冠军" + value + "名奖章");
             } else if (ty.equals("3")) {
-                tv_valuetext.setText("全国排名第" + value + "名奖章");
+                tv_valuetext.setText("全国排名奖章");
             }
         } else if (n == 1) {
             view = ll_honorn2;
@@ -345,7 +353,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             } else if (ty.equals("2")) {
                 tv_valuetext2.setText("月冠军" + value + "名奖章");
             } else if (ty.equals("3")) {
-                tv_valuetext2.setText("全国排名第" + value + "名奖章");
+                tv_valuetext2.setText("全国排名奖章");
             }
         } else {
             view = ll_honorn3;
@@ -362,7 +370,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             } else if (ty.equals("2")) {
                 tv_valuetext3.setText("月冠军" + value + "名奖章");
             } else if (ty.equals("3")) {
-                tv_valuetext3.setText("全国排名第" + value + "名奖章");
+                tv_valuetext3.setText("全国排名奖章");
             }
         }
         return view;

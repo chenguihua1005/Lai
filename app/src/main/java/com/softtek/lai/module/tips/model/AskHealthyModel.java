@@ -25,6 +25,9 @@ public class AskHealthyModel implements Parcelable{
         Tips_Link = in.readString();
     }
 
+    public AskHealthyModel() {
+    }
+
     public static final Creator<AskHealthyModel> CREATOR = new Creator<AskHealthyModel>() {
         @Override
         public AskHealthyModel createFromParcel(Parcel in) {

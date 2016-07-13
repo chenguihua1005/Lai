@@ -185,11 +185,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
 
     }
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
-//    }
 
     @Override
     public void onResume() {

@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -35,6 +37,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.DisplayUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,6 +69,8 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     ListView list_contant;
     @InjectView(R.id.lin_group_send)
     LinearLayout lin_group_send;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     ChatContantAdapter adapter;
     List<ChatContactInfoModel> list;
@@ -108,6 +113,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void initViews() {
         tv_title.setText("通讯录");
+        int status= DisplayUtil.getStatusHeight(getActivity());
+        LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+        params.topMargin=status;
+        toolbar.setLayoutParams(params);
     }
     private void setData() {
         dialogShow("加载中");

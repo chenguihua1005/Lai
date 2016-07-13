@@ -12,10 +12,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -45,6 +47,7 @@ import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.DisplayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,6 +70,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @InjectView(R.id.lin)
     LinearLayout lin;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     // 账号在别处登录
     public boolean isConflict = false;
@@ -123,17 +128,17 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews() {
-
-
+        int status= DisplayUtil.getStatusHeight(getActivity());
+        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+        params.topMargin=status;
+        toolbar.setLayoutParams(params);
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
         }
-
         tv_title.setText("会话");
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
-
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
@@ -192,7 +197,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void lazyLoad() {
         boolean isLogin = EMChat.getInstance().isLoggedIn();
-        System.out.println("isLogin:" + isLogin);
         if (isLogin) {
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
