@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame2.view;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -40,6 +42,13 @@ import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.present.ClassMainManager;
+import com.softtek.lai.module.bodygame2.present.PersonDateManager;
+import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
+import com.softtek.lai.module.counselor.presenter.StudentImpl;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
+import com.softtek.lai.module.counselor.view.CreateCounselorClassActivity;
+import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
 import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.grade.model.GradeModel;
@@ -67,11 +76,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, DialogInterface.OnClickListener,ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, DialogInterface.OnClickListener, ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -89,6 +99,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @InjectView(R.id.rel)
     RelativeLayout rel;
+
+    @InjectView(R.id.rel_sy)
+    RelativeLayout rel_sy;
 
     @InjectView(R.id.rel_add)
     RelativeLayout rel_add;
@@ -178,26 +191,36 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     UserInfoModel model;
     private IGrade grade;
 
-    CharSequence[] items={"拍照","照片"};
-    private static final int CAMERA_PREMISSION=100;
+    CharSequence[] items = {"拍照", "照片"};
+    private static final int CAMERA_PREMISSION = 100;
     private ImageFileCropSelector imageFileCropSelector;
+
+    private IStudentPresenter studentPresenter;
+
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void initViews() {
-        imageFileCropSelector=new ImageFileCropSelector(getActivity());
+        imageFileCropSelector = new ImageFileCropSelector(getActivity());
         imageFileCropSelector.setQuality(80);
-        imageFileCropSelector.setOutPutAspect(1, 1);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getActivity()),DisplayUtil.dip2px(getActivity(),190));
+        imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
         imageFileCropSelector.setCallback(this);
 
         tintManager = new SystemBarTintManager(getActivity());
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarAlpha(0);
+        tintManager.setStatusBarAlpha(0f);
         int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
         params.topMargin = status;
         rel.setLayoutParams(params);
+
+        RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
+        p.height = params.height + status;
+        rel_sy.setLayoutParams(p);
+        rel_sy.setAlpha(1f);
 
         lin_class_select.setOnClickListener(this);
         rel_title_more.setOnClickListener(this);
@@ -206,8 +229,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_gg.setOnClickListener(this);
         rel_xtxx.setOnClickListener(this);
         img_banner.setOnClickListener(this);
-        rel_title.setAlpha(0);
+        rel_title.setAlpha(0f);
+        rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("加载中");
 
         view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
         rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
@@ -220,7 +248,22 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
-        grade = new GradeImpl(this,"1");
+        grade = new GradeImpl(this, "1");
+
+        studentPresenter = new StudentImpl((BaseActivity) getContext());
+
+        list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("------");
+                ClmListModel clmListModel = student_list.get(position);
+                String accountId = clmListModel.getAccountid();
+                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+                intent.putExtra("userId", Long.parseLong(accountId));
+                intent.putExtra("classId", Long.parseLong(select_class_id));
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -232,7 +275,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        model=UserInfoModel.getInstance();
+        model = UserInfoModel.getInstance();
         scroll.post(
                 new Runnable() {
                     public void run() {
@@ -241,8 +284,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     }
                 });
         classMainManager = new ClassMainManager(this);
-        classMainManager.doClassMainIndex("59");//固定值fanny帐号，作测试用
-
     }
 
     private void initSelectTypePop() {
@@ -268,12 +309,26 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        dialogShow("加载中");
+        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+    }
+
+    @Override
     protected void lazyLoad() {
         Log.i("ClassFragment 加载数据");
         rel_title_more.setFocusable(true);
         rel_title_more.setFocusableInTouchMode(true);
         rel_title_more.requestFocus();
         scroll.setFocusable(false);
+    }
+    private void takeP() {
+        imageFileCropSelector.takePhoto(this);
+    }
+
+    private void selectP() {
+        imageFileCropSelector.selectImage(this);
     }
 
     @Override
@@ -285,27 +340,27 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
+                        if (which == 0) {
                             //拍照
-                            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION)||
-                                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION)){
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                                     //允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                }else{
+                                } else {
                                     //不允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                 }
-                            }else {
-                                imageFileCropSelector.takePhoto(getActivity());
+                            } else {
+                                takeP();
                             }
-                        }else if(which==1){
+                        } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(getActivity());
+                            selectP();
                         }
                     }
                 }).create().show();
@@ -372,36 +427,106 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 popSelectType.dismiss();
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体制率");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
+                dialogShow("加载中");
+                CounselorService counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
+                String token = UserInfoModel.getInstance().getToken();
+                counselorService.classInvitePCISOK(token, select_class_id, new Callback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData listResponseData, Response response) {
+                        android.util.Log.e("jarvis", listResponseData.toString());
+                        int status = listResponseData.getStatus();
+                        dialogDissmiss();
+                        switch (status) {
+                            case 200:
+                                Intent intents = new Intent(getActivity(), InviteStudentActivity.class);
+                                intents.putExtra("classId", Long.parseLong(select_class_id));
+                                getActivity().startActivity(intents);
+                                break;
+                            case 100:
 
+                                break;
+                            default:
+                                Util.toastMsg(listResponseData.getMsg());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                        error.printStackTrace();
+                    }
+                });
                 break;
             case R.id.lin_invite_ass://邀请助教
                 popTitleMore.dismiss();
+                dialogShow("加载中");
+                CounselorService counselorServices = ZillaApi.NormalRestAdapter.create(CounselorService.class);
+                String tokens = UserInfoModel.getInstance().getToken();
+                counselorServices.classInvitePCISOK(tokens, select_class_id, new Callback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData listResponseData, Response response) {
+                        android.util.Log.e("jarvis", listResponseData.toString());
+                        int status = listResponseData.getStatus();
+                        dialogDissmiss();
+                        switch (status) {
+                            case 200:
+                                Intent intent = new Intent(getActivity(), AssistantListActivity.class);
+                                intent.putExtra("classId", Long.parseLong(select_class_id));
+                                intent.putExtra("type", "1");
+                                getActivity().startActivity(intent);
+                                break;
+                            case 100:
 
+                                break;
+                            default:
+                                Util.toastMsg(listResponseData.getMsg());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                        error.printStackTrace();
+                    }
+                });
                 break;
             case R.id.lin_create_class://创建班级
                 popTitleMore.dismiss();
+
+                Intent intent = new Intent(getActivity(), CreateCounselorClassActivity.class);
+                intent.putExtra("classId", Long.parseLong(select_class_id));
+                intent.putExtra("type", "1");
+                getActivity().startActivity(intent);
 
                 break;
             case R.id.lin_select_type://选择展示类型
@@ -422,14 +547,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             case R.id.lin_class_select://选择班级
                 if (popTitleSelect != null && popTitleSelect.isShowing()) {
                     popTitleSelect.dismiss();
+                    text_class_name.setTextColor(Color.WHITE);
                 } else {
                     View view = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
                     ListView list_class_select = (ListView) view.findViewById(R.id.list_class_select);
 
                     lin_class_select.setBackgroundColor(Color.WHITE);
                     img_class_down.setVisibility(View.INVISIBLE);
-                    ClassSelectAdapter adapter = new ClassSelectAdapter(getContext(), select_class_list);
+                    final ClassSelectAdapter adapter = new ClassSelectAdapter(getContext(), select_class_list);
                     list_class_select.setAdapter(adapter);
+                    text_class_name.setTextColor(Color.BLACK);
                     popTitleSelect = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT, true);
                     popTitleSelect.setOutsideTouchable(true);
@@ -438,6 +565,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     popTitleSelect.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
+                            text_class_name.setTextColor(Color.WHITE);
                             lin_class_select.setBackgroundColor(Color.TRANSPARENT);
                             img_class_down.setVisibility(View.VISIBLE);
                         }
@@ -446,9 +574,12 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             popTitleSelect.dismiss();
+                            text_class_name.setTextColor(Color.WHITE);
                             ClassListModel classListModel = select_class_list.get(position);
                             select_class_id = classListModel.getClassId();
+                            SharedPreferenceService.getInstance().put("classId", select_class_id);
                             text_class_name.setText(classListModel.getClassName());
+                            dialogShow("加载中");
                             classMainManager.doClassChangeById(select_class_id);
                         }
                     });
@@ -494,12 +625,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
             rel_title.setAlpha(alapa);
             tintManager.setStatusBarAlpha(alapa);
+
         }
         if (scrollView.getScrollY() == 0) {
             rel_title.setAlpha(0);
             tintManager.setStatusBarAlpha(0);
         }
-        if (scrollView.getScrollY() > 500) {
+        if (scrollView.getScrollY() > 400) {
             rel_title.setAlpha(1);
             tintManager.setStatusBarAlpha(1);
         }
@@ -507,10 +639,12 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void getClassMain(ClassMainModel classMainModel) {
+        dialogDissmiss();
         if (classMainModel != null) {
             select_class_list = classMainModel.getClasslist();
             text_class_name.setText(select_class_list.get(0).getClassName());
             select_class_id = select_class_list.get(0).getClassId();
+            SharedPreferenceService.getInstance().put("classId", select_class_id);
             student_list = classMainModel.getClmlist();
             adapter = new ClassMainStudentAdapter(getContext(), student_list);
             adapter.type = select_type + "";
@@ -559,6 +693,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void getStudentList(MemberChangeModel memberChangeModel) {
+        dialogDissmiss();
         System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
             student_list.clear();
@@ -572,6 +707,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
+        dialogDissmiss();
         if (classChangeModel != null) {
 
             select_type = 0;
@@ -678,7 +814,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     }
 
                     text_value.setText(content);
-                    String time = DateUtil.getInstance().convertDateStr( DateUtil.getInstance().getCurrentDate(), "yyyy年MM月dd日");
+                    String time = DateUtil.getInstance().convertDateStr(DateUtil.getInstance().getCurrentDate(), "yyyy年MM月dd日");
                     text_time.setText(time);
                 }
 
@@ -693,7 +829,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onSuccess(String file) {
-        System.out.println("-----------");
         dialogShow("加载中");
         grade.updateClassBanner(Long.parseLong(select_class_id), "2", new File(file));
     }
@@ -702,15 +837,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void onError() {
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
+        if (requestCode == CAMERA_PREMISSION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(getActivity());
+                imageFileCropSelector.takePhoto(this);
 
             } else {
 
@@ -719,13 +855,15 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("=========");
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
     }
+
     @Override
     public void onSuccess(String bannerUrl, File image) {
         dialogDissmiss();
