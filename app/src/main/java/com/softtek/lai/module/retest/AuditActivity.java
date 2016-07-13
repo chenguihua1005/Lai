@@ -191,7 +191,6 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         retestAudit=new RetestAuditModel();
         Intent intent=getIntent();
         String accountId=intent.getStringExtra("accountId");
-        String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
         classid=classId;
         accountid=accountId;
