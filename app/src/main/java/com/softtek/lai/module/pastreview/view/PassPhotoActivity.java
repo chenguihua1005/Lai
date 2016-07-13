@@ -38,6 +38,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     MyPhotoListManager myPhotoListManager;
     String classId;
     String userId;
+    String accountId;
     MyPhotoListAdapter myPhotoListAdapter;
     List<MyPhotoListModel> myPhotoListModelList = new ArrayList<MyPhotoListModel>();
 
