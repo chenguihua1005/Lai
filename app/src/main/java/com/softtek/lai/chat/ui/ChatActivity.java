@@ -94,7 +94,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EaseConstant.IS_GROUP_SENT="flase";
+        EaseConstant.IS_GROUP_SENT = "flase";
         activityInstance = this;
         //聊天人或群id
         toChatUsername = getIntent().getExtras().getString("userId");
@@ -118,7 +118,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
+
+
                                 handler.sendEmptyMessage(0);
+
                             }
 
                             @Override
@@ -132,6 +135,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                                 // TODO Auto-generated method stub
 
                             }
+
                         });
                     }
                 }

@@ -287,18 +287,18 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         chatUserModel.setUserPhone(path + model.getPhoto());
         chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
-
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
         } else {
             messagePresenter.getMessageRead(img_red);
         }
-//        if (EMChat.getInstance().isLoggedIn()) {
-//            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-//            System.out.println("unreadNum:" + unreadNum);
-//            modelAdapter.update(unreadNum);
-//        }
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:" + unreadNum);
+            modelAdapter.update(unreadNum);
+        }
+
         String hasEmchat = model.getHasEmchat();
         System.out.println("hasEmchat:" + hasEmchat);
         if ("1".equals(hasEmchat)) {
@@ -377,9 +377,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                //handler.sendEmptyMessage(0);
+                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+
                 EMChatManager.getInstance().loadAllConversations();
 
                 if (timer != null) {
@@ -426,28 +426,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-//                    if (isLogin) {
-//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                        ChatUserModel chatUserModel = new ChatUserModel();
-//                        chatUserModel.setUserName(model.getNickname());
-//                        chatUserModel.setUserPhone(path + model.getPhoto());
-//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-//                                EMChatManager.getInstance().loadAllConversations();
-//                            }
-//                        }).start();
-//                        // 进入主页面
-//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        loginPresenter.getEMChatAccount(progressDialog);
-//                    }
+                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+                    if (isLogin) {
+                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                        ChatUserModel chatUserModel = new ChatUserModel();
+                        chatUserModel.setUserName(model.getNickname());
+                        chatUserModel.setUserPhone(path + model.getPhoto());
+                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                                EMChatManager.getInstance().loadAllConversations();
+                            }
+                        }).start();
+                        // 进入主页面
+                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+                        startActivity(intent);
+                    } else {
+                        loginPresenter.getEMChatAccount(progressDialog);
+                    }
                     break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:

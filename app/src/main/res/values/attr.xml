@@ -8,6 +8,7 @@
             <enum name="fuce" value="1"/>
             <enum name="monthChampion" value="2"/>
             <enum name="nation" value="3"/>
+            <enum name="nation_spec" value="4"/>
         </attr>
         <attr name="medallevel" format="enum">
             <enum name="gold" value="0"/>
