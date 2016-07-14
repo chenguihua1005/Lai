@@ -710,6 +710,9 @@
         <activity
             android:name=".module.pastreview.view.HistoryStudentHonorActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame2pc.view.BodyGamePCActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".locationservice.LocationService"
