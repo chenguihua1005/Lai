@@ -53,7 +53,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     private RetestPre retestPre;
     private List<StudentModel> studentModelList = new ArrayList<StudentModel>();
     private QueryAdapter queryAdapter;
-    private static final int GET_BODY=2;
+    private static final int BODY=3;
     private ProgressDialog progressDialog;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -97,7 +97,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     intent.putExtra("Weekth",studentModel.getWeekth());
                     intent.putExtra("loginid","36");
 
-                    startActivityForResult(intent,GET_BODY);
+                    startActivityForResult(intent,BODY);
 
                 }
                 else {
@@ -123,7 +123,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     //第几周期
                     intent.putExtra("Weekth",studentModel.getWeekth());
                     Log.i("zhouqizhouqi"+studentModel.getWeekth());
-                    startActivityForResult(intent,GET_BODY);
+                    startActivityForResult(intent,BODY);
                 }
             }
         });
@@ -188,7 +188,8 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+        if (requestCode==BODY&&resultCode==RESULT_OK){
+            studentModelList.clear();
             retestPre.doGetBanjiStudent(Long.parseLong(ClassId),loginid);
             queryAdapter.notifyDataSetChanged();
 

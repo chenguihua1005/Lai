@@ -87,6 +87,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     long ClassId;
     @Override
     protected void initViews() {
+        ll_left.setVisibility(View.INVISIBLE);
         int status= DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
@@ -178,14 +179,14 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
             }
             break;
             case R.id.ll_left: {
-                String type = getActivity().getIntent().getStringExtra("type");
-                if ("0".equals(type)) {
-                    Intent inten=new Intent(getContext(), HomeActviity.class);
-                    inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(inten);
-                } else {
-                    getActivity().finish();
-                }
+//                String type = getActivity().getIntent().getStringExtra("type");
+//                if ("0".equals(type)) {
+//                    Intent inten=new Intent(getContext(), HomeActviity.class);
+//                    inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(inten);
+//                } else {
+//                    getActivity().finish();
+//                }
             }
             break;
 
