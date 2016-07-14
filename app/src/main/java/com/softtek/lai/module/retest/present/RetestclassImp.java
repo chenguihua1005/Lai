@@ -207,10 +207,10 @@ public class RetestclassImp implements RetestPre{
                             ((AppCompatActivity)context).finish();
                             break;
                         case 201:
-                            Util.toastMsg("复测记录保存失败");
+                            Util.toastMsg(retestWriteResponseData.getMsg());
                             break;
                         case 302:
-                            Util.toastMsg("本周复测记录已存在");
+                            Util.toastMsg(retestWriteResponseData.getMsg());
                             break;
                         default:
                             Util.toastMsg(retestWriteResponseData.getMsg());
@@ -245,7 +245,10 @@ public class RetestclassImp implements RetestPre{
                             Log.i("复测数据更新成功");
                             break;
                         case 201:
-                            Util.toastMsg("复测数据更新失败");
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                        default:
+                            Util.toastMsg(listResponseData.getMsg());
                             break;
                     }
                 }
