@@ -108,6 +108,8 @@ public class UserInfoModel {
         user.setCertTime("");
         user.setIsJoin("0");
         user.setMobile("");
+        user.setHXAccountId("");
+        user.setHasEmchat("0");
         setUser(user);
         //存储本地
         aCache.put(Constants.USER_ACACHE_KEY,user);
