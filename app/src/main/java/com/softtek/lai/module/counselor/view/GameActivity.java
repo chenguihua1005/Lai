@@ -144,8 +144,9 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         monthOfYear = calendar.get(Calendar.MONTH) + 1;
-        year=monthOfYear==1?--year:year;
-        monthOfYear=monthOfYear==1?12:monthOfYear;
+        monthOfYear--;
+        year=monthOfYear==0?--year:year;
+        monthOfYear=monthOfYear==0?12:monthOfYear;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         text_time.setText(year + "年" + monthOfYear + "月");
         monthInfo = monthOfYear;
