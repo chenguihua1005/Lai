@@ -66,6 +66,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -172,7 +173,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
     private String select_class_id;
 
-    private List<ClassListModel> select_class_list;
+    private List<ClassListModel> select_class_list=new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
 
     ClassMainManager classMainManager;
@@ -183,8 +184,12 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     ClassMainStudentAdapter adapter;
     ClassSelectAdapter adapters;
 
+    View view_class;
+
 
     View view;
+
+    ListView list_class_select;
 
     private View viewDialog;
     private EditText et_content;
@@ -245,6 +250,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_tzl = (RelativeLayout) view.findViewById(R.id.rel_tzl);
         rel_ywbh = (RelativeLayout) view.findViewById(R.id.rel_ywbh);
 
+
         img_jzjs = (ImageView) view.findViewById(R.id.img_jzjs);
         img_jzbfb = (ImageView) view.findViewById(R.id.img_jzbfb);
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
@@ -304,8 +310,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(0);
         }
-
-        adapters = new ClassSelectAdapter(getContext(), select_class_list);
 
         classMainManager = new ClassMainManager(this);
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
@@ -579,14 +583,17 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     popTitleSelect.dismiss();
                     text_class_name.setTextColor(Color.WHITE);
                 } else {
-                    View view = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
-                    ListView list_class_select = (ListView) view.findViewById(R.id.list_class_select);
+                    view_class = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
+                    list_class_select = (ListView) view_class.findViewById(R.id.list_class_select);
 
-                    lin_class_select.setBackgroundColor(Color.WHITE);
-                    img_class_down.setVisibility(View.INVISIBLE);
+                    adapters = new ClassSelectAdapter(getContext(), select_class_list);
                     list_class_select.setAdapter(adapters);
+
+                    lin_class_select.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.app_list_corner_round_top));
+                    img_class_down.setImageResource(R.drawable.img_bg_more_down);
+                    adapters.notifyDataSetChanged();
                     text_class_name.setTextColor(Color.BLACK);
-                    popTitleSelect = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                    popTitleSelect = new PopupWindow(view_class, LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT, true);
                     popTitleSelect.setOutsideTouchable(true);
                     popTitleSelect.setBackgroundDrawable(new BitmapDrawable());
@@ -596,7 +603,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                         public void onDismiss() {
                             text_class_name.setTextColor(Color.WHITE);
                             lin_class_select.setBackgroundColor(Color.TRANSPARENT);
-                            img_class_down.setVisibility(View.VISIBLE);
+                            img_class_down.setImageResource(R.drawable.img_bg_more_down_1);
                         }
                     });
                     list_class_select.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -726,7 +733,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
-            dialogDissmiss();
             if (classChangeModel != null) {
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
@@ -780,7 +786,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
-
+                dialogDissmiss();
+            }else {
+                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
