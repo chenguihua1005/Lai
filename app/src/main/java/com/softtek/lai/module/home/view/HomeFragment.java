@@ -143,8 +143,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            modelAdapter.update(unreadNum);
         }
 
     };
@@ -291,11 +289,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             chatUserModel.setUserPhone(path + model.getPhoto());
             chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId())?"":model.getHXAccountId().toLowerCase());
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
-            if (EMChat.getInstance().isLoggedIn()) {
-                int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-                System.out.println("unreadNum:" + unreadNum);
-                modelAdapter.update(unreadNum);
-            }
             String hasEmchat = model.getHasEmchat();
             System.out.println("hasEmchat:" + hasEmchat);
             if ("1".equals(hasEmchat)) {
@@ -628,7 +621,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        //filter.addAction(Constants.MESSAGE_CHAT_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
 
     }
@@ -640,10 +632,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
             }
-//            else {
-//                int unreadNum = intent.getIntExtra("count", 0);
-//                modelAdapter.update(unreadNum);
-//            }
         }
     }
 
