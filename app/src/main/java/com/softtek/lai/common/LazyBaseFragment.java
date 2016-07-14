@@ -15,6 +15,8 @@ import com.softtek.lai.utils.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 import zilla.libcore.lifecircle.LifeCircle;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
 
 /**
@@ -33,7 +35,6 @@ public abstract class LazyBaseFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -47,6 +48,8 @@ public abstract class LazyBaseFragment extends Fragment{
         initViews();
         return contentView;
     }
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

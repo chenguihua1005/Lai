@@ -15,8 +15,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.presenter.GameImpl;
@@ -34,7 +32,7 @@ import zilla.libcore.ui.InjectLayout;
  * 大赛赛况
  */
 @InjectLayout(R.layout.activity_game)
-public class GameActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+public class GameActivity extends BaseActivity implements View.OnClickListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -161,6 +159,29 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         text_time.setText(year + "年" + monthOfYear + "月");
         monthInfo = monthOfYear;
         yearInfo = year;
+        int zubie=getIntent().getIntExtra("zubie",0);
+        switch (zubie){
+            case 1:
+                grade_id = "1";
+                changeView(img_men_up_bg,text_men_up);
+                showList();
+                break;
+            case 4:
+                grade_id = "4";
+                changeView(img_men_down_bg,text_men_down);
+                showList();
+                break;
+            case 5:
+                grade_id = "5";
+                changeView(img_women_up_bg,text_women_up);
+                showList();
+                break;
+            case 6:
+                grade_id = "6";
+                changeView(img_women_down_bg,text_women_down);
+                showList();
+                break;
+        }
     }
 
 
@@ -192,7 +213,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.rel_right:
-                System.out.println("rel_right----------");
                 monthInfo++;
                 if(yearInfo==year && monthInfo>monthOfYear){
                     monthInfo--;
@@ -248,22 +268,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
     private void showList() {
         String info="";
         if(monthInfo==1){
@@ -292,7 +296,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
             info="12";
         }
         date = yearInfo + "-" + info + "-" + dayOfMonth;
-        System.out.println("date:" + date + "      SelectGrade" + grade_id);
         progressDialog.show();
         gamePresenter.getMatchInfo(date, grade_id, list_game,progressDialog);
     }
