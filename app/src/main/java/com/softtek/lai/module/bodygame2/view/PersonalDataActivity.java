@@ -31,6 +31,7 @@ import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.pastreview.honors.Medal;
 import com.softtek.lai.module.pastreview.model.Honor;
+import com.softtek.lai.module.pastreview.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
@@ -88,6 +89,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_total_loss_tip;
     @InjectView(R.id.ll_persondatefuce)
     LinearLayout ll_persondatefuce;
+    @InjectView(R.id.im_gender)
+    ImageView im_gender;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -216,7 +219,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
-//                startActivity(new Intent(this, StudentHonorGridActivity.class));
+                Intent honor = new Intent(this, HistoryStudentHonorActivity.class);
+                honor.putExtra("userId", userId);
+                honor.putExtra("classId", Integer.parseInt(review_flag));
+                startActivity(honor);
                 break;
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);
@@ -230,12 +236,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
-            case R.id.ll_personphoto:
-                Intent photo = new Intent(this, PassPhotoActivity.class);
-                photo.putExtra("userId", userId);
-                photo.putExtra("classId", classId);
-                startActivity(photo);
-                break;
+//            case R.id.ll_personphoto:
+//                Intent photo = new Intent(this, PassPhotoActivity.class);
+//                photo.putExtra("userId", userId);
+//                photo.putExtra("classId", classId);
+//                startActivity(photo);
+//                break;
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
                 {
@@ -266,6 +272,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             AMStatus=data.getClmInfo().getIstest();
             Log.i("当前状态",AMStatus);
             typedate=data.getClmInfo().getTypedate();
+            if (data.getClmInfo().getGender().equals("0")) {
+                im_gender.setImageResource(R.drawable.bg2_male);
+            }
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
@@ -491,6 +500,23 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             medal.setType(Medal.NATION);
             medal.setmText("第" + honor.getValue() + "名");
             medal.setDate(honor.getCreateDate());
+            if ("1".equals(value)) {
+                medal.setHonorType(Medal.GOLD);
+            } else if ("2".equals(value)) {
+                medal.setHonorType(Medal.SILVER);
+            } else if ("3".equals(value)) {
+                medal.setHonorType(Medal.COPPER);
+            } else {
+                medal.setHonorType(Medal.NORMAL);
+            }
+            tv.setText("全国减重明星第" + honor.getValue() + "名");
+        }
+        else if (medalType == Medal.NATION_SPEC)
+        {
+            String value = honor.getValue();
+            medal.setType(Medal.NATION_SPEC);
+            medal.setmText("第" + honor.getValue() + "名");
+//            medal.setDate(honor.getCreateDate());
             if ("1".equals(value)) {
                 medal.setHonorType(Medal.GOLD);
             } else if ("2".equals(value)) {
