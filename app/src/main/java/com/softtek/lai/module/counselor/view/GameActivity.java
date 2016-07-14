@@ -122,12 +122,11 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     int monthOfYear;
     int dayOfMonth;
 
-    private ProgressDialog progressDialog;
-
+    private ProgressDialog progressDialog1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        tv_title.setText(R.string.CounselorG);
         ll_left.setOnClickListener(this);
         rel_men_up.setOnClickListener(this);
         rel_men_down.setOnClickListener(this);
@@ -135,16 +134,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         rel_women_down.setOnClickListener(this);
         lin_left.setOnClickListener(this);
         rel_right.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("查询中");
-
-    }
-
-    @Override
-    protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.CounselorG);
 
     }
 
@@ -155,10 +144,15 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         monthOfYear = calendar.get(Calendar.MONTH) + 1;
+        year=monthOfYear==1?--year:year;
+        monthOfYear=monthOfYear==1?12:monthOfYear;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         text_time.setText(year + "年" + monthOfYear + "月");
         monthInfo = monthOfYear;
         yearInfo = year;
+        progressDialog1 = new ProgressDialog(this);
+        progressDialog1.setCanceledOnTouchOutside(false);
+        progressDialog1.setMessage("查询中");
         int zubie=getIntent().getIntExtra("zubie",0);
         switch (zubie){
             case 1:
@@ -296,8 +290,8 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
             info="12";
         }
         date = yearInfo + "-" + info + "-" + dayOfMonth;
-        progressDialog.show();
-        gamePresenter.getMatchInfo(date, grade_id, list_game,progressDialog);
+        progressDialog1.show();
+        gamePresenter.getMatchInfo(date, grade_id, list_game, progressDialog1);
     }
 
 }

@@ -42,6 +42,7 @@ public class SearchPcActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         tv_title.setText("搜索结果");
+        ll_left.setOnClickListener(this);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
