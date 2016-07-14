@@ -141,12 +141,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="31dip">
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dip"
-                        android:layout_alignParentBottom="true"
-                        android:background="#f1f1f1" />
-
                     <RelativeLayout
                         android:id="@+id/rel_gg"
                         android:layout_width="wrap_content"
@@ -157,15 +151,8 @@
                             android:id="@+id/img_gg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/img_bg_select" />
+                            android:src="@drawable/img_gg_select" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="公告"
-                            android:textColor="@color/word13"
-                            android:textSize="13sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -178,15 +165,8 @@
                             android:id="@+id/img_xtxx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/img_bg_unselect" />
+                            android:src="@drawable/img_xt_unselect" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="系统消息"
-                            android:textColor="@color/word13"
-                            android:textSize="13sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -205,6 +185,11 @@
                             android:src="@drawable/img_bg_add" />
                     </RelativeLayout>
                 </RelativeLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:layout_alignParentBottom="true"
+                    android:background="#78b543" />
 
                 <RelativeLayout
                     android:id="@+id/rel_message"

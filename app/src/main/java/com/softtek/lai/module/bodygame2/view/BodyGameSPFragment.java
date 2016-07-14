@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame2.view;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
@@ -28,7 +31,10 @@ import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
@@ -52,6 +58,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_bodygame_sp)
 public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClickListener,ObservableScrollView.ScrollViewListener{
@@ -64,6 +71,10 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     RelativeLayout rl_color;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.ll_right)
+    LinearLayout ll_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
     @InjectView(R.id.iv_refresh)
@@ -168,6 +179,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         scroll.setScrollViewListener(this);
         fl.setOnClickListener(this);
         fl_search.setOnClickListener(this);
+        ll_right.setOnClickListener(this);
         //学员点击item
         mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -213,6 +225,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         saiKuangAdapter=new SaiKuangAdapter(getContext(),competitionModels);
         mlv.setAdapter(sppcAdapter);
         mgv.setAdapter(saiKuangAdapter);
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
 
     }
 
@@ -292,12 +305,46 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         }
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserModel model= UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
+        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+                @Override
+                public void success(ResponseData listResponseData, Response response) {
+                    int status = listResponseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                            break;
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                }
+            });
+        }
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
                 getActivity().finish();
+                break;
+            case R.id.ll_right:
+                startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新

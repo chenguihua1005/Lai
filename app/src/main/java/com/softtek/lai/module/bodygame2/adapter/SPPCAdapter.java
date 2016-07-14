@@ -84,6 +84,8 @@ public class SPPCAdapter extends BaseAdapter{
         if(StringUtils.isNotEmpty(model.getPCPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPCPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header);
+        }else{
+            Picasso.with(context).load(R.drawable.img_default).into(holder.civ_header);
         }
         return convertView;
     }

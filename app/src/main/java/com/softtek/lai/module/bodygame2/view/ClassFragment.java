@@ -407,8 +407,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 break;
             case R.id.rel_xtxx://系统消息
                 System.out.println("dySysModel:" + dySysModel);
-                img_xtxx.setImageResource(R.drawable.img_bg_select);
-                img_gg.setImageResource(R.drawable.img_bg_unselect);
+                img_xtxx.setImageResource(R.drawable.img_xt_select);
+                img_gg.setImageResource(R.drawable.img_gg_unselect);
                 if (dySysModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
@@ -425,8 +425,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 }
                 break;
             case R.id.rel_gg://公告
-                img_gg.setImageResource(R.drawable.img_bg_select);
-                img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+                img_gg.setImageResource(R.drawable.img_gg_select);
+                img_xtxx.setImageResource(R.drawable.img_xt_unselect);
                 if (dyNoticeModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
@@ -466,7 +466,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
-                text_select_type.setText("按体制率");
+                text_select_type.setText("按体脂率");
                 dialogShow("加载中");
                 classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
@@ -751,8 +751,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             if (dyNoticeModel.getPhoto() == null) {
                 dyNoticeModel = null;
             }
-            img_gg.setImageResource(R.drawable.img_bg_select);
-            img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+            img_gg.setImageResource(R.drawable.img_gg_select);
+            img_xtxx.setImageResource(R.drawable.img_xt_unselect);
 
             if (dyNoticeModel != null) {
                 rel_no_message.setVisibility(View.GONE);
@@ -820,8 +820,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 @Override
                 public void success(ResponseData responseData, Response response) {
                     dialogDissmiss();
-                    img_gg.setImageResource(R.drawable.img_bg_select);
-                    img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+                    img_gg.setImageResource(R.drawable.img_gg_select);
+                    img_xtxx.setImageResource(R.drawable.img_xt_unselect);
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
                     img_lb.setVisibility(View.GONE);
