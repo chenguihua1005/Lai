@@ -37,7 +37,7 @@
         android:layout_height="1dp"
         android:background="#e5e5e5" />
     <FrameLayout
-        android:id="@+id/fl"
+        android:id="@+id/fl_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

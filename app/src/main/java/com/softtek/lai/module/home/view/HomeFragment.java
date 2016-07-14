@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -60,6 +61,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
@@ -78,8 +80,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -112,6 +116,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.iv_email)
@@ -123,7 +128,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
 
     private IHomeInfoPresenter homeInfoPresenter;
-    private IMessagePresenter messagePresenter;
     private ILoginPresenter loginPresenter;
     private StudentImpl studentImpl;
 
@@ -138,20 +142,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private ProgressDialog progressDialog;
     public static Timer timer;
 
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-        }
-
-    };
-
-
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        iv_email.setBackgroundResource(R.drawable.email);
+        String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userroles)) {
+            fl_right.setVisibility(View.INVISIBLE);
+        }else{
+            fl_right.setVisibility(View.VISIBLE);
+        }
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
@@ -256,7 +256,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        messagePresenter = new MessageImpl(getContext());
         loginPresenter = new LoginPresenterImpl(getContext());
         studentImpl = new StudentImpl(getContext());
         registerMessageReceiver();
@@ -272,7 +271,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("EMChat.getInstance().isLoggedIn():" + EMChat.getInstance().isLoggedIn());
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -282,7 +280,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
         } else {
-            messagePresenter.getMessageRead(img_red);
+            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(),
+                    new Callback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                            int status = responseData.getStatus();
+                            try {
+                                switch (status) {
+                                    case 200:
+                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                                        break;
+                                    default:
+                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                                        break;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {}
+                    });
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
@@ -630,7 +649,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                img_red.setVisibility(View.VISIBLE);
+                //img_red.setVisibility(View.VISIBLE);
+                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
             }
         }
     }

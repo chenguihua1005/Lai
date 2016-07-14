@@ -175,12 +175,10 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         if (context == null || TextUtils.isEmpty(className)) {
             return false;
         }
-
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
         if (list != null && list.size() > 0) {
             ComponentName cpn = list.get(0).topActivity;
-            System.out.println("cpn.getClassName():"+cpn.getClassName());
             if (className.equals(cpn.getClassName())) {
                 return true;
             }
@@ -198,11 +196,10 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        /*if (EMChat.getInstance().isLoggedIn()) {
+        if (EMChat.getInstance().isLoggedIn()) {
             int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            ////更新小红点
-        }*/
+            updateMessage(unreadNum);
+        }
     }
 
     @Override
