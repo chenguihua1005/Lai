@@ -279,44 +279,45 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (model == null) {
             return;
         }
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        ChatUserModel chatUserModel = new ChatUserModel();
-        chatUserModel.setUserName(model.getNickname());
-        chatUserModel.setUserPhone(path + model.getPhoto());
-        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+
+        String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
         } else {
             messagePresenter.getMessageRead(img_red);
-        }
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            modelAdapter.update(unreadNum);
-        }
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            ChatUserModel chatUserModel = new ChatUserModel();
+            chatUserModel.setUserName(model.getNickname());
+            chatUserModel.setUserPhone(path + model.getPhoto());
+            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId())?"":model.getHXAccountId().toLowerCase());
+            ChatUserInfoModel.getInstance().setUser(chatUserModel);
+            if (EMChat.getInstance().isLoggedIn()) {
+                int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+                System.out.println("unreadNum:" + unreadNum);
+                modelAdapter.update(unreadNum);
+            }
+            String hasEmchat = model.getHasEmchat();
+            System.out.println("hasEmchat:" + hasEmchat);
+            if ("1".equals(hasEmchat)) {
+                timer = new Timer();
+                TimerTask task = new TimerTask() {
 
-        String hasEmchat = model.getHasEmchat();
-        System.out.println("hasEmchat:" + hasEmchat);
-        if ("1".equals(hasEmchat)) {
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
+                    @Override
+                    public void run() {
+                        // 需要做的事:发送消息
+                        if (!EMChat.getInstance().isLoggedIn()) {
+                            loginChat(progressDialog, model.getHXAccountId());
+                        } else {
+                            if (timer != null) {
+                                timer.cancel();
+                            }
                         }
                     }
-                }
-            };
-            timer.schedule(task, 0, 10000);
+                };
+                timer.schedule(task, 0, 10000);
+            }
         }
+
 
     }
 

@@ -15,12 +15,17 @@ import com.softtek.lai.utils.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 import zilla.libcore.lifecircle.LifeCircle;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
 
 /**
  * Created by jerry.guan on 7/7/2016.
  */
 public abstract class LazyBaseFragment extends Fragment{
+
+    @LifeCircleInject
+    AppExitLife lifeCicleExit;
 
     private boolean isVisible=false;//可否可见
     protected boolean isPrepared=false;//是否加载过

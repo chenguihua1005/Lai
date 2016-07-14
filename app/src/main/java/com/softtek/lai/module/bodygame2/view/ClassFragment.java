@@ -35,11 +35,13 @@ import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassDetailModel;
 import com.softtek.lai.module.bodygame2.model.ClassListModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
+import com.softtek.lai.module.bodygame2.model.ClassModel;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.present.ClassMainManager;
+import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
@@ -47,6 +49,7 @@ import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.CreateCounselorClassActivity;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
+import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
@@ -57,6 +60,10 @@ import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.List;
@@ -174,6 +181,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     DySysModel dySysModel;
 
     ClassMainStudentAdapter adapter;
+    ClassSelectAdapter adapters;
+
 
     View view;
 
@@ -195,6 +204,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void initViews() {
+
+        EventBus.getDefault().register(this);
+
         imageFileCropSelector = new ImageFileCropSelector(getActivity());
         imageFileCropSelector.setQuality(80);
         imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
@@ -267,6 +279,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         super.onVisible();
     }
 
+    @Subscribe
+    public void onUpdate(ClassIdModel models) {
+        classMainManager.doGetClasslist(model.getUser().getUserid());
+    }
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
     @Override
     protected void initDatas() {
         model = UserInfoModel.getInstance();
@@ -282,6 +304,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             activity.setAlpha(0);
         }
         classMainManager = new ClassMainManager(this);
+        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     private void initSelectTypePop() {
@@ -309,7 +332,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     @Override
@@ -319,6 +341,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_title_more.setFocusableInTouchMode(true);
         rel_title_more.requestFocus();
         scroll.setFocusable(false);
+
+
     }
 
     private void takeP() {
@@ -556,8 +580,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
                     lin_class_select.setBackgroundColor(Color.WHITE);
                     img_class_down.setVisibility(View.INVISIBLE);
-                    final ClassSelectAdapter adapter = new ClassSelectAdapter(getContext(), select_class_list);
-                    list_class_select.setAdapter(adapter);
+                    adapters = new ClassSelectAdapter(getContext(), select_class_list);
+                    list_class_select.setAdapter(adapters);
                     text_class_name.setTextColor(Color.BLACK);
                     popTitleSelect = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT, true);
@@ -620,29 +644,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             activity.setAlpha(alpha);
             rel_title.setAlpha(alpha);
         }
-       /* if (oldy < y && scrollView.getScrollY() >= 300) {
-            alapa = alapa + (y - oldy) / 100.0f;
-            if (alapa >= 1) {
-                alapa = 1;
-            }
-
-
-        } else if (scrollView.getScrollY() < 300 && oldy > y) {
-            alapa = alapa - (oldy - y) / 100.0f;
-            if (alapa <= 0) {
-                alapa = 0;
-            }
-            rel_title.setAlpha(alapa);
-
-
-        }
-        if (scrollView.getScrollY() == 0) {
-            rel_title.setAlpha(0);
-
-        }
-        if (scrollView.getScrollY() > 400) {
-            rel_title.setAlpha(1);
-        }*/
     }
 
     @Override
@@ -731,7 +732,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
             ClassDetailModel details = classChangeModel.getClassDetail();
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            System.out.println();
             if ("".equals(details.getClassBanner())) {
                 Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
             } else {
@@ -773,6 +773,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 rel_message.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public void getClasslist(ClassModel classModel) {
+        select_class_list.clear();
+        select_class_list.addAll(classModel.getClasslist());
+        adapters.notifyDataSetChanged();
     }
 
 

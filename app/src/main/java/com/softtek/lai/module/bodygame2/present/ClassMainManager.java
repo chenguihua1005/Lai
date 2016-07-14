@@ -5,6 +5,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
+import com.softtek.lai.module.bodygame2.model.ClassModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.group.model.DxqModel;
@@ -131,6 +132,38 @@ public class ClassMainManager {
 
     }
 
+    public void doGetClasslist(String accountid) {
+        String token = UserInfoModel.getInstance().getToken();
+        service.doGetClasslist(token, accountid, new RequestCallback<ResponseData<ClassModel>>() {
+            @Override
+            public void success(ResponseData<ClassModel> classMainModelResponseData, Response response) {
+                int status = classMainModelResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Log.i("班级主页列表" + classMainModelResponseData.getData());
+                        if (cb != null) {
+                            cb.getClasslist(classMainModelResponseData.getData());
+                        }
+                        break;
+                    default:
+                        if (cb != null) {
+                            cb.getClasslist(null);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (cb != null) {
+                    cb.getClasslist(null);
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+
+    }
+
 
     public interface ClassMainCallback {
         void getClassMain(ClassMainModel classMainModel);
@@ -138,5 +171,7 @@ public class ClassMainManager {
         void getStudentList(MemberChangeModel memberChangeModel);
 
         void getClassChange(ClassChangeModel classChangeModel);
+
+        void getClasslist(ClassModel classModel);
     }
 }

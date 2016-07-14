@@ -184,9 +184,18 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CompetitionModel model=competitionModels.get(position);
-                Intent jumpStudent=new Intent(getContext(),PersonalDataActivity.class);
-                jumpStudent.putExtra("userId",(long)model.getAccountId());
-                jumpStudent.putExtra("classId",(long)model.getClassId());
+                Intent jumpStudent=new Intent(getContext(),GameActivity.class);
+                int zubie=0;
+                if("女子140斤以下".equals(model.getGroupName())){
+                    zubie=6;
+                }else if("女子140斤以上".equals(model.getGroupName())){
+                    zubie=5;
+                }else if("男子180斤以下".equals(model.getGroupName())){
+                    zubie=4;
+                }else if("男子180斤以上".equals(model.getGroupName())){
+                    zubie=1;
+                }
+                jumpStudent.putExtra("zubie",zubie);
                 startActivity(jumpStudent);
             }
         });

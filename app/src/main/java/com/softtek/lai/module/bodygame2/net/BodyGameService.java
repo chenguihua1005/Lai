@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame2.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
+import com.softtek.lai.module.bodygame2.model.ClassModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
@@ -42,6 +43,15 @@ public interface BodyGameService {
             @Query("classid")String classid,
             @Query("type")String type,
             RequestCallback<ResponseData<MemberChangeModel>> callback
+    );
+
+    //获取班级列表
+
+    @GET("/NewClass/GetClasslist")
+    void  doGetClasslist(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            RequestCallback<ResponseData<ClassModel>> callback
     );
     //获取个人资料
     @GET("/NewClass/GetClmemberDetial")
