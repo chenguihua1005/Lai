@@ -78,7 +78,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
 
-    private MessageReceiver mMessageReceiver;
+
 
     private EaseUI easeUI;
     private ILoginPresenter loginPresenter;
@@ -176,7 +176,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             }
         };
         //EMChatManager.getInstance().addConnectionListener(connectionListener);
-        registerMessageReceiver();
         registerBroadcastReceiver();
         EaseUI.getInstance().getNotifier().reset();
     }
@@ -351,7 +350,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 //更新小红点
                 int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-
+                Context context=getContext();
+                if(context instanceof BodyGameSPActivity){
+                    BodyGameSPActivity activity=(BodyGameSPActivity)context;
+                    activity.updateMessage(unreadNum);
+                }
                 EMChatManager.getInstance().loadAllConversations();
                 handler.sendEmptyMessage(1);
                 if (progressDialog != null) {
@@ -380,7 +383,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             conflictBuilder.create().dismiss();
             conflictBuilder = null;
         }
-        getContext().unregisterReceiver(mMessageReceiver);
         unregisterBroadcastReceiver();
 
         try {
@@ -392,11 +394,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            ////更新小红点
-        }
         // register the event listener when enter the foreground
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{
@@ -453,25 +450,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             case R.id.fl_right:
 
                 break;
-        }
-    }
-    public void registerMessageReceiver() {
-        mMessageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
-        getContext().registerReceiver(mMessageReceiver, filter);
-
-    }
-
-    public class MessageReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
-                int unreadNum = intent.getIntExtra("count", 0);
-                //更新小红点
-            }
         }
     }
 }
