@@ -168,8 +168,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private List<ClassListModel> select_class_list;
     private List<ClmListModel> student_list;
 
-    private float alapa = 0;
-
     ClassMainManager classMainManager;
 
     DyNoticeModel dyNoticeModel;
@@ -620,7 +618,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         if (getContext() instanceof BodyGameSPActivity) {
             BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(alpha);
-            rel_title.setAlpha(alapa);
+            rel_title.setAlpha(alpha);
         }
        /* if (oldy < y && scrollView.getScrollY() >= 300) {
             alapa = alapa + (y - oldy) / 100.0f;
@@ -819,6 +817,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     img_xtxx.setImageResource(R.drawable.img_bg_unselect);
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
+                    img_lb.setVisibility(View.GONE);
+                    img.setVisibility(View.VISIBLE);
                     String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                     if ("".equals(model.getUser().getPhoto())) {
                         Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);

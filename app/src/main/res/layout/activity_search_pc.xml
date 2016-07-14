@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:listSelector="#c0c0c0"
         android:divider="#c0c0c0"
         android:layout_below="@id/toolbar"
         android:dividerHeight="1dp"></ListView>

@@ -20,12 +20,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
-import com.softtek.lai.module.mygrades.model.GradesModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-import com.softtek.lai.widgets.SelectPicPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -143,10 +141,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     char type = '6';
     int n = 7;
     boolean state = true;
-    List<String> days = new ArrayList<String>();
-    List<Float> dates = new ArrayList<Float>();
+    List<String> days = new ArrayList<>();
+    List<Float> dates = new ArrayList<>();
     String nowdate7, nowdate6, nowdate5, nowdate4, nowdate3, nowdate2, nowdate1;
-    SelectPicPopupWindow menuWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,14 +219,12 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     public String getDateform(String nowdate) {
         String date;
-        String sr = nowdate.substring(4, 5);
         date = nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
         return date;
     }
 
     public String formdate(String nowdate) {
         String date;
-        String sr = nowdate.substring(4, 5);
         if (nowdate.substring(4, 5).equals("0")) {
             date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
         } else {
@@ -241,7 +236,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //我的成绩曲线图
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
-        List<GradesModel> gradesModels = gradesEvent.getgradesModels();
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
             if (getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {

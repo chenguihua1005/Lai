@@ -132,13 +132,14 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
                     if (!isFinishing()) {
+
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("SeceltGroupSentActivity onSuccess-------");
                                 handler.sendEmptyMessage(0);
+
                             }
 
                             @Override

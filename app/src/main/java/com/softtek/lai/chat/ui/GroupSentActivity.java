@@ -179,6 +179,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                                 // TODO Auto-generated method stub
                                 System.out.println("GroupSentActivity onSuccess-------");
                                 handler.sendEmptyMessage(0);
+
                             }
 
                             @Override
