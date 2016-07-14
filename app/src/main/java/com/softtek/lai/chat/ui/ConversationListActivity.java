@@ -35,6 +35,8 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.controller.EaseUI;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
@@ -46,10 +48,12 @@ import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -82,6 +86,8 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     // 未读消息textview
     private TextView unreadLabel;
     private EaseUI easeUI;
+
+    UserModel model;
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
@@ -148,6 +154,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
+
                 if (error == EMError.CONNECTION_CONFLICT) {
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
@@ -156,6 +163,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
                                 handler.sendEmptyMessage(0);
+
                             }
 
                             @Override
@@ -326,7 +334,16 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     @Override
     public void onResume() {
         super.onResume();
-
+        model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
+            return;
+        }
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        ChatUserModel chatUserModel = new ChatUserModel();
+        chatUserModel.setUserName(model.getNickname());
+        chatUserModel.setUserPhone(path + model.getPhoto());
+        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+        ChatUserInfoModel.getInstance().setUser(chatUserModel);
         // register the event listener when enter the foreground
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{

@@ -40,13 +40,11 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
+import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
@@ -287,18 +285,18 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         chatUserModel.setUserPhone(path + model.getPhoto());
         chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
-
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
         } else {
             messagePresenter.getMessageRead(img_red);
         }
-//        if (EMChat.getInstance().isLoggedIn()) {
-//            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-//            System.out.println("unreadNum:" + unreadNum);
-//            modelAdapter.update(unreadNum);
-//        }
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:" + unreadNum);
+            modelAdapter.update(unreadNum);
+        }
+
         String hasEmchat = model.getHasEmchat();
         System.out.println("hasEmchat:" + hasEmchat);
         if ("1".equals(hasEmchat)) {
@@ -377,9 +375,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                //handler.sendEmptyMessage(0);
+                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+
                 EMChatManager.getInstance().loadAllConversations();
 
                 if (timer != null) {
@@ -426,28 +424,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-//                    if (isLogin) {
-//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                        ChatUserModel chatUserModel = new ChatUserModel();
-//                        chatUserModel.setUserName(model.getNickname());
-//                        chatUserModel.setUserPhone(path + model.getPhoto());
-//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-//                                EMChatManager.getInstance().loadAllConversations();
-//                            }
-//                        }).start();
-//                        // 进入主页面
-//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        loginPresenter.getEMChatAccount(progressDialog);
-//                    }
+                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+                    if (isLogin) {
+                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                        ChatUserModel chatUserModel = new ChatUserModel();
+                        chatUserModel.setUserName(model.getNickname());
+                        chatUserModel.setUserPhone(path + model.getPhoto());
+                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                                EMChatManager.getInstance().loadAllConversations();
+                            }
+                        }).start();
+                        // 进入主页面
+                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+                        startActivity(intent);
+                    } else {
+                        loginPresenter.getEMChatAccount(progressDialog);
+                    }
                     break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
@@ -577,7 +575,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else if (role == Constants.PC) {
             //直接进入踢馆赛学员版
             Intent intent = new Intent(getContext(), BodyGamePCActivity.class);
-            intent.putExtra("type", "1");
+            //intent.putExtra("type", "1");
             startActivity(intent);
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
@@ -586,8 +584,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
-//            Intent intent = new Intent(getContext(), PersonalDataActivity.class);
-            //           Intent intent = new Intent(getContext(), CounselorActivity.class);
             Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
             startActivity(intent);
 

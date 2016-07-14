@@ -215,7 +215,6 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                 current = 2;
                 break;
             case R.id.btn_fuce:
-                tintManager.setStatusBarAlpha(1);
                 btn_fuce.setProgress(1);
                 if (current == 3) {
                     return;

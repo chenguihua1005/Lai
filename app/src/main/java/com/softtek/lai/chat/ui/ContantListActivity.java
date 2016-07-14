@@ -132,6 +132,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
+
                 if (error == EMError.CONNECTION_CONFLICT) {
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
@@ -140,6 +141,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
                                 handler.sendEmptyMessage(0);
+
                             }
 
                             @Override

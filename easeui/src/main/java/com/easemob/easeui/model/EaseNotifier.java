@@ -54,9 +54,9 @@ public class EaseNotifier {
             "%1个联系人发来%2条消息"
     };
 
-    protected static int notifyID = 0; // start notification id
-    protected static int foregroundNotifyID = 0555;
 
+    protected static int notifyID = 1; // start notification id
+    protected static int foregroundNotifyID = 1;
     protected NotificationManager notificationManager = null;
 
     protected HashSet<String> fromUsers = new HashSet<String>();
@@ -113,7 +113,8 @@ public class EaseNotifier {
 
     void cancelNotificaton() {
         if (notificationManager != null)
-            notificationManager.cancel(notifyID);
+            //notificationManager.cancel(notifyID);
+        notificationManager.cancelAll();
     }
 
     /**
@@ -247,15 +248,14 @@ public class EaseNotifier {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(appContext)
                     .setSmallIcon(appContext.getApplicationInfo().icon)
                     .setWhen(System.currentTimeMillis())
-                    .setAutoCancel(true);
+                    .setAutoCancel(false);
 
             Intent msgIntent = appContext.getPackageManager().getLaunchIntentForPackage(packageName);
             if (notificationInfoProvider != null) {
                 // 设置自定义的notification点击跳转intent
                 msgIntent = notificationInfoProvider.getLaunchIntent(message);
             }
-
-            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, new Random().nextInt(10000), msgIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, new Random().nextInt(100000), msgIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (numIncrease) {
                 // prepare latest event info section
@@ -288,9 +288,11 @@ public class EaseNotifier {
             mBuilder.setContentIntent(pendingIntent);
             // mBuilder.setNumber(notificationNum);
             Notification notification = mBuilder.build();
+            notificationManager = (NotificationManager)appContext .getSystemService(Context.NOTIFICATION_SERVICE);
             if (isForeground) {
                 notificationManager.notify(foregroundNotifyID, notification);
-                notificationManager.cancel(foregroundNotifyID);
+                notificationManager.cancelAll();
+                //notificationManager.cancel(foregroundNotifyID);
             } else {
                 notificationManager.notify(notifyID, notification);
             }

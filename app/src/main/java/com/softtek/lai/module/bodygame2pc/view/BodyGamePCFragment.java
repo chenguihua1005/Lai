@@ -6,7 +6,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.fragment_bodygame_sp)
+@InjectLayout(R.layout.fragment_bodygame_pc)
 public class BodyGamePCFragment extends LazyBaseFragment {
 
     @Override

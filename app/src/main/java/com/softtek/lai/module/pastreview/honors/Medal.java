@@ -26,6 +26,7 @@ public class Medal extends FrameLayout{
     public static final int FUCE=1;
     public static final int MONTH_CHAMPION=2;
     public static final int NATION=3;
+    public static final int NATION_SPEC=4;
 
     private String mText="";
     private int type;//什么类型的布局
@@ -106,19 +107,28 @@ public class Medal extends FrameLayout{
             case NATION:
                 mView=LayoutInflater.from(context).inflate(R.layout.medal_nation,this);
                 ImageView nationIv= (ImageView) mView.findViewById(R.id.iv_honor);
-                if(honorType==GOLD){
-                    nationIv.setBackgroundResource(R.drawable.img_student_honor_1);
-                }else if(honorType==SILVER){
-                    nationIv.setBackgroundResource(R.drawable.img_student_honor_2);
-                }else if(honorType==COPPER){
-                    nationIv.setBackgroundResource(R.drawable.img_student_honor_3);
-                }else {
-                    nationIv.setBackgroundResource(R.drawable.img_student_honor_star);
-                }
+                nationIv.setBackgroundResource(R.drawable.img_student_honor_star);
                 TextView nationCh= (TextView) mView.findViewById(R.id.tv_month_champion);
                 nationCh.setText(mText);
                 TextView nationTime= (TextView) mView.findViewById(R.id.tv_nation_time);
                 nationTime.setText(date);
+                break;
+            case NATION_SPEC:
+                mView=LayoutInflater.from(context).inflate(R.layout.medal_nation,this);
+                ImageView nationIv_spec= (ImageView) mView.findViewById(R.id.iv_honor);
+                if(honorType==GOLD){
+                    nationIv_spec.setBackgroundResource(R.drawable.img_student_honor_1);
+                }else if(honorType==SILVER){
+                    nationIv_spec.setBackgroundResource(R.drawable.img_student_honor_2);
+                }else if(honorType==COPPER){
+                    nationIv_spec.setBackgroundResource(R.drawable.img_student_honor_3);
+                }else {
+                    nationIv_spec.setBackgroundResource(R.drawable.img_student_honor_star);
+                }
+                TextView nationCh_spec= (TextView) mView.findViewById(R.id.tv_month_champion);
+                nationCh_spec.setText(mText);
+                TextView nationTime_spec= (TextView) mView.findViewById(R.id.tv_nation_time);
+                nationTime_spec.setText(date);
                 break;
         }
     }
