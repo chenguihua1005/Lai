@@ -20,6 +20,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.model.HonorListModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
@@ -28,6 +29,8 @@ import com.softtek.lai.module.bodygamest.view.FuceStActivity;
 import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
+import com.softtek.lai.module.pastreview.honors.Medal;
+import com.softtek.lai.module.pastreview.model.Honor;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
@@ -88,12 +91,18 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
+    @InjectView(R.id.me_xun1)
+    Medal me_xun1;
     //奖章二
     @InjectView(R.id.ll_honorn2)
     LinearLayout ll_honorn2;
+    @InjectView(R.id.me_xun2)
+    Medal me_xun2;
     //奖章三
     @InjectView(R.id.ll_honorn3)
     LinearLayout ll_honorn3;
+    @InjectView(R.id.me_xun3)
+    Medal me_xun3;
     @InjectView(R.id.cir_headim)
     CircleImageView cir_headim;
     @InjectView(R.id.tv_username)
@@ -138,6 +147,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout re_jianzh;
     @InjectView(R.id.Re_personphoto)
     RelativeLayout Re_personphoto;
+    @InjectView(R.id.ll_personphoto)
+    LinearLayout ll_personphoto;
     private long userId = 0;
     private long classId = 0;
     private String review_flag = "1";
@@ -157,6 +168,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         re_xunzhang.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
+        ll_personphoto.setOnClickListener(this);
         ll_persondatefuce.setOnClickListener(this);
         tv_title.setText("个人资料");
         userId = getIntent().getLongExtra("userId", 0);
@@ -218,6 +230,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
+            case R.id.ll_personphoto:
+                Intent photo = new Intent(this, PassPhotoActivity.class);
+                photo.putExtra("userId", userId);
+                photo.putExtra("classId", classId);
+                startActivity(photo);
+                break;
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
                 {
@@ -257,9 +275,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
             if (data.getClmInfo().getSuperType().equals("2")) {
                 tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
-            }else if (data.getClmInfo().getSuperType().equals("2"))
+            }else if (data.getClmInfo().getSuperType().equals("3"))
             {
-                tv_SuperName.setText("guwen：" + data.getClmInfo().getSuperName());
+                tv_SuperName.setText("顾问：" + data.getClmInfo().getSuperName());
             }
             String[] star = data.getClmInfo().getStartDate().split(" ");
             String[] stardate = star[0].split("-");
@@ -278,8 +296,20 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     tv_storycontent.setText(data.getLossStory().getLogContent());
                 }
             }
+            List<HonorListModel> honors = data.getHonorList();
             for (int i = 0; i < data.getHonorList().size(); i++) {
-                getview(data.getHonorList().get(i).getHonorType(), i, data.getHonorList().get(i).getValue());
+                HonorListModel honor = honors.get(i);
+                switch (i) {
+                    case 0:
+                        setMedal(honor, me_xun1, tv_valuetext);
+                        break;
+                    case 1:
+                        setMedal(honor, me_xun2, tv_valuetext2);
+                        break;
+                    case 2:
+                        setMedal(honor, me_xun3, tv_valuetext3);
+                        break;
+                }
 
             }
             for (int j = 0; j < data.getPhotoList().size(); j++) {
@@ -333,9 +363,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     public void getview(String type, int num, String value) {
         if (type.equals("0")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item, getview1(num, type, value));
-            TextView tv_jz_value = (TextView) findViewById(R.id.tv_jz_value);
-            tv_jz_value.setText(value);
+//            me_xun1.setHonorType();
 
         } else if (type.equals("1")) {
             LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, getview1(num, type, value));
@@ -434,6 +462,51 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             finish();
         } else {
             Util.toastMsg("移出班级失败");
+        }
+    }
+    private void setMedal(HonorListModel honor, Medal medal, TextView tv) {
+        int medalType = Integer.parseInt(honor.getHonorType());
+        if (medalType == Medal.LOSS_WEIGHT) {
+            medal.setType(Medal.LOSS_WEIGHT);
+            medal.setmText(honor.getValue() + "斤");
+            tv.setText("减重" + honor.getValue() + "斤奖章");
+        } else if (medalType == Medal.FUCE) {//复测
+            medal.setType(Medal.FUCE);
+            if ("1".equals(honor.getValue())) {
+                medal.setHonorType(Medal.GOLD);
+                tv.setText("复测金牌奖章");
+            } else if ("2".equals(honor.getValue())) {
+                medal.setHonorType(Medal.SILVER);
+                tv.setText("复测银牌奖章");
+            } else {
+                medal.setHonorType(Medal.COPPER);
+                tv.setText("复测铜牌奖章");
+            }
+        } else if (medalType == Medal.MONTH_CHAMPION) {//月度
+            medal.setType(Medal.MONTH_CHAMPION);
+            medal.setmText(honor.getCreateDate());
+            tv.setText(honor.getValue() + "月月度冠军");
+        } else if (medalType == Medal.NATION) {//全国
+            String value = honor.getValue();
+            medal.setType(Medal.NATION);
+            medal.setmText("第" + honor.getValue() + "名");
+            medal.setDate(honor.getCreateDate());
+            if ("1".equals(value)) {
+                medal.setHonorType(Medal.GOLD);
+            } else if ("2".equals(value)) {
+                medal.setHonorType(Medal.SILVER);
+            } else if ("3".equals(value)) {
+                medal.setHonorType(Medal.COPPER);
+            } else {
+                medal.setHonorType(Medal.NORMAL);
+            }
+            tv.setText("全国减重明星第" + honor.getValue() + "名");
+        }
+        medal.refreshView(this);
+    }
+    private void setText(TextView view, String text) {
+        if (view != null) {
+            view.setText(text);
         }
     }
 }
