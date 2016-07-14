@@ -37,18 +37,19 @@
 
     <FrameLayout
         android:id="@+id/fl_right"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="right">
 
         <TextView
             android:id="@+id/tv_right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right|center"
+            android:gravity="center"
             android:textColor="#ffffff"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            />
 
         <ImageView
             android:id="@+id/iv_email"
@@ -61,7 +62,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="right"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="11dip"
             android:src="@drawable/img_red"
             android:visibility="gone" />
     </FrameLayout>
