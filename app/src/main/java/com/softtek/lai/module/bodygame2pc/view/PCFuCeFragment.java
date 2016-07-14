@@ -194,6 +194,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     protected void initViews() {
         EventBus.getDefault().register(this);
         fl_right.setOnClickListener(this);
+        ll_left.setVisibility(View.GONE);
         photoListPre = new PhotoListIml();
         progressDialog = new ProgressDialog(getContext());
         btn_retest_write_addbodyst.setOnClickListener(this);
@@ -202,8 +203,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwritest_takephoto.setOnClickListener(this);
         im_deletest.setOnClickListener(this);
-        ll_left.setOnClickListener(this);
-//        tv_right.setOnClickListener(this);
         im_retestwritest_showphoto.setOnClickListener(this);
         tv_writes_chu_weight.setEnabled(false);
         tv_retestWrites_nowweight.setEnabled(false);
@@ -360,9 +359,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 //
 //                break;
 
-            case R.id.ll_left:
-                getActivity().finish();
-                break;
+
             case R.id.im_retestwritest_showphoto:
                 Intent intent1=new Intent(getContext(),PictureActivity.class);
                 ArrayList<String> imags=new ArrayList<>();
