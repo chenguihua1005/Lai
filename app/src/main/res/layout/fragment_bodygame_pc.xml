@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.softtek.lai.widgets.ObservableScrollView
         android:id="@+id/scroll"
@@ -128,7 +129,7 @@
                                 android:layout_gravity="bottom"
                                 android:layout_marginBottom="1dp"
                                 android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_person" />
+                                android:src="@drawable/bg2_weight" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -147,7 +148,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="服务人数"
+                                    android:text="减重斤数"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -183,7 +184,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="小区排名"
+                                    android:text="班级排名"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -213,7 +214,7 @@
                                 android:layout_gravity="bottom"
                                 android:layout_marginBottom="1dp"
                                 android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_weight" />
+                                android:src="@drawable/bg2_yaowei" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -232,7 +233,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="累计减重"
+                                    android:text="腰围变化"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -268,7 +269,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="小区排名"
+                                    android:text="班级排名"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -298,7 +299,7 @@
                                 android:layout_gravity="bottom"
                                 android:layout_marginBottom="1dp"
                                 android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_fuce" />
+                                android:src="@drawable/bg2_tizhi" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -317,7 +318,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="复测率"
+                                    android:text="体脂率变化"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -353,7 +354,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="小区排名"
+                                    android:text="班级排名"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -383,7 +384,7 @@
                                 android:layout_gravity="bottom"
                                 android:layout_marginBottom="1dp"
                                 android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_class" />
+                                android:src="@drawable/bg2_weight_per" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -402,7 +403,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="新开班级"
+                                    android:text="减重百分比"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -419,7 +420,7 @@
                                 android:layout_gravity="bottom"
                                 android:layout_marginBottom="1dp"
                                 android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_add" />
+                                android:src="@drawable/bg2_paiming" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -438,7 +439,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="新增学员"
+                                    android:text="班级排名"
                                     android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -453,7 +454,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/ll_new_student_record"
+                        android:id="@+id/ll_upload_photo"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -463,19 +464,19 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg2_new_student" />
+                            android:src="@drawable/bg2_upload_photo" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="新学员录入"
+                            android:text="上传照片"
                             android:textColor="#333333"
                             android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_sp_review"
+                        android:id="@+id/ll_saikuang"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -485,19 +486,19 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg2_wangqi" />
+                            android:src="@drawable/bg2_stu_saikuang" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="往期回顾"
+                            android:text="大赛赛况"
                             android:textColor="#333333"
                             android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_jindu"
+                        android:id="@+id/ll_chengjidan"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -507,13 +508,13 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg2_dangqi" />
+                            android:src="@drawable/bg2_chengji" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="当期进度"
+                            android:text="成绩单"
                             android:textColor="#333333"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -541,7 +542,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_zhujiao"
+                        android:id="@+id/ll_review"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -551,109 +552,491 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg2_zhujiao" />
+                            android:src="@drawable/bg2_wangqi" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="助教管理"
+                            android:text="往期回顾"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!--我的学员-->
-                <!--<include layout="@layout/bg2_my_student" />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="left|center"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="0.5"
+                            android:background="#74BB2A" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_total_loss_tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="共减重"
+                                android:textColor="#76BA2A"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:id="@+id/tv_totle_lw"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:text="0.0斤"
+                                android:textColor="#76BA2A"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="0.5"
+                            android:background="#74BB2A" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="160dp"
+                                android:layout_weight="1">
+                                <ImageView
+                                    android:id="@+id/iv_loss_before"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="#F2F0F1"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/default_icon_rect" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="bottom"
+                                    android:gravity="center"
+                                    android:background="@drawable/vs_left"
+                                    android:orientation="horizontal">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="减重前"
+                                        android:textSize="12sp"
+                                        android:textColor="@color/white"
+                                        />
+                                    <TextView
+                                        android:id="@+id/tv_loss_before"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="7dp"
+                                        android:text="0.0斤"
+                                        android:textSize="12sp"
+                                        android:textColor="@color/white"
+                                        />
+                                </LinearLayout>
+
+                            </FrameLayout>
+
+                            <View
+                                android:layout_width="3dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/white" />
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="160dp"
+                                android:layout_weight="1">
+                                <ImageView
+                                    android:id="@+id/iv_loss_after"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="#F2F0F1"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/default_icon_rect" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="bottom"
+                                    android:gravity="center"
+                                    android:background="@drawable/vs_right"
+                                    android:orientation="horizontal">
+                                    <TextView
+                                        android:id="@+id/tv_loss_after_tip"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="减重后"
+                                        android:textSize="12sp"
+                                        android:textColor="@color/white"
+                                        />
+                                    <TextView
+                                        android:id="@+id/tv_loss_after"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="7dp"
+                                        android:text="0.0斤"
+                                        android:textSize="12sp"
+                                        android:textColor="@color/white"
+                                        />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/vs_border">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/vs_vs" />
+                        </RelativeLayout>
+                    </FrameLayout>
+                </LinearLayout>
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tablayout"
+                    style="@style/myTabLayout1"
+                    app:tabBackground="@drawable/tab_selornor"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/tabcontent"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="440dp"/>
+
+                <!--减重故事-->
                 <RelativeLayout
-                    android:id="@+id/rl_student_more"
                     android:layout_width="match_parent"
                     android:layout_height="31dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/white">
-
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="15dp"
-                        android:text="我的学员"
-                        android:textColor="#333333"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_send_story"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="#FDB02C"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
-                        android:text="查看更多"
-                        android:textColor="#333333"
+                        android:text="发布故事"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:paddingLeft="25dp"
+                        android:background="#75BA2B"
+                        android:layout_toLeftOf="@id/tv_send_story"
+                        android:text="减重故事"
+                        android:textColor="@color/white"
                         android:textSize="13sp" />
                 </RelativeLayout>
-                <View
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e5e5" />
-                <com.softtek.lai.widgets.MyListView
-                    android:id="@+id/mlv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="never"
-                    android:dividerHeight="2dp"
-                    android:divider="#f2f2f2"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="left">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:orientation="vertical"
+                        android:gravity="center|left">
+                        <TextView
+                            android:id="@+id/tv_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="13"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="#333333"
+                            />
+                        <TextView
+                            android:id="@+id/tv_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="三月"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:layout_marginTop="10dp"
+                            android:textColor="#333333"
+                            />
+                    </LinearLayout>
 
-                <!--大赛赛况-->
-                <!--<include layout="@layout/bg2_saikuang" />-->
+                    <ImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/default_icon_square"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/tv_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#333333"
+                            android:ellipsize="end"
+                            android:maxLines="3"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="查看更多"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <!--Tips-->
                 <RelativeLayout
                     android:id="@+id/rl_saikuang"
                     android:layout_width="match_parent"
                     android:layout_height="31dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/white">
-
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="15dp"
-                        android:text="大赛赛况"
-                        android:textColor="#333333"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_more"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="#FDB02C"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
                         android:text="查看更多"
-                        android:textColor="#333333"
+                        android:textColor="@color/white"
                         android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:paddingLeft="25dp"
+                        android:background="#75BA2B"
+                        android:layout_toLeftOf="@id/tv_more"
+                        android:text="TIPS"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+
                 </RelativeLayout>
-                <View
+                <FrameLayout
+                    android:id="@+id/fl_video"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e5e5" />
-                <com.softtek.lai.widgets.MyGridView
-                    android:id="@+id/mgv"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="19dp"
+                    android:visibility="gone"
+                    android:background="@drawable/bg2_picture_border">
+
+                    <ImageView
+                        android:id="@+id/iv_video_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:background="#F2F0F1"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_icon_rect" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/play" />
+
+                    <TextView
+                        android:id="@+id/tv_video_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:text="瑜伽健身体验课教程"/>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_tips_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:listSelector="#00000000"
-                    android:horizontalSpacing="5dp"
-                    android:numColumns="2"
-                    android:verticalSpacing="19dp">
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
 
-                </com.softtek.lai.widgets.MyGridView>
+                    <LinearLayout
+                        android:id="@+id/ll_tip1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:gravity="left|center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="5dp">
 
-                <!--Tips-->
-                <include layout="@layout/home_tips_layout" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:gravity="left|center_vertical">
 
+                            <TextView
+                                android:id="@+id/tv_title1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="吸睛小蛮腰+撩人马甲线，秘诀统统告诉你！！！"
+                                android:textColor="#333333"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="#f2f2f2" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp">
+
+                            <ImageView
+                                android:id="@+id/im_icon_tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_tag1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/im_icon_tip"
+                                android:text="运动健身"
+                                android:textColor="#999999"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/action_right" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_tip2"
+                        android:visibility="invisible"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:gravity="left|center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:gravity="left|center_vertical">
+
+                            <TextView
+                                android:id="@+id/tv_title2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小测试-通过减肥方法看性格"
+                                android:textColor="#333333"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="#f2f2f2" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp">
+
+                            <ImageView
+                                android:id="@+id/im_icon_tip2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_tag2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/im_icon_tip2"
+                                android:text="营养课堂"
+                                android:textColor="#999999"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/action_right" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <View android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="#f2f2f2"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -705,41 +1088,5 @@
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/ll_left"
-            android:layout_toLeftOf="@id/fl_right"
-            android:background="@drawable/search_bg">
-
-
-            <FrameLayout
-                android:id="@+id/fl_search"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/bg2_search" />
-            </FrameLayout>
-            <EditText
-                android:id="@+id/et_person"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/fl_search"
-                android:layout_centerInParent="true"
-                android:paddingLeft="5dp"
-                android:background="@null"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:layout_marginLeft="12dp"
-                android:hint="搜索学员姓名/手机号"
-                android:textColor="#b3b3b3"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
     </RelativeLayout>
 </RelativeLayout>
