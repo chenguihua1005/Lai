@@ -24,9 +24,6 @@ import zilla.libcore.ui.LayoutInjectUtil;
  */
 public abstract class LazyBaseFragment extends Fragment{
 
-    @LifeCircleInject
-    AppExitLife lifeCicleExit;
-
     private boolean isVisible=false;//可否可见
     protected boolean isPrepared=false;//是否加载过
     private boolean isCreatedView=false;//是否加载完成试图
@@ -38,7 +35,7 @@ public abstract class LazyBaseFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        LifeCircle.onCreate(this);
     }
 
     @Nullable
@@ -52,6 +49,8 @@ public abstract class LazyBaseFragment extends Fragment{
         initViews();
         return contentView;
     }
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

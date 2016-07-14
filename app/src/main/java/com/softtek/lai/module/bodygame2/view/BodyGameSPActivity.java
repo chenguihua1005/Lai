@@ -3,10 +3,12 @@ package com.softtek.lai.module.bodygame2.view;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
@@ -14,10 +16,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
@@ -26,6 +30,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -54,6 +59,8 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
     SimpleButton btn_class;
     @InjectView(R.id.nsvp)
     NoSlidingViewPage content;
+    @InjectView(R.id.tv_unread_num)
+    TextView tv_umread;
     private EMConnectionListener connectionListener;
     private List<Fragment> fragments = new ArrayList<>();
     public AlertDialog.Builder builder = null;
@@ -182,12 +189,21 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         return false;
     }
 
-
+    private MessageReceiver mMessageReceiver;
     @Override
     protected void initDatas() {
-
+        registerMessageReceiver();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:" + unreadNum);
+            ////更新小红点
+        }*/
+    }
 
     @Override
     public void onClick(View v) {
@@ -247,5 +263,42 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
 
+    public void updateMessage(int num){
+        //显示
+        if(num<=0){
+            tv_umread.setVisibility(View.GONE);
+        }else {
+            String read=num >= 100 ? "99+" : num + "";
+            tv_umread.setText(read);
+            tv_umread.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
+                int unreadNum = intent.getIntExtra("count", 0);
+                //更新小红点
+                updateMessage(unreadNum);
+            }
+        }
+    }
 
 }
