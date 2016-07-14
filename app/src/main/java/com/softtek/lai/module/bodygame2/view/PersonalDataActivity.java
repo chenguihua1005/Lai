@@ -121,6 +121,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_tel;
     @InjectView(R.id.tv_personclassname)
     TextView tv_personclassname;
+    @InjectView(R.id.ll_personphoto2)
+    LinearLayout ll_personphoto2;
     @InjectView(R.id.tv_SuperName)
     TextView tv_SuperName;
     @InjectView(R.id.tv_classdate)
@@ -159,13 +161,18 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout Re_personphoto;
     @InjectView(R.id.ll_personphoto)
     LinearLayout ll_personphoto;
+    @InjectView(R.id.tv_nophoto)
+    TextView tv_nophoto;
+    @InjectView(R.id.tv_jianzhflag)
+    TextView tv_jianzhflag;
+    @InjectView(R.id.tv_xunzhflag)
+    TextView tv_xunzhflag;
     private long userId = 0;
     private long classId = 0;
     private String review_flag = "1";
     ChMonth chMonth;
     String typedate="";
     String AMStatus="";
-    RetestPre retestPre;
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
     ClemeberExitManager clemberExitmanager;
@@ -173,6 +180,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private static final int GET_BODY = 2;
 
     ClmInfoModel clmInfoModel;
+    LossWeightChartFragment lwcf;
+    DimensionChartFragment dcf;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -182,8 +191,16 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Re_personphoto.setOnClickListener(this);
         ll_personphoto.setOnClickListener(this);
         ll_persondatefuce.setOnClickListener(this);
+        im_pict1.setOnClickListener(this);
+        im_pict2.setOnClickListener(this);
+        im_pict3.setOnClickListener(this);
+        im_pict4.setOnClickListener(this);
+        im_pict5.setOnClickListener(this);
+        im_pict6.setOnClickListener(this);
         lin_send_message.setOnClickListener(this);
         tv_title.setText("个人资料");
+        lwcf=null;
+        dcf=null;
         userId = getIntent().getLongExtra("userId", 0);
         classId = getIntent().getLongExtra("classId", 0);
         review_flag = getIntent().getStringExtra("review");
@@ -191,8 +208,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Map<String, String> params = new HashMap<>();
         params.put("userId", userId + "");
         params.put("classId", classId + "");
-        LossWeightChartFragment lwcf = LossWeightChartFragment.newInstance(params);
-        DimensionChartFragment dcf = DimensionChartFragment.newInstance(params);
+
+        if(lwcf==null){
+            lwcf= LossWeightChartFragment.newInstance(params);
+        }
+        if(dcf==null){
+            dcf= DimensionChartFragment.newInstance(params);
+        }
         fragmentList.add(lwcf);
         fragmentList.add(dcf);
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
@@ -203,7 +225,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         persondatemanager = new PersonDateManager();
-        persondatemanager.doGetClmemberDetial(this, userId + "", classId + "");
+        persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
     }
 
 
@@ -264,12 +286,43 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
-//            case R.id.ll_personphoto:
-//                Intent photo = new Intent(this, PassPhotoActivity.class);
-//                photo.putExtra("userId", userId);
-//                photo.putExtra("classId", classId);
-//                startActivity(photo);
-//                break;
+            case R.id.im_pict1:
+                Intent pict1 = new Intent(this, PassPhotoActivity.class);
+                pict1.putExtra("userId", userId);
+                pict1.putExtra("classId", classId);
+                startActivity(pict1);
+                break;
+            case R.id.im_pict2:
+                Intent pict2 = new Intent(this, PassPhotoActivity.class);
+                pict2.putExtra("userId", userId);
+                pict2.putExtra("classId", classId);
+                startActivity(pict2);
+                break;
+            case R.id.im_pict3:
+                Intent pict3 = new Intent(this, PassPhotoActivity.class);
+                pict3.putExtra("userId", userId);
+                pict3.putExtra("classId", classId);
+                startActivity(pict3);
+                break;
+            case R.id.im_pict4:
+                Intent pict4 = new Intent(this, PassPhotoActivity.class);
+                pict4.putExtra("userId", userId);
+                pict4.putExtra("classId", classId);
+                startActivity(pict4);
+                break;
+            case R.id.im_pict5:
+                Intent pict5 = new Intent(this, PassPhotoActivity.class);
+                pict5.putExtra("userId", userId);
+                pict5.putExtra("classId", classId);
+                startActivity(pict5);
+                break;
+            case R.id.im_pict6:
+                Intent pict6 = new Intent(this, PassPhotoActivity.class);
+                pict6.putExtra("userId", userId);
+                pict6.putExtra("classId", classId);
+                startActivity(pict6);
+                break;
+
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
                 {
@@ -321,33 +374,47 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             String[] end = data.getClmInfo().getEndDate().split(" ");
             String[] enddate = end[0].split("-");
             tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
-            if (data.getLossStory() == null) {
-
+            if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+                tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
             } else {
-                if (!TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+
                     String[] day = data.getLossStory().getCreateDate().split(" ");
                     String[] date = day[0].split("-");
                     tv_weightday.setText(date[2]);
                     chMonth = new ChMonth();
                     tv_mon.setText(chMonth.tomonth(date[1]));
                     tv_storycontent.setText(data.getLossStory().getLogContent());
+
+            }
+            if (data.getHonorList().size()==0)
+            {
+                tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
+            }
+            else {
+                List<HonorListModel> honors = data.getHonorList();
+                for (int i = 0; i < data.getHonorList().size(); i++) {
+                    HonorListModel honor = honors.get(i);
+                    switch (i) {
+                        case 0:
+                            setMedal(honor, me_xun1, tv_valuetext);
+                            break;
+                        case 1:
+                            setMedal(honor, me_xun2, tv_valuetext2);
+                            break;
+                        case 2:
+                            setMedal(honor, me_xun3, tv_valuetext3);
+                            break;
+                    }
+
                 }
             }
-            List<HonorListModel> honors = data.getHonorList();
-            for (int i = 0; i < data.getHonorList().size(); i++) {
-                HonorListModel honor = honors.get(i);
-                switch (i) {
-                    case 0:
-                        setMedal(honor, me_xun1, tv_valuetext);
-                        break;
-                    case 1:
-                        setMedal(honor, me_xun2, tv_valuetext2);
-                        break;
-                    case 2:
-                        setMedal(honor, me_xun3, tv_valuetext3);
-                        break;
-                }
-
+            if (data.getPhotoList().size()==0)
+            {
+                tv_nophoto.setText("暂无照片");
+            }
+            if (data.getPhotoList().size()<3)
+            {
+                ll_personphoto2.setVisibility(View.GONE);
             }
             for (int j = 0; j < data.getPhotoList().size(); j++) {
                 if (!TextUtils.isEmpty(data.getPhotoList().get(j).getImgUrl())) {

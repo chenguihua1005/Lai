@@ -24,9 +24,9 @@ public class PersonDateManager {
         service= ZillaApi.NormalRestAdapter.create(BodyGameService.class);
     }
 
-    public void doGetClmemberDetial(final PersonalDataActivity personalDataActivity,String accountid, String classid)
+    public void doGetClmemberDetial(final PersonalDataActivity personalDataActivity,int roletype,String accountid, String classid)
     {
-        service.doGetClmemberDetial(UserInfoModel.getInstance().getToken(), accountid, classid, new RequestCallback<ResponseData<memberDetialModel>>() {
+        service.doGetClmemberDetial(UserInfoModel.getInstance().getToken(),roletype, accountid, classid, new RequestCallback<ResponseData<memberDetialModel>>() {
             @Override
             public void success(ResponseData<memberDetialModel> memberDetialModelResponseData, Response response) {
                 if (personalDataActivity!=null)

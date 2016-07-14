@@ -196,7 +196,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@+id/tv_personclassname"
-                        android:text="(2016.03.25-05.24)"
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
@@ -245,6 +244,16 @@
                     android:background="#E5E5E5"
                     />
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_jianzhflag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="#C0C0C0"/>
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:gravity="center"
@@ -287,6 +296,7 @@
                         android:ellipsize="end"/>
 
                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -326,7 +336,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5" />
-
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_xunzhflag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="#C0C0C0"
+                        />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -446,11 +466,12 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:background="#ffffff"
                 android:orientation="vertical"
@@ -471,6 +492,13 @@
                         android:text="个人相册"
                         android:textColor="#333333"
                         android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="查看更多"
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
 
@@ -478,7 +506,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5" />
-
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/tv_nophoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#C0C0C0"/>
                 <LinearLayout
                     android:id="@+id/ll_personphoto"
                     android:layout_width="match_parent"
@@ -533,13 +571,16 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
+            </RelativeLayout>
                 <LinearLayout
+                    android:id="@+id/ll_personphoto2"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:gravity="center">
+                    android:gravity="center"
+
+                    >
 
                     <LinearLayout
                         android:layout_width="0dp"

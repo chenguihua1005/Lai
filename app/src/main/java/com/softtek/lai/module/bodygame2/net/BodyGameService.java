@@ -57,6 +57,7 @@ public interface BodyGameService {
     @GET("/NewClass/GetClmemberDetial")
     void doGetClmemberDetial(
             @Header("token")String token,
+            @Query("roletype")int roletype,
             @Query("accountid")String accountid,
             @Query("classid")String classid,
             RequestCallback<ResponseData<memberDetialModel>>callback
