@@ -30,6 +30,8 @@ import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -154,6 +156,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:
+                        EventBus.getDefault().post(classIdResponseData.getData());
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                 .setTitle(context.getString(R.string.login_out_title))
                                 .setMessage("创建班级成功！")

@@ -15,11 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChat;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
+import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.model.ClmInfoModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
@@ -85,6 +90,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_total_loss_tip;
     @InjectView(R.id.ll_persondatefuce)
     LinearLayout ll_persondatefuce;
+
+    @InjectView(R.id.lin_send_message)
+    LinearLayout lin_send_message;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -150,6 +158,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     ClemeberExitManager clemberExitmanager;
     BodyGameService service;
     private static final int GET_BODY = 2;
+
+    ClmInfoModel clmInfoModel;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -158,6 +168,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
         ll_persondatefuce.setOnClickListener(this);
+        lin_send_message.setOnClickListener(this);
         tv_title.setText("个人资料");
         userId = getIntent().getLongExtra("userId", 0);
         classId = getIntent().getLongExtra("classId", 0);
@@ -190,6 +201,25 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.lin_send_message:
+                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                System.out.println("isLogin:" + isLogin);
+                if (isLogin) {
+                    String HX_ID=clmInfoModel.getHXAccountId();
+                    if(TextUtils.isEmpty(HX_ID) || HX_ID==null ||"null".equals(HX_ID)){
+                        Util.toastMsg("会话异常，请稍候");
+                    }else {
+                        Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
+                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                        intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
+                        intent.putExtra("name", clmInfoModel.getUserName());
+                        intent.putExtra("photo", path + clmInfoModel.getPhoto());
+                        startActivity(intent);
+                    }
+                }else {
+                    Util.toastMsg("会话异常，请稍候再试");
+                }
+                break;
             case R.id.ll_left:
                 finish();
                 break;
@@ -246,7 +276,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onloadCompleted(memberDetialModel data) {
         if (data != null) {
             AMStatus=data.getClmInfo().getIstest();
-            Log.i("当前状态",AMStatus);
+            clmInfoModel=data.getClmInfo();
             typedate=data.getClmInfo().getTypedate();
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
