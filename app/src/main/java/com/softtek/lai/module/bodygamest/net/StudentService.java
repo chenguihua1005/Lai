@@ -28,6 +28,14 @@ public interface StudentService {
             Callback<ResponseData<HonorModel>> callback
     );
 
+    //荣誉榜
+    @GET("/Index/NewGetStudentHonor")
+    void getStudentHonorPC(
+            @Header("token") String token,
+            @Query("accountid") String accountid,
+            Callback<ResponseData<HonorModel>> callback
+    );
+
     //获取学员奖章个数
     @GET("/HerbUser/GetStudentHonours")
     void getStudentHonours(

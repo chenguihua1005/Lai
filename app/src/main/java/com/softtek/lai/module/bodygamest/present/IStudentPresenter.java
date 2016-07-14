@@ -15,6 +15,9 @@ public interface IStudentPresenter {
     //荣誉榜
     void getStudentHonor();
 
+    //荣誉榜2.0
+    void getStudentHonorPC(String accountid);
+
 
     void getStudentHonours();    //获取学员奖章个数
 

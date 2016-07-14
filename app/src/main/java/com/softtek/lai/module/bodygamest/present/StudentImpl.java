@@ -167,6 +167,34 @@ public class StudentImpl implements IStudentPresenter {
         });
     }
 
+    @Override
+    public void getStudentHonorPC(String accountid) {
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.getStudentHonorPC(token,accountid,new Callback<ResponseData<HonorModel>>() {
+            @Override
+            public void success(ResponseData<HonorModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                base.dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                base.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
     public void hasClass(RequestCallback<ResponseData<HasClass>> callback) {
         String token = UserInfoModel.getInstance().getToken();
         studentService.hasClass(token, callback);
