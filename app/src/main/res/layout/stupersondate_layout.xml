@@ -18,9 +18,22 @@
             android:layout_width="match_parent"
             android:layout_height="85dp"
             android:layout_gravity="bottom|right"
+            android:gravity="center_vertical"
             android:background="#462C4B49">
-
-
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/im_headimg"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:src="@drawable/img_default"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Joy"
+                android:layout_toRightOf="@+id/im_headimg"
+                android:textSize="16sp"
+                />
 
 
 
