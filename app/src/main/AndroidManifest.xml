@@ -730,6 +730,9 @@
         <activity
             android:name=".module.bodygame2.view.DYActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame2.view.StudentHonorPCActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

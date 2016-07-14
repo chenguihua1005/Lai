@@ -248,9 +248,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
-                Intent honor = new Intent(this, HistoryStudentHonorActivity.class);
-                honor.putExtra("userId", userId);
-                honor.putExtra("classId", Integer.parseInt(review_flag));
+                Intent honor = new Intent(this, StudentHonorPCActivity.class);
+                honor.putExtra("accountid", userId);
                 startActivity(honor);
                 break;
             case R.id.re_jianzh:
