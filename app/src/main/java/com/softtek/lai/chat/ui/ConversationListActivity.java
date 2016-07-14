@@ -128,9 +128,9 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_title.setText("会话");
-        iv_email.setImageResource(R.drawable.img_chat_contant);
+       // iv_email.setImageResource(R.drawable.img_chat_contant);
         ll_left.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
+        //fl_right.setOnClickListener(this);
         easeUI = EaseUI.getInstance();
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
@@ -477,9 +477,6 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
-                break;
-            case R.id.fl_right:
-                startActivity(new Intent(this, ContantListActivity.class));
                 break;
         }
     }
