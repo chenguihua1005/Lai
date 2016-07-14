@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame2.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -58,10 +59,9 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_bodygame_sp)
-public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClickListener,ObservableScrollView.ScrollViewListener{
+public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,ObservableScrollView.ScrollViewListener{
 
     @InjectView(R.id.scroll)
     ObservableScrollView scroll;
@@ -83,6 +83,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
+    @InjectView(R.id.pull)
+    SwipeRefreshLayout pull;
 
 
     @InjectView(R.id.tv_person_num)
@@ -213,7 +215,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         });
         scroll.post(new Runnable() {
                     public void run() {
-                        scroll.smoothScrollTo(0, 0);
+                        scroll.scrollTo(0,0);
                     }
                 });
     }
@@ -226,7 +228,20 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         mlv.setAdapter(sppcAdapter);
         mgv.setAdapter(saiKuangAdapter);
         iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
-
+        /*pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
+        pull.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        pull.setOnRefreshListener(this);
+        //第一次加载自动刷新
+        pull.post(new Runnable() {
+            @Override
+            public void run() {
+                pull.setRefreshing(true);
+            }
+        });
+        onRefresh();*/
     }
 
     @Override
@@ -246,6 +261,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     }
     SPBodyGameInfo info;
     public void onloadCompleted(SPBodyGameInfo info){
+        pull.setRefreshing(false);
         if(info!=null){
             this.info=info;
             String basePath=AddressManager.get("photoHost");
@@ -396,7 +412,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 //tips更多
                 startActivity(new Intent(getContext(), TipsActivity.class));
                 break;
-            case R.id.fl:
+            case R.id.fl_video:
                 //视频
                 if(info!=null&&StringUtils.isNotEmpty(info.getTips_video_name())){
                     Uri uri=Uri.parse(AddressManager.get("photoHost")+info.getTips_video_url());
@@ -435,6 +451,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             case R.id.fl_search:
                 String text=et_person.getText().toString();
                 if(StringUtils.isNotEmpty(text)){
+                    et_person.setText("");
                     Intent search=new Intent(getContext(),SearchPcActivity.class);
                     search.putExtra("value",text);
                     startActivity(search);
@@ -445,12 +462,21 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        /*if(y<=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
+        }*/
         float alpha=(1f*y/1000);
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
             activity.setAlpha(alpha);
             rl_color.setAlpha(alpha);
         }
+    }
 
+    @Override
+    public void onRefresh() {
+        manager.getSPHomeInfo(this);
     }
 }

@@ -23,6 +23,7 @@ import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
@@ -475,13 +476,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 }
             });
         }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Bitmap b1 = getViewBitmap(top);
-//                savePic(b1, "/sdcard/screen_test_1.png");
-//            }
-//        }, 200);
     }
 
     @Override
@@ -573,10 +567,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         Table1Model table1Model = table1ModelList.get(position);
         long userId = Long.parseLong(table1Model.getAccountId());
         long classId = Long.parseLong(table1Model.getClassId());
-        Intent intent = new Intent(JingduActivity.this, StudentDetailActivity.class);
+        Intent intent = new Intent(JingduActivity.this, PersonalDataActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("classId", classId);
-        intent.putExtra("review", 1);
         startActivity(intent);
     }
 }

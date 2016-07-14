@@ -157,4 +157,26 @@ public class SPBodyGameInfo {
     public void setBanner(String banner) {
         Banner = banner;
     }
+
+    @Override
+    public String toString() {
+        return "SPBodyGameInfo{" +
+                "Banner='" + Banner + '\'' +
+                ", TotalPc='" + TotalPc + '\'' +
+                ", TotalLoss='" + TotalLoss + '\'' +
+                ", Retest='" + Retest + '\'' +
+                ", RNum='" + RNum + '\'' +
+                ", LossTotal='" + LossTotal + '\'' +
+                ", LossNum='" + LossNum + '\'' +
+                ", PcCount='" + PcCount + '\'' +
+                ", PcNum='" + PcNum + '\'' +
+                ", NewClass='" + NewClass + '\'' +
+                ", NewPc='" + NewPc + '\'' +
+                ", sp_pc_three=" + sp_pc_three +
+                ", Competition=" + Competition +
+                ", Tips_video_name='" + Tips_video_name + '\'' +
+                ", Tips_video_url='" + Tips_video_url + '\'' +
+                ", Tips_content=" + Tips_content +
+                '}';
+    }
 }
