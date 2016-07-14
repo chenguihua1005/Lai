@@ -181,7 +181,7 @@ public class ChatHelper {
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
 
-                Intent intent = new Intent(appContext, BodyGameSPActivity.class);
+                Intent intent = new Intent(appContext, ConversationListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 return intent;
             }

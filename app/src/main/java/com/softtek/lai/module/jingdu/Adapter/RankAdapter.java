@@ -7,6 +7,7 @@ package com.softtek.lai.module.jingdu.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,7 @@ public class RankAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.rank_item, parent, false);
             viewHolder = new ViewHolder(convertView);
@@ -70,20 +71,20 @@ public class RankAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Table1Model table1Model = table1ModelList.get(position);
-        PaimingModel paimingModel = paimingModelList.get(position);
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        /*Table1Model table1Model = table1ModelList.get(position);
+        PaimingModel paimingModel = paimingModelList.get(position);*/
+        String path = AddressManager.get("photoHost");
         if (!TextUtils.isEmpty(table1ModelList.get(position).getPhoto())) {
             Picasso.with(context).load(path + table1ModelList.get(position).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
-            Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
+            Picasso.with(context).load(R.drawable.img_default).into(viewHolder.civ_header_image);
 
         }
         //前三名颜色为黄色FDB02B
         if ((position + 1) < 4) {
             viewHolder.ranid.setTextColor(Color.parseColor("#FDB02B"));
         } else {
-            viewHolder.ranid.setTextColor(context.getResources().getColor(R.color.word3));
+            viewHolder.ranid.setTextColor(ContextCompat.getColor(context,R.color.word3));
         }
         viewHolder.ranid.setText(paimingModelList.get(position).getPaiming() + "");
         viewHolder.Username.setText(table1ModelList.get(position).getUserName());

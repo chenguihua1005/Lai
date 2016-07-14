@@ -125,8 +125,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_tag2;
     @InjectView(R.id.ll_tips_content)
     LinearLayout ll_tips_content;
-    @InjectView(R.id.fl)
-    FrameLayout fl;
+    @InjectView(R.id.fl_video)
+    FrameLayout fl_video;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -177,7 +177,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         ll_honor.setOnClickListener(this);
         ll_zhujiao.setOnClickListener(this);
         scroll.setScrollViewListener(this);
-        fl.setOnClickListener(this);
+        fl_video.setOnClickListener(this);
         fl_search.setOnClickListener(this);
         ll_right.setOnClickListener(this);
         //学员点击item
@@ -272,9 +272,9 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             saiKuangAdapter.notifyDataSetChanged();
             if(StringUtils.isNotEmpty(info.getTips_video_name())){
                 tv_video_name.setText(info.getTips_video_name());
-                fl.setVisibility(View.VISIBLE);
+                fl_video.setVisibility(View.VISIBLE);
             }else{
-                fl.setVisibility(View.GONE);
+                fl_video.setVisibility(View.GONE);
             }
             List<Tips> tips=info.getTips_content();
             if(tips==null||tips.isEmpty()){

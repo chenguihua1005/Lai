@@ -1,5 +1,6 @@
 package com.softtek.lai.chat.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.ContextMenu;
@@ -23,6 +24,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.NetUtils;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 
 public class ConversationListFragment extends EaseConversationListFragment {
 
@@ -127,6 +129,12 @@ public class ConversationListFragment extends EaseConversationListFragment {
             // 删除此会话
             EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
             refresh();
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            Context context=getContext();
+            if(context instanceof BodyGameSPActivity){
+                BodyGameSPActivity activity=(BodyGameSPActivity)context;
+                activity.updateMessage(unreadNum);
+            }
         }
         return true;
     }
