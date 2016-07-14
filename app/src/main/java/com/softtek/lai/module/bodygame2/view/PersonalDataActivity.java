@@ -465,34 +465,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    public void getview(String type, int num, String value) {
-        if (type.equals("0")) {
-//            me_xun1.setHonorType();
 
-        } else if (type.equals("1")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, getview1(num, type, value));
-            ImageView img_fuce = (ImageView) findViewById(R.id.img_fuce);
-            if (value.equals("1")) {
-                img_fuce.setImageResource(R.drawable.img_student_honor_tong
-                );
-            } else if (value.equals("2")) {
-                img_fuce.setImageResource(R.drawable.img_student_honor_yin);
-
-            } else {
-                img_fuce.setImageResource(R.drawable.img_student_honor_jin);
-
-            }
-        } else if (type.equals("2")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_ygj_item, getview1(num, type, value));
-            TextView tv_yuegj_value = (TextView) findViewById(R.id.tv_yuegj_value);
-            tv_yuegj_value.setText(value);
-
-        } else if (type.equals("3")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_star_item, getview1(num, type, value));
-            TextView tv_jzstar_value = (TextView) findViewById(R.id.tv_jzstar_value);
-            tv_jzstar_value.setText(value);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -503,62 +476,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    public LinearLayout getview1(int n, String ty, String value) {
-        LinearLayout view = ll_honorn1;
-        if (n == 0) {
-            view = ll_honorn1;
-            if (ty.equals("1")) {
-                if (value.equals("1")) {
-                    tv_valuetext.setText("复测铜牌");
-                } else if (value.equals("2")) {
-                    tv_valuetext.setText("复测银牌");
-                } else if (value.equals("3")) {
-                    tv_valuetext.setText("复测金牌");
-                }
-            } else if (ty.equals("0")) {
-                tv_valuetext.setText("减重" + value + "斤奖章");
-            } else if (ty.equals("2")) {
-                tv_valuetext.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("3")) {
-                tv_valuetext.setText("全国排名奖章");
-            }
-        } else if (n == 1) {
-            view = ll_honorn2;
-            if (ty.equals("1")) {
-                if (value.equals("1")) {
-                    tv_valuetext2.setText("复测铜牌");
-                } else if (value.equals("2")) {
-                    tv_valuetext2.setText("复测银牌");
-                } else if (value.equals("3")) {
-                    tv_valuetext2.setText("复测金牌");
-                }
-            } else if (ty.equals("0")) {
-                tv_valuetext2.setText("减重" + value + "斤奖章");
-            } else if (ty.equals("2")) {
-                tv_valuetext2.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("3")) {
-                tv_valuetext2.setText("全国排名奖章");
-            }
-        } else {
-            view = ll_honorn3;
-            if (ty.equals("1")) {
-                if (value.equals("1")) {
-                    tv_valuetext3.setText("复测铜牌");
-                } else if (value.equals("2")) {
-                    tv_valuetext3.setText("复测银牌");
-                } else if (value.equals("3")) {
-                    tv_valuetext3.setText("复测金牌");
-                }
-            } else if (ty.equals("0")) {
-                tv_valuetext3.setText("减重" + value + "斤奖章");
-            } else if (ty.equals("2")) {
-                tv_valuetext3.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("3")) {
-                tv_valuetext3.setText("全国排名奖章");
-            }
-        }
-        return view;
-    }
+
 
     public void onExitompleted(String aTrue) {
         if (aTrue.equals("true")) {

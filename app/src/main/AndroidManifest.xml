@@ -713,6 +713,8 @@
         <activity
             android:name=".module.bodygame2pc.view.BodyGamePCActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame2pc.view.StuPersonDateActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".locationservice.LocationService"
