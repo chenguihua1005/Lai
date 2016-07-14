@@ -47,7 +47,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         fragments.add(new BodyGamePCFragment());
         fragments.add(new BodyGamePCFragment());
         fragments.add(new BodyGamePCFragment());
-        fragments.add(new BodyGamePCFragment());
+        fragments.add(new PCFuCeFragment());
+        fragments.add(new PCFuCeFragment());
         content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment

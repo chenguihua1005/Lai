@@ -15,11 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChat;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
+import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.model.ClmInfoModel;
 import com.softtek.lai.module.bodygame2.model.HonorListModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
@@ -31,6 +36,7 @@ import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.pastreview.honors.Medal;
 import com.softtek.lai.module.pastreview.model.Honor;
+import com.softtek.lai.module.pastreview.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
@@ -88,6 +94,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_total_loss_tip;
     @InjectView(R.id.ll_persondatefuce)
     LinearLayout ll_persondatefuce;
+    @InjectView(R.id.lin_send_message)
+    LinearLayout lin_send_message;
+    @InjectView(R.id.im_gender)
+    ImageView im_gender;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -161,6 +171,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     ClemeberExitManager clemberExitmanager;
     BodyGameService service;
     private static final int GET_BODY = 2;
+
+    ClmInfoModel clmInfoModel;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -170,6 +182,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Re_personphoto.setOnClickListener(this);
         ll_personphoto.setOnClickListener(this);
         ll_persondatefuce.setOnClickListener(this);
+        lin_send_message.setOnClickListener(this);
         tv_title.setText("个人资料");
         userId = getIntent().getLongExtra("userId", 0);
         classId = getIntent().getLongExtra("classId", 0);
@@ -202,6 +215,25 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.lin_send_message:
+                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                System.out.println("isLogin:" + isLogin);
+                if (isLogin) {
+                    String HX_ID=clmInfoModel.getHXAccountId();
+                    if(TextUtils.isEmpty(HX_ID) || HX_ID==null ||"null".equals(HX_ID)){
+                        Util.toastMsg("会话异常，请稍候");
+                    }else {
+                        Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
+                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                        intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
+                        intent.putExtra("name", clmInfoModel.getUserName());
+                        intent.putExtra("photo", path + clmInfoModel.getPhoto());
+                        startActivity(intent);
+                    }
+                }else {
+                    Util.toastMsg("会话异常，请稍候再试");
+                }
+                break;
             case R.id.ll_left:
                 finish();
                 break;
@@ -216,7 +248,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
-//                startActivity(new Intent(this, StudentHonorGridActivity.class));
+                Intent honor = new Intent(this, HistoryStudentHonorActivity.class);
+                honor.putExtra("userId", userId);
+                honor.putExtra("classId", Integer.parseInt(review_flag));
+                startActivity(honor);
                 break;
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);
@@ -230,12 +265,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
-            case R.id.ll_personphoto:
-                Intent photo = new Intent(this, PassPhotoActivity.class);
-                photo.putExtra("userId", userId);
-                photo.putExtra("classId", classId);
-                startActivity(photo);
-                break;
+//            case R.id.ll_personphoto:
+//                Intent photo = new Intent(this, PassPhotoActivity.class);
+//                photo.putExtra("userId", userId);
+//                photo.putExtra("classId", classId);
+//                startActivity(photo);
+//                break;
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
                 {
@@ -264,8 +299,11 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onloadCompleted(memberDetialModel data) {
         if (data != null) {
             AMStatus=data.getClmInfo().getIstest();
-            Log.i("当前状态",AMStatus);
+            clmInfoModel=data.getClmInfo();
             typedate=data.getClmInfo().getTypedate();
+            if (data.getClmInfo().getGender().equals("0")) {
+                im_gender.setImageResource(R.drawable.bg2_male);
+            }
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
@@ -491,6 +529,23 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             medal.setType(Medal.NATION);
             medal.setmText("第" + honor.getValue() + "名");
             medal.setDate(honor.getCreateDate());
+            if ("1".equals(value)) {
+                medal.setHonorType(Medal.GOLD);
+            } else if ("2".equals(value)) {
+                medal.setHonorType(Medal.SILVER);
+            } else if ("3".equals(value)) {
+                medal.setHonorType(Medal.COPPER);
+            } else {
+                medal.setHonorType(Medal.NORMAL);
+            }
+            tv.setText("全国减重明星第" + honor.getValue() + "名");
+        }
+        else if (medalType == Medal.NATION_SPEC)
+        {
+            String value = honor.getValue();
+            medal.setType(Medal.NATION_SPEC);
+            medal.setmText("第" + honor.getValue() + "名");
+//            medal.setDate(honor.getCreateDate());
             if ("1".equals(value)) {
                 medal.setHonorType(Medal.GOLD);
             } else if ("2".equals(value)) {

@@ -23,9 +23,12 @@ import com.softtek.lai.module.bodygame2.view.ClassFragment;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -84,6 +87,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.cb_fc = (CheckBox) convertView.findViewById(R.id.cb_fc);
             holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
             holder.img_type = (ImageView) convertView.findViewById(R.id.img_type);
+            holder.civ_header = (ImageView) convertView.findViewById(R.id.civ_header);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -123,6 +127,13 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         holder.tv_who.setText( model.getSuperName());
         holder.text_count.setText("x" + model.getHonorcnt());
 
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if ("".equals(model.getPhoto())) {
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.civ_header);
+        } else {
+            Picasso.with(context).load(path + model.getPhoto()).fit().error(R.drawable.img_default).into(holder.civ_header);
+        }
+
         if (model.getGender().equals("1")) {
             holder.cb_gender.setChecked(true);
         } else {
@@ -156,6 +167,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         public CheckBox cb_fc;
         public RelativeLayout rel;
         public ImageView img_type;
+        public ImageView civ_header;
     }
 }
 
