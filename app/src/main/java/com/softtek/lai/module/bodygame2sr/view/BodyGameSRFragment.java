@@ -31,7 +31,6 @@ import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2.view.SearchPcActivity;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
@@ -393,6 +392,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
             });
         }
     }
+
+
     Animation roate;
     @Override
     public void onClick(View v) {

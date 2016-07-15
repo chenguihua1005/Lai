@@ -344,7 +344,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 }
                 else if (AMStatus.equals("1")){
                     Intent fucewrite=new Intent(this, FuceStActivity.class);
-                    fucewrite.putExtra("quanxian",false);//
+                    fucewrite.putExtra("quanxian",false);
                     fucewrite.putExtra("accountId",userId+"");
                     startActivity(fucewrite);
                 }
