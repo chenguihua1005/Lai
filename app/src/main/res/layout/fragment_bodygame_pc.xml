@@ -696,14 +696,14 @@
                         android:id="@+id/tablayout"
                         style="@style/myTabLayout1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:tabBackground="@drawable/tab_selornor" />
+                        android:layout_height="wrap_content" />
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/tabcontent"
                         android:layout_width="match_parent"
-                        android:layout_height="440dp" />
+                        android:layout_height="440dp">
+
+                    </android.support.v4.view.ViewPager>
 
                     <!--减重故事-->
                     <RelativeLayout
@@ -744,8 +744,7 @@
                         android:paddingBottom="10dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="10dp"
-                        android:paddingTop="10dp"
-                        android:visibility="gone">
+                        android:paddingTop="10dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -845,14 +844,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="19dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/bg2_picture_border"
                         android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_video_image"
                             android:layout_width="match_parent"
-                            android:layout_height="175dp"
+                            android:layout_height="165dp"
                             android:background="#F2F0F1"
                             android:scaleType="fitCenter"
                             android:src="@drawable/default_icon_rect" />
@@ -919,20 +918,22 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:paddingBottom="4dp"
-                                android:paddingTop="4dp">
+                                android:orientation="horizontal">
 
                                 <ImageView
                                     android:id="@+id/im_icon_tip"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_alignParentLeft="true" />
 
                                 <TextView
                                     android:id="@+id/tv_tag1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
                                     android:layout_toRightOf="@+id/im_icon_tip"
+                                    android:layout_marginLeft="5dp"
                                     android:text="运动健身"
                                     android:textColor="#999999"
                                     android:textSize="12sp" />
@@ -941,6 +942,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
+                                    android:layout_centerInParent="true"
                                     android:layout_marginRight="10dp"
                                     android:src="@drawable/action_right" />
                             </RelativeLayout>
@@ -984,22 +986,23 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:paddingBottom="4dp"
-                                android:paddingTop="4dp">
+                                android:layout_height="match_parent">
 
                                 <ImageView
                                     android:id="@+id/im_icon_tip2"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_alignParentLeft="true"
+                                    />
 
                                 <TextView
                                     android:id="@+id/tv_tag2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
                                     android:layout_toRightOf="@+id/im_icon_tip2"
+                                    android:layout_marginLeft="5dp"
                                     android:text="营养课堂"
                                     android:textColor="#999999"
                                     android:textSize="12sp" />
@@ -1008,6 +1011,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
+                                    android:layout_centerInParent="true"
                                     android:layout_marginRight="10dp"
                                     android:src="@drawable/action_right" />
                             </RelativeLayout>

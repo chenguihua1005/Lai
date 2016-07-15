@@ -34,9 +34,9 @@ public class ClassMainManager {
         service = ZillaApi.NormalRestAdapter.create(BodyGameService.class);
     }
 
-    public void doClMemberChange(String classid, String type) {
+    public void doClMemberChange(String asscountid,String classid, String type) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doClMemberChange(token, classid, type, new RequestCallback<ResponseData<MemberChangeModel>>() {
+        service.doClMemberChange(token,asscountid, classid, type, new RequestCallback<ResponseData<MemberChangeModel>>() {
             @Override
             public void success(ResponseData<MemberChangeModel> memberChangeModelResponseData, Response response) {
                 int status = memberChangeModelResponseData.getStatus();
