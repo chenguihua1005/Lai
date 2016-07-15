@@ -100,9 +100,9 @@ public class ClassMainManager {
 
     }
 
-    public void doClassChangeById(String classid) {
+    public void doClassChangeById(String classid, String accountid) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doClassChangeById(token, classid, new RequestCallback<ResponseData<ClassChangeModel>>() {
+        service.doClassChangeById(token, classid, accountid, new RequestCallback<ResponseData<ClassChangeModel>>() {
             @Override
             public void success(ResponseData<ClassChangeModel> classMainModelResponseData, Response response) {
                 int status = classMainModelResponseData.getStatus();

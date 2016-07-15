@@ -624,7 +624,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                             SharedPreferenceService.getInstance().put("classId", select_class_id);
                             text_class_name.setText(classListModel.getClassName());
                             dialogShow("加载中");
-                            classMainManager.doClassChangeById(select_class_id);
+                            classMainManager.doClassChangeById(select_class_id,model.getUser().getUserid());
                         }
                     });
                 }
@@ -965,6 +965,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-        classMainManager.doClassChangeById(select_class_id);
+        classMainManager.doClassChangeById(select_class_id,model.getUser().getUserid());
     }
 }
