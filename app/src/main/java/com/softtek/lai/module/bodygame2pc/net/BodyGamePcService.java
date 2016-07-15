@@ -43,6 +43,7 @@ public interface BodyGamePcService {
             RequestCallback<ResponseData<MemberChangeModel>> callback
     );
 
+    @GET("/HerbNewUser/GetPCIndexInformation")
     void getPCBodyGameInfo(@Header("token")String token,
                            RequestCallback<ResponseData<PCBodyGameInfo>> callback);
 }
