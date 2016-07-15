@@ -352,7 +352,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void lazyLoad() {
-        Log.i("ClassFragment 加载数据");
+        Log.i("ClassSRFragment 加载数据");
         rel_title_more.setFocusable(true);
         rel_title_more.setFocusableInTouchMode(true);
         rel_title_more.requestFocus();
@@ -689,9 +689,21 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 } else {
                     Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
                 }
-                text_class_count.setText(details.getClmCnt());
-                text_loss.setText(details.getTotalloss() + "斤");
-                text_fcl.setText(details.getRtest() + "%");
+                if ("0".equals(details.getClmCnt())) {
+                    text_class_count.setText("--");
+                } else {
+                    text_class_count.setText(details.getClmCnt());
+                }
+                if ("0.0".equals(details.getTotalloss())) {
+                    text_loss.setText("--");
+                } else {
+                    text_loss.setText(details.getTotalloss() + "斤");
+                }
+                if ("0".equals(details.getRtest())) {
+                    text_fcl.setText("--");
+                } else {
+                    text_fcl.setText(details.getRtest() + "%");
+                }
 
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
@@ -770,9 +782,22 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 } else {
                     Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
                 }
-                text_class_count.setText(details.getClmCnt());
-                text_loss.setText(details.getTotalloss() + "斤");
-                text_fcl.setText(details.getRtest() + "%");
+                if ("0".equals(details.getClmCnt())) {
+                    text_class_count.setText("--");
+                } else {
+                    text_class_count.setText(details.getClmCnt());
+                }
+                if ("0.0".equals(details.getTotalloss())) {
+                    text_loss.setText("--");
+                } else {
+                    text_loss.setText(details.getTotalloss() + "斤");
+                }
+                if ("0".equals(details.getRtest())) {
+                    text_fcl.setText("--");
+                } else {
+                    text_fcl.setText(details.getRtest() + "%");
+                }
+
 
 
                 dyNoticeModel = classChangeModel.getDyNotice();

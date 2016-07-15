@@ -276,7 +276,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void lazyLoad() {
-        Log.i("ClassFragment 加载数据");
+        Log.i("ClassSRFragment 加载数据");
         text_class_name.setFocusable(true);
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();

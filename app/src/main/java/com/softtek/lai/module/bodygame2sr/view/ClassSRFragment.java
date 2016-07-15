@@ -77,8 +77,8 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, SwipeRefreshLayout.OnRefreshListener, DialogInterface.OnClickListener, ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
+@InjectLayout(R.layout.fragment_class_sr)
+public class ClassSRFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -104,9 +104,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
-
-    @InjectView(R.id.rel_add)
-    RelativeLayout rel_add;
 
     @InjectView(R.id.list_student)
     ListView list_student;
@@ -192,30 +189,15 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     ListView list_class_select;
 
-    private View viewDialog;
-    private EditText et_content;
-    private int count = 0;//计数器
 
     UserInfoModel model;
-    private IGrade grade;
 
-    CharSequence[] items = {"拍照", "照片"};
-    private static final int CAMERA_PREMISSION = 100;
-    private ImageFileCropSelector imageFileCropSelector;
 
     private ProgressDialog progressDialog;
 
 
     @Override
     protected void initViews() {
-
-        EventBus.getDefault().register(this);
-
-        imageFileCropSelector = new ImageFileCropSelector(getActivity());
-        imageFileCropSelector.setQuality(80);
-        imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
-        imageFileCropSelector.setCallback(this);
 
         int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
@@ -230,11 +212,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         lin_class_select.setOnClickListener(this);
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
-        rel_add.setOnClickListener(this);
         rel_gg.setOnClickListener(this);
         text_more.setOnClickListener(this);
         rel_xtxx.setOnClickListener(this);
-        img_banner.setOnClickListener(this);
         rel_title.setAlpha(0f);
         rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
@@ -254,8 +234,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_jzbfb = (ImageView) view.findViewById(R.id.img_jzbfb);
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
-
-        grade = new GradeImpl(this, "1");
 
         list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -278,16 +256,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         super.onVisible();
     }
 
-    @Subscribe
-    public void onUpdate(ClassIdModel models) {
-        classMainManager.doGetClasslist(model.getUser().getUserid());
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     @Override
     protected void initDatas() {
@@ -343,21 +311,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void lazyLoad() {
-        Log.i("ClassFragment 加载数据");
+        Log.i("ClassSRFragment 加载数据");
         rel_title_more.setFocusable(true);
         rel_title_more.setFocusableInTouchMode(true);
         rel_title_more.requestFocus();
         scroll.setFocusable(false);
 
 
-    }
-
-    private void takeP() {
-        imageFileCropSelector.takePhoto(this);
-    }
-
-    private void selectP() {
-        imageFileCropSelector.selectImage(this);
     }
 
     @Override
@@ -367,50 +327,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 Intent intents = new Intent(getActivity(), DYActivity.class);
                 intents.putExtra("classId", select_class_id);
                 startActivity(intents);
-                break;
-            case R.id.img_banner:
-                //点击编辑按钮
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            //拍照
-                            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                                    //允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                } else {
-                                    //不允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                }
-                            } else {
-                                takeP();
-                            }
-                        } else if (which == 1) {
-                            //照片
-                            selectP();
-                        }
-                    }
-                }).create().show();
-                break;
-            case R.id.rel_add:
-                /*
-                发布班级动态：打开dialog用户编辑输入
-                 */
-                viewDialog = getActivity().getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert, null);
-                et_content = (EditText) viewDialog.findViewById(R.id.et_content);
-                //tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
-                et_content.addTextChangedListener(this);
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setView(viewDialog)
-                        .setPositiveButton("确认", this)
-                        .setNegativeButton("取消", this);
-                alert.create().show();
                 break;
             case R.id.rel_xtxx://系统消息
                 System.out.println("dySysModel:" + dySysModel);
@@ -486,80 +402,14 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
-                dialogShow("加载中");
-                CounselorService counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
-                String token = UserInfoModel.getInstance().getToken();
-                counselorService.classInvitePCISOK(token, select_class_id, new Callback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData listResponseData, Response response) {
-                        android.util.Log.e("jarvis", listResponseData.toString());
-                        int status = listResponseData.getStatus();
-                        dialogDissmiss();
-                        switch (status) {
-                            case 200:
-                                Intent intents = new Intent(getActivity(), InviteStudentActivity.class);
-                                intents.putExtra("classId", Long.parseLong(select_class_id));
-                                getActivity().startActivity(intents);
-                                break;
-                            case 100:
 
-                                break;
-                            default:
-                                Util.toastMsg(listResponseData.getMsg());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        ZillaApi.dealNetError(error);
-                        error.printStackTrace();
-                    }
-                });
                 break;
             case R.id.lin_invite_ass://邀请助教
                 popTitleMore.dismiss();
-                dialogShow("加载中");
-                CounselorService counselorServices = ZillaApi.NormalRestAdapter.create(CounselorService.class);
-                String tokens = UserInfoModel.getInstance().getToken();
-                counselorServices.classInvitePCISOK(tokens, select_class_id, new Callback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData listResponseData, Response response) {
-                        android.util.Log.e("jarvis", listResponseData.toString());
-                        int status = listResponseData.getStatus();
-                        dialogDissmiss();
-                        switch (status) {
-                            case 200:
-                                Intent intent = new Intent(getActivity(), AssistantListActivity.class);
-                                intent.putExtra("classId", Long.parseLong(select_class_id));
-                                intent.putExtra("type", "1");
-                                getActivity().startActivity(intent);
-                                break;
-                            case 100:
 
-                                break;
-                            default:
-                                Util.toastMsg(listResponseData.getMsg());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        ZillaApi.dealNetError(error);
-                        error.printStackTrace();
-                    }
-                });
                 break;
             case R.id.lin_create_class://创建班级
                 popTitleMore.dismiss();
-
-                Intent intent = new Intent(getActivity(), CreateCounselorClassActivity.class);
-                intent.putExtra("classId", Long.parseLong(select_class_id));
-                intent.putExtra("type", "1");
-                getActivity().startActivity(intent);
 
                 break;
             case R.id.lin_select_type://选择展示类型
@@ -646,15 +496,15 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if(y<=0){
+        if (y <= 0) {
             pull.setEnabled(true);
-        }else {
+        } else {
             pull.setEnabled(false);
         }
         float alpha = (1f * y / 1000);
 
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
+        if (getContext() instanceof BodyGameSRActivity) {
+            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
             activity.setAlpha(alpha);
             rel_title.setAlpha(alpha);
         }
@@ -670,7 +520,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     select_class_id = select_class_list.get(0).getClassId();
                     SharedPreferenceService.getInstance().put("classId", select_class_id);
                     student_list = classMainModel.getClmlist();
-                    adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
+                    adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                     adapter.type = select_type + "";
                     list_student.setAdapter(adapter);
                     ClassDetailModel details = classMainModel.getClassDetail();
@@ -680,9 +530,21 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     } else {
                         Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
                     }
-                    text_class_count.setText(details.getClmCnt());
-                    text_loss.setText(details.getTotalloss() + "斤");
-                    text_fcl.setText(details.getRtest() + "%");
+                    if ("0".equals(details.getClmCnt())) {
+                        text_class_count.setText("--");
+                    } else {
+                        text_class_count.setText(details.getClmCnt());
+                    }
+                    if ("0.0".equals(details.getTotalloss())) {
+                        text_loss.setText("--");
+                    } else {
+                        text_loss.setText(details.getTotalloss() + "斤");
+                    }
+                    if ("0".equals(details.getRtest())) {
+                        text_fcl.setText("--");
+                    } else {
+                        text_fcl.setText(details.getRtest() + "%");
+                    }
 
                     dyNoticeModel = classMainModel.getDyNotice();
                     dySysModel = classMainModel.getDySys();
@@ -743,7 +605,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
+                adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
 
@@ -755,9 +617,21 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 } else {
                     Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
                 }
-                text_class_count.setText(details.getClmCnt());
-                text_loss.setText(details.getTotalloss() + "斤");
-                text_fcl.setText(details.getRtest() + "%");
+                if ("0".equals(details.getClmCnt())) {
+                    text_class_count.setText("--");
+                } else {
+                    text_class_count.setText(details.getClmCnt());
+                }
+                if ("0.0".equals(details.getTotalloss())) {
+                    text_loss.setText("--");
+                } else {
+                    text_loss.setText(details.getTotalloss() + "斤");
+                }
+                if ("0".equals(details.getRtest())) {
+                    text_fcl.setText("--");
+                } else {
+                    text_fcl.setText(details.getRtest() + "%");
+                }
 
 
                 dyNoticeModel = classChangeModel.getDyNotice();
@@ -812,120 +686,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        int surplus = ((100 - s.length()) < 0) ? 0 : 100 - s.length();
-        et_content.setSelection(s.length());
-        //tv_dialog_title.setText("请输入100字以内的文字(" + surplus + ")");
-        this.count = s.length();
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (count > 100) {
-            s.delete(100, et_content.getSelectionEnd());
-        }
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        dialog.dismiss();
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            final String content = et_content.getText().toString();
-            if (StringUtil.length(content) > 200) {
-                Util.toastMsg("动态字数不能超过100汉字");
-                return;
-            }
-
-            GradeService service = ZillaApi.NormalRestAdapter.create(GradeService.class);
-            String token = UserInfoModel.getInstance().getToken();
-            dialogShow("加载中");
-            service.senDynamic(token, Long.parseLong(select_class_id), "dsadas", content, Constants.SP_SEND, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), new Callback<ResponseData>() {
-                @Override
-                public void success(ResponseData responseData, Response response) {
-                    dialogDissmiss();
-                    img_gg.setImageResource(R.drawable.img_gg_select);
-                    img_xtxx.setImageResource(R.drawable.img_xt_unselect);
-                    rel_no_message.setVisibility(View.GONE);
-                    rel_message.setVisibility(View.VISIBLE);
-                    img_lb.setVisibility(View.GONE);
-                    img.setVisibility(View.VISIBLE);
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    if ("".equals(model.getUser().getPhoto())) {
-                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
-                    } else {
-                        Picasso.with(getContext()).load(path + model.getUser().getPhoto()).fit().error(R.drawable.img_default).into(img);
-                    }
-
-                    text_value.setText(content);
-                    String time = DateUtil.getInstance().convertDateStr(DateUtil.getInstance().getCurrentDate(), "yyyy年MM月dd日");
-                    text_time.setText(time);
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    dialogDissmiss();
-                    ZillaApi.dealNetError(error);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onSuccess(String file) {
-        dialogShow("加载中");
-        grade.updateClassBanner(Long.parseLong(select_class_id), "2", new File(file));
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(this);
-
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("=========");
-        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onSuccess(String bannerUrl, File image) {
-        dialogDissmiss();
-        Picasso.with(getActivity()).load(image).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
-                .error(R.drawable.default_icon_rect).into(img_banner);
-    }
-
-    @Override
-    public void onFailed() {
-        dialogDissmiss();
     }
 
     @Override
