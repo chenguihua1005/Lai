@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
@@ -50,7 +51,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.nsvp)
     NoSlidingViewPage content;
 
-
+    @InjectView(R.id.tv_unread_num)
+    TextView tv_umread;
     private int current=0;
     private List<Fragment> fragments = new ArrayList<>();
 
@@ -106,7 +108,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
         fragments.add(new PCFuCeFragment());
-        fragments.add(new BodyGamePCFragment());
+        fragments.add(new ClassPCFragment());
         content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
@@ -172,7 +174,16 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     }
 
-
+    public void updateMessage(int num){
+        //显示
+        if(num<=0){
+            tv_umread.setVisibility(View.GONE);
+        }else {
+            String read=num >= 100 ? "99+" : num + "";
+            tv_umread.setText(read);
+            tv_umread.setVisibility(View.VISIBLE);
+        }
+    }
   @Override
     public void onClick(View v) {
         restoreState();

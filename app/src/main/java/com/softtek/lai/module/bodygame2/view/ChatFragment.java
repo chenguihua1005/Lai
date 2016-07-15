@@ -41,6 +41,7 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -353,6 +354,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 Context context=getContext();
                 if(context instanceof BodyGameSPActivity){
                     BodyGameSPActivity activity=(BodyGameSPActivity)context;
+                    activity.updateMessage(unreadNum);
+                }else if(context instanceof BodyGamePCActivity){
+                    BodyGamePCActivity activity=(BodyGamePCActivity)context;
                     activity.updateMessage(unreadNum);
                 }
                 EMChatManager.getInstance().loadAllConversations();

@@ -30,109 +30,165 @@
                         android:layout_height="190dip"
                         android:src="@drawable/default_icon_rect" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="55dip"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
                         android:layout_alignParentBottom="true"
                         android:background="#b2000000">
 
                         <LinearLayout
+                            android:id="@+id/lin_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dip"
-                            android:layout_marginRight="10dip"
-                            android:layout_weight="1"
-                            android:gravity="right"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
                             android:orientation="vertical">
 
-                            <LinearLayout
+                            <com.softtek.lai.widgets.CircleImageView
+                                android:id="@+id/civ_header"
+                                android:layout_width="57dp"
+                                android:layout_height="57dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/img_default" />
+
+                            <TextView
+                                android:id="@+id/text_before_weight"
                                 android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="班级人数"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/text_class_count"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="4dip"
-                                    android:text="24"
-                                    android:textColor="@color/white"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dip"
+                                android:text="初始体重：120斤"
+                                android:textColor="@color/white"
+                                android:textSize="7sp" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="15dp"
+                            android:src="@drawable/bg2_arrow1" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center">>
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toLeftOf="@id/iv_arrow"
+                            android:gravity="center|left"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:id="@+id/cb_gender"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerInParent="true"
+                                    android:button="@null"
+                                    android:clickable="false"
+                                    android:drawableLeft="@drawable/cb_gender"
+                                    android:enabled="false" />
+
+                                <TextView
+                                    android:id="@+id/text_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_toRightOf="@id/cb_gender"
+                                    android:text="Tom"
+                                    android:layout_toLeftOf="@+id/img_1"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_who"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="3dip"
+                                    android:text="David"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:id="@+id/img_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_toLeftOf="@id/tv_who"
+                                    android:src="@drawable/img_bg_pc_zj" />
+                            </RelativeLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:background="@drawable/bg2_orange2"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
-                                <TextView
+                                <ImageView
+                                    android:id="@+id/img_type"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="减重斤数"
-                                    android:textColor="@color/white"
+                                    android:src="@drawable/bg2_loss2" />
+
+                                <TextView
+                                    android:id="@+id/text_values"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:text="-40斤"
+                                    android:textColor="#333333"
                                     android:textSize="12sp" />
 
-                                <TextView
-                                    android:id="@+id/text_loss"
+                                <CheckBox
+                                    android:id="@+id/cb_star"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="4dip"
-                                    android:text="24斤"
-                                    android:textColor="@color/white"
-                                    android:textSize="15sp" />
+                                    android:layout_marginLeft="20dp"
+                                    android:button="@null"
+                                    android:clickable="false"
+                                    android:drawableLeft="@drawable/cb_mingxing"
+                                    android:enabled="false" />
+
+                                <CheckBox
+                                    android:id="@+id/cb_fc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="25dp"
+                                    android:button="@null"
+                                    android:clickable="false"
+                                    android:drawableLeft="@drawable/cb_fuce"
+                                    android:enabled="false" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="25dp"
+                                    android:src="@drawable/bg2_xunzhang" />
+
+                                <TextView
+                                    android:id="@+id/text_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text=" x8"
+                                    android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dip"
-                            android:layout_marginRight="20dip"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="平均复测率"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/text_fcl"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="4dip"
-                                    android:text="75%"
-                                    android:textColor="@color/white"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -175,21 +231,6 @@
 
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/rel_add"
-                            android:layout_width="50dip"
-                            android:layout_height="31dip"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="15dip"
-                                android:src="@drawable/img_bg_add" />
-                        </RelativeLayout>
                     </RelativeLayout>
 
                     <View
@@ -345,10 +386,10 @@
                         android:layout_height="1dip"
                         android:background="@color/grey" />
 
-                    <ListView
+                    <com.softtek.lai.widgets.CostomerListView
                         android:id="@+id/list_student"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"></ListView>
+                        android:layout_height="fill_parent"></com.softtek.lai.widgets.CostomerListView>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -374,19 +415,18 @@
                 android:orientation="horizontal"></RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/lin_class_select"
                 android:layout_width="175dip"
                 android:layout_height="50dip"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/text_class_name"
@@ -402,14 +442,13 @@
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
-                    <ImageView
-                        android:id="@+id/img_class_down"
+                    <TextView
+                        android:id="@+id/text_class_time"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/img_bg_more_down" />
-                </RelativeLayout>
+                        android:layout_height="match_parent"
+                        android:text="dasd"
+                        android:textColor="@color/white" />
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
@@ -417,7 +456,8 @@
                 android:layout_width="100dip"
                 android:layout_height="50dip"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
