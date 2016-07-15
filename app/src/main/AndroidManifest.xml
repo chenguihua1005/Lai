@@ -1,717 +1,424 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.softtek.lai">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" package="com.softtek.lai">
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="21" />
+<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
 
-    <permission
-        android:name="com.softtek.lai.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
+<permission android:name="com.softtek.lai.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
 
-    <!-- Required  一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="com.softtek.lai.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!-- 读取联系人权限 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!-- 拨打电话权限 -->
-    <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+<!-- Required  一些系统要求的权限，如访问网络等 -->
+<uses-permission android:name="com.softtek.lai.permission.JPUSH_MESSAGE" />
+<uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.READ_LOGS" />
+<uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+<!-- 读取联系人权限 -->
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+<!-- 拨打电话权限 -->
+<!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.GET_TASKS" />
+<uses-permission android:name="android.permission.SET_DEBUG_APP" />
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+<uses-permission android:name="android.permission.GET_TASKS" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+<uses-permission android:name="android.permission.BROADCAST_STICKY" />
+<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
 
-    <!-- 使用时把com.easemob.chatuidemo替换成自己的包名 -->
-    <permission
-        android:name="com.softtek.lai.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+<!-- 使用时把com.easemob.chatuidemo替换成自己的包名 -->
+<permission android:name="com.softtek.lai.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.softtek.lai.permission.C2D_MESSAGE" />
+<uses-permission android:name="com.softtek.lai.permission.C2D_MESSAGE" />
 
-    <permission
-        android:name="com.softtek.lai.permission.MIPUSH_RECEIVE"
-        android:protectionLevel="signature" />
+<permission android:name="com.softtek.lai.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.softtek.lai.permission.MIPUSH_RECEIVE" />
+<uses-permission android:name="com.softtek.lai.permission.MIPUSH_RECEIVE" />
 
-    <application
-        android:name=".LaiApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:persistent="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:theme">
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5728545a67e58ea7cf001701" />
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
-        <meta-data
-            android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="5704e47c748aac462300001d" />
+<application android:name=".LaiApplication" android:allowBackup="true" android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name" android:largeHeap="true" android:persistent="true"
+    android:supportsRtl="true" android:theme="@style/AppTheme" tools:replace="android:icon, android:theme">
+    <meta-data android:name="UMENG_APPKEY" android:value="5728545a67e58ea7cf001701" />
+    <meta-data android:name="com.amap.api.v2.apikey" android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
+    <meta-data android:name="BUG_HD_SDK_GENERAL_KEY" android:value="5704e47c748aac462300001d" />
 
-        <activity
-            android:name=".module.login.view.LoginActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".module.welcome.WelcomeActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    <activity android:name=".module.login.view.LoginActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".module.welcome.WelcomeActivity" android:screenOrientation="portrait">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".chat.ui.ConversationListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".chat.ui.ChatActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".chat.ui.GroupSentActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".chat.ui.SeceltGroupSentActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".chat.ui.ContantListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".chat.ui.ContextMenuActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <!-- 显示下载大图页面 -->
-        <activity
-            android:name="com.easemob.easeui.ui.EaseShowBigImageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" />
-        <activity
-            android:name=".module.login.view.RegistActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".module.login.view.ForgetActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".module.login.view.ForgetActivity2"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".module.File.view.CreatFlleActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.HomeActviity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-        <activity
-            android:name=".module.home.view.ValidateCertificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.ModifyPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.ModifyNameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.ModifyPasswordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.SettingsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.home.view.AboutMeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.File.view.DimensionRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.retest.WriteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.laisportmine.view.MySystemActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.retest.AuditActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.retest.view.RetestActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.login.view.TermActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygame.view.CounselorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.grade.view.GradeHomeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.newmemberentry.view.EntryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.grade.view.StudentsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.studetail.view.StudentDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.retest.view.QueryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.BodyGamePCActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.StudentHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.StudentHonorGridActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.StudentScoreActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.jingdu.view.JingduActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.grade.view.TutorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.CounselorClassListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.CreateCounselorClassActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SPHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SRHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.InviteContantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SearchContantActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity
-            android:name=".module.counselor.view.InviteStudentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.GameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.ApplyAssistantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.newmemberentry.view.DimensioninputActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.FuceStActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.bodygamest.view.UploadPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.File.view.ExplainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessageActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessageFcRemindActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessageSrRemindActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessagePcRemindActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.JoinGameDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.JoinGameDimensionRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.ZQSActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.JoinGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessageRemoveSrRemindActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.RemoveSRActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.MessageSrManageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.retest.view.BodyweiduActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.BodyweidustActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.SelectPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.PhotoDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.studetail.view.LossWeightLogActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.studetail.view.LogDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.tips.view.TipsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.JoinGroupActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupSecActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupThirdActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupFouthActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupFifthActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupSearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.group.view.GroupMainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.act.view.ActListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.act.view.ActActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.act.view.ActGroupPersonActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.umeng.socialize.view.ShareActivity"
-            android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".module.studentbasedate.view.StudentBaseDateActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamezj.view.BodygameSRActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamecc.view.BodyGameCcActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygameyk.view.BodygameYkActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.review.view.ReviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.health.view.HealthyRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.lossweightstory.view.LossWeightStoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.lossweightstory.view.NewStoryActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name=".module.community.view.EditPersonalDynamicActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.lossweightstory.view.LogStoryDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.healthrecords.view.HealthEntryActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.community.view.PreviewImageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.community.view.HealthyDetailActivity"
-            android:screenOrientation="portrait" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity android:name=".chat.ui.ConversationListActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".chat.ui.ChatActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".chat.ui.GroupSentActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize|stateHidden" />
+    <activity android:name=".chat.ui.SeceltGroupSentActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".chat.ui.ContantListActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".chat.ui.ContextMenuActivity" android:screenOrientation="portrait"
+        android:theme="@style/MyDialogStyle" android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <!-- 显示下载大图页面 -->
+    <activity android:name="com.easemob.easeui.ui.EaseShowBigImageActivity"
+        android:screenOrientation="portrait" android:theme="@style/horizontal_slide" />
+    <activity android:name=".module.login.view.RegistActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".module.login.view.ForgetActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".module.login.view.ForgetActivity2" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+    <activity android:name=".module.File.view.CreatFlleActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.HomeActviity" android:screenOrientation="portrait"
+        android:launchMode="singleTask" />
+    <activity android:name=".module.home.view.ValidateCertificationActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.ModifyPersonActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.ModifyPhotoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.ModifyNameActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.ModifyPasswordActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.SettingsActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.home.view.AboutMeActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.File.view.DimensionRecordActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.retest.WriteActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden" />
+    <activity android:name=".module.laisportmine.view.MySystemActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden" />
+    <activity android:name=".module.retest.AuditActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden" />
+    <activity android:name=".module.retest.view.RetestActivity" android:hardwareAccelerated="true"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.login.view.TermActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygame.view.CounselorActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.grade.view.GradeHomeActivity" android:configChanges="orientation|keyboardHidden"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.newmemberentry.view.EntryActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.grade.view.StudentsActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.studetail.view.StudentDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.retest.view.QueryActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.BodyGamePCActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.StudentHonorActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.StudentHonorGridActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.StudentScoreActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.jingdu.view.JingduActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.grade.view.TutorActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.CounselorClassListActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.CreateCounselorClassActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.AssistantListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.AssistantDetailActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.AssistantActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.SPHonorActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.SRHonorActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.InviteContantActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.SearchContantActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysVisible" />
+    <activity android:name=".module.counselor.view.InviteStudentActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.GameActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.counselor.view.ApplyAssistantActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.newmemberentry.view.DimensioninputActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.FuceStActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden" />
+    <activity android:name=".module.bodygamest.view.UploadPhotoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.File.view.ExplainActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessageActivity" android:launchMode="singleTask"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessageFcRemindActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessageSrRemindActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessagePcRemindActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.JoinGameDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.JoinGameDimensionRecordActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.ZQSActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.JoinGameActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessageRemoveSrRemindActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.RemoveSRActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.message.view.MessageSrManageActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.retest.view.BodyweiduActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.BodyweidustActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.SelectPhotoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.PhotoDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.studetail.view.LossWeightLogActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.studetail.view.LogDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.tips.view.TipsActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.JoinGroupActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupSecActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupThirdActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupFouthActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupFifthActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupSearchActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.group.view.GroupMainActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.act.view.ActListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.act.view.ActActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.act.view.ActGroupPersonActivity" android:screenOrientation="portrait" />
+    <activity android:name="com.umeng.socialize.view.ShareActivity" android:configChanges="orientation|keyboard"
+        android:launchMode="singleTask" android:noHistory="true" android:theme="@style/Theme.UMDialog"
+        android:windowSoftInputMode="stateVisible|adjustResize" />
+    <activity android:name=".wxapi.WXEntryActivity" android:configChanges="keyboardHidden|orientation|screenSize"
+        android:exported="true" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    <activity android:name=".module.studentbasedate.view.StudentBaseDateActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamezj.view.BodygameSRActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygameyk.view.BodygameYkActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.review.view.ReviewActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.health.view.HealthyRecordActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.lossweightstory.view.NewStoryActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+    <activity android:name=".module.community.view.EditPersonalDynamicActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.healthrecords.view.HealthEntryActivity"
+        android:screenOrientation="portrait" android:windowSoftInputMode="stateAlwaysHidden" />
+    <activity android:name=".module.community.view.PreviewImageActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.community.view.HealthyDetailActivity" android:screenOrientation="portrait" />
 
-        <!-- Rich push 核心功能 since 2.0.6 -->
-        <activity
-            android:name="cn.jpush.android.ui.PopWinActivity"
-            android:exported="false"
-            android:theme="@style/MyDialogStyle" />
+    <!-- Rich push 核心功能 since 2.0.6 -->
+    <activity android:name="cn.jpush.android.ui.PopWinActivity" android:exported="false"
+        android:theme="@style/MyDialogStyle" />
 
-        <!-- Required SDK核心功能 -->
-        <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
+    <!-- Required SDK核心功能 -->
+    <activity android:name="cn.jpush.android.ui.PushActivity" android:configChanges="orientation|keyboardHidden"
+        android:exported="false" android:theme="@android:style/Theme.NoTitleBar">
+        <intent-filter>
+            <action android:name="cn.jpush.android.ui.PushActivity" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.softtek.lai" />
-            </intent-filter>
-        </activity>
-        <!-- Required  SDK核心功能 -->
-        <service
-            android:name="cn.jpush.android.service.DownloadService"
-            android:enabled="true"
-            android:exported="false" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="com.softtek.lai" />
+        </intent-filter>
+    </activity>
+    <!-- Required  SDK核心功能 -->
+    <service android:name="cn.jpush.android.service.DownloadService" android:enabled="true"
+        android:exported="false" />
 
-        <!-- Required SDK 核心功能 -->
-        <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-            </intent-filter>
-        </service>
+    <!-- Required SDK 核心功能 -->
+    <!-- 可配置android:process参数将PushService放在其他进程中 -->
+    <service android:name="cn.jpush.android.service.PushService" android:enabled="true"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.REGISTER" />
+            <action android:name="cn.jpush.android.intent.REPORT" />
+            <action android:name="cn.jpush.android.intent.PushService" />
+            <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+        </intent-filter>
+    </service>
 
-        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
-        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-        <service
-            android:name="cn.jpush.android.service.DaemonService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
+    <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+    <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+    <service android:name="cn.jpush.android.service.DaemonService" android:enabled="true"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.DaemonService" />
 
-                <category android:name="com.softtek.lai" />
-            </intent-filter>
-        </service>
+            <category android:name="com.softtek.lai" />
+        </intent-filter>
+    </service>
 
-        <!-- Required SDK核心功能 -->
-        <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <!-- Required  显示通知栏 -->
-                <category android:name="com.softtek.lai" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+    <!-- Required SDK核心功能 -->
+    <receiver android:name="cn.jpush.android.service.PushReceiver" android:enabled="true"
+        android:exported="false">
+        <intent-filter android:priority="1000">
+            <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+            <!-- Required  显示通知栏 -->
+            <category android:name="com.softtek.lai" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.USER_PRESENT" />
+            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+        </intent-filter>
+        <!-- Optional -->
+        <intent-filter>
+            <action android:name="android.intent.action.PACKAGE_ADDED" />
+            <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
+            <data android:scheme="package" />
+        </intent-filter>
+    </receiver>
 
-        <!-- Required SDK核心功能 -->
-        <receiver
-            android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
+    <!-- Required SDK核心功能 -->
+    <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false" />
 
-        <service
-            android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false" />
+    <service android:name="com.sina.weibo.sdk.net.DownloadService" android:exported="false" />
 
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
-        <receiver
-            android:name=".jpush.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.softtek.lai" />
-            </intent-filter>
-        </receiver>
+    <!-- User defined.  For test only  用户自定义的广播接收器 -->
+    <receiver android:name=".jpush.MyReceiver" android:enabled="true" android:exported="false">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.REGISTRATION" />
+            <!-- Required  用户注册SDK的intent -->
+            <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+            <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+            <!-- Required  用户接收SDK消息的intent -->
+            <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+            <!-- Required  用户接收SDK通知栏信息的intent -->
+            <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+            <!-- Required  用户打开自定义通知栏的intent -->
+            <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+            <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+            <action android:name="cn.jpush.android.intent.CONNECTION" />
+            <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+            <category android:name="com.softtek.lai" />
+        </intent-filter>
+    </receiver>
 
-        <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />
-        <!-- </>值来自开发者平台取得的AppKey -->
-        <activity
-            android:name=".module.historydate.view.HistoryDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.historydate.view.HistoryDataDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.tips.view.VideoViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.sport.view.StartSportActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.sport.view.HistorySportListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.mygrades.view.MyGradesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.lossweightstory.view.PictureActivity"
-            android:process=":picture"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.laisportmine.view.MyInformationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.jingdu.view.ZhuJiaoJingduActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.GuideActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.laisportmine.view.MyNewsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.personalPK.view.PKListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.laisportmine.view.MyPublicwelfareActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.personalPK.view.PKListMineActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.personalPK.view.PKDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.personalPK.view.CreatePKActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name=".module.personalPK.view.SelectOpponentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.personalPK.view.SearchActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".module.personalPK.view.SelectTimeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.laisportmine.view.MyActionListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.laisportmine.view.MyPkListActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
-        <activity
-            android:name=".module.mygrades.view.RankingDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.tips.view.AskDetailActivity"
-            android:screenOrientation="portrait" />
+    <!-- Required  . Enable it you can get statistics data with channel -->
+    <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
+    <meta-data android:name="JPUSH_APPKEY" android:value="b004a008690a103f8b6ebbf7" />
+    <!-- </>值来自开发者平台取得的AppKey -->
+    <activity android:name=".module.historydate.view.HistoryDataActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.historydate.view.HistoryDataDetailActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.tips.view.VideoViewActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.sport.view.StartSportActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.sport.view.HistorySportListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.mygrades.view.MyGradesActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.lossweightstory.view.PictureActivity" android:process=":picture"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.laisportmine.view.MyInformationActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.GuideActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.laisportmine.view.MyNewsActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.PKListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.PKListMineActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.PKDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.CreatePKActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+    <activity android:name=".module.personalPK.view.SelectOpponentActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.SearchActivity" android:windowSoftInputMode="stateAlwaysVisible"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.personalPK.view.SelectTimeActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.laisportmine.view.MyActionListActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.laisportmine.view.MyPkListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
+    <activity android:name=".module.mygrades.view.RankingDetailsActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.tips.view.AskDetailActivity" android:screenOrientation="portrait" />
 
-        <service android:name=".stepcount.service.StepService" />
-        <activity android:name=".module.mygrades.view.MyXuZhangActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.RunSportActivity"
-            android:screenOrientation="portrait"/>
+    <activity android:name=".module.mygrades.view.MyXuZhangActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.sport.view.RunSportActivity"
+        android:screenOrientation="portrait" />
 
-        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
-        <service android:name="com.amap.api.location.APSService" />
+    <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+    <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".module.sport.view.HistorySportActivity"
-            android:screenOrientation="portrait"/>
+    <activity android:name=".module.sport.view.HistorySportActivity"
+        android:screenOrientation="portrait" />
 
-        <!-- 开机自启动服务 -->
-        <receiver android:name="com.easemob.chat.StartServiceReceiver">
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+    <!-- 开机自启动服务 -->
+    <receiver android:name="com.easemob.chat.StartServiceReceiver">
+        <intent-filter android:priority="1000">
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.QUICKBOOT_POWERON" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </receiver>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </receiver>
 
-        <!-- 设置环信应用的appkey -->
-        <!-- <meta-data -->
-        <!-- android:name="EASEMOB_APPKEY" -->
-        <!-- android:value="easemob-demo#chatdemoui" /> -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="herbalife#laiju" />
-        <!-- 声明sdk所需的service -->
-        <service
-            android:name="com.easemob.chat.EMChatService"
-            android:exported="true" />
-        <!-- 声明sdk所需的receiver -->
-        <receiver android:name="com.easemob.chat.EMMonitorReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+    <!-- 设置环信应用的appkey -->
+    <!-- <meta-data -->
+    <!-- android:name="EASEMOB_APPKEY" -->
+    <!-- android:value="easemob-demo#chatdemoui" /> -->
+    <meta-data android:name="EASEMOB_APPKEY" android:value="herbalife#laiju" />
+    <!-- 声明sdk所需的service -->
+    <service android:name="com.easemob.chat.EMChatService" android:exported="true" />
+    <!-- 声明sdk所需的receiver -->
+    <receiver android:name="com.easemob.chat.EMMonitorReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package" />
-            </intent-filter>
-            <!-- 可选filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
+            <data android:scheme="package" />
+        </intent-filter>
+        <!-- 可选filter -->
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.USER_PRESENT" />
+        </intent-filter>
+    </receiver>
 
-        <service
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
-            android:enabled="true" />
+    <service android:name="com.xiaomi.mipush.sdk.PushMessageHandler" android:enabled="true"
+        android:exported="true" />
+    <service android:name="com.xiaomi.mipush.sdk.MessageHandleService" android:enabled="true" />
 
-        <receiver
-            android:name="com.easemob.chat.EMMipushReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.ERROR" />
-            </intent-filter>
-        </receiver>
+    <receiver android:name="com.easemob.chat.EMMipushReceiver" android:exported="true">
+        <intent-filter>
+            <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="com.xiaomi.mipush.ERROR" />
+        </intent-filter>
+    </receiver>
 
-        <activity
-            android:name=".module.pastreview.view.PcPastBaseDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.ClassListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.PassPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.StoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.StoryDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.HistoryHomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.HistoryStudentHonorActivity"
-            android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.ClassListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.PassPhotoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.StoryActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.StoryDetailActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.HistoryHomeActivity" android:screenOrientation="portrait" />
+    <activity android:name=".module.pastreview.view.HistoryStudentHonorActivity"
+        android:screenOrientation="portrait" />
 
-        <service
-            android:name=".locationservice.LocationService"
-            android:enabled="true"
-            android:exported="true"></service>
-    </application>
+    <service android:name=".locationservice.LocationService" android:enabled="true" android:exported="true"></service>
+    <service android:name=".stepcount.service.StepService"
+        android:process=":process1"/>
+    <!--进程常驻设置-->
+    <receiver android:name=".stepcount.service.Receive1"
+        android:process=":process1" />
+    <service android:name="com.softtek.lai.stepcount.service.Service2"
+        android:process=":process2"/>
+    <receiver android:name=".stepcount.service.Receive2"
+        android:process=":process2"/>
+</application>
+
 
 </manifest>
