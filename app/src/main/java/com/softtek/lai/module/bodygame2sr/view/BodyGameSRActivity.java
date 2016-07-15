@@ -29,6 +29,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.ChatFragment;
+import com.softtek.lai.module.bodygame2.view.ContactFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
