@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2pc.model.StuHonorListModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.module.bodygame2pc.present.StuPersonDateManager;
@@ -24,10 +26,12 @@ import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.utils.ChMonth;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +45,14 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 7/14/2016.
  */
 @InjectLayout(R.layout.stupersondate_layout)
-public class StuPersonDateActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class StuPersonDateActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,ObservableScrollView.ScrollViewListener {
     StuPersonDateManager datemanager;
+    @InjectView(R.id.StuScrollv)
+    ObservableScrollView StuScrollv;
+    @InjectView(R.id.rl_color)
+    RelativeLayout rl_color;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tablayout)
     TabLayout tabLayout;
     @InjectView(R.id.tabcontent)
@@ -61,7 +71,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_loss_after_tip;
     @InjectView(R.id.tv_total_loss_tip)
     TextView tv_total_loss_tip;
-
+    @InjectView(R.id.rel_sy)
+    RelativeLayout rel_sy;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -105,10 +116,14 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_valuetext2;
     @InjectView(R.id.tv_valuetext3)
     TextView tv_valuetext3;
+    @InjectView(R.id.tv_jianzhper)
+    TextView tv_jianzhper;//减重百分比
     @InjectView(R.id.re_xunzhang)
     RelativeLayout re_xunzhang;
     @InjectView(R.id.re_jianzh)
     RelativeLayout re_jianzh;
+    @InjectView(R.id.tv_jianzhnum)
+    TextView tv_jianzhnum;
     @InjectView(R.id.Re_personphoto)
     RelativeLayout Re_personphoto;
     @InjectView(R.id.ll_personphoto)
@@ -146,10 +161,17 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
         im_pict4.setOnClickListener(this);
         im_pict5.setOnClickListener(this);
         im_pict6.setOnClickListener(this);
+        StuScrollv.setScrollViewListener(this);
+        ll_left.setOnClickListener(this);
         lwcf = null;
         dcf = null;
-        userId = getIntent().getLongExtra("userId", 0);
-        classId = getIntent().getLongExtra("classId", 0);
+//        RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
+//        p.height = p.height + status;
+//        rel_sy.setLayoutParams(p);
+//        rel_sy.setAlpha(1f);
+
+        userId = getIntent().getLongExtra("userId", 72);
+        classId = getIntent().getLongExtra("classId", 15);
         review_flag = getIntent().getStringExtra("review");
         review_flag = review_flag == null ? "1" : review_flag;
         Map<String, String> params = new HashMap<>();
@@ -167,6 +189,11 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
         tabLayout.setupWithViewPager(tabcontent);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        StuScrollv.post(new Runnable() {
+            public void run() {
+                StuScrollv.scrollTo(0,0);
+            }
+        });
     }
 
     @Override
@@ -177,7 +204,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     public void onloadCompleted(StumemberDetialModel stu) {
         if (stu != null) {
-
+            tv_jianzhnum.setText(stu.getClmInfo().getTotalLoss());
+            tv_jianzhper.setText(stu.getClmInfo().getLossPer());
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(stu.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_headimg);
@@ -340,5 +368,22 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        /*if(y<=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
+        }*/
+        float alpha=(1f*y/1000);
+        Log.i("alpha色",alpha+"");
+        this.setAlpha(alpha);
+//        this.onScrollChanged(scrollView,);activity.setAlpha(alpha);
+        rl_color.setAlpha(alpha);
+    }
+    public void setAlpha(float alpha){
+        tintManager.setStatusBarAlpha(alpha);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
 }

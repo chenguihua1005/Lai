@@ -71,9 +71,9 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickListener,Validator.ValidationListener{
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickListener{
+//    @LifeCircleInject
+//    ValidateLife validateLife;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.rel)
@@ -173,7 +173,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     protected void initViews() {
         EventBus.getDefault().register(this);
         fl_right.setOnClickListener(this);
-        ll_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.INVISIBLE);
         photoListPre = new PhotoListIml();
         progressDialog = new ProgressDialog(getContext());
         btn_retest_write_addbodyst.setOnClickListener(this);
@@ -238,7 +238,23 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 if (isState.equals("true")) {
                     tv_writes_chu_weight.setEnabled(true);
                     tv_retestWrites_nowweight.setEnabled(true);
-                    validateLife.validate();
+//                    validateLife.validate();
+                    if (TextUtils.isEmpty(retestWrite.getImage()))
+                    {
+                        Util.toastMsg("请上传照片");
+                    }
+                    else {
+                        retestWrite.setWeight(tv_retestWrites_nowweight.getText() + "");
+                        retestWrite.setInitWeight(tv_writes_chu_weight.getText() + "");
+                        retestWrite.setPysical(tv_retestWritest_tizhi.getText() + "");
+                        retestWrite.setFat(tv_retestWritest_neizhi.getText() + "");
+                        retestWrite.setAccountId(loginid + "");
+                        Log.i(retestWrite.getImage() + "");
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setMessage("正在保存...");
+                        progressDialog.show();
+                        retestPre.doPostWrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, getContext(), progressDialog);
+                    }
                 }
                 else {
                     //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
@@ -320,11 +336,11 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                                                     new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                         }
                                     }else {
-                                        imageFileCropSelector.takePhoto(getActivity());
+                                        imageFileCropSelector.takePhoto(PCFuCeFragment.this);
                                     }
                                 } else if (which == 1) {
                                     //照片
-                                    imageFileCropSelector.selectImage(getActivity());
+                                    imageFileCropSelector.selectImage(PCFuCeFragment.this);
                                 }
                             }
                         }).create().show();
@@ -334,10 +350,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 }
 
                 break;
-//            case R.id.tv_right:
-//
-//                break;
-
 
             case R.id.im_retestwritest_showphoto:
                 Intent intent1=new Intent(getContext(),PictureActivity.class);
@@ -383,7 +395,19 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 retestPre.GetUserMeasuredInfo(moblie);
                 tv_right.setText("保存");
             } else {
-                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")) {
+                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                    if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
+                    {
+                        tv_right.setText("待审核");
+
+
+                    }
+                    else {
+                        tv_right.setText("");
+                        tv_right.setFocusable(false);
+                        iv_email.setImageResource(R.drawable.img_share_bt);
+                        iv_email.setOnClickListener(this);
+                    }
                     tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
                     tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
                     tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
@@ -395,10 +419,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
                     isState = "false";
                     btn_retest_write_addbodyst.setText("查看身体围度");
-                    tv_right.setText("");
-                    tv_right.setFocusable(false);
-                    iv_email.setImageResource(R.drawable.img_share_bt);
-                    iv_email.setOnClickListener(this);
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
@@ -573,10 +593,10 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(getActivity());
+                        imageFileCropSelector.takePhoto(PCFuCeFragment.this);
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(getActivity());
+                        imageFileCropSelector.selectImage(PCFuCeFragment.this);
                     }
                 }
             }).create().show();
@@ -631,32 +651,17 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     }
 
-    @Override
-    public void onValidationSucceeded() {
-        if (TextUtils.isEmpty(retestWrite.getImage()))
-        {
-            Util.toastMsg("请上传照片");
-        }
-        else {
-            retestWrite.setWeight(tv_retestWrites_nowweight.getText() + "");
-            retestWrite.setInitWeight(tv_writes_chu_weight.getText() + "");
-            retestWrite.setPysical(tv_retestWritest_tizhi.getText() + "");
-            retestWrite.setFat(tv_retestWritest_neizhi.getText() + "");
-            retestWrite.setAccountId(loginid + "");
-            Log.i(retestWrite.getImage() + "");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setMessage("正在保存...");
-            progressDialog.show();
-            retestPre.doPostWrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, getContext(), progressDialog);
-        }
+//    @Override
+//    public void onValidationSucceeded() {
+//
+//
+//
+//    }
 
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
+//    @Override
+//    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+//        validateLife.onValidationFailed(failedView, failedRule);
+//    }
     @Override
     protected void lazyLoad() {
         Log.i("FuCeFragment 加载数据");
