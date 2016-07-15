@@ -39,6 +39,7 @@ import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.MessageActivity;
@@ -496,7 +497,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.ll_jindu:
                 //当期进度
-                startActivity(new Intent(getContext(), JingduActivity.class));
+                startActivity(new Intent(getContext(), ZhuJiaoJingduActivity.class));
                 break;
             case R.id.ll_honor:
                 //荣誉榜
