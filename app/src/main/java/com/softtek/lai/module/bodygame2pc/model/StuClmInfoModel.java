@@ -15,6 +15,15 @@ public class StuClmInfoModel {
     private String beforeWeight;
     private String lossPer;
     private String totalLoss;
+    private String ClassBanner;
+
+    public String getClassBanner() {
+        return ClassBanner;
+    }
+
+    public void setClassBanner(String classBanner) {
+        ClassBanner = classBanner;
+    }
 
     public String getClassName() {
         return ClassName;

@@ -7,6 +7,7 @@ public class ClmListModel {
     private String AssistantId;
     private String ordernum;
     private String IsStar;
+    private String IsHasAssi;
     private String IsTest;
     private String Photo;
     private String Gender;
@@ -29,6 +30,7 @@ public class ClmListModel {
                 "AssistantId='" + AssistantId + '\'' +
                 ", ordernum='" + ordernum + '\'' +
                 ", IsStar='" + IsStar + '\'' +
+                ", IsHasAssi='" + IsHasAssi + '\'' +
                 ", IsTest='" + IsTest + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", Gender='" + Gender + '\'' +
@@ -40,6 +42,14 @@ public class ClmListModel {
                 ", loss='" + loss + '\'' +
                 ", username='" + username + '\'' +
                 '}';
+    }
+
+    public String getIsHasAssi() {
+        return IsHasAssi;
+    }
+
+    public void setIsHasAssi(String isHasAssi) {
+        IsHasAssi = isHasAssi;
     }
 
     public void setOrdernum(String ordernum) {
