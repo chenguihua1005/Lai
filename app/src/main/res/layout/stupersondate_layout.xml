@@ -4,9 +4,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
-    <ScrollView
+    <com.softtek.lai.widgets.ObservableScrollView
+        android:id="@+id/StuScrollv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -14,7 +17,7 @@
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         >
         <ScrollView
             android:layout_width="match_parent"
@@ -37,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="85dp"
             android:layout_gravity="bottom|right"
-            android:background="#462C4B49">
+            android:background="#7a000000">
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/im_headimg"
                 android:layout_width="58dp"
@@ -86,6 +89,7 @@
                         android:layout_centerHorizontal="true"
                         android:textColor="#76BB2A"
                         android:textStyle="bold"
+                        android:textSize="16sp"
 
                         />
                     <TextView
@@ -96,6 +100,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_toRightOf="@+id/tv_jianzhnum"
                         android:textColor="#76BB2A"
+                        android:textSize="12sp"
 
                         />
                 </RelativeLayout>
@@ -124,6 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1125445.0"
+                        android:textSize="16sp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:textColor="#76BB2A"
@@ -134,6 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="%"
+                        android:textSize="12sp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_toRightOf="@+id/tv_jianzhper"
@@ -361,7 +368,7 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/tabcontent"
                         android:layout_width="match_parent"
-                        android:layout_height="450dp">
+                        android:layout_height="420dp">
 
                     </android.support.v4.view.ViewPager>
                 </LinearLayout>
@@ -787,7 +794,13 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </com.softtek.lai.widgets.ObservableScrollView>
+    <RelativeLayout
+        android:id="@+id/rel_sy"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/img_sy"
+        android:orientation="horizontal"></RelativeLayout>
     <RelativeLayout
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
@@ -839,7 +852,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="小康康健身班小康康健身班小康康"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#ffffff"
                 android:layout_centerHorizontal="true"/>
             <TextView
