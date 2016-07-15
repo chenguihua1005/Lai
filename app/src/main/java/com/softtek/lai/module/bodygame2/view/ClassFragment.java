@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,7 +81,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, DialogInterface.OnClickListener, ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, SwipeRefreshLayout.OnRefreshListener, DialogInterface.OnClickListener, ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -103,6 +104,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @InjectView(R.id.rel_sy)
     RelativeLayout rel_sy;
+
+    @InjectView(R.id.pull)
+    SwipeRefreshLayout pull;
 
     @InjectView(R.id.rel_add)
     RelativeLayout rel_add;
@@ -173,7 +177,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
     private String select_class_id;
 
-    private List<ClassListModel> select_class_list=new ArrayList<ClassListModel>();
+    private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
 
     ClassMainManager classMainManager;
@@ -310,6 +314,12 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(0);
         }
+        pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
+        pull.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        pull.setOnRefreshListener(this);
 
         classMainManager = new ClassMainManager(this);
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
@@ -647,6 +657,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(y<=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
+        }
         float alpha = (1f * y / 1000);
 
         if (getContext() instanceof BodyGameSPActivity) {
@@ -786,8 +801,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+                pull.setRefreshing(false);
                 dialogDissmiss();
-            }else {
+            } else {
+                pull.setRefreshing(false);
                 dialogDissmiss();
             }
         } catch (Exception e) {
@@ -920,5 +937,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onFailed() {
         dialogDissmiss();
+    }
+
+    @Override
+    public void onRefresh() {
+        classMainManager.doClassChangeById(select_class_id);
     }
 }
