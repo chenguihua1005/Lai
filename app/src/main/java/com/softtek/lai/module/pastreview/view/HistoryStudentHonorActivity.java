@@ -159,6 +159,10 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
                     view_fc.setVisibility(View.GONE);
                     list_fc.setVisibility(View.GONE);
                 } else {
+                    for (int i = 0; i <fc_list.size() ; i++) {
+                        HistoryHonorInfo info=fc_list.get(i);
+                        info.setValue(i+1+"");
+                    }
                     HistoryHonorFCAdapter fc_adapter = new HistoryHonorFCAdapter(this, fc_list);
                     list_fc.setAdapter(fc_adapter);
                 }

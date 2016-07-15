@@ -75,7 +75,6 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     private GradeService service;
     @Override
     protected void initViews() {
-        tv_title.setText("减重日志");
         ll_left.setOnClickListener(this);
         View view=getLayoutInflater().inflate(R.layout.loss_weight_log_header,null,false);
         tv_name= (TextView) view.findViewById(R.id.tv_name);
@@ -114,7 +113,15 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         accountId=getIntent().getLongExtra("accountId",0);
+        android.util.Log.i("用户帐号",accountId+"");
         review_flag=getIntent().getIntExtra("review",0);
+        int type=getIntent().getIntExtra("type",0);
+        if (1==type) {
+            tv_title.setText("学员减重日志");
+        }
+        else {
+            tv_title.setText("减重日志");
+        }
         if(review_flag==0){
             log_banner.setLongClickable(false);
         }else{

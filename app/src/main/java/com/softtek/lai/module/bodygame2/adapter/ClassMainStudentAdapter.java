@@ -40,13 +40,16 @@ public class ClassMainStudentAdapter extends BaseAdapter {
     private IAssistantPresenter assistantPresenter;
     public String type;
 
+    public String t;
+
     /**
      * 构造函数
      */
-    public ClassMainStudentAdapter(Context context, List<ClmListModel> list) {
+    public ClassMainStudentAdapter(Context context, List<ClmListModel> list,String t) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
+        this.t=t;
     }
 
     @Override
@@ -88,6 +91,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
             holder.img_type = (ImageView) convertView.findViewById(R.id.img_type);
             holder.civ_header = (ImageView) convertView.findViewById(R.id.civ_header);
+            holder.iv_arrow = (ImageView) convertView.findViewById(R.id.iv_arrow);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -150,6 +154,12 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         } else {
             holder.cb_fc.setChecked(false);
         }
+
+        if("1".equals(t)){
+            holder.iv_arrow.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+        }
         return convertView;
     }
 
@@ -169,6 +179,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         public RelativeLayout rel;
         public ImageView img_type;
         public ImageView civ_header;
+        public ImageView iv_arrow;
     }
 }
 

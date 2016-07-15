@@ -54,4 +54,11 @@ public class HistoryHonorInfo {
                 ", Value='" + Value + '\'' +
                 '}';
     }
+
+    public HistoryHonorInfo(String honorType, String honorName, String createDate, String value) {
+        HonorType = honorType;
+        HonorName = honorName;
+        CreateDate = createDate;
+        Value = value;
+    }
 }

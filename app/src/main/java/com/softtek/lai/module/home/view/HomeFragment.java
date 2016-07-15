@@ -144,10 +144,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         String userroles = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userroles)) {
             fl_right.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             fl_right.setVisibility(View.VISIBLE);
         }
-        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
@@ -284,10 +284,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             try {
                                 switch (status) {
                                     case 200:
-                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
                                         break;
                                     default:
-                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         break;
                                 }
                             } catch (Exception e) {
@@ -296,13 +296,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {}
+                        public void failure(RetrofitError error) {
+                        }
                     });
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
             chatUserModel.setUserPhone(path + model.getPhoto());
-            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId())?"":model.getHXAccountId().toLowerCase());
+            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
             String hasEmchat = model.getHasEmchat();
             System.out.println("hasEmchat:" + hasEmchat);
@@ -433,28 +434,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    if (isLogin) {
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        ChatUserModel chatUserModel = new ChatUserModel();
-                        chatUserModel.setUserName(model.getNickname());
-                        chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                EMChatManager.getInstance().loadAllConversations();
-                            }
-                        }).start();
-                        // 进入主页面
-                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                        startActivity(intent);
-                    } else {
-                        loginPresenter.getEMChatAccount(progressDialog);
-                    }
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//                        // 进入主页面
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
                     break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
@@ -644,7 +645,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 //img_red.setVisibility(View.VISIBLE);
-                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
             }
         }
     }
