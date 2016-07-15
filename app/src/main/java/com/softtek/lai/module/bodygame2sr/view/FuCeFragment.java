@@ -21,8 +21,6 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;

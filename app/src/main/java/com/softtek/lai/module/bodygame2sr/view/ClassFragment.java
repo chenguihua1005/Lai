@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -47,8 +46,6 @@ import com.softtek.lai.module.bodygame2.view.DYActivity;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.CreateCounselorClassActivity;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
@@ -206,8 +203,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private static final int CAMERA_PREMISSION = 100;
     private ImageFileCropSelector imageFileCropSelector;
 
-    private IStudentPresenter studentPresenter;
-
     private ProgressDialog progressDialog;
 
 
@@ -261,8 +256,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
         grade = new GradeImpl(this, "1");
-
-        studentPresenter = new StudentImpl((BaseActivity) getContext());
 
         list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
