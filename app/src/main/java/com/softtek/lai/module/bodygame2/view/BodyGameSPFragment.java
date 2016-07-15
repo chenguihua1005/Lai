@@ -363,9 +363,6 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                     }
                 }
             }
-
-
-
         }
 
     }

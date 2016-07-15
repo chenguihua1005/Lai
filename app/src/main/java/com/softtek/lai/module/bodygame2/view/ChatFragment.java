@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,8 +39,8 @@ import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
+import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -194,6 +193,13 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         isPrepared = false;
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }else if(getContext() instanceof BodyGamePCActivity){
+            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
+            activity.setAlpha(1);
+        }
+        else if(getContext() instanceof BodyGameSRActivity){
+            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
             activity.setAlpha(1);
         }
         super.onVisible();
@@ -357,6 +363,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     activity.updateMessage(unreadNum);
                 }else if(context instanceof BodyGamePCActivity){
                     BodyGamePCActivity activity=(BodyGamePCActivity)context;
+                    activity.updateMessage(unreadNum);
+                }else if(context instanceof BodyGameSRActivity){
+                    BodyGameSRActivity activity=(BodyGameSRActivity)context;
                     activity.updateMessage(unreadNum);
                 }
                 EMChatManager.getInstance().loadAllConversations();

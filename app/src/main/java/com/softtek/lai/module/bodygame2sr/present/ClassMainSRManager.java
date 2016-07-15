@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2.present;
+package com.softtek.lai.module.bodygame2sr.present;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
@@ -8,16 +8,9 @@ import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.ClassModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
-import com.softtek.lai.module.group.model.DxqModel;
-import com.softtek.lai.module.laisportmine.model.ActionModel;
-import com.softtek.lai.module.laisportmine.net.MineService;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
+import com.softtek.lai.module.bodygame2sr.net.BodyGameSRService;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -25,13 +18,13 @@ import zilla.libcore.api.ZillaApi;
 /**
  * Created by lareina.qiao on 5/12/2016.
  */
-public class ClassMainManager {
-    private BodyGameService service;
+public class ClassMainSRManager {
+    private BodyGameSRService service;
     private ClassMainCallback cb;
 
-    public ClassMainManager(ClassMainCallback cb) {
+    public ClassMainSRManager(ClassMainCallback cb) {
         this.cb = cb;
-        service = ZillaApi.NormalRestAdapter.create(BodyGameService.class);
+        service = ZillaApi.NormalRestAdapter.create(BodyGameSRService.class);
     }
 
     public void doClMemberChange(String classid, String type) {
@@ -132,37 +125,6 @@ public class ClassMainManager {
 
     }
 
-    public void doGetClasslist(String accountid) {
-        String token = UserInfoModel.getInstance().getToken();
-        service.doGetClasslist(token, accountid, new RequestCallback<ResponseData<ClassModel>>() {
-            @Override
-            public void success(ResponseData<ClassModel> classMainModelResponseData, Response response) {
-                int status = classMainModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        Log.i("班级主页列表" + classMainModelResponseData.getData());
-                        if (cb != null) {
-                            cb.getClasslist(classMainModelResponseData.getData());
-                        }
-                        break;
-                    default:
-                        if (cb != null) {
-                            cb.getClasslist(null);
-                        }
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (cb != null) {
-                    cb.getClasslist(null);
-                }
-                ZillaApi.dealNetError(error);
-            }
-        });
-
-    }
 
 
     public interface ClassMainCallback {
@@ -171,7 +133,5 @@ public class ClassMainManager {
         void getStudentList(MemberChangeModel memberChangeModel);
 
         void getClassChange(ClassChangeModel classChangeModel);
-
-        void getClasslist(ClassModel classModel);
     }
 }

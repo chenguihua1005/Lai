@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,31 +15,24 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
-import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2.view.DYActivity;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;
 import com.softtek.lai.module.bodygame2pc.model.PCClmDetailModel;
 import com.softtek.lai.module.bodygame2pc.present.PCClassMainManager;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
-import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.util.List;
 
@@ -221,10 +213,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void onVisible() {
         isPrepared = false;
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
-            activity.setAlpha(0);
-        }
+//        if (getContext() instanceof BodyGamePCActivity) {
+//            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
+//            activity.setAlpha(0);
+//        }
         super.onVisible();
     }
 
@@ -284,10 +276,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void lazyLoad() {
-        Log.i("ClassFragment 加载数据");
-        rel_title.setFocusable(true);
-        rel_title.setFocusableInTouchMode(true);
-        rel_title.requestFocus();
+        Log.i("ClassSRFragment 加载数据");
+        text_class_name.setFocusable(true);
+        text_class_name.setFocusableInTouchMode(true);
+        text_class_name.requestFocus();
         scroll.setFocusable(false);
 
 

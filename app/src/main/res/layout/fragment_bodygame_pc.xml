@@ -575,55 +575,10 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/white"
                         android:orientation="vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:gravity="left|center"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="1dp"
-                                android:layout_weight="0.5"
-                                android:background="#74BB2A" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp">
-
-                                <TextView
-                                    android:id="@+id/tv_total_loss_tip"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="共减重"
-                                    android:textColor="#76BA2A"
-                                    android:textSize="15dp" />
-
-                                <TextView
-                                    android:id="@+id/tv_totle_lw"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:text="0.0斤"
-                                    android:textColor="#76BA2A"
-                                    android:textSize="13dp" />
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="1dp"
-                                android:layout_weight="0.5"
-                                android:background="#74BB2A" />
-                        </LinearLayout>
+                        android:paddingTop="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="10dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -748,8 +703,7 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/tabcontent"
                         android:layout_width="match_parent"
-                        android:layout_height="440dp"
-                        android:visibility="visible" />
+                        android:layout_height="440dp" />
 
                     <!--减重故事-->
                     <RelativeLayout

@@ -34,6 +34,8 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
+import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
@@ -118,10 +120,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
         toolbar.setLayoutParams(params);
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
-            activity.setAlpha(1);
-        }
     }
     private void setData() {
         dialogShow("加载中");
@@ -162,6 +160,13 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         super.onVisible();
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }else if(getContext() instanceof BodyGamePCActivity){
+            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
+            activity.setAlpha(1);
+        }
+        else if(getContext() instanceof BodyGameSRActivity){
+            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
             activity.setAlpha(1);
         }
     }
