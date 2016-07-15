@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,15 +16,22 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
+import com.softtek.lai.module.bodygame2.view.StudentHonorPCActivity;
 import com.softtek.lai.module.bodygame2pc.model.StuHonorListModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.module.bodygame2pc.present.StuPersonDateManager;
+import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
+import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.pastreview.honors.Medal;
+import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
+import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.utils.ChMonth;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -88,6 +96,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     LinearLayout ll_honorn3;
     @InjectView(R.id.me_xun3)
     Medal me_xun3;
+    @InjectView(R.id.iv_banner)
+    ImageView iv_banner;
     @InjectView(R.id.im_headimg)
     CircleImageView im_headimg;
     @InjectView(R.id.ll_personphoto2)
@@ -132,6 +142,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_nophoto;
     @InjectView(R.id.tv_jianzhflag)
     TextView tv_jianzhflag;
+    @InjectView(R.id.toolbar1)
+    RelativeLayout toolbar;
     @InjectView(R.id.tv_xunzhflag)
     TextView tv_xunzhflag;
     @InjectView(R.id.tv_stuname)
@@ -140,8 +152,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_stuclassname;
     @InjectView(R.id.tv_studate)
     TextView tv_studate;
-    private long userId = 0;
-    private long classId = 0;
+    private String userId = "0";
+    private String classId = "0";
     private String review_flag = "1";
     ChMonth chMonth;
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -151,6 +163,11 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
+        tintManager.setStatusBarAlpha(0);
+        int status= DisplayUtil.getStatusHeight(this);
+        RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+        params1.topMargin=status;
+        toolbar.setLayoutParams(params1);
         re_xunzhang.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
@@ -165,13 +182,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
         ll_left.setOnClickListener(this);
         lwcf = null;
         dcf = null;
-//        RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
-//        p.height = p.height + status;
-//        rel_sy.setLayoutParams(p);
-//        rel_sy.setAlpha(1f);
-
-        userId = getIntent().getLongExtra("userId", 72);
-        classId = getIntent().getLongExtra("classId", 15);
+        userId=UserInfoModel.getInstance().getUser().getUserid() ;
+        classId = getIntent().getStringExtra("classId");
         review_flag = getIntent().getStringExtra("review");
         review_flag = review_flag == null ? "1" : review_flag;
         Map<String, String> params = new HashMap<>();
@@ -199,14 +211,24 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         datemanager = new StuPersonDateManager();
-        datemanager.doGetStuClmemberDetial(this, 1, "72", "15");
+        datemanager.doGetStuClmemberDetial(this, 1, userId, classId);
     }
 
     public void onloadCompleted(StumemberDetialModel stu) {
-        if (stu != null) {
+        if (stu!= null) {
             tv_jianzhnum.setText(stu.getClmInfo().getTotalLoss());
-            tv_jianzhper.setText(stu.getClmInfo().getLossPer());
+            DecimalFormat df = new DecimalFormat("#0.0");
+            if (!TextUtils.isEmpty(stu.getClmInfo().getLossPer())) {
+                tv_jianzhper.setText(df.format(Double.parseDouble(stu.getClmInfo().getLossPer())));
+            }
+            else {
+                tv_jianzhper.setText("0");
+            }
             String path = AddressManager.get("photoHost");
+            if (!TextUtils.isEmpty(stu.getClmInfo().getClassBanner()))
+            {
+                Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(iv_banner);
+            }
             if (!TextUtils.isEmpty(stu.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_headimg);
             }
@@ -217,11 +239,10 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             String[] stardate = star[0].split("-");
             String[] end = stu.getClmInfo().getEndDate().split(" ");
             String[] enddate = end[0].split("-");
-            tv_studate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
+            tv_studate.setText(stardate[0] + "年" + stardate[1] + "月"  + "-" + enddate[0] + "年" + enddate[1] + "月" );
             if (stu.getLossStory() == null || TextUtils.isEmpty(stu.getLossStory().getCreateDate())) {
                 tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
             } else {
-
                 String[] day = stu.getLossStory().getCreateDate().split(" ");
                 String[] date = day[0].split("-");
                 tv_weightday.setText(date[2]);
@@ -362,7 +383,46 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.re_xunzhang:
+                Intent honor = new Intent(this, StudentHonorGridActivity.class);
+                startActivity(honor);
+                break;
+            case R.id.re_jianzh:
+                Intent intent1 = new Intent(this, LossWeightLogActivity.class);
+                intent1.putExtra("accountId",Long.parseLong(userId));
+                intent1.putExtra("review", Integer.parseInt(review_flag));
+                startActivity(intent1);
+                break;
+            case R.id.Re_personphoto:
+                Intent intent2 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.im_pict1:
+                Intent pict1 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict1);
+                break;
+            case R.id.im_pict2:
+                Intent pict2 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict2);
+                break;
+            case R.id.im_pict3:
+                Intent pict3 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict3);
+                break;
+            case R.id.im_pict4:
+                Intent pict4 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict4);
+                break;
+            case R.id.im_pict5:
+                Intent pict5 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict5);
+                break;
+            case R.id.im_pict6:
+                Intent pict6 = new Intent(this, UploadPhotoActivity.class);
+                startActivity(pict6);
+                break;
+        }
     }
 
     @Override

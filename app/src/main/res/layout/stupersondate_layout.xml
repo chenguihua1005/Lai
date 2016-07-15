@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.softtek.lai.widgets.ObservableScrollView
         android:id="@+id/StuScrollv"
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="75dp"
             android:layout_gravity="bottom|right"
             android:background="#7a000000">
             <com.softtek.lai.widgets.CircleImageView
@@ -53,7 +52,6 @@
                 android:id="@+id/tv_stuname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Joy"
                 android:layout_toRightOf="@+id/im_headimg"
                 android:textSize="16sp"
                 android:textColor="#ffffff"
@@ -68,7 +66,6 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
                     android:layout_marginTop="13dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="13dp">
@@ -84,7 +81,6 @@
                         android:id="@+id/tv_jianzhnum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1655455.0"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:textColor="#76BB2A"
@@ -128,8 +124,8 @@
                         android:id="@+id/tv_jianzhper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1125445.0"
                         android:textSize="16sp"
+                        android:gravity="center_horizontal"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:textColor="#76BB2A"
@@ -710,7 +706,8 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp">
+                            android:layout_marginRight="5dp"
+                            >
 
                             <ImageView
                                 android:id="@+id/im_pict2"
@@ -743,6 +740,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
+                    android:paddingBottom="5dp"
 
                     >
 
@@ -851,7 +849,6 @@
                 android:id="@+id/tv_stuclassname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小康康健身班小康康健身班小康康"
                 android:textSize="14sp"
                 android:textColor="#ffffff"
                 android:layout_centerHorizontal="true"/>
@@ -859,7 +856,6 @@
                 android:id="@+id/tv_studate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(2016.03.25-04.26)"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
                 android:layout_centerHorizontal="true"

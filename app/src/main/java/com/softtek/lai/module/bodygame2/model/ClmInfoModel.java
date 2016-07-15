@@ -22,8 +22,9 @@ public class ClmInfoModel {
     private String totalLoss;
     private String Istest;
     private String typedate;
+    private String IsRetire;
 
-    public ClmInfoModel(String assistantId, String className, String endDate, String HXAccountId, String mobile, String photo, String startDate, String superName, String superType, String userName, String gender, String afterImage, String afterWeight, String beforeImage, String beforeWeight, String totalLoss, String istest, String typedate) {
+    public ClmInfoModel(String assistantId, String className, String endDate, String HXAccountId, String mobile, String photo, String startDate, String superName, String superType, String userName, String gender, String afterImage, String afterWeight, String beforeImage, String beforeWeight, String totalLoss, String istest, String typedate, String isRetire) {
         AssistantId = assistantId;
         ClassName = className;
         EndDate = endDate;
@@ -42,6 +43,15 @@ public class ClmInfoModel {
         this.totalLoss = totalLoss;
         Istest = istest;
         this.typedate = typedate;
+        IsRetire = isRetire;
+    }
+
+    public String getIsRetire() {
+        return IsRetire;
+    }
+
+    public void setIsRetire(String isRetire) {
+        IsRetire = isRetire;
     }
 
     public String getAssistantId() {
