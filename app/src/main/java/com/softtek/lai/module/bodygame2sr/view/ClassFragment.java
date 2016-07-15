@@ -282,10 +282,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     protected void onVisible() {
         isPrepared = false;
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
-            activity.setAlpha(0);
-        }
         super.onVisible();
     }
 
@@ -310,8 +306,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                         scroll.smoothScrollTo(0, 0);
                     }
                 });
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
+        if (getContext() instanceof BodyGameSRActivity) {
+            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
             activity.setAlpha(0);
         }
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
