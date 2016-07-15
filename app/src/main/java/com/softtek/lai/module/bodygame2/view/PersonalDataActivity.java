@@ -243,7 +243,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 if (isLogin) {
                     String HX_ID=clmInfoModel.getHXAccountId();
                     if(TextUtils.isEmpty(HX_ID) || HX_ID==null ||"null".equals(HX_ID)){
-                        Util.toastMsg("会话异常，请稍候");
+                        Util.toastMsg("会话异常，请稍后");
                     }else {
                         Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -253,7 +253,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         startActivity(intent);
                     }
                 }else {
-                    Util.toastMsg("会话异常，请稍候再试");
+                    Util.toastMsg("会话异常，请稍后再试");
                 }
                 break;
             case R.id.ll_left:

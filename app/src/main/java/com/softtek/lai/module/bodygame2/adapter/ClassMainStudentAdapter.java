@@ -107,8 +107,9 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             String dd = fnum.format(Float.parseFloat(model.getLoss()));
             System.out.println("dd:" + dd);
             String str = Float.parseFloat(dd) * 100 + "";
-            System.out.println("str:" + str);
-            String value = StringUtil.getFloatValue(str);
+            String ddd = fnum.format(Float.parseFloat(str));
+            System.out.println("ddd:" + ddd);
+            String value = StringUtil.getFloatValue(ddd);
             holder.text_value.setText(value + "%");
             holder.img_type.setImageResource(R.drawable.img_bg_jzbfb);
         } else if ("2".equals(type)) {
