@@ -1,15 +1,20 @@
 package com.softtek.lai.module.bodygame2.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,6 +45,7 @@ import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.MyListView;
@@ -82,8 +88,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
-//    @InjectView(R.id.pull)
-//    SwipeRefreshLayout pull;
+    @InjectView(R.id.pull)
+    SwipeRefreshLayout pull;
 
 
     @InjectView(R.id.tv_person_num)
@@ -106,7 +112,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.rl_student_more)
     RelativeLayout rl_student_more;
     @InjectView(R.id.mlv)
-    MyListView mlv;
+    ListView mlv;
     private List<SPPCMoldel> pcModels=new ArrayList<>();
     //adapter
     SPPCAdapter sppcAdapter;
@@ -181,6 +187,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         fl_video.setOnClickListener(this);
         fl_search.setOnClickListener(this);
         ll_right.setOnClickListener(this);
+        pull.setOnRefreshListener(this);
         //学员点击item
         mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -222,17 +229,47 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     @Override
     protected void initDatas() {
         manager=new SPManager();
+        roate=AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
         sppcAdapter=new SPPCAdapter(getContext(),pcModels);
         saiKuangAdapter=new SaiKuangAdapter(getContext(),competitionModels);
         mlv.setAdapter(sppcAdapter);
         mgv.setAdapter(saiKuangAdapter);
         iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
-        /*pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
+        pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-        pull.setOnRefreshListener(this);
+
+
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(isCreatedView()){
+            scroll.post(new Runnable() {
+                public void run() {
+                    scroll.scrollTo(0,0);
+                }
+            });
+        }
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(0);
+        }
+    }
+
+    @Override
+    protected void onInvisible() {
+        super.onInvisible();
+        if(isCreatedView()){
+            et_person.setText("");
+        }
+    }
+
+    @Override
+    protected void lazyLoad() {
         //第一次加载自动刷新
         pull.post(new Runnable() {
             @Override
@@ -240,26 +277,11 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 pull.setRefreshing(true);
             }
         });
-        onRefresh();*/
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
-            activity.setAlpha(0);
-        }
-
-    }
-
-    @Override
-    protected void lazyLoad() {
-        manager.getSPHomeInfo(this);
+        onRefresh();
     }
     SPBodyGameInfo info;
     public void onloadCompleted(SPBodyGameInfo info){
-//        pull.setRefreshing(false);
+       pull.setRefreshing(false);
         if(info!=null){
             this.info=info;
             String basePath=AddressManager.get("photoHost");
@@ -283,6 +305,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             pcModels.addAll(info.getSp_pc_three());
             competitionModels.addAll(info.getCompetition());
             sppcAdapter.notifyDataSetChanged();
+            ListViewUtil.setListViewHeightBasedOnChildren(mlv);
             saiKuangAdapter.notifyDataSetChanged();
             if(StringUtils.isNotEmpty(info.getTips_video_name())){
                 tv_video_name.setText(info.getTips_video_name());
@@ -297,18 +320,45 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 ll_tip2.setVisibility(View.INVISIBLE);
                 for (int i=0;i<tips.size();i++){
                     Tips tip=tips.get(i);
+                    String mask=tip.getTips_TagTitle();
                     if(i==0){
                         tv_title1.setText(tip.getTips_Title());
                         tv_tag1.setText(tip.getTips_TagTitle());
-                        if(StringUtils.isNotEmpty(tip.getTips_Addr())){
-                            Picasso.with(getContext()).load(basePath+tip.getTips_Addr()).into(im_icon_tip);
+                        if("运动健身".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                        }else if("营养养身".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_green);
+                        }else if("养身保健知识".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#98dee6"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
+                        }else if("健康饮食".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
+                        }else{
+                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
                         }
                     }else if(i==1){
                         ll_tip2.setVisibility(View.VISIBLE);
                         tv_title2.setText(tip.getTips_Title());
                         tv_tag2.setText(tip.getTips_TagTitle());
-                        if(StringUtils.isNotEmpty(tip.getTips_Addr())){
-                            Picasso.with(getContext()).load(basePath+tip.getTips_Addr()).into(im_icon_tip2);
+                        if("运动健身".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                        }else if("营养养身".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
+                        }else if("养身保健知识".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#98dee6"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
+                        }else if("健康饮食".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
+                        }else{
+                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
                         }
                     }
                 }
@@ -350,7 +400,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             });
         }
     }
-
+    Animation roate;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -362,27 +412,48 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.iv_refresh:
                 //刷新
-                dialogShow("数据刷新中...");
-                ZillaApi.NormalRestAdapter.create(BodyGameService.class).doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
-                    @Override
-                    public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
-                        dialogDissmiss();
-                        if(listResponseData.getStatus()==200){
-                            List<TotolModel> models=listResponseData.getData();
-                            try {
-                                tv_totalperson.setText(models.get(0).getTotal_person());
-                                tv_total_loss.setText(models.get(0).getTotal_loss());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    iv_refresh.startAnimation(roate);
+                    roate.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ZillaApi.NormalRestAdapter.create(BodyGameService.class).doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
+                                        @Override
+                                        public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                                            iv_refresh.clearAnimation();
+                                            if(listResponseData.getStatus()==200){
+                                                List<TotolModel> models=listResponseData.getData();
+                                                try {
+                                                    tv_totalperson.setText(models.get(0).getTotal_person());
+                                                    tv_total_loss.setText(models.get(0).getTotal_loss());
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                    }
-                });
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            iv_refresh.clearAnimation();
+                                        }
+                                    });
+                                }
+                            }, 500);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
                 break;
             case R.id.rl_student_more:
                 //我的学员 更多
@@ -451,7 +522,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 if(StringUtils.isNotEmpty(text)){
                     et_person.setText("");
                     Intent search=new Intent(getContext(),SearchPcActivity.class);
-                    search.putExtra("value",text);
+                    search.putExtra("value",text.replaceAll("%","").replaceAll("_",""));
                     startActivity(search);
                 }
                 break;
@@ -460,12 +531,12 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        /*if(y<=0){
+        if(y<=0){
             pull.setEnabled(true);
         }else {
             pull.setEnabled(false);
-        }*/
-        float alpha=(1f*y/1000);
+        }
+        float alpha=(1f*y/950);
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
             activity.setAlpha(alpha);

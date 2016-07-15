@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.utils.StringUtil;
@@ -81,6 +81,7 @@ public class SPPCAdapter extends BaseAdapter{
             holder.cb_fuce.setChecked(true);
         }
         holder.tv_xunzhang.setText("x"+model.getHonCou());
+        Log.i("頭像"+model.getUserName()+">>>"+model.getPCPhoto());
         if(StringUtils.isNotEmpty(model.getPCPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPCPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header);
