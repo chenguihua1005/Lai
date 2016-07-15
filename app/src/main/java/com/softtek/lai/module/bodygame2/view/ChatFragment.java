@@ -196,11 +196,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             activity.setAlpha(1);
         }else if(getContext() instanceof BodyGamePCActivity){
             BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
-            activity.setAlpha(0);
+            activity.setAlpha(1);
         }
         else if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
-            activity.setAlpha(0);
+            activity.setAlpha(1);
         }
         super.onVisible();
     }

@@ -256,7 +256,6 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
 
     public void setAlpha(float alpha){
         tintManager.setStatusBarAlpha(alpha);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
 
     public void updateMessage(int num){
