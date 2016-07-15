@@ -148,7 +148,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="wrap_content"

@@ -258,41 +258,47 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.ll:
-                Intent intent = new Intent(this, LossWeightLogActivity.class);
-                intent.putExtra("accountId", userId);
-                intent.putExtra("review", Integer.parseInt(review_flag));
-                startActivity(intent);
-                break;
+//            case R.id.ll:
+//                Intent intent = new Intent(this, LossWeightLogActivity.class);
+//                intent.putExtra("type",1);
+//                intent.putExtra("accountId", userId);
+//                intent.putExtra("review", Integer.parseInt(review_flag));
+//                startActivity(intent);
+//                break;
             case R.id.ll_remove_class:
                 clemberExitmanager = new ClemeberExitManager();
                 clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
                 Intent honor = new Intent(this, StudentHonorPCActivity.class);
+                honor.putExtra("type",1);
                 honor.putExtra("accountid", userId);
                 startActivity(honor);
                 break;
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);
+                intent1.putExtra("type",1);
                 intent1.putExtra("accountId", userId);
                 intent1.putExtra("review", Integer.parseInt(review_flag));
                 startActivity(intent1);
                 break;
             case R.id.Re_personphoto:
                 Intent intent2 = new Intent(this, PassPhotoActivity.class);
+                intent2.putExtra("type",1);
                 intent2.putExtra("userId", userId);
                 intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
             case R.id.im_pict1:
                 Intent pict1 = new Intent(this, PassPhotoActivity.class);
+                pict1.putExtra("type",1);
                 pict1.putExtra("userId", userId);
                 pict1.putExtra("classId", classId);
                 startActivity(pict1);
                 break;
             case R.id.im_pict2:
                 Intent pict2 = new Intent(this, PassPhotoActivity.class);
+                pict2.putExtra("type",1);
                 pict2.putExtra("userId", userId);
                 pict2.putExtra("classId", classId);
                 startActivity(pict2);

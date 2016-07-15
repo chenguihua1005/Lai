@@ -735,6 +735,9 @@
         <activity
             android:name=".module.bodygame2.view.StudentHonorPCActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame2sr.view.BodyGameSRActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
