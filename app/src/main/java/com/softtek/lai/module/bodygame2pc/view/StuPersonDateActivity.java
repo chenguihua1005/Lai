@@ -180,6 +180,9 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
         im_pict6.setOnClickListener(this);
         StuScrollv.setScrollViewListener(this);
         ll_left.setOnClickListener(this);
+        me_xun1.setOnClickListener(this);
+        me_xun2.setOnClickListener(this);
+        me_xun3.setOnClickListener(this);
         lwcf = null;
         dcf = null;
         userId=UserInfoModel.getInstance().getUser().getUserid() ;
@@ -384,9 +387,24 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
             case R.id.re_xunzhang:
                 Intent honor = new Intent(this, StudentHonorGridActivity.class);
                 startActivity(honor);
+                break;
+            case R.id.me_xun1:
+                Intent xun1 = new Intent(this, StudentHonorGridActivity.class);
+                startActivity(xun1);
+                break;
+            case R.id.me_xun2:
+                Intent xun2 = new Intent(this, StudentHonorGridActivity.class);
+                startActivity(xun2);
+                break;
+            case R.id.me_xun3:
+                Intent xun3 = new Intent(this, StudentHonorGridActivity.class);
+                startActivity(xun3);
                 break;
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);

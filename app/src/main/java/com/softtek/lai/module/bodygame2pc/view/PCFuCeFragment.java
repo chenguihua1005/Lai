@@ -393,6 +393,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         tv_right.setText("待审核");
                         shenhestatue=false;
                         iv_email.setVisibility(View.INVISIBLE);
+                        btn_retest_write_addbodyst.setText("查看身体围度");
                         break;
                     case 201:
                         Util.toastMsg(retestWriteModelResponseData.getMsg());
