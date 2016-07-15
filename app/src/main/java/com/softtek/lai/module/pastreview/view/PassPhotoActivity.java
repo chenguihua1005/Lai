@@ -43,7 +43,6 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-        tv_title.setText("我的相册");
         ll_left.setOnClickListener(this);
         ptrlvpassclasslist.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlvpassclasslist.setOnItemClickListener(this);
@@ -53,6 +52,13 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
+        int type=intent.getIntExtra("type",0);
+        if (type==1) {
+            tv_title.setText("学员相册");
+        }
+        else {
+            tv_title.setText("我的相册");
+        }
         userId = intent.getLongExtra("userId",0) + "";
         classId = intent.getLongExtra("classId",0) + "";
         myPhotoListAdapter = new MyPhotoListAdapter(this, myPhotoListModelList);

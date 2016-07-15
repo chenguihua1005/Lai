@@ -85,7 +85,14 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
     private IStudentPresenter studentHonorPresenter;
     @Override
     protected void initViews() {
-        tv_title.setText("我的荣誉榜");
+        int type=getIntent().getIntExtra("type",0);
+        if (type==1) {
+            tv_title.setText("学员荣誉榜");
+        }
+        else {
+            tv_title.setText("我的荣誉榜");
+        }
+
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
