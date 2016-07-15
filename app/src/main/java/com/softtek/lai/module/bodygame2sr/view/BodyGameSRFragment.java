@@ -393,6 +393,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
             });
         }
     }
+
+
     Animation roate;
     @Override
     public void onClick(View v) {
