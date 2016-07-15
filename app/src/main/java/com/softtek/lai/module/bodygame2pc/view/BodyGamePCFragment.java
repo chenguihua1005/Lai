@@ -37,8 +37,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     RelativeLayout rl_color;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.ll_right)
-    LinearLayout ll_right;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
     @InjectView(R.id.iv_banner)
@@ -111,10 +109,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_honor;
     @InjectView(R.id.ll_zhujiao)
     LinearLayout ll_zhujiao;
-    @InjectView(R.id.et_person)
-    EditText et_person;
-    @InjectView(R.id.fl_search)
-    FrameLayout fl_search;
+
+
 
     @Override
     protected void initViews() {
@@ -136,8 +132,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         ll_zhujiao.setOnClickListener(this);
         scroll.setScrollViewListener(this);
         fl_video.setOnClickListener(this);
-        fl_search.setOnClickListener(this);
-        ll_right.setOnClickListener(this);
+
     }
 
     @Override
