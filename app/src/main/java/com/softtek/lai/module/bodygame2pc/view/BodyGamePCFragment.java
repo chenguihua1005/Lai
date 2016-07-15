@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.EditText;
@@ -103,8 +104,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     ImageView im_icon_tip;
     @InjectView(R.id.im_icon_tip2)
     ImageView im_icon_tip2;
-    @InjectView(R.id.rl_tip)
-    RelativeLayout rl_tip;
+
 
 
 
@@ -120,7 +120,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         iv_refresh.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);
         ll_tip1.setOnClickListener(this);
-        rl_tip.setOnClickListener(this);
         ll_upload_photo.setOnClickListener(this);
         ll_saikuang.setOnClickListener(this);
         ll_chengjidan.setOnClickListener(this);
@@ -143,7 +142,12 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId())
+        {
+            case R.id.ll_left:
+                startActivity(new Intent(getContext(),StuPersonDateActivity.class));
+                break;
+        }
     }
 
     @Override
