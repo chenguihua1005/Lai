@@ -40,6 +40,7 @@ import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
 import com.softtek.lai.module.studentbasedate.view.BaseDateFragment;
 import com.softtek.lai.module.studentbasedate.view.ClassDynamicFragment;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -162,6 +163,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     ImageView im_icon_tip;
     @InjectView(R.id.im_icon_tip2)
     ImageView im_icon_tip2;
+    @InjectView(R.id.iv_video_image)
+    ImageView iv_video_image;
 
     @InjectView(R.id.tablayout)
     TabLayout tab;
@@ -216,6 +219,22 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(isCreatedView()){
+            scroll.post(new Runnable() {
+                public void run() {
+                    scroll.scrollTo(0,0);
+                }
+            });
+        }
+        if(getContext() instanceof BodyGamePCActivity){
+            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
+            activity.setAlpha(0);
+        }
+    }
+
+    @Override
     protected void lazyLoad() {
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -261,13 +280,17 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
             if(StringUtils.isNotEmpty(info.getPCLossAfterImg())){
                 Picasso.with(getContext()).load(info.getPCLossAfterImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_after);
             }
-            /*tv_day.setText(info.);
-            D*/
+            String date=info.getPCStoryDate();
+            int day=DateUtil.getInstance().getDay(date);
+            int month=DateUtil.getInstance().getMonth(date);
+            tv_day.setText(day+"");
+            tv_month.setText(month+"月");
+            tv_content.setText(info.getPCStoryContent());
             if(StringUtils.isNotEmpty(info.getTips_video_name())){
                 tv_video_name.setText(info.getTips_video_name());
                 if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
-                    /*Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
-                            .error(R.drawable.default_icon_rect).into();*/
+                    Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).into(iv_video_image);
                 }
                 fl_video.setVisibility(View.VISIBLE);
             }else{
@@ -440,9 +463,9 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         }else {
             pull.setEnabled(false);
         }
-        float alpha=(1f*y/950);
+        float alpha=(1f*y/850);
         if(getContext() instanceof BodyGamePCActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
             activity.setAlpha(alpha);
             rl_color.setAlpha(alpha);
         }

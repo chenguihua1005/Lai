@@ -238,6 +238,12 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
+        view_class = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
+        list_class_select = (ListView) view_class.findViewById(R.id.list_class_select);
+
+        adapters = new ClassSelectAdapter(getContext(), select_class_list);
+        list_class_select.setAdapter(adapters);
+
         list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -607,6 +613,8 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
+            pull.setRefreshing(false);
+            dialogDissmiss();
             if (classChangeModel != null) {
                 select_class_list.clear();
                 select_class_list.addAll(classChangeModel.getClasslist());
@@ -676,11 +684,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
-                pull.setRefreshing(false);
-                dialogDissmiss();
-            } else {
-                pull.setRefreshing(false);
-                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();

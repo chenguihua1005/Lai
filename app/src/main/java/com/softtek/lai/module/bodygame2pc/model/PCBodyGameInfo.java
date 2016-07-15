@@ -26,6 +26,10 @@ public class PCBodyGameInfo {
     private String PCLossAfterImg;
     private String PCLossBefore;
     private String PCLossBeforeImg;
+
+    private String PCStoryDate;
+    private String PCStoryContent;
+    private String PCStoryImg;
     //tips
     private String Tips_video_name;
     private String Tips_video_url;
@@ -34,6 +38,30 @@ public class PCBodyGameInfo {
 
     //咨询
     private List<Tips> Tips_content;
+
+    public String getPCStoryDate() {
+        return PCStoryDate;
+    }
+
+    public void setPCStoryDate(String PCStoryDate) {
+        this.PCStoryDate = PCStoryDate;
+    }
+
+    public String getPCStoryContent() {
+        return PCStoryContent;
+    }
+
+    public void setPCStoryContent(String PCStoryContent) {
+        this.PCStoryContent = PCStoryContent;
+    }
+
+    public String getPCStoryImg() {
+        return PCStoryImg;
+    }
+
+    public void setPCStoryImg(String PCStoryImg) {
+        this.PCStoryImg = PCStoryImg;
+    }
 
     public String getBanner() {
         return Banner;

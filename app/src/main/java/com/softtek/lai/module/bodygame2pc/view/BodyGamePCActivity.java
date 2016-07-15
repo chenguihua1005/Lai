@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame2pc.view;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.ChatFragment;
 import com.softtek.lai.module.bodygame2.view.ContactFragment;
@@ -36,7 +38,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener {
+public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -240,4 +242,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
