@@ -56,6 +56,7 @@ import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -112,7 +113,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     RelativeLayout rel_add;
 
     @InjectView(R.id.list_student)
-    CostomerListView list_student;
+    ListView list_student;
     @InjectView(R.id.text_class_name)
     TextView text_class_name;
 
@@ -657,9 +658,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if(y<=0){
+        if (y <= 0) {
             pull.setEnabled(true);
-        }else {
+        } else {
             pull.setEnabled(false);
         }
         float alpha = (1f * y / 1000);
@@ -675,57 +676,55 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void getClassMain(ClassMainModel classMainModel) {
         try {
             if (classMainModel != null) {
-                try {
-                    select_class_list = classMainModel.getClasslist();
-                    text_class_name.setText(select_class_list.get(0).getClassName());
-                    select_class_id = select_class_list.get(0).getClassId();
-                    SharedPreferenceService.getInstance().put("classId", select_class_id);
-                    student_list = classMainModel.getClmlist();
-                    adapter = new ClassMainStudentAdapter(getContext(), student_list);
-                    adapter.type = select_type + "";
-                    list_student.setAdapter(adapter);
-                    ClassDetailModel details = classMainModel.getClassDetail();
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    if ("".equals(details.getClassBanner())) {
-                        Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
+                select_class_list = classMainModel.getClasslist();
+                text_class_name.setText(select_class_list.get(0).getClassName());
+                select_class_id = select_class_list.get(0).getClassId();
+                SharedPreferenceService.getInstance().put("classId", select_class_id);
+                student_list = classMainModel.getClmlist();
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
+                adapter.type = select_type + "";
+                list_student.setAdapter(adapter);
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+                ClassDetailModel details = classMainModel.getClassDetail();
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                if ("".equals(details.getClassBanner())) {
+                    Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
+                } else {
+                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+                }
+                text_class_count.setText(details.getClmCnt());
+                text_loss.setText(details.getTotalloss() + "斤");
+                text_fcl.setText(details.getRtest() + "%");
+
+                dyNoticeModel = classMainModel.getDyNotice();
+                dySysModel = classMainModel.getDySys();
+
+                if (dySysModel.getPhoto() == null) {
+                    dySysModel = null;
+                }
+                if (dyNoticeModel.getPhoto() == null) {
+                    dyNoticeModel = null;
+                }
+                if (dyNoticeModel != null) {
+                    rel_no_message.setVisibility(View.GONE);
+                    rel_message.setVisibility(View.VISIBLE);
+                    img_lb.setVisibility(View.GONE);
+                    img.setVisibility(View.VISIBLE);
+                    if ("".equals(dyNoticeModel.getPhoto())) {
+                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
                     } else {
-                        Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+                        Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
                     }
-                    text_class_count.setText(details.getClmCnt());
-                    text_loss.setText(details.getTotalloss() + "斤");
-                    text_fcl.setText(details.getRtest() + "%");
 
-                    dyNoticeModel = classMainModel.getDyNotice();
-                    dySysModel = classMainModel.getDySys();
-
-                    if (dySysModel.getPhoto() == null) {
-                        dySysModel = null;
-                    }
-                    if (dyNoticeModel.getPhoto() == null) {
-                        dyNoticeModel = null;
-                    }
-                    if (dyNoticeModel != null) {
-                        rel_no_message.setVisibility(View.GONE);
-                        rel_message.setVisibility(View.VISIBLE);
-                        img_lb.setVisibility(View.GONE);
-                        img.setVisibility(View.VISIBLE);
-                        if ("".equals(dyNoticeModel.getPhoto())) {
-                            Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
-                        } else {
-                            Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
-                        }
-
-                        text_value.setText(dyNoticeModel.getDyContent());
-                        String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
-                        text_time.setText(time);
-                    } else {
-                        rel_no_message.setVisibility(View.VISIBLE);
-                        rel_message.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    text_value.setText(dyNoticeModel.getDyContent());
+                    String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
+                    text_time.setText(time);
+                } else {
+                    rel_no_message.setVisibility(View.VISIBLE);
+                    rel_message.setVisibility(View.GONE);
                 }
             }
+            dialogDissmiss();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -733,31 +732,39 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void getStudentList(MemberChangeModel memberChangeModel) {
-        dialogDissmiss();
-        System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
-            student_list.clear();
-            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-            student_list.addAll(memberChangeModel.getClmlist());
-            System.out.println("student_list:" + student_list);
+//            student_list.clear();
+//            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
+//            student_list.addAll(memberChangeModel.getClmlist());
+//            System.out.println("student_list:" + student_list);
+//            adapter.type = select_type + "";
+//            adapter.notifyDataSetChanged();
+
+
+            student_list = memberChangeModel.getClmlist();
+            adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
             adapter.type = select_type + "";
-            adapter.notifyDataSetChanged();
+            list_student.setAdapter(adapter);
+            ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         }
+        dialogDissmiss();
     }
 
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
+            pull.setRefreshing(false);
+            dialogDissmiss();
             if (classChangeModel != null) {
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
-
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
 
                 ClassDetailModel details = classChangeModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -801,11 +808,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
-                pull.setRefreshing(false);
-                dialogDissmiss();
-            } else {
-                pull.setRefreshing(false);
-                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,8 +1,10 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
-import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,10 +14,14 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.model.TotolModel;
+import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.MyListView;
@@ -25,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_bodygame_pc)
@@ -48,8 +58,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
-    /*@InjectView(R.id.pull)
-    SwipeRefreshLayout pull;*/
+    @InjectView(R.id.pull)
+    SwipeRefreshLayout pull;
 
     //菜单键上面的数据显示
     @InjectView(R.id.tv_loss_weight)
@@ -81,7 +91,29 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.ll_review)
     LinearLayout ll_review;
 
-
+    @InjectView(R.id.iv_loss_before)
+    ImageView iv_loss_before;//减重前
+    @InjectView(R.id.iv_loss_after)
+    ImageView iv_loss_after;//减重后
+    @InjectView(R.id.tv_loss_before)
+    TextView tv_loss_before;//减重前斤数
+    @InjectView(R.id.tv_loss_after)
+    TextView tv_loss_after;//减重后斤数
+    @InjectView(R.id.tv_send_story)
+    TextView tv_send_story;//发布减重故事按钮
+    @InjectView(R.id.tv_day)
+    TextView tv_day;//天
+    @InjectView(R.id.tv_month)
+    TextView tv_month;//月
+    @InjectView(R.id.iv_image)
+    ImageView iv_image;//减重故事照片
+    @InjectView(R.id.tv_content)
+    TextView tv_content;//减重故事内容
+    @InjectView(R.id.tv_story_more)
+    TextView tv_story_more;//查看更多故事
+    @InjectView(R.id.tv_tip_more)
+    TextView tv_tip_more;//查看更多tips按钮
+    //tips内容
     @InjectView(R.id.tv_video_name)
     TextView tv_video_name;
     @InjectView(R.id.tv_title1)
@@ -109,7 +141,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
 
 
 
-
     @Override
     protected void initViews() {
         int status= DisplayUtil.getStatusHeight(getActivity());
@@ -125,27 +156,124 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         ll_chengjidan.setOnClickListener(this);
         ll_honor.setOnClickListener(this);
         ll_review.setOnClickListener(this);
-        scroll.setScrollViewListener(this);
         fl_video.setOnClickListener(this);
+        tv_story_more.setOnClickListener(this);
+        tv_tip_more.setOnClickListener(this);
+
+        scroll.setScrollViewListener(this);
+        pull.setOnRefreshListener(this);
+        pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
+        pull.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
 
     }
 
     @Override
     protected void initDatas() {
+        roate= AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
+
 
     }
 
     @Override
     protected void lazyLoad() {
+        //第一次加载自动刷新
+        pull.post(new Runnable() {
+            @Override
+            public void run() {
+                pull.setRefreshing(true);
+            }
+        });
+        onRefresh();
+    }
+
+    public void onLoadCompleted(){
 
     }
 
+    Animation roate;
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()){
             case R.id.ll_left:
-                startActivity(new Intent(getContext(),StuPersonDateActivity.class));
+                getContext().fileList();
+                break;
+            case R.id.iv_refresh:
+                //刷新
+                iv_refresh.startAnimation(roate);
+                roate.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ZillaApi.NormalRestAdapter.create(BodyGameService.class).doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
+                                    @Override
+                                    public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                                        try {
+                                            iv_refresh.clearAnimation();
+                                            if(listResponseData.getStatus()==200){
+                                                List<TotolModel> models=listResponseData.getData();
+                                                    tv_totalperson.setText(models.get(0).getTotal_person());
+                                                    tv_total_loss.setText(models.get(0).getTotal_loss());
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        try {
+                                            iv_refresh.clearAnimation();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                        }, 500);
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                break;
+            case R.id.ll_upload_photo:
+
+                break;
+            case R.id.ll_saikuang:
+                break;
+            case R.id.ll_chengjidan:
+                break;
+            case R.id.ll_honor:
+                break;
+            case R.id.ll_review:
+                break;
+            case R.id.tv_story_more:
+                //减重故事更多
+                break;
+            case R.id.tv_tip_more:
+                //tips更多
+                break;
+            case R.id.fl_video:
+                //视频
+                break;
+            case R.id.ll_tip1:
+                //tips1
+                break;
+            case R.id.ll_tip2:
+                //tips2
                 break;
         }
     }
@@ -157,6 +285,16 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-
+        if(y<=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
+        }
+        float alpha=(1f*y/950);
+        if(getContext() instanceof BodyGamePCActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(alpha);
+            rl_color.setAlpha(alpha);
+        }
     }
 }

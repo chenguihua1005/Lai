@@ -47,7 +47,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class StudentHonorPCActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener{
+public class StudentHonorPCActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -83,6 +83,7 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
     private List<StudentHonorInfo> star_list = new ArrayList<StudentHonorInfo>();
 
     private IStudentPresenter studentHonorPresenter;
+
     @Override
     protected void initViews() {
         int type=getIntent().getIntExtra("type",0);
@@ -96,17 +97,19 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     @Override
     protected void initDatas() {
         dialogShow("加载中");
         studentHonorPresenter = new StudentImpl(this);
-        System.out.println("getIntent():"+getIntent().getLongExtra("accountid",0)+"");
-        studentHonorPresenter.getStudentHonorPC(getIntent().getLongExtra("accountid",0)+"");
+        System.out.println("getIntent():" + getIntent().getLongExtra("accountid", 0) + "");
+        studentHonorPresenter.getStudentHonorPC(getIntent().getLongExtra("accountid", 0) + "");
     }
 
     @Override
@@ -138,6 +141,7 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
     public void onFragmentInteraction(Uri uri) {
 
     }
+
     @Subscribe
     public void onEvent(HonorModel honorModel) {
         List<StudentHonorInfo> table1 = honorModel.getTable1();
@@ -167,7 +171,14 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
             view_fc.setVisibility(View.GONE);
             list_fc.setVisibility(View.GONE);
         } else {
-            HonorPCFCAdapter fc_adapter = new HonorPCFCAdapter(this, fc_list);
+            List<StudentHonorInfo> fc_list_last = new ArrayList<StudentHonorInfo>();
+            String value = fc_list.get(0).getValue();
+            for (int i = 0; i < Integer.parseInt(value); i++) {
+                StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "复测", "", "", i + 1 + "");
+                fc_list_last.add(studentHonorInfo);
+            }
+
+            HonorPCFCAdapter fc_adapter = new HonorPCFCAdapter(this, fc_list_last);
             list_fc.setAdapter(fc_adapter);
         }
 

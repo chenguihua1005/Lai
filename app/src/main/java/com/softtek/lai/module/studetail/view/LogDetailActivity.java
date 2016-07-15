@@ -66,6 +66,8 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
     CustomGridView cgv_list_image;
     @InjectView(R.id.tv_zan_name)
     TextView tv_zan_name;
+    @InjectView(R.id.ll_zan)
+    LinearLayout ll_zan;
 
     private LogStoryDetailManager manager;
     List<String> images=new ArrayList();
@@ -167,12 +169,11 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getLogDetail(LogStoryDetailModel log) {
         dialogDissmiss();
+        if(log==null){
+            return;
+        }
         try {
-            if(log==null){
-                return;
-            }
             tv_name.setText(log.getUserName());
-            //tv_log_title.setText(log.getLogTitle());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();
             tv_date.setText(DateUtil.getInstance().getYear(date)+

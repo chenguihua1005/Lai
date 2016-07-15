@@ -68,7 +68,7 @@ public class SearchPcActivity extends BaseActivity implements View.OnClickListen
                         if(data.getStatus()==200){
                             memberResultModels=data.getData().getResult();
                             if(memberResultModels==null||memberResultModels.isEmpty()){
-                                new AlertDialog.Builder(SearchPcActivity.this).setMessage("搜索无结果").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                new AlertDialog.Builder(SearchPcActivity.this).setMessage("查询失败，无此学员").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         finish();

@@ -90,7 +90,9 @@ public abstract class LazyBaseFragment extends Fragment{
     }
 
 
-
+    public boolean isCreatedView() {
+        return isCreatedView;
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
