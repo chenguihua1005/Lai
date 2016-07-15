@@ -352,13 +352,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 im_gender.setImageResource(R.drawable.bg2_male);
             }
             String path = AddressManager.get("photoHost");
-            if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
-                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
-
             if (data.getClmInfo().getIsRetire().equals("1"))
             {
-                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headimexit);
+                cir_headimexit.setImageResource(R.drawable.exit_match);
             }
+            if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
+                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
             }
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());
