@@ -82,8 +82,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
-    /*@InjectView(R.id.pull)
-    SwipeRefreshLayout pull;*/
+//    @InjectView(R.id.pull)
+//    SwipeRefreshLayout pull;
 
 
     @InjectView(R.id.tv_person_num)
@@ -259,7 +259,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     }
     SPBodyGameInfo info;
     public void onloadCompleted(SPBodyGameInfo info){
-        //pull.setRefreshing(false);
+//        pull.setRefreshing(false);
         if(info!=null){
             this.info=info;
             String basePath=AddressManager.get("photoHost");

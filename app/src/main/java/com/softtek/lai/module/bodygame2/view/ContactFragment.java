@@ -218,7 +218,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("photo", path + model.getPhoto());
                     startActivity(intent);
                 }else {
-                    Util.toastMsg("会话异常，请稍候再试");
+                    Util.toastMsg("会话异常，请稍后再试");
                 }
             }
         });
@@ -245,7 +245,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("list", (Serializable) list);
                     startActivity(intent);
                 }else {
-                    Util.toastMsg("会话异常，请稍候再试");
+                    Util.toastMsg("会话异常，请稍后再试");
                 }
 
                 break;
