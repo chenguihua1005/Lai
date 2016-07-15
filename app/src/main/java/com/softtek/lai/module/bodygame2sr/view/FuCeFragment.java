@@ -132,16 +132,15 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 //        获取班级初列表始高度
         chuheight = setListViewHeightBasedOnChildren(list_class);
         chuheight += ll_shousuolist.getHeight();
-//        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }
 
     @Override
     protected void onVisible() {
         super.onVisible();
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
-            activity.setAlpha(1);
+        if(getContext() instanceof BodyGameSRActivity){
+            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
+            activity.setAlpha(0);
         }
     }
 

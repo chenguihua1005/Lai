@@ -248,8 +248,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 }
             });
         }
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if(getContext() instanceof BodyGameSRActivity){
+            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
             activity.setAlpha(0);
         }
     }
