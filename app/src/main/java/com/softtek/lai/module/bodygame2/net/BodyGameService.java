@@ -74,6 +74,7 @@ public interface BodyGameService {
             @Query("Key")String Key,
             RequestCallback<ResponseData<SearchMemberModel>>callback
     );
+    //移除班级
     @POST("/NewClass/ClmemberExit")
     void doClmemberExit(
             @Header("token")String token,
