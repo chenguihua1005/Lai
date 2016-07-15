@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -63,6 +65,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     @InjectView(R.id.rel_title)
     RelativeLayout rel_title;
+    @InjectView(R.id.rel_person)
+    RelativeLayout rel_person;
 
     @InjectView(R.id.rel)
     RelativeLayout rel;
@@ -74,7 +78,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     SwipeRefreshLayout pull;
 
     @InjectView(R.id.list_student)
-    CostomerListView list_student;
+    ListView list_student;
     @InjectView(R.id.text_class_name)
     TextView text_class_name;
 
@@ -115,6 +119,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     TextView text_values;
     @InjectView(R.id.text_before_weight)
     TextView text_before_weight;
+
+    @InjectView(R.id.text_class_time)
+    TextView text_class_time;
 
     @InjectView(R.id.rel_no_message)
     RelativeLayout rel_no_message;
@@ -184,6 +191,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
+        rel_person.setOnClickListener(this);
         rel_gg.setOnClickListener(this);
         text_more.setOnClickListener(this);
         rel_xtxx.setOnClickListener(this);
@@ -207,20 +215,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         img_jzbfb = (ImageView) view.findViewById(R.id.img_jzbfb);
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
-
-
-        list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("------");
-                ClmListModel clmListModel = student_list.get(position);
-                String accountId = clmListModel.getAccountid();
-                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
-                intent.putExtra("userId", Long.parseLong(accountId));
-                intent.putExtra("classId", Long.parseLong(select_class_id));
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -302,6 +296,11 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rel_person:
+                Intent intent=new Intent(getActivity(),StuPersonDateActivity.class);
+                intent.putExtra("classId",select_class_id);
+                getActivity().startActivity(intent);
+                break;
             case R.id.text_more:
                 Intent intents = new Intent(getActivity(), DYActivity.class);
                 intents.putExtra("classId", select_class_id);
@@ -454,6 +453,14 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
                 PCClmDetailModel model = classMainModel.getClmDetail();
+                String startTime = model.getStartDate();
+                String endTime = model.getEndDate();
+                System.out.println("startTime:"+startTime);
+                text_class_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(startTime) + "年" +
+                        DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getMonth(startTime) + "月" + "-" +
+                        DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(endTime) + "年" +
+                        DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getMonth(endTime) + "月");
+
                 text_class_name.setText(model.getClassName());
                 select_class_id = model.getClassId();
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
@@ -497,10 +504,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
                 student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
-
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
 
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
@@ -539,22 +546,21 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void getStudentList(MemberChangeModel memberChangeModel) {
 
         if (memberChangeModel != null) {
-            student_list.clear();
-            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-            student_list.addAll(memberChangeModel.getClmlist());
-            System.out.println("student_list:" + student_list);
-            adapter.type = select_type + "";
-            adapter.notifyDataSetChanged();
-            dialogDissmiss();
-//
-//            student_list = memberChangeModel.getClmlist();
-//            adapter = new ClassMainStudentAdapter(getContext(), student_list);
+//            student_list.clear();
+//            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
+//            student_list.addAll(memberChangeModel.getClmlist());
+//            System.out.println("student_list:" + student_list);
 //            adapter.type = select_type + "";
-//            list_student.setAdapter(adapter);
-        } else {
-            dialogDissmiss();
-
+//            adapter.notifyDataSetChanged();
+//            dialogDissmiss();
+//
+            student_list = memberChangeModel.getClmlist();
+            adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
+            adapter.type = select_type + "";
+            list_student.setAdapter(adapter);
+            ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         }
+        dialogDissmiss();
     }
 
     @Override

@@ -56,6 +56,7 @@ import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -680,9 +681,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 select_class_id = select_class_list.get(0).getClassId();
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
                 student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
                 ClassDetailModel details = classMainModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 if ("".equals(details.getClassBanner())) {
@@ -740,9 +742,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
 
             student_list = memberChangeModel.getClmlist();
-            adapter = new ClassMainStudentAdapter(getContext(), student_list);
+            adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
+            ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         }
         dialogDissmiss();
     }
@@ -750,16 +753,18 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
+            pull.setRefreshing(false);
+            dialogDissmiss();
             if (classChangeModel != null) {
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"1");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
-
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
 
                 ClassDetailModel details = classChangeModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -804,8 +809,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_message.setVisibility(View.GONE);
                 }
             }
-            pull.setRefreshing(false);
-            dialogDissmiss();
         } catch (Exception e) {
             e.printStackTrace();
         }

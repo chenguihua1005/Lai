@@ -31,6 +31,7 @@
                         android:src="@drawable/default_icon_rect" />
 
                     <RelativeLayout
+                        android:id="@+id/rel_person"
                         android:layout_width="match_parent"
                         android:layout_height="85dp"
                         android:layout_alignParentBottom="true"
@@ -386,10 +387,10 @@
                         android:layout_height="1dip"
                         android:background="@color/grey" />
 
-                    <com.softtek.lai.widgets.CostomerListView
+                    <ListView
                         android:id="@+id/list_student"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"></com.softtek.lai.widgets.CostomerListView>
+                        android:layout_height="fill_parent"></ListView>
                 </LinearLayout>
 
             </RelativeLayout>
