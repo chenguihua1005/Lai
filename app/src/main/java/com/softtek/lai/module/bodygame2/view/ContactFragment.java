@@ -150,13 +150,22 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
                 dialogDissmiss();
+                ZillaApi.dealNetError(error);
             }
         });
 
     }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
+    }
+
     @Override
     protected void initDatas() {
         ll_left.setOnClickListener(this);
