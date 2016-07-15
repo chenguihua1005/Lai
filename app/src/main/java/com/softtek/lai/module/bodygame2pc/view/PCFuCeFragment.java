@@ -2,12 +2,15 @@ package com.softtek.lai.module.bodygame2pc.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +31,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygamest.model.LossModel;
@@ -42,6 +46,7 @@ import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.module.retest.net.RestService;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
@@ -64,6 +69,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -150,6 +159,8 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     //laichen
     @InjectView(R.id.selectlaichenst)
     CheckBox selectlaichenst;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     String gender="1";
 
@@ -162,6 +173,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     RetestAuditModel retestAuditModel;
     String Mobile;
     String isState="true";
+    Boolean shenhestatue=true;
     private ImageFileCropSelector imageFileCropSelector;
     private CharSequence[] items={"拍照","从相册选择照片"};
     private PhotoListPre photoListPre;
@@ -172,6 +184,10 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        int status= DisplayUtil.getStatusHeight(getActivity());
+        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+        params.topMargin=status;
+        toolbar.setLayoutParams(params);
         fl_right.setOnClickListener(this);
         ll_left.setVisibility(View.INVISIBLE);
         photoListPre = new PhotoListIml();
@@ -251,14 +267,17 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         progressDialog.setCanceledOnTouchOutside(false);
                         progressDialog.setMessage("正在保存...");
                         progressDialog.show();
-                        retestPre.doPostWrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, getContext(), progressDialog);
+                        dopostwrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, getContext(), progressDialog);
+
                     }
                 }
                 else {
-                    //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                    progressDialog.setMessage("加载中");
-                    progressDialog.show();
-                    photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                    if (shenhestatue) {
+                        //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                        progressDialog.setMessage("加载中");
+                        progressDialog.show();
+                        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                    }
                 }
 
                 break;
@@ -360,6 +379,42 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         }
     }
 
+    private void dopostwrite( long accountId, long loginId, RetestWriteModel retestWrite, final Context context, final ProgressDialog progressDialog) {
+        RestService service= ZillaApi.NormalRestAdapter.create(RestService.class);
+        service.doPostWrite(UserInfoModel.getInstance().getToken(), accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
+            @Override
+            public void success(ResponseData<RetestWriteModel> retestWriteModelResponseData, Response response) {
+                int status=retestWriteModelResponseData.getStatus();
+                progressDialog.dismiss();
+                switch (status)
+                {
+                    case 200:
+                        isState="false";
+                        tv_right.setText("待审核");
+                        shenhestatue=false;
+                        iv_email.setVisibility(View.INVISIBLE);
+                        break;
+                    case 201:
+                        Util.toastMsg(retestWriteModelResponseData.getMsg());
+                        break;
+                    case 302:
+                        Util.toastMsg(retestWriteModelResponseData.getMsg());
+                        break;
+                    default:
+                        Util.toastMsg(retestWriteModelResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressDialog.dismiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) throws Exception {
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
@@ -397,8 +452,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
                     {
                         tv_right.setText("待审核");
-
-
+                        shenhestatue=false;
                     }
                     else {
                         tv_right.setText("");
@@ -510,7 +564,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         {
             loginid=UserInfoModel.getInstance().getUser().getUserid();
         }
-        retestPre.doGetAudit(Long.parseLong(loginid),0,"");
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
@@ -662,6 +715,8 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 //    }
     @Override
     protected void lazyLoad() {
+
         Log.i("FuCeFragment 加载数据");
+        retestPre.doGetAudit(Long.parseLong(loginid),0,"");
     }
 }
