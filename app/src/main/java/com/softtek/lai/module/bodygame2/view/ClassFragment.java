@@ -624,7 +624,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                             SharedPreferenceService.getInstance().put("classId", select_class_id);
                             text_class_name.setText(classListModel.getClassName());
                             dialogShow("加载中");
-                            classMainManager.doClassChangeById(select_class_id,model.getUser().getUserid());
+                            classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
                         }
                     });
                 }
@@ -765,6 +765,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             pull.setRefreshing(false);
             dialogDissmiss();
             if (classChangeModel != null) {
+
+                select_class_list.clear();
+                select_class_list.addAll(classChangeModel.getClasslist());
+                adapters.notifyDataSetChanged();
+
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
@@ -797,7 +802,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 } else {
                     text_fcl.setText(details.getRtest() + "%");
                 }
-
 
 
                 dyNoticeModel = classChangeModel.getDyNotice();
@@ -965,6 +969,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-        classMainManager.doClassChangeById(select_class_id,model.getUser().getUserid());
+        classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
     }
 }

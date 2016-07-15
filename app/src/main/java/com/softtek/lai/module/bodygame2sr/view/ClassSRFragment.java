@@ -29,6 +29,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.adapter.ClassMainSRStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
@@ -44,6 +45,7 @@ import com.softtek.lai.module.bodygame2.present.ClassMainManager;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2.view.DYActivity;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
+import com.softtek.lai.module.bodygame2sr.present.ClassMainSRManager;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
@@ -55,6 +57,7 @@ import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
@@ -78,7 +81,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_class_sr)
-public class ClassSRFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
+public class ClassSRFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ObservableScrollView.ScrollViewListener, ClassMainSRManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -174,12 +177,12 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
 
-    ClassMainManager classMainManager;
+    ClassMainSRManager classMainManager;
 
     DyNoticeModel dyNoticeModel;
     DySysModel dySysModel;
 
-    ClassMainStudentAdapter adapter;
+    ClassMainSRStudentAdapter adapter;
     ClassSelectAdapter adapters;
 
     View view_class;
@@ -240,11 +243,15 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("------");
                 ClmListModel clmListModel = student_list.get(position);
-                String accountId = clmListModel.getAccountid();
-                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
-                intent.putExtra("userId", Long.parseLong(accountId));
-                intent.putExtra("classId", Long.parseLong(select_class_id));
-                startActivity(intent);
+                String isHasAssi = clmListModel.getIsHasAssi();
+                if (!"0".equals(isHasAssi)) {
+
+                    String accountId = clmListModel.getAccountid();
+                    Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+                    intent.putExtra("userId", Long.parseLong(accountId));
+                    intent.putExtra("classId", Long.parseLong(select_class_id));
+                    startActivity(intent);
+                }
             }
         });
 
@@ -278,7 +285,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
 
-        classMainManager = new ClassMainManager(this);
+        classMainManager = new ClassMainSRManager(this);
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
@@ -312,9 +319,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void lazyLoad() {
         Log.i("ClassSRFragment 加载数据");
-        rel_title_more.setFocusable(true);
-        rel_title_more.setFocusableInTouchMode(true);
-        rel_title_more.requestFocus();
+        text_class_name.setFocusable(true);
+        text_class_name.setFocusableInTouchMode(true);
+        text_class_name.requestFocus();
         scroll.setFocusable(false);
 
 
@@ -520,9 +527,11 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     select_class_id = select_class_list.get(0).getClassId();
                     SharedPreferenceService.getInstance().put("classId", select_class_id);
                     student_list = classMainModel.getClmlist();
-                    adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+                    adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "0");
                     adapter.type = select_type + "";
                     list_student.setAdapter(adapter);
+                    ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+
                     ClassDetailModel details = classMainModel.getClassDetail();
                     String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                     if ("".equals(details.getClassBanner())) {
@@ -587,12 +596,11 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         dialogDissmiss();
         System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
-            student_list.clear();
-            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-            student_list.addAll(memberChangeModel.getClmlist());
-            System.out.println("student_list:" + student_list);
+            student_list = memberChangeModel.getClmlist();
+            adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "1");
             adapter.type = select_type + "";
-            adapter.notifyDataSetChanged();
+            list_student.setAdapter(adapter);
+            ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         }
     }
 
@@ -600,15 +608,19 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
             if (classChangeModel != null) {
+                select_class_list.clear();
+                select_class_list.addAll(classChangeModel.getClasslist());
+                adapters.notifyDataSetChanged();
+
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+                adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
-
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
 
                 ClassDetailModel details = classChangeModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -669,19 +681,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             } else {
                 pull.setRefreshing(false);
                 dialogDissmiss();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void getClasslist(ClassModel classModel) {
-        try {
-            if (classModel != null) {
-                select_class_list.clear();
-                select_class_list.addAll(classModel.getClasslist());
-                adapters.notifyDataSetChanged();
             }
         } catch (Exception e) {
             e.printStackTrace();
