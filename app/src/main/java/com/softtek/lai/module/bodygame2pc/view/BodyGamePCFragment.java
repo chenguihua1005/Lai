@@ -28,7 +28,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_bodygame_pc)
 public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,ObservableScrollView.ScrollViewListener{
-
+    //头部
     @InjectView(R.id.scroll)
     ObservableScrollView scroll;
     @InjectView(R.id.toolbar)
@@ -50,26 +50,36 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     /*@InjectView(R.id.pull)
     SwipeRefreshLayout pull;*/
 
-
-    @InjectView(R.id.tv_person_num)
-    TextView tv_person_num;
+    //菜单键上面的数据显示
     @InjectView(R.id.tv_loss_weight)
-    TextView tv_loss_weight;
-    @InjectView(R.id.tv_fuce_per)
-    TextView tv_fuce_per;
-    @InjectView(R.id.tv_new_class)
-    TextView tv_new_class;
-    @InjectView(R.id.tv_server_rank)
-    TextView tv_server_rank;
+    TextView tv_loss_weight;//减重斤数
+    @InjectView(R.id.tv_yaowei)
+    TextView tv_yaowei;//腰围变化
+    @InjectView(R.id.tv_tizhi_per)
+    TextView tv_tizhi_per;//体脂率变化
+    @InjectView(R.id.tv_loss_per)
+    TextView tv_loss_per;//减重百分比
     @InjectView(R.id.tv_loss_rank)
-    TextView tv_loss_rank;
-    @InjectView(R.id.tv_fuce_rank)
-    TextView tv_fuce_rank;
-    @InjectView(R.id.tv_new_student)
-    TextView tv_new_student;
+    TextView tv_loss_rank;//减重班级排名
+    @InjectView(R.id.tv_yaowei_rank)
+    TextView tv_yaowei_rank;//腰围班级排名
+    @InjectView(R.id.tv_tizhi_rank)
+    TextView tv_tizhi_rank;//体脂率班级排名
+    @InjectView(R.id.tv_loss_per_rank)
+    TextView tv_loss_per_rank;//减重百分比班级排名
 
-    @InjectView(R.id.rl_student_more)
-    RelativeLayout rl_student_more;
+    //菜单键
+    @InjectView(R.id.ll_upload_photo)
+    LinearLayout ll_upload_photo;
+    @InjectView(R.id.ll_saikuang)
+    LinearLayout ll_saikuang;
+    @InjectView(R.id.ll_chengjidan)
+    LinearLayout ll_chengjidan;
+    @InjectView(R.id.ll_honor)
+    LinearLayout ll_honor;
+    @InjectView(R.id.ll_review)
+    LinearLayout ll_review;
+
 
     @InjectView(R.id.tv_video_name)
     TextView tv_video_name;
@@ -95,20 +105,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     ImageView im_icon_tip2;
     @InjectView(R.id.rl_tip)
     RelativeLayout rl_tip;
-    @InjectView(R.id.rl_saikuang)
-    RelativeLayout rl_saikuang;
 
-    //菜单键
-    @InjectView(R.id.ll_new_student_record)
-    LinearLayout ll_new_student_record;
-    @InjectView(R.id.ll_sp_review)
-    LinearLayout ll_sp_review;
-    @InjectView(R.id.ll_jindu)
-    LinearLayout ll_jindu;
-    @InjectView(R.id.ll_honor)
-    LinearLayout ll_honor;
-    @InjectView(R.id.ll_zhujiao)
-    LinearLayout ll_zhujiao;
+
 
 
 
@@ -120,16 +118,14 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         relativeLayout.setLayoutParams(params);
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
-        rl_student_more.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);
         ll_tip1.setOnClickListener(this);
         rl_tip.setOnClickListener(this);
-        rl_saikuang.setOnClickListener(this);
-        ll_new_student_record.setOnClickListener(this);
-        ll_sp_review.setOnClickListener(this);
-        ll_jindu.setOnClickListener(this);
+        ll_upload_photo.setOnClickListener(this);
+        ll_saikuang.setOnClickListener(this);
+        ll_chengjidan.setOnClickListener(this);
         ll_honor.setOnClickListener(this);
-        ll_zhujiao.setOnClickListener(this);
+        ll_review.setOnClickListener(this);
         scroll.setScrollViewListener(this);
         fl_video.setOnClickListener(this);
 
