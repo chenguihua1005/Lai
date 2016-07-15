@@ -258,6 +258,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
+        view_class = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
+        list_class_select = (ListView) view_class.findViewById(R.id.list_class_select);
+
+        adapters = new ClassSelectAdapter(getContext(), select_class_list);
+        list_class_select.setAdapter(adapters);
+
+
         grade = new GradeImpl(this, "1");
 
         studentPresenter = new StudentImpl((BaseActivity) getContext());
@@ -591,12 +598,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     popTitleSelect.dismiss();
                     text_class_name.setTextColor(Color.WHITE);
                 } else {
-                    view_class = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
-                    list_class_select = (ListView) view_class.findViewById(R.id.list_class_select);
-
-                    adapters = new ClassSelectAdapter(getContext(), select_class_list);
-                    list_class_select.setAdapter(adapters);
-
                     lin_class_select.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.app_list_corner_round_top));
                     img_class_down.setImageResource(R.drawable.img_bg_more_down);
                     adapters.notifyDataSetChanged();
