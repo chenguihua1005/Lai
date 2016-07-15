@@ -59,7 +59,6 @@ import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
-import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
@@ -113,7 +112,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     RelativeLayout rel_add;
 
     @InjectView(R.id.list_student)
-    CostomerListView list_student;
+    ListView list_student;
     @InjectView(R.id.text_class_name)
     TextView text_class_name;
 
@@ -682,7 +681,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     select_class_id = select_class_list.get(0).getClassId();
                     SharedPreferenceService.getInstance().put("classId", select_class_id);
                     student_list = classMainModel.getClmlist();
-                    adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                    adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
                     adapter.type = select_type + "";
                     list_student.setAdapter(adapter);
                     ClassDetailModel details = classMainModel.getClassDetail();
@@ -755,7 +754,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list);
+                adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
 

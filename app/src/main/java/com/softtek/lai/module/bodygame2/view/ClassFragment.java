@@ -50,7 +50,6 @@ import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.CreateCounselorClassActivity;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
-import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
@@ -58,14 +57,12 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
-import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
