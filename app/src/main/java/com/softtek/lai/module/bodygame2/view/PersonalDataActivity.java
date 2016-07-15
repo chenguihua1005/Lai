@@ -176,7 +176,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
     ClemeberExitManager clemberExitmanager;
-    BodyGameService service;
     private static final int GET_BODY = 2;
 
     ClmInfoModel clmInfoModel;

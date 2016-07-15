@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame2pc.model.StuHonorListModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.module.bodygame2pc.present.StuPersonDateManager;
@@ -39,7 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 7/14/2016.
  */
 @InjectLayout(R.layout.stupersondate_layout)
-public class StuPersonDateActivity extends BaseActivity implements View.OnClickListener {
+public class StuPersonDateActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
     StuPersonDateManager datemanager;
     @InjectView(R.id.tablayout)
     TabLayout tabLayout;
@@ -103,8 +105,6 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_valuetext2;
     @InjectView(R.id.tv_valuetext3)
     TextView tv_valuetext3;
-    @InjectView(R.id.ll_remove_class)
-    LinearLayout ll_remove_class;
     @InjectView(R.id.re_xunzhang)
     RelativeLayout re_xunzhang;
     @InjectView(R.id.re_jianzh)
@@ -136,7 +136,6 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        ll_remove_class.setOnClickListener(this);
         re_xunzhang.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
@@ -335,6 +334,11 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
