@@ -213,10 +213,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void onVisible() {
         isPrepared = false;
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
-            activity.setAlpha(0);
-        }
+//        if (getContext() instanceof BodyGamePCActivity) {
+//            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
+//            activity.setAlpha(0);
+//        }
         super.onVisible();
     }
 
@@ -277,9 +277,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void lazyLoad() {
         Log.i("ClassFragment 加载数据");
-        rel_title.setFocusable(true);
-        rel_title.setFocusableInTouchMode(true);
-        rel_title.requestFocus();
+        text_class_name.setFocusable(true);
+        text_class_name.setFocusableInTouchMode(true);
+        text_class_name.requestFocus();
         scroll.setFocusable(false);
 
 
