@@ -1,6 +1,11 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -21,11 +27,28 @@ import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
+import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
+import com.softtek.lai.module.bodygame2pc.model.PCBodyGameInfo;
+import com.softtek.lai.module.bodygame2pc.present.PCManager;
+import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
+import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
+import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
+import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
+import com.softtek.lai.module.pastreview.view.ClassListActivity;
+import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
+import com.softtek.lai.module.studentbasedate.view.BaseDateFragment;
+import com.softtek.lai.module.studentbasedate.view.ClassDynamicFragment;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.MyListView;
 import com.softtek.lai.widgets.ObservableScrollView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +58,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_bodygame_pc)
@@ -99,6 +123,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_loss_before;//减重前斤数
     @InjectView(R.id.tv_loss_after)
     TextView tv_loss_after;//减重后斤数
+    @InjectView(R.id.tv_loss_after_tip)
+    TextView tv_loss_after_tip;
     @InjectView(R.id.tv_send_story)
     TextView tv_send_story;//发布减重故事按钮
     @InjectView(R.id.tv_day)
@@ -137,8 +163,13 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.im_icon_tip2)
     ImageView im_icon_tip2;
 
+    @InjectView(R.id.tablayout)
+    TabLayout tab;
+    @InjectView(R.id.tabcontent)
+    ViewPager tab_content;
 
-
+    PCManager manager;
+    List<Fragment> fragments=new ArrayList<>();
 
 
     @Override
@@ -159,6 +190,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         fl_video.setOnClickListener(this);
         tv_story_more.setOnClickListener(this);
         tv_tip_more.setOnClickListener(this);
+        tv_send_story.setOnClickListener(this);
 
         scroll.setScrollViewListener(this);
         pull.setOnRefreshListener(this);
@@ -172,8 +204,14 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initDatas() {
+        manager=new PCManager();
         roate= AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
-
+        BaseDateFragment baseDateFragment=BaseDateFragment.getInstance(null);
+        ClassDynamicFragment classDynamicFragment=ClassDynamicFragment.getInstance();
+        fragments.add(baseDateFragment);
+        fragments.add(classDynamicFragment);
+        tab_content.setAdapter(new BaseDataFragmentAdapter(getFragmentManager(),fragments));
+        tab.setupWithViewPager(tab_content);
 
     }
 
@@ -188,12 +226,108 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         });
         onRefresh();
     }
-
-    public void onLoadCompleted(){
-
+    PCBodyGameInfo info;
+    public void onLoadCompleted(PCBodyGameInfo info){
+        pull.setRefreshing(false);
+        if(info!=null){
+            this.info=info;
+            String basePath= AddressManager.get("photoHost");
+            //首页banner
+            if(StringUtils.isNotEmpty(info.getBanner())){
+                Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect).into(iv_banner);
+            }
+            tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
+            tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
+            tv_loss_weight.setText(StringUtil.convertValue1(info.getPCLoss()));
+            tv_yaowei.setText(StringUtil.convertValue1(info.getPCwaistline()));
+            tv_tizhi_per.setText(StringUtil.convertValue1(info.getPCPysical()));
+            tv_loss_per.setText(StringUtil.convertValue1(info.getPCLossPrecent()));
+            tv_loss_rank.setText(StringUtil.convertValue1(info.getPCLossOrde()));
+            tv_yaowei_rank.setText(StringUtil.convertValue1(info.getPCwaistlineOrder()));
+            tv_tizhi_rank.setText(StringUtil.convertValue1(info.getPCPysicalOrder()));
+            tv_loss_per_rank.setText(StringUtil.convertValue1(info.getPCLossPrecentOrder()));
+            tv_loss_before.setText(StringUtil.getFloatValue(info.getPCLossBefore())+"斤");
+            float lossAfter=StringUtil.getFloat(info.getPCLossAfter());
+            tv_loss_after.setText(lossAfter==0?"尚未复测":lossAfter+"斤");
+            if(lossAfter==0){
+                tv_loss_after_tip.setVisibility(View.GONE);
+            }else{
+                tv_loss_after_tip.setVisibility(View.VISIBLE);
+            }
+            if(StringUtils.isNotEmpty(info.getPCLossBeforeImg())){
+                Picasso.with(getContext()).load(info.getPCLossBeforeImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_before);
+            }
+            if(StringUtils.isNotEmpty(info.getPCLossAfterImg())){
+                Picasso.with(getContext()).load(info.getPCLossAfterImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_after);
+            }
+            /*tv_day.setText(info.);
+            D*/
+            if(StringUtils.isNotEmpty(info.getTips_video_name())){
+                tv_video_name.setText(info.getTips_video_name());
+                if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
+                    /*Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).into();*/
+                }
+                fl_video.setVisibility(View.VISIBLE);
+            }else{
+                fl_video.setVisibility(View.GONE);
+            }
+            List<Tips> tips=info.getTips_content();
+            if(tips==null||tips.isEmpty()){
+                ll_tips_content.setVisibility(View.GONE);
+            }else{
+                ll_tip2.setVisibility(View.INVISIBLE);
+                for (int i=0;i<tips.size();i++){
+                    Tips tip=tips.get(i);
+                    String mask=tip.getTips_TagTitle();
+                    if(i==0){
+                        tv_title1.setText(tip.getTips_Title());
+                        tv_tag1.setText(tip.getTips_TagTitle());
+                        if("运动健身".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                        }else if("营养养身".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_green);
+                        }else if("养身保健知识".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#98dee6"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
+                        }else if("健康饮食".equals(mask)){
+                            tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
+                        }else{
+                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                        }
+                    }else if(i==1){
+                        ll_tip2.setVisibility(View.VISIBLE);
+                        tv_title2.setText(tip.getTips_Title());
+                        tv_tag2.setText(tip.getTips_TagTitle());
+                        if("运动健身".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                        }else if("营养养身".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
+                        }else if("养身保健知识".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#98dee6"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
+                        }else if("健康饮食".equals(mask)){
+                            tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
+                        }else{
+                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     Animation roate;
+    public static final int SEND_NEW_STORY=1;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -250,18 +384,28 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 });
                 break;
             case R.id.ll_upload_photo:
-
+                startActivity(new Intent(getContext(), UploadPhotoActivity.class));
                 break;
             case R.id.ll_saikuang:
+                startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.ll_chengjidan:
+                startActivity(new Intent(getContext(), StudentScoreActivity.class));
                 break;
             case R.id.ll_honor:
+                //荣誉榜只能看当前进行中的班级
+                startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
                 break;
             case R.id.ll_review:
+                startActivity(new Intent(getContext(), ClassListActivity.class));
+                break;
+            case R.id.tv_send_story:
+                //发布减重故事
+                startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
                 break;
             case R.id.tv_story_more:
                 //减重故事更多
+
                 break;
             case R.id.tv_tip_more:
                 //tips更多
@@ -279,8 +423,14 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     }
 
     @Override
-    public void onRefresh() {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("发布完减重故事回来了");
+    }
 
+    @Override
+    public void onRefresh() {
+        manager.getSPHomeInfo(this);
     }
 
     @Override

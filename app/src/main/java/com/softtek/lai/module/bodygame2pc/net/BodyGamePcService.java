@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
+import com.softtek.lai.module.bodygame2pc.model.PCBodyGameInfo;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
@@ -41,4 +42,7 @@ public interface BodyGamePcService {
             @Query("type")String type,
             RequestCallback<ResponseData<MemberChangeModel>> callback
     );
+
+    void getPCBodyGameInfo(@Header("token")String token,
+                           RequestCallback<ResponseData<PCBodyGameInfo>> callback);
 }
