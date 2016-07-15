@@ -230,7 +230,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //2016-03-28
     @Override
     protected void initDatas() {
-
         tv_title.setText("复测");
         retestPre=new RetestclassImp();
         Intent intent=getIntent();
@@ -309,7 +308,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.iv_email:
             case R.id.fl_right:
                 if (isState.equals("true")) {
                     tv_writes_chu_weight.setEnabled(true);
@@ -317,11 +315,14 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     validateLife.validate();
                 }
                 else {
-                    //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                    progressDialog.setMessage("加载中");
-                    progressDialog.show();
-                    photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
-                }
+                    if (getIntent().getBooleanExtra("quanxian",true)) {
+                        //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                        progressDialog.setMessage("加载中");
+                        progressDialog.show();
+                        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                    }
+
+                    }
 
                 break;
 
@@ -474,9 +475,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     btn_retest_write_addbodyst.setText("查看身体围度");
                     tv_right.setText("");
                     tv_right.setFocusable(false);
-                    iv_email.setImageResource(R.drawable.img_share_bt);
-                    iv_email.setOnClickListener(this);
-
+                    if (getIntent().getBooleanExtra("quanxian",true)) {
+                        iv_email.setImageResource(R.drawable.img_share_bt);
+                        iv_email.setOnClickListener(this);
+                    }
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
                         Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);

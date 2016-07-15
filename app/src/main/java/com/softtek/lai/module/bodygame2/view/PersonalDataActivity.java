@@ -258,16 +258,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
                 finish();
                 break;
-//            case R.id.ll:
-//                Intent intent = new Intent(this, LossWeightLogActivity.class);
-//                intent.putExtra("type",1);
-//                intent.putExtra("accountId", userId);
-//                intent.putExtra("review", Integer.parseInt(review_flag));
-//                startActivity(intent);
-//                break;
             case R.id.ll_remove_class:
-                clemberExitmanager = new ClemeberExitManager();
-                clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
+                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+//                clemberExitmanager = new ClemeberExitManager();
+//                clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
                 Intent honor = new Intent(this, StudentHonorPCActivity.class);
@@ -305,24 +299,28 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.im_pict3:
                 Intent pict3 = new Intent(this, PassPhotoActivity.class);
+                pict3.putExtra("type",1);
                 pict3.putExtra("userId", userId);
                 pict3.putExtra("classId", classId);
                 startActivity(pict3);
                 break;
             case R.id.im_pict4:
                 Intent pict4 = new Intent(this, PassPhotoActivity.class);
+                pict4.putExtra("type",1);
                 pict4.putExtra("userId", userId);
                 pict4.putExtra("classId", classId);
                 startActivity(pict4);
                 break;
             case R.id.im_pict5:
                 Intent pict5 = new Intent(this, PassPhotoActivity.class);
+                pict5.putExtra("type",1);
                 pict5.putExtra("userId", userId);
                 pict5.putExtra("classId", classId);
                 startActivity(pict5);
                 break;
             case R.id.im_pict6:
                 Intent pict6 = new Intent(this, PassPhotoActivity.class);
+                pict6.putExtra("type",1);
                 pict6.putExtra("userId", userId);
                 pict6.putExtra("classId", classId);
                 startActivity(pict6);
@@ -346,6 +344,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 }
                 else if (AMStatus.equals("1")){
                     Intent fucewrite=new Intent(this, FuceStActivity.class);
+                    fucewrite.putExtra("quanxian",false);//
                     fucewrite.putExtra("accountId",userId+"");
                     startActivity(fucewrite);
                 }
@@ -362,8 +361,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 im_gender.setImageResource(R.drawable.bg2_male);
             }
             String path = AddressManager.get("photoHost");
-            if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
-                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
+            if (data.getClmInfo().getIsRetire().equals("1"))
+            {
+                cir_headim.setImageResource(R.drawable.exit_match);
+            }
+            else {
+                if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
+                    Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
+                }
             }
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());
