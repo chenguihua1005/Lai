@@ -33,6 +33,7 @@ public interface BodyGameService {
     void  doClassChangeById(
             @Header("token")String token,
             @Query("classid")String classid,
+            @Query("accountid")String accountid,
             RequestCallback<ResponseData<ClassChangeModel>>callback
     );
     //获取学员列表

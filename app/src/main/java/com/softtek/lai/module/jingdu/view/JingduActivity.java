@@ -5,9 +5,14 @@
 
 package com.softtek.lai.module.jingdu.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +28,7 @@ import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.locationservice.LocationService;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
@@ -157,6 +163,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     private RankModel rank;
     public RankAdapter rankAdapter;
+    private static final int LOCATION_PREMISSION = 100;
 
     //当月新开班级数量,新增学员数量
     String newban = "";
@@ -487,13 +494,58 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             //分享功能逻辑
             case R.id.iv_email:
             case R.id.fl_right:
-                dialogShow("加载中");
-                Bitmap b1 = getViewBitmap(top);
-                savePic(b1, "/sdcard/screen_test_1.png");
-                honorPresenter.getUserHonors();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    com.github.snowdream.android.util.Log.i("检查权限。。。。");
+                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                    if (
+                            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        //允许弹出提示
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
+
+                    } else {
+                        //不允许弹出提示
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
+                    }
+                } else {
+                    //执行获取权限后的操作
+                    dialogShow("加载中");
+                    Bitmap b1 = getViewBitmap(top);
+                    savePic(b1, "/sdcard/screen_test_1.png");
+                    honorPresenter.getUserHonors();
+                }
                 //iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
                 break;
         }
+    }
+
+    //6.0权限回调方法
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case LOCATION_PREMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //执行获取权限后的操作
+                    dialogShow("加载中");
+                    Bitmap b1 = getViewBitmap(top);
+                    savePic(b1, "/sdcard/screen_test_1.png");
+                    honorPresenter.getUserHonors();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
+
     }
 
     @Override
