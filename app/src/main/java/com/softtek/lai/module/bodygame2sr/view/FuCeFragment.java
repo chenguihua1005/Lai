@@ -22,6 +22,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
+import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
@@ -140,7 +141,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         super.onVisible();
         if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
-            activity.setAlpha(0);
+            activity.setAlpha(1);
         }
     }
 
@@ -176,17 +177,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
             case R.id.iv_email: {
                 Intent intent = new Intent(getContext(), QueryActivity.class);
                 startActivity(intent);
-            }
-            break;
-            case R.id.ll_left: {
-//                String type = getActivity().getIntent().getStringExtra("type");
-//                if ("0".equals(type)) {
-//                    Intent inten=new Intent(getContext(), HomeActviity.class);
-//                    inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(inten);
-//                } else {
-//                    getActivity().finish();
-//                }
             }
             break;
 

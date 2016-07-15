@@ -523,8 +523,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
             pull.setEnabled(false);
         }
         float alpha=(1f*y/950);
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if(getContext() instanceof BodyGameSRActivity){
+            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
             activity.setAlpha(alpha);
             rl_color.setAlpha(alpha);
         }
