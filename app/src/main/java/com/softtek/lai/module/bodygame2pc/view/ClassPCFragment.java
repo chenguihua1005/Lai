@@ -297,8 +297,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_person:
-                Intent intent=new Intent(getActivity(),StuPersonDateActivity.class);
-                intent.putExtra("classId",select_class_id);
+                Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
+                intent.putExtra("classId", select_class_id);
                 getActivity().startActivity(intent);
                 break;
             case R.id.text_more:
@@ -455,7 +455,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 PCClmDetailModel model = classMainModel.getClmDetail();
                 String startTime = model.getStartDate();
                 String endTime = model.getEndDate();
-                System.out.println("startTime:"+startTime);
+                System.out.println("startTime:" + startTime);
                 text_class_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(startTime) + "年" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getMonth(startTime) + "月" + "-" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(endTime) + "年" +
@@ -504,7 +504,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
                 student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
+                adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
@@ -555,7 +555,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 //            dialogDissmiss();
 //
             student_list = memberChangeModel.getClmlist();
-            adapter = new ClassMainStudentAdapter(getContext(), student_list,"0");
+            adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
