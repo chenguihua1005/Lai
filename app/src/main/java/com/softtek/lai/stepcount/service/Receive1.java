@@ -11,6 +11,5 @@ public class Receive1 extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
     }
 }
