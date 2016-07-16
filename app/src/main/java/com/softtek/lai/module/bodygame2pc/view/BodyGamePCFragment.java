@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.model.Tips;
@@ -33,6 +35,7 @@ import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
+import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.studentbasedate.view.DimensionChartFragmentPC;
 import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
@@ -234,6 +237,36 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UserModel model= UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
+        String userrole = model.getUserrole();
+        if (!String.valueOf(Constants.VR).equals(userrole)) {
+            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+                @Override
+                public void success(ResponseData listResponseData, Response response) {
+                    int status = listResponseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                            break;
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                }
+            });
+        }
+    }
+
+    @Override
     protected void lazyLoad() {
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -246,108 +279,112 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     }
     PCBodyGameInfo info;
     public void onLoadCompleted(PCBodyGameInfo info){
-        pull.setRefreshing(false);
-        if(info!=null){
-            this.info=info;
-            String basePath= AddressManager.get("photoHost");
-            //首页banner
-            if(StringUtils.isNotEmpty(info.getBanner())){
-                Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).into(iv_banner);
-            }
-            tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
-            tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
-            tv_loss_weight.setText(StringUtil.convertValue1(info.getPCLoss()));
-            tv_yaowei.setText(StringUtil.convertValue1(info.getPCwaistline()));
-            tv_tizhi_per.setText(StringUtil.convertValue1(info.getPCPysical()));
-            tv_loss_per.setText(StringUtil.convertValue1(info.getPCLossPrecent()));
-            tv_loss_rank.setText(StringUtil.convertValue1(info.getPCLossOrde()));
-            tv_yaowei_rank.setText(StringUtil.convertValue1(info.getPCwaistlineOrder()));
-            tv_tizhi_rank.setText(StringUtil.convertValue1(info.getPCPysicalOrder()));
-            tv_loss_per_rank.setText(StringUtil.convertValue1(info.getPCLossPrecentOrder()));
-            tv_loss_before.setText(StringUtil.getFloatValue(info.getPCLossBefore())+"斤");
-            float lossAfter=StringUtil.getFloat(info.getPCLossAfter());
-            tv_loss_after.setText(lossAfter==0?"尚未复测":lossAfter+"斤");
-            if(lossAfter==0){
-                tv_loss_after_tip.setVisibility(View.GONE);
-            }else{
-                tv_loss_after_tip.setVisibility(View.VISIBLE);
-            }
-            if(StringUtils.isNotEmpty(info.getPCLossBeforeImg())){
-                Picasso.with(getContext()).load(basePath+info.getPCLossBeforeImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_before);
-            }
-            if(StringUtils.isNotEmpty(info.getPCLossAfterImg())){
-                Picasso.with(getContext()).load(basePath+info.getPCLossAfterImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_after);
-            }
-            String date=info.getPCStoryDate();
-            int day=DateUtil.getInstance().getDay(date);
-            int month=DateUtil.getInstance().getMonth(date);
-            tv_day.setText(day+"");
-            tv_month.setText(month+"月");
-            tv_content.setText(info.getPCStoryContent());
-            if(StringUtils.isNotEmpty(info.getPCStoryImg())){
-                Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
-            }
-            if(StringUtils.isNotEmpty(info.getTips_video_name())){
-                tv_video_name.setText(info.getTips_video_name());
-                if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
-                    Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
-                            .error(R.drawable.default_icon_rect).into(iv_video_image);
+        try {
+            pull.setRefreshing(false);
+            if(info!=null){
+                this.info=info;
+                String basePath= AddressManager.get("photoHost");
+                //首页banner
+                if(StringUtils.isNotEmpty(info.getBanner())){
+                    Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).into(iv_banner);
                 }
-                fl_video.setVisibility(View.VISIBLE);
-            }else{
-                fl_video.setVisibility(View.GONE);
-            }
-            List<Tips> tips=info.getTips_content();
-            if(tips==null||tips.isEmpty()){
-                ll_tips_content.setVisibility(View.GONE);
-            }else{
-                ll_tip2.setVisibility(View.INVISIBLE);
-                for (int i=0;i<tips.size();i++){
-                    Tips tip=tips.get(i);
-                    String mask=tip.getTips_TagTitle();
-                    if(i==0){
-                        tv_title1.setText(tip.getTips_Title());
-                        tv_tag1.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养养身".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养身保健知识".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#98dee6"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
-                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                        }
-                    }else if(i==1){
-                        ll_tip2.setVisibility(View.VISIBLE);
-                        tv_title2.setText(tip.getTips_Title());
-                        tv_tag2.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养养身".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养身保健知识".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#98dee6"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
-                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
+                tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
+                tv_loss_weight.setText(StringUtil.convertValue1(info.getPCLoss()));
+                tv_yaowei.setText(StringUtil.convertValue1(info.getPCwaistline()));
+                tv_tizhi_per.setText(StringUtil.convertValue1(info.getPCPysical())+"%");
+                tv_loss_per.setText(StringUtil.convertValue1(info.getPCLossPrecent())+"%");
+                tv_loss_rank.setText(StringUtil.convertValue1(info.getPCLossOrde()));
+                tv_yaowei_rank.setText(StringUtil.convertValue1(info.getPCwaistlineOrder()));
+                tv_tizhi_rank.setText(StringUtil.convertValue1(info.getPCPysicalOrder()));
+                tv_loss_per_rank.setText(StringUtil.convertValue1(info.getPCLossPrecentOrder()));
+                tv_loss_before.setText(StringUtil.getFloatValue(info.getPCLossBefore())+"斤");
+                float lossAfter=StringUtil.getFloat(info.getPCLossAfter());
+                tv_loss_after.setText(lossAfter==0?"尚未复测":lossAfter+"斤");
+                if(lossAfter==0){
+                    tv_loss_after_tip.setVisibility(View.GONE);
+                }else{
+                    tv_loss_after_tip.setVisibility(View.VISIBLE);
+                }
+                if(StringUtils.isNotEmpty(info.getPCLossBeforeImg())){
+                    Picasso.with(getContext()).load(basePath+info.getPCLossBeforeImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_before);
+                }
+                if(StringUtils.isNotEmpty(info.getPCLossAfterImg())){
+                    Picasso.with(getContext()).load(basePath+info.getPCLossAfterImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_after);
+                }
+                String date=info.getPCStoryDate();
+                int day=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(date);
+                int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(date);
+                tv_day.setText(day+"");
+                tv_month.setText(month+"月");
+                tv_content.setText(info.getPCStoryContent());
+                if(StringUtils.isNotEmpty(info.getPCStoryImg())){
+                    Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+                }
+                if(StringUtils.isNotEmpty(info.getTips_video_name())){
+                    tv_video_name.setText(info.getTips_video_name());
+                    if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
+                        Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
+                                .error(R.drawable.default_icon_rect).into(iv_video_image);
+                    }
+                    fl_video.setVisibility(View.VISIBLE);
+                }else{
+                    fl_video.setVisibility(View.GONE);
+                }
+                List<Tips> tips=info.getTips_content();
+                if(tips==null||tips.isEmpty()){
+                    ll_tips_content.setVisibility(View.GONE);
+                }else{
+                    ll_tip2.setVisibility(View.INVISIBLE);
+                    for (int i=0;i<tips.size();i++){
+                        Tips tip=tips.get(i);
+                        String mask=tip.getTips_TagTitle();
+                        if(i==0){
+                            tv_title1.setText(tip.getTips_Title());
+                            tv_tag1.setText(tip.getTips_TagTitle());
+                            if("运动健身".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                            }else if("营养养身".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_green);
+                            }else if("养身保健知识".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#98dee6"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
+                            }else if("健康饮食".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
+                            }else{
+                                tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                            }
+                        }else if(i==1){
+                            ll_tip2.setVisibility(View.VISIBLE);
+                            tv_title2.setText(tip.getTips_Title());
+                            tv_tag2.setText(tip.getTips_TagTitle());
+                            if("运动健身".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                            }else if("营养养身".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
+                            }else if("养身保健知识".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#98dee6"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
+                            }else if("健康饮食".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
+                            }else{
+                                tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

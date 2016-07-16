@@ -136,8 +136,6 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     public void onValidationSucceeded() {
         old_psd = et_old_password.getText().toString();
         new_psd = et_password.getText().toString();
-        System.out.println("old_psd:"+old_psd+"   new_psd:"+new_psd);
-
         String type=getIntent().getStringExtra("type");
         if("1".equals(type)){
             passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"1");

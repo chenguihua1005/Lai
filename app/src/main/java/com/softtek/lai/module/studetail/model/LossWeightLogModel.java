@@ -20,6 +20,7 @@ public class LossWeightLogModel implements Serializable{
     private String imgCollection;
     private String Priase;
     private String isClicked;
+    private String usernameSet;
 
     public String getAfterWeight() {
         return AfterWeight;
@@ -109,6 +110,14 @@ public class LossWeightLogModel implements Serializable{
         this.imgCollectionFirst = imgCollectionFirst;
     }
 
+    public String getUsernameSet() {
+        return usernameSet;
+    }
+
+    public void setUsernameSet(String usernameSet) {
+        this.usernameSet = usernameSet;
+    }
+
     public String getImgCollection() {
         return imgCollection;
     }
@@ -117,20 +126,4 @@ public class LossWeightLogModel implements Serializable{
         this.imgCollection = imgCollection;
     }
 
-    @Override
-    public String toString() {
-        return "LossWeightLogModel{" +
-                "UserName='" + UserName + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", AcBanner='" + AcBanner + '\'' +
-                ", LossLogId='" + LossLogId + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
-                ", LogTitle='" + LogTitle + '\'' +
-                ", LogContent='" + LogContent + '\'' +
-                ", imgCollectionFirst='" + imgCollectionFirst + '\'' +
-                ", imgCollection='" + imgCollection + '\'' +
-                ", Priase='" + Priase + '\'' +
-                ", isClicked='" + isClicked + '\'' +
-                '}';
-    }
 }

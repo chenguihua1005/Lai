@@ -368,10 +368,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
         if(model==null){
             return;
         }
-        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-        if (String.valueOf(Constants.VR).equals(userrole)) {
-
-        } else {
+        String userrole = model.getUserrole();
+        if (!String.valueOf(Constants.VR).equals(userrole)) {
             ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
                 @Override
                 public void success(ResponseData listResponseData, Response response) {

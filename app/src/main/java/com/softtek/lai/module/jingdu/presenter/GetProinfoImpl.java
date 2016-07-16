@@ -50,7 +50,6 @@ public class GetProinfoImpl implements IGetProinfopresenter {
             @Override
             public void success(ResponseData<PhotosModel> upimgResponseData, Response response) {
                 context.dialogDissmiss();
-                System.out.println("upimgResponseData:" + upimgResponseData);
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:

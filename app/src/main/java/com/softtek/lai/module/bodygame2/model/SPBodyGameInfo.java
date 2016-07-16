@@ -18,7 +18,7 @@ public class SPBodyGameInfo {
     private String PcNum;
     private String NewClass;
     private String NewPc;
-    private String Tips_Video_id;
+    private String Tips_video_id;
     private String Tips_video_timelen;
     private String Tips_video_backPicture;
     //顾问的三个学员
@@ -160,12 +160,12 @@ public class SPBodyGameInfo {
         Banner = banner;
     }
 
-    public String getTips_Video_id() {
-        return Tips_Video_id;
+    public String getTips_video_id() {
+        return Tips_video_id;
     }
 
-    public void setTips_Video_id(String tips_Video_id) {
-        Tips_Video_id = tips_Video_id;
+    public void setTips_video_id(String tips_video_id) {
+        Tips_video_id = tips_video_id;
     }
 
     public String getTips_video_timelen() {

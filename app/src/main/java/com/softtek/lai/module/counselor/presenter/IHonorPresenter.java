@@ -21,4 +21,7 @@ public interface IHonorPresenter {
 
     //助教SR分享荣誉信息(XX天共减重多少斤)
     void getShareSRHonor();
+
+    //SP分享当期
+    void getSPDangQiHonor();
 }

@@ -16,4 +16,5 @@ public interface IGetProinfopresenter {
     void getspproinfo();
 
     void upload(String upimg);
+
 }

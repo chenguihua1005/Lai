@@ -59,7 +59,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
-        Log.i("token="+token);
         new Handler().postDelayed(this,1000);
     }
     //执行token不为空的情况

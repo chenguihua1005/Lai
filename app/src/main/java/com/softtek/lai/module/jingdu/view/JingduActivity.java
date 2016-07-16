@@ -35,6 +35,7 @@ import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
+import com.softtek.lai.module.jingdu.model.DangQiShare;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
@@ -159,8 +160,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     private List<PaimingModel> paimingModelList = new ArrayList<PaimingModel>();
     private List<Table2Model> table2ModelList = new ArrayList<Table2Model>();
     private IGetProinfopresenter iGetProinfopresenter;
-    UserHonorModel userHonorModel;
-
+    //UserHonorModel userHonorModel;
+    DangQiShare dangQiShare;
     private RankModel rank;
     public RankAdapter rankAdapter;
     private static final int LOCATION_PREMISSION = 100;
@@ -233,8 +234,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Subscribe
-    public void onEvent(UserHonorModel model) {
-        userHonorModel = model;
+    public void onEvent(DangQiShare model) {
+        dangQiShare = model;
         dialogShow("加载中");
         iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
 
@@ -255,7 +256,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         String path = AddressManager.get("shareHost");
         url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
         System.out.println("url:" + url);
-        value = "我在" + userHonorModel.getDays() + "天里已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
+        value = "我在" + dangQiShare.getTotalDays() + "天里已累计服务" + dangQiShare.getTotalNum() + "学员，共帮助他们减重" + dangQiShare.getLoseWeight() + "斤，快来参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(JingduActivity.this, itemsOnClick);
         //显示窗口
@@ -517,9 +518,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                     dialogShow("加载中");
                     Bitmap b1 = getViewBitmap(top);
                     savePic(b1, "/sdcard/screen_test_1.png");
-                    honorPresenter.getUserHonors();
+                    //honorPresenter.getUserHonors();
+                    honorPresenter.getSPDangQiHonor();
                 }
-                //iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
                 break;
         }
     }
