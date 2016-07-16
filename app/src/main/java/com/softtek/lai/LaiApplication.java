@@ -17,6 +17,7 @@ import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.stepcount.service.Receive1;
 import com.softtek.lai.stepcount.service.Receive2;
+import com.softtek.lai.stepcount.service.Service1;
 import com.softtek.lai.stepcount.service.Service2;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.NetErrorHandler;

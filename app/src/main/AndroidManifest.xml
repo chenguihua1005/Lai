@@ -412,6 +412,8 @@ xmlns:tools="http://schemas.android.com/tools" package="com.softtek.lai">
     <service android:name=".stepcount.service.StepService"
         android:process=":process1"/>
     <!--进程常驻设置-->
+    <service android:name=".stepcount.service.Service1"
+        android:process=":process1"/>
     <receiver android:name=".stepcount.service.Receive1"
         android:process=":process1" />
     <service android:name="com.softtek.lai.stepcount.service.Service2"
