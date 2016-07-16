@@ -390,28 +390,28 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();

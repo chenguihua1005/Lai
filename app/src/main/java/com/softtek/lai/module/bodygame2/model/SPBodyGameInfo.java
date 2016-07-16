@@ -18,7 +18,9 @@ public class SPBodyGameInfo {
     private String PcNum;
     private String NewClass;
     private String NewPc;
-
+    private String Tips_Video_id;
+    private String Tips_video_timelen;
+    private String Tips_video_backPicture;
     //顾问的三个学员
     private List<SPPCMoldel> sp_pc_three;
     //大赛赛况
@@ -156,6 +158,30 @@ public class SPBodyGameInfo {
 
     public void setBanner(String banner) {
         Banner = banner;
+    }
+
+    public String getTips_Video_id() {
+        return Tips_Video_id;
+    }
+
+    public void setTips_Video_id(String tips_Video_id) {
+        Tips_Video_id = tips_Video_id;
+    }
+
+    public String getTips_video_timelen() {
+        return Tips_video_timelen;
+    }
+
+    public void setTips_video_timelen(String tips_video_timelen) {
+        Tips_video_timelen = tips_video_timelen;
+    }
+
+    public String getTips_video_backPicture() {
+        return Tips_video_backPicture;
+    }
+
+    public void setTips_video_backPicture(String tips_video_backPicture) {
+        Tips_video_backPicture = tips_video_backPicture;
     }
 
     @Override

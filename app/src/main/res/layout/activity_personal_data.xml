@@ -43,6 +43,15 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="18dp"
                         android:src="@drawable/img_default" />
+                    <com.softtek.lai.widgets.CircleImageView
+                        android:id="@+id/cir_headimexit"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="18dp"
+                        />
 
                     <RelativeLayout
                         android:id="@+id/re_imfor"

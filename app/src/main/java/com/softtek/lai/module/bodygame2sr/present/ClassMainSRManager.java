@@ -27,9 +27,9 @@ public class ClassMainSRManager {
         service = ZillaApi.NormalRestAdapter.create(BodyGameSRService.class);
     }
 
-    public void doClMemberChange(String classid, String type) {
+    public void doClMemberChange(String accountid,String classid, String type) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doClMemberChange(token, classid, type, new RequestCallback<ResponseData<MemberChangeModel>>() {
+        service.doClMemberChange(token,accountid, classid, type, new RequestCallback<ResponseData<MemberChangeModel>>() {
             @Override
             public void success(ResponseData<MemberChangeModel> memberChangeModelResponseData, Response response) {
                 int status = memberChangeModelResponseData.getStatus();

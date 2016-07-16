@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,44 +17,29 @@ import android.widget.TextView;
 import com.easemob.chat.EMChat;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.model.ClmInfoModel;
 import com.softtek.lai.module.bodygame2.model.HonorListModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
-import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
 import com.softtek.lai.module.bodygame2.present.PersonDateManager;
 import com.softtek.lai.module.bodygamest.view.FuceStActivity;
-import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
-import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
-import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.pastreview.honors.Medal;
-import com.softtek.lai.module.pastreview.model.Honor;
-import com.softtek.lai.module.pastreview.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.utils.ChMonth;
-import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +47,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.InjectView;
-import retrofit.client.Response;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -98,6 +81,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     LinearLayout lin_send_message;
     @InjectView(R.id.im_gender)
     ImageView im_gender;
+    @InjectView(R.id.cir_headimexit)
+    CircleImageView cir_headimexit;
     //奖章一
     @InjectView(R.id.ll_honorn1)
     LinearLayout ll_honorn1;
@@ -196,6 +181,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         im_pict4.setOnClickListener(this);
         im_pict5.setOnClickListener(this);
         im_pict6.setOnClickListener(this);
+        me_xun1.setOnClickListener(this);
+        me_xun2.setOnClickListener(this);
+        me_xun3.setOnClickListener(this);
         lin_send_message.setOnClickListener(this);
         tv_title.setText("个人资料");
         lwcf=null;
@@ -263,12 +251,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 //                clemberExitmanager = new ClemeberExitManager();
 //                clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
-            case R.id.re_xunzhang:
-                Intent honor = new Intent(this, StudentHonorPCActivity.class);
-                honor.putExtra("type",1);
-                honor.putExtra("accountid", userId);
-                startActivity(honor);
-                break;
+
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);
                 intent1.putExtra("type",1);
@@ -325,7 +308,15 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 pict6.putExtra("classId", classId);
                 startActivity(pict6);
                 break;
-
+            case R.id.me_xun1:
+            case R.id.me_xun2:
+            case R.id.me_xun3:
+            case R.id.re_xunzhang:
+                Intent honor = new Intent(this, StudentHonorPCActivity.class);
+                honor.putExtra("type",1);
+                honor.putExtra("accountid", userId);
+                startActivity(honor);
+                break;
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
                 {
@@ -363,12 +354,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             String path = AddressManager.get("photoHost");
             if (data.getClmInfo().getIsRetire().equals("1"))
             {
-                cir_headim.setImageResource(R.drawable.exit_match);
+                cir_headimexit.setImageResource(R.drawable.exit_match);
             }
-            else {
-                if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
-                    Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
-                }
+            if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
+                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
             }
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());

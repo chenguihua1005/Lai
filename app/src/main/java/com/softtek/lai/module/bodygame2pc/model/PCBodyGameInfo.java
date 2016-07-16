@@ -35,9 +35,18 @@ public class PCBodyGameInfo {
     private String Tips_video_url;
     private String Tips_video_timelen;
     private String Tips_video_backPicture;
+    private String Tips_Video_id;
 
     //咨询
     private List<Tips> Tips_content;
+
+    public String getTips_Video_id() {
+        return Tips_Video_id;
+    }
+
+    public void setTips_Video_id(String tips_Video_id) {
+        Tips_Video_id = tips_Video_id;
+    }
 
     public String getPCStoryDate() {
         return PCStoryDate;
