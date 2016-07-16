@@ -409,8 +409,7 @@ xmlns:tools="http://schemas.android.com/tools" package="com.softtek.lai">
         android:screenOrientation="portrait" />
 
     <service android:name=".locationservice.LocationService" android:enabled="true" android:exported="true"></service>
-    <service android:name=".stepcount.service.StepService"
-        android:process=":process1"/>
+    <service android:name=".stepcount.service.StepService" />
     <!--进程常驻设置-->
     <service android:name=".stepcount.service.Service1"
         android:process=":process1"/>

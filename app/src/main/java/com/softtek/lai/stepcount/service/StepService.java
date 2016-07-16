@@ -50,6 +50,7 @@ public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
+    public static final String STEP_CLOSE="com.softtek.lai.StepService.StepClose";
 
     public static final int MSG_FROM_CLIENT=1;
     public static final int MSG_FROM_SERVER=1;
@@ -100,11 +101,8 @@ public class StepService extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         initBroadcastReceiver();
-        new Thread(new Runnable() {
-            public void run() {
-                startStepDetector();
-            }
-        }).start();
+        startStepDetector();
+        Log.i("计步器onCreate");
         initTodayData();
         startTimeCount();
     }
@@ -329,6 +327,7 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
+        sendBroadcast(new Intent(STEP_CLOSE));
         super.onDestroy();
         //取消前台进程
         Log.i("test","计步服务结束");
