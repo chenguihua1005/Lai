@@ -5,7 +5,9 @@
 
 package com.softtek.lai.module.login.view;
 
+import android.content.Intent;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -109,6 +111,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_left:
                 finish();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.btn_next:
                 validateLife.validate();
@@ -163,7 +166,15 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            startActivity(new Intent(this,LoginActivity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     public class CountDown extends JCountDownTimer {
 
         public CountDown(long millisInFuture, long countDownInterval) {
