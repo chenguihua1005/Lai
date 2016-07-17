@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -160,12 +159,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     ClassMainStudentAdapter adapter;
 
     View view;
-
-
     UserInfoModel model;
-
-
-    private ProgressDialog progressDialog;
 
 
     @Override
@@ -191,10 +185,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         rel_title.setAlpha(0f);
         rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
-
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
 
         view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
         rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
@@ -241,7 +231,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-
         classMainManager = new PCClassMainManager(this);
         dialogShow("加载中");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
@@ -267,11 +256,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         rel_jzbfb.setOnClickListener(this);
         rel_tzl.setOnClickListener(this);
         rel_ywbh.setOnClickListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override

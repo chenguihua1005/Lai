@@ -249,13 +249,17 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 @Override
                 public void success(ResponseData listResponseData, Response response) {
                     int status = listResponseData.getStatus();
-                    switch (status) {
-                        case 200:
-                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
-                            break;
-                        default:
-                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
-                            break;
+                    try {
+                        switch (status) {
+                            case 200:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                                break;
+                            default:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -322,10 +326,11 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 if(StringUtils.isNotEmpty(info.getPCStoryImg())){
                     Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
                 }
-                if(StringUtils.isNotEmpty(info.getTips_video_name())){
+                if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                     tv_video_name.setText(info.getTips_video_name());
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
-                        Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture()).placeholder(R.drawable.default_icon_rect)
+                        Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
+                                .fit().placeholder(R.drawable.default_icon_rect)
                                 .error(R.drawable.default_icon_rect).into(iv_video_image);
                     }
                     fl_video.setVisibility(View.VISIBLE);

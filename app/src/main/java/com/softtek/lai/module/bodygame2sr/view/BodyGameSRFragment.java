@@ -28,11 +28,11 @@ import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
-import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2.view.SearchPcActivity;
+import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
@@ -131,6 +131,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_tips_content;
     @InjectView(R.id.fl_video)
     FrameLayout fl_video;
+    @InjectView(R.id.iv_video_image)
+    ImageView iv_video_image;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -273,91 +275,97 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
         });
         onRefresh();
     }
-    SPBodyGameInfo info;
-    public void onloadCompleted(SPBodyGameInfo info){
-        pull.setRefreshing(false);
-        if(info!=null){
-            this.info=info;
-            String basePath= AddressManager.get("photoHost");
-            //首页banner
-            if(StringUtils.isNotEmpty(info.getBanner())){
-                Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).into(iv_banner);
-            }
-            tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
-            tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
-            tv_person_num.setText(StringUtil.convertValue1(info.getPcCount()));
-            tv_loss_weight.setText(StringUtil.convertValue1(info.getLossTotal()));
-            tv_fuce_per.setText(StringUtil.convertValue1(info.getRetest()));
-            tv_server_rank.setText(StringUtil.convertValue1(info.getPcNum()));
-            tv_loss_rank.setText(StringUtil.convertValue1(info.getLossNum()));
-            tv_fuce_rank.setText(StringUtil.convertValue1(info.getRNum()));
-            pcModels.clear();
-            competitionModels.clear();
-            pcModels.addAll(info.getSp_pc_three());
-            competitionModels.addAll(info.getCompetition());
-            sppcAdapter.notifyDataSetChanged();
-            ListViewUtil.setListViewHeightBasedOnChildren(mlv);
-            saiKuangAdapter.notifyDataSetChanged();
-            if(StringUtils.isNotEmpty(info.getTips_video_name())){
-                tv_video_name.setText(info.getTips_video_name());
-                fl_video.setVisibility(View.VISIBLE);
-            }else{
-                fl_video.setVisibility(View.GONE);
-            }
-            List<Tips> tips=info.getTips_content();
-            if(tips==null||tips.isEmpty()){
-                ll_tips_content.setVisibility(View.GONE);
-            }else{
-                ll_tip2.setVisibility(View.INVISIBLE);
-                for (int i=0;i<tips.size();i++){
-                    Tips tip=tips.get(i);
-                    String mask=tip.getTips_TagTitle();
-                    if(i==0){
-                        tv_title1.setText(tip.getTips_Title());
-                        tv_tag1.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养养身".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养身保健知识".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#98dee6"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
-                            tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
-                            tv_tag1.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                        }
-                    }else if(i==1){
-                        ll_tip2.setVisibility(View.VISIBLE);
-                        tv_title2.setText(tip.getTips_Title());
-                        tv_tag2.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养养身".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养身保健知识".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#98dee6"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
-                            tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
-                            tv_tag2.setTextColor(Color.parseColor("#ffa300"));
-                            im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+    SRBodyGameInfo info;
+    public void onloadCompleted(SRBodyGameInfo info){
+        try {
+            pull.setRefreshing(false);
+            if(info!=null){
+                this.info=info;
+                String basePath= AddressManager.get("photoHost");
+                //首页banner
+                if(StringUtils.isNotEmpty(info.getBanner())){
+                    Picasso.with(getContext()).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).into(iv_banner);
+                }
+                tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
+                tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
+                tv_person_num.setText(StringUtil.convertValue1(info.getPcCount()));
+                tv_loss_weight.setText(StringUtil.convertValue1(info.getLossTotal()));
+                tv_fuce_per.setText(StringUtil.convertValue1(info.getRetest()));
+                tv_server_rank.setText(StringUtil.convertValue1(info.getPcNum()));
+                tv_loss_rank.setText(StringUtil.convertValue1(info.getLossNum()));
+                tv_fuce_rank.setText(StringUtil.convertValue1(info.getRNum()));
+                pcModels.clear();
+                competitionModels.clear();
+                pcModels.addAll(info.getSp_pc_three());
+                competitionModels.addAll(info.getCompetition());
+                sppcAdapter.notifyDataSetChanged();
+                ListViewUtil.setListViewHeightBasedOnChildren(mlv);
+                saiKuangAdapter.notifyDataSetChanged();
+                if(StringUtils.isNotEmpty(info.getTips_video_id())){
+                    tv_video_name.setText(info.getTips_video_name());
+                    if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
+                        Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
+                                .fit().placeholder(R.drawable.default_icon_rect)
+                                .error(R.drawable.default_icon_rect).into(iv_video_image);
+                    }
+                    fl_video.setVisibility(View.VISIBLE);
+                }else{
+                    fl_video.setVisibility(View.GONE);
+                }
+                List<Tips> tips=info.getTips_content();
+                if(tips==null||tips.isEmpty()){
+                    ll_tips_content.setVisibility(View.GONE);
+                }else{
+                    ll_tip2.setVisibility(View.INVISIBLE);
+                    for (int i=0;i<tips.size();i++){
+                        Tips tip=tips.get(i);
+                        String mask=tip.getTips_TagTitle();
+                        if(i==0){
+                            tv_title1.setText(tip.getTips_Title());
+                            tv_tag1.setText(tip.getTips_TagTitle());
+                            if("运动健身".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                            }else if("营养养身".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_green);
+                            }else if("养身保健知识".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#98dee6"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
+                            }else if("健康饮食".equals(mask)){
+                                tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
+                            }else{
+                                tv_tag1.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip.setBackgroundResource(R.drawable.mask_org);
+                            }
+                        }else if(i==1){
+                            ll_tip2.setVisibility(View.VISIBLE);
+                            tv_title2.setText(tip.getTips_Title());
+                            tv_tag2.setText(tip.getTips_TagTitle());
+                            if("运动健身".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                            }else if("营养养身".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
+                            }else if("养身保健知识".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#98dee6"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
+                            }else if("健康饮食".equals(mask)){
+                                tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
+                            }else{
+                                tv_tag2.setTextColor(Color.parseColor("#ffa300"));
+                                im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
+                            }
                         }
                     }
                 }
             }
-
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -374,13 +382,17 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 @Override
                 public void success(ResponseData listResponseData, Response response) {
                     int status = listResponseData.getStatus();
-                    switch (status) {
-                        case 200:
-                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
-                            break;
-                        default:
-                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
-                            break;
+                    try {
+                        switch (status) {
+                            case 200:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                                break;
+                            default:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 

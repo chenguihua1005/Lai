@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
+import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.http.GET;
@@ -39,4 +40,9 @@ public interface BodyGameSRService {
             @Query("type")String type,
             RequestCallback<ResponseData<MemberChangeModel>> callback
     );
+
+    //获取SR首页信息
+    @GET("/HerbNewUser/GetSRIndexInformation")
+    void getSRIndexInformation(@Header("token")String token,
+                               RequestCallback<ResponseData<SRBodyGameInfo>> callback);
 }
