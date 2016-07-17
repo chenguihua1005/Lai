@@ -61,7 +61,6 @@ public class StepService extends Service implements SensorEventListener {
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
-    private StepDetector  stepDetector;
     private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;
     private WakeLock mWakeLock;
@@ -102,7 +101,12 @@ public class StepService extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         initBroadcastReceiver();
-        startStepDetector();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startStepDetector();
+            }
+        }).start();
         Log.i("计步器onCreate");
         initTodayData();
         startTimeCount();
@@ -195,7 +199,6 @@ public class StepService extends Service implements SensorEventListener {
             Log.i("该手机有SENSOR_STEP_COUNTER");
             addCountStepListener();
         }else {
-            Log.i("该手机没有SENSOR_STEP_COUNTER");
             Log.i(" 选用重力加速度传感器");
             addBasePedoListener();
         }
@@ -205,31 +208,32 @@ public class StepService extends Service implements SensorEventListener {
     private void addCountStepListener() {
         countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
-            Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else {
-            Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
     }
 
 
-
+    StepDetector stepDetector;
+    StepCount stepCount;
     private void addBasePedoListener() {
         if(sensorManager!=null&&stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             sensorManager=null;
             stepDetector=null;
         }
-        stepDetector = new StepDetector();
+        stepDetector=new StepDetector();
+        stepCount=new StepCount();
         Sensor sensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
-        stepDetector.setOnSensorChangeListener(new StepDetector.OnSensorChangeListener() {
+        stepDetector.setStepListeners(stepCount);
+        stepCount.setmListeners(new StepPaseValueListener() {
             @Override
-            public void onChange(int step) {
+            public void stepsChanged(int step) {
                 calTodayStep(step);
             }
         });
