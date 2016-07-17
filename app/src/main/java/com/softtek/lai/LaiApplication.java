@@ -15,11 +15,10 @@ import com.marswin89.marsdaemon.DaemonConfigurations;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.Receive1;
 import com.softtek.lai.stepcount.service.Receive2;
-import com.softtek.lai.stepcount.service.Service1;
 import com.softtek.lai.stepcount.service.Service2;
-import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
@@ -93,8 +92,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     private DaemonConfigurations createConfigurations(){
         DaemonConfigurations.DaemonConfiguration
                 configuration1=new DaemonConfigurations
-                .DaemonConfiguration("com.softtek.lai:process1",
-                StepService.class.getCanonicalName(),
+                .DaemonConfiguration("com.softtek.lai:daemonprocess",
+                DaemonService.class.getCanonicalName(),
                 Receive1.class.getCanonicalName());
         DaemonConfigurations.DaemonConfiguration
                 configuration2=new DaemonConfigurations

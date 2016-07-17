@@ -22,7 +22,7 @@ import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.stepcount.service.Service1;
+import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class GroupAdapter extends BaseAdapter {
                             model.setIsJoin("1");//加入跑团标识
                             UserInfoModel.getInstance().saveUserCache(model);
                             context.startService(new Intent(context.getApplicationContext(), StepService.class));
-                            context.startService(new Intent(context.getApplicationContext(), Service1.class));
+                            context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
                             context.startActivity(new Intent(context, GroupMainActivity.class));
                         }
                     }

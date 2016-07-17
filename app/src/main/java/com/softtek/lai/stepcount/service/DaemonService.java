@@ -13,7 +13,7 @@ import com.github.snowdream.android.util.Log;
 /**
  * Created by jerry.guan on 7/16/2016.
  */
-public class Service1 extends Service{
+public class DaemonService extends Service{
 
     @Nullable
     @Override
@@ -39,9 +39,9 @@ public class Service1 extends Service{
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        startService(new Intent(this,Service1.class));
         unregisterReceiver(closeReceiver);
+        startService(new Intent(this,DaemonService.class));
+        super.onDestroy();
     }
 
     public static class StepCloseReceiver extends BroadcastReceiver{

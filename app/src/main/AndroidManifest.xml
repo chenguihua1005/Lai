@@ -745,10 +745,10 @@
         <activity android:name=".module.bodygame2vr.BodyGameVRActivity"
             android:screenOrientation="portrait"></activity>
         <!--进程常驻设置-->
-        <service android:name=".stepcount.service.Service1"
-            android:process=":process1"/>
+        <service android:name=".stepcount.service.DaemonService"
+            android:process=":daemonprocess"/>
         <receiver android:name=".stepcount.service.Receive1"
-            android:process=":process1" />
+            android:process=":daemonprocess" />
         <service android:name="com.softtek.lai.stepcount.service.Service2"
             android:process=":process2"/>
         <receiver android:name=".stepcount.service.Receive2"
