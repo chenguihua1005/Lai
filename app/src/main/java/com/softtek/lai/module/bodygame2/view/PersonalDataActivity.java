@@ -471,9 +471,25 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            Log.i("adsasad","wo jinlai le a dsa ds ad a");
             AMStatus="1";
+            tv_xunzhflag.setText("");
             persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
+            fragmentList.clear();
+            Map<String, String> params = new HashMap<>();
+            params.put("userId", userId + "");
+            params.put("classId", classId + "");
+            if(lwcf==null){
+                lwcf= LossWeightChartFragment.newInstance(params);
+            }
+            if(dcf==null){
+                dcf= DimensionChartFragment.newInstance(params);
+            }
+            fragmentList.add(lwcf);
+            fragmentList.add(dcf);
+            tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
+            tabLayout.setupWithViewPager(tabcontent);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
         }
     }
 
