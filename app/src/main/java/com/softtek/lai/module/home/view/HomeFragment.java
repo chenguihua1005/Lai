@@ -643,7 +643,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                //img_red.setVisibility(View.VISIBLE);
                 iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
             }
         }
