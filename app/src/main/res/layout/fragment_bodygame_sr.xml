@@ -3,111 +3,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:addStatesFromChildren="true">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <com.softtek.lai.widgets.ObservableScrollView
-        android:id="@+id/scroll"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.softtek.lai.widgets.ObservableScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--头部-->
-            <FrameLayout
-                android:id="@+id/fl"
-                android:layout_width="match_parent"
-                android:layout_height="173dp">
-
-                <ImageView
-                    android:id="@+id/iv_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/default_icon_rect" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginBottom="14dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center_vertical|center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="全国总参赛人数"
-                            android:textColor="#ffffff"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:id="@+id/tv_totalperson"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="#fcff00"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#e6e6e6" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="19dp"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="全国总减重斤数"
-                            android:textColor="#ffffff"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:id="@+id/tv_total_loss"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="#fcff00"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="28dp"
-                        android:src="@drawable/refresh" />
-
-                </LinearLayout>
-            </FrameLayout>
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/fl"
                 android:background="#f2f2f2"
                 android:orientation="vertical">
+
+                <!--头部-->
+                <FrameLayout
+                    android:id="@+id/fl"
+                    android:layout_width="match_parent"
+                    android:layout_height="173dp">
+
+                    <ImageView
+                        android:id="@+id/iv_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_icon_rect" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="14dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_vertical|center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="全国总参赛人数"
+                                android:textColor="#ffffff"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_totalperson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#fcff00"
+                                android:textSize="17sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#e6e6e6" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="19dp"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="全国总减重斤数"
+                                android:textColor="#ffffff"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_total_loss"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#fcff00"
+                                android:textSize="17sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_refresh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="28dp"
+                            android:src="@drawable/refresh" />
+
+                    </LinearLayout>
+                </FrameLayout>
                 <!--菜单数据-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -463,7 +459,6 @@
                 </LinearLayout>
 
                 <!--我的学员-->
-                <!--<include layout="@layout/bg2_my_student" />-->
                 <RelativeLayout
                     android:id="@+id/rl_student_more"
                     android:layout_width="match_parent"
@@ -491,20 +486,21 @@
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e5e5e5" />
+
                 <ListView
                     android:id="@+id/mlv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:overScrollMode="never"
+                    android:divider="#f2f2f2"
                     android:dividerHeight="2dp"
-                    android:divider="#f2f2f2"/>
+                    android:overScrollMode="never" />
 
                 <!--大赛赛况-->
-                <!--<include layout="@layout/bg2_saikuang" />-->
                 <RelativeLayout
                     android:id="@+id/rl_saikuang"
                     android:layout_width="match_parent"
@@ -532,10 +528,12 @@
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e5e5e5" />
+
                 <com.softtek.lai.widgets.MyGridView
                     android:id="@+id/mgv"
                     android:layout_width="match_parent"
@@ -544,8 +542,8 @@
                     android:layout_marginRight="6dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:listSelector="#00000000"
                     android:horizontalSpacing="5dp"
+                    android:listSelector="#00000000"
                     android:numColumns="2"
                     android:verticalSpacing="19dp">
 
@@ -555,91 +553,95 @@
                 <include layout="@layout/home_tips_layout" />
 
             </LinearLayout>
+        </com.softtek.lai.widgets.ObservableScrollView>
 
-        </RelativeLayout>
-    </com.softtek.lai.widgets.ObservableScrollView>
-
-    <RelativeLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
         <RelativeLayout
-            android:id="@+id/rl_color"
-            android:background="@color/colorPrimaryDark"
-            android:alpha="0"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <LinearLayout
-            android:id="@+id/ll_left"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_height="50dp">
 
-            <ImageView
-                android:id="@+id/iv_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/back" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_right"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/rl_color"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:background="@color/colorPrimaryDark" />
 
-            <ImageView
-                android:id="@+id/iv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="消息"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/ll_left"
-            android:layout_toLeftOf="@id/ll_right"
-            android:background="@drawable/search_bg">
-
-
-            <FrameLayout
-                android:id="@+id/fl_search"
+            <LinearLayout
+                android:id="@+id/ll_left"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true">
+                android:gravity="center">
+
                 <ImageView
+                    android:id="@+id/iv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_right"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/bg2_search" />
-            </FrameLayout>
-            <EditText
-                android:id="@+id/et_person"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/fl_search"
-                android:layout_centerInParent="true"
-                android:paddingLeft="5dp"
-                android:background="@null"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:layout_marginLeft="12dp"
-                android:hint="学员姓名/手机号"
-                android:textColor="#b3b3b3"
-                android:textSize="12sp" />
-        </RelativeLayout>
+                    android:layout_marginTop="5dp"
+                    android:text="消息"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@id/ll_right"
+                android:layout_toRightOf="@id/ll_left"
+                android:background="@drawable/search_bg">
+
+
+                <FrameLayout
+                    android:id="@+id/fl_search"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/bg2_search" />
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/et_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toLeftOf="@id/fl_search"
+                    android:background="@null"
+                    android:hint="学员姓名/手机号"
+                    android:paddingLeft="5dp"
+                    android:singleLine="true"
+                    android:textColor="#b3b3b3"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

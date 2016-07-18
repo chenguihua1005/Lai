@@ -60,6 +60,8 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
     CheckBox cb_zan;
     @InjectView(R.id.tv_zan_name)
     TextView tv_zan_name;
+    @InjectView(R.id.ll_zan)
+    LinearLayout ll_zan;
 
     private CommunityService service;
     private HealthyDynamicModel model;
@@ -181,7 +183,12 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
-        tv_zan_name.setText(dynamicModel.getUsernameSet());
+        if(StringUtils.isNotEmpty(dynamicModel.getUsernameSet())){
+            ll_zan.setVisibility(View.VISIBLE);
+            tv_zan_name.setText(dynamicModel.getUsernameSet());
+        }else {
+            ll_zan.setVisibility(View.GONE);
+        }
         //判断是否点过赞
         if(accountId==-1){
             cb_zan.setChecked(false);

@@ -21,6 +21,7 @@ import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 
@@ -58,7 +59,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
-        Log.i("token="+token);
         new Handler().postDelayed(this,1000);
     }
     //执行token不为空的情况
@@ -202,7 +202,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         }
         //删除旧数据
         StepUtil.getInstance().deleteOldDate(dateStar,userId);
+        Log.i("启动计步器");
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
+        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
     }
 }

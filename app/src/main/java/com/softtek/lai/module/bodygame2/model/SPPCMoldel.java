@@ -7,6 +7,7 @@ package com.softtek.lai.module.bodygame2.model;
 public class SPPCMoldel {
 
     private int AccountId;
+    private int AssistantId;
     private String AssistantName;
     private String superName;
     private int ClassId;
@@ -21,6 +22,14 @@ public class SPPCMoldel {
     private int acmCou;
     private int Gender;
     private String PCPhoto;
+
+    public int getAssistantId() {
+        return AssistantId;
+    }
+
+    public void setAssistantId(int assistantId) {
+        AssistantId = assistantId;
+    }
 
     public String getSuperName() {
         return superName;

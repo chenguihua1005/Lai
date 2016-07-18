@@ -5,8 +5,10 @@
 
 package com.softtek.lai.module.login.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
@@ -91,11 +93,21 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.btn_submit:
                 validateLife.validate();
                 break;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            startActivity(new Intent(this,LoginActivity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**

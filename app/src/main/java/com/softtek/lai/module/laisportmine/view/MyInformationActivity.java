@@ -2,6 +2,7 @@ package com.softtek.lai.module.laisportmine.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -136,7 +137,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     }
     public void doSignOutRG(long accountid)
     {
-        String token= UserInfoModel.getInstance().getToken();
+        final String token= UserInfoModel.getInstance().getToken();
         service= ZillaApi.NormalRestAdapter.create(MineService.class);
         service.doSignOutRG(token, accountid, new Callback<ResponseData>() {
             @Override
@@ -145,12 +146,12 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 switch (status)
                 {
                     case 200:
+                        UserInfoModel.getInstance().setGroupOut(true);
+                        LocalBroadcastManager.getInstance(MyInformationActivity.this).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                         UserModel model=UserInfoModel.getInstance().getUser();
                         model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
-                        stopService(new Intent(getApplicationContext(), StepService.class));
-                        Intent inten=new Intent(MyInformationActivity.this,HomeActviity.class);
-                        startActivity(inten);
+                        startActivity(new Intent(MyInformationActivity.this,HomeActviity.class));
                         break;
                     case 100:
                         Log.i(responseData.getMsg());
@@ -164,7 +165,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }

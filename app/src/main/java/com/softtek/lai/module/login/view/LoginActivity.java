@@ -124,6 +124,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 validateLife.validate();
                 break;
             case R.id.tv_forgetpsd:
+                finish();
                 startActivity(new Intent(this, ForgetActivity.class));
                 break;
             case R.id.tv_regist:

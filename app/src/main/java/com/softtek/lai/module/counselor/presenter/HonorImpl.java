@@ -15,6 +15,8 @@ import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.ShareSRHonorModel;
 import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.jingdu.model.DangQiShare;
+
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -138,7 +140,6 @@ public class HonorImpl implements IHonorPresenter {
             public void success(ResponseData<UserHonorModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                UserHonorModel userHonorModel = listResponseData.getData();
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:
@@ -158,9 +159,33 @@ public class HonorImpl implements IHonorPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void getSPDangQiHonor() {
+        counselorService.getSPCurrentProgressServer(UserInfoModel.getInstance().getToken(),
+                new Callback<ResponseData<DangQiShare>>() {
+                    @Override
+                    public void success(ResponseData<DangQiShare> data, Response response) {
+                        context.dialogDissmiss();
+                        switch (data.getStatus()) {
+                            case 200:
+                                EventBus.getDefault().post(data.getData());
+                                break;
+                            default:
+                                Util.toastMsg(data.getMsg());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        context.dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                    }
+                });
     }
 
 }

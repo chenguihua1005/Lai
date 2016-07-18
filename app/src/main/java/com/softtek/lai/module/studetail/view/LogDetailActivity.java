@@ -13,6 +13,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.presenter.LogStoryDetailManager;
@@ -23,6 +24,7 @@ import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
@@ -133,9 +135,13 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.cb_zan:
+                final UserModel model=UserInfoModel.getInstance().getUser();
                 log.setPriase(Integer.parseInt(log.getPriase())+1+"");
                 log.setIsClicked("1");
+                log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(),model.getNickname(),model.getMobile()));
                 cb_zan.setText(log.getPriase());
+                tv_zan_name.setText(log.getUsernameSet());
+                ll_zan.setVisibility(View.VISIBLE);
                 //向服务器提交
                 memberInfopresenter.doZan(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid())
                         ,Long.parseLong(log.getLossLogId()),
@@ -147,7 +153,15 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                             public void failure(RetrofitError error) {
                                 log.setPriase(Integer.parseInt(log.getPriase())-1+"");
                                 log.setIsClicked("0");
+                                String del= StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(),model.getNickname()),",");
+                                log.setUsernameSet(del);
                                 cb_zan.setText(log.getPriase());
+                                if(StringUtils.isNotEmpty(log.getUsernameSet())){
+                                    ll_zan.setVisibility(View.VISIBLE);
+                                    tv_zan_name.setText(log.getUsernameSet());
+                                }else {
+                                    ll_zan.setVisibility(View.GONE);
+                                }
                                 ZillaApi.dealNetError(error);
                             }
                         });
@@ -181,7 +195,12 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                     "月"+DateUtil.getInstance().getDay(date)+"日");
             tv_totle_lw.setText(log.getAfterWeight()+"斤");
             cb_zan.setText(log.getPriasenum());
-            tv_zan_name.setText(log.getUserNames());
+            if(StringUtils.isNotEmpty(log.getUserNames())){
+                ll_zan.setVisibility(View.VISIBLE);
+                tv_zan_name.setText(log.getUserNames());
+            }else {
+                ll_zan.setVisibility(View.GONE);
+            }
             if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
                 cb_zan.setChecked(true);
                 cb_zan.setEnabled(false);

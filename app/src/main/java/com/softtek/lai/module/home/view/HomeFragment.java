@@ -42,6 +42,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
+import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -542,7 +543,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
+                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
                 }
             }).create().show();
         } else if (role == Constants.NC) {
@@ -556,7 +557,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameCcActivity.class));
+                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
 
                 }
             }).create().show();
@@ -570,7 +571,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         if ("1".equals(hasClassResponseData.getData().getIsHave())) {
                             startActivity(new Intent(getContext(), BodyGamePCActivity.class));
                         } else {
-                            startActivity(new Intent(getContext(), BodyGameCcActivity.class));
+                            startActivity(new Intent(getContext(), BodyGameVRActivity.class));
                         }
                     } else {
                         Util.toastMsg(hasClassResponseData.getMsg());

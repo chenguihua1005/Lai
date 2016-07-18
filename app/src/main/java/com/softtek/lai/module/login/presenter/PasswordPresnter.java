@@ -45,7 +45,7 @@ public class PasswordPresnter implements IPasswordPresenter {
             public void success(ResponseData responseData, Response response) {
                 Log.i("重置成功");
                 Util.toastMsg(R.string.psdResetY);
-
+                ((AppCompatActivity) context).finish();
                 context.startActivity(new Intent(context, LoginActivity.class));
             }
 
@@ -68,10 +68,10 @@ public class PasswordPresnter implements IPasswordPresenter {
                 switch (status) {
                     case 200:
                         UserInfoModel.getInstance().setToken(token);
+                        ((AppCompatActivity) context).finish();
                         if("1".equals(type)){
                             context.startActivity(new Intent(context, HomeActviity.class));
                         }
-                        ((AppCompatActivity) context).finish();
                         break;
                     default:
                         Util.toastMsg(responseData.getMsg());
@@ -81,8 +81,7 @@ public class PasswordPresnter implements IPasswordPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("重置失败");
-                Util.toastMsg(R.string.psdResetN);
+                ZillaApi.dealNetError(error);
             }
         });
 
@@ -100,6 +99,7 @@ public class PasswordPresnter implements IPasswordPresenter {
                         Intent intent = new Intent(context, ForgetActivity2.class);
                         intent.putExtra("phone", phone);
                         intent.putExtra("identify", identify);
+                        ((AppCompatActivity) context).finish();
                         context.startActivity(intent);
                         break;
                     default:

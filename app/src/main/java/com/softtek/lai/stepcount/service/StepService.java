@@ -50,6 +50,8 @@ public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
+    public static final String STEP_CLOSE="com.softtek.lai.StepService.StepClose";
+    public static final String STEP_CLOSE_SELF="com.softtek.lai.StepService.STEP_CLOSE_SELF";
 
     public static final int MSG_FROM_CLIENT=1;
     public static final int MSG_FROM_SERVER=1;
@@ -59,9 +61,8 @@ public class StepService extends Service implements SensorEventListener {
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
-    private StepDetector  stepDetector;
-//    private BroadcastReceiver mBatInfoReceiver;
     private UploadStepReceive uploadStepReceive;
+    private CloseReceive closeReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
     private int currentStep;//当前计步器 得出的步数结果用与做数据使用
@@ -101,10 +102,12 @@ public class StepService extends Service implements SensorEventListener {
         super.onCreate();
         initBroadcastReceiver();
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 startStepDetector();
             }
         }).start();
+        Log.i("计步器onCreate");
         initTodayData();
         startTimeCount();
     }
@@ -128,6 +131,8 @@ public class StepService extends Service implements SensorEventListener {
         IntentFilter upload=new IntentFilter(UPLOAD_STEP);
         upload.addAction(Intent.ACTION_TIME_TICK);
         registerReceiver(uploadStepReceive,upload);
+        closeReceive=new CloseReceive();
+        LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive,new IntentFilter(STEP_CLOSE_SELF));
 
     }
 
@@ -194,7 +199,6 @@ public class StepService extends Service implements SensorEventListener {
             Log.i("该手机有SENSOR_STEP_COUNTER");
             addCountStepListener();
         }else {
-            Log.i("该手机没有SENSOR_STEP_COUNTER");
             Log.i(" 选用重力加速度传感器");
             addBasePedoListener();
         }
@@ -204,31 +208,32 @@ public class StepService extends Service implements SensorEventListener {
     private void addCountStepListener() {
         countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
-            Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else {
-            Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
     }
 
 
-
+    StepDetector stepDetector;
+    StepCount stepCount;
     private void addBasePedoListener() {
         if(sensorManager!=null&&stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             sensorManager=null;
             stepDetector=null;
         }
-        stepDetector = new StepDetector();
+        stepDetector=new StepDetector();
+        stepCount=new StepCount();
         Sensor sensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
-        stepDetector.setOnSensorChangeListener(new StepDetector.OnSensorChangeListener() {
+        stepDetector.setStepListeners(stepCount);
+        stepCount.setmListeners(new StepPaseValueListener() {
             @Override
-            public void onChange(int step) {
+            public void stepsChanged(int step) {
                 calTodayStep(step);
             }
         });
@@ -329,32 +334,34 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
+        //如果不是退出且跑团也没退出
+        if(!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()){
+            sendBroadcast(new Intent(STEP_CLOSE));
+            Log.i("计步器没有真正停止");
+        }else {
+            todayStep =0;
+            lastStep=0;
+            serverStep =0;
+            currentStep=0;
+            Log.i("计步器真的停止");
+        }
         super.onDestroy();
         //取消前台进程
-        Log.i("test","计步服务结束");
         stopForeground(true);
         nm.cancelAll();
         unregisterReceiver(uploadStepReceive);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
         if(stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             stepDetector=null;
         }
         if (countSensor != null) {
-            Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
         }
         sensorManager=null;
         time.cancel();
-        if(UserInfoModel.getInstance().getUser()!=null&&"1".equals(UserInfoModel.getInstance().getUser().getIsJoin())){
-            Intent intent = new Intent(this, StepService.class);
-            startService(intent);
-        }else{
-            todayStep =0;
-            lastStep=0;
-            serverStep =0;
-            currentStep=0;
-            Log.i("计步器服务不再执行");
-        }
+
+
     }
 
     synchronized private WakeLock getLock(Context context) {
@@ -373,7 +380,7 @@ public class StepService extends Service implements SensorEventListener {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(System.currentTimeMillis());
             int hour = c.get(Calendar.HOUR_OF_DAY);
-            if (hour >=50 || hour <= 6) {
+            if (hour >=23 || hour <= 6) {
                 mWakeLock.acquire(5000);
             } else {
                 mWakeLock.acquire(300000);
@@ -381,6 +388,14 @@ public class StepService extends Service implements SensorEventListener {
         }
 
         return (mWakeLock);
+    }
+
+    public class CloseReceive extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            stopSelf();
+        }
     }
 
     public class UploadStepReceive extends BroadcastReceiver{
@@ -407,8 +422,7 @@ public class StepService extends Service implements SensorEventListener {
                     updateNotification("今日步数：0步");
                 }
             }else if(UPLOAD_STEP.equals(action)) {
-                UserModel model = UserInfoModel.getInstance().getUser();
-                if (model == null || "0".equals(model.getIsJoin())) {
+                if (!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()) {
                     return;
                 }
                 //检查日期
@@ -422,25 +436,28 @@ public class StepService extends Service implements SensorEventListener {
                     return;
                 }
                 //做上传工作
-                String userId = model.getUserid();
-                int todayStep =StepService.todayStep;
-                StringBuilder buffer = new StringBuilder();
-                buffer.append(DateUtil.getInstance().getCurrentDate());
-                buffer.append(",");
-                buffer.append(todayStep);
-                //提交数据
-                com.github.snowdream.android.util.Log.i("步数>>" + buffer.toString());
-                ZillaApi.NormalRestAdapter.create(StepNetService.class)
-                        .synStepCount(
-                                UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        com.github.snowdream.android.util.Log.i("上传成功");
-                                        //发送广播
-                                        Intent stepIntent=new Intent(UPLOAD_STEP);
-                                        LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
-                                    }
-                                });
+                UserModel model = UserInfoModel.getInstance().getUser();
+                if(model!=null){
+                    String userId = model.getUserid();
+                    int todayStep =StepService.todayStep;
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append(DateUtil.getInstance().getCurrentDate());
+                    buffer.append(",");
+                    buffer.append(todayStep);
+                    //提交数据
+                    com.github.snowdream.android.util.Log.i("步数>>" + buffer.toString());
+                    ZillaApi.NormalRestAdapter.create(StepNetService.class)
+                            .synStepCount(
+                                    UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            com.github.snowdream.android.util.Log.i("上传成功");
+                                            //发送广播
+                                            Intent stepIntent=new Intent(UPLOAD_STEP);
+                                            LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
+                                        }
+                                    });
+                }
                 context.startService(new Intent(context.getApplicationContext(), StepService.class));
             }
         }
