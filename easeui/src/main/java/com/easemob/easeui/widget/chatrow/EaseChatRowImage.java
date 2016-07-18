@@ -105,7 +105,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
             intent.putExtra(EaseConstant.EASE_ATTR_REVOKE_MSG_ID, message.getMsgId());
         }
         if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
-        		&& message.getChatType() == ChatType.Chat) {
+                && message.getChatType() == ChatType.Chat) {
             sendACKMessage();
         }
         context.startActivity(intent);
@@ -122,23 +122,27 @@ public class EaseChatRowImage extends EaseChatRowFile {
             e.printStackTrace();
             EaseACKUtil.getInstance(context).saveACKDataId(message.getMsgId(), message.getFrom());
         } finally {
-        	if(message.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
-                    && message.direct == Direct.RECEIVE){
-        		EMChatManager.getInstance().getConversation(message.getFrom()).removeMessage(message.getMsgId());
-        		onUpdateView();
-        	}
+            if (message.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
+                    && message.direct == Direct.RECEIVE) {
+                EMChatManager.getInstance().getConversation(message.getFrom()).removeMessage(message.getMsgId());
+                onUpdateView();
+            }
         }
+    }
+    public int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
     /**
      * load image into image view
-     * 
+     *
      * @param thumbernailPath
      * @param iv
      * @param position
      * @return the image exists or not
      */
     private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath,
-            final EMMessage message) {
+                                  final EMMessage message) {
         // first check if the thumbnail image already loaded into cache
         Bitmap bitmap = EaseImageCache.getInstance().get(thumbernailPath);
         if (bitmap != null) {
@@ -158,10 +162,10 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 protected Bitmap doInBackground(Object... args) {
                     File file = new File(thumbernailPath);
                     if (file.exists()) {
-                        return EaseImageUtils.decodeScaleImage(thumbernailPath, 160, 160);
+                        return EaseImageUtils.decodeScaleImage(thumbernailPath, 500, 500);
                     } else {
                         if (message.direct == EMMessage.Direct.SEND) {
-                            return EaseImageUtils.decodeScaleImage(localFullSizePath, 160, 160);
+                            return EaseImageUtils.decodeScaleImage(localFullSizePath, 450,450);
                         } else {
                             return null;
                         }

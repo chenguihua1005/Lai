@@ -41,6 +41,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
+import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -227,6 +228,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
         } else {
+            if(HomeFragment.timer!=null){
+                HomeFragment.timer.cancel();
+            }
             loginPresenter.getEMChatAccount(progressDialog);
         }
 

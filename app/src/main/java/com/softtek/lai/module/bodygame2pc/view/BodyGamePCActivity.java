@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
@@ -124,6 +125,15 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
             }
             content.setCurrentItem(current, false);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            updateMessage(unreadNum);
         }
     }
 
