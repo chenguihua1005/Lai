@@ -291,8 +291,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
 
-        classMainManager = new ClassMainSRManager(this);
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     private void initSelectTypePop() {
@@ -330,7 +328,8 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.requestFocus();
         scroll.setFocusable(false);
 
-
+        classMainManager = new ClassMainSRManager(this);
+        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     @Override

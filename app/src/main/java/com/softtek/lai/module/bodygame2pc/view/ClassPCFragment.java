@@ -231,9 +231,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-        classMainManager = new PCClassMainManager(this);
-        dialogShow("加载中");
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+
     }
 
     private void initSelectTypePop() {
@@ -266,7 +264,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.requestFocus();
         scroll.setFocusable(false);
 
-
+        classMainManager = new PCClassMainManager(this);
+        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     @Override

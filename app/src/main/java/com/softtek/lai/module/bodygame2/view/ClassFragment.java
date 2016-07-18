@@ -326,8 +326,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
 
-        classMainManager = new ClassMainManager(this);
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
     private void initSelectTypePop() {
@@ -364,6 +362,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_title_more.setFocusableInTouchMode(true);
         rel_title_more.requestFocus();
         scroll.setFocusable(false);
+
+        classMainManager = new ClassMainManager(this);
+        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
 
 
     }
