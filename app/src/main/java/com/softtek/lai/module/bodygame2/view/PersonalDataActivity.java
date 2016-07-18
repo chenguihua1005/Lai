@@ -472,7 +472,24 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             AMStatus="1";
+            tv_xunzhflag.setText("");
             persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
+            fragmentList.clear();
+            Map<String, String> params = new HashMap<>();
+            params.put("userId", userId + "");
+            params.put("classId", classId + "");
+            if(lwcf==null){
+                lwcf= LossWeightChartFragment.newInstance(params);
+            }
+            if(dcf==null){
+                dcf= DimensionChartFragment.newInstance(params);
+            }
+            fragmentList.add(lwcf);
+            fragmentList.add(dcf);
+            tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
+            tabLayout.setupWithViewPager(tabcontent);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
         }
     }
 
