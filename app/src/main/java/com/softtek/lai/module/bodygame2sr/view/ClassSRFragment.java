@@ -528,7 +528,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         try {
             if (classMainModel != null) {
                 try {
-                    select_class_list = classMainModel.getClasslist();
+                    select_class_list.clear();
+                    select_class_list.addAll(classMainModel.getClasslist());
+                    adapters.notifyDataSetChanged();
                     text_class_name.setText(select_class_list.get(0).getClassName());
                     select_class_id = select_class_list.get(0).getClassId();
                     SharedPreferenceService.getInstance().put("classId", select_class_id);

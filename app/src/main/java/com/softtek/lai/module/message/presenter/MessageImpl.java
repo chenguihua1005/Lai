@@ -16,6 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.CheckClassEvent;
@@ -262,7 +263,7 @@ public class MessageImpl implements IMessagePresenter {
                 switch (status) {
                     case 200:
                         if ("1".equals(acceptType)) {
-                            Intent intent = new Intent(context, BodygameSRActivity.class);
+                            Intent intent = new Intent(context, BodyGameSRActivity.class);
                             intent.putExtra("type", "0");
                             context.startActivity(intent);
                             context.finish();
