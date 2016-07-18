@@ -12,6 +12,9 @@ import java.util.List;
 public class PCBodyGameInfo {
 
     private String Banner;
+    private String ClassId;
+    private String ClassStatus;//班级状态 0未开始，1进行中，-1已结束
+    private String HasIssue;//1无往期班级，大于1时有往期班级
     private String TotalPc;
     private String TotalLoss;
     private String PCLoss;
@@ -27,6 +30,7 @@ public class PCBodyGameInfo {
     private String PCLossBefore;
     private String PCLossBeforeImg;
 
+    private String PCStoryId;
     private String PCStoryDate;
     private String PCStoryContent;
     private String PCStoryImg;
@@ -39,6 +43,39 @@ public class PCBodyGameInfo {
 
     //咨询
     private List<Tips> Tips_content;
+
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
+
+    public String getClassStatus() {
+        return ClassStatus;
+    }
+
+    public void setClassStatus(String classStatus) {
+        ClassStatus = classStatus;
+    }
+
+    public String getHasIssue() {
+        return HasIssue;
+    }
+
+    public void setHasIssue(String hasIssue) {
+        HasIssue = hasIssue;
+    }
+
+    public String getPCStoryId() {
+        return PCStoryId;
+    }
+
+    public void setPCStoryId(String PCStoryId) {
+        this.PCStoryId = PCStoryId;
+    }
 
     public String getTips_Video_id() {
         return Tips_Video_id;

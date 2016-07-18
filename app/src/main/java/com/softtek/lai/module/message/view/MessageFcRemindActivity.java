@@ -23,12 +23,13 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
+import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.retest.view.RetestActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -72,7 +73,7 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 measureRemindInfo = listRemind.get(position);
                 dialogShow("加载中");
-                messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId(),"1");
+                messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId(), "1");
             }
         });
     }
@@ -89,18 +90,18 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.PC).equals(userrole)) {
             Intent intent = new Intent(this, BodyGamePCActivity.class);
-            intent.putExtra("type","0");
+            intent.putExtra("type", 3);
             startActivity(intent);
         } else if (String.valueOf(Constants.SR).equals(userrole)) {
             //助教身份跳转复测页面
-            Intent intent = new Intent(this, RetestActivity.class);
-            intent.putExtra("type","0");
+            Intent intent = new Intent(this, BodyGameSRActivity.class);
+            intent.putExtra("type", 3);
             startActivity(intent);
 
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
             //顾问身份跳转复测页面
-            Intent intent = new Intent(this, RetestActivity.class);
-            intent.putExtra("type","0");
+            Intent intent = new Intent(this, BodyGameSPActivity.class);
+            intent.putExtra("type", 3);
             startActivity(intent);
 
         }
@@ -109,7 +110,6 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initViews() {
         tv_title.setText(R.string.fcRemind);
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
     }
 
     @Override

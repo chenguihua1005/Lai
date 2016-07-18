@@ -422,7 +422,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 viewDialog = getActivity().getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert, null);
                 et_content = (EditText) viewDialog.findViewById(R.id.et_content);
                 //tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
-                et_content.addTextChangedListener(this);
+                //et_content.addTextChangedListener(this);
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setView(viewDialog)
                         .setPositiveButton("确认", this)
                         .setNegativeButton("取消", this);
@@ -674,7 +674,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void getClassMain(ClassMainModel classMainModel) {
         try {
             if (classMainModel != null) {
-                select_class_list = classMainModel.getClasslist();
+                select_class_list.clear();
+                select_class_list.addAll(classMainModel.getClasslist());
+                adapters.notifyDataSetChanged();
                 text_class_name.setText(select_class_list.get(0).getClassName());
                 select_class_id = select_class_list.get(0).getClassId();
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
@@ -879,9 +881,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            final String content = et_content.getText().toString();
+            final String content = et_content.getText().toString().trim();
+            if("".equals(content)){
+                Util.toastMsg("请输入公告内容");
+                return;
+            }
             if (StringUtil.length(content) > 200) {
-                Util.toastMsg("动态字数不能超过100汉字");
+                Util.toastMsg("公告字数不能超过100汉字");
                 return;
             }
 
