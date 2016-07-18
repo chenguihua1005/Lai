@@ -143,7 +143,6 @@
                                         android:id="@+id/tv_loss_weight"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -179,7 +178,6 @@
                                         android:id="@+id/tv_loss_rank"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -228,7 +226,6 @@
                                         android:id="@+id/tv_yaowei"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -264,7 +261,6 @@
                                         android:id="@+id/tv_yaowei_rank"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -313,7 +309,6 @@
                                         android:id="@+id/tv_tizhi_per"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -349,7 +344,6 @@
                                         android:id="@+id/tv_tizhi_rank"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -398,7 +392,6 @@
                                         android:id="@+id/tv_loss_per"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -434,7 +427,6 @@
                                         android:id="@+id/tv_loss_per_rank"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="100"
                                         android:textSize="15sp" />
 
                                     <TextView
@@ -864,7 +856,6 @@
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="5dp"
                             android:layout_marginLeft="5dp"
-                            android:text="瑜伽健身体验课教程"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
                     </FrameLayout>
@@ -898,7 +889,6 @@
                                     android:id="@+id/tv_title1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="吸睛小蛮腰+撩人马甲线，秘诀统统告诉你！！！"
                                     android:textColor="#333333"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -929,7 +919,6 @@
                                     android:layout_centerInParent="true"
                                     android:layout_toRightOf="@+id/im_icon_tip"
                                     android:layout_marginLeft="5dp"
-                                    android:text="运动健身"
                                     android:textColor="#999999"
                                     android:textSize="12sp" />
 
@@ -968,7 +957,6 @@
                                     android:id="@+id/tv_title2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="小测试-通过减肥方法看性格"
                                     android:textColor="#333333"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -998,7 +986,6 @@
                                     android:layout_centerInParent="true"
                                     android:layout_toRightOf="@+id/im_icon_tip2"
                                     android:layout_marginLeft="5dp"
-                                    android:text="营养课堂"
                                     android:textColor="#999999"
                                     android:textSize="12sp" />
 
