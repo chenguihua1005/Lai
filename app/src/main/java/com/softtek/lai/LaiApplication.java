@@ -54,14 +54,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public static LaiApplication getInstance() {
         return laiApplication;
     }
-
-    /*public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }*/
+    
 
     public WeakReference<Context> getContext() {
         return context;

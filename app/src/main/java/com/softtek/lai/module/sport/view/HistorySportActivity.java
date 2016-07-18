@@ -106,7 +106,8 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             aMap.addMarker(startMark);
             aMap.addMarker(endMark);
             // 移动地图，所有marker自适应显示。LatLngBounds与地图边缘10像素的填充区域
-            aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, DisplayUtil.getMobileWidth(this),DisplayUtil.getMobileHeight(this),8));
+            aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, DisplayUtil.getMobileWidth(this),(int)(DisplayUtil.getMobileHeight(this)*1.5),8));
+
 
         }
     }
