@@ -155,7 +155,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                             list_class.setVisibility(View.VISIBLE);
                             ll_shousuo.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
-
                         }
 
                         @Override
@@ -300,6 +299,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         iv_email.setOnClickListener(this);
+        chuheight=ll_shousuolist.getHeight();
         //班级item点击事件监听
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
