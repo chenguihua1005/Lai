@@ -713,8 +713,9 @@
         <activity
             android:name=".module.bodygame2pc.view.BodyGamePCActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame2pc.view.StuPersonDateActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.bodygame2pc.view.StuPersonDateActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".locationservice.LocationService"
@@ -724,20 +725,35 @@
         <activity
             android:name=".module.bodygame2.view.BodyGameSPActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".module.bodygame2.view.PersonalDataActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame2.view.SearchPcActivity"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.bodygame2.view.PersonalDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame2.view.SearchPcActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame2.view.DYActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame2.view.StudentHonorPCActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame2sr.view.BodyGameSRActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.bodygame2sr.view.BodyGameSRActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".module.bodygame2vr.BodyGameVRActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--进程常驻设置-->
+        <service android:name=".stepcount.service.DaemonService"
+            android:process=":daemonprocess"/>
+        <receiver android:name=".stepcount.service.Receive1"
+            android:process=":daemonprocess" />
+        <service android:name="com.softtek.lai.stepcount.service.Service2"
+            android:process=":process2"/>
+        <receiver android:name=".stepcount.service.Receive2"
+            android:process=":process2"/>
     </application>
 
 </manifest>
+

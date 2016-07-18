@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:addStatesFromChildren="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,9 +15,11 @@
             android:overScrollMode="never"
             android:scrollbars="none">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#f2f2f2"
+                android:orientation="vertical">
 
                 <!--头部-->
                 <FrameLayout
@@ -104,12 +105,6 @@
                     </LinearLayout>
                 </FrameLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/fl"
-                    android:background="#f2f2f2"
-                    android:orientation="vertical">
                     <!--菜单数据-->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1022,9 +1017,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:background="#f2f2f2" />
-                </LinearLayout>
-
-            </RelativeLayout>
+            </LinearLayout>
         </com.softtek.lai.widgets.ObservableScrollView>
 
         <RelativeLayout

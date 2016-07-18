@@ -5,6 +5,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPFragment;
+import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
+import com.softtek.lai.module.bodygame2sr.net.BodyGameSRService;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRFragment;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -17,25 +19,24 @@ import zilla.libcore.api.ZillaApi;
  */
 public class SRManager {
 
-    private BodyGameService service;
+    private BodyGameSRService service;
 
     public SRManager() {
-        service= ZillaApi.NormalRestAdapter.create(BodyGameService.class);
+        service= ZillaApi.NormalRestAdapter.create(BodyGameSRService.class);
     }
 
     public void getSPHomeInfo(final BodyGameSRFragment fragment){
-        service.getSPIndexInformation(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<SPBodyGameInfo>>() {
+        service.getSRIndexInformation(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<SRBodyGameInfo>>() {
             @Override
-            public void success(ResponseData<SPBodyGameInfo> spBodyGameInfoResponseData, Response response) {
+            public void success(ResponseData<SRBodyGameInfo> srBodyGameInfoResponseData, Response response) {
                 if(fragment!=null){
-                    if(spBodyGameInfoResponseData.getStatus()==200){
-                        fragment.onloadCompleted(spBodyGameInfoResponseData.getData());
+                    if(srBodyGameInfoResponseData.getStatus()==200){
+                        fragment.onloadCompleted(srBodyGameInfoResponseData.getData());
                     }else{
                         fragment.onloadCompleted(null);
                     }
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 if(fragment!=null){
@@ -44,6 +45,5 @@ public class SRManager {
                 super.failure(error);
             }
         });
-
     }
 }

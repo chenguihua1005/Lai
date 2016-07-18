@@ -7,6 +7,7 @@ package com.softtek.lai.module.counselor.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.model.*;
+import com.softtek.lai.module.jingdu.model.DangQiShare;
 
 import retrofit.Callback;
 import retrofit.http.*;
@@ -133,4 +134,8 @@ public interface CounselorService {
     @GET("/HerbUser/GetShareSRHonor")
     void getShareSRHonor(@Header("token") String token,
                        Callback<ResponseData<ShareSRHonorModel>> callback);
+
+    @GET("/HerbUser/GetSPCurrentProgressServer")
+    void getSPCurrentProgressServer(@Header("token")String token,
+                                    Callback<ResponseData<DangQiShare>> callback);
 }

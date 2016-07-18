@@ -66,6 +66,9 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     CustomGridView cgv_list_image;
     @InjectView(R.id.tv_zan_name)
     TextView tv_zan_name;
+    @InjectView(R.id.ll_zan)
+    LinearLayout ll_zan;
+
     List<String> images=new ArrayList<>();
 
     private LossWeightLogService service;
@@ -169,7 +172,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                     "月"+DateUtil.getInstance().getDay(date)+"日");
             tv_totle_lw.setText(log.getAfterWeight()+"斤");
             cb_zan.setText(log.getPriasenum());
-            tv_zan_name.setText(log.getUserNames());
+            if(StringUtils.isNotEmpty(log.getUserNames())){
+                ll_zan.setVisibility(View.VISIBLE);
+                tv_zan_name.setText(log.getUserNames());
+            }else {
+                ll_zan.setVisibility(View.GONE);
+            }
             if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
                 cb_zan.setChecked(true);
                 cb_zan.setEnabled(false);

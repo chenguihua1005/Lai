@@ -29,6 +29,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
@@ -353,6 +354,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
         StepUtil.getInstance().deleteOldDate(dateStar,userId);
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
+        //启动守护服务
+        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
     }
 
     @Override

@@ -29,7 +29,8 @@ public class UserInfoModel {
     private String token=null;
     private ACache aCache;
     private Role role;
-
+    private boolean isLoginOut=false;//是否退出帐号
+    private boolean isGroupOut=false;//是否退出跑团
 
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
@@ -68,6 +69,7 @@ public class UserInfoModel {
      */
     public void loginOut(){
         //请出用户数据
+        isLoginOut=true;
         setUser(null);
         token=null;
         //清除token
@@ -76,6 +78,22 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
+    }
+
+    public boolean isLoginOut() {
+        return isLoginOut;
+    }
+
+    public void setLoginOut(boolean loginOut) {
+        isLoginOut = loginOut;
+    }
+
+    public boolean isGroupOut() {
+        return isGroupOut;
+    }
+
+    public void setGroupOut(boolean groupOut) {
+        isGroupOut = groupOut;
     }
 
     /**
@@ -110,6 +128,7 @@ public class UserInfoModel {
         user.setMobile("");
         user.setHXAccountId("");
         user.setHasEmchat("0");
+        isLoginOut=true;
         setUser(user);
         //存储本地
         aCache.put(Constants.USER_ACACHE_KEY,user);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
@@ -18,7 +19,6 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -132,7 +132,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 builder = null;
                                                 UserInfoModel.getInstance().loginOut();
-                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -148,10 +148,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                UserInfoModel.getInstance().setGroupOut(true);
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);
-                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
@@ -164,11 +165,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-
+                                                UserInfoModel.getInstance().setGroupOut(true);
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);
-                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
