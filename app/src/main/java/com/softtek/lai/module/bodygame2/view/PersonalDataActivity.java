@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.chat.EMChat;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.ui.ChatActivity;
@@ -511,7 +511,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             tv.setText("减重" + honor.getValue() + "斤奖章");
         } else if (medalType == Medal.FUCE) {//复测
             medal.setType(Medal.FUCE);
-            if ("1".equals(honor.getValue())) {
+            Log.i("当前复测类型>>>>>>>>>"+honor.getValue());
+            if ("3".equals(honor.getValue())) {
                 medal.setHonorType(Medal.GOLD);
                 tv.setText("复测金牌奖章");
             } else if ("2".equals(honor.getValue())) {

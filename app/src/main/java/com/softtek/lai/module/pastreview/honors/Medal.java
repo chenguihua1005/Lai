@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 
 /**
@@ -77,8 +78,9 @@ public class Medal extends FrameLayout{
 
     public void refreshView(Context context) {
         removeAllViews();
+        mView=null;
         initView(context);
-        postInvalidate();
+        invalidate();
     }
 
     private void initView(Context context){

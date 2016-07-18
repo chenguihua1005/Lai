@@ -28,9 +28,7 @@ import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.locationservice.LocationService;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
-import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
@@ -39,11 +37,9 @@ import com.softtek.lai.module.jingdu.model.DangQiShare;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
-import com.softtek.lai.module.jingdu.model.Table2Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -158,7 +154,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     private IHonorPresenter honorPresenter;
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private List<PaimingModel> paimingModelList = new ArrayList<PaimingModel>();
-    private List<Table2Model> table2ModelList = new ArrayList<Table2Model>();
+    //private List<Table2Model> table2ModelList = new ArrayList<Table2Model>();
     private IGetProinfopresenter iGetProinfopresenter;
     //UserHonorModel userHonorModel;
     DangQiShare dangQiShare;
@@ -312,7 +308,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter.updateData(table1ModelList, paimingModelList);
 
         //Table2:各个班本月累计减重
-        table2ModelList = rank.getTable2();
+        //table2ModelList = rank.getTable2();
         if (rank.getTable2().size() == 1) {
             img_oneban.setVisibility(View.VISIBLE);
             // 需要解析的日期字符串，是几月班
