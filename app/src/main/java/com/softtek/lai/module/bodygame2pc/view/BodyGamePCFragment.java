@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -451,17 +450,23 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 });
                 break;
             case R.id.ll_upload_photo:
-                startActivity(new Intent(getContext(), UploadPhotoActivity.class));
+                if (info!=null&&"1".equals(info.getClassStatus())){
+                    startActivity(new Intent(getContext(), UploadPhotoActivity.class));
+                }
                 break;
             case R.id.ll_saikuang:
                 startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.ll_chengjidan:
-                startActivity(new Intent(getContext(), StudentScoreActivity.class));
+                if (info!=null&&"1".equals(info.getClassStatus())) {
+                    startActivity(new Intent(getContext(), StudentScoreActivity.class));
+                }
                 break;
             case R.id.ll_honor:
                 //荣誉榜只能看当前进行中的班级
-                startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
+                if (info!=null&&"1".equals(info.getClassStatus())) {
+                    startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
+                }
                 break;
             case R.id.ll_review:
                 startActivity(new Intent(getContext(), ClassListActivity.class));
@@ -469,7 +474,10 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
             case R.id.tv_send_story:
                 //发布减重故事
                 //startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
-                startActivity(new Intent(getContext(),NewStoryActivity.class));
+                //如果是正在进行中的班级才可以发布故事
+                if(info!=null&&"1".equals(info.getClassStatus())){
+                    startActivity(new Intent(getContext(),NewStoryActivity.class));
+                }
                 break;
             case R.id.tv_story_more:
                 //减重故事更多
@@ -514,13 +522,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 startActivity(tip2Intent);
                 break;
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.i("发布完减重故事回来了");
-
     }
 
     @Override
