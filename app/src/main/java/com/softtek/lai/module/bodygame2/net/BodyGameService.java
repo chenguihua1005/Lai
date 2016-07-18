@@ -41,7 +41,7 @@ public interface BodyGameService {
     @GET("/NewClass/ClMemberChange")
     void  doClMemberChange(
             @Header("token")String token,
-            @Query("accoutid")String accoutid,
+            @Query("accountid")String accoutid,
             @Query("classid")String classid,
             @Query("type")String type,
             RequestCallback<ResponseData<MemberChangeModel>> callback
