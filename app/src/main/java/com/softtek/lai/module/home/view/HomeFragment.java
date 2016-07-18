@@ -34,19 +34,15 @@ import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.ui.ConversationListActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
-import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
-import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
+import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -543,7 +539,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
+                    //startActivity(new Intent(getContext(), BodyGameVRActivity.class));
+                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
                 }
             }).create().show();
         } else if (role == Constants.NC) {
@@ -557,8 +554,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-
+                    //startActivity(new Intent(getContext(), BodyGameVRActivity.class));
+                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
                 }
             }).create().show();
         } else if (role == Constants.INC) {
@@ -569,9 +566,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     Log.i(hasClassResponseData.toString());
                     if (hasClassResponseData.getStatus() == 200) {
                         if ("1".equals(hasClassResponseData.getData().getIsHave())) {
-                            startActivity(new Intent(getContext(), BodyGamePCActivity.class));
+                            //startActivity(new Intent(getContext(), BodyGamePCActivity.class));
+                            startActivity(new Intent(getContext(), com.softtek.lai.module.bodygamest.view.BodyGamePCActivity.class));
                         } else {
-                            startActivity(new Intent(getContext(), BodyGameVRActivity.class));
+                            //startActivity(new Intent(getContext(), BodyGameVRActivity.class));
+                            startActivity(new Intent(getContext(), BodygameYkActivity.class));
                         }
                     } else {
                         Util.toastMsg(hasClassResponseData.getMsg());
@@ -585,16 +584,15 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             });
         } else if (role == Constants.PC) {
             //直接进入踢馆赛学员版
-            Intent intent = new Intent(getContext(), BodyGamePCActivity.class);
-            startActivity(intent);
+            /*startActivity(new Intent(getContext(), BodyGamePCActivity.class));*/
+            startActivity(new Intent(getContext(), com.softtek.lai.module.bodygamest.view.BodyGamePCActivity.class));
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
-            Intent intent = new Intent(getContext(), BodyGameSRActivity.class);
-            startActivity(intent);
+            //startActivity(new Intent(getContext(), BodyGameSRActivity.class));
+            startActivity(new Intent(getContext(), BodygameSRActivity.class));
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
-            Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getContext(), BodyGameSPActivity.class));
 
         }
     }

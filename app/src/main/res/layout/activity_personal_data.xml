@@ -220,6 +220,7 @@
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
@@ -254,6 +255,7 @@
                     android:background="#E5E5E5"
                     />
                 <RelativeLayout
+                    android:id="@+id/re_lossstoty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
@@ -310,6 +312,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_xunzh"
                 android:layout_width="match_parent"
                 android:layout_height="188dp"
                 android:layout_marginTop="13dp"
@@ -347,6 +350,7 @@
                     android:layout_height="1dp"
                     android:background="#E5E5E5" />
                 <RelativeLayout
+                    android:id="@+id/re_xunzh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
@@ -358,6 +362,7 @@
                         android:textColor="#C0C0C0"
                         />
                 <LinearLayout
+                    android:id="@+id/ll_xunzhang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -480,6 +485,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_personphot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
@@ -517,6 +523,7 @@
                     android:layout_height="1dp"
                     android:background="#E5E5E5" />
             <RelativeLayout
+                android:id="@+id/re_photo1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
@@ -532,7 +539,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center">
 
                     <LinearLayout
@@ -587,8 +594,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
+                    android:layout_marginBottom="5dp"
 
                     >
 

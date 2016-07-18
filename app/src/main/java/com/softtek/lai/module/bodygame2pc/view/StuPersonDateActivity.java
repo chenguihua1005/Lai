@@ -48,6 +48,7 @@ import java.util.Map;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 7/14/2016.
@@ -130,12 +131,18 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_jianzhper;//减重百分比
     @InjectView(R.id.re_xunzhang)
     RelativeLayout re_xunzhang;
+    @InjectView(R.id.ll_xun)
+    RelativeLayout ll_xun;
     @InjectView(R.id.re_jianzh)
     RelativeLayout re_jianzh;
+    @InjectView(R.id.ll_stoty)
+    LinearLayout ll_stoty;
     @InjectView(R.id.tv_jianzhnum)
     TextView tv_jianzhnum;
     @InjectView(R.id.Re_personphoto)
     RelativeLayout Re_personphoto;
+    @InjectView(R.id.ll_photo)
+    LinearLayout ll_photo;
     @InjectView(R.id.ll_personphoto)
     LinearLayout ll_personphoto;
     @InjectView(R.id.tv_nophoto)
@@ -155,6 +162,9 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     private String userId = "0";
     private String classId = "0";
     private String review_flag = "1";
+    Boolean photostate=true;
+    Boolean storystate=true;
+    Boolean xunsatate=true;
     ChMonth chMonth;
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -169,8 +179,11 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
         params1.topMargin=status;
         toolbar.setLayoutParams(params1);
         re_xunzhang.setOnClickListener(this);
+        ll_xun.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
+        ll_stoty.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
+        ll_photo.setOnClickListener(this);
         ll_personphoto.setOnClickListener(this);
         im_pict1.setOnClickListener(this);
         im_pict2.setOnClickListener(this);
@@ -245,6 +258,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             tv_studate.setText(stardate[0] + "年" + stardate[1] + "月"  + "-" + enddate[0] + "年" + enddate[1] + "月" );
             if (stu.getLossStory() == null || TextUtils.isEmpty(stu.getLossStory().getCreateDate())) {
                 tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
+                ll_stoty.setClickable(false);
+                storystate=false;
             } else {
                 String[] day = stu.getLossStory().getCreateDate().split(" ");
                 String[] date = day[0].split("-");
@@ -256,6 +271,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             }
             if (stu.getHonorList().size() == 0) {
                 tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
+                ll_xun.setClickable(false);
+                xunsatate=false;
             } else {
                 List<StuHonorListModel> honors = stu.getHonorList();
                 for (int i = 0; i < stu.getHonorList().size(); i++) {
@@ -276,6 +293,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             }
             if (stu.getPhotoList().size() == 0) {
                 tv_nophoto.setText("暂无照片");
+                ll_photo.setClickable(false);
+                photostate=false;
             }
             if (stu.getPhotoList().size() < 3) {
                 ll_personphoto2.setVisibility(View.GONE);
@@ -390,56 +409,51 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.re_xunzhang:
-                Intent honor = new Intent(this, StudentHonorGridActivity.class);
-                startActivity(honor);
-                break;
             case R.id.me_xun1:
-                Intent xun1 = new Intent(this, StudentHonorGridActivity.class);
-                startActivity(xun1);
-                break;
             case R.id.me_xun2:
-                Intent xun2 = new Intent(this, StudentHonorGridActivity.class);
-                startActivity(xun2);
-                break;
             case R.id.me_xun3:
-                Intent xun3 = new Intent(this, StudentHonorGridActivity.class);
-                startActivity(xun3);
+            case R.id.re_xunzhang:
+            case R.id.ll_xun:
+                if (xunsatate) {
+                    Intent honor = new Intent(this, StudentHonorGridActivity.class);
+                    startActivity(honor);
+                }
+                else {
+                    Util.toastMsg("暂无勋章");
+                }
                 break;
+
             case R.id.re_jianzh:
-                Intent intent1 = new Intent(this, LossWeightLogActivity.class);
-                intent1.putExtra("accountId",Long.parseLong(userId));
-                intent1.putExtra("review", Integer.parseInt(review_flag));
-                startActivity(intent1);
-                break;
-            case R.id.Re_personphoto:
-                Intent intent2 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(intent2);
+            case R.id.ll_stoty:
+                if (storystate) {
+                    Intent intent1 = new Intent(this, LossWeightLogActivity.class);
+                    intent1.putExtra("accountId", Long.parseLong(userId));
+                    intent1.putExtra("review", Integer.parseInt(review_flag));
+                    startActivity(intent1);
+                }
+                else {
+                    Util.toastMsg("暂无减重数据");
+                }
                 break;
             case R.id.im_pict1:
-                Intent pict1 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict1);
-                break;
             case R.id.im_pict2:
-                Intent pict2 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict2);
-                break;
             case R.id.im_pict3:
-                Intent pict3 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict3);
-                break;
             case R.id.im_pict4:
-                Intent pict4 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict4);
-                break;
             case R.id.im_pict5:
-                Intent pict5 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict5);
-                break;
             case R.id.im_pict6:
-                Intent pict6 = new Intent(this, UploadPhotoActivity.class);
-                startActivity(pict6);
+            case R.id.ll_photo:
+            case R.id.Re_personphoto:
+                if (photostate) {
+                    Intent intent2 = new Intent(this, UploadPhotoActivity.class);
+                    startActivity(intent2);
+                }
+                else {
+                    Util.toastMsg("暂无照片");
+                }
                 break;
+
+
+
         }
     }
 

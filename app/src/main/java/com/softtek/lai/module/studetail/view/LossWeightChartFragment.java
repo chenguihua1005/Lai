@@ -166,7 +166,6 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
             bodyFatDatas.add(0,0f);
             fatDatas.add(0,0f);
         }
-        Log.i("减重曲线图大小》》》》"+lossWeightDatas.size());
         chartUtil.addDataSet(lossWeightDatas);
     }
     private float getFloat(String str){

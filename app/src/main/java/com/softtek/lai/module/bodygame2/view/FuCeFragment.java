@@ -129,8 +129,12 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         banjiModelList = banji.getBanjiModels();
         classAdapter.updateData(banjiModelList);
 //        获取班级初列表始高度
-        chuheight = setListViewHeightBasedOnChildren(list_class);
-        chuheight += ll_shousuolist.getHeight();
+        try {
+            chuheight = setListViewHeightBasedOnChildren(list_class);
+            chuheight += ll_shousuolist.getHeight();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }

@@ -17,6 +17,6 @@
         android:layout_marginTop="12dp"
         android:textSize="8sp"
         android:textColor="@color/white"
-        android:text="2016年21月"/>
+        />
 </FrameLayout>
 <!--</merge>-->

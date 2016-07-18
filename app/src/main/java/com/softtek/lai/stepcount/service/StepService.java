@@ -25,6 +25,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -122,7 +123,7 @@ public class StepService extends Service implements SensorEventListener {
             SharedPreferenceService.getInstance().put("serverStep",serverStep);
             lastStep = todayStep = currentStep + serverStep;
             SharedPreferenceService.getInstance().put("currentStep",todayStep);
-            updateNotification("今日步数：" + todayStep + " 步");
+            updateNotification(todayStep + "");
         }
     }
 
@@ -150,13 +151,17 @@ public class StepService extends Service implements SensorEventListener {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(), 0);
         builder = new NotificationCompat.Builder(this);
-        builder.setPriority(Notification.PRIORITY_MIN)
+        builder.setPriority(Notification.PRIORITY_MAX)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker(getString(R.string.app_name))
-                .setContentTitle(getString(R.string.app_name))
-                .setOngoing(true)//设置不可清除
-                .setContentText(content);
+                //.setContentTitle(getString(R.string.app_name))
+                .setOngoing(true);//设置不可清除
+                //.setContentText(content);
+        //加载自定义布局
+        RemoteViews contentView=new RemoteViews(getPackageName(),R.layout.step_notify_view);
+        contentView.setTextViewText(R.id.tv_step,content);
+        contentView.setImageViewResource(R.id.iv_lauch_icon,R.mipmap.ic_launcher);
+        builder.setContent(contentView);
         Notification notification = builder.build();
 
         startForeground(0, notification);
@@ -199,7 +204,7 @@ public class StepService extends Service implements SensorEventListener {
             Log.i("该手机有SENSOR_STEP_COUNTER");
             addCountStepListener();
         }else {
-            Log.i(" 选用重力加速度传感器");
+            Log.i("选用重力加速度传感器");
             addBasePedoListener();
         }
 
@@ -269,7 +274,7 @@ public class StepService extends Service implements SensorEventListener {
             firstStep=0;
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
-            updateNotification("今日步数："+tempStep+"步");
+            updateNotification(tempStep+"");
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -285,7 +290,7 @@ public class StepService extends Service implements SensorEventListener {
         stepIntent.putExtra("step",stepTemp);
         stepIntent.putExtra("currentStep",todayStep);
         LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
-        updateNotification("今日步数：" + todayStep + " 步");
+        updateNotification(todayStep + "");
     }
 
     @Override
@@ -380,7 +385,7 @@ public class StepService extends Service implements SensorEventListener {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(System.currentTimeMillis());
             int hour = c.get(Calendar.HOUR_OF_DAY);
-            if (hour >=23 || hour <= 6) {
+            if (hour >=0 || hour <= 6) {
                 mWakeLock.acquire(5000);
             } else {
                 mWakeLock.acquire(300000);

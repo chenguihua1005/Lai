@@ -18,9 +18,11 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -71,11 +73,10 @@ public class RankAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        /*Table1Model table1Model = table1ModelList.get(position);
-        PaimingModel paimingModel = paimingModelList.get(position);*/
         String path = AddressManager.get("photoHost");
-        if (!TextUtils.isEmpty(table1ModelList.get(position).getPhoto())) {
-            Picasso.with(context).load(path + table1ModelList.get(position).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
+        Table1Model model=table1ModelList.get(position);
+        if (!TextUtils.isEmpty(model.getPhoto())) {
+            Picasso.with(context).load(path + model.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
             Picasso.with(context).load(R.drawable.img_default).into(viewHolder.civ_header_image);
 
@@ -87,10 +88,12 @@ public class RankAdapter extends BaseAdapter {
             viewHolder.ranid.setTextColor(ContextCompat.getColor(context,R.color.word3));
         }
         viewHolder.ranid.setText(paimingModelList.get(position).getPaiming() + "");
-        viewHolder.Username.setText(table1ModelList.get(position).getUserName());
-        viewHolder.AfterWeight.setText(table1ModelList.get(position).getAfterWeight());
-        viewHolder.BeforeWeight.setText(table1ModelList.get(position).getBeforeWight());
-        viewHolder.LossWeight.setText(table1ModelList.get(position).getLoseWeight());
+        viewHolder.Username.setText(model.getUserName());
+        viewHolder.AfterWeight.setText(model.getAfterWeight());
+        viewHolder.BeforeWeight.setText(model.getBeforeWight());
+        DecimalFormat format=new DecimalFormat("#0.00");
+        double value=Double.parseDouble(StringUtil.getFloatValue(model.getLoseWeight()));
+        viewHolder.LossWeight.setText(format.format(value));
         return convertView;
     }
 
