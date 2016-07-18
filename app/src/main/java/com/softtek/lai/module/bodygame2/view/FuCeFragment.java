@@ -315,7 +315,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                 ClassId = banjiModel.getClassId();
                 //动画收起列表
                 ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
-                animator.setDuration(300);
+                animator.setDuration(500);
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -465,7 +465,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                 } else {
                     //收起列表
                     ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
-                    animator.setDuration(300);
+                    animator.setDuration(500);
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
