@@ -75,7 +75,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:button="@null"
-                android:drawableLeft="@drawable/cb_gender" />
+                android:drawableRight="@drawable/cb_gender" />
 
             <TextView
                 android:id="@+id/tv_name"
