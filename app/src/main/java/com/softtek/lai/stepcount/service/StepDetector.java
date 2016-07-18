@@ -165,7 +165,6 @@ public class StepDetector implements SensorEventListener {
             ave += value[i];
         }
         ave = ave / valueNum;//将数组中的值求一个平均数
-        Util.toastMsg("当前阀值>>"+ave);
         if (ave >= 8)
             ave = (float) 4.3;
         else if (ave >= 7 && ave < 8)

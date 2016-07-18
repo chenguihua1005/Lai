@@ -187,6 +187,11 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         return false;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
     private MessageReceiver mMessageReceiver;
     @Override
     protected void initDatas() {
