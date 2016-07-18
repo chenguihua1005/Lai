@@ -138,26 +138,35 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_valuetext3;
     @InjectView(R.id.ll_remove_class)
     LinearLayout ll_remove_class;
-    @InjectView(R.id.re_xunzhang)
-    RelativeLayout re_xunzhang;
-    @InjectView(R.id.re_jianzh)
-    RelativeLayout re_jianzh;
-    @InjectView(R.id.Re_personphoto)
-    RelativeLayout Re_personphoto;
     @InjectView(R.id.ll_personphoto)
     LinearLayout ll_personphoto;
+    @InjectView(R.id.ll_xunzh)
+    LinearLayout ll_xunzh;
     @InjectView(R.id.tv_nophoto)
     TextView tv_nophoto;
     @InjectView(R.id.tv_jianzhflag)
     TextView tv_jianzhflag;
     @InjectView(R.id.tv_xunzhflag)
     TextView tv_xunzhflag;
+    @InjectView(R.id.ll_story)
+    LinearLayout ll_story;
+    @InjectView(R.id.ll_personphot)
+    LinearLayout ll_personphot;
+    @InjectView(R.id.Re_personphoto)
+    RelativeLayout Re_personphoto;
+    @InjectView(R.id.re_xunzhang)
+    RelativeLayout re_xunzhang;
+    @InjectView(R.id.re_jianzh)
+    RelativeLayout re_jianzh;
     private long userId = 0;
     private long classId = 0;
     private String review_flag = "1";
     ChMonth chMonth;
     String typedate="";
     String AMStatus="";
+    Boolean Lossstate=true;
+    Boolean xunzh=true;
+    Boolean photostate=true;
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
     ClemeberExitManager clemberExitmanager;
@@ -170,9 +179,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     protected void initViews() {
         ll_left.setOnClickListener(this);
         ll_remove_class.setOnClickListener(this);
-        re_xunzhang.setOnClickListener(this);
-        re_jianzh.setOnClickListener(this);
-        Re_personphoto.setOnClickListener(this);
         ll_personphoto.setOnClickListener(this);
         ll_persondatefuce.setOnClickListener(this);
         im_pict1.setOnClickListener(this);
@@ -185,6 +191,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         me_xun2.setOnClickListener(this);
         me_xun3.setOnClickListener(this);
         lin_send_message.setOnClickListener(this);
+        ll_xunzh.setOnClickListener(this);
+        ll_story.setOnClickListener(this);
+        ll_personphot.setOnClickListener(this);
+        Re_personphoto.setOnClickListener(this);
+        re_xunzhang.setOnClickListener(this);
+        re_jianzh.setOnClickListener(this);
         tv_title.setText("个人资料");
         lwcf=null;
         dcf=null;
@@ -251,71 +263,52 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 //                clemberExitmanager = new ClemeberExitManager();
 //                clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
-
             case R.id.re_jianzh:
-                Intent intent1 = new Intent(this, LossWeightLogActivity.class);
-                intent1.putExtra("type",1);
-                intent1.putExtra("accountId", userId);
-                intent1.putExtra("review", Integer.parseInt(review_flag));
-                startActivity(intent1);
-                break;
-            case R.id.Re_personphoto:
-                Intent intent2 = new Intent(this, PassPhotoActivity.class);
-                intent2.putExtra("type",1);
-                intent2.putExtra("userId", userId);
-                intent2.putExtra("classId", classId);
-                startActivity(intent2);
+            case R.id.ll_story:
+                if (Lossstate) {
+                    Intent intent1 = new Intent(this, LossWeightLogActivity.class);
+                    intent1.putExtra("type", 1);
+                    intent1.putExtra("accountId", userId);
+                    intent1.putExtra("review", Integer.parseInt(review_flag));
+                    startActivity(intent1);
+                }
+                else {
+                    Util.toastMsg("暂无减重数据");
+                }
                 break;
             case R.id.im_pict1:
-                Intent pict1 = new Intent(this, PassPhotoActivity.class);
-                pict1.putExtra("type",1);
-                pict1.putExtra("userId", userId);
-                pict1.putExtra("classId", classId);
-                startActivity(pict1);
-                break;
             case R.id.im_pict2:
-                Intent pict2 = new Intent(this, PassPhotoActivity.class);
-                pict2.putExtra("type",1);
-                pict2.putExtra("userId", userId);
-                pict2.putExtra("classId", classId);
-                startActivity(pict2);
-                break;
             case R.id.im_pict3:
-                Intent pict3 = new Intent(this, PassPhotoActivity.class);
-                pict3.putExtra("type",1);
-                pict3.putExtra("userId", userId);
-                pict3.putExtra("classId", classId);
-                startActivity(pict3);
-                break;
             case R.id.im_pict4:
-                Intent pict4 = new Intent(this, PassPhotoActivity.class);
-                pict4.putExtra("type",1);
-                pict4.putExtra("userId", userId);
-                pict4.putExtra("classId", classId);
-                startActivity(pict4);
-                break;
             case R.id.im_pict5:
-                Intent pict5 = new Intent(this, PassPhotoActivity.class);
-                pict5.putExtra("type",1);
-                pict5.putExtra("userId", userId);
-                pict5.putExtra("classId", classId);
-                startActivity(pict5);
-                break;
             case R.id.im_pict6:
-                Intent pict6 = new Intent(this, PassPhotoActivity.class);
-                pict6.putExtra("type",1);
-                pict6.putExtra("userId", userId);
-                pict6.putExtra("classId", classId);
-                startActivity(pict6);
+            case R.id.Re_personphoto:
+            case R.id.ll_personphot:
+                if (photostate) {
+                    Intent intent2 = new Intent(this, PassPhotoActivity.class);
+                    intent2.putExtra("type", 1);
+                    intent2.putExtra("userId", userId);
+                    intent2.putExtra("classId", classId);
+                    startActivity(intent2);
+                }
+                else {
+                    Util.toastMsg("暂无相册");
+                }
                 break;
             case R.id.me_xun1:
             case R.id.me_xun2:
             case R.id.me_xun3:
             case R.id.re_xunzhang:
-                Intent honor = new Intent(this, StudentHonorPCActivity.class);
-                honor.putExtra("type",1);
-                honor.putExtra("accountid", userId);
-                startActivity(honor);
+            case R.id.ll_xunzh:
+                if (xunzh) {
+                    Intent honor = new Intent(this, StudentHonorPCActivity.class);
+                    honor.putExtra("type", 1);
+                    honor.putExtra("accountid", userId);
+                    startActivity(honor);
+                }
+                else {
+                    Util.toastMsg("暂无勋章数据");
+                }
                 break;
             case R.id.ll_persondatefuce:
                 if(AMStatus.equals("-1"))
@@ -375,6 +368,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
             if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
                 tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
+                Lossstate=false;
+                ll_story.setClickable(false);
             } else {
 
                     String[] day = data.getLossStory().getCreateDate().split(" ");
@@ -388,6 +383,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             if (data.getHonorList().size()==0)
             {
                 tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
+                xunzh=false;
+                ll_xunzh.setFocusable(false);
+                ll_xunzh.setClickable(false);
             }
             else {
                 List<HonorListModel> honors = data.getHonorList();
@@ -410,6 +408,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             if (data.getPhotoList().size()==0)
             {
                 tv_nophoto.setText("暂无照片");
+                photostate=false;
+                ll_personphot.setFocusable(false);
             }
             if (data.getPhotoList().size()<3)
             {
