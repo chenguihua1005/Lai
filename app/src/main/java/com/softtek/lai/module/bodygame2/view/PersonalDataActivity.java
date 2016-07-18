@@ -348,6 +348,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             if (data.getClmInfo().getIsRetire().equals("1"))
             {
                 cir_headimexit.setImageResource(R.drawable.exit_match);
+                ll_remove_class.setVisibility(View.INVISIBLE);
             }
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
@@ -472,6 +473,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             Log.i("adsasad","wo jinlai le a dsa ds ad a");
             AMStatus="1";
+            persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
         }
     }
 
