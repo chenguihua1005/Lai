@@ -339,14 +339,15 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onloadCompleted(memberDetialModel data) {
         try {
             if (data != null) {
-                AMStatus = data.getClmInfo().getIstest();
-                clmInfoModel = data.getClmInfo();
-                typedate = data.getClmInfo().getTypedate();
+                AMStatus=data.getClmInfo().getIstest();
+                clmInfoModel=data.getClmInfo();
+                typedate=data.getClmInfo().getTypedate();
                 if (data.getClmInfo().getGender().equals("0")) {
                     im_gender.setImageResource(R.drawable.bg2_male);
                 }
                 String path = AddressManager.get("photoHost");
-                if (data.getClmInfo().getIsRetire().equals("1")) {
+                if (data.getClmInfo().getIsRetire().equals("1"))
+                {
                     cir_headimexit.setImageResource(R.drawable.exit_match);
                     ll_remove_class.setVisibility(View.INVISIBLE);
                 }
@@ -358,7 +359,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
                 if (data.getClmInfo().getSuperType().equals("2")) {
                     tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
-                } else if (data.getClmInfo().getSuperType().equals("3")) {
+                }else if (data.getClmInfo().getSuperType().equals("3"))
+                {
                     tv_SuperName.setText("顾问：" + data.getClmInfo().getSuperName());
                 }
                 String[] star = data.getClmInfo().getStartDate().split(" ");
@@ -366,26 +368,28 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 String[] end = data.getClmInfo().getEndDate().split(" ");
                 String[] enddate = end[0].split("-");
                 tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
-                if (data.getLossStory() == null || TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+                if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
                     tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
-                    Lossstate = false;
+                    Lossstate=false;
                     ll_story.setClickable(false);
                 } else {
 
-                    String[] day = data.getLossStory().getCreateDate().split(" ");
-                    String[] date = day[0].split("-");
-                    tv_weightday.setText(date[2]);
-                    chMonth = new ChMonth();
-                    tv_mon.setText(chMonth.tomonth(date[1]));
-                    tv_storycontent.setText(data.getLossStory().getLogContent());
+                        String[] day = data.getLossStory().getCreateDate().split(" ");
+                        String[] date = day[0].split("-");
+                        tv_weightday.setText(date[2]);
+                        chMonth = new ChMonth();
+                        tv_mon.setText(chMonth.tomonth(date[1]));
+                        tv_storycontent.setText(data.getLossStory().getLogContent());
 
                 }
-                if (data.getHonorList().size() == 0) {
+                if (data.getHonorList().size()==0)
+                {
                     tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
-                    xunzh = false;
+                    xunzh=false;
                     ll_xunzh.setFocusable(false);
                     ll_xunzh.setClickable(false);
-                } else {
+                }
+                else {
                     List<HonorListModel> honors = data.getHonorList();
                     for (int i = 0; i < data.getHonorList().size(); i++) {
                         HonorListModel honor = honors.get(i);
@@ -403,12 +407,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
                     }
                 }
-                if (data.getPhotoList().size() == 0) {
+                if (data.getPhotoList().size()==0)
+                {
                     tv_nophoto.setText("暂无照片");
-                    photostate = false;
+                    photostate=false;
                     ll_personphot.setFocusable(false);
                 }
-                if (data.getPhotoList().size() < 3) {
+                if (data.getPhotoList().size()<3)
+                {
                     ll_personphoto2.setVisibility(View.GONE);
                 }
                 for (int j = 0; j < data.getPhotoList().size(); j++) {
@@ -449,6 +455,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     tv_loss_after_tip.setVisibility(View.VISIBLE);
                 }
+
                 if (!StringUtils.isEmpty(data.getClmInfo().getBeforeImage())) {
                     Picasso.with(this).load(path + data.getClmInfo().getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
                 }
@@ -457,8 +464,11 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 }
 
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
 
 

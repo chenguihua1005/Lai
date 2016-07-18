@@ -99,7 +99,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
         loginid = Long.parseLong(userInfoModel.getUser().getUserid());
-        retestPre.doGetRetestclass(loginid);
+
     }
 
     /*计算listview高度*/
@@ -126,21 +126,64 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Subscribe
     public void onEvent(BanJiEvent banji) {
-        banjiModelList = banji.getBanjiModels();
-        classAdapter.updateData(banjiModelList);
-//        获取班级初列表始高度
+
         try {
+            banjiModelList = banji.getBanjiModels();
+            classAdapter.updateData(banjiModelList);
+//        获取班级初列表始高度
             chuheight = setListViewHeightBasedOnChildren(list_class);
             chuheight += ll_shousuolist.getHeight();
+//        Log.i("班级列表的高度为>>>>>" + chuheight);
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }
 
     @Override
+    protected void onInvisible() {
+        try {
+            if (ll_shousuolist!=null) {
+                if (h == false) {
+                    //动画展开列表（点击选择班级时）
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", 0, chuheight);
+                    animator.setDuration(500);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            list_class.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            Iv_fold.setImageResource(R.drawable.retract);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                            params.height = chuheight;
+                            ll_shousuolist.setLayoutParams(params);
+                            h = true;
+                        }
+                    });
+                    animator.start();
+                }
+                if (studentAdapter != null) {
+                    if (banjiModelList != null) {
+                        banjiStudentModelList.clear();
+                        studentAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void onVisible() {
+        isPrepared=false;
         super.onVisible();
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
@@ -458,5 +501,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void lazyLoad() {
         Log.i("FuCeFragment 加载数据");
+        retestPre.doGetRetestclass(loginid);
     }
 }
