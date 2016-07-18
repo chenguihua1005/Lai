@@ -24,6 +24,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -99,6 +100,36 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
     };
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int type=intent.getIntExtra("type",0);
+        current=type;
+        Log.i("消息中心发来通知");
+        if(content!=null){
+            restoreState();
+            switch (type){
+                case 0:
+                    btn_bodygame.setProgress(1);
+                    break;
+                case 1:
+                    btn_chat.setProgress(1);
+                    break;
+                case 2:
+                    btn_contact.setProgress(1);
+                    break;
+                case 3:
+                    btn_fuce.setProgress(1);
+                    break;
+                case 4:
+                    btn_class.setProgress(1);
+                    break;
+
+            }
+            content.setCurrentItem(current, false);
+        }
+    }
+
+    @Override
     protected void initViews() {
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -114,9 +145,27 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
         content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
-        current = 0;
+        int type=getIntent().getIntExtra("type",0);
+        current=type;
         restoreState();
-        btn_bodygame.setProgress(1);
+        switch (type){
+            case 0:
+                btn_bodygame.setProgress(1);
+                break;
+            case 1:
+                btn_chat.setProgress(1);
+                break;
+            case 2:
+                btn_contact.setProgress(1);
+                break;
+            case 3:
+                btn_fuce.setProgress(1);
+                break;
+            case 4:
+                btn_class.setProgress(1);
+                break;
+
+        }
         content.setCurrentItem(current, false);
 
         connectionListener = new EMConnectionListener() {

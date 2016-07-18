@@ -221,7 +221,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamest.view.BodyGamePCActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".module.bodygamest.view.StudentHonorActivity"
             android:screenOrientation="portrait" />

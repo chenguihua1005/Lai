@@ -30,7 +30,6 @@ import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.retest.view.RetestActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -111,7 +110,6 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initViews() {
         tv_title.setText(R.string.fcRemind);
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
     }
 
     @Override
