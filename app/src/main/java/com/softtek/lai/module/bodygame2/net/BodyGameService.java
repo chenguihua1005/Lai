@@ -68,6 +68,7 @@ public interface BodyGameService {
     @GET("/HerbNewUser/GetSPIndexInformation")
     void getSPIndexInformation(@Header("token")String token,
                                RequestCallback<ResponseData<SPBodyGameInfo>> callback);
+
     //首页检索
     @GET("/HerbNewUser/SearchMember")
     void doSearchMember(
@@ -76,6 +77,7 @@ public interface BodyGameService {
             @Query("Key")String Key,
             RequestCallback<ResponseData<SearchMemberModel>>callback
     );
+
     //移除班级
     @POST("/NewClass/ClmemberExit")
     void doClmemberExit(
