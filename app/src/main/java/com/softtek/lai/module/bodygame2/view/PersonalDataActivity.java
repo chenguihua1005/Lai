@@ -473,6 +473,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             AMStatus="1";
             tv_xunzhflag.setText("");
+            ll_xunzh.setClickable(true);
+            xunzh=true;
             persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
             fragmentList.clear();
             Map<String, String> params = new HashMap<>();
