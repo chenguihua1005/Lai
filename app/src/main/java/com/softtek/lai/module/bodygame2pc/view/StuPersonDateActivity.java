@@ -80,6 +80,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_loss_after_tip;
     @InjectView(R.id.tv_total_loss_tip)
     TextView tv_total_loss_tip;
+    @InjectView(R.id.im_storypic)
+    ImageView im_storypic;
     @InjectView(R.id.rel_sy)
     RelativeLayout rel_sy;
     //奖章一
@@ -271,6 +273,9 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
                 chMonth = new ChMonth();
                 tv_mon.setText(chMonth.tomonth(date[1]));
                 tv_storycontent.setText(stu.getLossStory().getLogContent());
+                if (!TextUtils.isEmpty(stu.getLossStory().getImgUrl())) {
+                    Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_storypic);
+                }
 
             }
             if (stu.getHonorList().size() == 0) {
