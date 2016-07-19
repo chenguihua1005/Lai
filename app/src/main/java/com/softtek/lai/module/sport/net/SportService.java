@@ -25,9 +25,15 @@ public interface SportService {
     void getMovementList(@Header(TOKEN) String token,
                          RequestCallback<ResponseData<List<HistorySportModel>>> callback);
 
+
     //运动历史统计
     @GET("/StepCount/GetHistoryTotalMovement")
     void getHistoryTotalMovement(@Header(TOKEN) String token,
+                         RequestCallback<ResponseData<TotalSportModel>> callback);
+
+    //运动历史统计
+    @GET("/StepCount/GetV")
+    void getSportValue(@Header(TOKEN) String token,
                          RequestCallback<ResponseData<TotalSportModel>> callback);
 
     @POST("/StepCount/SaveMovement")

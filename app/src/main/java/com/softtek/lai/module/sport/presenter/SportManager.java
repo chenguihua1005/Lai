@@ -21,7 +21,6 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 4/8/2016.
- *
  */
 public class SportManager {
 
@@ -33,7 +32,8 @@ public class SportManager {
         this.getMovementListCallBack = getMovementListCallBack;
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
-    public SportManager(){
+
+    public SportManager() {
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
 
@@ -41,7 +41,6 @@ public class SportManager {
         this.getHistoryTotalMovementCallBack = getHistoryTotalMovementCallBack;
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
-
     public void getMovementList() {
         service.getMovementList(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<HistorySportModel>>>() {
             @Override
@@ -95,13 +94,13 @@ public class SportManager {
                         break;
                     case 100:
                         if (getHistoryTotalMovementCallBack != null) {
-                            getHistoryTotalMovementCallBack.getHistoryTotalMovement("false",null);
+                            getHistoryTotalMovementCallBack.getHistoryTotalMovement("false", null);
                         }
 
                         break;
                     default:
                         if (getHistoryTotalMovementCallBack != null) {
-                            getHistoryTotalMovementCallBack.getHistoryTotalMovement("false",null);
+                            getHistoryTotalMovementCallBack.getHistoryTotalMovement("false", null);
                             Util.toastMsg(listResponseData.getMsg());
                         }
                         break;
@@ -118,24 +117,24 @@ public class SportManager {
         });
     }
 
-    public void submitSportData(final RunSportActivity activity, SportData data){
+    public void submitSportData(final RunSportActivity activity, SportData data) {
         service.submitSportData(UserInfoModel.getInstance().getToken(),
                 data,
                 new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         com.github.snowdream.android.util.Log.i(responseData.toString());
-                        if(responseData.getStatus()!=200){
+                        if (responseData.getStatus() != 200) {
                             Util.toastMsg(responseData.getMsg());
                         }
-                        if(activity!=null) {
+                        if (activity != null) {
                             activity.doSubmitResult(responseData.getStatus());
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if(activity!=null) {
+                        if (activity != null) {
                             activity.doSubmitResult(-1);
                         }
                         super.failure(error);
@@ -148,6 +147,7 @@ public class SportManager {
 
         void getMovementList(String type, List<HistorySportModel> list);
     }
+
     public interface GetHistoryTotalMovementCallBack {
 
         void getHistoryTotalMovement(String type, TotalSportModel model);

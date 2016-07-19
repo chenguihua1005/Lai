@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -155,7 +156,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         title.setText("我的成绩");
         iv_email.setImageResource(R.drawable.img_share_bt);
-        iv_email.setVisibility(View.GONE);
         ll_dayRank.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
         ll_grade.setOnClickListener(this);
@@ -1072,8 +1072,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             //分享
             case R.id.fl_right:
 //                dialogShow("加载中");
-                Bitmap b1 = getBitmapByView(scrollView1);
-                savePic(b1, "/sdcard/screen_test_2.png");
+                //Bitmap b1 = getBitmapByView(scrollView1);
+                Bitmap b1 = getViewBitmap(chart);
+                savePic(b1, "/sdcard/chart.png");
 
 //                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
 //                //显示窗口
@@ -1171,7 +1172,41 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //            }
 //        }
 //    };
+    /**
+     * 把View对象转换成bitmap
+     */
+    public static Bitmap getViewBitmap(View v) {
+        v.clearFocus();
+        v.setPressed(false);
 
+        boolean willNotCache = v.willNotCacheDrawing();
+        v.setWillNotCacheDrawing(false);
+
+        // Reset the drawing cache background color to fully transparent
+        // for the duration of this operation
+        int color = v.getDrawingCacheBackgroundColor();
+        v.setDrawingCacheBackgroundColor(0);
+
+        if (color != 0) {
+            v.destroyDrawingCache();
+        }
+        v.buildDrawingCache();
+        Bitmap cacheBitmap = v.getDrawingCache();
+        if (cacheBitmap == null) {
+            Log.e("TTTTTTTTActivity", "failed getViewBitmap(" + v + ")",
+                    new RuntimeException());
+            return null;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+
+        // Restore the view
+        v.destroyDrawingCache();
+        v.setWillNotCacheDrawing(willNotCache);
+        v.setDrawingCacheBackgroundColor(color);
+
+        return bitmap;
+    }
     /**
      * 获取阶段日期
      *

@@ -110,6 +110,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
     long loginid = Long.parseLong(userInfoModel.getUser().getUserid());
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
