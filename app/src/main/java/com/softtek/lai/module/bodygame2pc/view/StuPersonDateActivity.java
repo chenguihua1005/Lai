@@ -247,7 +247,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(stu.getClmInfo().getClassBanner()))
             {
-                Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(iv_banner);
+                Picasso.with(this).load(path + stu.getClmInfo().getClassBanner()).fit().error(R.drawable.img_default).into(iv_banner);
             }
             if (!TextUtils.isEmpty(stu.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_headimg);
