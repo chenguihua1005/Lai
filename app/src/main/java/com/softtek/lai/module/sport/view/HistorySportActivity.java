@@ -1,7 +1,9 @@
 package com.softtek.lai.module.sport.view;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -24,6 +27,9 @@ import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.utils.DisplayUtil;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +71,41 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     MarkerOptions startMark;
     MarkerOptions endMark;
 
+    private AMap.OnMapScreenShotListener onMapScreenShotListener=new AMap.OnMapScreenShotListener() {
+        @Override
+        public void onMapScreenShot(Bitmap bitmap) {
+            savePic(bitmap,"/sdcard/screen_test_2.png");
+
+        }
+    };
+
+    // 保存到sdcard
+    public static void savePic(Bitmap bitmap, String strFileName) {
+        if(null == bitmap){
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(strFileName);
+            boolean b = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            try {
+                fos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (b) {
+
+            }else {
+                //ToastUtil.show(ScreenShotActivity.this, "截屏失败");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -74,6 +115,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         aMap = mapView.getMap();
+        aMap.getMapScreenShot(onMapScreenShotListener);
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
@@ -172,7 +214,10 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                finish();
+                //finish();
+                Log.i("aaaaaaaaaaaa");
+                aMap.getMapScreenShot(onMapScreenShotListener);
+                Log.i("bbbbbbbbbbbb");
                 break;
             case R.id.cb_map_switch:
                 aMap.clear();

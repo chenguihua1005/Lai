@@ -67,6 +67,7 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -338,9 +339,11 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
+                finish();
                 Intent inten=new Intent(this, HomeActviity.class);
                 startActivity(inten);
                 break;
+
             case R.id.fl_right:
             case R.id.iv_email:
                 startActivity(new Intent(this, MyInformationActivity.class));
@@ -400,6 +403,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
             Intent inten = new Intent(this, HomeActviity.class);
             startActivity(inten);
             return true;
