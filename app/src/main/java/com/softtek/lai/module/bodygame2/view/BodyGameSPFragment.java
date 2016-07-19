@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame2.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -168,6 +170,10 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initViews() {
+        Log.i("当前SDK版本"+DisplayUtil.getSDKInt());
+        /*if(DisplayUtil){
+
+        }*/
         int status=DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
         params.topMargin=status;
