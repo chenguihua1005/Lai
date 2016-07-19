@@ -232,8 +232,10 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     public void onloadCompleted(StumemberDetialModel stu) {
         if (stu!= null) {
-            tv_jianzhnum.setText(stu.getClmInfo().getTotalLoss());
             DecimalFormat df = new DecimalFormat("#0.0");
+            if (!TextUtils.isEmpty(stu.getClmInfo().getTotalLoss())) {
+                tv_jianzhnum.setText(df.format(Double.parseDouble(stu.getClmInfo().getTotalLoss())));
+            }
             if (!TextUtils.isEmpty(stu.getClmInfo().getLossPer())) {
                 tv_jianzhper.setText(df.format(Double.parseDouble(stu.getClmInfo().getLossPer())));
             }
@@ -249,7 +251,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
                 Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_headimg);
             }
             tv_stuname.setText(stu.getClmInfo().getUserName());
-            tv_stuclassname.setText("班级：" + stu.getClmInfo().getClassName());
+            tv_stuclassname.setText(stu.getClmInfo().getClassName());
 
             String[] star = stu.getClmInfo().getStartDate().split(" ");
             String[] stardate = star[0].split("-");

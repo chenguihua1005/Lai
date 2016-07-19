@@ -135,7 +135,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 //        获取班级初列表始高度
             chuheight = setListViewHeightBasedOnChildren(list_class);
             chuheight += ll_shousuolist.getHeight();
-//        Log.i("班级列表的高度为>>>>>" + chuheight);
+        Log.i("班级列表的高度为>>>>>" + chuheight);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -476,6 +476,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         try {
             retestPre.doGetRetestclass(loginid);
             retestPre.doGetBanjiStudent(ClassId, loginid);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

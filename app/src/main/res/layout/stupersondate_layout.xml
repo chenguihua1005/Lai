@@ -469,6 +469,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+
                 >
 
                 <RelativeLayout
@@ -825,6 +826,24 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/back" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fl_right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            >
+
+            <ImageView
+                android:id="@+id/iv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_bg_title_more" />
+
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="32dp"
@@ -838,6 +857,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#ffffff"
+
                 android:layout_centerHorizontal="true"/>
             <TextView
                 android:id="@+id/tv_studate"

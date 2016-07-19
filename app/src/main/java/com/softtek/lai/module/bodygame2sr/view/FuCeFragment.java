@@ -136,6 +136,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void onVisible() {
+        isPrepared = false;
         super.onVisible();
         if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
@@ -444,5 +445,9 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         Log.i("FuCeFragment 加载数据");
         retestPre.doGetRetestclass(loginid);
         retestPre.doGetBanjiStudent(ClassId, loginid);
+//        if (!h) {
+
+//        }
+
     }
 }
