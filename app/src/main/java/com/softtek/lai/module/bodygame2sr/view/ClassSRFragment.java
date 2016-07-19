@@ -267,6 +267,11 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void onVisible() {
         isPrepared = false;
+        scroll.scrollTo(0,0);
+        if (getContext() instanceof BodyGameSRActivity) {
+            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+            activity.setAlpha(0);
+        }
         super.onVisible();
     }
 
