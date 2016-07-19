@@ -173,11 +173,13 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        tintManager.setStatusBarAlpha(0);
-        int status= DisplayUtil.getStatusHeight(this);
-        RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params1.topMargin=status;
-        toolbar.setLayoutParams(params1);
+        if(DisplayUtil.getSDKInt()>18){
+            tintManager.setStatusBarAlpha(0);
+            int status= DisplayUtil.getStatusHeight(this);
+            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params1.topMargin=status;
+            toolbar.setLayoutParams(params1);
+        }
         re_xunzhang.setOnClickListener(this);
         ll_xunxun.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);

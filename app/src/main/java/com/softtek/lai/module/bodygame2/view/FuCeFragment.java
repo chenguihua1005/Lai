@@ -90,10 +90,12 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        int status = DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin = status;
-        toolbar.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status = DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin = status;
+            toolbar.setLayoutParams(params);
+        }
 
         bar_title.setText("复测");
         iv_email.setVisibility(View.VISIBLE);

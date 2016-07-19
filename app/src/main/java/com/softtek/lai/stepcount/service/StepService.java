@@ -1,5 +1,6 @@
 package com.softtek.lai.stepcount.service;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -42,6 +43,7 @@ import com.softtek.lai.utils.RequestCallback;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -148,8 +150,7 @@ public class StepService extends Service implements SensorEventListener {
     private NotificationCompat.Builder builder;
     private NotificationManager nm;
     private void updateNotification(String content) {
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(), 0);
+        PendingIntent contentIntent = PendingIntent.getBroadcast(this,0,new Intent("com.soffteck.lai.step_notify"),0);
         builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MAX)
                 .setContentIntent(contentIntent)
@@ -163,13 +164,13 @@ public class StepService extends Service implements SensorEventListener {
         contentView.setImageViewResource(R.id.iv_lauch_icon,R.mipmap.ic_launcher);
         builder.setContent(contentView);
         Notification notification = builder.build();
-
         startForeground(0, notification);
 
         //获取通知管理器
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
+
 
     }
 

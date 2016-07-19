@@ -363,7 +363,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupMainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".module.act.view.ActListActivity"
             android:screenOrientation="portrait" />
@@ -624,7 +625,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport.view.RunSportActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
@@ -744,7 +746,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.bodygame2vr.BodyGameVRActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
+        <receiver android:name=".stepcount.service.NotificationReceive">
+            <intent-filter>
+                <action android:name="com.soffteck.lai.step_notify"/>
+            </intent-filter>
+        </receiver>
         <!--进程常驻设置-->
         <service android:name=".stepcount.service.DaemonService"
             android:process=":daemonprocess"/>

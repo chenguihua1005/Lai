@@ -179,10 +179,12 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin=status;
-        toolbar.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status= DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin=status;
+            toolbar.setLayoutParams(params);
+        }
         fl_right.setOnClickListener(this);
         ll_left.setVisibility(View.INVISIBLE);
         photoListPre = new PhotoListIml();

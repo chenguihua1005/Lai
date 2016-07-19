@@ -177,10 +177,12 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initViews() {
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
-        params.topMargin=status;
-        relativeLayout.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status=DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
+            params.topMargin=status;
+            relativeLayout.setLayoutParams(params);
+        }
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);
@@ -450,7 +452,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 });
                 break;
             case R.id.ll_upload_photo:
-                if (info!=null&&"1".equals(info.getClassStatus())){
+                if (info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))){
                     startActivity(new Intent(getContext(), UploadPhotoActivity.class));
                 }
                 break;
@@ -458,13 +460,13 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.ll_chengjidan:
-                if (info!=null&&"1".equals(info.getClassStatus())) {
+                if (info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))) {
                     startActivity(new Intent(getContext(), StudentScoreActivity.class));
                 }
                 break;
             case R.id.ll_honor:
                 //荣誉榜只能看当前进行中的班级
-                if (info!=null&&"1".equals(info.getClassStatus())) {
+                if (info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))) {
                     startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
                 }
                 break;
@@ -475,7 +477,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 //发布减重故事
                 //startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
                 //如果是正在进行中的班级才可以发布故事
-                if(info!=null&&"1".equals(info.getClassStatus())){
+                if(info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))){
                     startActivity(new Intent(getContext(),NewStoryActivity.class));
                 }
                 break;

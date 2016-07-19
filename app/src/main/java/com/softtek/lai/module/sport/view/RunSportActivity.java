@@ -125,6 +125,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);
+        Log.i("地图c");
         if(savedInstanceState!=null){
             time=savedInstanceState.getLong("time",0);
             startStep=savedInstanceState.getInt("startStep",startStep);
@@ -292,6 +293,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         }
     };
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("地图start");
+    }
+
 
     @Override
     public boolean handleMessage(Message msg) {
@@ -349,6 +356,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
         mapView.onResume();
+        Log.i("地图Resume");
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i("地图onNewIntent");
     }
 
     @Override
@@ -618,7 +632,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             float accuracy=location.getAccuracy();
             if (accuracy <= 30 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
-                Log.i("获取位置");
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 if (isFirst) {
                     isFirst = false;

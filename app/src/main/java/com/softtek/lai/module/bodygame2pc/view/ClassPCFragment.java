@@ -164,11 +164,12 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews() {
-
         int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
-        params.topMargin = status;
-        rel.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            params.topMargin = status;
+            rel.setLayoutParams(params);
+        }
 
         RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
         p.height = params.height + status;
