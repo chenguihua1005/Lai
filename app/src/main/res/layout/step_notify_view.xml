@@ -26,21 +26,22 @@
             android:id="@+id/tv_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp" />
+            android:textColor="#737373"
+            android:textSize="22sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" 步"
-            android:textColor="#515151"
-            android:textSize="14sp" />
+            android:textColor="#8c8c8c"
+            android:textSize="15sp" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="今日步数"
-            android:textColor="#515151"
-            android:textSize="14sp" />
+            android:textColor="#8c8c8c"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </RelativeLayout>

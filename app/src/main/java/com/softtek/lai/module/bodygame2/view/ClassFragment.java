@@ -219,17 +219,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
         imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
         imageFileCropSelector.setCallback(this);
-
-        int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
-        params.topMargin = status;
-        rel.setLayoutParams(params);
-
+        int status = DisplayUtil.getStatusHeight(getActivity());
+        if(DisplayUtil.getSDKInt()>18){
+            params.topMargin = status;
+            rel.setLayoutParams(params);
+        }
         RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
         p.height = params.height + status;
         rel_sy.setLayoutParams(p);
         rel_sy.setAlpha(1f);
-
         lin_class_select.setOnClickListener(this);
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);

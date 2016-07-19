@@ -164,10 +164,12 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initViews() {
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
-        params.topMargin=status;
-        relativeLayout.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status= DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
+            params.topMargin=status;
+            relativeLayout.setLayoutParams(params);
+        }
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
         rl_student_more.setOnClickListener(this);
