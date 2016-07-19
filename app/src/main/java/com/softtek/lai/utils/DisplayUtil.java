@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
 
 import com.github.snowdream.android.util.Log;
@@ -157,5 +158,13 @@ public class DisplayUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 获取当前系统的sdk版本
+     * @return
+     */
+    public static int getSDKInt(){
+        return Build.VERSION.SDK_INT;
     }
 }

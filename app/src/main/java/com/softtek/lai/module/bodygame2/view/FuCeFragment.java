@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_fuce)
-public class FuCeFragment extends LazyBaseFragment implements View.OnClickListener{
+public class FuCeFragment extends LazyBaseFragment implements View.OnClickListener {
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_title)
@@ -85,13 +86,16 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     boolean h = true;
     int chuheight = 500;
     long ClassId;
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin=status;
-        toolbar.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status = DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin = status;
+            toolbar.setLayoutParams(params);
+        }
 
         bar_title.setText("复测");
         iv_email.setVisibility(View.VISIBLE);
@@ -99,7 +103,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
         loginid = Long.parseLong(userInfoModel.getUser().getUserid());
-        retestPre.doGetRetestclass(loginid);
+
     }
 
     /*计算listview高度*/
@@ -126,24 +130,35 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Subscribe
     public void onEvent(BanJiEvent banji) {
-        banjiModelList = banji.getBanjiModels();
-        classAdapter.updateData(banjiModelList);
-//        获取班级初列表始高度
+
         try {
+            banjiModelList = banji.getBanjiModels();
+            classAdapter.updateData(banjiModelList);
+//        获取班级初列表始高度
             chuheight = setListViewHeightBasedOnChildren(list_class);
             chuheight += ll_shousuolist.getHeight();
+        Log.i("班级列表的高度为>>>>>" + chuheight);
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }
 
     @Override
+    protected void onInvisible() {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void onVisible() {
+        isPrepared = false;
         super.onVisible();
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if (getContext() instanceof BodyGameSPActivity) {
+            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(1);
         }
     }
@@ -152,7 +167,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             String type = getActivity().getIntent().getStringExtra("type");
             if ("0".equals(type)) {
-                Intent inten=new Intent(getContext(), HomeActviity.class);
+                Intent inten = new Intent(getContext(), HomeActviity.class);
                 inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(inten);
             } else {
@@ -162,6 +177,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         }
         return super.getActivity().onKeyDown(keyCode, event);
     }
+
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent) {
         banjiStudentModelList.clear();
@@ -272,7 +288,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                 ClassId = banjiModel.getClassId();
                 //动画收起列表
                 ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
-                animator.setDuration(300);
+                animator.setDuration(500);
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -357,6 +373,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                             Iv_fold.setImageResource(R.drawable.retract);
 
                         }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
@@ -408,11 +425,12 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                             Iv_fold.setImageResource(R.drawable.retract);
 
                         }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            ViewGroup.LayoutParams params=ll_shousuolist.getLayoutParams();
-                            params.height=chuheight;
+                            ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                            params.height = chuheight;
                             ll_shousuolist.setLayoutParams(params);
                             h = true;
                         }
@@ -422,7 +440,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                 } else {
                     //收起列表
                     ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
-                    animator.setDuration(300);
+                    animator.setDuration(500);
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -457,6 +475,12 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-        Log.i("FuCeFragment 加载数据");
+        try {
+            retestPre.doGetRetestclass(loginid);
+            retestPre.doGetBanjiStudent(ClassId, loginid);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

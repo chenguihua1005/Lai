@@ -130,10 +130,13 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin=status;
-        toolbar.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status= DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin=status;
+            toolbar.setLayoutParams(params);
+        }
+
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;

@@ -88,10 +88,12 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        int status= DisplayUtil.getStatusHeight(getActivity());
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params.topMargin=status;
-        toolbar.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            int status= DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin=status;
+            toolbar.setLayoutParams(params);
+        }
 
         bar_title.setText("复测");
         iv_email.setVisibility(View.VISIBLE);
@@ -99,7 +101,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
         loginid = Long.parseLong(userInfoModel.getUser().getUserid());
-        retestPre.doGetRetestclass(loginid);
+
     }
 
     /*计算listview高度*/
@@ -136,6 +138,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void onVisible() {
+        isPrepared = false;
         super.onVisible();
         if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
@@ -442,5 +445,11 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void lazyLoad() {
         Log.i("FuCeFragment 加载数据");
+        retestPre.doGetRetestclass(loginid);
+        retestPre.doGetBanjiStudent(ClassId, loginid);
+//        if (!h) {
+
+//        }
+
     }
 }

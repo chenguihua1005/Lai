@@ -131,8 +131,8 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
     TextView tv_jianzhper;//减重百分比
     @InjectView(R.id.re_xunzhang)
     RelativeLayout re_xunzhang;
-    @InjectView(R.id.ll_xun)
-    RelativeLayout ll_xun;
+    @InjectView(R.id.ll_xunxun)
+    LinearLayout ll_xunxun;
     @InjectView(R.id.re_jianzh)
     RelativeLayout re_jianzh;
     @InjectView(R.id.ll_stoty)
@@ -173,13 +173,15 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        tintManager.setStatusBarAlpha(0);
-        int status= DisplayUtil.getStatusHeight(this);
-        RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        params1.topMargin=status;
-        toolbar.setLayoutParams(params1);
+        if(DisplayUtil.getSDKInt()>18){
+            tintManager.setStatusBarAlpha(0);
+            int status= DisplayUtil.getStatusHeight(this);
+            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params1.topMargin=status;
+            toolbar.setLayoutParams(params1);
+        }
         re_xunzhang.setOnClickListener(this);
-        ll_xun.setOnClickListener(this);
+        ll_xunxun.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         ll_stoty.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
@@ -232,8 +234,10 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     public void onloadCompleted(StumemberDetialModel stu) {
         if (stu!= null) {
-            tv_jianzhnum.setText(stu.getClmInfo().getTotalLoss());
             DecimalFormat df = new DecimalFormat("#0.0");
+            if (!TextUtils.isEmpty(stu.getClmInfo().getTotalLoss())) {
+                tv_jianzhnum.setText(df.format(Double.parseDouble(stu.getClmInfo().getTotalLoss())));
+            }
             if (!TextUtils.isEmpty(stu.getClmInfo().getLossPer())) {
                 tv_jianzhper.setText(df.format(Double.parseDouble(stu.getClmInfo().getLossPer())));
             }
@@ -249,7 +253,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
                 Picasso.with(this).load(path + stu.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(im_headimg);
             }
             tv_stuname.setText(stu.getClmInfo().getUserName());
-            tv_stuclassname.setText("班级：" + stu.getClmInfo().getClassName());
+            tv_stuclassname.setText(stu.getClmInfo().getClassName());
 
             String[] star = stu.getClmInfo().getStartDate().split(" ");
             String[] stardate = star[0].split("-");
@@ -271,7 +275,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             }
             if (stu.getHonorList().size() == 0) {
                 tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
-                ll_xun.setClickable(false);
+                ll_xunxun.setClickable(false);
                 xunsatate=false;
             } else {
                 List<StuHonorListModel> honors = stu.getHonorList();
@@ -413,7 +417,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             case R.id.me_xun2:
             case R.id.me_xun3:
             case R.id.re_xunzhang:
-            case R.id.ll_xun:
+            case R.id.ll_xunxun:
                 if (xunsatate) {
                     Intent honor = new Intent(this, StudentHonorGridActivity.class);
                     startActivity(honor);

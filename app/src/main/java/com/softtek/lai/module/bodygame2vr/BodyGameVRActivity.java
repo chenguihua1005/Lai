@@ -109,11 +109,13 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tintManager.setStatusBarAlpha(0);
-        int status= DisplayUtil.getStatusHeight(this);
-        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
-        params.topMargin=status;
-        relativeLayout.setLayoutParams(params);
+        if(DisplayUtil.getSDKInt()>18){
+            tintManager.setStatusBarAlpha(0);
+            int status= DisplayUtil.getStatusHeight(this);
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
+            params.topMargin=status;
+            relativeLayout.setLayoutParams(params);
+        }
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);

@@ -337,133 +337,138 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void onloadCompleted(memberDetialModel data) {
-        if (data != null) {
-            AMStatus=data.getClmInfo().getIstest();
-            clmInfoModel=data.getClmInfo();
-            typedate=data.getClmInfo().getTypedate();
-            if (data.getClmInfo().getGender().equals("0")) {
-                im_gender.setImageResource(R.drawable.bg2_male);
-            }
-            String path = AddressManager.get("photoHost");
-            if (data.getClmInfo().getIsRetire().equals("1"))
-            {
-                cir_headimexit.setImageResource(R.drawable.exit_match);
-                ll_remove_class.setVisibility(View.INVISIBLE);
-            }
-            if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
-                Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
-            }
-            tv_username.setText(data.getClmInfo().getUserName());
-            tv_tel.setText(data.getClmInfo().getMobile());
-            tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
-            if (data.getClmInfo().getSuperType().equals("2")) {
-                tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
-            }else if (data.getClmInfo().getSuperType().equals("3"))
-            {
-                tv_SuperName.setText("顾问：" + data.getClmInfo().getSuperName());
-            }
-            String[] star = data.getClmInfo().getStartDate().split(" ");
-            String[] stardate = star[0].split("-");
-            String[] end = data.getClmInfo().getEndDate().split(" ");
-            String[] enddate = end[0].split("-");
-            tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
-            if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
-                tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
-                Lossstate=false;
-                ll_story.setClickable(false);
-            } else {
+        try {
+            if (data != null) {
+                AMStatus=data.getClmInfo().getIstest();
+                clmInfoModel=data.getClmInfo();
+                typedate=data.getClmInfo().getTypedate();
+                if (data.getClmInfo().getGender().equals("0")) {
+                    im_gender.setImageResource(R.drawable.bg2_male);
+                }
+                String path = AddressManager.get("photoHost");
+                if (data.getClmInfo().getIsRetire().equals("1"))
+                {
+                    cir_headimexit.setImageResource(R.drawable.exit_match);
+                    ll_remove_class.setVisibility(View.INVISIBLE);
+                }
+                if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
+                    Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
+                }
+                tv_username.setText(data.getClmInfo().getUserName());
+                tv_tel.setText(data.getClmInfo().getMobile());
+                tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
+                if (data.getClmInfo().getSuperType().equals("2")) {
+                    tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
+                }else if (data.getClmInfo().getSuperType().equals("3"))
+                {
+                    tv_SuperName.setText("顾问：" + data.getClmInfo().getSuperName());
+                }
+                String[] star = data.getClmInfo().getStartDate().split(" ");
+                String[] stardate = star[0].split("-");
+                String[] end = data.getClmInfo().getEndDate().split(" ");
+                String[] enddate = end[0].split("-");
+                tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
+                if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+                    tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
+                    Lossstate=false;
+                    ll_story.setClickable(false);
+                } else {
 
-                    String[] day = data.getLossStory().getCreateDate().split(" ");
-                    String[] date = day[0].split("-");
-                    tv_weightday.setText(date[2]);
-                    chMonth = new ChMonth();
-                    tv_mon.setText(chMonth.tomonth(date[1]));
-                    tv_storycontent.setText(data.getLossStory().getLogContent());
-
-            }
-            if (data.getHonorList().size()==0)
-            {
-                tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
-                xunzh=false;
-                ll_xunzh.setFocusable(false);
-                ll_xunzh.setClickable(false);
-            }
-            else {
-                List<HonorListModel> honors = data.getHonorList();
-                for (int i = 0; i < data.getHonorList().size(); i++) {
-                    HonorListModel honor = honors.get(i);
-                    switch (i) {
-                        case 0:
-                            setMedal(honor, me_xun1, tv_valuetext);
-                            break;
-                        case 1:
-                            setMedal(honor, me_xun2, tv_valuetext2);
-                            break;
-                        case 2:
-                            setMedal(honor, me_xun3, tv_valuetext3);
-                            break;
-                    }
+                        String[] day = data.getLossStory().getCreateDate().split(" ");
+                        String[] date = day[0].split("-");
+                        tv_weightday.setText(date[2]);
+                        chMonth = new ChMonth();
+                        tv_mon.setText(chMonth.tomonth(date[1]));
+                        tv_storycontent.setText(data.getLossStory().getLogContent());
 
                 }
-            }
-            if (data.getPhotoList().size()==0)
-            {
-                tv_nophoto.setText("暂无照片");
-                photostate=false;
-                ll_personphot.setFocusable(false);
-            }
-            if (data.getPhotoList().size()<3)
-            {
-                ll_personphoto2.setVisibility(View.GONE);
-            }
-            for (int j = 0; j < data.getPhotoList().size(); j++) {
-                if (!TextUtils.isEmpty(data.getPhotoList().get(j).getImgUrl())) {
-                    if (j == 0) {
-                        im_pict1.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict1);
-                    } else if (j == 1) {
-                        im_pict2.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict2);
-                    } else if (j == 2) {
-                        im_pict3.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict3);
-                    } else if (j == 3) {
-                        im_pict4.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict4);
-                    } else if (j == 4) {
-                        im_pict5.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict5);
-                    } else if (j == 5) {
-                        im_pict6.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict6);
-                    }
-
+                if (data.getHonorList().size()==0)
+                {
+                    tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
+                    xunzh=false;
+                    ll_xunzh.setFocusable(false);
+                    ll_xunzh.setClickable(false);
                 }
-            }
-            if (StringUtils.isNotEmpty(data.getClmInfo().getTotalLoss()) && Float.parseFloat(data.getClmInfo().getTotalLoss()) < 0) {
-                tv_total_loss_tip.setText("共增重");
-            } else {
-                tv_total_loss_tip.setText("共减重");
-            }
-            tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(data.getClmInfo().getAfterWeight()) ? "0" : data.getClmInfo().getAfterWeight()) == 0 ? "0斤" : Math.abs(Float.parseFloat(data.getClmInfo().getTotalLoss())) + "斤");
-            tv_loss_before.setText(StringUtil.getFloatValue(data.getClmInfo().getBeforeWeight()) + "斤");
-            float lossAfter = StringUtil.getFloat(data.getClmInfo().getAfterWeight());
-            tv_loss_after.setText(lossAfter == 0 ? "尚未复测" : StringUtil.getFloat(data.getClmInfo().getAfterWeight()) + "斤");
-            if (lossAfter == 0) {
-                tv_loss_after_tip.setVisibility(View.GONE);
-            } else {
-                tv_loss_after_tip.setVisibility(View.VISIBLE);
-            }
+                else {
+                    List<HonorListModel> honors = data.getHonorList();
+                    for (int i = 0; i < data.getHonorList().size(); i++) {
+                        HonorListModel honor = honors.get(i);
+                        switch (i) {
+                            case 0:
+                                setMedal(honor, me_xun1, tv_valuetext);
+                                break;
+                            case 1:
+                                setMedal(honor, me_xun2, tv_valuetext2);
+                                break;
+                            case 2:
+                                setMedal(honor, me_xun3, tv_valuetext3);
+                                break;
+                        }
 
-            if (!StringUtils.isEmpty(data.getClmInfo().getBeforeImage())) {
-                Picasso.with(this).load(path + data.getClmInfo().getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
-            }
-            if (!StringUtils.isEmpty(data.getClmInfo().getAfterImage())) {
-                Picasso.with(this).load(path + data.getClmInfo().getAfterImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
-            }
+                    }
+                }
+                if (data.getPhotoList().size()==0)
+                {
+                    tv_nophoto.setText("暂无照片");
+                    photostate=false;
+                    ll_personphot.setFocusable(false);
+                }
+                if (data.getPhotoList().size()<3)
+                {
+                    ll_personphoto2.setVisibility(View.GONE);
+                }
+                for (int j = 0; j < data.getPhotoList().size(); j++) {
+                    if (!TextUtils.isEmpty(data.getPhotoList().get(j).getImgUrl())) {
+                        if (j == 0) {
+                            im_pict1.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict1);
+                        } else if (j == 1) {
+                            im_pict2.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict2);
+                        } else if (j == 2) {
+                            im_pict3.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict3);
+                        } else if (j == 3) {
+                            im_pict4.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict4);
+                        } else if (j == 4) {
+                            im_pict5.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict5);
+                        } else if (j == 5) {
+                            im_pict6.setVisibility(View.VISIBLE);
+                            Picasso.with(this).load(path + data.getPhotoList().get(j).getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_pict6);
+                        }
 
+                    }
+                }
+                if (StringUtils.isNotEmpty(data.getClmInfo().getTotalLoss()) && Float.parseFloat(data.getClmInfo().getTotalLoss()) < 0) {
+                    tv_total_loss_tip.setText("共增重");
+                } else {
+                    tv_total_loss_tip.setText("共减重");
+                }
+                tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(data.getClmInfo().getAfterWeight()) ? "0" : data.getClmInfo().getAfterWeight()) == 0 ? "0斤" : Math.abs(Float.parseFloat(data.getClmInfo().getTotalLoss())) + "斤");
+                tv_loss_before.setText(StringUtil.getFloatValue(data.getClmInfo().getBeforeWeight()) + "斤");
+                float lossAfter = StringUtil.getFloat(data.getClmInfo().getAfterWeight());
+                tv_loss_after.setText(lossAfter == 0 ? "尚未复测" : StringUtil.getFloat(data.getClmInfo().getAfterWeight()) + "斤");
+                if (lossAfter == 0) {
+                    tv_loss_after_tip.setVisibility(View.GONE);
+                } else {
+                    tv_loss_after_tip.setVisibility(View.VISIBLE);
+                }
+
+                if (!StringUtils.isEmpty(data.getClmInfo().getBeforeImage())) {
+                    Picasso.with(this).load(path + data.getClmInfo().getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
+                }
+                if (!StringUtils.isEmpty(data.getClmInfo().getAfterImage())) {
+                    Picasso.with(this).load(path + data.getClmInfo().getAfterImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
 
 
@@ -473,6 +478,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             AMStatus="1";
             tv_xunzhflag.setText("");
+            ll_xunzh.setClickable(true);
+            xunzh=true;
             persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
             fragmentList.clear();
             Map<String, String> params = new HashMap<>();
