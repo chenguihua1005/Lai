@@ -209,7 +209,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     public void onLocationChanged(final AMapLocation aMapLocation) {
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             String city = aMapLocation.getCity();
-            Log.i("定位到的地方是>>>"+city);
             if (StringUtils.isNotEmpty(city)) {
                 aMapLocationClient.stopLocation();
                 ZillaApi.getCustomRESTAdapter("http://wthrcdn.etouch.cn", new RequestInterceptor() {
