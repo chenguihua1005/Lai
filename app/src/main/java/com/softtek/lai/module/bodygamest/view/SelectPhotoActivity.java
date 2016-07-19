@@ -40,12 +40,14 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
     //照片列表listview
     @InjectView(R.id.pull_refresh_grid)
     PullToRefreshGridView pull_refresh_grid;
     private PhotoListPre photoListPre;
-    private List<LogListModel> list_all=new ArrayList<LogListModel>();
-    private List<LogListModel> list_info=new ArrayList<LogListModel>();
+    private List<LogListModel> list_all = new ArrayList<LogListModel>();
+    private List<LogListModel> list_info = new ArrayList<LogListModel>();
     public static int count = 0;
     private int pageIndex = 1;
     private String id;
@@ -89,7 +91,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
             }
             if (pageIndex == 1) {
                 count = 0;
-                text_count.setText("已选择"+count + "张");
+                text_count.setText("已选择" + count + "张");
                 list_all = list_info;
                 adapter = new SelectPhotoAdapter(this, list_all, new SelectPhotoAdapter.CallBack() {
                     @Override
@@ -99,7 +101,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                         } else {
                             count--;
                         }
-                        text_count.setText("已选择"+count + "张");
+                        text_count.setText("已选择" + count + "张");
                     }
                 });
                 pull_refresh_grid.setAdapter(adapter);
@@ -114,7 +116,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initViews() {
         tv_right.setText("提交");
-
+        tv_title.setText("分享照片");
     }
 
     @Override

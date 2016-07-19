@@ -56,7 +56,8 @@ public class GetProinfoImpl implements IGetProinfopresenter {
                         PhotosModel photModel = upimgResponseData.getData();
                         EventBus.getDefault().post(photModel);
                         break;
-                    case 500:
+                    default:
+                        context.dialogDissmiss();
                         Util.toastMsg(upimgResponseData.getMsg());
                         break;
                 }
