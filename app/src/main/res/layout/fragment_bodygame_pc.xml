@@ -790,7 +790,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentRight="true"
                                 android:text="查看更多"
-                                android:textSize="16sp" />
+                                android:textSize="15sp" />
                         </RelativeLayout>
                     </LinearLayout>
                     <!--Tips-->
@@ -854,9 +854,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:layout_marginBottom="5dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center|left"
                             android:textColor="@color/white"
+                            android:background="@drawable/video_bg"
+                            android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/tv_video_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="@color/white"
+                            android:background="#7a000000"
+                            android:padding="5dp"
+                            android:text="11:22"
                             android:textSize="18sp" />
                     </FrameLayout>
 

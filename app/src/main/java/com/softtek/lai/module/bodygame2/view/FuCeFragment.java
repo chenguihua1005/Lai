@@ -103,6 +103,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
         loginid = Long.parseLong(userInfoModel.getUser().getUserid());
+        retestPre.doGetRetestclass(loginid);
 
     }
 
@@ -333,7 +334,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                     startActivityForResult(intent, GET_BODY);
 
                 } else {
-
                     Intent intent = new Intent(getContext(), AuditActivity.class);
                     intent.putExtra("accountId", banjiStudentModel.getAccountId());
                     intent.putExtra("classId", banjiStudentModel.getClassId());
@@ -476,7 +476,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void lazyLoad() {
         try {
-            retestPre.doGetRetestclass(loginid);
+//            retestPre.doGetRetestclass(loginid);
             retestPre.doGetBanjiStudent(ClassId, loginid);
 
         } catch (Exception e) {

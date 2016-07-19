@@ -160,6 +160,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:layout_marginTop="14dp"
+                android:visibility="gone"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -416,7 +417,7 @@
                         android:textColor="#C0C0C0"/>
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="60dp"
+                        android:layout_height="120dp"
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
                         >
@@ -443,13 +444,23 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_below="@+id/tv_weightday"
                                 android:textColor="#333333"
+                                android:text="sd"
                                 android:textSize="12sp"/>
                         </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/im_storypic"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_toRightOf="@+id/re_date"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/default_icon_square"/>
                         <TextView
                             android:id="@+id/tv_storycontent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/re_date"
+                            android:layout_toRightOf="@+id/im_storypic"
                             android:layout_marginLeft="10dp"
                             android:textSize="12sp"
                             android:maxLines="4"
@@ -687,6 +698,7 @@
                         android:layout_height="110dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:gravity="center">
 
                         <LinearLayout
