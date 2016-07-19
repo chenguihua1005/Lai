@@ -35,7 +35,7 @@ public class DYActivity extends BaseActivity implements View.OnClickListener, Pu
 
     @Override
     protected void initViews() {
-        tv_title.setText("动态");
+        tv_title.setText("班级动态");
         ll_left.setOnClickListener(this);
         lv_dynamic.setOnRefreshListener(this);
         lv_dynamic.setMode(PullToRefreshBase.Mode.BOTH);
