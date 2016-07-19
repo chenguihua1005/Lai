@@ -80,7 +80,6 @@
             android:textColor="@color/white"
             android:background="#7a000000"
             android:padding="5dp"
-            android:text="11:22"
             android:textSize="18sp" />
     </FrameLayout>
 

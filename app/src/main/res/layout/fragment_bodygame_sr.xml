@@ -380,7 +380,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="申请助教"
+                            android:text="助教申请"
                             android:textColor="#333333"
                             android:textSize="10sp" />
                     </LinearLayout>

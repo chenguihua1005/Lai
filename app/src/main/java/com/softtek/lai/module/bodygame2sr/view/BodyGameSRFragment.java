@@ -133,6 +133,8 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
     FrameLayout fl_video;
     @InjectView(R.id.iv_video_image)
     ImageView iv_video_image;
+    @InjectView(R.id.tv_video_time)
+    TextView tv_video_time;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -293,10 +295,10 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
                 tv_person_num.setText(StringUtil.convertValue1(info.getPcCount()));
                 tv_loss_weight.setText(StringUtil.convertValue1(info.getLossTotal()));
-                tv_fuce_per.setText(StringUtil.convertValue1(info.getRetest()));
+                tv_fuce_per.setText(StringUtil.convertValue2(info.getRetest()));
                 tv_server_rank.setText(StringUtil.convertValue1(info.getPcNum()));
                 tv_loss_rank.setText(StringUtil.convertValue1(info.getLossNum()));
-                tv_fuce_rank.setText(StringUtil.convertValue1(info.getRNum()));
+                tv_fuce_rank.setText(StringUtil.convertValue2(info.getRNum()));
                 pcModels.clear();
                 competitionModels.clear();
                 pcModels.addAll(info.getSp_pc_three());
@@ -306,6 +308,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 saiKuangAdapter.notifyDataSetChanged();
                 if(StringUtils.isNotEmpty(info.getTips_video_id())){
                     tv_video_name.setText(info.getTips_video_name());
+                    tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)

@@ -3,7 +3,6 @@ package com.softtek.lai.module.bodygame2.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -137,6 +136,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     FrameLayout fl_video;
     @InjectView(R.id.iv_video_image)
     ImageView iv_video_image;
+    @InjectView(R.id.tv_video_time)
+    TextView tv_video_time;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -316,6 +317,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 saiKuangAdapter.notifyDataSetChanged();
                 if(StringUtils.isNotEmpty(info.getTips_video_id())){
                     tv_video_name.setText(info.getTips_video_name());
+                    tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)

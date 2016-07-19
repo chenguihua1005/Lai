@@ -92,6 +92,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_tips_content;
     @InjectView(R.id.fl_video)
     FrameLayout fl_video;
+    @InjectView(R.id.iv_video_image)
+    ImageView iv_video_image;
+    @InjectView(R.id.tv_video_time)
+    TextView tv_video_time;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -303,8 +307,14 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
             competitionModels.clear();
             competitionModels.addAll(info.getCompetition());
             saiKuangAdapter.notifyDataSetChanged();
-            if(StringUtils.isNotEmpty(info.getTips_video_name())){
+            if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                 tv_video_name.setText(info.getTips_video_name());
+                tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
+                if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
+                    Picasso.with(this).load(basePath+info.getTips_video_backPicture())
+                            .fit().placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).into(iv_video_image);
+                }
                 fl_video.setVisibility(View.VISIBLE);
             }else{
                 fl_video.setVisibility(View.GONE);

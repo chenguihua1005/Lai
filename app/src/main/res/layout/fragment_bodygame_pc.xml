@@ -552,6 +552,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:text="往期回顾"
+                                android:textColor="#333333"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>

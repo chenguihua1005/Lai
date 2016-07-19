@@ -155,6 +155,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_tips_content;
     @InjectView(R.id.fl_video)
     FrameLayout fl_video;
+    @InjectView(R.id.tv_video_time)
+    TextView tv_video_time;
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -329,6 +331,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 }
                 if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                     tv_video_name.setText(info.getTips_video_name());
+                    tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)
