@@ -233,8 +233,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     public void onEvent(DangQiShare model) {
         dangQiShare = model;
         dialogShow("加载中");
-        iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
-
+        iGetProinfopresenter.upload("/sdcard/jindu.png");
     }
 
     @Override
@@ -513,7 +512,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                     //执行获取权限后的操作
                     dialogShow("加载中");
                     Bitmap b1 = getViewBitmap(top);
-                    savePic(b1, "/sdcard/screen_test_1.png");
+                    savePic(b1, "/sdcard/jindu.png");
                     //honorPresenter.getUserHonors();
                     honorPresenter.getSPDangQiHonor();
                 }
@@ -533,7 +532,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                     //执行获取权限后的操作
                     dialogShow("加载中");
                     Bitmap b1 = getViewBitmap(top);
-                    savePic(b1, "/sdcard/screen_test_1.png");
+                    savePic(b1, "/sdcard/lai/jingdu.png");
                     honorPresenter.getUserHonors();
                 } else {
 

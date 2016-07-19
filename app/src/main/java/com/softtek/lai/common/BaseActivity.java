@@ -118,7 +118,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             progressDialog.show();
         }
     }
-
+    public void setProgressValue(String value){
+        progressDialog.setMessage(value);
+    }
     public void dialogShow() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
