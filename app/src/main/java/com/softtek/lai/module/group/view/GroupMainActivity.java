@@ -219,15 +219,19 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 Bundle data=msg.getData();
                 currentStep=data.getInt("todayStep",0);
                 //更新显示
-                if (currentStep == 0) {
-                    text_step.setText("--");
-                    text_rl.setText("--");
-                    text3.setVisibility(View.GONE);
-                } else {
-                    text_step.setText(currentStep + "");
-                    text3.setVisibility(View.VISIBLE);
-                    int kaluli = currentStep / 35;
-                    text_rl.setText(kaluli + "");
+                try {
+                    if (currentStep == 0) {
+                        text_step.setText("--");
+                        text_rl.setText("--");
+                        text3.setVisibility(View.GONE);
+                    } else {
+                        text_step.setText(currentStep + "");
+                        text3.setVisibility(View.VISIBLE);
+                        int kaluli = currentStep / 35;
+                        text_rl.setText(kaluli + "");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 //延迟在一次向服务端请求
                 delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);

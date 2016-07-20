@@ -140,5 +140,15 @@ public class StringUtil {
     public static String convertValue1(String value){
         return StringUtils.isEmpty(value)?"--":value;
     }
+    public static String convertValue2(String value){
+        return StringUtils.isEmpty(value)?"--":Float.parseFloat(value)==0?"--":value;
+    }
+    public static String convertValue3(String value){
+        return StringUtils.isEmpty(value)?"--:--":value;
+    }
+
+    public static String convertValue4(String value){
+        return getFloat(value)==0?"--":value+"%";
+    }
 
 }

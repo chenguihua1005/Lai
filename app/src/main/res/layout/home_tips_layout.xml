@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<merge xmlns:android="http://schemas.android.com/apk/res/android">-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2"
-    android:orientation="vertical">
+    android:orientation="vertical">-->
 
     <RelativeLayout
         android:id="@+id/rl_tip"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="19dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/bg2_picture_border">
 
         <ImageView
@@ -71,7 +71,7 @@
             android:textColor="@color/white"
             android:background="@drawable/video_bg"
             android:textSize="18sp" />
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_video_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,8 +80,7 @@
             android:textColor="@color/white"
             android:background="#7a000000"
             android:padding="5dp"
-            android:text="11:22"
-            android:textSize="18sp" />
+            android:textSize="18sp" />-->
     </FrameLayout>
 
     <LinearLayout
@@ -226,5 +225,5 @@
     <View android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="#f2f2f2"/>
-</LinearLayout>
-<!--</merge>-->
+<!--</LinearLayout>-->
+</merge>

@@ -161,15 +161,18 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     View view;
     UserInfoModel model;
 
+    float cuttent_y;
+
 
     @Override
     protected void initViews() {
         int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
-        if(DisplayUtil.getSDKInt()>18){
+        if (DisplayUtil.getSDKInt() > 18) {
             params.topMargin = status;
             rel.setLayoutParams(params);
         }
+
 
         RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
         p.height = params.height + status;
@@ -204,10 +207,11 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void onVisible() {
         isPrepared = false;
-//        if (getContext() instanceof BodyGamePCActivity) {
-//            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
-//            activity.setAlpha(0);
-//        }
+        if (getContext() instanceof BodyGamePCActivity) {
+            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
+            activity.setAlpha(0);
+        }
+        scroll.scrollTo(0,0);
         super.onVisible();
     }
 
@@ -222,8 +226,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                         scroll.smoothScrollTo(0, 0);
                     }
                 });
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
+        if (getContext() instanceof BodyGamePCActivity) {
+            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(0);
         }
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
@@ -331,28 +335,28 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
@@ -413,7 +417,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             pull.setEnabled(false);
         }
         float alpha = (1f * y / 1000);
-
+        cuttent_y = y;
         if (getContext() instanceof BodyGamePCActivity) {
             BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(alpha);

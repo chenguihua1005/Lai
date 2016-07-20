@@ -1,15 +1,23 @@
 package com.softtek.lai.module.mygrades.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -19,12 +27,23 @@ import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
+import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
+import com.softtek.lai.module.mygrades.model.ScoreModel;
+import com.softtek.lai.module.mygrades.model.XunZhangModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,6 +61,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -56,6 +76,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
+
+    @InjectView(R.id.rel)
+    RelativeLayout rel;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     //分享功能
@@ -138,6 +161,15 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LineChartUtil chartUtil;
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
+    String url;
+    String value;
+    String title_value;
+    SelectPicPopupWindow menuWindow;
+    ScoreModel scoreModel;
+    private static final int LOCATION_PREMISSION = 100;
+
+
+    private IGetProinfopresenter iGetProinfopresenter;
 
     char type = '6';
     int n = 7;
@@ -185,9 +217,64 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         bt_right.setOnClickListener(this);
     }
 
+    @Subscribe
+    public void onEvent(PhotosModel photModel) {
+        dialogDissmiss();
+        System.out.println(photModel);
+        if (UserInfoModel.getInstance().getUser() == null) {
+            return;
+        }
+        String path = AddressManager.get("shareHost");
+        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
+        System.out.println("url:" + url);
+        value = "我已累计跑步" + scoreModel.getTodayKaluli() + "km，总步数" + scoreModel.getTotalStep() + "步，今日全国排名第" + scoreModel.getContryDayOrder() + "名，跑团排名第" + scoreModel.getDayOrder() + "名。快来和我一起运动吧！";
+        System.out.println("value:" + value);
+        title_value = "莱运动, 陪伴我运动第" + scoreModel.getRgTime() + "天";
+        menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(MyGradesActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+    }
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(MyGradesActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(MyGradesActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(MyGradesActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
+        iGetProinfopresenter = new GetProinfoImpl(this);
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
         //3.3.2	成绩勋章信息
         getGradeHonor();
@@ -1045,6 +1132,59 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+    private void setShare() {
+        dialogShow("加载中");
+        Bitmap b1 = getViewBitmap(chart);
+        savePic(b1, "/sdcard/scores.png");
+        GradesService service = ZillaApi.NormalRestAdapter.create(GradesService.class);
+        String token = UserInfoModel.getInstance().getToken();
+        UserModel model = UserInfoModel.getInstance().getUser();
+        service.getMineScore(token, model.getUserid(), new Callback<ResponseData<ScoreModel>>() {
+            @Override
+            public void success(ResponseData<ScoreModel> responseData, Response response) {
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        scoreModel = responseData.getData();
+                        System.out.println("scoreModel:"+scoreModel);
+                        iGetProinfopresenter.upload("/sdcard/scores.png");
+                        break;
+                    default:
+                        dialogDissmiss();
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialogDissmiss();
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    //6.0权限回调方法
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case LOCATION_PREMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    setShare();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
+
+    }
+
+
     @Override
     public void onClick(View v) {
 
@@ -1071,15 +1211,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
             //分享
             case R.id.fl_right:
-//                dialogShow("加载中");
-                //Bitmap b1 = getBitmapByView(scrollView1);
-                Bitmap b1 = getViewBitmap(chart);
-                savePic(b1, "/sdcard/chart.png");
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    com.github.snowdream.android.util.Log.i("检查权限。。。。");
+                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                    if (
+                            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        //允许弹出提示
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
 
-//                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
-//                //显示窗口
-//                menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                menuWindow.showAtLocation(MyGradesActivity.this.findViewById(R.id.lin), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                    } else {
+                        //不允许弹出提示
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
+                    }
+                } else {
+                    setShare();
+                }
+
+
                 break;
             case R.id.bt_left:
                 if (state != true) {
@@ -1172,6 +1326,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //            }
 //        }
 //    };
+
     /**
      * 把View对象转换成bitmap
      */
@@ -1207,6 +1362,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
         return bitmap;
     }
+
     /**
      * 获取阶段日期
      *

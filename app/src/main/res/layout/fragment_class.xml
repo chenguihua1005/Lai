@@ -64,7 +64,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="4dip"
-                                    android:text="24"
+                                    android:text="--"
                                     android:textColor="@color/white"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -95,7 +95,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="4dip"
-                                    android:text="24斤"
+                                    android:text="--"
                                     android:textColor="@color/white"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -127,7 +127,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="4dip"
-                                    android:text="75%"
+                                    android:text="--"
                                     android:textColor="@color/white"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -239,7 +239,6 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="tetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttesttestst"
                                 android:textColor="@color/word"
                                 android:textSize="13sp" />
 
@@ -252,7 +251,6 @@
                                     android:id="@+id/text_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="2016年3月12号"
                                     android:textColor="@color/word6"
                                     android:textSize="11sp" />
 
@@ -403,7 +401,6 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="小"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 

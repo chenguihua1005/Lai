@@ -30,6 +30,10 @@ public class NotificationReceive extends BroadcastReceiver{
                 groupMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(groupMain);
             }
+        }else{
+            Intent groupMain=new Intent(context,GroupMainActivity.class);
+            groupMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(groupMain);
         }
     }
 }

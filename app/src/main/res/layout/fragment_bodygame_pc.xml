@@ -552,6 +552,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:text="往期回顾"
+                                android:textColor="#333333"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -790,7 +791,8 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentRight="true"
                                 android:text="查看更多"
-                                android:textSize="15sp" />
+                                android:textColor="@color/textview"
+                                android:textSize="12sp" />
                         </RelativeLayout>
                     </LinearLayout>
                     <!--Tips-->
@@ -860,7 +862,7 @@
                             android:textColor="@color/white"
                             android:background="@drawable/video_bg"
                             android:textSize="18sp" />
-                        <TextView
+                       <!-- <TextView
                             android:id="@+id/tv_video_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -870,7 +872,7 @@
                             android:background="#7a000000"
                             android:padding="5dp"
                             android:text="11:22"
-                            android:textSize="18sp" />
+                            android:textSize="18sp" />-->
                     </FrameLayout>
 
                     <LinearLayout
