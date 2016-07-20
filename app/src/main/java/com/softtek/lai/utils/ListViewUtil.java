@@ -19,16 +19,22 @@ public class ListViewUtil {
         }
 
         int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
+        int listCount=listAdapter.getCount();
+        if(listCount!=0){
+            View listItem = listAdapter.getView(0, null, listView);
+            listItem.measure(0, 0);
+            totalHeight=listItem.getMeasuredHeight()*listCount;
+        }
+       /* for (int i = 0; i < listAdapter.getCount(); i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
-        }
+        }*/
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 
         params.height = totalHeight
-                + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+                + (listView.getDividerHeight() * (listCount - 1));
 
         //((MarginLayoutParams) params).setMargins(10, 10, 10, 10); // 可删除
 
