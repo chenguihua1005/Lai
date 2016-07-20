@@ -17,6 +17,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.adapter.ClassMainPCStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
@@ -160,7 +161,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     DyNoticeModel dyNoticeModel;
     DySysModel dySysModel;
 
-    ClassMainStudentAdapter adapter;
+    ClassMainPCStudentAdapter adapter;
 
     View view;
     UserInfoModel model;
@@ -254,7 +255,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         }
         classMainManager = new PCClassMainManager(this);
         student_list = new ArrayList<ClmListModel>();
-        adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+        adapter = new ClassMainPCStudentAdapter(getContext(), student_list);
         list_student.setAdapter(adapter);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
@@ -554,7 +555,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         if (memberChangeModel != null) {
             list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
-            adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+            adapter = new ClassMainPCStudentAdapter(getContext(), student_list);
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);

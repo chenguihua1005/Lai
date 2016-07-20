@@ -682,7 +682,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 select_class_id = select_class_list.get(0).getClassId();
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
                 student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list, "1");
+                adapter = new ClassMainStudentAdapter(getContext(), student_list);
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
@@ -748,7 +748,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         if (memberChangeModel != null) {
             list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
-            adapter = new ClassMainStudentAdapter(getContext(), student_list, "1");
+            adapter = new ClassMainStudentAdapter(getContext(), student_list);
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
@@ -774,7 +774,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 initSelectTypePop();
 
                 student_list = classChangeModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list, "1");
+                adapter = new ClassMainStudentAdapter(getContext(), student_list);
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
