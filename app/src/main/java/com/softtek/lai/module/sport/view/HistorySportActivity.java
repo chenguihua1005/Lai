@@ -4,8 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,10 +26,26 @@ import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
+import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.LatLon;
+import com.softtek.lai.module.sport.model.MineMovementModel;
 import com.softtek.lai.module.sport.model.Trajectory;
+import com.softtek.lai.module.sport.net.SportService;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,10 +55,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_history_sport)
-public class HistorySportActivity extends BaseActivity implements View.OnClickListener{
+public class HistorySportActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -46,6 +71,11 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     TextView tv_title;
     @InjectView(R.id.map)
     MapView mapView;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.tv_clock)
     TextView tv_clock;
@@ -70,18 +100,27 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     PolylineOptions polylineOptions;
     MarkerOptions startMark;
     MarkerOptions endMark;
+    MineMovementModel mineMovementModel;
+    String url;
+    String value;
+    String title_value;
+    SelectPicPopupWindow menuWindow;
 
-    private AMap.OnMapScreenShotListener onMapScreenShotListener=new AMap.OnMapScreenShotListener() {
+    private IGetProinfopresenter iGetProinfopresenter;
+    HistorySportModel model;
+
+    private AMap.OnMapScreenShotListener onMapScreenShotListener = new AMap.OnMapScreenShotListener() {
         @Override
         public void onMapScreenShot(Bitmap bitmap) {
-            savePic(bitmap,"/sdcard/screen_test_2.png");
+            System.out.println("onMapScreenShot--");
+            savePic(bitmap, "/sdcard/sport.png");
 
         }
     };
 
     // 保存到sdcard
-    public static void savePic(Bitmap bitmap, String strFileName) {
-        if(null == bitmap){
+    public void savePic(Bitmap bitmap, String strFileName) {
+        if (null == bitmap) {
             return;
         }
         try {
@@ -98,20 +137,110 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 e.printStackTrace();
             }
             if (b) {
+                SportService service = ZillaApi.NormalRestAdapter.create(SportService.class);
+                UserModel model = UserInfoModel.getInstance().getUser();
+                service.getMineMovement(UserInfoModel.getInstance().getToken(), model.getUserid(), new RequestCallback<ResponseData<MineMovementModel>>() {
+                    @Override
+                    public void success(ResponseData<MineMovementModel> responseData, Response response) {
+                        android.util.Log.e("jarvis", responseData.toString());
+                        int status = responseData.getStatus();
+                        switch (status) {
+                            case 200:
+                                mineMovementModel = responseData.getData();
+                                iGetProinfopresenter.upload("/sdcard/sport.png");
+                                break;
 
-            }else {
+                            default:
+                                dialogDissmiss();
+                                Util.toastMsg(responseData.getMsg());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+            } else {
+                dialogDissmiss();
                 //ToastUtil.show(ScreenShotActivity.this, "截屏失败");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
+
+    @Subscribe
+    public void onEvent(PhotosModel photModel) {
+        dialogDissmiss();
+        System.out.println(photModel);
+        if (UserInfoModel.getInstance().getUser() == null) {
+            return;
+        }
+        String path = AddressManager.get("shareHost");
+        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
+        System.out.println("url:" + url);
+        String[] time = model.getTimeLength().split(":");
+        String times = time[0] + "时" + time[1] + "分" + time[2] + "秒";
+        value = "我刚刚完成跑步" + model.getKilometre() + "km,用时" + times + "，平均速度" + model.getSpeed() + ",消耗" + model.getCalories() + "大卡。快来和我一起运动吧！";
+        System.out.println("value:" + value);
+        title_value = "莱运动, 陪伴我运动第" + mineMovementModel.getRgTime() + "天";
+        menuWindow = new SelectPicPopupWindow(HistorySportActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(HistorySportActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+    }
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(HistorySportActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(HistorySportActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(HistorySportActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(HistorySportActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(HistorySportActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(HistorySportActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         cb_map_switch.setOnClickListener(this);
         tv_title.setText("运动记录");
+        iGetProinfopresenter = new GetProinfoImpl(this);
+        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
     }
+
     @Override
     protected void initDatas() {
         aMap = mapView.getMap();
@@ -122,37 +251,38 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         aMap.getUiSettings().setAllGesturesEnabled(false);
         aMap.getUiSettings().setScrollGesturesEnabled(true);
         aMap.getUiSettings().setZoomGesturesEnabled(true);
-        HistorySportModel model= (HistorySportModel) getIntent().getSerializableExtra("history");
+        model = (HistorySportModel) getIntent().getSerializableExtra("history");
         tv_clock.setText(model.getTimeLength());
         tv_calorie.setText(model.getCalories());
         tv_step.setText(model.getTotal());
         tv_distance.setText(model.getKilometre());
         tv_avg_speed.setText(model.getSpeed());
         tv_create_time.setText(model.getCreatetime());
-        String coords=model.getTrajectory();
+        String coords = model.getTrajectory();
         List<LatLng> list = readLatLngs(coords);
-        int color=Color.parseColor("#ffffff");
-        if(!list.isEmpty()){
-            polylineOptions=new PolylineOptions().color(Color.GREEN).addAll(list).width(20);
+        int color = Color.parseColor("#ffffff");
+        if (!list.isEmpty()) {
+            polylineOptions = new PolylineOptions().color(Color.GREEN).addAll(list).width(20);
             polylineOptions.zIndex(150);
             aMap.addPolyline(polylineOptions);
-            LatLng start=list.get(0);
-            LatLng end=list.get(list.size()-1);
-            polygonOptions=new PolygonOptions().addAll(createRectangle(start,5,5)).fillColor(color).strokeColor(color).strokeWidth(1);
+            LatLng start = list.get(0);
+            LatLng end = list.get(list.size() - 1);
+            polygonOptions = new PolygonOptions().addAll(createRectangle(start, 5, 5)).fillColor(color).strokeColor(color).strokeWidth(1);
             polygonOptions.visible(false);
             polygonOptions.zIndex(100);
             aMap.addPolygon(polygonOptions);
-            LatLngBounds bounds=new LatLngBounds.Builder().include(start).include(end).build();
-            startMark=new MarkerOptions().position(start).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start));
-            endMark=new MarkerOptions().position(end).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_end));
+            LatLngBounds bounds = new LatLngBounds.Builder().include(start).include(end).build();
+            startMark = new MarkerOptions().position(start).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start));
+            endMark = new MarkerOptions().position(end).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_end));
             aMap.addMarker(startMark);
             aMap.addMarker(endMark);
             // 移动地图，所有marker自适应显示。LatLngBounds与地图边缘10像素的填充区域
-            aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, DisplayUtil.getMobileWidth(this),(int)(DisplayUtil.getMobileHeight(this)*1.5),8));
+            aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, DisplayUtil.getMobileWidth(this), (int) (DisplayUtil.getMobileHeight(this) * 1.5), 8));
 
 
         }
     }
+
     /**
      * 生成一个长方形的四个坐标点
      */
@@ -168,13 +298,13 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
 
     private List<LatLng> readLatLngs(String coords) {
         List<LatLng> points = new ArrayList<>();
-        Gson gson=new Gson();
-        Trajectory trajectory=gson.fromJson(coords, Trajectory.class);
-        if(trajectory!=null){
-            List<LatLon> latLons=trajectory.getTrajectory();
-            for (int i = 0; i < latLons.size(); i ++) {
-                LatLon latLon=latLons.get(i);
-                points.add(new LatLng(latLon.getLatitude(),latLon.getLongitude()));
+        Gson gson = new Gson();
+        Trajectory trajectory = gson.fromJson(coords, Trajectory.class);
+        if (trajectory != null) {
+            List<LatLon> latLons = trajectory.getTrajectory();
+            for (int i = 0; i < latLons.size(); i++) {
+                LatLon latLon = latLons.get(i);
+                points.add(new LatLng(latLon.getLatitude(), latLon.getLongitude()));
             }
         }
         return points;
@@ -185,26 +315,31 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);
     }
+
     @Override
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        EventBus.getDefault().unregister(this);
         mapView.onDestroy();
         super.onDestroy();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
         mapView.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         mapView.onPause();
     }
+
     @Override
-    protected void onSaveInstanceState( Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mapView.onSaveInstanceState(outState);
@@ -212,19 +347,22 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_left:
-                //finish();
-                Log.i("aaaaaaaaaaaa");
+        switch (v.getId()) {
+            case R.id.iv_email:
+            case R.id.fl_right:
+                System.out.println("fl_right------");
+                dialogShow("加载中");
                 aMap.getMapScreenShot(onMapScreenShotListener);
-                Log.i("bbbbbbbbbbbb");
+                break;
+            case R.id.ll_left:
+                finish();
                 break;
             case R.id.cb_map_switch:
                 aMap.clear();
-                if(polygonOptions.isVisible()){
+                if (polygonOptions.isVisible()) {
                     polygonOptions.visible(false);
                     cb_map_switch.setChecked(true);
-                }else{
+                } else {
                     polygonOptions.visible(true);
                     cb_map_switch.setChecked(false);
                 }
