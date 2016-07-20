@@ -211,7 +211,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(0);
         }
-        scroll.scrollTo(0,0);
+        scroll.scrollTo(0, 0);
         super.onVisible();
     }
 
@@ -270,6 +270,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         scroll.setFocusable(false);
 
         classMainManager = new PCClassMainManager(this);
+        dialogShow("加载中");
+        System.out.println("doClassMainIndex------------");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
@@ -430,12 +432,12 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             dialogDissmiss();
             pull.setRefreshing(false);
             if (classMainModel != null) {
+                System.out.println("0000000000000000------------");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
                 PCClmDetailModel model = classMainModel.getClmDetail();
                 String startTime = model.getStartDate();
                 String endTime = model.getEndDate();
-                System.out.println("startTime:" + startTime);
                 text_class_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(startTime) + "年" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getMonth(startTime) + "月" + "-" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(endTime) + "年" +
@@ -487,8 +489,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
+                System.out.println("11111111111111------------");
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-
+                System.out.println("2222222222222222------------");
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
 
@@ -516,6 +519,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+                System.out.println("3333333333333------------");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -526,19 +530,14 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void getStudentList(MemberChangeModel memberChangeModel) {
 
         if (memberChangeModel != null) {
-//            student_list.clear();
-//            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-//            student_list.addAll(memberChangeModel.getClmlist());
-//            System.out.println("student_list:" + student_list);
-//            adapter.type = select_type + "";
-//            adapter.notifyDataSetChanged();
-//            dialogDissmiss();
-//
+            list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
             adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+        } else {
+            list_student.setVisibility(View.GONE);
         }
         dialogDissmiss();
     }

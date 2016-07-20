@@ -158,6 +158,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout re_xunzhang;
     @InjectView(R.id.re_jianzh)
     RelativeLayout re_jianzh;
+    @InjectView(R.id.im_storypic)
+    ImageView im_storypic;
     private long userId = 0;
     private long classId = 0;
     private String review_flag = "1";
@@ -380,6 +382,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         chMonth = new ChMonth();
                         tv_mon.setText(chMonth.tomonth(date[1]));
                         tv_storycontent.setText(data.getLossStory().getLogContent());
+                    if (!TextUtils.isEmpty(data.getLossStory().getImgUrl())) {
+                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_storypic);
+                    }
 
                 }
                 if (data.getHonorList().size()==0)

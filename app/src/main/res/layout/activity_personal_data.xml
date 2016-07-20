@@ -267,7 +267,7 @@
                         android:textColor="#C0C0C0"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="120dp"
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
                     >
@@ -296,14 +296,23 @@
                         android:textColor="#333333"
                         android:textSize="12sp"/>
                     </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/im_storypic"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_toRightOf="@+id/re_date"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
                     <TextView
                         android:id="@+id/tv_storycontent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/re_date"
+                        android:layout_toRightOf="@+id/im_storypic"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
-                        android:maxLines="4"
+                        android:maxLines="6"
                         android:layout_centerVertical="true"
                         android:ellipsize="end"/>
 

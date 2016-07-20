@@ -609,11 +609,14 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         dialogDissmiss();
         System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
+            list_student.setVisibility(View.VISIBLE );
             student_list = memberChangeModel.getClmlist();
             adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "1");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+        }else {
+            list_student.setVisibility(View.GONE);
         }
     }
 
