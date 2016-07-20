@@ -270,6 +270,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         scroll.setFocusable(false);
 
         classMainManager = new PCClassMainManager(this);
+        dialogShow("加载中");
+        System.out.println("doClassMainIndex------------");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
@@ -435,7 +437,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 PCClmDetailModel model = classMainModel.getClmDetail();
                 String startTime = model.getStartDate();
                 String endTime = model.getEndDate();
-                System.out.println("startTime:" + startTime);
                 text_class_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(startTime) + "年" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getMonth(startTime) + "月" + "-" +
                         DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getYear(endTime) + "年" +
@@ -487,8 +488,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
+                System.out.println("0000000000000000------------");
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-
+                System.out.println("6666666666666666------------");
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
 
