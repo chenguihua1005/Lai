@@ -37,8 +37,7 @@ public class DaemonService extends Service{
         Intent intent = new Intent(this, Receive1.class);
         intent.setAction("com.softtek.lai.clock");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, pendingIntent);
-
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),5000, pendingIntent);
         closeReceiver=new StepCloseReceiver();
         registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
     }

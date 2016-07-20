@@ -431,7 +431,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     public void getClassMain(PCClassMainModel classMainModel) {
         try {
-            dialogDissmiss();
+//            dialogDissmiss();
             pull.setRefreshing(false);
             if (classMainModel != null) {
                 System.out.println("0000000000000000------------");
@@ -524,6 +524,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            dialogDissmiss();
         }
     }
 
