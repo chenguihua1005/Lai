@@ -33,6 +33,7 @@ import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -48,8 +49,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.text_more)
     TextView text_more;
 
-    @InjectView(R.id.rel_title_more)
-    RelativeLayout rel_title_more;
+//    @InjectView(R.id.rel_title_more)
+//    RelativeLayout rel_title_more;
 
     @InjectView(R.id.lin_select_type)
     LinearLayout lin_select_type;
@@ -179,7 +180,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         rel_sy.setLayoutParams(p);
         rel_sy.setAlpha(1f);
 
-        rel_title_more.setOnClickListener(this);
+//        rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
         rel_person.setOnClickListener(this);
         img_gg.setOnClickListener(this);
@@ -230,6 +231,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(0);
         }
+        classMainManager = new PCClassMainManager(this);
+        student_list = new ArrayList<ClmListModel>();
+        adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+        list_student.setAdapter(adapter);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
@@ -268,8 +273,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-
-        classMainManager = new PCClassMainManager(this);
         dialogShow("加载中");
         System.out.println("doClassMainIndex------------");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
@@ -386,27 +389,27 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
                 }
                 break;
-            case R.id.rel_title_more://右上角更多按钮
-                if (popTitleMore != null && popTitleMore.isShowing()) {
-                    popTitleMore.dismiss();
-                } else {
-                    View view = getActivity().getLayoutInflater().inflate(R.layout.popview_title_more, null);
-                    lin_invite_student = (LinearLayout) view.findViewById(R.id.lin_invite_student);
-                    lin_invite_ass = (LinearLayout) view.findViewById(R.id.lin_invite_ass);
-                    lin_create_class = (LinearLayout) view.findViewById(R.id.lin_create_class);
-
-                    lin_invite_student.setOnClickListener(this);
-                    lin_invite_ass.setOnClickListener(this);
-                    lin_create_class.setOnClickListener(this);
-
-                    popTitleMore = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT, true);
-                    popTitleMore.setOutsideTouchable(true);
-                    popTitleMore.setBackgroundDrawable(new BitmapDrawable());
-                    popTitleMore.showAsDropDown(rel_title_more, DisplayUtil.dip2px(getContext(), -45), 0);
-
-                }
-                break;
+//            case R.id.rel_title_more://右上角更多按钮
+//                if (popTitleMore != null && popTitleMore.isShowing()) {
+//                    popTitleMore.dismiss();
+//                } else {
+//                    View view = getActivity().getLayoutInflater().inflate(R.layout.popview_title_more, null);
+//                    lin_invite_student = (LinearLayout) view.findViewById(R.id.lin_invite_student);
+//                    lin_invite_ass = (LinearLayout) view.findViewById(R.id.lin_invite_ass);
+//                    lin_create_class = (LinearLayout) view.findViewById(R.id.lin_create_class);
+//
+//                    lin_invite_student.setOnClickListener(this);
+//                    lin_invite_ass.setOnClickListener(this);
+//                    lin_create_class.setOnClickListener(this);
+//
+//                    popTitleMore = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+//                            LinearLayout.LayoutParams.WRAP_CONTENT, true);
+//                    popTitleMore.setOutsideTouchable(true);
+//                    popTitleMore.setBackgroundDrawable(new BitmapDrawable());
+//                    popTitleMore.showAsDropDown(rel_title_more, DisplayUtil.dip2px(getContext(), -45), 0);
+//
+//                }
+//                break;
         }
     }
 
@@ -484,13 +487,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
-                student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
-                adapter.type = select_type + "";
-                list_student.setAdapter(adapter);
-                System.out.println("11111111111111------------");
-                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                System.out.println("2222222222222222------------");
+
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
 
@@ -518,6 +515,11 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+                student_list.clear();
+                student_list.addAll(classMainModel.getClmlist());
+                adapter.type = select_type + "";
+                adapter.notifyDataSetChanged();
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
                 System.out.println("3333333333333------------");
             }
         } catch (Exception e) {

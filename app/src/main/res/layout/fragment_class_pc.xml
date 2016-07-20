@@ -13,8 +13,8 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:overScrollMode="never">
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,8 +106,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
                                     android:layout_marginLeft="7dp"
-                                    android:layout_toRightOf="@id/cb_gender"
                                     android:layout_toLeftOf="@+id/img_1"
+                                    android:layout_toRightOf="@id/cb_gender"
                                     android:textColor="@color/white"
                                     android:textSize="15sp" />
 
@@ -200,33 +200,35 @@
                         android:layout_width="fill_parent"
                         android:layout_height="31dip">
 
-                        <RelativeLayout
+                        <!--<RelativeLayout
                             android:id="@+id/rel_gg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dip">
+                            android:layout_marginLeft="22dip">-->
 
-                            <ImageView
-                                android:id="@+id/img_gg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/img_gg_select" />
+                        <ImageView
+                            android:id="@+id/img_gg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dip"
+                            android:src="@drawable/img_gg_select" />
 
-                        </RelativeLayout>
+                        <!-- </RelativeLayout>-->
 
-                        <RelativeLayout
+                        <!--<RelativeLayout
                             android:id="@+id/rel_xtxx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/rel_gg">
+                            android:layout_toRightOf="@+id/rel_gg">-->
 
-                            <ImageView
-                                android:id="@+id/img_xtxx"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/img_xt_unselect" />
+                        <ImageView
+                            android:id="@+id/img_xtxx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/img_gg"
+                            android:src="@drawable/img_xt_unselect" />
 
-                        </RelativeLayout>
+                        <!--</RelativeLayout>-->
 
                     </RelativeLayout>
 
@@ -339,14 +341,14 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_centerVertical="true"
-                            android:text="学员数据"
+                            android:layout_weight="3"
+                            android:background="@color/green"
                             android:gravity="center_vertical"
                             android:paddingLeft="15dip"
-                            android:background="@color/green"
-                            android:layout_weight="3"
+                            android:text="学员数据"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
 
@@ -356,9 +358,9 @@
                             android:layout_height="fill_parent"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:gravity="right"
-                            android:background="@color/orange"
                             android:layout_weight="6"
+                            android:background="@color/orange"
+                            android:gravity="right"
                             android:orientation="horizontal">
 
                             <TextView
@@ -396,23 +398,23 @@
         </com.softtek.lai.widgets.ObservableScrollView>
 
 
+        <RelativeLayout
+            android:id="@+id/rel_sy"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@drawable/img_sy" />
 
         <RelativeLayout
             android:id="@+id/rel"
             android:layout_width="fill_parent"
             android:layout_height="50dip">
-            <RelativeLayout
-                android:id="@+id/rel_sy"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/img_sy"
-                android:orientation="horizontal"/>
+
             <RelativeLayout
                 android:id="@+id/rel_title"
                 android:layout_width="fill_parent"
                 android:layout_height="50dip"
                 android:background="@color/green"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal" />
 
             <LinearLayout
                 android:layout_width="175dip"
@@ -421,24 +423,24 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_class_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
+                <TextView
+                    android:id="@+id/text_class_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/text_class_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/text_class_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/rel_title_more"
                 android:layout_width="90dip"
                 android:layout_height="50dip"
@@ -453,7 +455,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dip"
                     android:src="@drawable/img_bg_title_more" />
-            </RelativeLayout>
+            </RelativeLayout>-->
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
