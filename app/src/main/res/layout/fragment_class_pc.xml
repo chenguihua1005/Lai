@@ -105,8 +105,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
                                     android:layout_marginLeft="7dp"
-                                    android:layout_toRightOf="@id/cb_gender"
                                     android:layout_toLeftOf="@+id/img_1"
+                                    android:layout_toRightOf="@id/cb_gender"
                                     android:textColor="@color/white"
                                     android:textSize="15sp" />
 
@@ -341,11 +341,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_centerVertical="true"
-                            android:text="学员数据"
+                            android:layout_weight="3"
+                            android:background="@color/green"
                             android:gravity="center_vertical"
                             android:paddingLeft="15dip"
-                            android:background="@color/green"
-                            android:layout_weight="3"
+                            android:text="学员数据"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
 
@@ -355,9 +355,9 @@
                             android:layout_height="fill_parent"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:gravity="right"
-                            android:background="@color/orange"
                             android:layout_weight="6"
+                            android:background="@color/orange"
+                            android:gravity="right"
                             android:orientation="horizontal">
 
                             <TextView

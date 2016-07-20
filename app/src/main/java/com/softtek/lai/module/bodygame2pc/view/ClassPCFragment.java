@@ -33,6 +33,7 @@ import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -268,6 +269,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
+        student_list = new ArrayList<ClmListModel>();
+        adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+        list_student.setAdapter(adapter);
 
         classMainManager = new PCClassMainManager(this);
         dialogShow("加载中");
@@ -485,13 +489,12 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 initSelectTypePop();
-                student_list = classMainModel.getClmlist();
-                adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+                student_list.clear();
+                student_list.addAll(classMainModel.getClmlist());
                 adapter.type = select_type + "";
-                list_student.setAdapter(adapter);
-                System.out.println("11111111111111------------");
+                adapter.notifyDataSetChanged();
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                System.out.println("2222222222222222------------");
+
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
 

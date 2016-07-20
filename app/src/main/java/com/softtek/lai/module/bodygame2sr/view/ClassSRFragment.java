@@ -203,7 +203,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     protected void initViews() {
         int status = DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
-        if(DisplayUtil.getSDKInt()>18){
+        if (DisplayUtil.getSDKInt() > 18) {
             params.topMargin = status;
             rel.setLayoutParams(params);
         }
@@ -267,7 +267,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void onVisible() {
         isPrepared = false;
-        scroll.scrollTo(0,0);
+        scroll.scrollTo(0, 0);
         if (getContext() instanceof BodyGameSRActivity) {
             BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
             activity.setAlpha(0);
@@ -395,28 +395,28 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
@@ -609,13 +609,13 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         dialogDissmiss();
         System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
-            list_student.setVisibility(View.VISIBLE );
+            list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
             adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "1");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-        }else {
+        } else {
             list_student.setVisibility(View.GONE);
         }
     }
