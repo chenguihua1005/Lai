@@ -506,7 +506,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                     img_lb.setVisibility(View.GONE);
                     img.setVisibility(View.VISIBLE);
                     if ("".equals(dyNoticeModel.getPhoto())) {
-                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                        Picasso.with(getContext()).load(R.drawable.img_default).into(img);
                     } else {
                         Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
                     }

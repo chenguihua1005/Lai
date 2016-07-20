@@ -200,35 +200,33 @@
                         android:layout_width="fill_parent"
                         android:layout_height="31dip">
 
-                        <!--<RelativeLayout
+                        <RelativeLayout
                             android:id="@+id/rel_gg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dip">-->
+                            android:layout_marginLeft="22dip">
 
                             <ImageView
                                 android:id="@+id/img_gg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="22dip"
                                 android:src="@drawable/img_gg_select" />
 
-                       <!-- </RelativeLayout>-->
+                        </RelativeLayout>
 
-                        <!--<RelativeLayout
+                        <RelativeLayout
                             android:id="@+id/rel_xtxx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/rel_gg">-->
+                            android:layout_toRightOf="@+id/rel_gg">
 
                             <ImageView
                                 android:id="@+id/img_xtxx"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/img_gg"
                                 android:src="@drawable/img_xt_unselect" />
 
-                        <!--</RelativeLayout>-->
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
@@ -341,8 +339,8 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
                             android:layout_centerVertical="true"
                             android:text="学员数据"
                             android:gravity="center_vertical"
@@ -440,7 +438,7 @@
                         android:textColor="@color/white" />
             </LinearLayout>
 
-            <!--<RelativeLayout
+            <RelativeLayout
                 android:id="@+id/rel_title_more"
                 android:layout_width="90dip"
                 android:layout_height="50dip"
@@ -455,7 +453,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dip"
                     android:src="@drawable/img_bg_title_more" />
-            </RelativeLayout>-->
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

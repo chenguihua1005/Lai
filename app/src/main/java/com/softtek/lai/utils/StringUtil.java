@@ -4,6 +4,8 @@ import com.github.snowdream.android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by jerry.guan on 4/26/2016.
  * 项目的一些操作字符串的工具
@@ -148,7 +150,17 @@ public class StringUtil {
     }
 
     public static String convertValue4(String value){
-        return getFloat(value)==0?"--":value+"%";
+        if(StringUtils.isEmpty(value)||"--".equals(value)){
+            return "--";
+        }
+        DecimalFormat format=new DecimalFormat("#0.0");
+        return format.format(Float.parseFloat(value))+"%";
     }
-
+    public static String convertValue5(String value){
+        if(StringUtils.isEmpty(value)||"--".equals(value)){
+            return "--";
+        }
+        DecimalFormat format=new DecimalFormat("#0.0");
+        return format.format(Float.parseFloat(value));
+    }
 }

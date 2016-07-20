@@ -304,14 +304,14 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 }
                 tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
                 tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
-                tv_loss_weight.setText(StringUtil.convertValue1(info.getPCLoss()));
-                tv_yaowei.setText(StringUtil.convertValue1(info.getPCwaistline()));
-                tv_tizhi_per.setText(StringUtil.getFloat(info.getPCPysical())==0?"--":(info.getPCPysical()+"%"));
-                tv_loss_per.setText(StringUtil.getFloat(info.getPCLossPrecent())==0?"--":(info.getPCLossPrecent()+"%"));
-                tv_loss_rank.setText(StringUtil.convertValue1(info.getPCLossOrde()));
-                tv_yaowei_rank.setText(StringUtil.convertValue1(info.getPCwaistlineOrder()));
-                tv_tizhi_rank.setText(StringUtil.convertValue1(info.getPCPysicalOrder()));
-                tv_loss_per_rank.setText(StringUtil.convertValue1(info.getPCLossPrecentOrder()));
+                tv_loss_weight.setText(StringUtil.convertValue5(info.getPCLoss()));
+                tv_yaowei.setText(StringUtil.convertValue5(info.getPCwaistline()));
+                tv_tizhi_per.setText(StringUtil.convertValue4(info.getPCPysical()));
+                tv_loss_per.setText(StringUtil.convertValue4(info.getPCLossPrecent()));
+                tv_loss_rank.setText(info.getPCLossOrde());
+                tv_yaowei_rank.setText(info.getPCwaistlineOrder());
+                tv_tizhi_rank.setText(info.getPCPysicalOrder());
+                tv_loss_per_rank.setText(info.getPCLossPrecentOrder());
                 tv_loss_before.setText(StringUtil.getFloatValue(info.getPCLossBefore())+"斤");
                 float lossAfter=StringUtil.getFloat(info.getPCLossAfter());
                 tv_loss_after.setText(lossAfter==0?"尚未复测":lossAfter+"斤");
