@@ -6,7 +6,6 @@
 package com.softtek.lai.module.bodygame2.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
-import com.softtek.lai.module.bodygame2.view.ClassFragment;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.StringUtil;
@@ -36,7 +31,7 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class ClassMainStudentAdapter extends BaseAdapter {
+public class ClassMainPCStudentAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<ClmListModel> list;
     private Context context;
@@ -46,7 +41,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
     /**
      * 构造函数
      */
-    public ClassMainStudentAdapter(Context context, List<ClmListModel> list) {
+    public ClassMainPCStudentAdapter(Context context, List<ClmListModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -122,7 +117,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
                 DecimalFormat fnum = new DecimalFormat("##0.00");
                 String dd = fnum.format(Float.parseFloat(model.getLoss()));
                 System.out.println("dd:" + dd);
-                String str = Float.parseFloat(dd)  + "";
+                String str = Float.parseFloat(dd) + "";
                 String ddd = fnum.format(Float.parseFloat(str));
                 System.out.println("ddd:" + ddd);
                 String value = StringUtil.getFloatValue(ddd);
@@ -186,7 +181,14 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         } else {
             holder.cb_fc.setChecked(false);
         }
-        holder.iv_arrow.setVisibility(View.VISIBLE);
+
+        String useId = model.getAccountid();
+        UserModel userModel = UserInfoModel.getInstance().getUser();
+        if (useId.equals(userModel.getUserid())) {
+            holder.iv_arrow.setVisibility(View.VISIBLE);
+        } else {
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+        }
 
         return convertView;
     }

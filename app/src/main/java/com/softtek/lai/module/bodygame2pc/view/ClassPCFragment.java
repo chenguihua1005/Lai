@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.adapter.ClassMainPCStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
@@ -23,9 +25,11 @@ import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2.view.DYActivity;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;
 import com.softtek.lai.module.bodygame2pc.model.PCClmDetailModel;
 import com.softtek.lai.module.bodygame2pc.present.PCClassMainManager;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
@@ -157,7 +161,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     DyNoticeModel dyNoticeModel;
     DySysModel dySysModel;
 
-    ClassMainStudentAdapter adapter;
+    ClassMainPCStudentAdapter adapter;
 
     View view;
     UserInfoModel model;
@@ -203,6 +207,24 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
         img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
+        list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ClmListModel clmListModel = student_list.get(position);
+                String useId = clmListModel.getAccountid();
+                UserModel userModel = UserInfoModel.getInstance().getUser();
+                if (useId.equals(userModel.getUserid())) {
+                    String accountId = clmListModel.getAccountid();
+                    Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+                    intent.putExtra("userId", Long.parseLong(accountId));
+                    intent.putExtra("classId", Long.parseLong(select_class_id));
+                    startActivity(intent);
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -233,7 +255,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         }
         classMainManager = new PCClassMainManager(this);
         student_list = new ArrayList<ClmListModel>();
-        adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+        adapter = new ClassMainPCStudentAdapter(getContext(), student_list);
         list_student.setAdapter(adapter);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
@@ -535,7 +557,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         if (memberChangeModel != null) {
             list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
-            adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
+            adapter = new ClassMainPCStudentAdapter(getContext(), student_list);
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
