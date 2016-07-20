@@ -211,7 +211,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(0);
         }
-        scroll.scrollTo(0,0);
+        scroll.scrollTo(0, 0);
         super.onVisible();
     }
 
@@ -432,6 +432,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             dialogDissmiss();
             pull.setRefreshing(false);
             if (classMainModel != null) {
+                System.out.println("0000000000000000------------");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
                 PCClmDetailModel model = classMainModel.getClmDetail();
@@ -488,9 +489,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
-                System.out.println("0000000000000000------------");
+                System.out.println("11111111111111------------");
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                System.out.println("6666666666666666------------");
+                System.out.println("2222222222222222------------");
                 dyNoticeModel = classMainModel.getDyNotice();
                 dySysModel = classMainModel.getDySys();
 
@@ -518,6 +519,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+                System.out.println("3333333333333------------");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -528,19 +530,14 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void getStudentList(MemberChangeModel memberChangeModel) {
 
         if (memberChangeModel != null) {
-//            student_list.clear();
-//            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-//            student_list.addAll(memberChangeModel.getClmlist());
-//            System.out.println("student_list:" + student_list);
-//            adapter.type = select_type + "";
-//            adapter.notifyDataSetChanged();
-//            dialogDissmiss();
-//
+            list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
             adapter = new ClassMainStudentAdapter(getContext(), student_list, "0");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+        } else {
+            list_student.setVisibility(View.GONE);
         }
         dialogDissmiss();
     }

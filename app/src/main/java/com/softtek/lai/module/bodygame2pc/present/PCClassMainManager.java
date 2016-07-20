@@ -15,6 +15,7 @@ import com.softtek.lai.utils.RequestCallback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 5/12/2016.
@@ -42,6 +43,7 @@ public class PCClassMainManager {
                         }
                         break;
                     default:
+                        Util.toastMsg(classMainModelResponseData.getMsg());
                         if (cb != null) {
                             cb.getClassMain(null);
                         }
@@ -67,14 +69,13 @@ public class PCClassMainManager {
                 int status = memberChangeModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        System.out.println("2222222");
                         Log.i("获取学员列,切换维度" + memberChangeModelResponseData.getData());
                         if (cb != null) {
                             cb.getStudentList(memberChangeModelResponseData.getData());
                         }
                         break;
                     default:
-                        System.out.println("111111111");
+                        Util.toastMsg(memberChangeModelResponseData.getMsg());
                         if (cb != null) {
                             cb.getStudentList(null);
                         }
