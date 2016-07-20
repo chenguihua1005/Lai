@@ -305,7 +305,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
                 ll_photo.setClickable(false);
                 photostate=false;
             }
-            if (stu.getPhotoList().size() < 3) {
+            if (stu.getPhotoList().size() <=3) {
                 ll_personphoto2.setVisibility(View.GONE);
             }
             for (int j = 0; j < stu.getPhotoList().size(); j++) {

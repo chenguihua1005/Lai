@@ -209,18 +209,19 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Map<String, String> params = new HashMap<>();
         params.put("userId", userId + "");
         params.put("classId", classId + "");
-
         if(lwcf==null){
             lwcf= LossWeightChartFragment.newInstance(params);
         }
         if(dcf==null){
             dcf= DimensionChartFragment.newInstance(params);
         }
-        fragmentList.add(lwcf);
-        fragmentList.add(dcf);
-        tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
-        tabLayout.setupWithViewPager(tabcontent);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        if (lwcf!=null&&dcf!=null) {
+            fragmentList.add(lwcf);
+            fragmentList.add(dcf);
+            tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
+            tabLayout.setupWithViewPager(tabcontent);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
     }
 
     @Override
@@ -418,7 +419,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     photostate=false;
                     ll_personphot.setFocusable(false);
                 }
-                if (data.getPhotoList().size()<3)
+                if (data.getPhotoList().size()<=3)
                 {
                     ll_personphoto2.setVisibility(View.GONE);
                 }
