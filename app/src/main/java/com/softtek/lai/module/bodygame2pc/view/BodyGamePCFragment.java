@@ -155,8 +155,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_tips_content;
     @InjectView(R.id.fl_video)
     FrameLayout fl_video;
-    @InjectView(R.id.tv_video_time)
-    TextView tv_video_time;
+    /*@InjectView(R.id.tv_video_time)
+    TextView tv_video_time;*/
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -300,8 +300,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
                 tv_loss_weight.setText(StringUtil.convertValue1(info.getPCLoss()));
                 tv_yaowei.setText(StringUtil.convertValue1(info.getPCwaistline()));
-                tv_tizhi_per.setText(StringUtil.convertValue1(info.getPCPysical())+"%");
-                tv_loss_per.setText(StringUtil.convertValue1(info.getPCLossPrecent())+"%");
+                tv_tizhi_per.setText(StringUtil.getFloat(info.getPCPysical())==0?"--":(info.getPCPysical()+"%"));
+                tv_loss_per.setText(StringUtil.getFloat(info.getPCLossPrecent())==0?"--":(info.getPCLossPrecent()+"%"));
                 tv_loss_rank.setText(StringUtil.convertValue1(info.getPCLossOrde()));
                 tv_yaowei_rank.setText(StringUtil.convertValue1(info.getPCwaistlineOrder()));
                 tv_tizhi_rank.setText(StringUtil.convertValue1(info.getPCPysicalOrder()));
@@ -331,7 +331,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 }
                 if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                     tv_video_name.setText(info.getTips_video_name());
-                    tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
+                    //tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)

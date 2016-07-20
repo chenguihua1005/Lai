@@ -147,4 +147,8 @@ public class StringUtil {
         return StringUtils.isEmpty(value)?"--:--":value;
     }
 
+    public static String convertValue4(String value){
+        return getFloat(value)==0?"--":value+"%";
+    }
+
 }
