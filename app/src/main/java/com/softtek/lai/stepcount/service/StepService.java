@@ -407,12 +407,12 @@ public class StepService extends Service implements SensorEventListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
+            //检查日期
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(System.currentTimeMillis());
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minutes=c.get(Calendar.MINUTE);
             if(Intent.ACTION_TIME_TICK.equals(action)){
-                //检查日期
-                Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(System.currentTimeMillis());
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minutes=c.get(Calendar.MINUTE);
                 //每晚的23点30分到24点之间
                 if(hour==23&&minutes>50&&minutes<=59){
                     serverStep=0;
@@ -429,14 +429,9 @@ public class StepService extends Service implements SensorEventListener {
                 if (!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()) {
                     return;
                 }
-                //检查日期
-                Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(System.currentTimeMillis());
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minutes = c.get(Calendar.MINUTE);
                 //每晚的23点50分到24点之间
                 if (hour == 23 && minutes > 50 && minutes <= 59) {
-                    //清空当天的临时步数
+                    context.startService(new Intent(context.getApplicationContext(), StepService.class));
                     return;
                 }
                 //做上传工作
