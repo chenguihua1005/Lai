@@ -746,19 +746,14 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void getStudentList(MemberChangeModel memberChangeModel) {
         if (memberChangeModel != null) {
-//            student_list.clear();
-//            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
-//            student_list.addAll(memberChangeModel.getClmlist());
-//            System.out.println("student_list:" + student_list);
-//            adapter.type = select_type + "";
-//            adapter.notifyDataSetChanged();
-
-
+            list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();
             adapter = new ClassMainStudentAdapter(getContext(), student_list, "1");
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+        } else {
+            list_student.setVisibility(View.GONE);
         }
         dialogDissmiss();
     }

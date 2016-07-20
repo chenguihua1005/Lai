@@ -45,11 +45,11 @@ public class ClassMainStudentAdapter extends BaseAdapter {
     /**
      * 构造函数
      */
-    public ClassMainStudentAdapter(Context context, List<ClmListModel> list,String t) {
+    public ClassMainStudentAdapter(Context context, List<ClmListModel> list, String t) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        this.t=t;
+        this.t = t;
     }
 
     @Override
@@ -100,36 +100,68 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ClmListModel model = list.get(position);
         if ("0".equals(type)) {
-            holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
-            String value = StringUtil.getFloatValue(model.getLoss());
-            holder.text_value.setText(value + "斤");
+            if ("--".equals(model.getFirstweight())) {
+                holder.text_before_weight.setText("初始体重：--");
+            } else {
+                holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
+            }
+            if (!"--".equals(model.getLoss())) {
+                String value = StringUtil.getFloatValue(model.getLoss());
+                holder.text_value.setText(model.getLoss() + "斤");
+            } else {
+                holder.text_value.setText("--");
+            }
             holder.img_type.setImageResource(R.drawable.img_bg_jzjs);
         } else if ("1".equals(type)) {
-            holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
-
-            DecimalFormat fnum = new DecimalFormat("##0.00");
-            String dd = fnum.format(Float.parseFloat(model.getLoss()));
-            System.out.println("dd:" + dd);
-            String str = Float.parseFloat(dd) * 100 + "";
-            String ddd = fnum.format(Float.parseFloat(str));
-            System.out.println("ddd:" + ddd);
-            String value = StringUtil.getFloatValue(ddd);
-            holder.text_value.setText(value + "%");
+            if ("--".equals(model.getFirstweight())) {
+                holder.text_before_weight.setText("初始体重：--");
+            } else {
+                holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
+            }
+            if (!"--".equals(model.getLoss())) {
+                DecimalFormat fnum = new DecimalFormat("##0.00");
+                String dd = fnum.format(Float.parseFloat(model.getLoss()));
+                System.out.println("dd:" + dd);
+                String str = Float.parseFloat(dd)  + "";
+                String ddd = fnum.format(Float.parseFloat(str));
+                System.out.println("ddd:" + ddd);
+                String value = StringUtil.getFloatValue(ddd);
+                holder.text_value.setText(value + "%");
+            } else {
+                holder.text_value.setText("--");
+            }
             holder.img_type.setImageResource(R.drawable.img_bg_jzbfb);
         } else if ("2".equals(type)) {
-            holder.text_before_weight.setText("初始体脂：" + model.getFirstweight() + "%");
-            String value = StringUtil.getFloatValue(model.getLoss());
-            holder.text_value.setText(value + "%");
+            if ("--".equals(model.getFirstweight())) {
+                holder.text_before_weight.setText("初始体脂：--");
+            } else {
+                holder.text_before_weight.setText("初始体脂：" + model.getFirstweight() + "%");
+            }
+
+            if (!"--".equals(model.getLoss())) {
+                String value = StringUtil.getFloatValue(model.getLoss());
+                holder.text_value.setText(value + "%");
+            } else {
+                holder.text_value.setText("--");
+            }
             holder.img_type.setImageResource(R.drawable.img_bg_tzl);
         } else if ("3".equals(type)) {
-            holder.text_before_weight.setText("初始腰围：" + model.getFirstweight() + "cm");
-            String value = StringUtil.getFloatValue(model.getLoss());
-            holder.text_value.setText(value + "cm");
-           holder.img_type.setImageResource(R.drawable.img_bg_ywbh);
+            if ("--".equals(model.getFirstweight())) {
+                holder.text_before_weight.setText("初始腰围：--");
+            } else {
+                holder.text_before_weight.setText("初始腰围：" + model.getFirstweight() + "cm");
+            }
+            if (!"--".equals(model.getLoss())) {
+                String value = StringUtil.getFloatValue(model.getLoss());
+                holder.text_value.setText(value + "cm");
+            } else {
+                holder.text_value.setText("--");
+            }
+            holder.img_type.setImageResource(R.drawable.img_bg_ywbh);
         }
         holder.tv_order.setText(model.getOrdernum());
         holder.text_name.setText(model.getUsername());
-        holder.tv_who.setText( model.getSuperName());
+        holder.tv_who.setText(model.getSuperName());
         holder.text_count.setText("x" + model.getHonorcnt());
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -155,9 +187,9 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.cb_fc.setChecked(false);
         }
 
-        if("1".equals(t)){
+        if ("1".equals(t)) {
             holder.iv_arrow.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.iv_arrow.setVisibility(View.INVISIBLE);
         }
         return convertView;
