@@ -592,8 +592,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         v.buildDrawingCache();
         Bitmap cacheBitmap = v.getDrawingCache();
         if (cacheBitmap == null) {
-            Log.e("TTTTTTTTActivity", "failed getViewBitmap(" + v + ")",
-                    new RuntimeException());
             return null;
         }
 
@@ -615,7 +613,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         Table1Model table1Model = table1ModelList.get(position);
         long userId = Long.parseLong(table1Model.getAccountId());
         long classId = Long.parseLong(table1Model.getClassId());
-        Intent intent = new Intent(JingduActivity.this, PersonalDataActivity.class);
+        Intent intent = new Intent(this, PersonalDataActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("classId", classId);
         startActivity(intent);

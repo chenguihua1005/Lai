@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
@@ -24,7 +25,6 @@ import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
-import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -394,10 +394,9 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         Table1Model table1Model = table1ModelList.get(position);
         long userId = Long.parseLong(table1Model.getAccountId());
         long classId = Long.parseLong(table1Model.getClassId());
-        Intent intent = new Intent(ZhuJiaoJingduActivity.this, StudentDetailActivity.class);
+        Intent intent = new Intent(this, PersonalDataActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("classId", classId);
-        intent.putExtra("review", 1);
         startActivity(intent);
     }
 }
