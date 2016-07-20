@@ -1,6 +1,5 @@
 package com.softtek.lai.stepcount.service;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,7 +42,6 @@ import com.softtek.lai.utils.RequestCallback;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
-import java.util.List;
 
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -340,6 +338,7 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         //如果不是退出且跑团也没退出
         if(!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()){
             sendBroadcast(new Intent(STEP_CLOSE));
@@ -351,7 +350,6 @@ public class StepService extends Service implements SensorEventListener {
             currentStep=0;
             Log.i("计步器真的停止");
         }
-        super.onDestroy();
         //取消前台进程
         stopForeground(true);
         nm.cancelAll();
