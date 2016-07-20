@@ -31,13 +31,11 @@ import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
-import com.softtek.lai.module.bodygame2.view.SearchPcActivity;
 import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
-import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.net.MessageService;
@@ -294,11 +292,11 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
                 tv_total_loss.setText(StringUtil.convertValue1(info.getTotalLoss()));
                 tv_person_num.setText(StringUtil.convertValue1(info.getPcCount()));
-                tv_loss_weight.setText(StringUtil.convertValue1(info.getLossTotal()));
+                tv_loss_weight.setText(StringUtil.convertValue5(info.getLossTotal()));
                 tv_fuce_per.setText(StringUtil.convertValue4(info.getRetest()));
-                tv_fuce_rank.setText(StringUtil.convertValue4(info.getRNum()));
-                tv_server_rank.setText(StringUtil.convertValue1(info.getPcNum()));
-                tv_loss_rank.setText(StringUtil.convertValue1(info.getLossNum()));
+                tv_fuce_rank.setText(info.getRNum());
+                tv_server_rank.setText(info.getPcNum());
+                tv_loss_rank.setText(info.getLossNum());
                 pcModels.clear();
                 competitionModels.clear();
                 pcModels.addAll(info.getSp_pc_three());
@@ -308,7 +306,6 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 saiKuangAdapter.notifyDataSetChanged();
                 if(StringUtils.isNotEmpty(info.getTips_video_id())){
                     tv_video_name.setText(info.getTips_video_name());
-                    //tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)
