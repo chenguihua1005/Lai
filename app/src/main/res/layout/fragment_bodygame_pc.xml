@@ -791,7 +791,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentRight="true"
                                 android:text="查看更多"
-                                android:background="@color/textview"
+                                android:textColor="@color/textview"
                                 android:textSize="12sp" />
                         </RelativeLayout>
                     </LinearLayout>
