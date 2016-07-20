@@ -225,7 +225,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         String path = AddressManager.get("shareHost");
-        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
+        url = path + "ShareMineSportScore?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Imgpath=" + photModel.getImg();
         System.out.println("url:" + url);
         value = "我已累计跑步" + scoreModel.getTodayKaluli() + "km，总步数" + scoreModel.getTotalStep() + "步，今日全国排名第" + scoreModel.getContryDayOrder() + "名，跑团排名第" + scoreModel.getDayOrder() + "名。快来和我一起运动吧！";
         System.out.println("value:" + value);
