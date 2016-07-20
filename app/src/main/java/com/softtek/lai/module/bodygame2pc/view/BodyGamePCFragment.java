@@ -185,6 +185,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
             params.topMargin=status;
             relativeLayout.setLayoutParams(params);
         }
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);
