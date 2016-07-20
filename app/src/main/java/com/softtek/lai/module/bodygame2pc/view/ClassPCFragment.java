@@ -80,12 +80,12 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     ImageView img_banner;
 
 
-    @InjectView(R.id.rel_gg)
-    RelativeLayout rel_gg;
+    /*@InjectView(R.id.rel_gg)
+    RelativeLayout rel_gg;*/
     @InjectView(R.id.img_gg)
     ImageView img_gg;
-    @InjectView(R.id.rel_xtxx)
-    RelativeLayout rel_xtxx;
+    /*@InjectView(R.id.rel_xtxx)
+    RelativeLayout rel_xtxx;*/
     @InjectView(R.id.img_xtxx)
     ImageView img_xtxx;
 
@@ -182,9 +182,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
         rel_person.setOnClickListener(this);
-        rel_gg.setOnClickListener(this);
+        img_gg.setOnClickListener(this);
         text_more.setOnClickListener(this);
-        rel_xtxx.setOnClickListener(this);
+        img_xtxx.setOnClickListener(this);
         img_banner.setOnClickListener(this);
         rel_title.setAlpha(0f);
         rel_sy.setAlpha(1f);
@@ -288,8 +288,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 intents.putExtra("classId", select_class_id);
                 startActivity(intents);
                 break;
-            case R.id.rel_xtxx://系统消息
-                System.out.println("dySysModel:" + dySysModel);
+            case R.id.img_xtxx://系统消息
                 img_xtxx.setImageResource(R.drawable.img_xt_select);
                 img_gg.setImageResource(R.drawable.img_gg_unselect);
                 if (dySysModel != null) {
@@ -307,7 +306,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_message.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.rel_gg://公告
+            case R.id.img_gg://公告
                 img_gg.setImageResource(R.drawable.img_gg_select);
                 img_xtxx.setImageResource(R.drawable.img_xt_unselect);
                 if (dyNoticeModel != null) {

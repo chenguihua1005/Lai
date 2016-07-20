@@ -121,9 +121,8 @@
                  android:id="@+id/tv_date"
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
-                 android:textSize="16sp"
+                 android:textSize="15sp"
                  android:layout_alignParentLeft="true"
-                 android:text="2016-3-13"
                  android:gravity="center"
                  android:textColor="#949494"/>
              <CheckBox
@@ -133,7 +132,6 @@
                  android:layout_alignParentRight="true"
                  android:src="@drawable/zan"
                  android:button="@null"
-                 android:text="120"
                  android:background="@null"
                  android:textColor="#f67169"
                  android:drawableLeft="@drawable/zan_selector"

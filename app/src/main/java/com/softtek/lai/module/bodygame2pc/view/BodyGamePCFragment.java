@@ -35,6 +35,7 @@ import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
+import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
@@ -43,7 +44,6 @@ import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.view.LogDetailActivity;
-import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
@@ -161,8 +161,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_tips_content;
     @InjectView(R.id.fl_video)
     FrameLayout fl_video;
-    /*@InjectView(R.id.tv_video_time)
-    TextView tv_video_time;*/
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -495,10 +493,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 //减重故事更多
                 UserModel model=UserInfoModel.getInstance().getUser();
                 if (model!=null){
-                    Intent intent=new Intent(getContext(),LossWeightLogActivity.class);
-                    intent.putExtra("accountId", Long.parseLong(model.getUserid()));
-                    //往期0是往期1不是往期
-                    intent.putExtra("review",1);
+                    Intent intent=new Intent(getContext(),LossWeightStoryActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -507,6 +502,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 if(info!=null&&StringUtils.isNotEmpty(info.getPCStoryId())){
                     Intent intent=new Intent(getContext(),LogDetailActivity.class);
                     if("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus())){
+                        //往期0是往期1不是往期
                         intent.putExtra("review",1);
                     }
                     LossWeightLogModel lossWeightLogModel=new LossWeightLogModel();

@@ -1,5 +1,7 @@
 package com.softtek.lai.stepcount.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,16 +33,21 @@ public class DaemonService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        //注册广播
+        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, Receive1.class);
+        intent.setAction("com.softtek.lai.clock");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, pendingIntent);
+
         closeReceiver=new StepCloseReceiver();
-        IntentFilter filter=new IntentFilter(StepService.STEP_CLOSE);
-        registerReceiver(closeReceiver,filter);
+        registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
     }
 
     @Override
     public void onDestroy() {
         unregisterReceiver(closeReceiver);
-        startService(new Intent(this,DaemonService.class));
+        startService(new Intent(this,StepService.class));
+        sendBroadcast(new Intent("com.softtek.lai.service_destory"));
         super.onDestroy();
     }
 

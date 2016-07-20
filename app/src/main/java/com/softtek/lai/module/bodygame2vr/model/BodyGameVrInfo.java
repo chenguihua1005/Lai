@@ -73,14 +73,6 @@ public class BodyGameVrInfo {
         Tips_video_url = tips_video_url;
     }
 
-    /*public String getTips_Video_id() {
-        return Tips_Video_id;
-    }
-
-    public void setTips_Video_id(String tips_Video_id) {
-        Tips_Video_id = tips_Video_id;
-    }*/
-
     public String getTips_video_id() {
         return Tips_video_id;
     }
