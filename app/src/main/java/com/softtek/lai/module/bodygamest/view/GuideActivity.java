@@ -49,12 +49,7 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
     ImageView iv_six;
     @InjectView(R.id.iv_senven)
     ImageView iv_senven;
-    @InjectView(R.id.iv_eight)
-    ImageView iv_eight;
-    @InjectView(R.id.iv_nine)
-    ImageView iv_nine;
-    @InjectView(R.id.iv_ten)
-    ImageView iv_ten;
+
 
 
     private PagerAdapter vpAdapter;
@@ -84,9 +79,7 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
         views.add(inflater.inflate(R.layout.guidefourlayout, null));
         views.add(inflater.inflate(R.layout.guidefivelayout, null));
         views.add(inflater.inflate(R.layout.guidesixlayout, null));
-        views.add(inflater.inflate(R.layout.guidesenvenlayout, null));
-        views.add(inflater.inflate(R.layout.guideeightlayout, null));
-        views.add(inflater.inflate(R.layout.guideninelayout, null));
+//        views.add(inflater.inflate(R.layout.guidesenvenlayout, null));
         views.add(inflater.inflate(R.layout.guidetenlayout, null));
 //        views.add(inflater.inflate(R.layout.guidesix, null));
         vpAdapter = new PagerAdapter(views, this);
