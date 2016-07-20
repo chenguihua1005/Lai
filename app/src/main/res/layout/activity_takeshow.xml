@@ -73,30 +73,7 @@
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/dot"/>
-        <ImageView
-            android:id="@+id/iv_eight"
-            android:layout_height="10dp"
-            android:layout_width="10dp"
-            android:clickable="true"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/dot"/>
-        <ImageView
-            android:id="@+id/iv_nine"
-            android:layout_height="10dp"
-            android:layout_width="10dp"
-            android:clickable="true"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/dot"/>
-        <ImageView
-            android:id="@+id/iv_ten"
-            android:layout_height="10dp"
-            android:layout_width="10dp"
-            android:clickable="true"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/dot"/>
+
     </LinearLayout>
     <android.support.v4.view.ViewPager
         android:layout_height="match_parent"

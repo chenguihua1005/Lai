@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    >
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tab10"
-
+        android:layout_height="match_parent"
+        android:src="@drawable/tab7"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         />
     <Button
         android:gravity="center"
-        android:layout_marginTop="20dp"
         android:layout_width="300dp"
         android:layout_gravity="center"
         android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
         android:text="开始拍照"
         android:textSize="18sp"
         android:textColor="#ffffff"
         android:background="@drawable/bg_weidu_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/btn_creat_take"/>
-</LinearLayout>
+
+</RelativeLayout>
