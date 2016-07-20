@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -33,12 +35,15 @@ import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.studentbasedate.view.DimensionChartFragmentPC;
 import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
+import com.softtek.lai.module.studetail.model.LossWeightLogModel;
+import com.softtek.lai.module.studetail.view.LogDetailActivity;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
@@ -128,6 +133,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     TextView tv_loss_after_tip;
     @InjectView(R.id.tv_send_story)
     TextView tv_send_story;//发布减重故事按钮
+    @InjectView(R.id.ll_story)
+    LinearLayout ll_story;//减重故事查看详情
     @InjectView(R.id.tv_day)
     TextView tv_day;//天
     @InjectView(R.id.tv_month)
@@ -199,6 +206,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         tv_story_more.setOnClickListener(this);
         tv_tip_more.setOnClickListener(this);
         tv_send_story.setOnClickListener(this);
+        ll_story.setOnClickListener(this);
 
         scroll.setScrollViewListener(this);
         pull.setOnRefreshListener(this);
@@ -479,10 +487,9 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.tv_send_story:
                 //发布减重故事
-                //startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
                 //如果是正在进行中的班级才可以发布故事
                 if(info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))){
-                    startActivity(new Intent(getContext(),NewStoryActivity.class));
+                    startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
                 }
                 break;
             case R.id.tv_story_more:
@@ -493,6 +500,19 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                     intent.putExtra("accountId", Long.parseLong(model.getUserid()));
                     //往期0是往期1不是往期
                     intent.putExtra("review",1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.ll_story:
+                //点击减重故事查看详情
+                if(info!=null&&StringUtils.isNotEmpty(info.getPCStoryId())){
+                    Intent intent=new Intent(getContext(),LogDetailActivity.class);
+                    if("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus())){
+                        intent.putExtra("review",1);
+                    }
+                    LossWeightLogModel lossWeightLogModel=new LossWeightLogModel();
+                    lossWeightLogModel.setLossLogId(info.getPCStoryId());
+                    intent.putExtra("log",lossWeightLogModel);
                     startActivity(intent);
                 }
                 break;
@@ -527,6 +547,29 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 tip2Intent.putExtra("ask",ask2);
                 startActivity(tip2Intent);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK&&requestCode==SEND_NEW_STORY){
+            LogStoryModel model= (LogStoryModel) data.getSerializableExtra("story");
+            String logId=data.getStringExtra("storyId");
+            info.setPCStoryId(logId);
+            if(model!=null){
+                int day=DateUtil.getInstance().getCurrentDay();
+                int month=DateUtil.getInstance().getCurrentMonth();
+                tv_day.setText(day+"");
+                tv_month.setText(month+"月");
+                tv_content.setText(model.getLogContent());
+                info.setPCStoryContent(model.getLogContent());
+                String photo=model.getPhotoes().split(",")[0];
+                info.setPCStoryImg(photo);
+                if(StringUtils.isNotEmpty(photo)){
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost")+photo).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+                }
+            }
         }
     }
 

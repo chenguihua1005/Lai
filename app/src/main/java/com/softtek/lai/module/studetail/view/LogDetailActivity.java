@@ -90,37 +90,30 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         memberInfopresenter=new MemberInfoImpl(this,null);
         manager=new LogStoryDetailManager(this);
         log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
-        if(StringUtils.isNotEmpty(log.getPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default).into(civ_header_image);
-        }
-        tv_name.setText(log.getUserName());
-
-        tv_content.setText(log.getLogContent());
-        String date=log.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
-        tv_totle_lw.setText(log.getAfterWeight()+"斤");
-        cb_zan.setText(log.getPriase());
-        if(getIntent().getIntExtra("review",0)==0){
-            cb_zan.setEnabled(false);
-        }else{
-            if(LossWeightLogAdapter.ZAN_NO.equals(log.getIsClicked())){
-                cb_zan.setChecked(true);
-                cb_zan.setEnabled(false);
-            }else{
-                cb_zan.setChecked(false);
-                cb_zan.setEnabled(true);
+        /*if(log!=null){
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
             }
-        }
-        //拆分字符串图片列表,并添加到图片集合中
-        if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
-            String[] image=log.getImgCollection().split(",");
-            images.addAll(Arrays.asList(image));
-        }
+            tv_name.setText(log.getUserName());
+
+            tv_content.setText(log.getLogContent());
+            String date=log.getCreateDate();
+            tv_date.setText(DateUtil.getInstance().getYear(date)+
+                    "年"+DateUtil.getInstance().getMonth(date)+
+                    "月"+DateUtil.getInstance().getDay(date)+"日");
+            tv_totle_lw.setText(log.getAfterWeight()+"斤");
+            cb_zan.setText(log.getPriase());
+            //拆分字符串图片列表,并添加到图片集合中
+            if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
+                String[] image=log.getImgCollection().split(",");
+                images.addAll(Arrays.asList(image));
+            }
+
+        }*/
         adapter=new LogDetailGridAdapter(this,images);
         cgv_list_image.setAdapter(adapter);
+        cb_zan.setEnabled(false);
         dialogShow("加载中...");
         manager.getLogDetail(Long.parseLong(log.getLossLogId()));
     }
@@ -136,7 +129,8 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.cb_zan:
                 final UserModel model=UserInfoModel.getInstance().getUser();
-                log.setPriase(Integer.parseInt(log.getPriase())+1+"");
+                int priase=StringUtils.isEmpty(log.getPriase())?0:Integer.parseInt(log.getPriase());
+                log.setPriase((priase+1)+"");
                 log.setIsClicked("1");
                 log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(),model.getNickname(),model.getMobile()));
                 cb_zan.setText(log.getPriase());
@@ -206,7 +200,11 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                 cb_zan.setEnabled(false);
             }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
                 cb_zan.setChecked(false);
-                cb_zan.setEnabled(true);
+                if(getIntent().getIntExtra("review",0)==0){
+                    cb_zan.setEnabled(false);
+                }else {
+                    cb_zan.setEnabled(true);
+                }
             }
             //拆分字符串图片列表,并添加到图片集合中
             if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){

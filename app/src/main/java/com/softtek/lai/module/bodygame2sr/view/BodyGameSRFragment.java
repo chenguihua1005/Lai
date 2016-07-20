@@ -524,7 +524,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 String text=et_person.getText().toString();
                 if(StringUtils.isNotEmpty(text)){
                     et_person.setText("");
-                    Intent search=new Intent(getContext(),SearchPcActivity.class);
+                    Intent search=new Intent(getContext(),SearchSRPcActivity.class);
                     search.putExtra("value",text.replaceAll("%","").replaceAll("_",""));
                     startActivity(search);
                 }

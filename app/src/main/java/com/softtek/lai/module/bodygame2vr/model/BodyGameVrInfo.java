@@ -19,7 +19,7 @@ public class BodyGameVrInfo {
     //tips
     private String Tips_video_name;
     private String Tips_video_url;
-    private String Tips_Video_id;
+    private String Tips_video_id;
     private String Tips_video_timelen;
     private String Tips_video_backPicture;
     //咨询
@@ -73,12 +73,20 @@ public class BodyGameVrInfo {
         Tips_video_url = tips_video_url;
     }
 
-    public String getTips_Video_id() {
+    /*public String getTips_Video_id() {
         return Tips_Video_id;
     }
 
     public void setTips_Video_id(String tips_Video_id) {
         Tips_Video_id = tips_Video_id;
+    }*/
+
+    public String getTips_video_id() {
+        return Tips_video_id;
+    }
+
+    public void setTips_video_id(String tips_video_id) {
+        Tips_video_id = tips_video_id;
     }
 
     public String getTips_video_timelen() {

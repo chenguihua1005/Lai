@@ -307,9 +307,8 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
             competitionModels.clear();
             competitionModels.addAll(info.getCompetition());
             saiKuangAdapter.notifyDataSetChanged();
-            if(StringUtils.isNotEmpty(info.getTips_Video_id())){
+            if(StringUtils.isNotEmpty(info.getTips_video_id())){
                 tv_video_name.setText(info.getTips_video_name());
-                //tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                 if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                     Picasso.with(this).load(basePath+info.getTips_video_backPicture())
                             .fit().placeholder(R.drawable.default_icon_rect)

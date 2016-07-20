@@ -69,9 +69,17 @@ public interface BodyGameService {
     void getSPIndexInformation(@Header("token")String token,
                                RequestCallback<ResponseData<SPBodyGameInfo>> callback);
 
-    //首页检索
+    //首页SP检索
     @GET("/HerbNewUser/SearchMember")
     void doSearchMember(
+            @Header("token")String token,
+            @Query("AccountId")String AccountId,
+            @Query("Key")String Key,
+            RequestCallback<ResponseData<SearchMemberModel>>callback
+    );
+    //首页SR检索
+    @GET("/HerbNewUser/SR_SearchMember")
+    void doSearchSRMember(
             @Header("token")String token,
             @Query("AccountId")String AccountId,
             @Query("Key")String Key,

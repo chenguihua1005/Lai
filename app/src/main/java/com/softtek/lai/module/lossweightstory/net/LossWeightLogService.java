@@ -1,6 +1,7 @@
 package com.softtek.lai.module.lossweightstory.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.lossweightstory.model.LogId;
 import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
@@ -48,7 +49,7 @@ public interface LossWeightLogService {
     @POST("/CompetitionLog/SaveCompetitionLog")
     void sendLog(@Header(TOKEN)String token,
                  @Body LogStoryModel story,
-                 RequestCallback<ResponseData> callback);
+                 RequestCallback<ResponseData<LogId>> callback);
 
     @GET("/WeightLossLogDetails/WeightLossLogDetails")
     void getLogById(@Header("token")String token,

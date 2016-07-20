@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.net.UploadImageService;
+import com.softtek.lai.module.lossweightstory.model.LogId;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -23,9 +25,6 @@ import java.util.concurrent.CountDownLatch;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.PropertiesManager;
-import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/17.
@@ -88,9 +87,9 @@ public class NewStoryManager implements Runnable,UploadImageService.UploadImageC
             }
 
             Log.i("开始上传第二阶段");
-            service.sendLog(token, model, new RequestCallback<ResponseData>() {
+            service.sendLog(token, model, new RequestCallback<ResponseData<LogId>>() {
                 @Override
-                public void success(ResponseData responseData, Response response) {
+                public void success(ResponseData<LogId> responseData, Response response) {
                     for(UploadImage image:images){
                         Bitmap bit=image.getBitmap();
                         if(bit!=null&&!bit.isRecycled()){
@@ -98,10 +97,15 @@ public class NewStoryManager implements Runnable,UploadImageService.UploadImageC
                         }
                     }
                     if(progressDialog!=null)progressDialog.dismiss();
-                    Intent intent=((AppCompatActivity)context).getIntent();
-                    //intent.putExtra("story",model);
-                    ((AppCompatActivity)context).setResult(-1,intent);
-                    ((AppCompatActivity)context).finish();
+                    if(responseData.getStatus()==200){
+                        Intent intent=((AppCompatActivity)context).getIntent();
+                        intent.putExtra("storyId",responseData.getData().getLogId());
+                        intent.putExtra("story",model);
+                        ((AppCompatActivity)context).setResult(-1,intent);
+                        ((AppCompatActivity)context).finish();
+                    }else{
+                        Toast.makeText(context,responseData.getMsg(),Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
@@ -116,7 +120,6 @@ public class NewStoryManager implements Runnable,UploadImageService.UploadImageC
             if(progressDialog!=null){
                 progressDialog.dismiss();
             }
-            e.printStackTrace();
         }
 
     }

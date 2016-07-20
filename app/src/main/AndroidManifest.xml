@@ -627,6 +627,8 @@
             android:name=".module.sport.view.RunSportActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
+        <activity android:name=".module.bodygame2sr.view.SearchSRPcActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
