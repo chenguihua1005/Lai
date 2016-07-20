@@ -759,10 +759,6 @@
             android:process=":daemonprocess"/>
         <receiver android:name=".stepcount.service.Receive1"
             android:process=":daemonprocess" />
-        <service android:name="com.softtek.lai.stepcount.service.Service2"
-            android:process=":process2"/>
-        <receiver android:name=".stepcount.service.Receive2"
-            android:process=":process2"/>
     </application>
 
 </manifest>
