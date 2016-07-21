@@ -539,30 +539,11 @@
                     android:layout_height="60dp"
                     android:visibility="gone"
                     android:background="@color/white">
-                    <ImageView
-                        android:id="@+id/iv3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bg2_wenxintip"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"/>
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="18dp"
-                        android:background="#e5e5e5"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@id/iv3"
-                        android:layout_marginLeft="10dp"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/iv3"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginLeft="20dp"
                         android:textSize="12sp"
-                        android:text="开设班级后,才能邀请学员加入哦"
+                        android:text="暂无学员"
                         android:layout_centerInParent="true"
                         android:textColor="#333333" />
                 </RelativeLayout>
@@ -613,28 +594,10 @@
                     android:layout_height="60dp"
                     android:visibility="gone"
                     android:background="@color/white">
-                    <ImageView
-                        android:id="@+id/iv4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bg2_wenxintip"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"/>
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="18dp"
-                        android:background="#e5e5e5"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@id/iv4"
-                        android:layout_marginLeft="10dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/iv4"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginLeft="20dp"
                         android:textSize="12sp"
                         android:text="暂无大赛赛况"
                         android:layout_centerInParent="true"
