@@ -35,6 +35,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
+import com.softtek.lai.module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -169,6 +170,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         }
         else if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
+            activity.setAlpha(1);
+        }else if(getContext() instanceof BodyGamePCNoClassActivity){
+            BodyGamePCNoClassActivity activity=(BodyGamePCNoClassActivity)getContext();
             activity.setAlpha(1);
         }
     }

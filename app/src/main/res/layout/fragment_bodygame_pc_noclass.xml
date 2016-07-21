@@ -109,8 +109,9 @@
                     android:layout_height="1dp"
                     android:background="#e5e5e5" />
                 <RelativeLayout
+                    android:id="@+id/rl_to_class"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="60dp"
                     android:background="@color/white">
                     <ImageView
                         android:id="@+id/iv1"
@@ -127,16 +128,27 @@
                         android:layout_centerInParent="true"
                         android:layout_toRightOf="@id/iv1"
                         android:layout_marginLeft="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/arrow_copy"
+                        android:visibility="invisible"
+                        android:layout_marginRight="15dp"/>
                     <TextView
                         android:id="@+id/tv_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/iv1"
+                        android:layout_toLeftOf="@id/iv2"
+                        android:layout_marginRight="5dp"
                         android:layout_marginLeft="20dp"
-                        android:textSize="9sp"
+                        android:textSize="12sp"
                         android:layout_centerInParent="true"
-                        android:textColor="#333333"
-                        android:text="需要加入班级后,才能体验体管赛完整版功能,快去联系你的顾问加入班级吧"/>
+                        android:textColor="#333333" />
                 </RelativeLayout>
                 <!--大赛赛况-->
                 <RelativeLayout
@@ -171,7 +183,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e5e5e5" />
-
+                <TextView
+                    android:id="@+id/img_mo_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="暂无大赛赛况信息"
+                    android:visibility="gone" />
                 <com.softtek.lai.widgets.MyGridView
                     android:id="@+id/mgv"
                     android:layout_width="match_parent"
@@ -215,7 +233,29 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/back" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_right"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/iv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="消息"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
@@ -28,6 +30,10 @@ import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2vr.model.BodyGameVrInfo;
 import com.softtek.lai.module.bodygame2vr.net.BodyGameVRService;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
@@ -71,9 +77,17 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
     TextView tv_total_loss;
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
+    @InjectView(R.id.ll_right)
+    LinearLayout ll_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_tip)
     TextView tv_tip;
+    @InjectView(R.id.rl_to_class)
+    RelativeLayout rl_to_class;
+    @InjectView(R.id.iv2)
+    ImageView iv2;
 
     @InjectView(R.id.mgv)
     MyGridView mgv;
@@ -107,6 +121,8 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
     RelativeLayout rl_tip;
     @InjectView(R.id.rl_saikuang)
     RelativeLayout rl_saikuang;
+    @InjectView(R.id.img_mo_message)
+    TextView no_message;
 
     public static BodyGamePCNoClassFragment getInstance(int classStatus){
         BodyGamePCNoClassFragment fragment=null;
@@ -147,7 +163,10 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
         rl_saikuang.setOnClickListener(this);
         scroll.setScrollViewListener(this);
         fl_video.setOnClickListener(this);
+        ll_right.setOnClickListener(this);
         pull.setOnRefreshListener(this);
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+        mgv.setEmptyView(no_message);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -177,6 +196,23 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
 
     @Override
     protected void initDatas() {
+        Bundle data=getArguments();
+        int classStatus=data.getInt("class_status",0);
+        if(classStatus==0){//从未加入过班级
+            tv_tip.setText("需要加入班级后,才能体验体管赛完整版功能哦,快去联系顾问参赛吧");
+            iv2.setVisibility(View.INVISIBLE);
+        }else if(classStatus==1){//第一次加入班级班级未开始
+            tv_tip.setText("您的班级尚未开始,敬请期待");
+            iv2.setVisibility(View.INVISIBLE);
+        } else if(classStatus==4){//旧班级已结束，还没有加入新的班级
+            tv_tip.setText("您的班级已结束,可以去往期回顾中查看成绩哦! 点此立即查看");
+            rl_to_class.setOnClickListener(this);
+            iv2.setVisibility(View.VISIBLE);
+        }else if(classStatus==5){//就班级已经结束但是加入了新的班级还没有开始
+            tv_tip.setText("您新加入的班级尚未开始,可以去往期回顾中查看历史哦! 点此立即查看");
+            rl_to_class.setOnClickListener(this);
+            iv2.setVisibility(View.VISIBLE);
+        }
         roate= AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
         saiKuangAdapter=new SaiKuangAdapter(getContext(),competitionModels);
         mgv.setAdapter(saiKuangAdapter);
@@ -188,12 +224,52 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserModel model= UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
+        String userrole = model.getUserrole();
+        if (!String.valueOf(Constants.VR).equals(userrole)) {
+            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+                @Override
+                public void success(ResponseData listResponseData, Response response) {
+                    int status = listResponseData.getStatus();
+                    try {
+                        switch (status) {
+                            case 200:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                                break;
+                            default:
+                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                }
+            });
+        }
+    }
+
     Animation roate;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
                 getActivity().finish();
+                break;
+            case R.id.ll_right:
+                startActivity(new Intent(getContext(), MessageActivity.class));
+                break;
+            case R.id.rl_to_class:
+                startActivity(new Intent(getContext(), ClassListActivity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新
