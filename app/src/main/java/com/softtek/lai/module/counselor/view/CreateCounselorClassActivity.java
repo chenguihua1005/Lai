@@ -27,12 +27,15 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
+import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -282,12 +285,12 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     public void onValidationSucceeded() {
-        String str=edit_class_name.getText().toString().trim();
-        if(length(str)>30){
+        String str = edit_class_name.getText().toString().trim();
+        if (length(str) > 30) {
             Util.toastMsg("班级名称不能超过15个汉字");
-        }else if ("".equals(text_time_value.getText().toString())) {
+        } else if ("".equals(text_time_value.getText().toString())) {
             Util.toastMsg("请选择班级周期");
-        } else{
+        } else {
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);
             rightNow.add(Calendar.MONTH, 3);//日期加3个月
