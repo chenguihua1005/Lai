@@ -548,6 +548,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 adapter.notifyDataSetChanged();
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+                if(student_list.size()==0){
+                    dialogDissmiss();
+                    pull.setRefreshing(false);
+                }
             }else {
                 pull.setRefreshing(false);
                 dialogDissmiss();
@@ -567,6 +571,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+            if(student_list.size()==0){
+                dialogDissmiss();
+                pull.setRefreshing(false);
+            }
         } else {
             list_student.setVisibility(View.GONE);
             pull.setRefreshing(false);
