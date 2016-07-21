@@ -28,14 +28,14 @@ public class StepCount implements StepCountListener {
         } else {
             count++;
         }
-        if (count == 10) {
+        if (count == 5) {
             mCount = mCount + count;
             if (mListeners != null) {
                 mListeners.stepsChanged(mCount);
             }
             return;
         }
-        if (count > 10) {
+        if (count > 5) {
             mCount++;
             if (mListeners != null) {
                 mListeners.stepsChanged(mCount);

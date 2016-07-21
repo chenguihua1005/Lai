@@ -432,7 +432,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();
 //                    if (isLogin) {
 //                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -454,7 +453,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 //                    } else {
 //                        loginPresenter.getEMChatAccount(progressDialog);
 //                    }
-                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

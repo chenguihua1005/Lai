@@ -44,10 +44,10 @@ public class DaemonService extends Service{
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(closeReceiver);
-        startService(new Intent(this,StepService.class));
+        sendBroadcast(new Intent(StepService.STEP_CLOSE));
         sendBroadcast(new Intent("com.softtek.lai.service_destory"));
         super.onDestroy();
+        unregisterReceiver(closeReceiver);
     }
 
     public static class StepCloseReceiver extends BroadcastReceiver{
