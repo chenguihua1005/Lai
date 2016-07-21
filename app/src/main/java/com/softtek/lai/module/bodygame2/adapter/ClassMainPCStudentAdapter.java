@@ -6,6 +6,7 @@
 package com.softtek.lai.module.bodygame2.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.model.UserModel;
@@ -189,7 +191,10 @@ public class ClassMainPCStudentAdapter extends BaseAdapter {
         } else {
             holder.iv_arrow.setVisibility(View.INVISIBLE);
         }
-
+        if(position==list.size()-1){
+            Intent msgIntent = new Intent(Constants.MESSAGE_DISSMISS_ACTION);
+            context.sendBroadcast(msgIntent);
+        }
         return convertView;
     }
 

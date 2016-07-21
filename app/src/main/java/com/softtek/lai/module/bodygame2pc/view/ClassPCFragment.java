@@ -1,7 +1,11 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +21,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainPCStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
@@ -36,6 +41,8 @@ import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,6 +170,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     ClassMainPCStudentAdapter adapter;
 
+    private MessageReceiver mMessageReceiver;
+
     View view;
     UserInfoModel model;
 
@@ -238,9 +247,14 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         super.onVisible();
     }
 
-
+    @Override
+    public void onDestroy() {
+        getContext().unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
     @Override
     protected void initDatas() {
+        registerMessageReceiver();
         model = UserInfoModel.getInstance();
         scroll.post(
                 new Runnable() {
@@ -574,4 +588,23 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         }
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_DISSMISS_ACTION);
+        getContext().registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_DISSMISS_ACTION.equals(intent.getAction())) {
+
+            }
+        }
+    }
+
 }
