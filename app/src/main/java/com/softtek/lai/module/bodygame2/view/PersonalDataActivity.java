@@ -345,10 +345,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 AMStatus=data.getClmInfo().getIstest();
                 clmInfoModel=data.getClmInfo();
                 typedate=data.getClmInfo().getTypedate();
+                /*判断性别*/
                 if (data.getClmInfo().getGender().equals("0")) {
                     im_gender.setImageResource(R.drawable.bg2_male);
                 }
                 String path = AddressManager.get("photoHost");
+                /*头像显示*/
+                /*IsRetire=1表示退赛*/
                 if (data.getClmInfo().getIsRetire().equals("1"))
                 {
                     cir_headimexit.setImageResource(R.drawable.exit_match);
@@ -388,6 +391,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     }
 
                 }
+                //荣誉勋章
                 if (data.getHonorList().size()==0)
                 {
                     tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
@@ -413,16 +417,19 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
                     }
                 }
+                //无图片显示
                 if (data.getPhotoList().size()==0)
                 {
                     tv_nophoto.setText("暂无照片");
                     photostate=false;
                     ll_personphot.setFocusable(false);
                 }
+                //少于等于三张图片隐藏剩余图片位置
                 if (data.getPhotoList().size()<=3)
                 {
                     ll_personphoto2.setVisibility(View.GONE);
                 }
+                //显示图片
                 for (int j = 0; j < data.getPhotoList().size(); j++) {
                     if (!TextUtils.isEmpty(data.getPhotoList().get(j).getImgUrl())) {
                         if (j == 0) {
@@ -447,6 +454,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
                     }
                 }
+                //减重对比
                 if (StringUtils.isNotEmpty(data.getClmInfo().getTotalLoss()) && Float.parseFloat(data.getClmInfo().getTotalLoss()) < 0) {
                     tv_total_loss_tip.setText("共增重");
                 } else {
