@@ -758,7 +758,13 @@
         <service android:name=".stepcount.service.DaemonService"
             android:process=":daemonprocess"/>
         <receiver android:name=".stepcount.service.Receive1"
-            android:process=":daemonprocess" />
+            android:process=":daemonprocess" >
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="com.softtek.lai.service_destory"/>
+                <action android:name="com.softtek.lai.clock"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
