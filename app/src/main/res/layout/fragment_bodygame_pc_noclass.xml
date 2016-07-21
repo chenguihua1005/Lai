@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pull"
     android:layout_width="match_parent"
@@ -20,7 +21,6 @@
                 android:layout_height="match_parent"
                 android:background="#f2f2f2"
                 android:orientation="vertical">
-
                 <!--头部-->
                 <FrameLayout
                     android:id="@+id/fl"
@@ -104,344 +104,40 @@
 
                     </LinearLayout>
                 </FrameLayout>
-
-                <!--菜单数据-->
-                <LinearLayout
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="92dp"
-                    android:background="@drawable/bg2_orange"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_weight" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_loss_weight"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="减重斤数"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_paiming" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_loss_rank"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="班级排名"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="68dp"
-                        android:layout_gravity="center"
-                        android:background="#FDE4B2" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_yaowei" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_yaowei"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="腰围变化"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_paiming" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_yaowei_rank"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="班级排名"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="68dp"
-                        android:layout_gravity="center"
-                        android:background="#FDE4B2" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_tizhi" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_tizhi_per"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="体脂率变化"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_paiming" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_tizhi_rank"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="班级排名"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="68dp"
-                        android:layout_gravity="center"
-                        android:background="#FDE4B2" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_weight_per" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_loss_per"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="减重百分比"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="1dp"
-                                android:layout_marginRight="7dp"
-                                android:src="@drawable/bg2_paiming" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_loss_per_rank"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="班级排名"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-                
+                    android:layout_height="1dp"
+                    android:background="#e5e5e5" />
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="39dp"></RelativeLayout>
+                    android:layout_height="40dp"
+                    android:background="@color/white">
+                    <ImageView
+                        android:id="@+id/iv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bg2_wenxintip"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="15dp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:background="#e5e5e5"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/iv1"
+                        android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/iv1"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="9sp"
+                        android:layout_centerInParent="true"
+                        android:textColor="#333333"
+                        android:text="需要加入班级后,才能体验体管赛完整版功能,快去联系你的顾问加入班级吧"/>
+                </RelativeLayout>
                 <!--大赛赛况-->
                 <RelativeLayout
                     android:id="@+id/rl_saikuang"
@@ -491,233 +187,12 @@
 
                 </com.softtek.lai.widgets.MyGridView>
                 <!--Tips-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="31dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white">
-
-                    <TextView
-                        android:id="@+id/tv_tip_more"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:background="#FDB02C"
-                        android:gravity="center"
-                        android:text="查看更多"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@id/tv_tip_more"
-                        android:background="#75BA2B"
-                        android:gravity="center|left"
-                        android:paddingLeft="25dp"
-                        android:text="TIPS"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-
-                </RelativeLayout>
-
-                <FrameLayout
-                    android:id="@+id/fl_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg2_picture_border"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/iv_video_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="165dp"
-                        android:background="#F2F0F1"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_icon_rect" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/play" />
-
-                    <TextView
-                        android:id="@+id/tv_video_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/video_bg"
-                        android:gravity="center|left"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                    <!-- <TextView
-                         android:id="@+id/tv_video_time"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_gravity="bottom|right"
-                         android:layout_marginBottom="5dp"
-                         android:textColor="@color/white"
-                         android:background="#7a000000"
-                         android:padding="5dp"
-                         android:text="11:22"
-                         android:textSize="18sp" />-->
-                </FrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_tips_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/ll_tip1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="#ffffff"
-                        android:gravity="left|center_vertical"
-                        android:orientation="vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="5dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:gravity="left|center_vertical">
-
-                            <TextView
-                                android:id="@+id/tv_title1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#333333"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="2dp"
-                            android:background="#f2f2f2" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/im_icon_tip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_centerInParent="true" />
-
-                            <TextView
-                                android:id="@+id/tv_tag1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/im_icon_tip"
-                                android:textColor="#999999"
-                                android:textSize="12sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginRight="10dp"
-                                android:src="@drawable/action_right" />
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_tip2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="#ffffff"
-                        android:gravity="left|center_vertical"
-                        android:orientation="vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:visibility="invisible">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:gravity="left|center_vertical">
-
-                            <TextView
-                                android:id="@+id/tv_title2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#333333"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="2dp"
-                            android:background="#f2f2f2" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/im_icon_tip2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_centerInParent="true" />
-
-                            <TextView
-                                android:id="@+id/tv_tag2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/im_icon_tip2"
-                                android:textColor="#999999"
-                                android:textSize="12sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginRight="10dp"
-                                android:src="@drawable/action_right" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="#f2f2f2" />
+                <include layout="@layout/home_tips_layout" />
             </LinearLayout>
         </com.softtek.lai.widgets.ObservableScrollView>
 
         <RelativeLayout
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar1"
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
@@ -741,29 +216,6 @@
                     android:src="@drawable/back" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/fl_right"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/iv_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="消息"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
