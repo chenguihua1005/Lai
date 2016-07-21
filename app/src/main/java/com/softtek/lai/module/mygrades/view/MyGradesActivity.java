@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -92,8 +95,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_dayRank;
     @InjectView(R.id.ll_weekRank)
     LinearLayout ll_weekRank;
-    @InjectView(R.id.ll_grade)
-    LinearLayout ll_grade;
+    @InjectView(R.id.rl_grade)
+    RelativeLayout rl_grade;
 
     //总步数
     @InjectView(R.id.tv_totalnumber)
@@ -189,7 +192,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         iv_email.setImageResource(R.drawable.img_share_bt);
         ll_dayRank.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
-        ll_grade.setOnClickListener(this);
+        rl_grade.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
@@ -357,6 +360,12 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0f);
     }
 
+    private SpannableString getString(String value,int color,int start){
+        SpannableString spannableString=new SpannableString(value);
+        spannableString.setSpan(new ForegroundColorSpan(color),start,value.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
     //成绩勋章信息
     public void getGradeHonor() {
         String token = SharedPreferenceService.getInstance().get("token", "");
@@ -367,7 +376,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 switch (status) {
                     case 200:
                         //总步数
-                        String totalnumber = gradeHonorModelResponseData.getData().getTotalStep();
+                        GradeHonorModel model=gradeHonorModelResponseData.getData();
+                        String totalnumber = model.getTotalStep();
                         if (totalnumber == "") {
                             tv_totalnumber.setText("0");
                         } else {
@@ -384,51 +394,77 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         } else {
                             tv_totalmileage.setText(temp);
                         }
+                        String nationalDayRank=model.getContryDayOrder();
+                        String runDayRank=model.getDayOrder();
+                        String nationWeekRank=model.getWeekOrder();
+                        String runWeekRank=model.getWeekOrderRG();
+                        if("--".equals(nationalDayRank)){
+                            //全国日排名
+                            tv_Nationaldayrank.setText(nationalDayRank);
 
-                        //前三名用橙色,其他名次用绿色android:textColor="#ff9c00"
-                        int Nationaldayrank = Integer.parseInt(gradeHonorModelResponseData.getData().getContryDayOrder());
-                        int Rundayrank = Integer.parseInt(gradeHonorModelResponseData.getData().getDayOrder());
-                        int Nationalweekrank = Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrder());
-                        int Runweekrank = Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrderRG());
-                        if (Nationaldayrank == 1 || Nationaldayrank == 2 || Nationaldayrank == 3) {
-                            //0xffff00ff是int类型的数据，分组一下0x|ff|ff00ff，0x是代表颜色整数的标记，ff是表示透明度，ff00ff表示颜色，注意：这里ffff00ff必须是8个的颜色表示，不接受ff00ff这种6个的颜色表示。
-                            tv_Nationaldayrank.setTextColor(0xffff9c00);
+                        }else {
+                            int Nationaldayrank = Integer.parseInt(nationalDayRank);
+                            if(Nationaldayrank>0&&Nationaldayrank<=3){
+                                tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xffff9c00,3));
+                            }else{
+                                tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xff74b92a,3));
+                            }
+                            //全国第几名
+
                         }
-                        if (Rundayrank == 1 || Rundayrank == 2 || Rundayrank == 3) {
-                            tv_Rundayrank.setTextColor(0xffff9c00);
+                        if("--".equals(runDayRank)){
+                            //跑团日排名
+                            tv_Rundayrank.setText(runDayRank);
+
+                        }else {
+                            int Rundayrank = Integer.parseInt(runDayRank);
+                            if(Rundayrank>0&&Rundayrank<=3){
+                                tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xffff9c00,3));
+                            }else {
+                                tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xff74b92a,3));
+                            }
                         }
-                        if (Runweekrank == 1 || Runweekrank == 2 || Runweekrank == 3) {
-                            tv_Runweekrank.setTextColor(0xffff9c00);
+                        if("--".equals(nationWeekRank)){
+                            //全国周排名
+                            tv_Nationalweekrank.setText(nationWeekRank);
+
+                        }else{
+                            int Nationalweekrank = Integer.parseInt(nationWeekRank);
+                            if(Nationalweekrank>0&&Nationalweekrank<=3){
+                                tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xffff9c00,3));
+                            }else {
+                                tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xff74b92a,3));
+                            }
                         }
-                        if (Nationalweekrank == 1 || Nationalweekrank == 2 || Nationalweekrank == 3) {
-                            tv_Nationalweekrank.setTextColor(0xffff9c00);
+                        if("--".equals(runWeekRank)){
+                            //跑团团周排名
+                            tv_Runweekrank.setText(runWeekRank);
+
+                        }else{
+                            int Runweekrank = Integer.parseInt(runWeekRank);
+                            if(Runweekrank>0&&Runweekrank<=3){
+                                tv_Runweekrank.setText(getString("跑团第 "+runWeekRank+" 名",0xffff9c00,3));
+                            }else {
+                                tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名",0xff74b92a, 3));
+                            }
                         }
+                        tv_Nationaldaypeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
+                        tv_Rundaypeople.setText("共 "+model.getDayOrderTotal()+" 人");
+                        tv_Nationalweekpeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
+                        tv_Runweekpeople.setText("共 "+model.getDayOrderTotal()+" 人");
 
-                        //全国排名
-                        tv_Nationaldayrank.setText(Nationaldayrank + "");
-                        tv_Nationaldaypeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal() + "");
-                        //跑团的排名
-                        tv_Rundayrank.setText(Rundayrank + "");
-                        tv_Rundaypeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal() + "");
-
-                        tv_Nationalweekrank.setText(Nationalweekrank + "");
-                        tv_Nationalweekpeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal() + "");
-                        tv_Runweekrank.setText(Runweekrank + "");
-                        tv_Runweekpeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal() + "");
-
-                        tv_medalnumber.setText(gradeHonorModelResponseData.getData().getTotalHonor() + "");
-
+                        tv_medalnumber.setText("我的勋章（"+model.getTotalHonor()+"）");
                         //我的勋章显示
-                        if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 0) {
+                        if (model.getLaiHonor().size() == 0) {
                             ll_honor.setVisibility(View.GONE);
                         } else {
                             //判断是否是3个勋章
-                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 1) {
+                            if (model.getLaiHonor().size() == 1) {
                                 //判断第一个勋章是什么类型
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                switch (model.getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        int value = model.getLaiHonor().get(0).getHonorVlue();
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
@@ -463,7 +499,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        int stepvalue = model.getLaiHonor().get(0).getHonorVlue();
                                         switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
                                             case 10:
                                                 tv_str1.setText("累计步数10万");
@@ -508,7 +544,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        int pkvalue = model.getLaiHonor().get(0).getHonorVlue();
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
@@ -1117,8 +1153,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                             }
                         }
                         break;
-                    case 500:
-                        Util.toastMsg("我的勋章--查询出bug");
+                    default:
                         break;
                 }
             }
@@ -1205,7 +1240,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 startActivity(intent1);
                 break;
             //我的勋章跳转
-            case R.id.ll_grade:
+            case R.id.rl_grade:
                 startActivity(new Intent(this, MyXuZhangActivity.class));
                 break;
             //分享
