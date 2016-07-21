@@ -71,9 +71,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
                 System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
@@ -95,9 +92,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
                         EventBus.getDefault().post(userResponseData.getData());
-                        ((AppCompatActivity) context).finish();
                         break;
                     default:
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }

@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.view.ClassFragment;
@@ -187,7 +189,10 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.cb_fc.setChecked(false);
         }
         holder.iv_arrow.setVisibility(View.VISIBLE);
-
+        if(position==list.size()-1){
+            Intent msgIntent = new Intent(Constants.MESSAGE_DISSMISS_ACTION);
+            context.sendBroadcast(msgIntent);
+        }
         return convertView;
     }
 

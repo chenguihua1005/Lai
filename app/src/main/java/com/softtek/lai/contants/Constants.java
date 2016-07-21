@@ -105,6 +105,7 @@ public class Constants {
 
     public static final String MESSAGE_RECEIVED_ACTION = "jpush.MESSAGE_RECEIVED_ACTION";
     public static final String MESSAGE_CHAT_ACTION = "chat.MESSAGE_RECEIVED_ACTION";
+    public static final String MESSAGE_DISSMISS_ACTION = "dismiss.DIALOG_DISMISS_ACTION";
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
