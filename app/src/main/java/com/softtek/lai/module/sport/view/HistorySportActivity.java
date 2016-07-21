@@ -242,7 +242,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             return;
         }
         String path = AddressManager.get("shareHost");
-        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
+        url = path + "ShareMineMoveMent?Movementid=" + model.getMid() + "&Imgpath=" + photModel.getImg();
         System.out.println("url:" + url);
         String[] time = model.getTimeLength().split(":");
         String times = time[0] + "时" + time[1] + "分" + time[2] + "秒";
@@ -412,7 +412,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.iv_email:
             case R.id.fl_right:
-                System.out.println("fl_right------");
                 aMap.getMapScreenShot(onMapScreenShotListener);
                 break;
             case R.id.ll_left:
