@@ -246,7 +246,8 @@
                                     android:layout_alignParentRight="true"
                                     android:text="查看更多"
                                     android:textColor="@color/word6"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:visibility="gone"/>
                             </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>

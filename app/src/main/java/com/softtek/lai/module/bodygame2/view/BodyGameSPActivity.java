@@ -116,10 +116,10 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
-        int type=getIntent().getIntExtra("type",0);
-        current=type;
+        int type = getIntent().getIntExtra("type", 0);
+        current = type;
         restoreState();
-        switch (type){
+        switch (type) {
             case 0:
                 btn_bodygame.setProgress(1);
                 break;
@@ -209,12 +209,12 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type=intent.getIntExtra("type",0);
-        current=type;
+        int type = intent.getIntExtra("type", 0);
+        current = type;
         Log.i("消息中心发来通知");
-        if(content!=null){
+        if (content != null) {
             restoreState();
-            switch (type){
+            switch (type) {
                 case 0:
                     btn_bodygame.setProgress(1);
                     break;
@@ -237,6 +237,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
     }
 
     private MessageReceiver mMessageReceiver;
+
     @Override
     protected void initDatas() {
         registerMessageReceiver();
@@ -304,17 +305,17 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    public void setAlpha(float alpha){
+    public void setAlpha(float alpha) {
         tintManager.setStatusBarAlpha(alpha);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
 
-    public void updateMessage(int num){
+    public void updateMessage(int num) {
         //显示
-        if(num<=0){
+        if (num <= 0) {
             tv_umread.setVisibility(View.GONE);
-        }else {
-            String read=num >= 100 ? "99+" : num + "";
+        } else {
+            String read = num >= 100 ? "99+" : num + "";
             tv_umread.setText(read);
             tv_umread.setVisibility(View.VISIBLE);
         }

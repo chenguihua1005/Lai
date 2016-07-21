@@ -233,11 +233,14 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void onVisible() {
-        isPrepared = false;
         if (getContext() instanceof BodyGamePCActivity) {
             BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(0);
         }
+        text_class_name.setFocusable(true);
+        text_class_name.setFocusableInTouchMode(true);
+        text_class_name.requestFocus();
+        scroll.setFocusable(false);
         scroll.scrollTo(0, 0);
         super.onVisible();
     }
@@ -247,6 +250,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         getContext().unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
+
     @Override
     protected void initDatas() {
         registerMessageReceiver();
@@ -300,10 +304,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void lazyLoad() {
         Log.i("ClassSRFragment 加载数据");
-        text_class_name.setFocusable(true);
-        text_class_name.setFocusableInTouchMode(true);
-        text_class_name.requestFocus();
-        scroll.setFocusable(false);
         dialogShow("加载中");
         System.out.println("doClassMainIndex------------");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
@@ -313,14 +313,18 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_person:
-                Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
-                intent.putExtra("classId", select_class_id);
-                getActivity().startActivity(intent);
+                if ("-1".equals(select_class_id)) {
+                    Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
+                    intent.putExtra("classId", select_class_id);
+                    getActivity().startActivity(intent);
+                }
                 break;
             case R.id.text_more:
-                Intent intents = new Intent(getActivity(), DYActivity.class);
-                intents.putExtra("classId", select_class_id);
-                startActivity(intents);
+                if ("-1".equals(select_class_id)) {
+                    Intent intents = new Intent(getActivity(), DYActivity.class);
+                    intents.putExtra("classId", select_class_id);
+                    startActivity(intents);
+                }
                 break;
             case R.id.img_xtxx://系统消息
                 img_xtxx.setImageResource(R.drawable.img_xt_select);
@@ -369,28 +373,24 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 popSelectType.dismiss();
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
-                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
-                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
-                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
-                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
@@ -462,10 +462,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
 
     public void getClassMain(PCClassMainModel classMainModel) {
         try {
-//            dialogDissmiss();
-            pull.setRefreshing(false);
             if (classMainModel != null) {
-                System.out.println("0000000000000000------------");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
                 PCClmDetailModel model = classMainModel.getClmDetail();
@@ -551,12 +548,12 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 adapter.notifyDataSetChanged();
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                System.out.println("3333333333333------------");
+            }else {
+                pull.setRefreshing(false);
+                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            dialogDissmiss();
         }
     }
 
@@ -572,8 +569,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         } else {
             list_student.setVisibility(View.GONE);
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
-        dialogDissmiss();
     }
 
     @Override
@@ -583,6 +581,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         }
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
+
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
@@ -597,7 +596,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_DISSMISS_ACTION.equals(intent.getAction())) {
-
+                dialogDissmiss();
+                pull.setRefreshing(false);
             }
         }
     }

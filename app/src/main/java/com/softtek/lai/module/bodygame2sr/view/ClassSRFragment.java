@@ -2,8 +2,11 @@ package com.softtek.lai.module.bodygame2sr.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -197,7 +200,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
 
     private ProgressDialog progressDialog;
-
+    private MessageReceiver mMessageReceiver;
 
     @Override
     protected void initViews() {
@@ -252,7 +255,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 ClmListModel clmListModel = student_list.get(position);
                 String isHasAssi = clmListModel.getIsHasAssi();
                 if (!"0".equals(isHasAssi)) {
-
                     String accountId = clmListModel.getAccountid();
                     Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
                     intent.putExtra("userId", Long.parseLong(accountId));
@@ -275,9 +277,16 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         super.onVisible();
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        getContext().unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
 
     @Override
     protected void initDatas() {
+        registerMessageReceiver();
         model = UserInfoModel.getInstance();
         scroll.post(
                 new Runnable() {
@@ -532,72 +541,73 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     public void getClassMain(ClassMainModel classMainModel) {
         try {
             if (classMainModel != null) {
-                try {
-                    select_class_list.clear();
-                    select_class_list.addAll(classMainModel.getClasslist());
-                    adapters.notifyDataSetChanged();
-                    text_class_name.setText(select_class_list.get(0).getClassName());
-                    select_class_id = select_class_list.get(0).getClassId();
-                    SharedPreferenceService.getInstance().put("classId", select_class_id);
-                    student_list = classMainModel.getClmlist();
-                    adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "0");
-                    adapter.type = select_type + "";
-                    list_student.setAdapter(adapter);
-                    ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+                text_more.setVisibility(View.VISIBLE);
+                select_class_list.clear();
+                select_class_list.addAll(classMainModel.getClasslist());
+                adapters.notifyDataSetChanged();
+                text_class_name.setText(select_class_list.get(0).getClassName());
+                select_class_id = select_class_list.get(0).getClassId();
+                SharedPreferenceService.getInstance().put("classId", select_class_id);
+                student_list = classMainModel.getClmlist();
+                adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "0");
+                adapter.type = select_type + "";
+                list_student.setAdapter(adapter);
+                ListViewUtil.setListViewHeightBasedOnChildren(list_student);
 
-                    ClassDetailModel details = classMainModel.getClassDetail();
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    if ("".equals(details.getClassBanner())) {
-                        Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
-                    } else {
-                        Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
-                    }
-                    if ("0".equals(details.getClmCnt())) {
-                        text_class_count.setText("--");
-                    } else {
-                        text_class_count.setText(details.getClmCnt());
-                    }
-                    if ("0.0".equals(details.getTotalloss())) {
-                        text_loss.setText("--");
-                    } else {
-                        text_loss.setText(details.getTotalloss() + "斤");
-                    }
-                    if ("0".equals(details.getRtest())) {
-                        text_fcl.setText("--");
-                    } else {
-                        text_fcl.setText(details.getRtest() + "%");
-                    }
-
-                    dyNoticeModel = classMainModel.getDyNotice();
-                    dySysModel = classMainModel.getDySys();
-
-                    if (dySysModel.getPhoto() == null) {
-                        dySysModel = null;
-                    }
-                    if (dyNoticeModel.getPhoto() == null) {
-                        dyNoticeModel = null;
-                    }
-                    if (dyNoticeModel != null) {
-                        rel_no_message.setVisibility(View.GONE);
-                        rel_message.setVisibility(View.VISIBLE);
-                        img_lb.setVisibility(View.GONE);
-                        img.setVisibility(View.VISIBLE);
-                        if ("".equals(dyNoticeModel.getPhoto())) {
-                            Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
-                        } else {
-                            Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
-                        }
-
-                        text_value.setText(dyNoticeModel.getDyContent());
-                        String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
-                        text_time.setText(time);
-                    } else {
-                        rel_no_message.setVisibility(View.VISIBLE);
-                        rel_message.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                ClassDetailModel details = classMainModel.getClassDetail();
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                if ("".equals(details.getClassBanner())) {
+                    Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
+                } else {
+                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
                 }
+                if ("0".equals(details.getClmCnt())) {
+                    text_class_count.setText("--");
+                } else {
+                    text_class_count.setText(details.getClmCnt());
+                }
+                if ("0.0".equals(details.getTotalloss())) {
+                    text_loss.setText("--");
+                } else {
+                    text_loss.setText(details.getTotalloss() + "斤");
+                }
+                if ("0".equals(details.getRtest())) {
+                    text_fcl.setText("--");
+                } else {
+                    text_fcl.setText(details.getRtest() + "%");
+                }
+
+                dyNoticeModel = classMainModel.getDyNotice();
+                dySysModel = classMainModel.getDySys();
+
+                if (dySysModel.getPhoto() == null) {
+                    dySysModel = null;
+                }
+                if (dyNoticeModel.getPhoto() == null) {
+                    dyNoticeModel = null;
+                }
+                if (dyNoticeModel != null) {
+                    rel_no_message.setVisibility(View.GONE);
+                    rel_message.setVisibility(View.VISIBLE);
+                    img_lb.setVisibility(View.GONE);
+                    img.setVisibility(View.VISIBLE);
+                    if ("".equals(dyNoticeModel.getPhoto())) {
+                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                    } else {
+                        Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
+                    }
+
+                    text_value.setText(dyNoticeModel.getDyContent());
+                    String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
+                    text_time.setText(time);
+                } else {
+                    rel_no_message.setVisibility(View.VISIBLE);
+                    rel_message.setVisibility(View.GONE);
+                }
+
+            }else {
+                pull.setRefreshing(false);
+                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -606,7 +616,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     public void getStudentList(MemberChangeModel memberChangeModel) {
-        dialogDissmiss();
         System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
             list_student.setVisibility(View.VISIBLE);
@@ -617,15 +626,16 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         } else {
             list_student.setVisibility(View.GONE);
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
-            pull.setRefreshing(false);
-            dialogDissmiss();
             if (classChangeModel != null) {
+                text_more.setVisibility(View.VISIBLE);
                 select_class_list.clear();
                 select_class_list.addAll(classChangeModel.getClasslist());
                 adapters.notifyDataSetChanged();
@@ -694,6 +704,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+            }else {
+                pull.setRefreshing(false);
+                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -703,5 +716,25 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onRefresh() {
         classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
+    }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_DISSMISS_ACTION);
+        getContext().registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_DISSMISS_ACTION.equals(intent.getAction())) {
+                dialogDissmiss();
+                pull.setRefreshing(false);
+            }
+        }
     }
 }

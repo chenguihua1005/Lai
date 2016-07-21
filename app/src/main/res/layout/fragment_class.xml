@@ -180,7 +180,8 @@
                             android:layout_width="50dip"
                             android:layout_height="31dip"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true">
+                            android:layout_centerVertical="true"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -261,7 +262,8 @@
                                     android:layout_alignParentRight="true"
                                     android:text="查看更多"
                                     android:textColor="@color/word6"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:visibility="gone"/>
                             </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>

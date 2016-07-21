@@ -1,9 +1,14 @@
 package com.softtek.lai.module.sport.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
@@ -77,6 +83,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+
     @InjectView(R.id.tv_clock)
     TextView tv_clock;
     @InjectView(R.id.tv_calorie)
@@ -85,6 +92,9 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     TextView tv_step;
     @InjectView(R.id.tv_distance)
     TextView tv_distance;
+
+    @InjectView(R.id.ll_panel)
+    LinearLayout ll_panel;
 
     @InjectView(R.id.cb_map_switch)
     CheckBox cb_map_switch;
@@ -106,17 +116,69 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     String title_value;
     SelectPicPopupWindow menuWindow;
 
+    Bitmap bitmap_map;
+
+    boolean isFirst = true;
+
     private IGetProinfopresenter iGetProinfopresenter;
     HistorySportModel model;
+    private static final int LOCATION_PREMISSION = 100;
 
     private AMap.OnMapScreenShotListener onMapScreenShotListener = new AMap.OnMapScreenShotListener() {
         @Override
         public void onMapScreenShot(Bitmap bitmap) {
             System.out.println("onMapScreenShot--");
-            savePic(bitmap, "/sdcard/sport.png");
+//            if (isFirst) {
+//                isFirst = false;
+//                return;
+//            }
+            bitmap_map = bitmap;
+            if (ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                com.github.snowdream.android.util.Log.i("检查权限。。。。");
+                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                if (
+                        ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    //允许弹出提示
+                    ActivityCompat.requestPermissions(HistorySportActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            LOCATION_PREMISSION);
+
+                } else {
+                    //不允许弹出提示
+                    ActivityCompat.requestPermissions(HistorySportActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                            LOCATION_PREMISSION);
+                }
+            } else {
+                dialogShow("加载中");
+                savePic(bitmap_map, "/sdcard/sport.png");
+            }
+
 
         }
     };
+
+    //6.0权限回调方法
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case LOCATION_PREMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    dialogShow("加载中");
+                    savePic(bitmap_map, "/sdcard/sport.png");
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
+
+    }
 
     // 保存到sdcard
     public void savePic(Bitmap bitmap, String strFileName) {
@@ -190,7 +252,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         menuWindow = new SelectPicPopupWindow(HistorySportActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        menuWindow.showAtLocation(HistorySportActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+        menuWindow.showAtLocation(HistorySportActivity.this.findViewById(R.id.ll_panel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
 
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
@@ -244,7 +306,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         aMap = mapView.getMap();
-        aMap.getMapScreenShot(onMapScreenShotListener);
+        //aMap.getMapScreenShot(onMapScreenShotListener);
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
@@ -351,7 +413,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             case R.id.iv_email:
             case R.id.fl_right:
                 System.out.println("fl_right------");
-                dialogShow("加载中");
                 aMap.getMapScreenShot(onMapScreenShotListener);
                 break;
             case R.id.ll_left:

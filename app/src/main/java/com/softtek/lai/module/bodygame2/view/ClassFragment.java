@@ -2,8 +2,11 @@ package com.softtek.lai.module.bodygame2.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -173,7 +176,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private ImageView img_ywbh;
 
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
-    private String select_class_id;
+    private String select_class_id = "-1";
 
     private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
@@ -208,6 +211,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     private ProgressDialog progressDialog;
 
+    private MessageReceiver mMessageReceiver;
 
     @Override
     protected void initViews() {
@@ -221,7 +225,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         imageFileCropSelector.setCallback(this);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
         int status = DisplayUtil.getStatusHeight(getActivity());
-        if(DisplayUtil.getSDKInt()>18){
+        if (DisplayUtil.getSDKInt() > 18) {
             params.topMargin = status;
             rel.setLayoutParams(params);
         }
@@ -290,7 +294,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(0);
         }
-        scroll.scrollTo(0,0);
+        scroll.scrollTo(0, 0);
         super.onVisible();
     }
 
@@ -302,11 +306,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        getContext().unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
 
     @Override
     protected void initDatas() {
+        registerMessageReceiver();
         model = UserInfoModel.getInstance();
         scroll.post(
                 new Runnable() {
@@ -381,9 +387,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.text_more:
-                Intent intents = new Intent(getActivity(), DYActivity.class);
-                intents.putExtra("classId", select_class_id);
-                startActivity(intents);
+                if ("-1".equals(select_class_id)) {
+                    Util.toastMsg("请先选择班级");
+                } else {
+                    Intent intents = new Intent(getActivity(), DYActivity.class);
+                    intents.putExtra("classId", select_class_id);
+                    startActivity(intents);
+                }
                 break;
             case R.id.img_banner:
                 //点击编辑按钮
@@ -478,104 +488,109 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
                 dialogShow("加载中");
-                classMainManager.doClMemberChange(model.getUser().getUserid(),select_class_id, select_type + "");
+                classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
-                dialogShow("加载中");
-                CounselorService counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
-                String token = UserInfoModel.getInstance().getToken();
-                counselorService.classInvitePCISOK(token, select_class_id, new Callback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData listResponseData, Response response) {
-                        android.util.Log.e("jarvis", listResponseData.toString());
-                        int status = listResponseData.getStatus();
-                        dialogDissmiss();
-                        switch (status) {
-                            case 200:
-                                Intent intents = new Intent(getActivity(), InviteStudentActivity.class);
-                                intents.putExtra("classId", Long.parseLong(select_class_id));
-                                getActivity().startActivity(intents);
-                                break;
-                            case 100:
+                if ("-1".equals(select_class_id)) {
+                    Util.toastMsg("请先选择班级");
+                } else {
+                    dialogShow("加载中");
+                    CounselorService counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
+                    String token = UserInfoModel.getInstance().getToken();
+                    counselorService.classInvitePCISOK(token, select_class_id, new Callback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData listResponseData, Response response) {
+                            android.util.Log.e("jarvis", listResponseData.toString());
+                            int status = listResponseData.getStatus();
+                            dialogDissmiss();
+                            switch (status) {
+                                case 200:
+                                    Intent intents = new Intent(getActivity(), InviteStudentActivity.class);
+                                    intents.putExtra("classId", Long.parseLong(select_class_id));
+                                    getActivity().startActivity(intents);
+                                    break;
+                                case 100:
 
-                                break;
-                            default:
-                                Util.toastMsg(listResponseData.getMsg());
-                                break;
+                                    break;
+                                default:
+                                    Util.toastMsg(listResponseData.getMsg());
+                                    break;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        ZillaApi.dealNetError(error);
-                        error.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialogDissmiss();
+                            ZillaApi.dealNetError(error);
+                            error.printStackTrace();
+                        }
+                    });
+                }
                 break;
             case R.id.lin_invite_ass://邀请助教
                 popTitleMore.dismiss();
-                dialogShow("加载中");
-                CounselorService counselorServices = ZillaApi.NormalRestAdapter.create(CounselorService.class);
-                String tokens = UserInfoModel.getInstance().getToken();
-                counselorServices.classInvitePCISOK(tokens, select_class_id, new Callback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData listResponseData, Response response) {
-                        android.util.Log.e("jarvis", listResponseData.toString());
-                        int status = listResponseData.getStatus();
-                        dialogDissmiss();
-                        switch (status) {
-                            case 200:
-                                Intent intent = new Intent(getActivity(), AssistantListActivity.class);
-                                intent.putExtra("classId", Long.parseLong(select_class_id));
-                                intent.putExtra("type", "1");
-                                getActivity().startActivity(intent);
-                                break;
-                            case 100:
+                if ("-1".equals(select_class_id)) {
+                    Util.toastMsg("请先选择班级");
+                } else {
+                    dialogShow("加载中");
+                    CounselorService counselorServices = ZillaApi.NormalRestAdapter.create(CounselorService.class);
+                    String tokens = UserInfoModel.getInstance().getToken();
+                    counselorServices.classInvitePCISOK(tokens, select_class_id, new Callback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData listResponseData, Response response) {
+                            android.util.Log.e("jarvis", listResponseData.toString());
+                            int status = listResponseData.getStatus();
+                            dialogDissmiss();
+                            switch (status) {
+                                case 200:
+                                    Intent intent = new Intent(getActivity(), AssistantListActivity.class);
+                                    intent.putExtra("classId", Long.parseLong(select_class_id));
+                                    intent.putExtra("type", "1");
+                                    getActivity().startActivity(intent);
+                                    break;
+                                case 100:
 
-                                break;
-                            default:
-                                Util.toastMsg(listResponseData.getMsg());
-                                break;
+                                    break;
+                                default:
+                                    Util.toastMsg(listResponseData.getMsg());
+                                    break;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        ZillaApi.dealNetError(error);
-                        error.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialogDissmiss();
+                            ZillaApi.dealNetError(error);
+                            error.printStackTrace();
+                        }
+                    });
+                }
                 break;
             case R.id.lin_create_class://创建班级
                 popTitleMore.dismiss();
-
                 Intent intent = new Intent(getActivity(), CreateCounselorClassActivity.class);
-                intent.putExtra("classId", Long.parseLong(select_class_id));
-                intent.putExtra("type", "1");
                 getActivity().startActivity(intent);
 
                 break;
@@ -675,6 +690,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     public void getClassMain(ClassMainModel classMainModel) {
         try {
             if (classMainModel != null) {
+                text_more.setVisibility(View.VISIBLE);
+                rel_add.setVisibility(View.VISIBLE);
                 select_class_list.clear();
                 select_class_list.addAll(classMainModel.getClasslist());
                 adapters.notifyDataSetChanged();
@@ -736,8 +753,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+            } else {
+                pull.setRefreshing(false);
+                dialogDissmiss();
+
             }
-            dialogDissmiss();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -754,17 +774,17 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
         } else {
             list_student.setVisibility(View.GONE);
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
-        dialogDissmiss();
     }
 
     @Override
     public void getClassChange(ClassChangeModel classChangeModel) {
         try {
-            pull.setRefreshing(false);
-            dialogDissmiss();
             if (classChangeModel != null) {
-
+                text_more.setVisibility(View.VISIBLE);
+                rel_add.setVisibility(View.VISIBLE);
                 select_class_list.clear();
                 select_class_list.addAll(classChangeModel.getClasslist());
                 adapters.notifyDataSetChanged();
@@ -833,6 +853,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+            } else {
+                pull.setRefreshing(false);
+                dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -878,7 +901,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         dialog.dismiss();
         if (which == DialogInterface.BUTTON_POSITIVE) {
             final String content = et_content.getText().toString().trim();
-            if("".equals(content)){
+            if ("".equals(content)) {
                 Util.toastMsg("请输入公告内容");
                 return;
             }
@@ -973,5 +996,25 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onRefresh() {
         classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
+    }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_DISSMISS_ACTION);
+        getContext().registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_DISSMISS_ACTION.equals(intent.getAction())) {
+                dialogDissmiss();
+                pull.setRefreshing(false);
+            }
+        }
     }
 }

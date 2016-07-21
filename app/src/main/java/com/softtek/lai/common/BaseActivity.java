@@ -6,6 +6,7 @@ package com.softtek.lai.common;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,7 +89,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         initDatas();
 
 
-
     }
 
     public void onResume() {
@@ -110,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void dialogShow(String value) {
-        if (progressDialog == null) {
+        if (progressDialog == null || !progressDialog.isShowing()) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
             //progressDialog.setCancelable(false);
@@ -118,9 +118,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             progressDialog.show();
         }
     }
-    public void setProgressValue(String value){
+
+    public void setProgressValue(String value) {
         progressDialog.setMessage(value);
     }
+
     public void dialogShow() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
