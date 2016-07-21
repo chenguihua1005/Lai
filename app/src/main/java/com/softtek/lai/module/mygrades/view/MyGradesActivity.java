@@ -35,7 +35,6 @@ import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.ScoreModel;
-import com.softtek.lai.module.mygrades.model.XunZhangModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
