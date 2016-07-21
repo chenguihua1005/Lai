@@ -303,7 +303,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 activity.setAlpha(0);
             }
             scroll.scrollTo(0, 0);
-        }else {
+        } else {
             if (getContext() instanceof BodyGameSPActivity) {
                 BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
                 activity.setAlpha(1);
@@ -315,6 +315,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Subscribe
     public void onUpdate(ClassIdModel models) {
         String classId = SharedPreferenceService.getInstance().get("classId", "-1");
+        pull.setEnabled(true);
         if ("-1".equals(classId)) {
             System.out.println("刷新整个页面");
             classMainManager.doClassMainIndex(model.getUser().getUserid());
@@ -721,6 +722,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel.setVisibility(View.VISIBLE);
         try {
             if ("200".equals(type)) {
+                pull.setEnabled(true);
                 has_class = true;
                 lin_class_select.setVisibility(View.VISIBLE);
                 rel_title_more.setVisibility(View.VISIBLE);
@@ -801,6 +803,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     rel_message.setVisibility(View.GONE);
                 }
             } else if ("100".equals(type)) {
+                pull.setEnabled(false);
                 has_class = false;
                 pull.setRefreshing(false);
                 dialogDissmiss();
@@ -814,6 +817,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 scroll.setVisibility(View.GONE);
                 rel_no_class.setVisibility(View.VISIBLE);
             } else {
+                pull.setEnabled(false);
                 pull.setRefreshing(false);
                 dialogDissmiss();
                 has_class = false;

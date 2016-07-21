@@ -555,6 +555,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         rel.setVisibility(View.VISIBLE);
         try {
             if ("200".equals(type)) {
+                pull.setEnabled(true);
                 has_class = true;
                 lin_class_select.setVisibility(View.VISIBLE);
                 rel_title_more.setVisibility(View.VISIBLE);
@@ -636,6 +637,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 }
 
             } else if ("100".equals(type)) {
+                pull.setEnabled(false);
                 has_class = false;
                 pull.setRefreshing(false);
                 dialogDissmiss();
@@ -649,6 +651,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 scroll.setVisibility(View.GONE);
                 rel_no_class.setVisibility(View.VISIBLE);
             } else {
+                pull.setEnabled(false);
                 pull.setRefreshing(false);
                 dialogDissmiss();
                 has_class = false;
