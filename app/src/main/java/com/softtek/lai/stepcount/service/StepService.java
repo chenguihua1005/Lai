@@ -426,9 +426,6 @@ public class StepService extends Service implements SensorEventListener {
                     updateNotification("今日步数：0步");
                 }
             }else if(UPLOAD_STEP.equals(action)) {
-                if (!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()) {
-                    return;
-                }
                 //每晚的23点50分到24点之间
                 if (hour == 23 && minutes > 50 && minutes <= 59) {
                     context.startService(new Intent(context.getApplicationContext(), StepService.class));
@@ -456,8 +453,8 @@ public class StepService extends Service implements SensorEventListener {
                                             LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
                                         }
                                     });
+                    context.startService(new Intent(context.getApplicationContext(), StepService.class));
                 }
-                context.startService(new Intent(context.getApplicationContext(), StepService.class));
             }
         }
     }
