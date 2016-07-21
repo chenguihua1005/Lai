@@ -39,6 +39,7 @@ import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.home.view.HomeFragment;
@@ -363,18 +364,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 //更新小红点
-                int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-                Context context=getContext();
-                if(context instanceof BodyGameSPActivity){
-                    BodyGameSPActivity activity=(BodyGameSPActivity)context;
-                    activity.updateMessage(unreadNum);
-                }else if(context instanceof BodyGamePCActivity){
-                    BodyGamePCActivity activity=(BodyGamePCActivity)context;
-                    activity.updateMessage(unreadNum);
-                }else if(context instanceof BodyGameSRActivity){
-                    BodyGameSRActivity activity=(BodyGameSRActivity)context;
-                    activity.updateMessage(unreadNum);
-                }
+                int unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+                Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+                msgIntent.putExtra("count", unreadMsgCountTotal);
+                getContext().sendBroadcast(msgIntent);
                 EMChatManager.getInstance().loadAllConversations();
                 handler.sendEmptyMessage(1);
                 if (progressDialog != null) {

@@ -1,8 +1,11 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +27,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.ChatFragment;
 import com.softtek.lai.module.bodygame2.view.ContactFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
@@ -40,7 +44,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -57,7 +61,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @InjectView(R.id.tv_unread_num)
     TextView tv_umread;
-    private int current=0;
+    private int current = 0;
     private List<Fragment> fragments = new ArrayList<>();
 
     public AlertDialog.Builder builder = null;
@@ -101,12 +105,12 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type=intent.getIntExtra("type",0);
-        current=type;
+        int type = intent.getIntExtra("type", 0);
+        current = type;
         Log.i("消息中心发来通知");
-        if(content!=null){
+        if (content != null) {
             restoreState();
-            switch (type){
+            switch (type) {
                 case 0:
                     btn_bodygame.setProgress(1);
                     break;
@@ -154,10 +158,10 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
-        int type=getIntent().getIntExtra("type",0);
-        current=type;
+        int type = getIntent().getIntExtra("type", 0);
+        current = type;
         restoreState();
-        switch (type){
+        switch (type) {
             case 0:
                 btn_bodygame.setProgress(1);
                 break;
@@ -229,63 +233,67 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    private MessageReceiver mMessageReceiver;
+
     @Override
     protected void initDatas() {
-
+        registerMessageReceiver();
     }
 
-    public void updateMessage(int num){
+    public void updateMessage(int num) {
         //显示
-        if(num<=0){
+        if (num <= 0) {
             tv_umread.setVisibility(View.GONE);
-        }else {
-            String read=num >= 100 ? "99+" : num + "";
+        } else {
+            String read = num >= 100 ? "99+" : num + "";
             tv_umread.setText(read);
             tv_umread.setVisibility(View.VISIBLE);
         }
     }
-  @Override
+
+    @Override
     public void onClick(View v) {
         restoreState();
-      switch (v.getId()) {
-          case R.id.btn_bodygame:
-              btn_bodygame.setProgress(1);
-              if (current == 0) {
-                  return;
-              }
-              current = 0;
-              break;
-          case R.id.btn_chat:
-              btn_chat.setProgress(1);
-              if (current == 1) {
-                  return;
-              }
-              current = 1;
-              break;
-          case R.id.btn_contact:
-              btn_contact.setProgress(1);
-              if (current == 2) {
-                  return;
-              }
-              current = 2;
-              break;
-          case R.id.btn_fuce:
-              btn_fuce.setProgress(1);
-              if (current == 3) {
-                  return;
-              }
-              current = 3;
-              break;
-          case R.id.btn_class:
-              btn_class.setProgress(1);
-              if (current == 4) {
-                  return;
-              }
-              current = 4;
-              break;
-      }
-      content.setCurrentItem(current, false);
+        switch (v.getId()) {
+            case R.id.btn_bodygame:
+                btn_bodygame.setProgress(1);
+                if (current == 0) {
+                    return;
+                }
+                current = 0;
+                break;
+            case R.id.btn_chat:
+                btn_chat.setProgress(1);
+                if (current == 1) {
+                    return;
+                }
+                current = 1;
+                break;
+            case R.id.btn_contact:
+                btn_contact.setProgress(1);
+                if (current == 2) {
+                    return;
+                }
+                current = 2;
+                break;
+            case R.id.btn_fuce:
+                btn_fuce.setProgress(1);
+                if (current == 3) {
+                    return;
+                }
+                current = 3;
+                break;
+            case R.id.btn_class:
+                btn_class.setProgress(1);
+                if (current == 4) {
+                    return;
+                }
+                current = 4;
+                break;
+        }
+        content.setCurrentItem(current, false);
     }
+
     private void restoreState() {
         btn_bodygame.setProgress(0);
         btn_chat.setProgress(0);
@@ -295,7 +303,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    public void setAlpha(float alpha){
+    public void setAlpha(float alpha) {
         tintManager.setStatusBarAlpha(alpha);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
@@ -304,4 +312,32 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
+                int unreadNum = intent.getIntExtra("count", 0);
+                //更新小红点
+                updateMessage(unreadNum);
+            }
+        }
+    }
+
 }
