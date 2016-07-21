@@ -71,12 +71,17 @@ public class ClassMainSRManager {
                     case 200:
                         Log.i("班级主页列表" + classMainModelResponseData.getData());
                         if (cb != null) {
-                            cb.getClassMain(classMainModelResponseData.getData());
+                            cb.getClassMain("200",classMainModelResponseData.getData());
+                        }
+                        break;
+                    case 100:
+                        if (cb != null) {
+                            cb.getClassMain("100",null);
                         }
                         break;
                     default:
                         if (cb != null) {
-                            cb.getClassMain(null);
+                            cb.getClassMain("0",null);
                         }
                         break;
                 }
@@ -85,7 +90,7 @@ public class ClassMainSRManager {
             @Override
             public void failure(RetrofitError error) {
                 if (cb != null) {
-                    cb.getClassMain(null);
+                    cb.getClassMain("0",null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -128,7 +133,7 @@ public class ClassMainSRManager {
 
 
     public interface ClassMainCallback {
-        void getClassMain(ClassMainModel classMainModel);
+        void getClassMain(String type,ClassMainModel classMainModel);
 
         void getStudentList(MemberChangeModel memberChangeModel);
 

@@ -20,6 +20,7 @@ public class SRBodyGameInfo {
     private String LossNum;
     private String PcCount;
     private String PcNum;
+    private String classCount;
 
     //顾问的三个学员
     private List<SPPCMoldel> sp_pc_three;
@@ -171,4 +172,11 @@ public class SRBodyGameInfo {
         Tips_video_backPicture = tips_video_backPicture;
     }
 
+    public String getClassCount() {
+        return classCount;
+    }
+
+    public void setClassCount(String classCount) {
+        this.classCount = classCount;
+    }
 }

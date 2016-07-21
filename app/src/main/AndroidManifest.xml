@@ -765,6 +765,8 @@
                 <action android:name="com.softtek.lai.clock"/>
             </intent-filter>
         </receiver>
+        <activity android:name=".module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

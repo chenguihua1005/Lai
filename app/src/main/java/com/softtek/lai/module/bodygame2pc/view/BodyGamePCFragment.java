@@ -38,6 +38,7 @@ import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.studentbasedate.view.DimensionChartFragmentPC;
 import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
@@ -79,6 +80,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_left;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    LinearLayout fl_right;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
     @InjectView(R.id.iv_refresh)
@@ -204,6 +207,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         tv_tip_more.setOnClickListener(this);
         tv_send_story.setOnClickListener(this);
         ll_story.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
         scroll.setScrollViewListener(this);
         pull.setOnRefreshListener(this);
@@ -410,6 +414,9 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         switch (v.getId()){
             case R.id.ll_left:
                 getActivity().finish();
+                break;
+            case R.id.fl_right:
+                startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新

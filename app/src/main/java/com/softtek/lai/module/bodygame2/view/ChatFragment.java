@@ -41,6 +41,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
+import com.softtek.lai.module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
@@ -202,9 +203,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }else if(getContext() instanceof BodyGamePCActivity){
             BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
             activity.setAlpha(1);
-        }
-        else if(getContext() instanceof BodyGameSRActivity){
+        }else if(getContext() instanceof BodyGameSRActivity){
             BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
+            activity.setAlpha(1);
+        }else if(getContext() instanceof BodyGamePCNoClassActivity){
+            BodyGamePCNoClassActivity activity=(BodyGamePCNoClassActivity)getContext();
             activity.setAlpha(1);
         }
         super.onVisible();

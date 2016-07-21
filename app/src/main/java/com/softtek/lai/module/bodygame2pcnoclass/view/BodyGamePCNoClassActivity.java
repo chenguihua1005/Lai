@@ -134,8 +134,8 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
         btn_contact.setOnClickListener(this);
-
-        fragments.add(new BodyGamePCNoClassFragment());
+        int class_status=getIntent().getIntExtra("class_status",0);
+        fragments.add(BodyGamePCNoClassFragment.getInstance(class_status));
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
 

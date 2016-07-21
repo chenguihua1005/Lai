@@ -156,6 +156,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.text_time)
     TextView text_time;
 
+    @InjectView(R.id.rel_no_class)
+    RelativeLayout rel_no_class;
+
     private PopupWindow popTitleMore;
     private PopupWindow popSelectType;
     private PopupWindow popTitleSelect;
@@ -197,6 +200,8 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
 
     UserInfoModel model;
+
+    private boolean has_class = false;
 
 
     private ProgressDialog progressDialog;
@@ -268,11 +273,17 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void onVisible() {
-        isPrepared = false;
-        scroll.scrollTo(0, 0);
-        if (getContext() instanceof BodyGameSRActivity) {
-            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
-            activity.setAlpha(0);
+        if (has_class) {
+            scroll.scrollTo(0, 0);
+            if (getContext() instanceof BodyGameSRActivity) {
+                BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+                activity.setAlpha(0);
+            }
+        }else {
+            if (getContext() instanceof BodyGameSRActivity) {
+                BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+                activity.setAlpha(1);
+            }
         }
         super.onVisible();
     }
@@ -344,6 +355,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         scroll.setFocusable(false);
 
         classMainManager = new ClassMainSRManager(this);
+        dialogShow("加载");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
@@ -538,10 +550,25 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void getClassMain(ClassMainModel classMainModel) {
+    public void getClassMain(String type, ClassMainModel classMainModel) {
+        rel_sy.setVisibility(View.VISIBLE);
+        rel.setVisibility(View.VISIBLE);
         try {
-            if (classMainModel != null) {
+            if ("200".equals(type)) {
+                pull.setEnabled(true);
+                has_class = true;
+                lin_class_select.setVisibility(View.VISIBLE);
+                rel_title_more.setVisibility(View.VISIBLE);
+                if (getContext() instanceof BodyGameSRActivity) {
+                    BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+                    activity.setAlpha(0);
+                }
+                rel_title.setAlpha(0f);
+                scroll.setVisibility(View.VISIBLE);
+                rel_no_class.setVisibility(View.GONE);
+
                 text_more.setVisibility(View.VISIBLE);
+
                 select_class_list.clear();
                 select_class_list.addAll(classMainModel.getClasslist());
                 adapters.notifyDataSetChanged();
@@ -553,6 +580,10 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+                if(student_list.size()==0){
+                    dialogDissmiss();
+                    pull.setRefreshing(false);
+                }
 
                 ClassDetailModel details = classMainModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -605,9 +636,36 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_message.setVisibility(View.GONE);
                 }
 
-            }else {
+            } else if ("100".equals(type)) {
+                pull.setEnabled(false);
+                has_class = false;
                 pull.setRefreshing(false);
                 dialogDissmiss();
+                lin_class_select.setVisibility(View.GONE);
+                rel_title_more.setVisibility(View.GONE);
+                rel_title.setAlpha(1f);
+                if (getContext() instanceof BodyGameSRActivity) {
+                    BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+                    activity.setAlpha(1);
+                }
+                scroll.setVisibility(View.GONE);
+                rel_no_class.setVisibility(View.VISIBLE);
+            } else {
+                pull.setEnabled(false);
+                pull.setRefreshing(false);
+                dialogDissmiss();
+                has_class = false;
+                lin_class_select.setVisibility(View.GONE);
+                rel_title_more.setVisibility(View.GONE);
+                if (getContext() instanceof BodyGameSRActivity) {
+                    BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+                    activity.setAlpha(0);
+                }
+                rel_title.setAlpha(0f);
+                scroll.setVisibility(View.VISIBLE);
+                rel_no_class.setVisibility(View.GONE);
+
+                text_more.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -624,6 +682,10 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+            if(student_list.size()==0){
+                dialogDissmiss();
+                pull.setRefreshing(false);
+            }
         } else {
             list_student.setVisibility(View.GONE);
             pull.setRefreshing(false);
@@ -649,6 +711,10 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
+                if(student_list.size()==0){
+                    dialogDissmiss();
+                    pull.setRefreshing(false);
+                }
 
                 ClassDetailModel details = classChangeModel.getClassDetail();
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -704,7 +770,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 pull.setRefreshing(false);
                 dialogDissmiss();
             }

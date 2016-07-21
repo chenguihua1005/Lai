@@ -136,8 +136,6 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     FrameLayout fl_video;
     @InjectView(R.id.iv_video_image)
     ImageView iv_video_image;
-    /*@InjectView(R.id.tv_video_time)
-    TextView tv_video_time;*/
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -166,6 +164,17 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     EditText et_person;
     @InjectView(R.id.fl_search)
     FrameLayout fl_search;
+    @InjectView(R.id.rl_no_students)
+    RelativeLayout rl_no_students;
+    @InjectView(R.id.rl_no_saikuang)
+    RelativeLayout rl_no_saikuang;
+    //------
+    @InjectView(R.id.ll_caidan)
+    LinearLayout ll_caidan;
+    @InjectView(R.id.rl_to_class)
+    RelativeLayout rl_to_class;
+    @InjectView(R.id.tv_stu_more)
+    TextView tv_stu_more;
     //请求
     SPManager manager;
 
@@ -195,6 +204,9 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         fl_search.setOnClickListener(this);
         ll_right.setOnClickListener(this);
         pull.setOnRefreshListener(this);
+        rl_student_more.setEnabled(false);
+        tv_stu_more.setVisibility(View.INVISIBLE);
+        mlv.setEmptyView(rl_no_students);
         //学员点击item
         mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -206,6 +218,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 startActivity(jumpStudent);
             }
         });
+        mlv.setEmptyView(rl_no_saikuang);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -292,6 +305,17 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
             pull.setRefreshing(false);
             if(info!=null){
                 this.info=info;
+                if("0".equals(info.getClassCount())){
+                    ll_caidan.setVisibility(View.GONE);
+                    rl_to_class.setVisibility(View.VISIBLE);
+                    tv_stu_more.setVisibility(View.INVISIBLE);
+                    rl_student_more.setEnabled(false);
+                }else{
+                    ll_caidan.setVisibility(View.VISIBLE);
+                    rl_to_class.setVisibility(View.GONE);
+                    tv_stu_more.setVisibility(View.VISIBLE);
+                    rl_student_more.setEnabled(true);
+                }
                 String basePath=AddressManager.get("photoHost");
                 //首页banner
                 if(StringUtils.isNotEmpty(info.getBanner())){

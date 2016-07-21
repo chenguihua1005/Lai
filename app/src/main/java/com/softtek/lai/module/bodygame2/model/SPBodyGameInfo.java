@@ -18,9 +18,8 @@ public class SPBodyGameInfo {
     private String PcNum;
     private String NewClass;
     private String NewPc;
-    private String Tips_video_id;
-    private String Tips_video_timelen;
-    private String Tips_video_backPicture;
+    private String classCount;//用来判断有没有班级
+
     //顾问的三个学员
     private List<SPPCMoldel> sp_pc_three;
     //大赛赛况
@@ -28,7 +27,9 @@ public class SPBodyGameInfo {
     //tips
     private String Tips_video_name;
     private String Tips_video_url;
-
+    private String Tips_video_id;
+    private String Tips_video_timelen;
+    private String Tips_video_backPicture;
     //咨询
     private List<Tips> Tips_content;
 
@@ -182,6 +183,14 @@ public class SPBodyGameInfo {
 
     public void setTips_video_backPicture(String tips_video_backPicture) {
         Tips_video_backPicture = tips_video_backPicture;
+    }
+
+    public String getClassCount() {
+        return classCount;
+    }
+
+    public void setClassCount(String classCount) {
+        this.classCount = classCount;
     }
 
     @Override

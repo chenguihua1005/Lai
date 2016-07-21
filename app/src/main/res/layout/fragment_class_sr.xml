@@ -13,7 +13,8 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -247,7 +248,7 @@
                                     android:text="查看更多"
                                     android:textColor="@color/word6"
                                     android:textSize="12sp"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
                             </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>
@@ -290,11 +291,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_centerVertical="true"
-                            android:text="学员数据"
+                            android:layout_weight="3"
+                            android:background="@color/green"
                             android:gravity="center_vertical"
                             android:paddingLeft="15dip"
-                            android:background="@color/green"
-                            android:layout_weight="3"
+                            android:text="学员数据"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
 
@@ -304,9 +305,9 @@
                             android:layout_height="fill_parent"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:gravity="right"
-                            android:background="@color/orange"
                             android:layout_weight="6"
+                            android:background="@color/orange"
+                            android:gravity="right"
                             android:orientation="horizontal">
 
                             <TextView
@@ -344,16 +345,57 @@
         </com.softtek.lai.widgets.ObservableScrollView>
 
         <RelativeLayout
+            android:id="@+id/rel_no_class"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/img_next"
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:background="@drawable/bg_creat_btn"
+                android:gravity="center"
+                android:text="去参加"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize3"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dip"
+                android:src="@drawable/img_button_bj" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/img_next"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dip"
+                android:text="申请成为班级助教后，才能体验完整功能哦"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rel_sy"
             android:layout_width="fill_parent"
             android:layout_height="50dip"
             android:background="@drawable/img_sy"
-            android:orientation="horizontal"></RelativeLayout>
+            android:orientation="horizontal"
+            android:visibility="gone"></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rel"
             android:layout_width="fill_parent"
-            android:layout_height="50dip">
+            android:layout_height="50dip"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/rel_title"
