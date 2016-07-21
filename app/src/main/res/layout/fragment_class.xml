@@ -375,7 +375,7 @@
                 android:layout_marginRight="@dimen/margin"
                 android:background="@drawable/bg_creat_btn"
                 android:gravity="center"
-                android:text="去开班"
+                android:text="创建班级"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textSize3" />
 
