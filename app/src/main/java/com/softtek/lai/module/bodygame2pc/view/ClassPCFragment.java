@@ -27,7 +27,6 @@ import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.view.DYActivity;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;
 import com.softtek.lai.module.bodygame2pc.model.PCClmDetailModel;
 import com.softtek.lai.module.bodygame2pc.present.PCClassMainManager;
@@ -219,11 +218,10 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 String useId = clmListModel.getAccountid();
                 UserModel userModel = UserInfoModel.getInstance().getUser();
                 if (useId.equals(userModel.getUserid())) {
-                    String accountId = clmListModel.getAccountid();
-                    Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
-                    intent.putExtra("userId", Long.parseLong(accountId));
+                    Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
                     intent.putExtra("classId", Long.parseLong(select_class_id));
-                    startActivity(intent);
+                    getActivity().startActivity(intent);
+
                 }
             }
         });
