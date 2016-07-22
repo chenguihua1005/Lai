@@ -61,6 +61,7 @@ public class SPPCAdapter extends BaseAdapter{
         }
         SPPCMoldel model=pc.get(position);
         holder.tv_order.setText(model.getNum()+"");
+
         holder.tv_start_weight.setText("初始体重："+model.getInitWt()+"斤");
         if(model.getGender()==0){//男
             holder.cb_gender.setChecked(false);

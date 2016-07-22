@@ -218,7 +218,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 startActivity(jumpStudent);
             }
         });
-        mlv.setEmptyView(rl_no_saikuang);
+        mgv.setEmptyView(rl_no_saikuang);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

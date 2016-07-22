@@ -111,6 +111,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
 
+    @InjectView(R.id.text_no_student)
+    TextView text_no_student;
+
     @InjectView(R.id.list_student)
     ListView list_student;
     @InjectView(R.id.text_class_name)
@@ -230,11 +233,12 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         rel_title.setAlpha(0f);
         rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
+        list_student.setEmptyView(text_no_student);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
-
+        classMainManager = new ClassMainSRManager(this);
         view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
         rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
         rel_jzbfb = (RelativeLayout) view.findViewById(R.id.rel_jzbfb);
@@ -353,8 +357,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-
-        classMainManager = new ClassMainSRManager(this);
         dialogShow("加载");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
@@ -580,7 +582,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0){
+                if(student_list.size()==0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
@@ -669,6 +671,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
@@ -682,7 +687,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-            if(student_list.size()==0){
+            if(student_list.size()==0) {
                 dialogDissmiss();
                 pull.setRefreshing(false);
             }
@@ -711,7 +716,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0){
+                if(student_list.size()==0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
@@ -776,6 +781,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
