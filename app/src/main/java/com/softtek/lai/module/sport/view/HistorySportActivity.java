@@ -125,10 +125,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void onMapScreenShot(Bitmap bitmap) {
             System.out.println("onMapScreenShot--");
-//            if (isFirst) {
-//                isFirst = false;
-//                return;
-//            }
             bitmap_map = bitmap;
             if (ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -154,6 +150,11 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 savePic(bitmap_map, "/sdcard/sport.png");
             }
 
+
+        }
+
+        @Override
+        public void onMapScreenShot(Bitmap bitmap, int i) {
 
         }
     };
