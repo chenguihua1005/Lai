@@ -106,6 +106,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @InjectView(R.id.rel_sy)
     RelativeLayout rel_sy;
 
+    @InjectView(R.id.text_no_student)
+    TextView text_no_student;
+
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
 
@@ -252,6 +255,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_next.setOnClickListener(this);
         rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
+
+        list_student.setEmptyView(text_no_student);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);

@@ -111,6 +111,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
 
+    @InjectView(R.id.text_no_student)
+    TextView text_no_student;
+
     @InjectView(R.id.list_student)
     ListView list_student;
     @InjectView(R.id.text_class_name)
@@ -230,6 +233,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         rel_title.setAlpha(0f);
         rel_sy.setAlpha(1f);
         scroll.setScrollViewListener(this);
+        list_student.setEmptyView(text_no_student);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
@@ -580,7 +584,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0){
+                if(student_list.size()==0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
@@ -682,7 +686,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-            if(student_list.size()==0){
+            if(student_list.size()==0) {
                 dialogDissmiss();
                 pull.setRefreshing(false);
             }
@@ -711,7 +715,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0){
+                if(student_list.size()==0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
