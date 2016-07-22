@@ -181,7 +181,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     private ImageView img_ywbh;
 
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
-    private String select_class_id;
+    private String select_class_id="-1";
 
     private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
@@ -277,6 +277,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void onVisible() {
+        setPrepared(false);
         if (has_class) {
             scroll.scrollTo(0, 0);
             if (getContext() instanceof BodyGameSRActivity) {
@@ -357,8 +358,13 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-        dialogShow("加载");
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+        if(has_class){
+            dialogShow("加载");
+            classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
+        }else {
+            dialogShow("加载");
+            classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+        }
     }
 
     @Override
@@ -560,7 +566,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 pull.setEnabled(true);
                 has_class = true;
                 lin_class_select.setVisibility(View.VISIBLE);
-                rel_title_more.setVisibility(View.VISIBLE);
+                rel_title_more.setVisibility(View.GONE);
                 if (getContext() instanceof BodyGameSRActivity) {
                     BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
                     activity.setAlpha(0);

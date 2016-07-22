@@ -169,7 +169,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         locationStyle.myLocationIcon(BitmapDescriptorFactory
                 .fromResource(R.drawable.location_marker));
         locationStyle.strokeWidth(1f);//圆形的边框宽度
-        locationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
+        locationStyle.strokeColor(Color.argb(0, 0, 0, 0));// 设置圆形的边框颜色
+        locationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         aMap.setMyLocationStyle(locationStyle);
         aMap.setLocationSource(this);//设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示

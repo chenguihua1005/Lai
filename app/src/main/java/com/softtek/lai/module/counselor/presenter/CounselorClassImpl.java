@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -156,7 +157,10 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(classIdResponseData.getData());
+                        //EventBus.getDefault().post(classIdResponseData.getData());
+                        Intent msgIntent = new Intent(Constants.MESSAGE_CREATE_CLASS_ACTION);
+                        context.sendBroadcast(msgIntent);
+
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                 .setTitle(context.getString(R.string.login_out_title))
                                 .setMessage("创建班级成功！")

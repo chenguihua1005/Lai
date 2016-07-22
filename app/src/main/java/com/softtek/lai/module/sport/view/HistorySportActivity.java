@@ -130,6 +130,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 com.github.snowdream.android.util.Log.i("检查权限。。。。");
                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                dialogDissmiss();
                 if (
                         ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -410,6 +411,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.iv_email:
             case R.id.fl_right:
+                dialogShow("加载中");
                 aMap.getMapScreenShot(onMapScreenShotListener);
                 break;
             case R.id.ll_left:
