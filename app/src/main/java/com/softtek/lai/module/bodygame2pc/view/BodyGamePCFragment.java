@@ -567,6 +567,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== Activity.RESULT_OK&&requestCode==SEND_NEW_STORY){
+            tv_no_story.setVisibility(View.GONE);
+            ll_story.setVisibility(View.VISIBLE);
             LogStoryModel model= (LogStoryModel) data.getSerializableExtra("story");
             String logId=data.getStringExtra("storyId");
             info.setPCStoryId(logId);

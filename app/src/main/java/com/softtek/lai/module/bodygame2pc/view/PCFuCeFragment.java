@@ -75,8 +75,8 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickListener{
-//    @LifeCircleInject
+public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickListener {
+    //    @LifeCircleInject
 //    ValidateLife validateLife;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -110,9 +110,9 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @InjectView(R.id.iv_email)
     ImageView iv_email;
     private ProgressDialog progressDialog;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    String loginid=userInfoModel.getUser().getUserid();
-    String moblie=userInfoModel.getUser().getMobile();
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    String loginid = userInfoModel.getUser().getUserid();
+    String moblie = userInfoModel.getUser().getMobile();
 
     //保存数据点击
     //初始体重
@@ -131,11 +131,11 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @InjectView(R.id.btn_retest_write_addbodyst)
     Button btn_retest_write_addbodyst;
     //初始体重
-    @Required(order = 1,message = "初始体重必填项，请选择")
+    @Required(order = 1, message = "初始体重必填项，请选择")
     @InjectView(R.id.tv_writes_chu_weight)
     EditText tv_writes_chu_weight;
     //现在体重
-    @Required(order = 2,message = "现在体重必填项，请选择")
+    @Required(order = 2, message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_retestWrites_nowweight)
     EditText tv_retestWrites_nowweight;
     @InjectView(R.id.tv_retestWritest_tizhi)
@@ -157,20 +157,20 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
-    String gender="1";
+    String gender = "1";
 
-    private static final int GET_BODY=2;
-    private static final int BODY=3;
+    private static final int GET_BODY = 2;
+    private static final int BODY = 3;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String Mobile;
-    String isState="true";
-    Boolean shenhestatue=true;
+    String isState = "true";
+    Boolean shenhestatue = true;
     private ImageFileCropSelector imageFileCropSelector;
-    private CharSequence[] items={"拍照","从相册选择照片"};
+    private CharSequence[] items = {"拍照", "从相册选择照片"};
     private PhotoListPre photoListPre;
     LossModel lossModel;
     SelectPicPopupWindow menuWindow;
@@ -179,10 +179,10 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
-        if(DisplayUtil.getSDKInt()>18){
-            int status= DisplayUtil.getStatusHeight(getActivity());
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin=status;
+        if (DisplayUtil.getSDKInt() > 18) {
+            int status = DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin = status;
             toolbar.setLayoutParams(params);
         }
         fl_right.setOnClickListener(this);
@@ -199,6 +199,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         tv_writes_chu_weight.setEnabled(false);
         tv_retestWrites_nowweight.setEnabled(false);
     }
+
     @Subscribe
     public void onEvent(LossModel model) {
         if (UserInfoModel.getInstance().getUser() == null) {
@@ -207,35 +208,38 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         lossModel = model;
         String path = AddressManager.get("shareHost");
         url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:"+url);
+        System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         menuWindow.showAtLocation(getActivity().findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
+
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
-    @Subscribe
-    public void event(LaichModel laichModel){
 
-        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":(Float.parseFloat(laichModel.getWeight())+"").equals("0.0")?"":Float.parseFloat(laichModel.getWeight())+"");
-        tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
-        tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
-        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
-        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline())?"":Float.parseFloat(laichModel.getWaistline())+"");
-        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie())?"":Float.parseFloat(laichModel.getHiplie())+"");
-        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth())?"":Float.parseFloat(laichModel.getUpArmGirth())+"");
-        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth())?"":Float.parseFloat(laichModel.getUpLegGirth())+"");
-        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth())?"":Float.parseFloat(laichModel.getDoLegGirth())+"");
+    @Subscribe
+    public void event(LaichModel laichModel) {
+
+        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight()) ? "" : (Float.parseFloat(laichModel.getWeight()) + "").equals("0.0") ? "" : Float.parseFloat(laichModel.getWeight()) + "");
+        tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical()) ? "" : Float.parseFloat(laichModel.getPysical()) + "");
+        tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat()) ? "" : Float.parseFloat(laichModel.getFat()) + "");
+        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum()) ? "" : Float.parseFloat(laichModel.getCircum()) + "");
+        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline()) ? "" : Float.parseFloat(laichModel.getWaistline()) + "");
+        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie()) ? "" : Float.parseFloat(laichModel.getHiplie()) + "");
+        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth()) ? "" : Float.parseFloat(laichModel.getUpArmGirth()) + "");
+        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth()) ? "" : Float.parseFloat(laichModel.getUpLegGirth()) + "");
+        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth()) ? "" : Float.parseFloat(laichModel.getDoLegGirth()) + "");
     }
+
     @Override
     protected void onVisible() {
         super.onVisible();
-        if(getContext() instanceof BodyGamePCActivity){
-            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
+        if (getContext() instanceof BodyGamePCActivity) {
+            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(1);
         }
     }
@@ -243,19 +247,16 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.iv_email:
             case R.id.fl_right:
                 if (isState.equals("true")) {
                     tv_writes_chu_weight.setEnabled(true);
                     tv_retestWrites_nowweight.setEnabled(true);
 //                    validateLife.validate();
-                    if (TextUtils.isEmpty(retestWrite.getImage()))
-                    {
+                    if (TextUtils.isEmpty(retestWrite.getImage())) {
                         Util.toastMsg("请上传照片");
-                    }
-                    else {
+                    } else {
                         retestWrite.setWeight(tv_retestWrites_nowweight.getText() + "");
                         retestWrite.setInitWeight(tv_writes_chu_weight.getText() + "");
                         retestWrite.setPysical(tv_retestWritest_tizhi.getText() + "");
@@ -268,8 +269,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         dopostwrite(Long.parseLong(loginid), Long.parseLong(loginid), retestWrite, getContext(), progressDialog);
 
                     }
-                }
-                else {
+                } else {
                     if (shenhestatue) {
                         //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
                         progressDialog.setMessage("加载中");
@@ -288,19 +288,17 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 im_retestwritest_showphoto.setImageBitmap(null);
                 break;
             case R.id.btn_retest_write_addbodyst:
-                Intent intent=new Intent(getContext(), BodyweidustActivity.class);
-                Log.i("retestWrite="+retestWrite.toString());
-                intent.putExtra("retestWrite",retestWrite);
-                intent.putExtra("isState",isState);
-                startActivityForResult(intent,GET_BODY);
+                Intent intent = new Intent(getContext(), BodyweidustActivity.class);
+                Log.i("retestWrite=" + retestWrite.toString());
+                intent.putExtra("retestWrite", retestWrite);
+                intent.putExtra("isState", isState);
+                startActivityForResult(intent, GET_BODY);
                 break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
                     if (gender.equals("1")) {
                         show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
-                    }
-                    else
-                    {
+                    } else {
                         show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                     }
                 }
@@ -323,34 +321,32 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("share", getActivity().MODE_PRIVATE);
                     boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    if (isFirstRun)
-                    {
-                        Intent intent1=new Intent(getContext(),GuideActivity.class);
-                        startActivityForResult(intent1,BODY);
+                    if (isFirstRun) {
+                        Intent intent1 = new Intent(getContext(), GuideActivity.class);
+                        startActivityForResult(intent1, BODY);
 
                         Log.d("debug", "第一次运行");
                         editor.putBoolean("isFirstRun", false);
                         editor.commit();
-                    } else
-                    {
+                    } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) {
-                                    if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                         //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
                                             //允许弹出提示
                                             ActivityCompat.requestPermissions(getActivity(),
-                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                                    new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                        }else{
+                                        } else {
                                             //不允许弹出提示
                                             ActivityCompat.requestPermissions(getActivity(),
-                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                                    new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                         }
-                                    }else {
+                                    } else {
                                         imageFileCropSelector.takePhoto(PCFuCeFragment.this);
                                     }
                                 } else if (which == 1) {
@@ -367,29 +363,28 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 break;
 
             case R.id.im_retestwritest_showphoto:
-                Intent intent1=new Intent(getContext(),PictureActivity.class);
-                ArrayList<String> imags=new ArrayList<>();
+                Intent intent1 = new Intent(getContext(), PictureActivity.class);
+                ArrayList<String> imags = new ArrayList<>();
                 imags.add(retestWrite.getImage());
-                intent1.putExtra("images",imags);
-                intent1.putExtra("position",0);
+                intent1.putExtra("images", imags);
+                intent1.putExtra("position", 0);
                 startActivity(intent1);
                 break;
         }
     }
 
-    private void dopostwrite( long accountId, long loginId, RetestWriteModel retestWrite, final Context context, final ProgressDialog progressDialog) {
-        RestService service= ZillaApi.NormalRestAdapter.create(RestService.class);
+    private void dopostwrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context, final ProgressDialog progressDialog) {
+        RestService service = ZillaApi.NormalRestAdapter.create(RestService.class);
         service.doPostWrite(UserInfoModel.getInstance().getToken(), accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
             @Override
             public void success(ResponseData<RetestWriteModel> retestWriteModelResponseData, Response response) {
-                int status=retestWriteModelResponseData.getStatus();
+                int status = retestWriteModelResponseData.getStatus();
                 progressDialog.dismiss();
-                switch (status)
-                {
+                switch (status) {
                     case 200:
-                        isState="false";
+                        isState = "false";
                         tv_right.setText("待审核");
-                        shenhestatue=false;
+                        shenhestatue = false;
                         iv_email.setVisibility(View.INVISIBLE);
                         btn_retest_write_addbodyst.setText("查看身体围度");
                         im_deletest.setVisibility(View.GONE);//隐藏删除按钮
@@ -417,18 +412,18 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) throws Exception {
-        Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
+        Log.i("retestAuditModel" + retestAuditModelEvent.getRetestAuditModels());
+        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("") ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight()) + "");
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
-        Mobile=retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
+        Mobile = retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
-        gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
-        String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
-        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
-        String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
-        String[] mon=StartDate.split("-");
-        String[] currStart=CurrStart.split("-");
-        String[] currEnd=CurrEnd.split("-");
+        gender = retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
+        String StartDate = retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
+        String CurrStart = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
+        String CurrEnd = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
+        String[] mon = StartDate.split("-");
+        String[] currStart = CurrStart.split("-");
+        String[] currEnd = CurrEnd.split("-");
         retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
         tv_writest_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
         tv_writest_monst.setText(currStart[1]);
@@ -436,10 +431,9 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         tv_writest_monen.setText(currEnd[1]);
         tv_writest_dayen.setText(currEnd[2]);
         tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
+        if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
             Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(iv_writest_head);
-        }
-        else {
+        } else {
             Picasso.with(getActivity()).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
         }
         if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate())) {
@@ -448,21 +442,19 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 retestPre.GetUserMeasuredInfo(moblie);
                 tv_right.setText("保存");
             } else {
-                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
-                    if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
-                    {
+                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                    if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
                         tv_right.setText("待审核");
-                        shenhestatue=false;
-                    }
-                    else {
+                        shenhestatue = false;
+                    } else {
                         tv_right.setText("");
                         tv_right.setFocusable(false);
                         iv_email.setImageResource(R.drawable.img_share_bt);
                         iv_email.setOnClickListener(this);
                     }
                     tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
-                    tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
-                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
+                    tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()) + "");
+                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()) + "");
                     retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
                     retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
                     retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
@@ -475,8 +467,8 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
                         Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
-                        String[] images=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
-                        retestWrite.setImage(images[images.length-1]);
+                        String[] images = retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+                        retestWrite.setImage(images[images.length - 1]);
                     } else {
                         im_retestwritest_showphoto.setVisibility(View.GONE);
                         Picasso.with(getActivity()).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
@@ -487,21 +479,21 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
                 }
             }
-        }
-        else {
+        } else {
             retestPre.GetUserMeasuredInfo(moblie);
             tv_right.setText("保存");
         }
     }
-    public static Date ConverToDate(String strDate) throws Exception
-    {
+
+    public static Date ConverToDate(String strDate) throws Exception {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.parse(strDate);
     }
+
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
-        retestWrite.setImage(photModel.getImg()+"");
+        retestWrite.setImage(photModel.getImg() + "");
 
     }
 
@@ -509,7 +501,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION){
+        if (requestCode == CAMERA_PREMISSION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
@@ -557,21 +549,20 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("复测");
-        retestPre=new RetestclassImp();
-        Intent intent=getActivity().getIntent();
-        loginid=intent.getStringExtra("accountId");
-        if (loginid==null)
-        {
-            loginid=UserInfoModel.getInstance().getUser().getUserid();
+        retestPre = new RetestclassImp();
+        Intent intent = getActivity().getIntent();
+        loginid = intent.getStringExtra("accountId");
+        if (loginid == null) {
+            loginid = UserInfoModel.getInstance().getUser().getUserid();
         }
-        retestWrite=new RetestWriteModel();
-        retestAuditModel=new RetestAuditModel();
-        measureModel=new MeasureModel();
-        imageFileCropSelector=new ImageFileCropSelector(getContext());
+        retestWrite = new RetestWriteModel();
+        retestAuditModel = new RetestAuditModel();
+        measureModel = new MeasureModel();
+        imageFileCropSelector = new ImageFileCropSelector(getContext());
         imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1,1);
-        int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
-        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        int px = Math.min(DisplayUtil.getMobileHeight(getContext()), DisplayUtil.getMobileWidth(getContext()));
+        imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
@@ -588,6 +579,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
             }
         });
     }
+
     //为弹出窗口实现监听类
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
@@ -627,14 +619,15 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         }
 
     };
-    private static final int CAMERA_PREMISSION=100;
+    private static final int CAMERA_PREMISSION = 100;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         //身体围度值传递
-        if (requestCode == GET_BODY && resultCode ==getActivity().RESULT_OK) {
+        if (requestCode == GET_BODY && resultCode == getActivity().RESULT_OK) {
             retestWrite = (RetestWriteModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite" + retestWrite);
         }
@@ -656,9 +649,9 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
-        View view=getView().inflate(getActivity(),R.layout.dimension_dialog, null);
+        View view = getView().inflate(getActivity(), R.layout.dimension_dialog, null);
 //        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
-        final NumberPicker np1 = (NumberPicker)view.findViewById(R.id.numberPicker1);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(np1maxvalur);
         np1.setValue(np1value);
@@ -671,22 +664,16 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         information_dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (num==0) {
+                if (num == 0) {
                     tv_writes_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                     tv_writes_chu_weight.setError(null);
-                }
-                else if (num==1)
-                {
+                } else if (num == 1) {
                     tv_retestWrites_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                     tv_retestWrites_nowweight.setError(null);
-                }
-                else if (num==2)
-                {
+                } else if (num == 2) {
                     tv_retestWritest_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==3)
-                {
+                } else if (num == 3) {
                     tv_retestWritest_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
                 }
@@ -699,24 +686,12 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         }).create().show();
 
 
-
     }
 
-//    @Override
-//    public void onValidationSucceeded() {
-//
-//
-//
-//    }
-
-//    @Override
-//    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-//        validateLife.onValidationFailed(failedView, failedRule);
-//    }
     @Override
     protected void lazyLoad() {
 
         Log.i("FuCeFragment 加载数据");
-        retestPre.doGetAudit(Long.parseLong(loginid),0,"");
+        retestPre.doGetAudit(Long.parseLong(loginid), 0, "");
     }
 }
