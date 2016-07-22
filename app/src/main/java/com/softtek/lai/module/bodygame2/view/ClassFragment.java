@@ -227,8 +227,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     protected void initViews() {
 
-        EventBus.getDefault().register(this);
-
         imageFileCropSelector = new ImageFileCropSelector(getActivity());
         imageFileCropSelector.setQuality(80);
         imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getActivity()), DisplayUtil.dip2px(getActivity(), 190));
@@ -320,7 +318,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
         getContext().unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
