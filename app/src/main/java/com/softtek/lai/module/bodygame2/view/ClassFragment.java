@@ -831,10 +831,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 rel_add.setVisibility(View.GONE);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
+            e.printStackTrace();
         }
     }
 
@@ -941,10 +940,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 dialogDissmiss();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
+            e.printStackTrace();
         }
     }
 

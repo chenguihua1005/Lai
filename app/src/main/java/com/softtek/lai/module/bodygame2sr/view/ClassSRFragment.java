@@ -649,10 +649,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 text_more.setVisibility(View.GONE);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
+            e.printStackTrace();
         }
     }
 
@@ -775,10 +774,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 dialogDissmiss();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
+            e.printStackTrace();
         }
     }
 
