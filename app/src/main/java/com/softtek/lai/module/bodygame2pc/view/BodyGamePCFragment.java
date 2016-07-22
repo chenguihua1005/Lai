@@ -333,7 +333,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 String date=info.getPCStoryDate();
                 int day=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(date);
                 int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(date);
-                tv_day.setText(day+"");
+                tv_day.setText(day+""); 
                 tv_month.setText(month+"月");
                 tv_content.setText(info.getPCStoryContent());
                 if(StringUtils.isNotEmpty(info.getPCStoryImg())){
