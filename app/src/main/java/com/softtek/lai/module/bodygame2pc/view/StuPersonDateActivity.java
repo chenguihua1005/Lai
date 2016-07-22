@@ -172,6 +172,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
     LossWeightChartFragment lwcf;
     DimensionChartFragment dcf;
+    private static final int Up_Load = 1;
 
     @Override
     protected void initViews() {
@@ -454,7 +455,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             case R.id.Re_personphoto:
                 if (photostate) {
                     Intent intent2 = new Intent(this, UploadPhotoActivity.class);
-                    startActivity(intent2);
+                    startActivityForResult(intent2,Up_Load);
                 }
                 else {
                     Util.toastMsg("暂无照片");
@@ -464,6 +465,12 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
 
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        datemanager.doGetStuClmemberDetial(this, 1, userId, classId);
     }
 
     @Override
