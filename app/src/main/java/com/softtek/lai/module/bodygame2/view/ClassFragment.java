@@ -224,6 +224,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     private MessageReceiver mMessageReceiver;
 
+
     @Override
     protected void initViews() {
 
@@ -503,6 +504,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     text_value.setText(dyNoticeModel.getDyContent());
                     String times = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
                     text_time.setText(times);
+
                 } else {
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
@@ -1013,10 +1015,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                     } else {
                         Picasso.with(getContext()).load(path + model.getUser().getPhoto()).fit().error(R.drawable.img_default).into(img);
                     }
-
                     text_value.setText(content);
                     String time = DateUtil.getInstance().convertDateStr(DateUtil.getInstance().getCurrentDate(), "yyyy年MM月dd日");
                     text_time.setText(time);
+                    DyNoticeModel models=new DyNoticeModel(DateUtil.getInstance("yyyy-MM-dd HH:mm:ss").getCurrentDate(),content,"1",model.getUser().getPhoto());
+                    dyNoticeModel=models;
                 }
 
                 @Override
