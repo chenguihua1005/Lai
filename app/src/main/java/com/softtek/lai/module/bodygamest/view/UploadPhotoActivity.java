@@ -117,6 +117,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         com.umeng.socialize.utils.Log.LOG = true;
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+    }
 
     @Override
     protected void onDestroy() {
