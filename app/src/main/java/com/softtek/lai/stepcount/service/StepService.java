@@ -190,7 +190,8 @@ public class StepService extends Service implements SensorEventListener {
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 triggerAtTime,
                 pi);
-        return START_STICKY;
+        flags = START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void startStepDetector() {
@@ -338,6 +339,7 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
         //如果不是退出且跑团也没退出
         if(!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()){
@@ -349,9 +351,8 @@ public class StepService extends Service implements SensorEventListener {
             serverStep =0;
             currentStep=0;
             Log.i("计步器真的停止");
+            stopForeground(true);
         }
-        //取消前台进程
-        stopForeground(true);
         nm.cancelAll();
         unregisterReceiver(uploadStepReceive);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);

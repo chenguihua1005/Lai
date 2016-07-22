@@ -20,6 +20,7 @@ import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +47,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
     private Context context;
     private IMemberInfopresenter memberInfopresenter;
     private int review_flag=0;
+    private int px;
 
     public  LossWeightLogAdapter(Context context,List<LossWeightLogModel> logs,int review_flag){
         this.context=context;
@@ -53,6 +55,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
         this.logs=logs;
         memberInfopresenter=new MemberInfoImpl(context,null);
         this.review_flag=review_flag;
+        px= DisplayUtil.dip2px(context,100);
     }
 
     @Override
@@ -131,9 +134,8 @@ public class LossWeightLogAdapter extends BaseAdapter{
                     context.startActivity(in);
                 }
             });
-            Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(holder.iv_image);
+            Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).resize(px,px).centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(holder.iv_image);
         }
-        //holder.tv_log_title.setText(log.getLogTitle());
         holder.tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();
         holder.tv_month.setText(DateUtil.getInstance().getMonth(date)+"月");
@@ -143,14 +145,13 @@ public class LossWeightLogAdapter extends BaseAdapter{
 
     private static class LogHolder{
 
-        public TextView tv_day,tv_month/*,tv_log_title*/,tv_content;
+        public TextView tv_day,tv_month,tv_content;
         public ImageView iv_image;
         public CheckBox cb_zan;
 
         public LogHolder(View view){
             tv_day= (TextView) view.findViewById(R.id.tv_day);
             tv_month= (TextView) view.findViewById(R.id.tv_month);
-            //tv_log_title= (TextView) view.findViewById(R.id.tv_log_title);
             tv_content= (TextView) view.findViewById(R.id.tv_content);
             iv_image= (ImageView) view.findViewById(R.id.iv_image);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);

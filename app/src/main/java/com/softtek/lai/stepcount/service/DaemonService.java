@@ -26,7 +26,8 @@ public class DaemonService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("守护service启动");
-        return START_STICKY;
+        flags = START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     StepCloseReceiver closeReceiver;
@@ -40,11 +41,11 @@ public class DaemonService extends Service{
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),5000, pendingIntent);
         closeReceiver=new StepCloseReceiver();
         registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
+        sendBroadcast(new Intent(StepService.STEP_CLOSE));
     }
 
     @Override
     public void onDestroy() {
-        sendBroadcast(new Intent(StepService.STEP_CLOSE));
         sendBroadcast(new Intent("com.softtek.lai.service_destory"));
         super.onDestroy();
         unregisterReceiver(closeReceiver);
