@@ -392,6 +392,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         shenhestatue=false;
                         iv_email.setVisibility(View.INVISIBLE);
                         btn_retest_write_addbodyst.setText("查看身体围度");
+                        im_deletest.setVisibility(View.GONE);//隐藏删除按钮
                         break;
                     case 201:
                         Util.toastMsg(retestWriteModelResponseData.getMsg());
