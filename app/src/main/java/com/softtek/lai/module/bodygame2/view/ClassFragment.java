@@ -317,18 +317,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         super.onVisible();
     }
 
-    @Subscribe
-    public void onUpdate(ClassIdModel models) {
-        String classId = SharedPreferenceService.getInstance().get("classId", "-1");
-        pull.setEnabled(true);
-        if ("-1".equals(classId)) {
-            System.out.println("刷新整个页面");
-            classMainManager.doClassMainIndex(model.getUser().getUserid());
-        } else {
-            System.out.println("刷新班级列表");
-            classMainManager.doGetClasslist(model.getUser().getUserid());
-        }
-    }
 
     @Override
     public void onDestroy() {
@@ -841,7 +829,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
         }
@@ -951,7 +939,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
         }
@@ -1098,6 +1086,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_DISSMISS_ACTION);
+        filter.addAction(Constants.MESSAGE_CREATE_CLASS_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
 
     }
@@ -1109,6 +1098,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             if (Constants.MESSAGE_DISSMISS_ACTION.equals(intent.getAction())) {
                 dialogDissmiss();
                 pull.setRefreshing(false);
+            } else if (Constants.MESSAGE_CREATE_CLASS_ACTION.equals(intent.getAction())) {
+                String classId = SharedPreferenceService.getInstance().get("classId", "-1");
+                pull.setEnabled(true);
+                if ("-1".equals(classId)) {
+                    System.out.println("刷新整个页面");
+                    classMainManager.doClassMainIndex(model.getUser().getUserid());
+                } else {
+                    System.out.println("刷新班级列表");
+                    classMainManager.doGetClasslist(model.getUser().getUserid());
+                }
             }
         }
     }

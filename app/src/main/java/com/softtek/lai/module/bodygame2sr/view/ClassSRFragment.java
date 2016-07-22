@@ -181,7 +181,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     private ImageView img_ywbh;
 
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
-    private String select_class_id;
+    private String select_class_id="-1";
 
     private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
@@ -560,7 +560,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 pull.setEnabled(true);
                 has_class = true;
                 lin_class_select.setVisibility(View.VISIBLE);
-                rel_title_more.setVisibility(View.VISIBLE);
+                rel_title_more.setVisibility(View.GONE);
                 if (getContext() instanceof BodyGameSRActivity) {
                     BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
                     activity.setAlpha(0);

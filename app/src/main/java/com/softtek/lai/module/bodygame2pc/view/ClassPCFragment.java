@@ -154,7 +154,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     private ImageView img_ywbh;
 
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
-    private String select_class_id;
+    private String select_class_id="-1";
 
     private List<ClmListModel> student_list;
 
@@ -313,14 +313,15 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_person:
-                if ("-1".equals(select_class_id)) {
+                System.out.println("select_class_id:"+select_class_id);
+                if (!"-1".equals(select_class_id)) {
                     Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
                     intent.putExtra("classId", select_class_id);
                     getActivity().startActivity(intent);
                 }
                 break;
             case R.id.text_more:
-                if ("-1".equals(select_class_id)) {
+                if (!"-1".equals(select_class_id)) {
                     Intent intents = new Intent(getActivity(), DYActivity.class);
                     intents.putExtra("classId", select_class_id);
                     startActivity(intents);
@@ -373,24 +374,28 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 popSelectType.dismiss();
                 select_type = 0;
                 text_select_type.setText("按减重斤数");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
                 select_type = 1;
                 text_select_type.setText("按减重百分比");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
                 select_type = 2;
                 text_select_type.setText("按体脂率");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
                 select_type = 3;
                 text_select_type.setText("按腰围变化");
+                dialogShow("加载中");
                 classMainManager.doClMemberChange(model.getUser().getUserid(), select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
