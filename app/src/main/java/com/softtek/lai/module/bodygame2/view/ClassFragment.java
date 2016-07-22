@@ -841,7 +841,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
         }
