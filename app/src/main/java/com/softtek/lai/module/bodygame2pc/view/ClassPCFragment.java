@@ -219,7 +219,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 UserModel userModel = UserInfoModel.getInstance().getUser();
                 if (useId.equals(userModel.getUserid())) {
                     Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
-                    intent.putExtra("classId", Long.parseLong(select_class_id));
+                    intent.putExtra("classId", select_class_id);
                     getActivity().startActivity(intent);
 
                 }
