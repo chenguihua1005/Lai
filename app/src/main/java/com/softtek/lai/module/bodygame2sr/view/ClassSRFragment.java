@@ -673,6 +673,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
@@ -780,6 +783,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 

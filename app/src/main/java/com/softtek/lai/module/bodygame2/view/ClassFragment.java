@@ -841,6 +841,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
@@ -948,6 +951,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 

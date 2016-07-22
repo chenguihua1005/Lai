@@ -478,8 +478,13 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
 
                 text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
-                String value = StringUtil.getFloatValue(model.getLoss());
-                text_values.setText(value + "斤");
+                if("--".equals(model.getLoss())){
+                    text_values.setText("--");
+                }else {
+                    String value = StringUtil.getFloatValue(model.getLoss());
+                    text_values.setText(value + "斤");
+                }
+
                 text_name.setText(model.getUserName());
                 tv_who.setText(model.getSupName());
                 text_count.setText("x" + model.getHonorcnt());
@@ -558,6 +563,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            pull.setRefreshing(false);
+            dialogDissmiss();
         }
     }
 
