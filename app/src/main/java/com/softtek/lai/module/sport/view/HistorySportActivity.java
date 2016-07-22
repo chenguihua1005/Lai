@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
@@ -28,7 +26,6 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -128,15 +125,12 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void onMapScreenShot(Bitmap bitmap) {
             System.out.println("onMapScreenShot--");
-//            if (isFirst) {
-//                isFirst = false;
-//                return;
-//            }
             bitmap_map = bitmap;
             if (ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 com.github.snowdream.android.util.Log.i("检查权限。。。。");
                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                dialogDissmiss();
                 if (
                         ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -156,6 +150,11 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 savePic(bitmap_map, "/sdcard/sport.png");
             }
 
+
+        }
+
+        @Override
+        public void onMapScreenShot(Bitmap bitmap, int i) {
 
         }
     };
@@ -412,6 +411,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.iv_email:
             case R.id.fl_right:
+                dialogShow("加载中");
                 aMap.getMapScreenShot(onMapScreenShotListener);
                 break;
             case R.id.ll_left:

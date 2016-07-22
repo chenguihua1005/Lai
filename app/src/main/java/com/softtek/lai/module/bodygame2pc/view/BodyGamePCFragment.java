@@ -180,6 +180,9 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.tabcontent)
     ViewPager tab_content;
 
+    @InjectView(R.id.tv_no_story)
+    TextView tv_no_story;
+
     PCManager manager;
     List<Fragment> fragments=new ArrayList<>();
 
@@ -206,7 +209,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         tv_story_more.setOnClickListener(this);
         tv_tip_more.setOnClickListener(this);
         tv_send_story.setOnClickListener(this);
-        ll_story.setOnClickListener(this);
+
         fl_right.setOnClickListener(this);
 
         scroll.setScrollViewListener(this);
@@ -330,14 +333,22 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 if(StringUtils.isNotEmpty(info.getPCLossAfterImg())){
                     Picasso.with(getContext()).load(basePath+info.getPCLossAfterImg()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_loss_after);
                 }
-                String date=info.getPCStoryDate();
-                int day=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(date);
-                int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(date);
-                tv_day.setText(day+"");
-                tv_month.setText(month+"月");
-                tv_content.setText(info.getPCStoryContent());
-                if(StringUtils.isNotEmpty(info.getPCStoryImg())){
-                    Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+                if(StringUtils.isNotEmpty(info.getPCStoryId())){
+                    tv_no_story.setVisibility(View.GONE);
+                    ll_story.setVisibility(View.VISIBLE);
+                    ll_story.setOnClickListener(this);
+                    String date=info.getPCStoryDate();
+                    int day=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(date);
+                    int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(date);
+                    tv_day.setText(day+"");
+                    tv_month.setText(month+"月");
+                    tv_content.setText(info.getPCStoryContent());
+                    if(StringUtils.isNotEmpty(info.getPCStoryImg())){
+                        Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+                    }
+                }else{
+                    ll_story.setVisibility(View.GONE);
+                    tv_no_story.setVisibility(View.VISIBLE);
                 }
                 if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                     tv_video_name.setText(info.getTips_video_name());
@@ -556,6 +567,8 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== Activity.RESULT_OK&&requestCode==SEND_NEW_STORY){
+            tv_no_story.setVisibility(View.GONE);
+            ll_story.setVisibility(View.VISIBLE);
             LogStoryModel model= (LogStoryModel) data.getSerializableExtra("story");
             String logId=data.getStringExtra("storyId");
             info.setPCStoryId(logId);

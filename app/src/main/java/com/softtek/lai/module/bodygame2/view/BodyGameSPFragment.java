@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
@@ -246,8 +249,11 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 });
     }
 
+    private OpenClassReceiver openClassReceiver;
     @Override
     protected void initDatas() {
+        openClassReceiver=new OpenClassReceiver();
+        getContext().registerReceiver(openClassReceiver,new IntentFilter(Constants.MESSAGE_CREATE_CLASS_ACTION));
         manager=new SPManager();
         roate=AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
         sppcAdapter=new SPPCAdapter(getContext(),pcModels);
@@ -406,6 +412,13 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         }
 
     }
+
+    @Override
+    public void onDestroyView() {
+        getContext().unregisterReceiver(openClassReceiver);
+        super.onDestroyView();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -587,4 +600,19 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     public void onRefresh() {
         manager.getSPHomeInfo(this);
     }
+
+    private class OpenClassReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            pull.post(new Runnable() {
+                @Override
+                public void run() {
+                    pull.setRefreshing(true);
+                }
+            });
+            onRefresh();
+        }
+    }
+
 }

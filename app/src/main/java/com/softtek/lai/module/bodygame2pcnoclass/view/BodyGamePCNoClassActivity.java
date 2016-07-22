@@ -1,8 +1,11 @@
 package com.softtek.lai.module.bodygame2pcnoclass.view;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +27,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.ChatFragment;
 import com.softtek.lai.module.bodygame2.view.ContactFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
@@ -210,10 +214,10 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
 
 
     }
-
+    private MessageReceiver mMessageReceiver;
     @Override
     protected void initDatas() {
-
+        registerMessageReceiver();
     }
 
     public void updateMessage(int num){
@@ -264,6 +268,32 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
     public void setAlpha(float alpha){
         tintManager.setStatusBarAlpha(alpha);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+    }
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
+                int unreadNum = intent.getIntExtra("count", 0);
+                //更新小红点
+                updateMessage(unreadNum);
+            }
+        }
     }
 
     @Override

@@ -82,7 +82,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     private boolean isCurrentAccountRemoved = false;
 
 
-
     private EaseUI easeUI;
     private ILoginPresenter loginPresenter;
     private ProgressDialog progressDialog;
@@ -113,9 +112,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                                 startActivity(intent);
                             }
                         }).setCancelable(false);
-                dialog=builder.create();
-                if(!getActivity().isFinishing()){
-                    if(dialog!=null && !dialog.isShowing()){
+                dialog = builder.create();
+                if (!getActivity().isFinishing()) {
+                    if (dialog != null && !dialog.isShowing()) {
                         dialog.show();
                     }
                 }
@@ -132,10 +131,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        if(DisplayUtil.getSDKInt()>18){
-            int status= DisplayUtil.getStatusHeight(getActivity());
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin=status;
+        if (DisplayUtil.getSDKInt() > 18) {
+            int status = DisplayUtil.getStatusHeight(getActivity());
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin = status;
             toolbar.setLayoutParams(params);
         }
 
@@ -197,17 +196,17 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void onVisible() {
         isPrepared = false;
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if (getContext() instanceof BodyGameSPActivity) {
+            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(1);
-        }else if(getContext() instanceof BodyGamePCActivity){
-            BodyGamePCActivity activity=(BodyGamePCActivity)getContext();
+        } else if (getContext() instanceof BodyGamePCActivity) {
+            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
             activity.setAlpha(1);
-        }else if(getContext() instanceof BodyGameSRActivity){
-            BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
+        } else if (getContext() instanceof BodyGameSRActivity) {
+            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
             activity.setAlpha(1);
-        }else if(getContext() instanceof BodyGamePCNoClassActivity){
-            BodyGamePCNoClassActivity activity=(BodyGamePCNoClassActivity)getContext();
+        } else if (getContext() instanceof BodyGamePCNoClassActivity) {
+            BodyGamePCNoClassActivity activity = (BodyGamePCNoClassActivity) getContext();
             activity.setAlpha(1);
         }
         super.onVisible();
@@ -235,7 +234,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
         } else {
-            if(HomeFragment.timer!=null){
+            if (HomeFragment.timer != null) {
                 HomeFragment.timer.cancel();
             }
             loginPresenter.getEMChatAccount(progressDialog);
