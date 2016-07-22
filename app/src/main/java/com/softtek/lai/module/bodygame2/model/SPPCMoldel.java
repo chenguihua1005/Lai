@@ -14,7 +14,7 @@ public class SPPCMoldel {
     private String ClassName;
     private int HonCou;
     private float InitWt;
-    private float LastWt;
+    private String LastWt;
     private String LossW;
     private int Num;
     private int StarCou;
@@ -103,11 +103,11 @@ public class SPPCMoldel {
         InitWt = initWt;
     }
 
-    public float getLastWt() {
+    public String getLastWt() {
         return LastWt;
     }
 
-    public void setLastWt(float lastWt) {
+    public void setLastWt(String lastWt) {
         LastWt = lastWt;
     }
 

@@ -234,7 +234,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
-
+        classMainManager = new ClassMainSRManager(this);
         view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
         rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
         rel_jzbfb = (RelativeLayout) view.findViewById(R.id.rel_jzbfb);
@@ -353,8 +353,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-
-        classMainManager = new ClassMainSRManager(this);
         dialogShow("加载");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
