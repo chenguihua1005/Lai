@@ -58,6 +58,7 @@ import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
 import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
@@ -181,7 +182,8 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     private ImageView img_ywbh;
 
     private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
-    private String select_class_id="-1";
+    private String select_class_id = "-1";
+    private String select_class_name = "";
 
     private List<ClassListModel> select_class_list = new ArrayList<ClassListModel>();
     private List<ClmListModel> student_list;
@@ -284,7 +286,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
                 activity.setAlpha(0);
             }
-        }else {
+        } else {
             if (getContext() instanceof BodyGameSRActivity) {
                 BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
                 activity.setAlpha(1);
@@ -358,10 +360,10 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-        if(has_class){
+        if (has_class) {
             dialogShow("加载");
             classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
-        }else {
+        } else {
             dialogShow("加载");
             classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
         }
@@ -510,6 +512,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                             ClassListModel classListModel = select_class_list.get(position);
                             select_class_id = classListModel.getClassId();
                             SharedPreferenceService.getInstance().put("classId", select_class_id);
+                            select_class_name = classListModel.getClassName();
                             text_class_name.setText(classListModel.getClassName());
                             dialogShow("加载中");
                             classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
@@ -582,13 +585,14 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapters.notifyDataSetChanged();
                 text_class_name.setText(select_class_list.get(0).getClassName());
                 select_class_id = select_class_list.get(0).getClassId();
+                select_class_name = select_class_list.get(0).getClassName();
                 SharedPreferenceService.getInstance().put("classId", select_class_id);
                 student_list = classMainModel.getClmlist();
                 adapter = new ClassMainSRStudentAdapter(getContext(), student_list, "0");
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0) {
+                if (student_list.size() == 0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
@@ -677,7 +681,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
         }
@@ -693,7 +697,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
             adapter.type = select_type + "";
             list_student.setAdapter(adapter);
             ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-            if(student_list.size()==0) {
+            if (student_list.size() == 0) {
                 dialogDissmiss();
                 pull.setRefreshing(false);
             }
@@ -705,9 +709,9 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void getClassChange(ClassChangeModel classChangeModel) {
+    public void getClassChange(String type, ClassChangeModel classChangeModel) {
         try {
-            if (classChangeModel != null) {
+            if ("200".equals(type)) {
                 text_more.setVisibility(View.VISIBLE);
                 select_class_list.clear();
                 select_class_list.addAll(classChangeModel.getClasslist());
@@ -722,7 +726,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 adapter.type = select_type + "";
                 list_student.setAdapter(adapter);
                 ListViewUtil.setListViewHeightBasedOnChildren(list_student);
-                if(student_list.size()==0) {
+                if (student_list.size() == 0) {
                     dialogDissmiss();
                     pull.setRefreshing(false);
                 }
@@ -781,13 +785,29 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                     rel_no_message.setVisibility(View.VISIBLE);
                     rel_message.setVisibility(View.GONE);
                 }
+            } else if ("2001".equals(type)) {
+                pull.setRefreshing(false);
+                dialogDissmiss();
+                String values = "您在" + select_class_name + "班级中的助教权限已被您的顾问移除";
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext())
+                        .setTitle("温馨提示")
+                        .setMessage(values)
+                        .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialogShow("加载");
+                                classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+                            }
+                        });
+
+                dialogBuilder.create().show();
             } else {
                 pull.setRefreshing(false);
                 dialogDissmiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             pull.setRefreshing(false);
             dialogDissmiss();
         }

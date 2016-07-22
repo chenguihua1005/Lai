@@ -108,12 +108,17 @@ public class ClassMainSRManager {
                     case 200:
                         Log.i("班级主页列表" + classMainModelResponseData.getData());
                         if (cb != null) {
-                            cb.getClassChange(classMainModelResponseData.getData());
+                            cb.getClassChange("200",classMainModelResponseData.getData());
+                        }
+                        break;
+                    case 2001:
+                        if (cb != null) {
+                            cb.getClassChange("2001",null);
                         }
                         break;
                     default:
                         if (cb != null) {
-                            cb.getClassChange(null);
+                            cb.getClassChange("0",null);
                         }
                         break;
                 }
@@ -122,7 +127,7 @@ public class ClassMainSRManager {
             @Override
             public void failure(RetrofitError error) {
                 if (cb != null) {
-                    cb.getClassChange(null);
+                    cb.getClassChange("0",null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -137,6 +142,6 @@ public class ClassMainSRManager {
 
         void getStudentList(MemberChangeModel memberChangeModel);
 
-        void getClassChange(ClassChangeModel classChangeModel);
+        void getClassChange(String type,ClassChangeModel classChangeModel);
     }
 }
