@@ -24,6 +24,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.NetUtils;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 
 public class ConversationListFragment extends EaseConversationListFragment {
@@ -130,11 +131,9 @@ public class ConversationListFragment extends EaseConversationListFragment {
             EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
             refresh();
             int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            Context context=getContext();
-            if(context instanceof BodyGameSPActivity){
-                BodyGameSPActivity activity=(BodyGameSPActivity)context;
-                activity.updateMessage(unreadNum);
-            }
+            Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+            msgIntent.putExtra("count", unreadNum);
+            getContext().sendBroadcast(msgIntent);
         }
         return true;
     }
