@@ -339,6 +339,16 @@
                         android:id="@+id/list_student"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"></ListView>
+                    <TextView
+                        android:id="@+id/text_no_student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="120dip"
+                        android:textColor="@color/word13"
+                        android:textSize="17sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="暂无学员"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
             </RelativeLayout>
