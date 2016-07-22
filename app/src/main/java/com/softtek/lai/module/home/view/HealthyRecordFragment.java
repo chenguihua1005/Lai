@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -43,6 +44,10 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
@@ -112,6 +117,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
         but_login.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.healthedit));
         healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
     }
