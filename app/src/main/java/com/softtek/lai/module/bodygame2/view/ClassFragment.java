@@ -300,7 +300,12 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void onVisible() {
-        setPrepared(false);
+        //setPrepared(false);
+        rel_title_more.setFocusable(true);
+        rel_title_more.setFocusableInTouchMode(true);
+        rel_title_more.requestFocus();
+        scroll.setFocusable(false);
+        scroll.scrollTo(0, 0);
         if (has_class) {
             if (getContext() instanceof BodyGameSPActivity) {
                 BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
