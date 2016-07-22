@@ -277,6 +277,7 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void onVisible() {
+        setPrepared(false);
         if (has_class) {
             scroll.scrollTo(0, 0);
             if (getContext() instanceof BodyGameSRActivity) {
@@ -357,8 +358,13 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         text_class_name.setFocusableInTouchMode(true);
         text_class_name.requestFocus();
         scroll.setFocusable(false);
-        dialogShow("加载");
-        classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+        if(has_class){
+            dialogShow("加载");
+            classMainManager.doClassChangeById(select_class_id, model.getUser().getUserid());
+        }else {
+            dialogShow("加载");
+            classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
+        }
     }
 
     @Override
