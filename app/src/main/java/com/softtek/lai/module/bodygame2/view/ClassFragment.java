@@ -300,6 +300,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void onVisible() {
+        setPrepared(false);
         if (has_class) {
             if (getContext() instanceof BodyGameSPActivity) {
                 BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
