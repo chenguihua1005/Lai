@@ -758,10 +758,12 @@
             android:process=":daemonprocess"/>
         <receiver android:name=".stepcount.service.Receive1"
             android:process=":daemonprocess" >
-            <intent-filter>
+            <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.USER_PRESENT"/>
                 <action android:name="com.softtek.lai.service_destory"/>
                 <action android:name="com.softtek.lai.clock"/>
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+                <action android:name="com.softtek.lai.StepService.StepClose"/>
             </intent-filter>
         </receiver>
         <activity android:name=".module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity"
