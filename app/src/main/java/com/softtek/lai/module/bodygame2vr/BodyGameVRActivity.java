@@ -94,8 +94,6 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     FrameLayout fl_video;
     @InjectView(R.id.iv_video_image)
     ImageView iv_video_image;
-    /*@InjectView(R.id.tv_video_time)
-    TextView tv_video_time;*/
     @InjectView(R.id.ll_tip1)
     LinearLayout ll_tip1;
     @InjectView(R.id.ll_tip2)
@@ -108,6 +106,8 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     RelativeLayout rl_tip;
     @InjectView(R.id.rl_saikuang)
     RelativeLayout rl_saikuang;
+    @InjectView(R.id.rl_no_saikuang)
+    RelativeLayout rl_no_saikuang;
 
     //请求
 
@@ -129,6 +129,7 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
         scroll.setScrollViewListener(this);
         fl_video.setOnClickListener(this);
         pull.setOnRefreshListener(this);
+        mgv.setEmptyView(rl_no_saikuang);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

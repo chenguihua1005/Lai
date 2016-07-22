@@ -137,7 +137,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e5e5e5" />
+                <RelativeLayout
+                    android:id="@+id/rl_no_saikuang"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:background="@color/white">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="暂无大赛赛况"
+                        android:layout_centerInParent="true"
+                        android:textColor="#333333" />
+                </RelativeLayout>
                 <com.softtek.lai.widgets.MyGridView
                     android:id="@+id/mgv"
                     android:layout_width="match_parent"
