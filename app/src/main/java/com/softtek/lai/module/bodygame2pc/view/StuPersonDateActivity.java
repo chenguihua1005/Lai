@@ -365,7 +365,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             tv.setText("减重" + honor.getValue() + "斤奖章");
         } else if (medalType == Medal.FUCE) {//复测
             medal.setType(Medal.FUCE);
-            if ("1".equals(honor.getValue())) {
+            if ("3".equals(honor.getValue())) {
                 medal.setHonorType(Medal.GOLD);
                 tv.setText("复测金牌奖章");
             } else if ("2".equals(honor.getValue())) {
