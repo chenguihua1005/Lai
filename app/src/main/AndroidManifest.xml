@@ -60,6 +60,7 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.BATTERY_STATS"/>
 
     <!-- 使用时把com.easemob.chatuidemo替换成自己的包名 -->
     <permission
@@ -758,11 +759,12 @@
             android:process=":daemonprocess"/>
         <receiver android:name=".stepcount.service.Receive1"
             android:process=":daemonprocess" >
-            <intent-filter android:priority="2147483647">
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.USER_PRESENT"/>
                 <action android:name="com.softtek.lai.service_destory"/>
                 <action android:name="com.softtek.lai.clock"/>
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+                <action android:name="android.intent.action.BATTERY_CHANGED"/>
                 <action android:name="com.softtek.lai.StepService.StepClose"/>
             </intent-filter>
         </receiver>

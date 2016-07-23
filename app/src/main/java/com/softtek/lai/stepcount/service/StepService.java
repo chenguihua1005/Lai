@@ -380,19 +380,11 @@ public class StepService extends Service implements SensorEventListener {
             PowerManager mgr = (PowerManager) context
                     .getSystemService(Context.POWER_SERVICE);
             mWakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    StepService.class.getName());
+                    getClass().getCanonicalName());
             mWakeLock.setReferenceCounted(true);
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(System.currentTimeMillis());
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            if (hour >=0 || hour <= 6) {
-                mWakeLock.acquire(5000);
-            } else {
-                mWakeLock.acquire(300000);
-            }
+            mWakeLock.acquire();
         }
-
-        return (mWakeLock);
+        return mWakeLock;
     }
 
     public class CloseReceive extends BroadcastReceiver{
