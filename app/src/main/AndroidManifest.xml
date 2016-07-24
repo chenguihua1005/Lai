@@ -768,6 +768,11 @@
                 <action android:name="com.softtek.lai.StepService.StepClose"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".stepcount.service.Receive2">
+            <intent-filter android:priority="1000">
+                <action android:name="com.softtek.lai.service_destory"/>
+            </intent-filter>
+        </receiver>
         <activity android:name=".module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity"
             android:screenOrientation="portrait"/>
     </application>
