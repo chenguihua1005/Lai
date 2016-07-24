@@ -413,10 +413,10 @@ public class StepService extends Service implements SensorEventListener {
                     lastStep=0;
                     todayStep=0;
                     int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
-                    updateNotification("今日步数："+tempStep+"步");
+                    updateNotification(tempStep+"");
                 }if(hour==0&&minutes==0){
                     SharedPreferenceService.getInstance().put("currentStep",0);
-                    updateNotification("今日步数：0步");
+                    updateNotification(0+"");
                 }
             }else if(UPLOAD_STEP.equals(action)) {
                 //每晚的23点50分到24点之间
