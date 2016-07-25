@@ -240,7 +240,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
-
     }
     //6.0权限回调方法
     @Override

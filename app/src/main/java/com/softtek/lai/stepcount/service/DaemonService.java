@@ -25,7 +25,7 @@ public class DaemonService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("守护service启动");
+        //Log.i("守护service启动");
         flags = START_STICKY;
         return super.onStartCommand(intent, flags, startId);
     }
@@ -34,11 +34,6 @@ public class DaemonService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, Receive1.class);
-        intent.setAction("com.softtek.lai.clock");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),5000, pendingIntent);
         closeReceiver=new StepCloseReceiver();
         registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
         sendBroadcast(new Intent(StepService.STEP_CLOSE));

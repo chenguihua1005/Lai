@@ -380,19 +380,11 @@ public class StepService extends Service implements SensorEventListener {
             PowerManager mgr = (PowerManager) context
                     .getSystemService(Context.POWER_SERVICE);
             mWakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    StepService.class.getName());
+                    getClass().getCanonicalName());
             mWakeLock.setReferenceCounted(true);
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(System.currentTimeMillis());
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            if (hour >=0 || hour <= 6) {
-                mWakeLock.acquire(5000);
-            } else {
-                mWakeLock.acquire(300000);
-            }
+            mWakeLock.acquire();
         }
-
-        return (mWakeLock);
+        return mWakeLock;
     }
 
     public class CloseReceive extends BroadcastReceiver{
@@ -421,10 +413,10 @@ public class StepService extends Service implements SensorEventListener {
                     lastStep=0;
                     todayStep=0;
                     int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
-                    updateNotification("今日步数："+tempStep+"步");
+                    updateNotification(tempStep+"");
                 }if(hour==0&&minutes==0){
                     SharedPreferenceService.getInstance().put("currentStep",0);
-                    updateNotification("今日步数：0步");
+                    updateNotification(0+"");
                 }
             }else if(UPLOAD_STEP.equals(action)) {
                 //每晚的23点50分到24点之间
