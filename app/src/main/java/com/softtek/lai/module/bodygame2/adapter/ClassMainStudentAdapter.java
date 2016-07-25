@@ -87,7 +87,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.img_type = (ImageView) convertView.findViewById(R.id.img_type);
             holder.civ_header = (ImageView) convertView.findViewById(R.id.civ_header);
             holder.iv_arrow = (ImageView) convertView.findViewById(R.id.iv_arrow);
-
+            holder.civ_exit = (ImageView) convertView.findViewById(R.id.civ_exit);
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
@@ -181,6 +181,12 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         } else {
             holder.cb_fc.setChecked(false);
         }
+        if("1".equals(model.getIsRetire())){
+            holder.civ_exit.setVisibility(View.VISIBLE);
+        }else {
+            holder.civ_exit.setVisibility(View.GONE);
+        }
+
         holder.iv_arrow.setVisibility(View.VISIBLE);
         if(position==list.size()-1){
             Intent msgIntent = new Intent(Constants.MESSAGE_DISSMISS_ACTION);
@@ -206,6 +212,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         public ImageView img_type;
         public ImageView civ_header;
         public ImageView iv_arrow;
+        public ImageView civ_exit;
     }
 }
 

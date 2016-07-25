@@ -89,6 +89,7 @@ public class ClassMainPCStudentAdapter extends BaseAdapter {
             holder.img_type = (ImageView) convertView.findViewById(R.id.img_type);
             holder.civ_header = (ImageView) convertView.findViewById(R.id.civ_header);
             holder.iv_arrow = (ImageView) convertView.findViewById(R.id.iv_arrow);
+            holder.civ_exit = (ImageView) convertView.findViewById(R.id.civ_exit);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -183,7 +184,11 @@ public class ClassMainPCStudentAdapter extends BaseAdapter {
         } else {
             holder.cb_fc.setChecked(false);
         }
-
+        if("1".equals(model.getIsRetire())){
+            holder.civ_exit.setVisibility(View.VISIBLE);
+        }else {
+            holder.civ_exit.setVisibility(View.GONE);
+        }
         String useId = model.getAccountid();
         UserModel userModel = UserInfoModel.getInstance().getUser();
         if (useId.equals(userModel.getUserid())) {
@@ -215,6 +220,7 @@ public class ClassMainPCStudentAdapter extends BaseAdapter {
         public ImageView img_type;
         public ImageView civ_header;
         public ImageView iv_arrow;
+        public ImageView civ_exit;
     }
 }
 

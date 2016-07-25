@@ -565,10 +565,9 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 dialogDissmiss();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
             pull.setRefreshing(false);
             dialogDissmiss();
+            e.printStackTrace();
         }
     }
 

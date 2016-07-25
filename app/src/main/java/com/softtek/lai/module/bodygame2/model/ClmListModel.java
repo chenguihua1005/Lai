@@ -9,6 +9,7 @@ public class ClmListModel {
     private String IsStar;
     private String IsHasAssi;
     private String IsTest;
+    private String IsRetire;
     private String Photo;
     private String Gender;
     private String SuperName;
@@ -32,6 +33,7 @@ public class ClmListModel {
                 ", IsStar='" + IsStar + '\'' +
                 ", IsHasAssi='" + IsHasAssi + '\'' +
                 ", IsTest='" + IsTest + '\'' +
+                ", IsRetire='" + IsRetire + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", Gender='" + Gender + '\'' +
                 ", SuperName='" + SuperName + '\'' +
@@ -42,6 +44,14 @@ public class ClmListModel {
                 ", loss='" + loss + '\'' +
                 ", username='" + username + '\'' +
                 '}';
+    }
+
+    public String getIsRetire() {
+        return IsRetire;
+    }
+
+    public void setIsRetire(String isRetire) {
+        IsRetire = isRetire;
     }
 
     public String getIsHasAssi() {

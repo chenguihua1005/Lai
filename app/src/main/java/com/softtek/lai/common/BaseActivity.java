@@ -6,13 +6,11 @@ package com.softtek.lai.common;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -49,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ProgressDialog progressDialog;
 
-    HomeListener mHomeWatcher;
+    protected  HomeListener mHomeWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,25 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        mHomeWatcher = new HomeListener(this);
-        mHomeWatcher.setOnHomePressedListener(new HomeListener.OnHomePressedListener() {
-
-            @Override
-            public void onHomePressed() {
-                //TODO 进行点击Home键的处理
-                Log.i("xsl", "0000000000000");
-                moveTaskToBack(true);
-            }
-
-            @Override
-            public void onHomeLongPressed() {
-                //TODO 进行长按Home键的处理
-                Log.i("xsl", "00000000001");
-                //moveTaskToBack(true);
-            }
-        });
-        mHomeWatcher.startWatch();
-
         ButterKnife.inject(this);
         initViews();
         initDatas();
@@ -140,7 +119,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mHomeWatcher.stopWatch();
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
         super.onDestroy();

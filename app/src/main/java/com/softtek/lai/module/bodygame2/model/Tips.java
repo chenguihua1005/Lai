@@ -5,9 +5,9 @@ package com.softtek.lai.module.bodygame2.model;
  */
 public class Tips {
 
+    private int Tips_Id;
     private String Tips_Addr;
     private String Tips_Content;
-    private int Tips_Id;
     private String Tips_Link;
     private String Tips_TagTitle;
     private String Tips_Title;

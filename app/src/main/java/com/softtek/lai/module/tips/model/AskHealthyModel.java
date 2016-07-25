@@ -12,20 +12,26 @@ public class AskHealthyModel implements Parcelable{
     private String Tips_Id;
     private String Tips_Type;
     private String Tips_Title;
+    private String Tips_TagTitle;
     private String Tips_Content;
     private String Tips_Addr;
     private String Tips_Link;
+    private String Tips_video_backPicture;;
+
+
+    public AskHealthyModel() {
+    }
+
 
     protected AskHealthyModel(Parcel in) {
         Tips_Id = in.readString();
         Tips_Type = in.readString();
         Tips_Title = in.readString();
+        Tips_TagTitle = in.readString();
         Tips_Content = in.readString();
         Tips_Addr = in.readString();
         Tips_Link = in.readString();
-    }
-
-    public AskHealthyModel() {
+        Tips_video_backPicture=in.readString();
     }
 
     public static final Creator<AskHealthyModel> CREATOR = new Creator<AskHealthyModel>() {
@@ -39,6 +45,22 @@ public class AskHealthyModel implements Parcelable{
             return new AskHealthyModel[size];
         }
     };
+
+    public String getTips_TagTitle() {
+        return Tips_TagTitle;
+    }
+
+    public void setTips_TagTitle(String tips_TagTitle) {
+        Tips_TagTitle = tips_TagTitle;
+    }
+
+    public String getTips_video_backPicture() {
+        return Tips_video_backPicture;
+    }
+
+    public void setTips_video_backPicture(String tips_video_backPicture) {
+        Tips_video_backPicture = tips_video_backPicture;
+    }
 
     public String getTips_Link() {
         return Tips_Link;
@@ -88,6 +110,7 @@ public class AskHealthyModel implements Parcelable{
         Tips_Addr = tips_Addr;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -98,8 +121,10 @@ public class AskHealthyModel implements Parcelable{
         dest.writeString(Tips_Id);
         dest.writeString(Tips_Type);
         dest.writeString(Tips_Title);
+        dest.writeString(Tips_TagTitle);
         dest.writeString(Tips_Content);
         dest.writeString(Tips_Addr);
         dest.writeString(Tips_Link);
+        dest.writeString(Tips_video_backPicture);
     }
 }
