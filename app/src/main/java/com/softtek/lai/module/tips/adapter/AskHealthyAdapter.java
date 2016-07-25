@@ -59,8 +59,8 @@ public class AskHealthyAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         AskHealthyModel model=models.get(position);
-        String mask=model.getTips_Type();
-        holder.tv_mask.setText(model.getTips_Type());
+        String mask=model.getTips_TagTitle();
+        holder.tv_mask.setText(mask);
         if("运动健身".equals(mask)){
             holder.tv_mask.setTextColor(Color.parseColor("#ffa300"));
             holder.iv_mask.setBackgroundResource(R.drawable.mask_org);

@@ -91,7 +91,8 @@ public class RankAdapter extends BaseAdapter {
         viewHolder.Username.setText(model.getUserName());
         viewHolder.AfterWeight.setText(model.getAfterWeight());
         viewHolder.BeforeWeight.setText(model.getBeforeWight());
-        DecimalFormat format=new DecimalFormat("#0.00");
+		
+		DecimalFormat format=new DecimalFormat("#0.0");
         double value=Double.parseDouble(StringUtil.getFloatValue(model.getLoseWeight()));
         viewHolder.LossWeight.setText(format.format(value));
         return convertView;
