@@ -282,7 +282,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="102.3"
                         android:layout_marginRight="5dp"
                         android:textSize="16sp"
                         android:enabled="false"
@@ -336,7 +335,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="99.2"
                         android:textColor="#fea300"
                         android:textSize="16sp"
                         android:background="@null"
@@ -390,10 +388,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20.3"
                         android:textSize="16sp"
                         android:textColor="#fea300"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="8dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView17"
                         android:id="@+id/tv_retestWrite_tizhi" />
@@ -440,10 +437,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15.6"
                         android:textSize="16sp"
                         android:textColor="#fea300"
-                        android:layout_marginRight="14dp"
+                        android:layout_marginRight="18dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retestWrite_neizhi" />
