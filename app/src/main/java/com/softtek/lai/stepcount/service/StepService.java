@@ -239,7 +239,7 @@ public class StepService extends Service implements SensorEventListener {
         stepCount.setmListeners(new StepPaseValueListener() {
             @Override
             public void stepsChanged(int step) {
-                calTodayStep(step);
+                calTodayStepByCustome(step);
             }
         });
     }
@@ -262,6 +262,38 @@ public class StepService extends Service implements SensorEventListener {
      * @param stepTemp 传感器获取的步数
      */
     private void calTodayStep(int stepTemp){
+        //检查日期
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minutes=c.get(Calendar.MINUTE);
+        //每晚的23点50分到24点之间
+        if(hour==23&&minutes>50&&minutes<=59){
+            //清空当天的临时步数
+            serverStep=0;
+            firstStep=0;
+            todayStep=0;
+            int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
+            updateNotification(tempStep+"");
+            return;
+        }
+        //如果firstStep为0表示第一次开启应用 或者隔天了。
+        if(firstStep==0){
+            firstStep=stepTemp;
+            lastStep=0;
+        }
+        currentStep=stepTemp-firstStep;
+        todayStep =currentStep+ serverStep;
+        SharedPreferenceService.getInstance().put("currentStep",todayStep);
+        //发送广播
+        Intent stepIntent=new Intent(STEP);
+        stepIntent.putExtra("step",stepTemp);
+        stepIntent.putExtra("currentStep",todayStep);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+        updateNotification(todayStep + "");
+    }
+    //模拟计步传感器所使用的计算方法
+    private void calTodayStepByCustome(int stepTemp){
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());

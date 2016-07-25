@@ -58,10 +58,10 @@ public class VideoAdapter extends BaseAdapter{
         }
         AskHealthyModel model=models.get(position);
         holder.tv_title.setText(model.getTips_Title());
-        /*if(StringUtils.isNotEmpty(model.getTips_Addr())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_Addr()).fit().placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic).into(holder.iv_video_image);
-        }*/
+        if(StringUtils.isNotEmpty(model.getTips_video_backPicture())){
+            Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_video_backPicture()).fit().placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).into(holder.iv_video_image);
+        }
         return convertView;
     }
 
