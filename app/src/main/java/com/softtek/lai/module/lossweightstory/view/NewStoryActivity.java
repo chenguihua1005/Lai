@@ -71,7 +71,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.et_weight_after)
     TextView tv_weight_after;
 
-    @Required(order = 2,message = "请输入日志内容")
+    @Required(order = 2,message = "请输入故事内容")
     @InjectView(R.id.et_content)
     EditText et_content;
 
