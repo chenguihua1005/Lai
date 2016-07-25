@@ -36,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_my)
 public class MineFragment extends BaseFragment implements View.OnClickListener, Validator.ValidationListener {
@@ -121,7 +122,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if ("".equals(photo) || "null".equals(photo) || photo == null) {
             Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
         } else {
-           Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
+            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
         }
 
         if (StringUtils.isEmpty(model.getNickname())) {
@@ -165,8 +166,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 clearData();
-                                getActivity().finish();
-                                startActivity(new Intent(getContext(), LoginActivity.class));
                             }
                         })
                         .setNegativeButton(getString(R.string.app_cancel), new DialogInterface.OnClickListener() {
@@ -215,18 +214,21 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void clearData() {
-        UserInfoModel.getInstance().loginOut();
-        getContext().stopService(new Intent(getContext(), StepService.class));
-        if(HomeFragment.timer!=null){
+
+        if (HomeFragment.timer != null) {
             HomeFragment.timer.cancel();
         }
         if (EMChat.getInstance().isLoggedIn()) {
-            EMChatManager.getInstance().logout(true,new EMCallBack() {
+            EMChatManager.getInstance().logout(true, new EMCallBack() {
 
                 @Override
                 public void onSuccess() {
                     // TODO Auto-generated method stub
                     System.out.println("onSuccess------");
+                    UserInfoModel.getInstance().loginOut();
+                    getContext().stopService(new Intent(getContext(), StepService.class));
+                    getActivity().finish();
+                    startActivity(new Intent(getContext(), LoginActivity.class));
                 }
 
                 @Override
@@ -239,8 +241,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 public void onError(int code, String message) {
                     // TODO Auto-generated method stub
                     System.out.println("onError------");
+                    Util.toastMsg("退出失败");
                 }
             });
+        } else {
+            UserInfoModel.getInstance().loginOut();
+            getContext().stopService(new Intent(getContext(), StepService.class));
+            getActivity().finish();
+            startActivity(new Intent(getContext(), LoginActivity.class));
         }
     }
 
