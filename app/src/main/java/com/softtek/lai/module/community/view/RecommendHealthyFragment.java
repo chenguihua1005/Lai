@@ -70,9 +70,11 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ptrlv.setRefreshing();
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
             }
-        }, 500);
+        }, 400);
     }
     private static final int LIST_JUMP=1;
     private static final int LIST_JUMP_2=2;
