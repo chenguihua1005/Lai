@@ -282,7 +282,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:layout_marginRight="5dp"
                         android:textSize="16sp"
                         android:enabled="false"
@@ -336,12 +335,12 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textColor="#fea300"
                         android:textSize="16sp"
                         android:background="@null"
                         android:enabled="false"
                         android:editable="false"
+                        android:layout_marginRight="5dp"
                         android:cursorVisible="false"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView18"
@@ -389,9 +388,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textSize="16sp"
                         android:textColor="#fea300"
+                        android:layout_marginRight="8dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView17"
                         android:id="@+id/tv_retestWrite_tizhi" />
@@ -438,9 +437,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textSize="16sp"
                         android:textColor="#fea300"
+                        android:layout_marginRight="18dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retestWrite_neizhi" />

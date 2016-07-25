@@ -196,6 +196,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     public void onEvent(AssistantInfoEvent assistantInfoEvent) {
         System.out.println("assistantInfoEvent:" + assistantInfoEvent);
         list_ai = assistantInfoEvent.getList();
+        list_assistant.setVisibility(View.VISIBLE);
         AssistantClassListAdapter adapter = new AssistantClassListAdapter(this, list_ai);
         list_assistant.setAdapter(adapter);
     }
@@ -203,6 +204,12 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @Subscribe
     public void onEvent(AssistantClassEvent assistantClassEvent) {
         System.out.println("assistantClassEvent:" + assistantClassEvent);
+        list_apply.setVisibility(View.GONE);
+        lin_assistant.setVisibility(View.VISIBLE);
+        text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
+        text_list.setBackground(getResources().getDrawable(R.drawable.img_select_white));
+        text_apply.setTextColor(getResources().getColor(R.color.white));
+        text_list.setTextColor(getResources().getColor(R.color.black));
         list_ac = assistantClassEvent.getList();
         AssistantClassAdapter adapter = new AssistantClassAdapter(this, list_ac);
         list_class.setAdapter(adapter);
@@ -229,8 +236,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         String id = userModel.getUserid();
         dialogShow("加载中");
         assistantPresenter.showAllApplyAssistants(id, list_apply);
-        dialogShow("加载中");
-        assistantPresenter.showAllClassList(userModel.getUserid(), list_class);
 
     }
 
@@ -264,13 +269,8 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.text_list:
-
-                list_apply.setVisibility(View.GONE);
-                lin_assistant.setVisibility(View.VISIBLE);
-                text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
-                text_list.setBackground(getResources().getDrawable(R.drawable.img_select_white));
-                text_apply.setTextColor(getResources().getColor(R.color.white));
-                text_list.setTextColor(getResources().getColor(R.color.black));
+                dialogShow("加载中");
+                assistantPresenter.showAllClassList(userModel.getUserid(), list_class);
 
                 break;
 
@@ -315,7 +315,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
             String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
             System.out.println("classId");
             dialogShow("加载中");
-            assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
+            //assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
+            list_assistant.setVisibility(View.GONE);
+            assistantPresenter.showAllClassList(userModel.getUserid(), list_class);
         }
     }
 
