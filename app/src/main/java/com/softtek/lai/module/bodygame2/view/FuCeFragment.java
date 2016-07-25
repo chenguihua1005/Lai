@@ -147,11 +147,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void onInvisible() {
-        try {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
