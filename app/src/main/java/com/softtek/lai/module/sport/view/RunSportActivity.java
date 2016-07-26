@@ -55,6 +55,7 @@ import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.ColorUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
@@ -64,6 +65,7 @@ import java.util.ArrayList;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * 开始跑步地图界面
@@ -125,7 +127,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);
-        Log.i("地图c");
         if(savedInstanceState!=null){
             time=savedInstanceState.getLong("time",0);
             startStep=savedInstanceState.getInt("startStep",startStep);
@@ -186,6 +187,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         //初始化polyline
         polylineOptions = new PolylineOptions();
         polylineOptions.width(30);
+        polylineOptions.useGradient(true);//使用渐变色
         polylineOptions.color(Color.GREEN);
         polylineOptions.zIndex(3);
 
@@ -402,7 +404,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_location:
-
                 if (lastLatLon != null) {
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
                 }
@@ -639,26 +640,31 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
                 }
-                //计算平均速度
+
                 if (lastLatLon != null) {
                     double distance = AMapUtils.calculateLineDistance(lastLatLon, latLng);
                     previousDistance += distance;
-                    if (distance >= 6) {
+                    //计算平均速度
+                    DecimalFormat format = new DecimalFormat("#0.00");
+                    double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                    if (distance >= 8) {
+                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
                         polylineOptions.add(latLng);
+                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
                         coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                         aMap.addPolyline(polylineOptions);
                     }
+                    lastLatLon = latLng;//暂存上一次坐标
+                    tv_avg_speed.setText(/*format.format(speed)*/location.getSpeed() + "km/h");
+                    Util.toastMsg("当前速度>>>"+location.getSpeed());
+                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
                 } else {
                     //如果是第一次定位到
                     polylineOptions.add(latLng);
                     coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                     aMap.addPolyline(polylineOptions);
                 }
-                lastLatLon = latLng;//暂存上一次坐标
-                DecimalFormat format = new DecimalFormat("#0.00");
-                double speed = (previousDistance / 1000) / (time * 1f / 3600);
-                tv_avg_speed.setText(format.format(speed) + "km/h");
-                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+
             }
             if(accuracy<=0||accuracy>1000){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));

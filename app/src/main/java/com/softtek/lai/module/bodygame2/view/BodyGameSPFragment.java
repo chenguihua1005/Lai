@@ -509,7 +509,11 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.rl_student_more:
                 //我的学员 更多
-                startActivity(new Intent(getContext(), JingduActivity.class));
+                //startActivity(new Intent(getContext(), JingduActivity.class));
+                if(getContext() instanceof BodyGameSPActivity){
+                    BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+                    activity.switchTab();
+                }
                 break;
             case R.id.ll_tip1:
                 //第一个tip

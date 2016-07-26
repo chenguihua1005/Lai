@@ -46,7 +46,6 @@ import java.util.Calendar;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener {
 
@@ -83,6 +82,7 @@ public class StepService extends Service implements SensorEventListener {
                     Messenger server=msg.replyTo;
                     Bundle  deviationBundle=msg.getData();//获取服务器误差数据
                     if(deviationBundle!=null){
+                        //服务器和本地步数修正
                         int deviation=deviationBundle.getInt("surplusStep",0);
                         serverStep+=deviation;
                         todayStep=serverStep+currentStep;
@@ -481,9 +481,6 @@ public class StepService extends Service implements SensorEventListener {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             com.github.snowdream.android.util.Log.i("上传成功");
-                                            //发送广播
-                                            Intent stepIntent=new Intent(UPLOAD_STEP);
-                                            LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
                                         }
                                     });
                     context.startService(new Intent(context.getApplicationContext(), StepService.class));

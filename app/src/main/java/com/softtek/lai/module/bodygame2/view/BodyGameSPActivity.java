@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -28,7 +26,6 @@ import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -346,6 +343,13 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                 updateMessage(unreadNum);
             }
         }
+    }
+
+    public void switchTab(){
+        restoreState();
+        btn_class.setProgress(1);
+        current =4;
+        content.setCurrentItem(current, false);
     }
 
 }

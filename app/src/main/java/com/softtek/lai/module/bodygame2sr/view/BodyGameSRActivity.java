@@ -307,6 +307,13 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
         tintManager.setStatusBarAlpha(alpha);
     }
 
+    public void switchTab(){
+        restoreState();
+        btn_class.setProgress(1);
+        current =4;
+        content.setCurrentItem(current, false);
+    }
+
     public void updateMessage(int num){
         //显示
         if(num<=0){

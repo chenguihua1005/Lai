@@ -30,6 +30,7 @@ import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
@@ -492,7 +493,11 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.rl_student_more:
                 //我的学员 更多
-                startActivity(new Intent(getContext(), ZhuJiaoJingduActivity.class));
+                //startActivity(new Intent(getContext(), ZhuJiaoJingduActivity.class));
+                if(getContext() instanceof BodyGameSRActivity){
+                    BodyGameSRActivity activity=(BodyGameSRActivity)getContext();
+                    activity.switchTab();
+                }
                 break;
             case R.id.ll_tip1:
                 //第一个tip
