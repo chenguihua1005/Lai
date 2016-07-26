@@ -46,6 +46,7 @@ import java.util.Calendar;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener {
 
@@ -66,9 +67,9 @@ public class StepService extends Service implements SensorEventListener {
     private CloseReceive closeReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
-    private int currentStep;//当前计步器 得出的步数结果用与做数据使用
-    private int serverStep;//记录服务器上的步数
-    private int firstStep=0;//启动应用服务的时候的第一次步数
+    private static int currentStep;//当前计步器 得出的步数结果用与做数据使用
+    private static int serverStep;//记录服务器上的步数
+    private static int firstStep=0;//启动应用服务的时候的第一次步数
     private static int todayStep;//用于显示今日步数使用
 
     private Messenger messenger = new Messenger(new MessengerHandler());
@@ -80,10 +81,18 @@ public class StepService extends Service implements SensorEventListener {
             switch (msg.what){
                 case MSG_FROM_CLIENT:
                     Messenger server=msg.replyTo;
+                    Bundle  deviationBundle=msg.getData();//获取服务器误差数据
+                    if(deviationBundle!=null){
+                        int deviation=deviationBundle.getInt("surplusStep",0);
+                        serverStep+=deviation;
+                        todayStep=serverStep+currentStep;
+                        SharedPreferenceService.getInstance().put("currentStep",todayStep);
+                    }
                     Message message=Message.obtain(null,MSG_FROM_SERVER);
                     Bundle data=new Bundle();
                     //将今日步数传递过去
                     data.putInt("todayStep",todayStep);
+                    data.putInt("serverStep",serverStep);
                     message.setData(data);
                     try {
                         server.send(message);
@@ -120,7 +129,6 @@ public class StepService extends Service implements SensorEventListener {
             //查询到今日的步数记录
             String userId=model.getUserid();
             serverStep = StepUtil.getInstance().getCurrentStep(userId);
-            SharedPreferenceService.getInstance().put("serverStep",serverStep);
             lastStep = todayStep = currentStep + serverStep;
             SharedPreferenceService.getInstance().put("currentStep",todayStep);
             updateNotification(todayStep + "");

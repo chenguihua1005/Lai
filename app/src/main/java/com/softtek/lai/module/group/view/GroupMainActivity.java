@@ -6,11 +6,9 @@
 package com.softtek.lai.module.group.view;
 
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +16,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -66,9 +63,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -203,14 +198,14 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lin4)
     LinearLayout lin4;
 
-    private MessageReceiver mMessageReceiver;
     private Messenger clientMessenger;
     //用来接收服务端发送过来的信息使用
     private Messenger getReplyMessage=new Messenger(new Handler(this));
     private int currentStep;
+    private int serverStep;
     private static final int REQUEST_DELAY=3;
     private Handler delayHandler=new Handler(this);
-
+    private int deviation=0;
     @Override
     public boolean handleMessage(Message msg) {
         //在这里获取服务端发来的信息
@@ -219,6 +214,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //获取数据
                 Bundle data=msg.getData();
                 currentStep=data.getInt("todayStep",0);
+                serverStep=data.getInt("serverStep",0);
                 //更新显示
                 try {
                     if (currentStep == 0) {
@@ -239,8 +235,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
-                Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
-                message.replyTo=getReplyMessage;
+                Message message = Message.obtain(null, StepService.MSG_FROM_CLIENT);
+                //携带服务器上的步数
+                if (deviation>0){
+                    int deviationTemp=deviation;
+                    Bundle surplusStep = new Bundle();
+                    surplusStep.putInt("surplusStep",deviationTemp);
+                    message.setData(surplusStep);
+                }
+                deviation=0;
+                message.replyTo = getReplyMessage;
                 try {
                     clientMessenger.send(message);
                 } catch (RemoteException e) {
@@ -297,7 +301,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         lin_no_activity.setOnClickListener(this);
         //绑定服务
         bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
-        registerMessageReceiver();
     }
 
     @Override
@@ -339,7 +342,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
+                String str = time + "," + currentStep;
                 dialogShow("加载中");
                 sportGroupManager.getMineResult(userId, str);
                 break;
@@ -427,7 +430,14 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
                 } else {
-                    text_step.setText(sportMainModel.getTodayStepCnt());
+                    //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
+                    int currentTemp=currentStep;
+                    int tempStep=Integer.parseInt(TodayStepCnt);
+                    if(tempStep-currentTemp>0){
+                        //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
+                        deviation=tempStep-serverStep;
+                    }
+                    text_step.setText(TodayStepCnt);
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
                     text_rl.setText(kaluli + "");
@@ -526,6 +536,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
                 } else {
+                    //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
+                    int currentTemp=currentStep;
+                    int tempStep=Integer.parseInt(TodayStepCnt);
+                    if(tempStep-currentTemp>0){
+                        //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
+                        deviation=tempStep-serverStep;
+                    }
                     text_step.setText(model.getTodayStepCnt());
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
@@ -569,20 +586,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
-        String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
+        String str = time + "," + currentStep;
         Log.i("当前最新步数>>>>"+str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
-    }
-
-    public void registerMessageReceiver() {
-        mMessageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        //filter.addAction(StepService.STEP);
-        filter.addAction(StepService.UPLOAD_STEP);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
-
     }
 
     @Override
@@ -590,22 +597,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         //解绑服务
         delayHandler.removeMessages(REQUEST_DELAY);
         unbindService(connection);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
-
-    public class MessageReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                String time = formatter.format(curDate);
-                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
-                sportGroupManager.getMineResult(userId, str);
-            }
-        }
-    }
-
 }
