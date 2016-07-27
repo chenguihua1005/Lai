@@ -35,6 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -218,9 +219,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if (HomeFragment.timer != null) {
             HomeFragment.timer.cancel();
         }
-        if (EMChat.getInstance().isLoggedIn()) {
+        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+        if (!hxid.equals("-1")) {
+            SharedPreferenceService.getInstance().put("HXID", "-1");
             EMChatManager.getInstance().logout(true, new EMCallBack() {
-
                 @Override
                 public void onSuccess() {
                     // TODO Auto-generated method stub
@@ -240,8 +242,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 @Override
                 public void onError(int code, String message) {
                     // TODO Auto-generated method stub
-                    System.out.println("onError------");
-                    Util.toastMsg("退出失败");
+
                 }
             });
         } else {

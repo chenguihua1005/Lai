@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -118,7 +119,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                         dialog.show();
                     }
                 }
-            } else {
+            } else if(msg.what==1) {
+                loginPresenter.getEMChatAccount(progressDialog);
+            }else {
                 img_mo_message.setVisibility(View.GONE);
                 conversationListFragment = new ConversationListFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
@@ -149,6 +152,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!getActivity().isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
@@ -214,8 +218,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-        boolean isLogin = EMChat.getInstance().isLoggedIn();
-        if (isLogin) {
+        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+        if (hxid.equals(model.getHXAccountId())) {
+            System.out.println("555555555555");
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
@@ -234,12 +239,51 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
         } else {
+            System.out.println("666666666666");
             if (HomeFragment.timer != null) {
                 HomeFragment.timer.cancel();
             }
-            loginPresenter.getEMChatAccount(progressDialog);
+            if ("-1".equals(hxid)) {
+                System.out.println("77777777777");
+                loginPresenter.getEMChatAccount(progressDialog);
+            } else {
+                System.out.println("888888888");
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                HXLoginOut();
+                            }
+                        }
+                ).start();
+            }
+
         }
 
+    }
+
+    private void HXLoginOut() {
+        EMChatManager.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                SharedPreferenceService.getInstance().put("HXID", "-1");
+                handler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                // TODO Auto-generated method stub
+                HXLoginOut();
+            }
+        });
     }
 
     /**
@@ -351,13 +395,13 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
     }
 
-    private void loginChat(final ProgressDialog progressDialog, String account) {
+    private void loginChat(final ProgressDialog progressDialog, final String account) {
         EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                System.out.println("onSuccess------");
+                SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
@@ -371,7 +415,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
                 EMChatManager.getInstance().loadAllConversations();
-                handler.sendEmptyMessage(1);
+                handler.sendEmptyMessage(2);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }

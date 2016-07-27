@@ -31,6 +31,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.IApiError;
 import zilla.libcore.api.IApiErrorHandler;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -99,6 +100,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 if (HomeFragment.timer != null) {
                                     HomeFragment.timer.cancel();
                                 }
+                                SharedPreferenceService.getInstance().put("HXID", "-1");
                                 if (EMChat.getInstance().isLoggedIn()) {
                                     EMChatManager.getInstance().logout(true,new EMCallBack() {
 
