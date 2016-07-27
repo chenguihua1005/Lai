@@ -46,8 +46,6 @@ import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.net.StudentService;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
-import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
