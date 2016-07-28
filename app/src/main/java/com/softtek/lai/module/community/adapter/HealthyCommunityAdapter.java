@@ -138,6 +138,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
         }
         else {
+            holder.tv_delete.setVisibility(View.INVISIBLE);
             if (isVR) {
                 holder.cb_zan.setEnabled(false);
             } else {

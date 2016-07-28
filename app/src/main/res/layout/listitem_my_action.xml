@@ -39,6 +39,7 @@
             android:layout_weight="3"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -50,7 +51,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/history_data_circle"
             android:visibility="visible"
-
             />
     <RelativeLayout
         android:orientation="vertical"
@@ -74,6 +74,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
             android:textColor="#333333"
+            android:focusable="false"
             />
         </LinearLayout>
         <LinearLayout

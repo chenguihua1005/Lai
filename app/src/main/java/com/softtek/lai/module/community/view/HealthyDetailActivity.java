@@ -79,6 +79,12 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        String type="0";
+        type=getIntent().getStringExtra("type");
+        if (type.equals("0"))
+        {
+            cb_zan.setVisibility(View.GONE);
+        }
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
         model=getIntent().getParcelableExtra("dynamicModel");
         if(StringUtils.isNotEmpty(model.getPhoto())){
@@ -147,6 +153,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.cb_zan:
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
+                ll_zan.setVisibility(View.VISIBLE);
                 model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
                 model.setIsPraise(Constants.HAS_ZAN);
                 model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(),infoModel.getUser().getNickname(),infoModel.getUser().getMobile()));

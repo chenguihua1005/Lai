@@ -86,11 +86,13 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
             Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
             logDetail.putExtra("log",copyModel(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","1");
             startActivityForResult(logDetail,LIST_JUMP_2);
         }else if("0".equals(model.getMinetype())){//动态
             Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
             logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","1");
             startActivityForResult(logDetail,LIST_JUMP);
         }
     }
@@ -119,6 +121,16 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
                 }
             },300);
         }
+    }
+    public  void updateList(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
+            }
+        }, 300);
     }
 
     @Override

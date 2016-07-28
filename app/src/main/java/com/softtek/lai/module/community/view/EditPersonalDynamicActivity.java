@@ -117,7 +117,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 break;
         }
     }
-
+    /**/
     private void exitEdit(){
         SoftInputUtil.hidden(this);
         new AlertDialog.Builder(this)
@@ -140,6 +140,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             }
         }).create().show();
     }
+    /**/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -166,9 +167,10 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             model.setTitle("");
             model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
             manager.sendDynamic(model);
+//            sdfs
         }
     }
-
+    /**/
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         String message = failedRule.getFailureMessage();

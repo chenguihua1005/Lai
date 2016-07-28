@@ -95,7 +95,6 @@
                     android:src="@drawable/zan"
                     android:button="@null"
                     android:text="120"
-                    android:visibility="invisible"
                     android:background="@null"
                     android:textColor="#f67169"
                     android:drawableLeft="@drawable/zan_selector"
@@ -112,6 +111,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="18dp"
                 android:background="#F1F1F1"
+                android:visibility="gone"
                 android:gravity="center|left">
                 <ImageView
                     android:layout_width="wrap_content"
