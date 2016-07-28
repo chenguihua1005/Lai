@@ -15,9 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.forlong401.log.transaction.log.manager.LogManager;
+import com.forlong401.log.transaction.utils.LogUtils;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.SystemBarTintManager;
 
 import java.lang.ref.WeakReference;
@@ -47,8 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ProgressDialog progressDialog;
 
-    protected  HomeListener mHomeWatcher;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -64,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
         ButterKnife.inject(this);
+        LogManager.getManager(getApplicationContext()).registerActivity(this);
         initViews();
         initDatas();
 
@@ -121,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
+        LogManager.getManager(getApplicationContext()).unregisterActivity(this);
         super.onDestroy();
         //LaiApplication.getInstance().getContext().clear();
     }

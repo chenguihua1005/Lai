@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 
+import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
@@ -40,8 +41,9 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         FIR.init(this);//注册Fir自动更新
-        CrashHandler catchHandler = CrashHandler.getInstance();
-        catchHandler.init(getApplicationContext());
+        /*CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());*/
+        LogManager.getManager(getApplicationContext()).registerCrashHandler();
         ChatHelper.getInstance().init(getApplicationContext());
     }
 
@@ -67,6 +69,12 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public void onInit(Context context) {
         initApi();
         DBHelper.getInstance().setDbUpgradeListener(this);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        LogManager.getManager(getApplicationContext()).unregisterCrashHandler();
     }
 
     @Override
