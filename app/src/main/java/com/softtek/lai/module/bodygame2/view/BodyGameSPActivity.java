@@ -40,6 +40,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
@@ -140,13 +141,13 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("ChatFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
 

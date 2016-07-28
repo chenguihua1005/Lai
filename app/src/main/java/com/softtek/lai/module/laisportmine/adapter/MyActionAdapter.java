@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -21,9 +22,11 @@ public class MyActionAdapter extends BaseAdapter {
     private Context context;
     private List<ActionModel> actionModelList;
     private LayoutInflater inflater;
-
-    public MyActionAdapter(Context context, List<ActionModel> actionModelList) {
+    private boolean isDel=false;
+    private boolean isselec=false;
+    public MyActionAdapter(Context context, List<ActionModel> actionModelList,boolean isDel) {
         this.context=context;
+        this.isDel=isDel;
         inflater=LayoutInflater.from(context);
         this.actionModelList=actionModelList;
     }
@@ -68,7 +71,28 @@ public class MyActionAdapter extends BaseAdapter {
         viewHolder.tv_action_date.setText(date);
         viewHolder.tv_action_content.setText(actionModel.getContent());
         viewHolder.tv_action_name.setText(actionModel.getActTitle());
-
+        if (isDel)
+        {
+            viewHolder.iv_checked.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewHolder.iv_checked.setVisibility(View.GONE);
+        }
+        final ViewHolder finalViewHolder = viewHolder;
+        viewHolder.iv_checked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isselec)
+                {
+                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
+                    isselec=false;
+                }
+                else {
+                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
+                    isselec=true;
+                }
+            }
+        });
         return convertView;
     }
 
@@ -77,10 +101,12 @@ public class MyActionAdapter extends BaseAdapter {
         TextView tv_action_date;
         TextView tv_action_content;
         TextView tv_action_name;
+        ImageView iv_checked;
         public ViewHolder(View view){
             tv_action_date=(TextView)view.findViewById(R.id.tv_action_date);
             tv_action_content=(TextView)view.findViewById(R.id.tv_action_content);
             tv_action_name= (TextView) view.findViewById(R.id.tv_action_name);
+            iv_checked= (ImageView) view.findViewById(R.id.iv_checked);
 
         }
     }

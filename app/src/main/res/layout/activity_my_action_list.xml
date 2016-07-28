@@ -31,4 +31,5 @@
             android:layout_height="wrap_content"
             android:src="@drawable/no_message"/>
     </LinearLayout>
+
 </RelativeLayout>

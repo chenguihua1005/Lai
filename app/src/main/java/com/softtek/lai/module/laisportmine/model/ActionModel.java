@@ -1,9 +1,11 @@
 package com.softtek.lai.module.laisportmine.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 5/12/2016.
  */
-public class ActionModel {
+public class ActionModel implements Serializable {
     private String MessageId;
     private String SentAcId;
     private String Content;

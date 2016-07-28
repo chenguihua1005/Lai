@@ -30,6 +30,7 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jerry.guan on 4/11/2016.
+ * 健康圈推荐
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
@@ -65,7 +66,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false);
+        adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false,2);
         ptrlv.setAdapter(adapter);
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -69,14 +69,17 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     protected void initDatas() {
         community=new CommunityManager(this);
         //加载数据适配器
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,false);
+        adapter=new HealthyCommunityAdapter(getContext(),communityModels,false,1);
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
+        //判断token是否为空
         if(StringUtils.isEmpty(token)){
+            //token为空，游客模式显示立即登陆页面
             isLogin=false;
             lin_is_vr.setVisibility(View.VISIBLE);
             ptrlv.setVisibility(View.GONE);
         }else{
+            //token不为空，非游客模式，隐藏立即登陆页面
             isLogin=true;
             lin_is_vr.setVisibility(View.GONE);
             ptrlv.setVisibility(View.VISIBLE);

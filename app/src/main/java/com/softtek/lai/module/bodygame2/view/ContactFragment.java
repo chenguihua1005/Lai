@@ -46,6 +46,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -183,6 +184,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!getActivity().isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 

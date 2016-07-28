@@ -61,6 +61,7 @@ import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -81,6 +82,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -314,11 +316,27 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     @Override
                     public void run() {
                         // 需要做的事:发送消息
-                        if (!EMChat.getInstance().isLoggedIn()) {
-                            loginChat(progressDialog, model.getHXAccountId());
-                        } else {
+                        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+                        if (hxid.equals(model.getHXAccountId())) {
+                            System.out.println("111111111");
                             if (timer != null) {
                                 timer.cancel();
+                            }
+                        } else {
+                            System.out.println("2222222222222");
+                            if ("-1".equals(hxid)) {
+                                System.out.println("333333333333");
+                                loginChat(progressDialog, model.getHXAccountId());
+                            } else {
+                                System.out.println("4444444444");
+                                new Thread(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                HXLoginOut();
+                                            }
+                                        }
+                                ).start();
                             }
                         }
                     }
@@ -328,6 +346,29 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
 
 
+    }
+
+    private void HXLoginOut() {
+        EMChatManager.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                SharedPreferenceService.getInstance().put("HXID", "-1");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                // TODO Auto-generated method stub
+                HXLoginOut();
+            }
+        });
     }
 
     @Override
@@ -373,13 +414,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         homeInfoPresenter.getHomeInfoData(pull);
     }
 
-    private void loginChat(final ProgressDialog progressDialog, String account) {
+    private void loginChat(final ProgressDialog progressDialog, final String account) {
         EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                System.out.println("onSuccess------");
+                SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
@@ -387,7 +428,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-
                 EMChatManager.getInstance().loadAllConversations();
 
                 if (timer != null) {
@@ -589,17 +629,17 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             ZillaApi.NormalRestAdapter.create(StudentService.class).hasClass2(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                    if(progressDialog!=null){
+                    if (progressDialog != null) {
                         progressDialog.dismiss();
                     }
-                    HasClass hasClass=hasClassResponseData.getData();
-                    if("0".equals(hasClass.getIsHave())||"4".equals(hasClass.getIsHave())
-                            ||"1".equals(hasClass.getIsHave())||"5".equals(hasClass.getIsHave())){
+                    HasClass hasClass = hasClassResponseData.getData();
+                    if ("0".equals(hasClass.getIsHave()) || "4".equals(hasClass.getIsHave())
+                            || "1".equals(hasClass.getIsHave()) || "5".equals(hasClass.getIsHave())) {
                         //从未加入过班级或者旧班级已经结束还没有加入新班级
-                        Intent noClass=new Intent(getContext(), BodyGamePCNoClassActivity.class);
-                        noClass.putExtra("class_status",Integer.parseInt(hasClass.getIsHave()));
+                        Intent noClass = new Intent(getContext(), BodyGamePCNoClassActivity.class);
+                        noClass.putExtra("class_status", Integer.parseInt(hasClass.getIsHave()));
                         startActivity(noClass);
-                    }else if("2".equals(hasClass.getIsHave())||"3".equals(hasClass.getIsHave())){
+                    } else if ("2".equals(hasClass.getIsHave()) || "3".equals(hasClass.getIsHave())) {
                         //只要班级进行中就可以
                         startActivity(new Intent(getContext(), BodyGamePCActivity.class));
                     }

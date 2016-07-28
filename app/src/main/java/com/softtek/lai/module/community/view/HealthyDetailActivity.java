@@ -93,18 +93,18 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_content.setText(model.getContent());
         cb_zan.setText(model.getPraiseNum());
         tv_zan_name.setText(model.getUsernameSet());
-        if("".equals(UserInfoModel.getInstance().getToken())){
-            cb_zan.setChecked(false);
-            cb_zan.setEnabled(false);
-        }else{
-            if(Constants.HAS_ZAN.equals(model.getIsPraise())){
-                cb_zan.setChecked(true);
-                cb_zan.setEnabled(false);
-            }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
-                cb_zan.setChecked(false);
-                cb_zan.setEnabled(true);
-            }
-        }
+//        if("".equals(UserInfoModel.getInstance().getToken())){
+//            cb_zan.setChecked(false);
+//            cb_zan.setEnabled(false);
+//        }else{
+//            if(Constants.HAS_ZAN.equals(model.getIsPraise())){
+//                cb_zan.setChecked(true);
+//                cb_zan.setEnabled(false);
+//            }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
+//                cb_zan.setChecked(false);
+//                cb_zan.setEnabled(true);
+//            }
+//        }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(model.getImgCollection())&&null!=model.getImgCollection()){
             String[] image=model.getImgCollection().split(",");

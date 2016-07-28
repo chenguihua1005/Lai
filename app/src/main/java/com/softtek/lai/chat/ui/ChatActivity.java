@@ -37,6 +37,7 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -114,6 +115,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 

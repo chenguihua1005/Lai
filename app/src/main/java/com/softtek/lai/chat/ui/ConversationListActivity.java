@@ -54,6 +54,7 @@ import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -156,6 +157,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
             public void onDisconnected(final int error) {
 
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
