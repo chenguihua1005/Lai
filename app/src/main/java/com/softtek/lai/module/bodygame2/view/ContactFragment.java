@@ -1,9 +1,7 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -22,15 +19,12 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.adapter.ChatContantAdapter;
 import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;

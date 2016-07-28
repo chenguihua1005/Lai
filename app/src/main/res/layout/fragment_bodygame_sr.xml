@@ -706,7 +706,8 @@
                     android:hint="学员姓名/手机号"
                     android:paddingLeft="5dp"
                     android:singleLine="true"
-                    android:textColor="#b3b3b3"
+                    android:textColorHint="#b3b3b3"
+                    android:textColor="#333333"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="12sp" />
             </RelativeLayout>

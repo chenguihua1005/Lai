@@ -45,7 +45,6 @@ import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.present.ClassMainManager;
-import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
@@ -63,9 +62,6 @@ import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;

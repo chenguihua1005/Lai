@@ -145,7 +145,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     dialog.dismiss();
                 }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -181,7 +180,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     dialog.dismiss();
                 }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -217,7 +215,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     dialog.dismiss();
                 }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -329,6 +326,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
         String dateStar=DateUtil.weeHours(0);
         String dateEnd=DateUtil.weeHours(1);
         List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        //删除旧数据
+        StepUtil.getInstance().deleteOldDate(dateStar);
         if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
@@ -339,8 +338,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
+            }else{
+                //如果不大于则 不需要操作什么
+                UserStep userStep=new UserStep();
+                userStep.setAccountId(Long.parseLong(userId));
+                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                userStep.setStepCount(currentStep);
+                StepUtil.getInstance().saveStep(userStep);
             }
-            //如果不大于则 不需要操作什么
         }else{
             //本地没有数据则写入本地
             UserStep serverStep=new UserStep();
@@ -349,8 +354,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
         }
-        //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar,userId);
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         //启动守护服务

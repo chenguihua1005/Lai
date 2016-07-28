@@ -119,9 +119,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     }
 
     private void stepDeal(Context context, String userId, long step){
+        //获取当天的开始时间和结束时间
         String dateStar=DateUtil.weeHours(0);
         String dateEnd=DateUtil.weeHours(1);
         List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        //删除旧数据
+        StepUtil.getInstance().deleteOldDate(dateStar);
         if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
@@ -131,6 +134,13 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 userStep.setAccountId(Long.parseLong(userId));
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(step);
+                StepUtil.getInstance().saveStep(userStep);
+            }else{
+                //如果本地大于服务器的
+                UserStep userStep=new UserStep();
+                userStep.setAccountId(Long.parseLong(userId));
+                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                userStep.setStepCount(currentStep);
                 StepUtil.getInstance().saveStep(userStep);
             }
             //如果不大于则 不需要操作什么
@@ -142,8 +152,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
         }
-        //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar,userId);
         Log.i("启动计步器");
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
