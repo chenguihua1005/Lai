@@ -43,6 +43,8 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.ll_action_nomessage)
     LinearLayout ll_action_nomessage;
     MyActionAdapter myActionAdapter;
+    @InjectView(R.id.ll_ite)
+    LinearLayout ll_ite;
     private List<ActionModel> actionModelLists=new ArrayList<ActionModel>();
     ActionListManager actionListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
@@ -56,6 +58,7 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
     protected void initViews() {
         tv_title.setText("活动邀请");
         tv_right.setText("全选");
+        ll_ite.setVisibility(View.VISIBLE);
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         list_action.setOnItemLongClickListener(this);

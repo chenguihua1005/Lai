@@ -31,5 +31,19 @@
             android:layout_height="wrap_content"
             android:src="@drawable/no_message"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_ite"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#ffffff"
+        android:gravity="right"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -93,6 +94,20 @@ public class MyActionAdapter extends BaseAdapter {
                 }
             }
         });
+        viewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isselec)
+                {
+                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
+                    isselec=false;
+                }
+                else {
+                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
+                    isselec=true;
+                }
+            }
+        });
         return convertView;
     }
 
@@ -102,11 +117,13 @@ public class MyActionAdapter extends BaseAdapter {
         TextView tv_action_content;
         TextView tv_action_name;
         ImageView iv_checked;
+        LinearLayout ll_item;
         public ViewHolder(View view){
             tv_action_date=(TextView)view.findViewById(R.id.tv_action_date);
             tv_action_content=(TextView)view.findViewById(R.id.tv_action_content);
             tv_action_name= (TextView) view.findViewById(R.id.tv_action_name);
             iv_checked= (ImageView) view.findViewById(R.id.iv_checked);
+            ll_item= (LinearLayout) view.findViewById(R.id.ll_item);
 
         }
     }
