@@ -120,6 +120,16 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
             },300);
         }
     }
+    public  void updateList(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
+            }
+        }, 300);
+    }
 
     @Override
     public void getRecommendDynamic(HealthyRecommendModel model) {

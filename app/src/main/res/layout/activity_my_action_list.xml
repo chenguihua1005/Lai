@@ -9,14 +9,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
         <ListView
             android:id="@+id/list_action"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:divider="@null">
         </ListView>
-
+        <LinearLayout
+            android:id="@+id/ll_ite"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:gravity="right|center"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible">
+            <TextView
+                android:id="@+id/tv_dele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_action_nomessage"
@@ -31,19 +46,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/no_message"/>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_ite"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="#ffffff"
-        android:gravity="right"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
+
 
 </RelativeLayout>

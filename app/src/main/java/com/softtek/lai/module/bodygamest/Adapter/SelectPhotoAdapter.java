@@ -5,7 +5,7 @@
 
 package com.softtek.lai.module.bodygamest.Adapter;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,26 +15,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
-import com.softtek.lai.module.bodygamest.view.PhotoDetailActivity;
 import com.softtek.lai.module.bodygamest.view.SelectPhotoActivity;
-import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import zilla.libcore.util.Util;
 
