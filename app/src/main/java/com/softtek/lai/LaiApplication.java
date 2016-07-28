@@ -97,10 +97,13 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "accountId text," +
             "stepCount bigint," +
             "recordTime text )";
-    public static final String TABLE_SPORT_DATA="create table sport_data(" +
+    public static final String CREATE_SPORT_DATA="create table sport_data(" +
             "id text primary key,"+
-            ""+
-            ")";
+            "longitude text,"+
+            "latitude text,"+
+            "speed text,"+//速度
+            "kilometre integer,"+//是否是一公里
+            "time_consuming text)";//耗时
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -116,6 +119,9 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             case 1:
                 db.execSQL("drop table user_step");//删除表
                 db.execSQL(CREATE_STEP);//创建新表
+                break;
+            case 2:
+                db.execSQL(CREATE_SPORT_DATA);
                 break;
         }
     }

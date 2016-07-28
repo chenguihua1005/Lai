@@ -1,6 +1,5 @@
 package com.softtek.lai.stepcount.service;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -22,7 +21,6 @@ import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
-import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
@@ -60,7 +58,7 @@ public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
     private static int duration = 10000;
     //默认30分钟上传一次
-    private static int durationUpload=10*60*1000;
+    private static int durationUpload=2*60*1000;
     private SensorManager sensorManager;
     private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;
@@ -186,18 +184,8 @@ public class StepService extends Service implements SensorEventListener {
         return messenger.getBinder();
     }
 
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //启动定时上传功能
-        AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent upIntent=new Intent(UPLOAD_STEP);
-        PendingIntent pi = PendingIntent.getBroadcast(this,0,upIntent,0);
-        long triggerAtTime=SystemClock.elapsedRealtime()+durationUpload;
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                triggerAtTime,
-                pi);
         flags = START_STICKY;
         return super.onStartCommand(intent, flags, startId);
     }
@@ -436,7 +424,7 @@ public class StepService extends Service implements SensorEventListener {
     }
 
     public class UploadStepReceive extends BroadcastReceiver{
-
+        int index=5;
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
@@ -446,6 +434,7 @@ public class StepService extends Service implements SensorEventListener {
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minutes=c.get(Calendar.MINUTE);
             if(Intent.ACTION_TIME_TICK.equals(action)){
+                Log.i("一分钟到了。。。。。。。");
                 //每晚的23点30分到24点之间
                 if(hour==23&&minutes>50&&minutes<=59){
                     serverStep=0;
@@ -455,35 +444,34 @@ public class StepService extends Service implements SensorEventListener {
                     int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
                     updateNotification(tempStep+"");
                 }if(hour==0&&minutes==0){
+                    index=5;
                     SharedPreferenceService.getInstance().put("currentStep",0);
                     updateNotification(0+"");
-                }
-            }else if(UPLOAD_STEP.equals(action)) {
-                //每晚的23点50分到24点之间
-                if (hour == 23 && minutes > 50 && minutes <= 59) {
-                    context.startService(new Intent(context.getApplicationContext(), StepService.class));
-                    return;
-                }
-                //做上传工作
-                UserModel model = UserInfoModel.getInstance().getUser();
-                if(model!=null){
-                    String userId = model.getUserid();
-                    int todayStep =StepService.todayStep;
-                    StringBuilder buffer = new StringBuilder();
-                    buffer.append(DateUtil.getInstance().getCurrentDate());
-                    buffer.append(",");
-                    buffer.append(todayStep);
-                    //提交数据
-                    com.github.snowdream.android.util.Log.i("步数>>" + buffer.toString());
-                    ZillaApi.NormalRestAdapter.create(StepNetService.class)
-                            .synStepCount(
-                                    UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            com.github.snowdream.android.util.Log.i("上传成功");
-                                        }
-                                    });
-                    context.startService(new Intent(context.getApplicationContext(), StepService.class));
+                }else {
+                    index--;
+                    if(index==0) {
+                        Log.i("触发上传了。。。。。。。");
+                        index=5;
+                        //做上传工作
+                        UserModel model = UserInfoModel.getInstance().getUser();
+                        if (model != null) {
+                            String userId = model.getUserid();
+                            int todayStep = StepService.todayStep;
+                            StringBuilder buffer = new StringBuilder();
+                            buffer.append(DateUtil.getInstance().getCurrentDate());
+                            buffer.append(",");
+                            buffer.append(todayStep);
+                            //提交数据
+                            ZillaApi.NormalRestAdapter.create(StepNetService.class)
+                                    .synStepCount(
+                                            UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    Log.i("上传成功");
+                                                }
+                                            });
+                        }
+                    }
                 }
             }
         }

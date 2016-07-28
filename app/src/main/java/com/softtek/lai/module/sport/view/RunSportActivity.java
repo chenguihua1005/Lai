@@ -55,7 +55,6 @@ import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.module.sport.util.ColorUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
@@ -648,14 +647,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     DecimalFormat format = new DecimalFormat("#0.00");
                     double speed = (previousDistance / 1000) / (time * 1f / 3600);
                     if (distance >= 8) {
-                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
                         polylineOptions.add(latLng);
-                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
                         coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                         aMap.addPolyline(polylineOptions);
                     }
                     lastLatLon = latLng;//暂存上一次坐标
-                    tv_avg_speed.setText(/*format.format(speed)*/location.getSpeed() + "km/h");
+                    tv_avg_speed.setText(format.format(speed) + "km/h");
                     Util.toastMsg("当前速度>>>"+location.getSpeed());
                     tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
                 } else {

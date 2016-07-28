@@ -17,7 +17,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
-import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
@@ -324,7 +323,6 @@ public class MessageImpl implements IMessagePresenter {
                 CheckMobileEvent events=new CheckMobileEvent(id,false);
                 EventBus.getDefault().post(events);
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
