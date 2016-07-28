@@ -275,7 +275,7 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
                 tv_mon.setText(chMonth.tomonth(date[1]));
                 tv_storycontent.setText(stu.getLossStory().getLogContent());
                 if (!TextUtils.isEmpty(stu.getLossStory().getImgUrl())) {
-                    Picasso.with(this).load(path + stu.getLossStory().getImgUrl()).fit().error(R.drawable.img_default).into(im_storypic);
+                    Picasso.with(this).load(path + stu.getLossStory().getImgUrl()).error(R.drawable.img_default).into(im_storypic);
                 }
 
             }

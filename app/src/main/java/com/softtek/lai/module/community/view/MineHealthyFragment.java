@@ -132,11 +132,13 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
             logDetail.putExtra("log",copyModel(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","0");
             startActivityForResult(logDetail,LIST_JUMP_2);
         }else if("0".equals(model.getMinetype())){//动态
             Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
             logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","0");
             startActivityForResult(logDetail,LIST_JUMP);
         }
     }

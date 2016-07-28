@@ -387,7 +387,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         tv_mon.setText(chMonth.tomonth(date[1]));
                         tv_storycontent.setText(data.getLossStory().getLogContent());
                     if (!TextUtils.isEmpty(data.getLossStory().getImgUrl())) {
-                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_storypic);
+                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).error(R.drawable.default_icon_square).into(im_storypic);
                     }
 
                 }
@@ -491,6 +491,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             AMStatus="1";
+            tv_jianzhflag.setText("");
+            ll_story.setClickable(true);
             tv_xunzhflag.setText("");
             ll_xunzh.setClickable(true);
             xunzh=true;

@@ -86,6 +86,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        String type="0";
+        type=getIntent().getStringExtra("type");
+        if (type.equals("0"))
+        {
+            cb_zan.setVisibility(View.GONE);
+        }
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= getIntent().getParcelableExtra("log");
@@ -124,6 +130,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.cb_zan:
+                ll_zan.setVisibility(View.VISIBLE);
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                 log.setPriase(Integer.parseInt(log.getPriase())+1+"");
                 log.setIsClicked(Constants.HAS_ZAN);
