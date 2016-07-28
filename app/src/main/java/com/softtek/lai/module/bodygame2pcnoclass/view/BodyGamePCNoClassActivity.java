@@ -41,6 +41,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame_pc_noclass)
@@ -167,6 +168,7 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 

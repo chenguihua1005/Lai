@@ -50,6 +50,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -134,6 +135,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
             public void onDisconnected(final int error) {
 
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
