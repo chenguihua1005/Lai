@@ -22,7 +22,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**

@@ -51,6 +51,8 @@ public class LatLon implements Parcelable{
         this.latitude = latitude;
     }
 
+
+
     @Override
     public int describeContents() {
         return 0;

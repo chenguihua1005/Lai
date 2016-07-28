@@ -183,7 +183,6 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initViews() {
-        Log.i("当前SDK版本"+DisplayUtil.getSDKInt());
         if(DisplayUtil.getSDKInt()>18){
             int status=DisplayUtil.getStatusHeight(getActivity());
             RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();

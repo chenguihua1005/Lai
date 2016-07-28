@@ -90,27 +90,6 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         memberInfopresenter=new MemberInfoImpl(this,null);
         manager=new LogStoryDetailManager(this);
         log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
-        /*if(log!=null){
-            if(StringUtils.isNotEmpty(log.getPhoto())){
-                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
-                        .error(R.drawable.img_default).into(civ_header_image);
-            }
-            tv_name.setText(log.getUserName());
-
-            tv_content.setText(log.getLogContent());
-            String date=log.getCreateDate();
-            tv_date.setText(DateUtil.getInstance().getYear(date)+
-                    "年"+DateUtil.getInstance().getMonth(date)+
-                    "月"+DateUtil.getInstance().getDay(date)+"日");
-            tv_totle_lw.setText(log.getAfterWeight()+"斤");
-            cb_zan.setText(log.getPriase());
-            //拆分字符串图片列表,并添加到图片集合中
-            if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
-                String[] image=log.getImgCollection().split(",");
-                images.addAll(Arrays.asList(image));
-            }
-
-        }*/
         adapter=new LogDetailGridAdapter(this,images);
         cgv_list_image.setAdapter(adapter);
         cb_zan.setEnabled(false);
