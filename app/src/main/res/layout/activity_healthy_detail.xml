@@ -95,6 +95,7 @@
                     android:src="@drawable/zan"
                     android:button="@null"
                     android:text="120"
+                    android:visibility="invisible"
                     android:background="@null"
                     android:textColor="#f67169"
                     android:drawableLeft="@drawable/zan_selector"

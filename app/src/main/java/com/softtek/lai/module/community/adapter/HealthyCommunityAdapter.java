@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -49,11 +50,13 @@ public class HealthyCommunityAdapter extends BaseAdapter {
     private boolean isVR = false;
     private CommunityService service;
     private int px;
+    private int type=1;
 
-    public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels, boolean isVR) {
+    public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels, boolean isVR,int type) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         this.isVR = isVR;
+        this.type=type;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         px = DisplayUtil.dip2px(context.getApplicationContext(), 79);
     }
@@ -123,47 +126,62 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             }
         });
 
-        if (isVR) {
-            holder.cb_zan.setEnabled(false);
-        } else {
-            if (Constants.HAS_ZAN.equals(model.getIsPraise())) {
-                holder.cb_zan.setChecked(true);
-                holder.cb_zan.setEnabled(false);
-            } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
-                holder.cb_zan.setChecked(false);
-                holder.cb_zan.setEnabled(true);
-                holder.cb_zan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (holder.cb_zan.isChecked()) {
-                            final UserInfoModel infoModel = UserInfoModel.getInstance();
-                            model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                            model.setIsPraise(Constants.HAS_ZAN);
-                            model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
-                                    infoModel.getUser().getMobile()));
-                            //向服务器提交
-                            String token = infoModel.getToken();
-                            service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getID()),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                        }
+        if (type==1)
+        {
+            holder.cb_zan.setVisibility(View.INVISIBLE);
+            if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+                holder.ll_dianzan.setVisibility(View.INVISIBLE);
+            }
+            else {
+                holder.ll_dianzan.setVisibility(View.VISIBLE);
+            }
 
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            super.failure(error);
-                                            int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                            model.setPraiseNum(priase + "");
-                                            String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                            model.setUsernameSet(del);
-                                            model.setIsPraise(Constants.NO_ZAN);
-                                            notifyDataSetChanged();
-                                        }
-                                    });
+        }
+        else {
+            if (isVR) {
+                holder.cb_zan.setEnabled(false);
+            } else {
+                if (Constants.HAS_ZAN.equals(model.getIsPraise())) {
+                    //有点赞
+                    holder.cb_zan.setChecked(true);
+                    holder.cb_zan.setEnabled(false);
+                } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+                    //没有点赞
+                    holder.cb_zan.setChecked(false);
+                    holder.cb_zan.setEnabled(true);
+                    holder.cb_zan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (holder.cb_zan.isChecked()) {
+                                final UserInfoModel infoModel = UserInfoModel.getInstance();
+                                model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                                model.setIsPraise(Constants.HAS_ZAN);
+                                model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
+                                        infoModel.getUser().getMobile()));
+                                //向服务器提交
+                                String token = infoModel.getToken();
+                                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getID()),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                super.failure(error);
+                                                int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                                model.setPraiseNum(priase + "");
+                                                String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                                model.setUsernameSet(del);
+                                                model.setIsPraise(Constants.NO_ZAN);
+                                                notifyDataSetChanged();
+                                            }
+                                        });
+                            }
+                            notifyDataSetChanged();
                         }
-                        notifyDataSetChanged();
-                    }
-                });
+                    });
+                }
             }
         }
         //加载图片
@@ -185,6 +203,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         CircleImageView civ_header_image;
         TextView tv_name, tv_content, tv_date, tv_zan_name,tv_delete;
         ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9;
+        LinearLayout ll_dianzan;
         CheckBox cb_zan;
 
         public ViewHolder(View view) {
@@ -193,6 +212,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             tv_content = (TextView) view.findViewById(R.id.tv_content);
             tv_date = (TextView) view.findViewById(R.id.tv_date);
             tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
+            ll_dianzan= (LinearLayout) view.findViewById(R.id.ll_dianzan);
             img1 = (ImageView) view.findViewById(R.id.img_1);
             img2 = (ImageView) view.findViewById(R.id.img_2);
             img3 = (ImageView) view.findViewById(R.id.img_3);

@@ -608,6 +608,9 @@
             android:name=".module.laisportmine.view.MyActionListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.laisportmine.view.MyActionDelListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
