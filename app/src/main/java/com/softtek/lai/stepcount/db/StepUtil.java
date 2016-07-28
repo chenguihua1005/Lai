@@ -61,8 +61,6 @@ public class StepUtil {
                     result.add(userStep);
                 } while (cursor.moveToNext());
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }finally {
             cursor.close();
             db.close();

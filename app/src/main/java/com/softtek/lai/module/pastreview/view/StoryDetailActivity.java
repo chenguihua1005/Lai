@@ -112,9 +112,9 @@ public class StoryDetailActivity extends BaseActivity implements View.OnClickLis
             cb_zan.setText(log.getPriasenum());
             if (TextUtils.isEmpty(log.getUserNames()))
             {
-                ll_left.setVisibility(View.GONE);
+                ll_zan.setVisibility(View.GONE);
             }else{
-                ll_left.setVisibility(View.VISIBLE);
+                ll_zan.setVisibility(View.VISIBLE);
                 tv_zan_name.setText(log.getUserNames());
             }
             if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){

@@ -102,13 +102,16 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "longitude text,"+
             "latitude text,"+
             "speed text,"+//速度
+            "step integer,"+//当前步数
             "kilometre integer,"+//是否是一公里
-            "time_consuming text)";//耗时
+            "hasProblem integer"+//是否是问题坐标
+            "time_consuming integer)";//耗时
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("onCreate(SQLiteDatabase db)");
         db.execSQL(CREATE_STEP);
+        //db.execSQL(CREATE_SPORT_DATA);
         Log.i("表创建了");
     }
 
@@ -121,7 +124,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 db.execSQL(CREATE_STEP);//创建新表
                 break;
             case 2:
-                db.execSQL(CREATE_SPORT_DATA);
+                //db.execSQL(CREATE_SPORT_DATA);
                 break;
         }
     }
