@@ -52,6 +52,8 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
     TextView tv_loss_before;
     @InjectView(R.id.tv_loss_after)
     TextView tv_loss_after;
+    @InjectView(R.id.ll_story)
+    LinearLayout ll_story;
 
     @InjectView(R.id.tv_day)
     TextView tv_day;
@@ -105,6 +107,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         iv_first.setOnClickListener(this);
         iv_second.setOnClickListener(this);
         iv_third.setOnClickListener(this);
+        ll_story.setOnClickListener(this);
 
     }
 
@@ -142,6 +145,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 honorIntent.putExtra("classId", classId);
                 startActivity(honorIntent);
                 break;
+            case R.id.ll_story:
             case R.id.rel_my_weight:
                 Intent storyIntent = new Intent(this, StoryActivity.class);
                 storyIntent.putExtra("userId", userId);

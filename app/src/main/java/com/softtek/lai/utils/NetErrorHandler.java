@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
+import com.forlong401.log.transaction.log.manager.LogManager;
+import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
@@ -69,7 +71,8 @@ public class NetErrorHandler implements IApiErrorHandler {
     @Override
     public void dealNetError(RetrofitError error) {
         Log.i(error.getUrl());
-        //error.printStackTrace();
+        //LogManager.getManager(LaiApplication.getInstance().getApplicationContext()).log("netError:",error.getUrl()+"\n status="+error.getResponse().getStatus(), LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+        error.printStackTrace();
         switch (error.getKind()) {
             case NETWORK:
                 Throwable throwable = error.getCause();
