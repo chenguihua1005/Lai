@@ -160,6 +160,13 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
             return;
         }
         try {
+            String path= AddressManager.get("photoHost");
+            if (StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(path + log.getPhoto()).fit()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default)
+                        .into(civ_header_image);
+            }
             tv_name.setText(log.getUserName());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();

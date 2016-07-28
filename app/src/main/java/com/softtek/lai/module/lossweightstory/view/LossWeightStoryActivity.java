@@ -227,6 +227,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                 return;
             }
             String path= AddressManager.get("photoHost");
+            Log.i("logList.getPhoto()",logList.getPhoto());
             if (StringUtils.isNotEmpty(logList.getPhoto())){
                 Picasso.with(this).load(path + logList.getPhoto()).fit()
                         .placeholder(R.drawable.img_default)

@@ -62,7 +62,6 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
     protected void initViews() {
         tv_title.setText("活动邀请");
         tv_right.setText("全选");
-        ll_ite.setVisibility(View.VISIBLE);
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         list_action.setOnItemLongClickListener(this);
@@ -72,6 +71,7 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initDatas() {
+        ll_ite.setVisibility(View.VISIBLE);
         UserInfoModel userInfoModel=UserInfoModel.getInstance();
         accountid=userInfoModel.getUser().getUserid();
         Intent intent=getIntent();
