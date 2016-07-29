@@ -188,6 +188,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                 cb_zan.setChecked(false);
                 if(getIntent().getIntExtra("review",0)==0){
                     cb_zan.setEnabled(false);
+                    cb_zan.setChecked(true);
                 }else {
                     cb_zan.setEnabled(true);
                 }

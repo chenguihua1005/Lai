@@ -24,7 +24,7 @@ public class ColorUtil {
                 color=colorList[0];
             }else if(speed<6){
                 color=colorList[1];
-            }else if(speed<8){
+            }else if(speed<7){
                 color=colorList[2];
             }else{
                 color=colorList[3];

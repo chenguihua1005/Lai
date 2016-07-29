@@ -57,7 +57,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,7 +67,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_start_sport)
 public class StartSportActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportManager.GetHistoryTotalMovementCallBack,
@@ -176,7 +174,9 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
             }else{
                 //不允许弹出提示
-                Util.toastMsg("请去权限中心开启权限后在使用");
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PREMISSION);
             }
         }else{
             //执行获取权限后的操作
@@ -341,8 +341,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
             case R.id.rel_start:
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
-                    //final ArrayList<SportModel> list= (ArrayList<SportModel>) SportUtil.getInstance().querySport();
-                    /*if(!list.isEmpty()){//如果不是空则表示有异常记录未提交
+                    /*final ArrayList<SportModel> list= (ArrayList<SportModel>) SportUtil.getInstance().querySport();
+                    if(!list.isEmpty()){//如果不是空则表示有异常记录未提交
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.login_out_title))
                                 .setMessage("您上一次运动记录非正常退出，是否需要延续上次运动继续")

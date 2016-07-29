@@ -71,7 +71,6 @@ public class NetErrorHandler implements IApiErrorHandler {
     @Override
     public void dealNetError(RetrofitError error) {
         Log.i(error.getUrl());
-        //LogManager.getManager(LaiApplication.getInstance().getApplicationContext()).log("netError:",error.getUrl()+"\n status="+error.getResponse().getStatus(), LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         error.printStackTrace();
         switch (error.getKind()) {
             case NETWORK:
@@ -95,7 +94,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
                         }
-                        System.out.println("customCode:"+customCode);
                         Log.i("return code====="+customCode);
                         switch (customCode) {
                             case 401:

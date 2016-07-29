@@ -12,7 +12,6 @@ import android.support.multidex.MultiDex;
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
-import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
@@ -28,6 +27,7 @@ import zilla.libcore.file.PropertiesManager;
 
 /**
  * Created by zilla on 9/8/15.
+ *
  */
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
@@ -45,6 +45,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         catchHandler.init(getApplicationContext());*/
         LogManager.getManager(getApplicationContext()).registerCrashHandler();
         ChatHelper.getInstance().init(getApplicationContext());
+
     }
 
     public static LaiApplication getInstance() {
@@ -111,15 +112,16 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "latitude text,"+
             "speed text,"+//速度
             "step integer,"+//当前步数
+            "currentkm text,"+//当前公里数
             "kilometre integer,"+//是否是一公里
-            "hasProblem integer"+//是否是问题坐标
+            "hasProblem integer,"+//是否是问题坐标
             "time_consuming integer)";//耗时
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("onCreate(SQLiteDatabase db)");
         db.execSQL(CREATE_STEP);
-        //db.execSQL(CREATE_SPORT_DATA);
+        db.execSQL(CREATE_SPORT_DATA);
         Log.i("表创建了");
     }
 
@@ -132,7 +134,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 db.execSQL(CREATE_STEP);//创建新表
                 break;
             case 2:
-                //db.execSQL(CREATE_SPORT_DATA);
+                db.execSQL(CREATE_SPORT_DATA);
                 break;
         }
     }

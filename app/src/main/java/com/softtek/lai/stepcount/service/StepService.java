@@ -113,6 +113,7 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        isLoginOut=false;
         LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated",
                 LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         initBroadcastReceiver();
@@ -136,7 +137,7 @@ public class StepService extends Service implements SensorEventListener {
             lastStep = todayStep = currentStep + serverStep;
             SharedPreferenceService.getInstance().put("currentStep",todayStep);
             updateNotification(todayStep + "");
-            LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated,initTodayData was called,current step="+todayStep,
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated,\ninitTodayData was called,current todaystep="+todayStep+"\nserverStep="+serverStep,
                     LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
     }
@@ -403,7 +404,7 @@ public class StepService extends Service implements SensorEventListener {
                 LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         super.onDestroy();
         //如果不是退出且跑团也没退出
-        if(!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()){
+        if(!isLoginOut){
             sendBroadcast(new Intent(STEP_CLOSE));
             LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
                     LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
@@ -449,17 +450,18 @@ public class StepService extends Service implements SensorEventListener {
         }
         return mWakeLock;
     }
-
+    boolean isLoginOut;
     public class CloseReceive extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            isLoginOut=true;
             stopSelf();
         }
     }
 
     public class UploadStepReceive extends BroadcastReceiver{
-        int index=2;
+        int index=4;
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
@@ -479,15 +481,14 @@ public class StepService extends Service implements SensorEventListener {
                     int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
                     updateNotification(tempStep+"");
                 }if(hour==0&&minutes==0){
-                    index=2;
+                    index=4;
                     SharedPreferenceService.getInstance().put("currentStep",0);
                     updateNotification(0+"");
                 }else {
                     index--;
                     if(index==0) {
-                        LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...",
-                                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
-                        index=2;
+
+                        index=4;
                         //做上传工作
                         UserModel model = UserInfoModel.getInstance().getUser();
                         if (model != null) {
@@ -497,24 +498,30 @@ public class StepService extends Service implements SensorEventListener {
                             buffer.append(DateUtil.getInstance().getCurrentDate());
                             buffer.append(",");
                             buffer.append(todayStep);
+                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...data="+buffer.toString(),
+                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                             //提交数据
                             ZillaApi.NormalRestAdapter.create(StepNetService.class)
                                     .synStepCount(
                                             UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading successfully...",
+                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
+                                                                    response.getUrl()+"\nstatus="+response.getStatus(),
                                                             LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                                 }
 
                                                 @Override
                                                 public void failure(RetrofitError error) {
                                                     LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
-                                                            error.getUrl(),
+                                                            error.getUrl()+"\nstatus="+error.getResponse().getStatus(),
                                                             LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                                     super.failure(error);
                                                 }
                                             });
+                        }else {
+                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...but userModle is null",
+                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                         }
                     }
                 }

@@ -119,6 +119,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
         }
         if(review_flag==0){
             holder.cb_zan.setEnabled(false);
+            holder.cb_zan.setChecked(true);
         }
 
         holder.cb_zan.setText(log.getPriase());
