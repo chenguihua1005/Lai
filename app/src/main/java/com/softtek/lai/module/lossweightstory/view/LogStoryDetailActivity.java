@@ -140,7 +140,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 {
                     cb_zan.setChecked(false);
                     AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
-                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent login = new Intent(getBaseContext(), LoginActivity.class);
@@ -148,7 +148,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                             login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(login);
                         }
-                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
