@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -23,6 +22,8 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.lossweightstory.model.Zan;
+import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -50,6 +51,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
     private List<HealthyCommunityModel> lossWeightStoryModels;
     private boolean isVR = false;
     private CommunityService service;
+    private LossWeightLogService service1;
     private int px;
     private int type = 1;
 
@@ -59,6 +61,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         this.isVR = isVR;
         this.type = type;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        service1 = ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         px = DisplayUtil.dip2px(context.getApplicationContext(), 79);
     }
 
@@ -144,7 +147,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     public void onClick(View v) {
                         holder.cb_zan.setChecked(false);
                         AlertDialog.Builder information_dialog = new AlertDialog.Builder(context);
-                        information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent login = new Intent(context, LoginActivity.class);
@@ -152,7 +155,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(login);
                             }
-                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
@@ -171,6 +174,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.cb_zan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if ("0".equals(model.getMinetype()))
+                            {
                             if (holder.cb_zan.isChecked()) {
                                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                                 model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
@@ -196,6 +201,37 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                                 notifyDataSetChanged();
                                             }
                                         });
+                            }
+                                else {
+                                if (holder.cb_zan.isChecked()) {
+                                    final UserInfoModel infoModel = UserInfoModel.getInstance();
+                                    model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                                    model.setIsPraise(Constants.HAS_ZAN);
+                                    model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
+                                            infoModel.getUser().getMobile()));
+                                    //向服务器提交
+                                    String token = infoModel.getToken();
+                                    service1.clickLike(UserInfoModel.getInstance().getToken(),
+                                            Long.parseLong(infoModel.getUser().getUserid()), Long.parseLong(model.getID()),
+                                            new RequestCallback<ResponseData<Zan>>() {
+                                                @Override
+                                                public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                                }
+
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    super.failure(error);
+                                                    int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                                    model.setPraiseNum(priase + "");
+                                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                                    model.setUsernameSet(del);
+                                                    model.setIsPraise(Constants.NO_ZAN);
+                                                    notifyDataSetChanged();
+                                                }
+                                            });
+                                }
+
+                            }
 
                             }
                             notifyDataSetChanged();
