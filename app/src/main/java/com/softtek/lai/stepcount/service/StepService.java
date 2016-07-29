@@ -25,6 +25,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.forlong401.log.transaction.log.manager.LogManager;
+import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -41,11 +43,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 
 public class StepService extends Service implements SensorEventListener {
+
+    private static final String TAG="StepService";
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
@@ -56,7 +61,7 @@ public class StepService extends Service implements SensorEventListener {
     public static final int MSG_FROM_SERVER=1;
 
     //默认为30秒进行一次存储
-    private static int duration = 10000;
+    private static int duration = 5000;
     //默认30分钟上传一次
     private static int durationUpload=2*60*1000;
     private SensorManager sensorManager;
@@ -108,6 +113,9 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        isLoginOut=false;
+        LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated",
+                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         initBroadcastReceiver();
         new Thread(new Runnable() {
             @Override
@@ -115,7 +123,6 @@ public class StepService extends Service implements SensorEventListener {
                 startStepDetector();
             }
         }).start();
-        Log.i("计步器onCreate");
         initTodayData();
         startTimeCount();
     }
@@ -130,6 +137,8 @@ public class StepService extends Service implements SensorEventListener {
             lastStep = todayStep = currentStep + serverStep;
             SharedPreferenceService.getInstance().put("currentStep",todayStep);
             updateNotification(todayStep + "");
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated,\ninitTodayData was called,current todaystep="+todayStep+"\nserverStep="+serverStep,
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
     }
 
@@ -197,10 +206,12 @@ public class StepService extends Service implements SensorEventListener {
                 .getSystemService(SENSOR_SERVICE);
         PackageManager pm=getPackageManager();
         if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
-            Log.i("该手机有SENSOR_STEP_COUNTER");
+            LogManager.getManager(getApplicationContext()).log(TAG,
+                    "Mobile phone support StepCounter!",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             addCountStepListener();
         }else {
-            Log.i("选用重力加速度传感器");
+            LogManager.getManager(getApplicationContext()).log(TAG,
+                    "Mobile phone does not support StepCounter!Use Simulation program algorithm.",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             addBasePedoListener();
         }
 
@@ -211,6 +222,8 @@ public class StepService extends Service implements SensorEventListener {
         if (countSensor != null) {
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else {
+            LogManager.getManager(getApplicationContext()).log(TAG,
+                    "Mobile phone support StepCounter but countSensor is null therefore use Simulation program algorithm.",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             addBasePedoListener();
         }
     }
@@ -271,6 +284,8 @@ public class StepService extends Service implements SensorEventListener {
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
+            LogManager.getManager(getApplicationContext())
+                    .log(TAG,"The current hour between 23:50 and 23:59, current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -287,6 +302,8 @@ public class StepService extends Service implements SensorEventListener {
         stepIntent.putExtra("currentStep",todayStep);
         LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification(todayStep + "");
+        LogManager.getManager(getApplicationContext())
+                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
     //模拟计步传感器所使用的计算方法
     private void calTodayStepByCustome(int stepTemp){
@@ -303,6 +320,8 @@ public class StepService extends Service implements SensorEventListener {
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
+            LogManager.getManager(getApplicationContext())
+                    .log(TAG,"The current hour between 23:50 and 23:59, current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -319,6 +338,8 @@ public class StepService extends Service implements SensorEventListener {
         stepIntent.putExtra("currentStep",todayStep);
         LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification(todayStep + "");
+        LogManager.getManager(getApplicationContext())
+                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
 
     @Override
@@ -352,14 +373,26 @@ public class StepService extends Service implements SensorEventListener {
     //存入数据库
     private void save() {
         UserModel model = UserInfoModel.getInstance().getUser();
-        if (model != null && todayStep > lastStep) {
-            lastStep = todayStep;//记录上一次保存的值
-            UserStep step = new UserStep();
-            String userId=StringUtils.isEmpty(model.getUserid())?"-1":model.getUserid();
-            step.setAccountId(Long.parseLong(userId));
-            step.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            step.setStepCount(todayStep);
-            StepUtil.getInstance().saveStep(step);
+        LogManager.getManager(getApplicationContext()).log(TAG,"Start save Step Count into datebase",
+                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+        if (model != null) {
+            if(todayStep>lastStep){
+                lastStep = todayStep;//记录上一次保存的值
+                UserStep step = new UserStep();
+                String userId=StringUtils.isEmpty(model.getUserid())?"-1":model.getUserid();
+                step.setAccountId(Long.parseLong(userId));
+                step.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                step.setStepCount(todayStep);
+                StepUtil.getInstance().saveStep(step);
+                LogManager.getManager(getApplicationContext()).log(TAG,"Save successfuly!Current Step "+todayStep,
+                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+            }else{
+                LogManager.getManager(getApplicationContext()).log(TAG,"not save!step no change  "+todayStep,
+                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+            }
+        }else{
+            LogManager.getManager(getApplicationContext()).log(TAG,"Save faile,therefore UserModel is null!",
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
 
     }
@@ -367,19 +400,22 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
-
+        LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory",
+                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         super.onDestroy();
         //如果不是退出且跑团也没退出
-        if(!UserInfoModel.getInstance().isLoginOut()&&!UserInfoModel.getInstance().isGroupOut()){
+        if(!isLoginOut){
             sendBroadcast(new Intent(STEP_CLOSE));
-            Log.i("计步器没有真正停止");
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }else {
             todayStep =0;
             lastStep=0;
             serverStep =0;
             currentStep=0;
-            Log.i("计步器真的停止");
             stopForeground(true);
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is realy",
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
         nm.cancelAll();
         unregisterReceiver(uploadStepReceive);
@@ -414,17 +450,18 @@ public class StepService extends Service implements SensorEventListener {
         }
         return mWakeLock;
     }
-
+    boolean isLoginOut;
     public class CloseReceive extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            isLoginOut=true;
             stopSelf();
         }
     }
 
     public class UploadStepReceive extends BroadcastReceiver{
-        int index=5;
+        int index=4;
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
@@ -444,14 +481,14 @@ public class StepService extends Service implements SensorEventListener {
                     int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
                     updateNotification(tempStep+"");
                 }if(hour==0&&minutes==0){
-                    index=5;
+                    index=4;
                     SharedPreferenceService.getInstance().put("currentStep",0);
                     updateNotification(0+"");
                 }else {
                     index--;
                     if(index==0) {
-                        Log.i("触发上传了。。。。。。。");
-                        index=5;
+
+                        index=4;
                         //做上传工作
                         UserModel model = UserInfoModel.getInstance().getUser();
                         if (model != null) {
@@ -461,15 +498,30 @@ public class StepService extends Service implements SensorEventListener {
                             buffer.append(DateUtil.getInstance().getCurrentDate());
                             buffer.append(",");
                             buffer.append(todayStep);
+                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...data="+buffer.toString(),
+                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                             //提交数据
                             ZillaApi.NormalRestAdapter.create(StepNetService.class)
                                     .synStepCount(
                                             UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    Log.i("上传成功");
+                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
+                                                                    response.getUrl()+"\nstatus="+response.getStatus(),
+                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                                                }
+
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
+                                                            error.getUrl()+"\nstatus="+error.getResponse().getStatus(),
+                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                                                    super.failure(error);
                                                 }
                                             });
+                        }else {
+                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...but userModle is null",
+                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                         }
                     }
                 }

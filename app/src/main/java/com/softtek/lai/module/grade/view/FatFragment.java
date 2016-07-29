@@ -111,8 +111,8 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
 
     @Override
     public void updataData(List<StudentModel> models) {
-        ptrlv.onRefreshComplete();
         try {
+            ptrlv.onRefreshComplete();
             if(models==null||models.isEmpty()){
                 return;
             }

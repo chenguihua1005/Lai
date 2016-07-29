@@ -112,8 +112,8 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
 
     @Override
     public void updataData(List<StudentModel> models) {
-        ptrlv.onRefreshComplete();
         try {
+            ptrlv.onRefreshComplete();
             if(models==null||models.isEmpty()){
                 return;
             }

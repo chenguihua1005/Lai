@@ -4,17 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportModel;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import zilla.libcore.db.DBHelper;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 7/28/2016.
@@ -46,6 +42,7 @@ public class SportUtil {
         values.put("kilometre",model.iskilometre()?1:0);
         values.put("time_consuming",model.getConsumingTime());
         values.put("step",model.getStep());
+        values.put("currentkm",model.getCurrentKM());
         values.put("hasProblem",model.isHasProblem()?1:0);
         db.insertWithOnConflict("sport_data",null,values,SQLiteDatabase.CONFLICT_NONE);
         db.close();
@@ -69,20 +66,26 @@ public class SportUtil {
         Cursor cursor=db.query("sport_data",null,null,null,null,null,null);
         if (cursor.moveToFirst()){
             do {
-                Util.toastMsg("有数据");
                 String id=cursor.getString(cursor.getColumnIndex("id"));
                 String longitude=cursor.getString(cursor.getColumnIndex("longitude"));
                 String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
                 String speed=cursor.getString(cursor.getColumnIndex("speed"));
+                int step=cursor.getInt(cursor.getColumnIndex("step"));
+                String currentKM=cursor.getString(cursor.getColumnIndex("currentkm"));
                 int kilometre=cursor.getInt(cursor.getColumnIndex("kilometre"));
+                int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
                 long consuming=cursor.getLong(cursor.getColumnIndex("time_consuming"));
                 SportModel model=new SportModel();
                 model.setId(id);
                 model.setLatitude(Double.parseDouble(latitude));
                 model.setLongitude(Double.parseDouble(longitude));
                 model.setSpeed(speed);
-                model.setIskilometre(kilometre==0?false:true);
+                model.setIskilometre(kilometre==1);
+                model.setHasProblem(hasProblem==1);
                 model.setConsumingTime(consuming);
+                model.setCurrentKM(Double.parseDouble(currentKM));
+                model.setStep(step);
+
                 sportModels.add(model);
             }while (cursor.moveToNext());
         }

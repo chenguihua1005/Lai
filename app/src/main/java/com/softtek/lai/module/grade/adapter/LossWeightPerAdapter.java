@@ -103,6 +103,8 @@ public class LossWeightPerAdapter extends BaseAdapter {
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
+        }else {
+            Picasso.with(context).load(R.drawable.img_default).into(holder.civ_header_image);
         }
 
         return convertView;
