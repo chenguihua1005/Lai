@@ -1,6 +1,9 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +20,7 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
@@ -153,28 +157,50 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.cb_zan:
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
-                ll_zan.setVisibility(View.VISIBLE);
-                model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                model.setIsPraise(Constants.HAS_ZAN);
-                model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(),infoModel.getUser().getNickname(),infoModel.getUser().getMobile()));
-                setValue(model);
-                //向服务器提交
-                String token = infoModel.getToken();
-                service.clickLike(token,new DoZan(Long.parseLong(infoModel.getUser().getUserid()),model.getHealtId()),
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {}
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                model.setPraiseNum(priase + "");
-                                String del= StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(),infoModel.getUser().getNickname()),",");
-                                model.setUsernameSet(del);
-                                model.setIsPraise(Constants.NO_ZAN);
-                                setValue(model);
-                            }
-                        });
+                if (TextUtils.isEmpty(infoModel.getToken()))
+                {
+                    cb_zan.setChecked(false);
+                    AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(getBaseContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+                else {
+                    ll_zan.setVisibility(View.VISIBLE);
+                    model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                    model.setIsPraise(Constants.HAS_ZAN);
+                    model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
+                    setValue(model);
+                    //向服务器提交
+                    String token = infoModel.getToken();
+                    service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getHealtId()),
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    super.failure(error);
+                                    int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                    model.setPraiseNum(priase + "");
+                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                    model.setUsernameSet(del);
+                                    model.setIsPraise(Constants.NO_ZAN);
+                                    setValue(model);
+                                }
+                            });
+                }
                 break;
         }
     }
@@ -199,7 +225,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         //判断是否点过赞
         if(accountId==-1){
             cb_zan.setChecked(false);
-            cb_zan.setEnabled(false);
+            cb_zan.setEnabled(true);
         }else{
             if(Constants.HAS_ZAN.equals(dynamicModel.getIsPraise())){
                 cb_zan.setChecked(true);

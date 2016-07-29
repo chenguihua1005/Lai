@@ -71,6 +71,14 @@ public class MyActionAdapter extends BaseAdapter {
         viewHolder.tv_action_date.setText(date);
         viewHolder.tv_action_content.setText(actionModel.getContent());
         viewHolder.tv_action_name.setText(actionModel.getActTitle());
+        if (!TextUtils.isEmpty(actionModel.getIsselect())) {
+            if (actionModel.getIsselect().equals("true")) {
+                viewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
+            }
+            else {
+                viewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
+            }
+        }
         if (isDel)
         {
             viewHolder.iv_checked.setVisibility(View.VISIBLE);
@@ -79,29 +87,16 @@ public class MyActionAdapter extends BaseAdapter {
             viewHolder.iv_checked.setVisibility(View.GONE);
         }
         final ViewHolder finalViewHolder = viewHolder;
-//        viewHolder.iv_checked.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isselec)
-//                {
-//                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
-//                    isselec=false;
-//                }
-//                else {
-//                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
-//                    isselec=true;
-//                }
-//            }
-//        });
+//
         if (isDel) {
         viewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (TextUtils.isEmpty(actionModel.getIsselect()))
                 {
                     finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
                     actionModel.setIsselect("true");
-                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
                 }
                 else if (actionModel.getIsselect().equals("false")){
                     finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);

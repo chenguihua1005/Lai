@@ -56,6 +56,7 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
     String accountid;
     int positions;
     ImageView iv_checked;
+    boolean isselec=false;
     private CharSequence[] items={"删除"};
 
     @Override
@@ -82,7 +83,7 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
 //        actionListManager.GetActiveMsg(accountid);
 //        updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
 //        updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
-//        delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
+        delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
 
 
     }
@@ -95,19 +96,42 @@ public class MyActionDelListActivity extends BaseActivity implements View.OnClic
             finish();
             break;
             case R.id.tv_right:
-//                for (int i=0;i<actionModelLists.size();i++)
-//                {
-//                    actionModelLists.get(i).setIsselect("true");
-//                    Log.i("测试测试i",actionModelLists.get(i).getIsselect());
-//                }
-//                myActionAdapter=new MyActionAdapter(this,actionModelLists,true);
-//                list_action.setAdapter(myActionAdapter);
+                if (isselec)
+                {
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect("false");
+                        Log.i("测试测试i", actionModelLists.get(i).getIsselect());
+                    }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
+                    list_action.setAdapter(myActionAdapter);
+                    isselec=false;
+                }
+                else {
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect("true");
+                        Log.i("测试测试i", actionModelLists.get(i).getIsselect());
+                    }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
+                    list_action.setAdapter(myActionAdapter);
+                    isselec=true;
+                }
                 break;
             case R.id.tv_dele:
                 for (int i=0;i<actionModelLists.size();i++)
                 {
-                    Log.i("测试测试i",actionModelLists.get(i).getIsselect());
+                    if (actionModelLists.get(i).getIsselect().equals("true"))
+                    {
+                        delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(actionModelLists.get(i).getMessageId(),"1");
+
+                    }
+
                 }
+                actionModelLists.clear();
+                actionListManager=new ActionListManager(this);
+                actionListManager.GetActiveMsg(accountid);
+                updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+                updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
+
                 break;
 
         }
