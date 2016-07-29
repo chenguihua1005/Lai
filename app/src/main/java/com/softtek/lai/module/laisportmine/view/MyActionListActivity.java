@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     String accountid;
     int positions;
     ImageView iv_checked;
+    boolean isselec=false;
     private CharSequence[] items={"删除"};
 
     @Override
@@ -91,6 +93,27 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
             finish();
             break;
+            case R.id.tv_right:
+                if (isselec)
+                {
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect("false");
+                        Log.i("测试测试i", actionModelLists.get(i).getIsselect());
+                    }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
+                    list_action.setAdapter(myActionAdapter);
+                    isselec=false;
+                }
+                else {
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect("true");
+                        Log.i("测试测试i", actionModelLists.get(i).getIsselect());
+                    }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
+                    list_action.setAdapter(myActionAdapter);
+                    isselec=true;
+                }
+                break;
 
         }
 
@@ -115,10 +138,17 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        tv_right.setText("全选");
+        for (int i = 0; i < actionModelLists.size(); i++) {
+            actionModelLists.get(i).setIsselect("false");
+            Log.i("测试测试i", actionModelLists.get(i).getIsselect());
+        }
+        myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
+        list_action.setAdapter(myActionAdapter);
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        Intent intent=new Intent(this,MyActionDelListActivity.class);
-        intent.putExtra("model", (Serializable) actionModelLists);
-        startActivity(intent);
+//        Intent intent=new Intent(this,MyActionDelListActivity.class);
+//        intent.putExtra("model", (Serializable) actionModelLists);
+//        startActivity(intent);
 //        positions=position;
 //        builder.setItems(items, new DialogInterface.OnClickListener() {
 //            @Override
