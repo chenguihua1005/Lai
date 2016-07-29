@@ -113,6 +113,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                 log.setIsClicked("1");
                 log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(),model.getNickname(),model.getMobile()));
                 cb_zan.setText(log.getPriase());
+                cb_zan.setEnabled(false);
                 tv_zan_name.setText(log.getUsernameSet());
                 ll_zan.setVisibility(View.VISIBLE);
                 //向服务器提交
@@ -129,6 +130,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
                                 String del= StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(),model.getNickname()),",");
                                 log.setUsernameSet(del);
                                 cb_zan.setText(log.getPriase());
+                                cb_zan.setEnabled(true);
                                 if(StringUtils.isNotEmpty(log.getUsernameSet())){
                                     ll_zan.setVisibility(View.VISIBLE);
                                     tv_zan_name.setText(log.getUsernameSet());

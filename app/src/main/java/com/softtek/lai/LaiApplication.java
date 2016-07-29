@@ -12,6 +12,7 @@ import android.support.multidex.MultiDex;
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
+import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
@@ -41,8 +42,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         FIR.init(this);//注册Fir自动更新
-        /*CrashHandler catchHandler = CrashHandler.getInstance();
-        catchHandler.init(getApplicationContext());*/
+        CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());
         LogManager.getManager(getApplicationContext()).registerCrashHandler();
         ChatHelper.getInstance().init(getApplicationContext());
 

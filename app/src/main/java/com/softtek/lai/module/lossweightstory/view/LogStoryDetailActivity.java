@@ -92,8 +92,9 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initDatas() {
         String type="0";
+
         type=getIntent().getStringExtra("type");
-        if (type.equals("0"))
+        if ("0".equals(type))
         {
             cb_zan.setVisibility(View.GONE);
         }

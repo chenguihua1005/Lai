@@ -183,6 +183,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i("position="+position);
+        //Log.i("position="+lossWeightStoryModels.get(position-2));
         if(position<2){
             return;
         }
@@ -227,7 +228,6 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                 return;
             }
             String path= AddressManager.get("photoHost");
-            Log.i("logList.getPhoto()",logList.getPhoto());
             if (StringUtils.isNotEmpty(logList.getPhoto())){
                 Picasso.with(this).load(path + logList.getPhoto()).fit()
                         .placeholder(R.drawable.img_default)
