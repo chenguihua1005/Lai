@@ -28,11 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -45,7 +43,6 @@ import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.net.StudentService;
-import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -56,8 +53,6 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.MessageActivity;
@@ -85,7 +80,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
@@ -127,8 +121,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
 
     private IHomeInfoPresenter homeInfoPresenter;
-    private ILoginPresenter loginPresenter;
-    private StudentImpl studentImpl;
+//    private ILoginPresenter loginPresenter;
+//    private StudentImpl studentImpl;
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
@@ -255,8 +249,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        loginPresenter = new LoginPresenterImpl(getContext());
-        studentImpl = new StudentImpl(getContext());
+//        loginPresenter = new LoginPresenterImpl(getContext());
+//        studentImpl = new StudentImpl(getContext());
         registerMessageReceiver();
     }
 
@@ -600,31 +594,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     //startActivity(new Intent(getContext(), BodygameYkActivity.class));
                 }
             }).create().show();
-        } else if (role == Constants.INC) {
-            //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
-            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(), new RequestCallback<ResponseData<HasClass>>() {
-                @Override
-                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                    Log.i(hasClassResponseData.toString());
-                    if (hasClassResponseData.getStatus() == 200) {
-                        if ("1".equals(hasClassResponseData.getData().getIsHave())) {
-                            startActivity(new Intent(getContext(), BodyGamePCActivity.class));
-                            //startActivity(new Intent(getContext(), com.softtek.lai.module.bodygamest.view.BodyGamePCActivity.class));
-                        } else {
-                            startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-                            //startActivity(new Intent(getContext(), BodygameYkActivity.class));
-                        }
-                    } else {
-                        Util.toastMsg(hasClassResponseData.getMsg());
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    super.failure(error);
-                }
-            });
-        } else if (role == Constants.PC) {
+        } else if (role == Constants.PC||role == Constants.INC) {
             //直接进入踢馆赛学员版
             progressDialog.show();
             ZillaApi.NormalRestAdapter.create(StudentService.class).hasClass2(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HasClass>>() {
@@ -645,8 +615,15 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         startActivity(new Intent(getContext(), BodyGamePCActivity.class));
                     }
                 }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    super.failure(error);
+                }
             });
-            //startActivity(new Intent(getContext(), com.softtek.lai.module.bodygamest.view.BodyGamePCActivity.class));
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
             startActivity(new Intent(getContext(), BodyGameSRActivity.class));

@@ -304,6 +304,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
+                        android:src="@drawable/default_icon_rect"
+                        android:scaleType="centerCrop"
                         />
                     <TextView
                         android:id="@+id/tv_storycontent"

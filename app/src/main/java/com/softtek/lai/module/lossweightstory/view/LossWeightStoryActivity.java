@@ -183,6 +183,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i("position="+position);
+        //Log.i("position="+lossWeightStoryModels.get(position-2));
         if(position<2){
             return;
         }

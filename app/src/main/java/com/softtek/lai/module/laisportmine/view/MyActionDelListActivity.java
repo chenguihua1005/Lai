@@ -3,8 +3,6 @@ package com.softtek.lai.module.laisportmine.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,21 +14,16 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.act.adapter.ActZKAdapter;
 import com.softtek.lai.module.act.view.ActActivity;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
-import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
-import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +32,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_action_list)
-public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
+public class MyActionDelListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
         AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback,AdapterView.OnItemClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -52,6 +45,10 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.ll_action_nomessage)
     LinearLayout ll_action_nomessage;
     MyActionAdapter myActionAdapter;
+    @InjectView(R.id.ll_ite)
+    LinearLayout ll_ite;
+    @InjectView(R.id.tv_dele)
+    TextView tv_dele;
     private List<ActionModel> actionModelLists=new ArrayList<ActionModel>();
     ActionListManager actionListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
@@ -65,22 +62,27 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         tv_title.setText("活动邀请");
+        tv_right.setText("全选");
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         list_action.setOnItemLongClickListener(this);
-        list_action.setOnItemClickListener(this);
+        tv_dele.setOnClickListener(this);
+//        list_action.setOnItemClickListener(this);
     }
 
     @Override
     protected void initDatas() {
+        ll_ite.setVisibility(View.VISIBLE);
         UserInfoModel userInfoModel=UserInfoModel.getInstance();
         accountid=userInfoModel.getUser().getUserid();
-        myActionAdapter=new MyActionAdapter(this,actionModelLists,false);
+        Intent intent=getIntent();
+        actionModelLists= (List<ActionModel>) intent.getSerializableExtra("model");
+        myActionAdapter=new MyActionAdapter(this,actionModelLists,true);
         list_action.setAdapter(myActionAdapter);
-        actionListManager=new ActionListManager(this);
-        actionListManager.GetActiveMsg(accountid);
-        updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
-        updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
+//        actionListManager=new ActionListManager(this);
+//        actionListManager.GetActiveMsg(accountid);
+//        updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+//        updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
         delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
 
 
@@ -114,6 +116,23 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                     isselec=true;
                 }
                 break;
+            case R.id.tv_dele:
+                for (int i=0;i<actionModelLists.size();i++)
+                {
+                    if (actionModelLists.get(i).getIsselect().equals("true"))
+                    {
+                        delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(actionModelLists.get(i).getMessageId(),"1");
+
+                    }
+
+                }
+                actionModelLists.clear();
+                actionListManager=new ActionListManager(this);
+                actionListManager.GetActiveMsg(accountid);
+                updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+                updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
+
+                break;
 
         }
 
@@ -138,17 +157,8 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        tv_right.setText("全选");
-        for (int i = 0; i < actionModelLists.size(); i++) {
-            actionModelLists.get(i).setIsselect("false");
-            Log.i("测试测试i", actionModelLists.get(i).getIsselect());
-        }
-        myActionAdapter = new MyActionAdapter(this, actionModelLists, true);
-        list_action.setAdapter(myActionAdapter);
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        Intent intent=new Intent(this,MyActionDelListActivity.class);
-//        intent.putExtra("model", (Serializable) actionModelLists);
-//        startActivity(intent);
+//
 //        positions=position;
 //        builder.setItems(items, new DialogInterface.OnClickListener() {
 //            @Override
@@ -163,18 +173,9 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-         if (actionModelLists.get(position).getIsJoinAct().equals("0"))
-        {
-            Util.toastMsg("您不在该活动中，不能查看活动详情！");
-        }
-        else if(StringUtils.isEmpty(actionModelLists.get(position).getActId())){
-            Util.toastMsg("抱歉, 该活动已取消！");
-        }
-        else
-        {
-            Intent intent=new Intent(this, ActActivity.class);
-            intent.putExtra("id", actionModelLists.get(position).getActId());
-            startActivity(intent);
-        }
+        iv_checked= (ImageView) findViewById(R.id.iv_checked);
+
+//        MyActionAdapter.ViewHolder viewHolder=ne;
+//        viewHolder
     }
 }

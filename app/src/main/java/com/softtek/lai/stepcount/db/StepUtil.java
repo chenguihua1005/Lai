@@ -61,8 +61,6 @@ public class StepUtil {
                     result.add(userStep);
                 } while (cursor.moveToNext());
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }finally {
             cursor.close();
             db.close();
@@ -74,11 +72,9 @@ public class StepUtil {
     /**
      * 删除某用户当天之前的所有数据
      */
-    public void deleteOldDate(String currentDate,String userId){
-        //String cause="accountId=? and recordTime<?";
+    public void deleteOldDate(String currentDate){
         String cause="recordTime<?";
         String[] hasOldCon={currentDate};
-        //String[] condition={userId,currentDate};
         SQLiteDatabase db= dbHelper.getWritableDatabase();
         Cursor cursor=db.query("user_step",null,cause,hasOldCon,null,null,null);
         try {

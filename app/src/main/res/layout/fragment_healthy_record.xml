@@ -12,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/no_login_tip" />
-
         <com.handmark.pulltorefresh.library.PullToRefreshScrollView
             xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/healthy_refresh"
@@ -604,6 +602,8 @@
                     android:background="#e0e0e0" />
             </LinearLayout>
         </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+        <include layout="@layout/no_login_tip" />
+
     </FrameLayout>
 
 </LinearLayout>

@@ -53,12 +53,15 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.locationservice.LocationService;
 import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
+import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.module.sport.util.ColorUtil;
+import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.JCountDownTimer;
+import com.softtek.lai.utils.ScreenListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -77,10 +80,6 @@ import zilla.libcore.util.Util;
 public class RunSportActivity extends BaseActivity implements LocationSource
         , View.OnClickListener,Callback{
 
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
     @InjectView(R.id.map)
     MapView mapView;
     @InjectView(R.id.iv_pause)
@@ -154,10 +153,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
-
+    private long oldStep=0;
     @Override
     protected void initViews() {
-        ll_left.setOnClickListener(this);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -183,14 +181,41 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         aMap.setMyLocationEnabled(true);
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
-
         //初始化polyline
         polylineOptions = new PolylineOptions();
-        polylineOptions.width(30);
+        polylineOptions.width(23);
         polylineOptions.useGradient(true);//使用渐变色
-        polylineOptions.color(Color.GREEN);
+        polylineOptions.color(0xFF74BB2A);
         polylineOptions.zIndex(3);
+        /*ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
+        if(models!=null&&!models.isEmpty()){
+            //表示有数据传过来
+            isFirst = false;
+            SportModel sportModel=models.get(0);
+            LatLng latLng=new LatLng(sportModel.getLatitude(),sportModel.getLongitude());
 
+            aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+            for (SportModel model:models){
+                polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
+            }
+            SportModel lastModel=models.get(models.size()-1);
+            lastLatLon=new LatLng(lastModel.getLatitude(),lastModel.getLongitude());
+            DecimalFormat format = new DecimalFormat("#0.00");
+            previousDistance=lastModel.getCurrentKM();
+            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+            time=lastModel.getConsumingTime();
+            oldStep=lastModel.getStep();
+            tv_step.setText(oldStep+"");
+            //辨别是否是一公里了
+            //量化距离（公里）
+            int kilometre= (int) (previousDistance/1000);
+            if(kilometre-index==1){
+                index=kilometre;
+            }else if(kilometre-index>1){
+                index=kilometre;
+            }
+        }*/
 
 
         /**
@@ -216,7 +241,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             } else {
                 //不允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         LOCATION_PREMISSION);
             }
         } else {
@@ -228,13 +253,17 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         }
 
         ViewGroup.LayoutParams params = mapView.getLayoutParams();
-        params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 345);
+        params.height = DisplayUtil.getMobileHeight(RunSportActivity.this)
+                -DisplayUtil.getStatusHeight(this)
+                - DisplayUtil.dip2px(RunSportActivity.this, 270);
         mapView.setLayoutParams(params);
     }
 
+    /*ScreenListener screenListener;
+    HomeListener homeListener;*/
+    boolean isForeground=false;
     @Override
     protected void initDatas() {
-        tv_title.setText("运动");
         manager = new SportManager();
         //绑定步数服务
         bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
@@ -242,6 +271,44 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
+
+        /*screenListener=new ScreenListener(this);
+        homeListener=new HomeListener(this);
+
+        screenListener.registerListener(new ScreenListener.ScreenStateListener() {
+            @Override
+            public void onScreenOn() {
+
+            }
+
+            @Override
+            public void onScreenOff() {
+                //锁屏后
+                if(isForeground){
+                    Intent intent = new Intent(RunSportActivity.this,RunSportActivity.class);
+                    intent.addFlags (Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+                            |Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                            |Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    Log.i("锁屏");
+                }
+            }
+
+            @Override
+            public void onUserPresent() {
+            }
+        });
+        homeListener.startWatch(new HomeListener.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                isForeground=true;
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                isForeground=true;
+            }
+        });*/
     }
     //6.0权限回调方法
     @Override
@@ -251,13 +318,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             case LOCATION_PREMISSION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     intent = new Intent(this, LocationService.class);
                     startService(intent);
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -294,14 +359,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
         }
     };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("地图start");
-    }
-
-
+    long step;
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what){
@@ -310,8 +368,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 Bundle bundle=msg.getData();
                 int tempStep = bundle.getInt("todayStep",0);
                 if (startStep == 0) startStep = tempStep;
-                int step = (tempStep - startStep) <= 0 ? 0 : (tempStep - startStep);
-                int calori = step / 35;
+                step = ((tempStep - startStep) <= 0 ? 0+oldStep : (tempStep - startStep))+oldStep;
+                int calori = (int) (step / 35);
                 tv_step.setText(step + "");
                 tv_calorie.setText(calori + "");
                 if (coordinates.isEmpty()) {//如果还没有定位到则使用步数来计算公里数
@@ -351,6 +409,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
         super.onDestroy();
+        /*screenListener.unregisterListener();
+        homeListener.stopWatch();*/
     }
 
     @Override
@@ -405,11 +465,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         switch (v.getId()) {
             case R.id.iv_location:
                 if (lastLatLon != null) {
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 16f));
                 }
-                break;
-            case R.id.ll_left:
-                doBack();
                 break;
             case R.id.iv_pause:
                 iv_pause.setEnabled(false);
@@ -487,7 +544,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         @Override
                         public void onAnimationStart(Animator animation) {
                             ViewGroup.LayoutParams params = mapView.getLayoutParams();
-                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 175);
+                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.getStatusHeight(RunSportActivity.this)
+                                    - DisplayUtil.dip2px(RunSportActivity.this, 100);
                             mapView.setLayoutParams(params);
                         }
 
@@ -517,7 +575,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             ViewGroup.LayoutParams params = mapView.getLayoutParams();
-                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 345);
+                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.getStatusHeight(RunSportActivity.this)
+                                    - DisplayUtil.dip2px(RunSportActivity.this, 270);
                             mapView.setLayoutParams(params);
                         }
                     });
@@ -557,7 +616,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
         @Override
         public void onFinish() {
-            Log.i("定时器结束");
             //重新启动
             startCountDown();
 
@@ -572,7 +630,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            doBack();
+            Util.toastMsg("请先结束运动");
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -583,24 +641,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         if (resultCode == 200) {
             finish();
         }
-    }
-
-    private void doBack() {
-        if (countDown != null) countDown.cancel();
-        AlertDialog dialog = new AlertDialog.Builder(this).setMessage("返回将丢失本次跑步数据")
-                .setPositiveButton("放弃", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("继续", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startCountDown();
-                    }
-                }).setCancelable(false).create();
-        dialog.show();
     }
 
     private class LayoutWapper {
@@ -621,6 +661,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     double previousDistance;//旧的距离
     boolean isFirst = true;
     LatLng lastLatLon;
+    int index;//公里节点记录
 
     //位置接收器
     private class LocationReceiver extends BroadcastReceiver {
@@ -634,36 +675,67 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             if (accuracy <= 30 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
                 if (isFirst) {
                     isFirst = false;
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
                 }
 
+                //计算平均速度
+                DecimalFormat format = new DecimalFormat("#0.00");
+                //计算距离单位米
+                double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
+                previousDistance += distance;
+                double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
                 if (lastLatLon != null) {
-                    double distance = AMapUtils.calculateLineDistance(lastLatLon, latLng);
-                    previousDistance += distance;
-                    //计算平均速度
-                    DecimalFormat format = new DecimalFormat("#0.00");
-                    double speed = (previousDistance / 1000) / (time * 1f / 3600);
                     if (distance >= 8) {
-                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
                         polylineOptions.add(latLng);
-                        polylineOptions.color(ColorUtil.getSpeedColor(speed,true));
-                        coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                         aMap.addPolyline(polylineOptions);
+                       /* SportModel model=new SportModel();
+                        model.setLatitude(latLng.latitude);
+                        model.setLongitude(latLng.longitude);
+                        model.setSpeed(format.format(speed));
+                        model.setConsumingTime(time);
+                        model.setStep((int) step);
+                        model.setCurrentKM(previousDistance);
+                        //辨别问题坐标更具速度大于8
+                        model.setHasProblem(speed>9);
+                        //辨别是否是一公里了
+                        //量化距离（公里）
+                        int kilometre= (int) (previousDistance/1000);
+                        if(kilometre-index==1){
+                            index=kilometre;
+                            model.setIskilometre(true);
+                        }else if(kilometre-index>1){
+                            index=kilometre;
+                            model.setIskilometre(false);
+                        }else {
+                            model.setIskilometre(false);
+                        }
+                        SportUtil.getInstance().addSport(model);*/
+                        coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
+
                     }
-                    lastLatLon = latLng;//暂存上一次坐标
-                    tv_avg_speed.setText(/*format.format(speed)*/location.getSpeed() + "km/h");
-                    Util.toastMsg("当前速度>>>"+location.getSpeed());
-                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+
                 } else {
                     //如果是第一次定位到
                     polylineOptions.add(latLng);
-                    coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                     aMap.addPolyline(polylineOptions);
+                    /*SportModel model=new SportModel();
+                    model.setLatitude(latLng.latitude);
+                    model.setLongitude(latLng.longitude);
+                    model.setSpeed(format.format(speed));
+                    model.setConsumingTime(time);
+                    model.setStep((int) step);
+                    model.setIskilometre(false);
+                    SportUtil.getInstance().addSport(model);*/
+                    coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
+
                 }
+                lastLatLon = latLng;//暂存上一次坐标
+                tv_avg_speed.setText(format.format(speed) + "km/h");
+                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
 
             }
             if(accuracy<=0||accuracy>1000){

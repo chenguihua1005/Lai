@@ -168,6 +168,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 //                tab.addTab(reTab,false);
 //                tab.addTab(mineTab,true);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
+                ((RecommendHealthyFragment)fragments.get(0)).updateList();
 
             }
 

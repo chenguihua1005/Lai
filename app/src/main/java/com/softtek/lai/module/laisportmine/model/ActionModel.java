@@ -1,9 +1,11 @@
 package com.softtek.lai.module.laisportmine.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 5/12/2016.
  */
-public class ActionModel {
+public class ActionModel implements Serializable {
     private String MessageId;
     private String SentAcId;
     private String Content;
@@ -12,6 +14,15 @@ public class ActionModel {
     private String ActId;
     private String IsJoinAct;
     private String IsRead;
+    private String isselect;
+
+    public String getIsselect() {
+        return isselect;
+    }
+
+    public void setIsselect(String isselect) {
+        this.isselect = isselect;
+    }
 
     @Override
     public String toString() {

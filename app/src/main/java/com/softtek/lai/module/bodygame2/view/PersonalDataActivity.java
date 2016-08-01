@@ -227,6 +227,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         persondatemanager = new PersonDateManager();
+        dialogShow("加载中");
         persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
     }
 
@@ -240,22 +241,24 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_send_message:
-                boolean isLogin = EMChat.getInstance().isLoggedIn();
-                System.out.println("isLogin:" + isLogin);
-                if (isLogin) {
-                    String HX_ID=clmInfoModel.getHXAccountId();
-                    if(TextUtils.isEmpty(HX_ID) || HX_ID==null ||"null".equals(HX_ID)){
-                        Util.toastMsg("会话异常，请稍后");
-                    }else {
-                        Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
-                        intent.putExtra("name", clmInfoModel.getUserName());
-                        intent.putExtra("photo", path + clmInfoModel.getPhoto());
-                        startActivity(intent);
+                if(clmInfoModel!=null) {
+                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+                    System.out.println("isLogin:" + isLogin);
+                    if (isLogin) {
+                        String HX_ID = clmInfoModel.getHXAccountId();
+                        if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
+                            Util.toastMsg("会话异常，请稍后");
+                        } else {
+                            Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
+                            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                            intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
+                            intent.putExtra("name", clmInfoModel.getUserName());
+                            intent.putExtra("photo", path + clmInfoModel.getPhoto());
+                            startActivity(intent);
+                        }
+                    } else {
+                        Util.toastMsg("会话异常，请稍后再试");
                     }
-                }else {
-                    Util.toastMsg("会话异常，请稍后再试");
                 }
                 break;
             case R.id.ll_left:
@@ -340,6 +343,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void onloadCompleted(memberDetialModel data) {
+        dialogDissmiss();
         try {
             if (data != null) {
                 AMStatus=data.getClmInfo().getIstest();
@@ -387,7 +391,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         tv_mon.setText(chMonth.tomonth(date[1]));
                         tv_storycontent.setText(data.getLossStory().getLogContent());
                     if (!TextUtils.isEmpty(data.getLossStory().getImgUrl())) {
-                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).fit().error(R.drawable.default_icon_square).into(im_storypic);
+                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).error(R.drawable.default_icon_square).into(im_storypic);
                     }
 
                 }
@@ -491,6 +495,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             AMStatus="1";
+            tv_jianzhflag.setText("");
+            ll_story.setClickable(true);
             tv_xunzhflag.setText("");
             ll_xunzh.setClickable(true);
             xunzh=true;

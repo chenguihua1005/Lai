@@ -117,7 +117,6 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
         but_login.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
         iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.healthedit));
         healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
@@ -129,10 +128,13 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         if (StringUtils.isEmpty(UserInfoModel.getInstance().getToken())) {
             lin_is_vr.setVisibility(View.VISIBLE);
             ll.setVisibility(View.GONE);
+            fl_right.setVisibility(View.INVISIBLE);
 
         } else {
             lin_is_vr.setVisibility(View.GONE);
             ll.setVisibility(View.VISIBLE);
+            fl_right.setVisibility(View.VISIBLE);
+            fl_right.setOnClickListener(this);
             //获取健康记录
             mobile = UserInfoModel.getInstance().getUser().getMobile();
             retestPre = new HealthyRecordManager(this);

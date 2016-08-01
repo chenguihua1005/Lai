@@ -39,14 +39,15 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
 import com.softtek.lai.module.sport.net.WeatherServer;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +56,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -264,8 +266,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        SportManager manager = new SportManager(this);
-        dialogShow("加载中");
         manager.getHistoryTotalMovement();
     }
 
@@ -274,10 +274,11 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         aMapLocationClient.stopLocation();
         super.onDestroy();
     }
-
+    SportManager manager;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
+        manager= new SportManager(this);
     }
 
     //解析Xml
@@ -339,6 +340,30 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
             case R.id.rel_start1:
             case R.id.rel_start:
                 if (isGpsEnable()) {
+                    //先检查是否有异常记录
+                    /*final ArrayList<SportModel> list= (ArrayList<SportModel>) SportUtil.getInstance().querySport();
+                    if(!list.isEmpty()){//如果不是空则表示有异常记录未提交
+                        new AlertDialog.Builder(this)
+                                .setTitle(getString(R.string.login_out_title))
+                                .setMessage("您上一次运动记录非正常退出，是否需要延续上次运动继续")
+                                .setPositiveButton("接着运动", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent sport=new Intent(StartSportActivity.this,RunSportActivity.class);
+                                        sport.putParcelableArrayListExtra("sportList",list);
+                                        startActivity(sport);
+                                    }
+                                })
+                                .setNegativeButton("放弃", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SportUtil.getInstance().deleteSport();
+                                        startBigAnimal();
+                                    }
+                                }).create().show();
+                    }else {
+                        startBigAnimal();
+                    }*/
                     startBigAnimal();
                 } else {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
@@ -565,7 +590,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
-        dialogDissmiss();
         try {
             if ("true".equals(type)) {
                 String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();

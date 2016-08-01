@@ -51,6 +51,7 @@ import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.view.StartSportActivity;
 import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -323,7 +324,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             public void run() {
                 pull_sroll.setRefreshing();
             }
-        }, 400);
+        }, 500);
     }
 
     @Override
@@ -339,11 +340,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_reflash:
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                String time = formatter.format(curDate);
-                String str = time + "," + currentStep;
                 dialogShow("加载中");
+                String str = DateUtil.getInstance().getCurrentDate() + "," + currentStep;
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
@@ -583,10 +581,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
         userId = UserInfoModel.getInstance().getUser().getUserid();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String time = formatter.format(curDate);
-        String str = time + "," + currentStep;
+        String str = DateUtil.getInstance().getCurrentDate() + "," + currentStep;
         Log.i("当前最新步数>>>>"+str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);

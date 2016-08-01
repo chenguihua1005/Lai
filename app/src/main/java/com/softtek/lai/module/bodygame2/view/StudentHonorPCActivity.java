@@ -6,7 +6,6 @@
 package com.softtek.lai.module.bodygame2.view;
 
 
-import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,12 +24,6 @@ import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.module.pastreview.adapter.HistoryHonorFCAdapter;
-import com.softtek.lai.module.pastreview.adapter.HistoryHonorJZAdapter;
-import com.softtek.lai.module.pastreview.adapter.HistoryHonorStarAdapter;
-import com.softtek.lai.module.pastreview.adapter.HistoryHonorYGJAdapter;
-import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
-import com.softtek.lai.module.pastreview.presenter.HistoryHonorListManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

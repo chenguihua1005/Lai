@@ -134,6 +134,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.fl_right:
                 String str = "";
+//                dsfsd
                 for (int i = 0; i < list_all.size(); i++) {
                     LogListModel logListModel = list_all.get(i);
                     if (logListModel.getIsSelect()) {

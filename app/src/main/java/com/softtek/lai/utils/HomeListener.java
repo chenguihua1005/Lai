@@ -6,53 +6,43 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 /**
- * Created by John on 2016/6/21.
+ * Created by jerry.guan on 2016/6/21.
  */
 public class HomeListener {
-    static final String TAG = "HomeListener";
+
     private Context mContext;
-    private IntentFilter mFilter;
     private OnHomePressedListener mListener;
     private InnerRecevier mRecevier;
 
     // 回调接口
     public interface OnHomePressedListener {
-        public void onHomePressed();
+        void onHomePressed();
 
-        public void onHomeLongPressed();
+        void onHomeLongPressed();
     }
 
     public HomeListener(Context context) {
         mContext = context;
-        mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-    }
+        mRecevier=new InnerRecevier();
 
-    /**
-     * 设置监听
-     *
-     * @param listener
-     */
-    public void setOnHomePressedListener(OnHomePressedListener listener) {
-        mListener = listener;
-        mRecevier = new InnerRecevier();
     }
 
     /**
      * 开始监听，注册广播
      */
-    public void startWatch() {
-        if (mRecevier != null) {
-            mContext.registerReceiver(mRecevier, mFilter);
-        }
+    public void startWatch(OnHomePressedListener listener) {
+        mListener = listener;
+        IntentFilter mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        mContext.registerReceiver(mRecevier, mFilter);
     }
 
     /**
      * 停止监听，注销广播
      */
     public void stopWatch() {
-        if (mRecevier != null) {
-            mContext.unregisterReceiver(mRecevier);
-        }
+        mContext.unregisterReceiver(mRecevier);
+        mRecevier=null;
+        mListener=null;
     }
 
     class InnerRecevier extends BroadcastReceiver {

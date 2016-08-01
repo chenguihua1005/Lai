@@ -1,6 +1,9 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,12 +11,14 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
@@ -86,6 +91,13 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        String type="0";
+
+        type=getIntent().getStringExtra("type");
+        if ("0".equals(type))
+        {
+            cb_zan.setVisibility(View.GONE);
+        }
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= getIntent().getParcelableExtra("log");
@@ -124,35 +136,57 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.cb_zan:
-                final UserInfoModel infoModel = UserInfoModel.getInstance();
-                log.setPriase(Integer.parseInt(log.getPriase())+1+"");
-                log.setIsClicked(Constants.HAS_ZAN);
-                log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(),infoModel.getUser().getNickname(),infoModel.getUser().getMobile()));
-                cb_zan.setText(log.getPriase());
-                tv_zan_name.setText(log.getUsernameSet());
-                zanSet();
-                //向服务器提交
-                UserModel info= UserInfoModel.getInstance().getUser();
-                service.clickLike(UserInfoModel.getInstance().getToken(),
-                        Long.parseLong(info.getUserid()), Long.parseLong(log.getLossLogId()),
-                        new RequestCallback<ResponseData<Zan>>() {
-                            @Override
-                            public void success(ResponseData<Zan> zanResponseData, Response response) {
-                            }
+                Log.i("dfdsfsdf",UserInfoModel.getInstance().getUser().getUserid());
+                if (TextUtils.isEmpty(UserInfoModel.getInstance().getToken()))
+                {
+                    cb_zan.setChecked(false);
+                    AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(getBaseContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+                else {
+                    ll_zan.setVisibility(View.VISIBLE);
+                    final UserInfoModel infoModel = UserInfoModel.getInstance();
+                    log.setPriase(Integer.parseInt(log.getPriase()) + 1 + "");
+                    log.setIsClicked(Constants.HAS_ZAN);
+                    log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
+                    cb_zan.setText(log.getPriase());
+                    tv_zan_name.setText(log.getUsernameSet());
+                    zanSet();
+                    //向服务器提交
+                    UserModel info = UserInfoModel.getInstance().getUser();
+                    service.clickLike(UserInfoModel.getInstance().getToken(),
+                            Long.parseLong(info.getUserid()), Long.parseLong(log.getLossLogId()),
+                            new RequestCallback<ResponseData<Zan>>() {
+                                @Override
+                                public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                int priase=Integer.parseInt(log.getPriase())-1<0?0:Integer.parseInt(log.getPriase())-1;
-                                log.setPriase(priase+"");
-                                String del= StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(),infoModel.getUser().getNickname()),",");
-                                log.setUsernameSet(del);
-                                log.setIsClicked(Constants.NO_ZAN);
-                                cb_zan.setText(priase+"");
-                                tv_zan_name.setText(log.getUsernameSet());
-                                zanSet();
-                            }
-                        });
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    super.failure(error);
+                                    int priase = Integer.parseInt(log.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(log.getPriase()) - 1;
+                                    log.setPriase(priase + "");
+                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                    log.setUsernameSet(del);
+                                    log.setIsClicked(Constants.NO_ZAN);
+                                    cb_zan.setText(priase + "");
+                                    tv_zan_name.setText(log.getUsernameSet());
+                                    zanSet();
+                                }
+                            });
+                }
                 break;
         }
     }

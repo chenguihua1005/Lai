@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -53,6 +52,8 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
     TextView tv_loss_before;
     @InjectView(R.id.tv_loss_after)
     TextView tv_loss_after;
+    @InjectView(R.id.ll_story)
+    LinearLayout ll_story;
 
     @InjectView(R.id.tv_day)
     TextView tv_day;
@@ -106,6 +107,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         iv_first.setOnClickListener(this);
         iv_second.setOnClickListener(this);
         iv_third.setOnClickListener(this);
+        ll_story.setOnClickListener(this);
 
     }
 
@@ -143,6 +145,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 honorIntent.putExtra("classId", classId);
                 startActivity(honorIntent);
                 break;
+            case R.id.ll_story:
             case R.id.rel_my_weight:
                 Intent storyIntent = new Intent(this, StoryActivity.class);
                 storyIntent.putExtra("userId", userId);
@@ -178,108 +181,112 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
 
     public void loadData(PastClass pastClass) {
         dialogDissmiss();
-        if (pastClass == null) {
-            return;
-        }
-        PastBaseData baseData = pastClass.getBaseData();
-        String basePath = AddressManager.get("photoHost");
-        if (baseData != null) {
-            setText(tv_totle_lw, StringUtil.getFloatValue(baseData.getTotalLoss()) + "斤");
-            setText(tv_loss_before, StringUtil.getFloatValue(baseData.getBeforeWeight()) + "斤");
-            setText(tv_loss_after, StringUtil.getFloatValue(baseData.getAfterWeight()) + "斤");
-            if (iv_loss_after != null || iv_loss_before != null) {
-                if (StringUtils.isNotEmpty(baseData.getBeforeImage())) {
-                    Picasso.with(this).load(basePath + baseData.getBeforeImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                            .into(iv_loss_before);
-                } else {
-                    Picasso.with(this).load(R.drawable.default_icon_square).into(iv_loss_before);
-                }
-                if (StringUtils.isNotEmpty(baseData.getAfterImage())) {
-                    Picasso.with(this).load(basePath + baseData.getAfterImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                            .into(iv_loss_after);
-                } else {
-                    Picasso.with(this).load(R.drawable.default_icon_square).into(iv_loss_after);
+        try {
+            if (pastClass == null) {
+                return;
+            }
+            PastBaseData baseData = pastClass.getBaseData();
+            String basePath = AddressManager.get("photoHost");
+            if (baseData != null) {
+                setText(tv_totle_lw, StringUtil.getFloatValue(baseData.getTotalLoss()) + "斤");
+                setText(tv_loss_before, StringUtil.getFloatValue(baseData.getBeforeWeight()) + "斤");
+                setText(tv_loss_after, StringUtil.getFloatValue(baseData.getAfterWeight()) + "斤");
+                if (iv_loss_after != null || iv_loss_before != null) {
+                    if (StringUtils.isNotEmpty(baseData.getBeforeImage())) {
+                        Picasso.with(this).load(basePath + baseData.getBeforeImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                                .into(iv_loss_before);
+                    } else {
+                        Picasso.with(this).load(R.drawable.default_icon_square).into(iv_loss_before);
+                    }
+                    if (StringUtils.isNotEmpty(baseData.getAfterImage())) {
+                        Picasso.with(this).load(basePath + baseData.getAfterImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                                .into(iv_loss_after);
+                    } else {
+                        Picasso.with(this).load(R.drawable.default_icon_square).into(iv_loss_after);
+                    }
                 }
             }
-        }
 
-        LossStory story = pastClass.getLossLog();
-        if (story != null) {
-            int day = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(story.getCreateDate());
-            int month = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(story.getCreateDate());
-            setText(tv_day, day + "");
-            setText(tv_month, month + "月");
-            setText(tv_content, story.getLogContent());
-            if (cb_zan != null) {
-                cb_zan.setText(story.getPriase());
-            }
-            if (StringUtils.isNotEmpty(story.getImgUrl())) {
-                Picasso.with(this).load(basePath + story.getImgUrl()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                        .into(iv_image);
-            } else {
-                Picasso.with(this).load(R.drawable.default_icon_square).into(iv_image);
-            }
-        }
-        List<Honor> honors = pastClass.getHonor();
-        if (honors != null && !honors.isEmpty()) {
-            for (int i = 0; i < honors.size(); i++) {
-                Honor honor = honors.get(i);
-                switch (i) {
-                    case 0:
-                        setMedal(honor, medal1, tv_medal1);
-                        break;
-                    case 1:
-                        setMedal(honor, medal2, tv_medal2);
-                        break;
-                    case 2:
-                        setMedal(honor, medal3, tv_medal3);
-                        break;
+            LossStory story = pastClass.getLossLog();
+            if (story != null) {
+                int day = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(story.getCreateDate());
+                int month = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(story.getCreateDate());
+                setText(tv_day, day + "");
+                setText(tv_month, month + "月");
+                setText(tv_content, story.getLogContent());
+                if (cb_zan != null) {
+                    cb_zan.setText(story.getPriase());
+                }
+                if (StringUtils.isNotEmpty(story.getImgUrl())) {
+                    Picasso.with(this).load(basePath + story.getImgUrl()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                            .into(iv_image);
+                } else {
+                    Picasso.with(this).load(R.drawable.default_icon_square).into(iv_image);
                 }
             }
-        }
+            List<Honor> honors = pastClass.getHonor();
+            if (honors != null && !honors.isEmpty()) {
+                for (int i = 0; i < honors.size(); i++) {
+                    Honor honor = honors.get(i);
+                    switch (i) {
+                        case 0:
+                            setMedal(honor, medal1, tv_medal1);
+                            break;
+                        case 1:
+                            setMedal(honor, medal2, tv_medal2);
+                            break;
+                        case 2:
+                            setMedal(honor, medal3, tv_medal3);
+                            break;
+                    }
+                }
+            }
 
-        List<Photo> photos = pastClass.getImgBook();
-        int px= (DisplayUtil.getMobileWidth(this)-16)/3;
-        if (photos != null && !photos.isEmpty()) {
-            for (int i = 0; i < photos.size(); i++) {
-                String url = basePath + photos.get(i).getImgUrl();
-                Log.i("我的相册>>>" + url);
-                switch (i) {
-                    case 0:
-                        if (iv_first != null) {
-                            iv_first.setVisibility(View.VISIBLE);
-                            ViewGroup.LayoutParams params= iv_first.getLayoutParams();
-                            params.height=px;
-                            params.width=px;
-                            iv_first.setLayoutParams(params);
-                            Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                                    .into(iv_first);
-                        }
-                        break;
-                    case 1:
-                        if (iv_second != null) {
-                            iv_second.setVisibility(View.VISIBLE);
-                            ViewGroup.LayoutParams params= iv_second.getLayoutParams();
-                            params.height=px;
-                            params.width=px;
-                            iv_second.setLayoutParams(params);
-                            Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                                    .into(iv_second);
-                        }
-                        break;
-                    case 2:
-                        if (iv_third != null) {
-                            iv_third.setVisibility(View.VISIBLE);
-                            ViewGroup.LayoutParams params= iv_third.getLayoutParams();
-                            params.height=px;
-                            params.width=px;
-                            iv_third.setLayoutParams(params);
-                            Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
-                                    .into(iv_third);
-                        }
-                        break;
+            List<Photo> photos = pastClass.getImgBook();
+            int px = (DisplayUtil.getMobileWidth(this) - 16) / 3;
+            if (photos != null && !photos.isEmpty()) {
+                for (int i = 0; i < photos.size(); i++) {
+                    String url = basePath + photos.get(i).getImgUrl();
+                    Log.i("我的相册>>>" + url);
+                    switch (i) {
+                        case 0:
+                            if (iv_first != null) {
+                                iv_first.setVisibility(View.VISIBLE);
+                                ViewGroup.LayoutParams params = iv_first.getLayoutParams();
+                                params.height = px;
+                                params.width = px;
+                                iv_first.setLayoutParams(params);
+                                Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                                        .into(iv_first);
+                            }
+                            break;
+                        case 1:
+                            if (iv_second != null) {
+                                iv_second.setVisibility(View.VISIBLE);
+                                ViewGroup.LayoutParams params = iv_second.getLayoutParams();
+                                params.height = px;
+                                params.width = px;
+                                iv_second.setLayoutParams(params);
+                                Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                                        .into(iv_second);
+                            }
+                            break;
+                        case 2:
+                            if (iv_third != null) {
+                                iv_third.setVisibility(View.VISIBLE);
+                                ViewGroup.LayoutParams params = iv_third.getLayoutParams();
+                                params.height = px;
+                                params.width = px;
+                                iv_third.setLayoutParams(params);
+                                Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                                        .into(iv_third);
+                            }
+                            break;
+                    }
                 }
             }
+        }catch (Exception e){
+
         }
 
     }

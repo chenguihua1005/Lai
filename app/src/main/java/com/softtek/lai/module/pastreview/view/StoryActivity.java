@@ -107,24 +107,25 @@ public class StoryActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void getLogList(StoryList logs) {
-        ptrlv.onRefreshComplete();
-        if(logs==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        totalPage=Integer.parseInt(logs.getPageCount());
-        List<StoryModel> models=logs.getLogList();
-        if(models==null||models.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            this.logs.clear();
-        }
-        this.logs.addAll(models);
-        if(adapter!=null)
-            adapter.notifyDataSetChanged();
-
+        try {
+            ptrlv.onRefreshComplete();
+            if (logs == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
+            }
+            totalPage = Integer.parseInt(logs.getPageCount());
+            List<StoryModel> models = logs.getLogList();
+            if (models == null || models.isEmpty()) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
+            }
+            if (pageIndex == 1) {
+                this.logs.clear();
+            }
+            this.logs.addAll(models);
+            if (adapter != null)
+                adapter.notifyDataSetChanged();
+        }catch (Exception e){}
     }
 
 }

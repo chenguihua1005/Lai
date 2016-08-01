@@ -30,6 +30,7 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jerry.guan on 4/11/2016.
+ * 健康圈推荐
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
@@ -65,7 +66,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false);
+        adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false,2);
         ptrlv.setAdapter(adapter);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -85,11 +86,13 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
             Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
             logDetail.putExtra("log",copyModel(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","1");
             startActivityForResult(logDetail,LIST_JUMP_2);
         }else if("0".equals(model.getMinetype())){//动态
             Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
             logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
             logDetail.putExtra("position",position-1);
+            logDetail.putExtra("type","1");
             startActivityForResult(logDetail,LIST_JUMP);
         }
     }
@@ -118,6 +121,16 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
                 }
             },300);
         }
+    }
+    public  void updateList(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
+            }
+        }, 300);
     }
 
     @Override
