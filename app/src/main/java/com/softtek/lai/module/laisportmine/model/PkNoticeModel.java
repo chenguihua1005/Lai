@@ -12,6 +12,7 @@ public class PkNoticeModel {
     private String Photo;
     private String UserName;
     private String Chip;
+    private String IsRead;
 
     @Override
     public String toString() {
@@ -24,6 +25,7 @@ public class PkNoticeModel {
                 ", Photo='" + Photo + '\'' +
                 ", UserName='" + UserName + '\'' +
                 ", Chip='" + Chip + '\'' +
+                ", IsRead='" + IsRead + '\'' +
                 '}';
     }
 
@@ -89,5 +91,13 @@ public class PkNoticeModel {
 
     public void setChip(String chip) {
         Chip = chip;
+    }
+
+    public String getIsRead() {
+        return IsRead;
+    }
+
+    public void setIsRead(String isRead) {
+        IsRead = isRead;
     }
 }

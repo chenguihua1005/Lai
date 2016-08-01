@@ -7,6 +7,7 @@ public class PublicWewlfModel {
     private String MessageId;
     private String Content;
     private String SendTime;
+    private String IsRead;
 
     @Override
     public String toString() {
@@ -14,6 +15,7 @@ public class PublicWewlfModel {
                 "MessageId='" + MessageId + '\'' +
                 ", Content='" + Content + '\'' +
                 ", SendTime='" + SendTime + '\'' +
+                ", IsRead='" + IsRead + '\'' +
                 '}';
     }
 
@@ -39,5 +41,13 @@ public class PublicWewlfModel {
 
     public void setSendTime(String sendTime) {
         SendTime = sendTime;
+    }
+
+    public String getIsRead() {
+        return IsRead;
+    }
+
+    public void setIsRead(String isRead) {
+        IsRead = isRead;
     }
 }

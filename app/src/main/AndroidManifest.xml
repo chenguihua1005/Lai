@@ -392,12 +392,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamezj.view.BodygameSRActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamecc.view.BodyGameCcActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygameyk.view.BodygameYkActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.review.view.ReviewActivity"
@@ -427,6 +425,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.HealthyDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.message2.view.Message2Activity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.NoticeFC2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.MessageOperatorActivity"
             android:screenOrientation="portrait" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
@@ -730,6 +739,7 @@
         <activity
             android:name=".module.bodygame2.view.BodyGameSPActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame2.view.PersonalDataActivity"
@@ -746,6 +756,7 @@
         <activity
             android:name=".module.bodygame2sr.view.BodyGameSRActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.bodygame2vr.BodyGameVRActivity"
             android:screenOrientation="portrait"/>

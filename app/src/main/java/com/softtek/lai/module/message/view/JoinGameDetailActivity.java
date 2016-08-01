@@ -338,8 +338,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
             tv_right.setText("完成");
-            MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
-            classid = messageDetailInfo.getClassId();
+            classid = getIntent().getStringExtra("classId");
             dialogShow("加载中");
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
             tv_title.setText("报名参赛");

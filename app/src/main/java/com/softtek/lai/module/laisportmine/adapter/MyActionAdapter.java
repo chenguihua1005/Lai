@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -68,7 +69,11 @@ public class MyActionAdapter extends BaseAdapter {
         viewHolder.tv_action_date.setText(date);
         viewHolder.tv_action_content.setText(actionModel.getContent());
         viewHolder.tv_action_name.setText(actionModel.getActTitle());
-
+        if ("0".equals(actionModel.getIsRead())) {
+            viewHolder.img_red.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.img_red.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -77,10 +82,12 @@ public class MyActionAdapter extends BaseAdapter {
         TextView tv_action_date;
         TextView tv_action_content;
         TextView tv_action_name;
+        ImageView img_red;
         public ViewHolder(View view){
             tv_action_date=(TextView)view.findViewById(R.id.tv_action_date);
             tv_action_content=(TextView)view.findViewById(R.id.tv_action_content);
             tv_action_name= (TextView) view.findViewById(R.id.tv_action_name);
+            img_red= (ImageView) view.findViewById(R.id.img_red);
 
         }
     }

@@ -40,6 +40,7 @@ import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -387,7 +388,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     break;
                 case R.id.fl_right:
                 case R.id.iv_email:
-                    startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
+                    startActivity(new Intent(BodyGamePCActivity.this, Message2Activity.class));
                     break;
 
             }

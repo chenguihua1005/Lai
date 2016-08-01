@@ -11,6 +11,7 @@ public class ActionModel {
     private String ActTitle;
     private String ActId;
     private String IsJoinAct;
+    private String IsRead;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class ActionModel {
                 ", ActTitle='" + ActTitle + '\'' +
                 ", ActId='" + ActId + '\'' +
                 ", IsJoinAct='" + IsJoinAct + '\'' +
+                ", IsRead='" + IsRead + '\'' +
                 '}';
     }
 
@@ -79,5 +81,13 @@ public class ActionModel {
 
     public void setIsJoinAct(String isJoinAct) {
         IsJoinAct = isJoinAct;
+    }
+
+    public String getIsRead() {
+        return IsRead;
+    }
+
+    public void setIsRead(String isRead) {
+        IsRead = isRead;
     }
 }

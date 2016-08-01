@@ -39,11 +39,13 @@ import com.softtek.lai.module.bodygame2.present.SPManager;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
@@ -457,10 +459,10 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                getActivity().finish();
+                getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
             case R.id.ll_right:
-                startActivity(new Intent(getContext(), MessageActivity.class));
+                startActivity(new Intent(getContext(), Message2Activity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新

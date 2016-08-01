@@ -33,6 +33,7 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
@@ -190,7 +191,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                         }
                     }).create().show();
                 } else {
-                    startActivity(new Intent(BodygameSRActivity.this, MessageActivity.class));
+                    startActivity(new Intent(BodygameSRActivity.this, Message2Activity.class));
                 }
                 break;
 

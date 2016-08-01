@@ -558,9 +558,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                                     intents.putExtra("classId", Long.parseLong(select_class_id));
                                     getActivity().startActivity(intents);
                                     break;
-                                case 100:
-
-                                    break;
                                 default:
                                     Util.toastMsg(listResponseData.getMsg());
                                     break;
@@ -596,9 +593,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                                     intent.putExtra("classId", Long.parseLong(select_class_id));
                                     intent.putExtra("type", "1");
                                     getActivity().startActivity(intent);
-                                    break;
-                                case 100:
-
                                     break;
                                 default:
                                     Util.toastMsg(listResponseData.getMsg());
