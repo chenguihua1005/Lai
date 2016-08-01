@@ -5,198 +5,219 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laisportmine.view.MyNewsActivity">
-<include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
-        android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:background="#f1f1f1"
-    >
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/re_public_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
+
             <ImageView
                 android:id="@+id/im_news_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/myrunning_heart"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                />
+                android:src="@drawable/myrunning_heart" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="慈善公益"
-                android:layout_toRightOf="@+id/im_news_tab"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="17sp"/>
+                android:layout_toRightOf="@+id/im_news_tab"
+                android:text="慈善公益"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/tv_newslis_public"
                 android:layout_width="20dp"
                 android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right"
+                android:background="@drawable/sportnews_bac"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/im_news_right"
-                android:background="@drawable/sportnews_bac"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/im_news_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:src="@drawable/myinfo_right" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#f1f1f1"/>
+            android:background="#f1f1f1" />
+
         <RelativeLayout
             android:id="@+id/Re_pk_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
+
             <ImageView
                 android:id="@+id/im_news_tab1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pk_tab"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                />
+                android:src="@drawable/pk_tab" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="莱运动PK挑战"
-                android:layout_toRightOf="@+id/im_news_tab1"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="17sp"/>
+                android:layout_toRightOf="@+id/im_news_tab1"
+                android:text="莱运动PK挑战"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/tv_newslis_pk"
                 android:layout_width="20dp"
                 android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right1"
+                android:background="@drawable/sportnews_bac"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/im_news_right1"
-                android:background="@drawable/sportnews_bac"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/im_news_right1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:src="@drawable/myinfo_right" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#f1f1f1"/>
+            android:background="#f1f1f1" />
+
         <RelativeLayout
             android:id="@+id/Re_action_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
+
             <ImageView
                 android:id="@+id/im_news_tab2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/invitation_tab"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                />
+                android:src="@drawable/invitation_tab" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="活动邀请"
-                android:layout_toRightOf="@+id/im_news_tab2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="17sp"/>
+                android:layout_toRightOf="@+id/im_news_tab2"
+                android:text="活动邀请"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/tv_newslis_action"
                 android:layout_width="20dp"
                 android:layout_height="15dp"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right2"
+                android:background="@drawable/sportnews_bac"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
-                android:visibility="gone"
-                android:layout_toLeftOf="@+id/im_news_right2"
-                android:background="@drawable/sportnews_bac"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/im_news_right2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:src="@drawable/myinfo_right" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#f1f1f1"/>
+            android:background="#f1f1f1" />
+
         <RelativeLayout
             android:id="@+id/Re_systemnews_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
+
             <ImageView
                 android:id="@+id/im_news_tab3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/mynews_setting"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                />
+                android:src="@drawable/mynews_setting" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="系统消息"
-                android:layout_toRightOf="@+id/im_news_tab3"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="17sp"/>
+                android:layout_toRightOf="@+id/im_news_tab3"
+                android:text="系统消息"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/tv_newslis_system"
                 android:layout_width="20dp"
                 android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right3"
+                android:background="@drawable/sportnews_bac"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/im_news_right3"
-                android:background="@drawable/sportnews_bac"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/im_news_right3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:src="@drawable/myinfo_right" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#f1f1f1"/>
-    
-</LinearLayout>
+            android:background="#f1f1f1" />
+
+    </LinearLayout>
 </RelativeLayout>

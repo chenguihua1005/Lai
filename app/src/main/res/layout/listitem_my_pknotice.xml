@@ -6,13 +6,21 @@
     tools:context="com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity">
 
     <LinearLayout
+        android:id="@+id/ll_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_checke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/history_data_circle"
+            android:visibility="visible"/>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -58,7 +66,16 @@
                         android:layout_marginTop="15dp"
                         android:textColor="#333333"
                         android:textSize="12sp" />
-
+                    <ImageView
+                        android:id="@+id/img_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@+id/tv_pk_title"
+                        android:src="@drawable/img_unread"
+                        android:visibility="gone" />
                     <TextView
                         android:id="@+id/tv_pk_date"
                         android:layout_width="wrap_content"

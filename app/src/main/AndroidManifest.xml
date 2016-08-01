@@ -421,6 +421,17 @@
             android:name=".module.community.view.HealthyDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.message2.view.Message2Activity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.NoticeFC2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.MessageOperatorActivity"
+            android:screenOrientation="portrait" />
+
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -600,9 +611,6 @@
             android:name=".module.laisportmine.view.MyActionListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.laisportmine.view.MyActionDelListActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
@@ -725,6 +733,7 @@
         <activity
             android:name=".module.bodygame2.view.BodyGameSPActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame2.view.PersonalDataActivity"
@@ -741,6 +750,7 @@
         <activity
             android:name=".module.bodygame2sr.view.BodyGameSRActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.bodygame2vr.BodyGameVRActivity"
             android:screenOrientation="portrait"/>

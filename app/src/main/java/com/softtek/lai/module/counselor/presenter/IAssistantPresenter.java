@@ -27,7 +27,7 @@ public interface IAssistantPresenter {
     void showAllApplyAssistants(String accountId, ListView list);
 
     //审核助教申请
-    void reviewAssistantApplyList(long applyId, int status,int posion);
+    void reviewAssistantApplyList(long applyId, int status,int posion,String type);
 
     //班级列表（助教）
     void showAllClassList(String managerId, ListView list_class);
@@ -39,7 +39,7 @@ public interface IAssistantPresenter {
     void showAssistantDetails(String assistantId, String classId);
 
     //移除助教
-    void removeAssistantRoleByClass(String assistantId, String classId,String messageId,String type);
+    void removeAssistantRoleByClass(String assistantId, String classId,String type);
 
     //可申请班级助教列表
     void showSRApplyList(String assistantId,ListView list_apply_assistant);

@@ -26,7 +26,7 @@ public interface IMessagePresenter {
     void getMsgList(String accountid);
 
     //PC接受参赛要求
-    void acceptInviterToClass(String inviters, String classId, String acceptType, MessageDetailInfo messageDetailInfo);
+    void acceptInviterToClass(String inviters, String classId, String acceptType);
 
     //SR接受SP邀请
     void acceptInviter(String inviters, String classId, String acceptType);

@@ -1,0 +1,259 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
+package com.softtek.lai.module.message2.view;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laisportmine.view.MyActionListActivity;
+import com.softtek.lai.module.laisportmine.view.MyPkListActivity;
+import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message2.model.UnreadMsgModel;
+import com.softtek.lai.module.message2.presenter.MessageMainManager;
+
+import org.greenrobot.eventbus.EventBus;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+
+/**
+ * Created by jarvis.liu on 3/22/2016.
+ */
+@InjectLayout(R.layout.activity_message2)
+public class Message2Activity extends BaseActivity implements View.OnClickListener, MessageMainManager.GetUnreadMsgCallBack {
+
+
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.rel_fwc)
+    RelativeLayout rel_fwc;
+    @InjectView(R.id.text_value_fwc)
+    TextView text_value_fwc;
+    @InjectView(R.id.text_unread_count_fwc)
+    TextView text_unread_count_fwc;
+
+    @InjectView(R.id.rel_xzs)
+    RelativeLayout rel_xzs;
+    @InjectView(R.id.text_value_xzs)
+    TextView text_value_xzs;
+    @InjectView(R.id.text_unread_count_xzs)
+    TextView text_unread_count_xzs;
+
+    @InjectView(R.id.rel_fc)
+    RelativeLayout rel_fc;
+    @InjectView(R.id.text_value_fc)
+    TextView text_value_fc;
+    @InjectView(R.id.text_unread_count_fc)
+    TextView text_unread_count_fc;
+
+    @InjectView(R.id.rel_gs)
+    RelativeLayout rel_gs;
+    @InjectView(R.id.text_value_gs)
+    TextView text_value_gs;
+    @InjectView(R.id.text_unread_count_gs)
+    TextView text_unread_count_gs;
+
+    @InjectView(R.id.rel_act)
+    RelativeLayout rel_act;
+    @InjectView(R.id.text_value_act)
+    TextView text_value_act;
+    @InjectView(R.id.text_unread_count_act)
+    TextView text_unread_count_act;
+
+    @InjectView(R.id.rel_pk)
+    RelativeLayout rel_pk;
+    @InjectView(R.id.text_value_pk)
+    TextView text_value_pk;
+    @InjectView(R.id.text_unread_count_pk)
+    TextView text_unread_count_pk;
+
+    private MessageMainManager manager;
+    private UserModel model;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        manager = new MessageMainManager(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void initViews() {
+        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        tv_title.setText(R.string.CounselorJ);
+
+        ll_left.setOnClickListener(this);
+        rel_fwc.setOnClickListener(this);
+        rel_xzs.setOnClickListener(this);
+        rel_fc.setOnClickListener(this);
+        rel_gs.setOnClickListener(this);
+        rel_act.setOnClickListener(this);
+        rel_pk.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
+            return;
+        }
+        String id = model.getUserid();
+        dialogShow("加载中");
+        manager.doGetUnreadMsg(id);
+    }
+
+    @Override
+    protected void initDatas() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            case R.id.rel_fwc:
+                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "notice"));
+                break;
+            case R.id.rel_xzs:
+                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "xzs"));
+                break;
+            case R.id.rel_fc:
+                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "fc"));
+                break;
+            case R.id.rel_gs:
+                startActivity(new Intent(this, MyPublicwelfareActivity.class));
+                break;
+            case R.id.rel_act:
+                startActivity(new Intent(this, MyActionListActivity.class));
+                break;
+            case R.id.rel_pk:
+                startActivity(new Intent(this, MyPkListActivity.class));
+                break;
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void getUnreadMsg(String type, UnreadMsgModel unreadMsgModel) {
+        dialogDissmiss();
+        if ("true".equals(type)) {
+            String noticeMsg = unreadMsgModel.getNoticeMsg();
+            if (!"".equals(noticeMsg)) {
+                rel_fwc.setVisibility(View.VISIBLE);
+                text_value_fwc.setText(noticeMsg);
+                text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
+                if ("0".equals(unreadMsgModel.getIsHasNoticeMsg())) {
+                    text_unread_count_fwc.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_fwc.setVisibility(View.VISIBLE);
+                }
+            } else {
+                rel_fwc.setVisibility(View.GONE);
+            }
+
+            String operateMsg = unreadMsgModel.getOperateMsg();
+            if (!"".equals(operateMsg)) {
+                rel_xzs.setVisibility(View.VISIBLE);
+                text_value_xzs.setText(operateMsg);
+                text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
+                if ("0".equals(unreadMsgModel.getIsHasOperateMsg())) {
+                    text_unread_count_xzs.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_xzs.setVisibility(View.VISIBLE);
+                }
+
+            } else {
+                rel_xzs.setVisibility(View.GONE);
+            }
+
+            String measureMsg = unreadMsgModel.getMeasureMsg();
+            if (!"".equals(measureMsg)) {
+                rel_fc.setVisibility(View.VISIBLE);
+                text_value_fc.setText(measureMsg);
+                text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
+                if ("0".equals(unreadMsgModel.getIsHasMeasureMsg())) {
+                    text_unread_count_fc.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_fc.setVisibility(View.VISIBLE);
+                }
+            } else {
+                rel_fc.setVisibility(View.GONE);
+            }
+
+            String angleMsg = unreadMsgModel.getAngleMsg();
+            if (!"".equals(angleMsg)) {
+                rel_gs.setVisibility(View.VISIBLE);
+                text_value_gs.setText(angleMsg);
+                text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
+                if ("0".equals(unreadMsgModel.getIsHasAngelMsg())) {
+                    text_unread_count_gs.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_gs.setVisibility(View.VISIBLE);
+                }
+            } else {
+                rel_gs.setVisibility(View.GONE);
+            }
+
+            String actMsg = unreadMsgModel.getActiveMsg();
+            if (!"".equals(actMsg)) {
+                rel_act.setVisibility(View.VISIBLE);
+                text_value_act.setText(actMsg);
+                text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
+                if ("0".equals(unreadMsgModel.getIsHasActMsg())) {
+                    text_unread_count_act.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_act.setVisibility(View.VISIBLE);
+                }
+            } else {
+                rel_act.setVisibility(View.GONE);
+            }
+
+            String chaMsg = unreadMsgModel.getChallMsg();
+            if (!"".equals(chaMsg)) {
+                rel_pk.setVisibility(View.VISIBLE);
+                text_value_pk.setText(chaMsg);
+                text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
+                if ("0".equals(unreadMsgModel.getIsHasChaMsg())) {
+                    text_unread_count_pk.setVisibility(View.INVISIBLE);
+                } else {
+                    text_unread_count_pk.setVisibility(View.VISIBLE);
+                }
+            } else {
+                rel_pk.setVisibility(View.GONE);
+
+            }
+
+        }
+    }
+}

@@ -150,9 +150,9 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
-    public void removeAssistantRoleByClass(String assistantId, final String classId, String messageId, final String type) {
+    public void removeAssistantRoleByClass(String assistantId, final String classId, final String type) {
         String token = UserInfoModel.getInstance().getToken();
-        counselorService.removeAssistantRoleByClass(token, assistantId, classId, messageId, new Callback<ResponseData>() {
+        counselorService.removeAssistantRoleByClass(token, assistantId, classId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -161,7 +161,12 @@ public class AssistantImpl implements IAssistantPresenter {
                 switch (status) {
                     case 200:
                         if ("message".equals(type)) {
-                            context.startActivity(new Intent(context, MessageActivity.class));
+                            Intent intent = new Intent();
+                            //把返回数据存入Intent
+                            intent.putExtra("type", "xzs");
+                            //设置返回数据
+                            context.setResult(context.RESULT_OK, intent);
+                            context.finish();
                         } else {
                             Intent intent = new Intent();
                             //把返回数据存入Intent
@@ -284,7 +289,7 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
-    public void reviewAssistantApplyList(long applyId, final int status, final int posion) {
+    public void reviewAssistantApplyList(long applyId, final int status, final int posion, final String type) {
         String token = UserInfoModel.getInstance().getToken();
         counselorService.reviewAssistantApplyList(token, applyId, status, new Callback<ResponseData>() {
             @Override
@@ -295,7 +300,16 @@ public class AssistantImpl implements IAssistantPresenter {
                 context.dialogDissmiss();
                 switch (statusId) {
                     case 200:
-                        EventBus.getDefault().post(new ReviewAssistantApplyEvent(posion));
+                        if ("manage".equals(type)) {
+                            EventBus.getDefault().post(new ReviewAssistantApplyEvent(posion));
+                        } else {
+                            Intent intent = new Intent();
+                            //把返回数据存入Intent
+                            intent.putExtra("type", "xzs");
+                            //设置返回数据
+                            context.setResult(context.RESULT_OK, intent);
+                            context.finish();
+                        }
                         break;
                     case 100:
 

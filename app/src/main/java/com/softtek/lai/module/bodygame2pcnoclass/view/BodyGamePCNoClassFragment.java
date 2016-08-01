@@ -33,6 +33,7 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
@@ -266,7 +267,7 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
                 getActivity().finish();
                 break;
             case R.id.ll_right:
-                startActivity(new Intent(getContext(), MessageActivity.class));
+                startActivity(new Intent(getContext(), Message2Activity.class));
                 break;
             case R.id.rl_to_class:
                 startActivity(new Intent(getContext(), ClassListActivity.class));

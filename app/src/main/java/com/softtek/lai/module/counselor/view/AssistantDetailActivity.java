@@ -149,7 +149,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialogShow("加载中");
-                        ssistantPresenter.removeAssistantRoleByClass(assistantId, classId, "0", "assistant");
+                        ssistantPresenter.removeAssistantRoleByClass(assistantId, classId, "assistant");
                     }
                 })
                 .setNegativeButton(getString(R.string.app_cancel), new DialogInterface.OnClickListener() {

@@ -25,6 +25,7 @@ import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -204,7 +205,7 @@ public class MessageImpl implements IMessagePresenter {
     }
 
     @Override
-    public void acceptInviterToClass(String inviters, String classId, final String acceptType, final MessageDetailInfo messageDetailInfo) {
+    public void acceptInviterToClass(String inviters, final String classId,String acceptType) {
         String token = UserInfoModel.getInstance().getToken();
         messageService.acceptInviterToClass(token, inviters, classId, acceptType, new Callback<ResponseData>() {
             @Override
@@ -214,24 +215,19 @@ public class MessageImpl implements IMessagePresenter {
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:
-                        if ("0".equals(acceptType)) {
-                            String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-                            System.out.println("userrole-------------:" + userrole);
-                            if (String.valueOf(Constants.INC).equals(userrole)) {
-                                context.startActivity(new Intent(context, LoginActivity.class));
+                        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+                        System.out.println("userrole-------------:" + userrole);
+                        if (String.valueOf(Constants.INC).equals(userrole)) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
 
-                            } else {
-                                Intent intent = new Intent(context, MessageActivity.class);
-                                context.startActivity(intent);
-
-                            }
-                        } else {
-                            Intent intent = new Intent(context, JoinGameDetailActivity.class);
-                            intent.putExtra("messageDetailInfo", messageDetailInfo);
-                            intent.putExtra("type", "1");
-                            context.startActivity(intent);
+                        }else {
+                            Intent intent = new Intent();
+                            //把返回数据存入Intent
+                            intent.putExtra("type", "xzs");
+                            //设置返回数据
+                            context.setResult(context.RESULT_OK, intent);
+                            context.finish();
                         }
-                        context.finish();
                         break;
                     case 100:
                         break;
@@ -265,10 +261,12 @@ public class MessageImpl implements IMessagePresenter {
                             Intent intent = new Intent(context, BodyGameSRActivity.class);
                             intent.putExtra("type", "0");
                             context.startActivity(intent);
-                            context.finish();
                         } else {
-                            Intent intent = new Intent(context, MessageActivity.class);
-                            context.startActivity(intent);
+                            Intent intent = new Intent();
+                            //把返回数据存入Intent
+                            intent.putExtra("type", "xzs");
+                            //设置返回数据
+                            context.setResult(context.RESULT_OK, intent);
                             context.finish();
                         }
                         break;

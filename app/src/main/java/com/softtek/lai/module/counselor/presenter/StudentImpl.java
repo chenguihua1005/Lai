@@ -130,9 +130,6 @@ public class StudentImpl implements IStudentPresenter {
                             context.startActivity(intents);
                         }
                         break;
-                    case 100:
-
-                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
