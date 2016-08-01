@@ -12,6 +12,15 @@ public class PkNoticeModel {
     private String Photo;
     private String UserName;
     private String Chip;
+    private Boolean Isselect;
+
+    public Boolean getIsselect() {
+        return Isselect;
+    }
+
+    public void setIsselect(Boolean isselect) {
+        Isselect = isselect;
+    }
 
     @Override
     public String toString() {

@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -23,11 +26,15 @@ import zilla.libcore.file.AddressManager;
 public class MyPkNoticeAdapter extends BaseAdapter {
     private Context context;
     private List<PkNoticeModel> pkNoticeModelList;
+    private boolean isDel=false;
+    CheckBox cb_all;
+    int account=0;
 
 
-
-    public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList) {
+    public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList,boolean isDel,CheckBox cb_all) {
         this.context=context;
+        this.isDel=isDel;
+        this.cb_all=cb_all;
         this.pkNoticeModelList=pkNoticeModelList;
     }
 
@@ -66,7 +73,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         else {
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        PkNoticeModel pkNoticeModel=pkNoticeModelList.get(position);
+        final PkNoticeModel pkNoticeModel=pkNoticeModelList.get(position);
         String path = AddressManager.get("photoHost");
         if (pkNoticeModel.getMsgType().equals("1"))
         {
@@ -150,6 +157,54 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         else {
             viewHolder.tv_pk_date.setText(date[1] + "-" + date1[0]);
         }
+        if (pkNoticeModel.getIsselect()!=null) {
+            if (pkNoticeModel.getIsselect()) {
+                viewHolder.iv_checke.setImageResource(R.drawable.history_data_circled);
+            }
+            else {
+                viewHolder.iv_checke.setImageResource(R.drawable.history_data_circle);
+            }
+        }
+        if (isDel)
+        {
+            viewHolder.iv_checke.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewHolder.iv_checke.setVisibility(View.GONE);
+        }
+        final ViewHolder finalViewHolder = viewHolder;
+//
+        if (isDel) {
+            viewHolder.ll_click.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+//                    if (pkNoticeModel.getIsselect()==null)
+//                    {
+//                        finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circled);
+//                        pkNoticeModel.setIsselect(true);
+//                    }
+                     if (!pkNoticeModel.getIsselect()){
+                        finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circled);
+                        pkNoticeModel.setIsselect(true);
+                         account++;
+                    }
+                    else if (pkNoticeModel.getIsselect())
+                    {
+                        finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circle);
+                        pkNoticeModel.setIsselect(false);
+                        account--;
+                    }
+                    if (account==pkNoticeModelList.size())
+                    {
+                        cb_all.setChecked(true);
+                    }
+                    else {
+                        cb_all.setChecked(false);
+                    }
+                }
+            });
+        }
         return convertView;
     }
 
@@ -159,11 +214,15 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         TextView tv_pk_title;
         TextView tv_pk_date;
         CircleImageView im_pk_head;
+        ImageView iv_checke;
+        LinearLayout ll_click;
         public ViewHolder(View view){
             tv_pk_person1=(TextView)view.findViewById(R.id.tv_pk_person1);
             tv_pk_title= (TextView) view.findViewById(R.id.tv_pk_title);
             im_pk_head=(CircleImageView)view.findViewById(R.id.im_pk_head);
             tv_pk_date= (TextView) view.findViewById(R.id.tv_pk_date);
+            iv_checke= (ImageView) view.findViewById(R.id.iv_checke);
+            ll_click= (LinearLayout) view.findViewById(R.id.ll_click);
 
         }
     }

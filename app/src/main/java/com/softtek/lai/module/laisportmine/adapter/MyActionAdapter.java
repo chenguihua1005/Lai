@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,9 +25,12 @@ public class MyActionAdapter extends BaseAdapter {
     private List<ActionModel> actionModelList;
     private LayoutInflater inflater;
     private boolean isDel=false;
-    public MyActionAdapter(Context context, List<ActionModel> actionModelList,boolean isDel) {
+    CheckBox cb_all;
+    int account=0;
+    public MyActionAdapter(Context context, List<ActionModel> actionModelList,boolean isDel,CheckBox cb_all) {
         this.context=context;
         this.isDel=isDel;
+        this.cb_all=cb_all;
         inflater=LayoutInflater.from(context);
         this.actionModelList=actionModelList;
     }
@@ -71,14 +75,13 @@ public class MyActionAdapter extends BaseAdapter {
         viewHolder.tv_action_date.setText(date);
         viewHolder.tv_action_content.setText(actionModel.getContent());
         viewHolder.tv_action_name.setText(actionModel.getActTitle());
-        if (!TextUtils.isEmpty(actionModel.getIsselect())) {
-            if (actionModel.getIsselect().equals("true")) {
+
+            if (actionModel.isselect()) {
                 viewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
             }
             else {
                 viewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
             }
-        }
         if (isDel)
         {
             viewHolder.iv_checked.setVisibility(View.VISIBLE);
@@ -93,19 +96,23 @@ public class MyActionAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (TextUtils.isEmpty(actionModel.getIsselect()))
-                {
+                 if (!actionModel.isselect()){
                     finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
-                    actionModel.setIsselect("true");
+                    actionModel.setIsselect(true);
+                     account++;
                 }
-                else if (actionModel.getIsselect().equals("false")){
-                    finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circled);
-                    actionModel.setIsselect("true");
-                }
-                else if (actionModel.getIsselect().equals("true"))
+                else if (actionModel.isselect())
                 {
                     finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
-                    actionModel.setIsselect("false");
+                    actionModel.setIsselect(false);
+                    account--;
+                }
+                if (account==actionModelList.size())
+                {
+                    cb_all.setChecked(true);
+                }
+                else {
+                    cb_all.setChecked(false);
                 }
             }
         });
