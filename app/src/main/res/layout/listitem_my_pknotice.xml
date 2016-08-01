@@ -66,7 +66,16 @@
                         android:layout_marginTop="15dp"
                         android:textColor="#333333"
                         android:textSize="12sp" />
-
+                    <ImageView
+                        android:id="@+id/img_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@+id/tv_pk_title"
+                        android:src="@drawable/img_unread"
+                        android:visibility="gone" />
                     <TextView
                         android:id="@+id/tv_pk_date"
                         android:layout_width="wrap_content"

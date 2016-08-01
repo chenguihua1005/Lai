@@ -33,12 +33,14 @@ import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.studentbasedate.view.DimensionChartFragmentPC;
 import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
@@ -424,10 +426,10 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                getActivity().finish();
+                getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
             case R.id.fl_right:
-                startActivity(new Intent(getContext(), MessageActivity.class));
+                startActivity(new Intent(getContext(), Message2Activity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新

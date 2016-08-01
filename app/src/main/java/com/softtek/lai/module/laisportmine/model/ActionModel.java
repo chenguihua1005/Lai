@@ -13,13 +13,13 @@ public class ActionModel implements Serializable {
     private String ActTitle;
     private String ActId;
     private String IsJoinAct;
-    private boolean isselect;
+    private String isselect;
 
-    public boolean isselect() {
+    public String getIsselect() {
         return isselect;
     }
 
-    public void setIsselect(boolean isselect) {
+    public void setIsselect(String isselect) {
         this.isselect = isselect;
     }
 

@@ -97,14 +97,14 @@ public class AssistantApplyAdapter extends BaseAdapter {
             public void onClick(View v) {
                 System.out.println("applyId:" + assistantApplyInfo.getApplyId());
                 context.dialogShow("加载中");
-                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, position);
+                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, position,"manage");
             }
         });
         holder.img_refuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.dialogShow("加载中");
-                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 0, position);
+                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 0, position,"manage");
             }
         });
         return convertView;

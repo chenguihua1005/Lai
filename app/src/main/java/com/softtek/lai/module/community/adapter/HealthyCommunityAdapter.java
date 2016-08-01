@@ -201,36 +201,33 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                                 }
                                             });
                                 }
-                                else
-                                {
-                                    if (holder.cb_zan.isChecked()) {
-                                        final UserInfoModel infoModel = UserInfoModel.getInstance();
-                                        model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                                        model.setIsPraise(Constants.HAS_ZAN);
-                                        model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
-                                                infoModel.getUser().getMobile()));
-                                        //向服务器提交
-                                        String token = infoModel.getToken();
-                                        service1.clickLike(UserInfoModel.getInstance().getToken(),
-                                                Long.parseLong(infoModel.getUser().getUserid()), Long.parseLong(model.getID()),
-                                                new RequestCallback<ResponseData<Zan>>() {
-                                                    @Override
-                                                    public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                                    }
 
-                                                    @Override
-                                                    public void failure(RetrofitError error) {
-                                                        super.failure(error);
-                                                        int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                                        model.setPraiseNum(priase + "");
-                                                        String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                                        model.setUsernameSet(del);
-                                                        model.setIsPraise(Constants.NO_ZAN);
-                                                        notifyDataSetChanged();
-                                                    }
-                                                });
-                                    }
+                            }else {
+                                if (holder.cb_zan.isChecked()) {
+                                    final UserInfoModel infoModel = UserInfoModel.getInstance();
+                                    model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                                    model.setIsPraise(Constants.HAS_ZAN);
+                                    model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
+                                            infoModel.getUser().getMobile()));
+                                    //向服务器提交
+                                    service1.clickLike(UserInfoModel.getInstance().getToken(),
+                                            Long.parseLong(infoModel.getUser().getUserid()), Long.parseLong(model.getID()),
+                                            new RequestCallback<ResponseData<Zan>>() {
+                                                @Override
+                                                public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                                }
 
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    super.failure(error);
+                                                    int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                                    model.setPraiseNum(priase + "");
+                                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                                    model.setUsernameSet(del);
+                                                    model.setIsPraise(Constants.NO_ZAN);
+                                                    notifyDataSetChanged();
+                                                }
+                                            });
                                 }
 
                             }

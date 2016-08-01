@@ -169,14 +169,14 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.but_no:
                 dialogShow("加载中");
-                messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId(),"0");
+                messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId(), "0");
                 break;
             case R.id.but_yes:
                 if (isSelect) {
                     String comments = messageDetailInfo.getComments();
                     String[] str = comments.split("\\|");
                     dialogShow("加载中");
-                    assistantPresenter.removeAssistantRoleByClass(str[0], str[1], messageDetailInfo.getMessageId(), "message");
+                    assistantPresenter.removeAssistantRoleByClass(str[0], str[1], "message");
                 } else {
                     Util.toastMsg(R.string.joinGameQ);
                 }

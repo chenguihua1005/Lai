@@ -96,7 +96,6 @@ public interface CounselorService {
     void removeAssistantRoleByClass(@Header("token") String token,
                                     @Query("assistantId") String assistantId,
                                     @Query("classId") String classId,
-                                    @Query("messageId") String messageId,
                                     Callback<ResponseData> callback);
 
 
