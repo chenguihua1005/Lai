@@ -13,15 +13,8 @@ public class ActionModel implements Serializable {
     private String ActTitle;
     private String ActId;
     private String IsJoinAct;
+    private String IsRead;
     private boolean isselect;
-
-    public boolean isselect() {
-        return isselect;
-    }
-
-    public void setIsselect(boolean isselect) {
-        this.isselect = isselect;
-    }
 
     @Override
     public String toString() {
@@ -33,7 +26,25 @@ public class ActionModel implements Serializable {
                 ", ActTitle='" + ActTitle + '\'' +
                 ", ActId='" + ActId + '\'' +
                 ", IsJoinAct='" + IsJoinAct + '\'' +
+                ", IsRead='" + IsRead + '\'' +
+                ", isselect=" + isselect +
                 '}';
+    }
+
+    public String getIsRead() {
+        return IsRead;
+    }
+
+    public void setIsRead(String isRead) {
+        IsRead = isRead;
+    }
+
+    public boolean isselect() {
+        return isselect;
+    }
+
+    public void setIsselect(boolean isselect) {
+        this.isselect = isselect;
     }
 
     public String getMessageId() {
