@@ -109,7 +109,7 @@ public class MyActionAdapter extends BaseAdapter {
                         account--;
                         isselec=false;
                     }
-                    if (account == actionModelList.size()-1) {
+                    if (account == actionModelList.size()) {
                         cb_all.setChecked(true);
                         isselec=true;
                     } else {

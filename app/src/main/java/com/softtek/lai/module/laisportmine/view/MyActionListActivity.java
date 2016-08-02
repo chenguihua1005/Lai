@@ -94,6 +94,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         myActionAdapter = new MyActionAdapter(this, actionModelLists, false,cb_all);
         list_action.setAdapter(myActionAdapter);
         actionListManager = new ActionListManager(this);
+        dialogShow("加载中");
         actionListManager.GetActiveMsg(accountid);
         updateMsgRTimeManager = new UpdateMsgRTimeManager(this);
         updateMsgRTimeManager.doUpdateMsgRTime(accountid, "22");
@@ -126,7 +127,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 dialogShow("正在删除");
-                delManager.DodeleteOneMsg("5", msgId);
+                delManager.DodeleteOneMsg("1", msgId);
 
                 break;
             case R.id.cb_all:
