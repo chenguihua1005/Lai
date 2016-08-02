@@ -513,8 +513,7 @@ public class StepService extends Service implements SensorEventListener {
 
                                                 @Override
                                                 public void failure(RetrofitError error) {
-                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
-                                                            error.getUrl()+"\nstatus="+error.getResponse().getStatus(),
+                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed..",
                                                             LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                                     super.failure(error);
                                                 }
