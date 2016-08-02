@@ -107,13 +107,14 @@
                 <!--菜单数据-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="92dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/bg2_orange"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center"
                         android:orientation="vertical">
@@ -196,7 +197,8 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center"
                         android:orientation="vertical">
@@ -279,7 +281,8 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center"
                         android:orientation="vertical">
@@ -459,7 +462,8 @@
                     <RelativeLayout
                         android:id="@+id/rl_to_class"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
                         android:background="@color/white">
                         <ImageView
                             android:id="@+id/iv1"
@@ -484,7 +488,7 @@
                             android:layout_centerInParent="true"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/arrow_copy"
-                            android:layout_marginRight="15dp"/>
+                            />
                         <TextView
                             android:id="@+id/tv_tip"
                             android:layout_width="wrap_content"

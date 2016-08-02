@@ -392,13 +392,6 @@
             android:name=".module.studentbasedate.view.StudentBaseDateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamezj.view.BodygameSRActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamecc.view.BodyGameCcActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.review.view.ReviewActivity"
             android:screenOrientation="portrait" />
         <activity

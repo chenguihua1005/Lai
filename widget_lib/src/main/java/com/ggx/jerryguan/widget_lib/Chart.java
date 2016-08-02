@@ -32,7 +32,7 @@ public class Chart extends View{
     private float tStartAngle;//第三段弧线的初始角度
 
     private Float text=123456f;
-    private String tip="累计减重";
+    private String tip="本月总减重";
     private String unit="斤";
     private int mTextUnitSize=(int) TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP, 18, getResources().getDisplayMetrics());

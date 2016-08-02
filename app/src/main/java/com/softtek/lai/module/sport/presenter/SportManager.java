@@ -8,6 +8,7 @@ import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.net.SportService;
+import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -127,6 +128,7 @@ public class SportManager {
                         if (responseData.getStatus() != 200) {
                             Util.toastMsg(responseData.getMsg());
                         }
+                        SportUtil.getInstance().deleteSport();
                         if (activity != null) {
                             activity.doSubmitResult(responseData.getStatus());
                         }

@@ -65,6 +65,7 @@ import com.softtek.lai.utils.ScreenListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -120,7 +121,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     PolylineOptions polylineOptions;
 
     private OnLocationChangedListener listener;
-    private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
+    //private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,16 +133,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             isFirst=savedInstanceState.getBoolean("isFirst",true);
             previousDistance=savedInstanceState.getDouble("previousDistance",0);
             lastLatLon=savedInstanceState.getParcelable("lastLatLon");
-            ArrayList<LatLon> coordinates=savedInstanceState.getParcelableArrayList("coordinates");
-            if(coordinates!=null&&!coordinates.isEmpty()){
-                this.coordinates.clear();
-                for(LatLon latLon:coordinates){
-                    this.coordinates.add(latLon);
-                    polylineOptions.add(new LatLng(latLon.getLatitude(),latLon.getLongitude()));
+            isLocation=savedInstanceState.getBoolean("isLocation");
+            List<SportModel> models=SportUtil.getInstance().querySport();
+            if(!models.isEmpty()){
+                for(SportModel model:models){
+                    polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
                 }
-                LatLon firstLatLon=coordinates.get(0);
-                LatLng latLng=new LatLng(firstLatLon.getLatitude(),firstLatLon.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
+                SportModel firstModel=models.get(0);
+                LatLng latLng=new LatLng(firstModel.getLatitude(),firstModel.getLongitude());
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
             }
@@ -187,7 +187,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         polylineOptions.useGradient(true);//使用渐变色
         polylineOptions.color(0xFF74BB2A);
         polylineOptions.zIndex(3);
-        /*ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
+        ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
         if(models!=null&&!models.isEmpty()){
             //表示有数据传过来
             isFirst = false;
@@ -215,7 +215,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }else if(kilometre-index>1){
                 index=kilometre;
             }
-        }*/
+        }
 
 
         /**
@@ -259,8 +259,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.setLayoutParams(params);
     }
 
-    /*ScreenListener screenListener;
-    HomeListener homeListener;*/
+    ScreenListener screenListener;
+    HomeListener homeListener;
     boolean isForeground=false;
     @Override
     protected void initDatas() {
@@ -272,7 +272,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
 
-        /*screenListener=new ScreenListener(this);
+        screenListener=new ScreenListener(this);
         homeListener=new HomeListener(this);
 
         screenListener.registerListener(new ScreenListener.ScreenStateListener() {
@@ -286,9 +286,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 //锁屏后
                 if(isForeground){
                     Intent intent = new Intent(RunSportActivity.this,RunSportActivity.class);
-                    intent.addFlags (Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+                    /*intent.addFlags (Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
                             |Intent.FLAG_ACTIVITY_TASK_ON_HOME
-                            |Intent.FLAG_ACTIVITY_NEW_TASK);
+                            |Intent.FLAG_ACTIVITY_NEW_TASK);*/
+                    intent.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     Log.i("锁屏");
                 }
@@ -308,7 +309,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             public void onHomeLongPressed() {
                 isForeground=true;
             }
-        });*/
+        });
     }
     //6.0权限回调方法
     @Override
@@ -360,6 +361,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         }
     };
     long step;
+    boolean isLocation=false;
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what){
@@ -372,7 +374,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 int calori = (int) (step / 35);
                 tv_step.setText(step + "");
                 tv_calorie.setText(calori + "");
-                if (coordinates.isEmpty()) {//如果还没有定位到则使用步数来计算公里数
+                if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
                     DecimalFormat format = new DecimalFormat("#0.00");
                     previousDistance = step * 1000 / 1428f;
                     double speed = (previousDistance / 1000) / (time * 1f / 3600);
@@ -409,8 +411,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
         super.onDestroy();
-        /*screenListener.unregisterListener();
-        homeListener.stopWatch();*/
+        screenListener.unregisterListener();
+        homeListener.stopWatch();
     }
 
     @Override
@@ -445,7 +447,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
         outState.putDouble("previousDistance",previousDistance);//保存距离
         outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
-        outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
+        outState.putBoolean("isLocation",isLocation);//记录了是否定位到了
+        //outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
 
     }
 
@@ -489,7 +492,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 break;
             case R.id.iv_stop:
                 if (countDown != null) countDown.cancel();
-                if (coordinates.isEmpty() && Integer.parseInt(tv_step.getText().toString()) == 0) {
+                if ( !isLocation&&Integer.parseInt(tv_step.getText().toString()) == 0) {
                     AlertDialog dialog = new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
@@ -516,7 +519,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                     data.setSpeed(tv_avg_speed.getText().toString());
                                     data.setTimeLength(tv_clock.getText().toString() + ";" + time);
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                    data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
+                                    data.setTrajectory(new Gson().toJson(new Trajectory(SportUtil.getInstance().querySport())));
                                     dialogShow("正在提交");
                                     manager.submitSportData(RunSportActivity.this, data);
                                 }
@@ -692,7 +695,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     if (distance >= 8) {
                         polylineOptions.add(latLng);
                         aMap.addPolyline(polylineOptions);
-                       /* SportModel model=new SportModel();
+                        SportModel model=new SportModel();
                         model.setLatitude(latLng.latitude);
                         model.setLongitude(latLng.longitude);
                         model.setSpeed(format.format(speed));
@@ -713,24 +716,22 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         }else {
                             model.setIskilometre(false);
                         }
-                        SportUtil.getInstance().addSport(model);*/
-                        coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
-
+                        SportUtil.getInstance().addSport(model);
                     }
 
                 } else {
                     //如果是第一次定位到
+                    isLocation=true;
                     polylineOptions.add(latLng);
                     aMap.addPolyline(polylineOptions);
-                    /*SportModel model=new SportModel();
+                    SportModel model=new SportModel();
                     model.setLatitude(latLng.latitude);
                     model.setLongitude(latLng.longitude);
                     model.setSpeed(format.format(speed));
                     model.setConsumingTime(time);
                     model.setStep((int) step);
                     model.setIskilometre(false);
-                    SportUtil.getInstance().addSport(model);*/
-                    coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
+                    SportUtil.getInstance().addSport(model);
 
                 }
                 lastLatLon = latLng;//暂存上一次坐标

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -57,7 +58,7 @@ public class LineChartUtil {
                 max=val;
             }
         }
-        chart.getAxisLeft().setAxisMaxValue(max+10);
+        chart.getAxisLeft().setAxisMaxValue(max+50);
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals,null);
         // set the line to be drawn like this "- - - - - -"
@@ -70,6 +71,7 @@ public class LineChartUtil {
         set1.setDrawCircleHole(false);//实心圆点
         set1.setValueTextSize(9f);
         set1.setDrawFilled(true);//背景色的开关
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         //填充背景色效果
         if(SystemUtils.getSDKInt() >= 18) {
@@ -79,11 +81,6 @@ public class LineChartUtil {
         } else {
             set1.setFillColor(Color.BLACK);
         }
-        //数据按Y轴动画的效果出现
-        //chart.animateY(3000, Easing.EasingOption.EaseInCubic);
-        //数据按照X轴动画的效果出现
-        //chart.animateX(2000);
-        //chart.animateXY(2000,2000);
         data.getDataSets().clear();
         data.getDataSets().add(set1);
         chart.notifyDataSetChanged();
