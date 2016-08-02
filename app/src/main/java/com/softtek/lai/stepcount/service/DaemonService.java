@@ -36,7 +36,7 @@ public class DaemonService extends Service{
         super.onCreate();
         closeReceiver=new StepCloseReceiver();
         registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
-        sendBroadcast(new Intent(StepService.STEP_CLOSE));
+
     }
 
     @Override
