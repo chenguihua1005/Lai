@@ -2,25 +2,19 @@ package com.softtek.lai.module.retest.present;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
-import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.newmemberentry.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
-import com.softtek.lai.module.retest.eventModel.MeasureEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
-import com.softtek.lai.module.retest.model.ClientModel;
 import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;

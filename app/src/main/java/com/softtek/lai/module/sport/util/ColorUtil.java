@@ -9,15 +9,13 @@ public class ColorUtil {
 
     private static int[] colorList = {
             /*绿*/
-            0xFF74BB2A,
-            /*淡黄*/
-            0xFFE1E618,
+            0xFF99FC35,
             /*黄*/
-            0xFFFBE01C,
+            0xFFF0F936,
             /*红*/
-            0xFFDE2C00,
+            0xFFF7594A,
             /*灰*/
-            0xFF74736C};
+            0xFFCCCCCC};
 
     public static int getSpeedColor(double speed,boolean flag){
         int color=0;

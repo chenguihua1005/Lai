@@ -3,13 +3,12 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.presenter;
+package com.softtek.lai.module.newmemberentry.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
-import com.softtek.lai.module.newmemberentry.view.net.GuwenService;
+import com.softtek.lai.module.newmemberentry.EventModel.ClassEvent;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.net.GuwenService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;

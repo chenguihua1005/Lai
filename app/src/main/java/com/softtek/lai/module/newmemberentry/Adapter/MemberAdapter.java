@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.Adapter;
+package com.softtek.lai.module.newmemberentry.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
 
 import java.util.List;
 

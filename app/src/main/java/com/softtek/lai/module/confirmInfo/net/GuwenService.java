@@ -6,7 +6,7 @@
 package com.softtek.lai.module.confirmInfo.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
 
 import java.util.List;
 

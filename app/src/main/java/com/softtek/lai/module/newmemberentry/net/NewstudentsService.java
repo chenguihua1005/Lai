@@ -3,16 +3,14 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.net;
+package com.softtek.lai.module.newmemberentry.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.newmemberentry.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.model.PhotModel;
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.TypedFile;
-
-import java.util.List;
 
 /**
  * Created by julie.zhu on 3/21/2016.

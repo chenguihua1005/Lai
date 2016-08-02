@@ -3,9 +3,9 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.presenter;
+package com.softtek.lai.module.newmemberentry.presenter;
 
-import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.model.NewstudentsModel;
 
 /**
  * Created by julie.zhu on 3/21/2016.

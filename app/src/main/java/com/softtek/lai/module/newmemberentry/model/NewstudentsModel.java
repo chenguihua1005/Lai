@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.model;
+package com.softtek.lai.module.newmemberentry.model;
 
 import java.io.Serializable;
 

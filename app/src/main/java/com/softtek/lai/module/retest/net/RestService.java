@@ -1,12 +1,10 @@
 package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.newmemberentry.model.PhotModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
-import com.softtek.lai.module.retest.model.ClientModel;
 import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;

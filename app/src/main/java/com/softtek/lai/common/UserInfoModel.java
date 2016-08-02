@@ -80,7 +80,7 @@ public class UserInfoModel {
         aCache.remove(Constants.USER_ACACHE_KEY);
     }
     public long getUserId(){
-        return SharedPreferenceService.getInstance(LaiApplication.getInstance().getApplicationContext()).get(USER_ID,0);
+        return SharedPreferenceService.getInstance().get(USER_ID,0l);
     }
 
     /**

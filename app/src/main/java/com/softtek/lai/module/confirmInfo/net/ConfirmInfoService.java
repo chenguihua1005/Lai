@@ -4,12 +4,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;

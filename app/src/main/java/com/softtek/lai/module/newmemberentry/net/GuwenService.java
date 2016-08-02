@@ -3,10 +3,10 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.net;
+package com.softtek.lai.module.newmemberentry.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;

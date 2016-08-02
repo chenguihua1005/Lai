@@ -3,20 +3,16 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.presenter;
+package com.softtek.lai.module.newmemberentry.presenter;
 
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.newmemberentry.view.EntryActivity;
-import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
-import com.softtek.lai.module.newmemberentry.view.net.NewstudentsService;
+import com.softtek.lai.module.newmemberentry.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.model.PhotModel;
+import com.softtek.lai.module.newmemberentry.net.NewstudentsService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,7 +25,6 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by julie.zhu on 3/22/2016.
