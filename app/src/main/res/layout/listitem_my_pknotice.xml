@@ -65,6 +65,8 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="15dp"
                         android:textColor="#333333"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/img_red"
                         android:textSize="12sp" />
                     <ImageView
                         android:id="@+id/img_red"
@@ -72,8 +74,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
+                        android:layout_toLeftOf="@+id/tv_pk_date"
                         android:layout_marginLeft="5dip"
-                        android:layout_toRightOf="@+id/tv_pk_title"
+                        android:layout_marginRight="5dip"
                         android:src="@drawable/img_unread"
                         android:visibility="gone" />
                     <TextView
@@ -83,6 +86,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="8dp"
                         android:layout_marginRight="20dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginTop="15dp"
                         android:gravity="right"
                         android:textColor="#333333"
