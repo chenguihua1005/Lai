@@ -27,6 +27,7 @@ public class MyActionAdapter extends BaseAdapter {
     private boolean isDel = false;
     CheckBox cb_all;
     int account = 0;
+    public boolean isselec=false;
 
     public MyActionAdapter(Context context, List<ActionModel> actionModelList, boolean isDel, CheckBox cb_all) {
         this.context = context;
@@ -106,11 +107,14 @@ public class MyActionAdapter extends BaseAdapter {
                         finalViewHolder.iv_checked.setImageResource(R.drawable.history_data_circle);
                         actionModel.setIsselect(false);
                         account--;
+                        isselec=false;
                     }
-                    if (account == actionModelList.size()) {
+                    if (account == actionModelList.size()-1) {
                         cb_all.setChecked(true);
+                        isselec=true;
                     } else {
                         cb_all.setChecked(false);
+                        isselec=false;
                     }
                 }
             });

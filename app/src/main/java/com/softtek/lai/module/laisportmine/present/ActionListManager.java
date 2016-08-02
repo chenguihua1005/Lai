@@ -7,6 +7,7 @@ import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -40,9 +41,14 @@ public class ActionListManager {
                         }
                         break;
                     default:
+                        List<ActionModel> actionModelLists = new ArrayList<ActionModel>();
+                        ActionModel actionModel=new ActionModel();
+                        actionModel.setActId("1");
+                        actionModel.setActTitle("的方式打开链接");
+                        actionModel.setContent("斯蒂芬斯蒂芬斯雕刻技法");
+                        actionModelLists.add(actionModel);
                         if (cb != null) {
-                            cb.getActionList(null);
-
+                            cb.getActionList(actionModelLists);
                         }
                         Log.i("活动列表" + listResponseData.getData());
                         break;

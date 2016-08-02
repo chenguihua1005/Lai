@@ -28,7 +28,8 @@ public class MyPkNoticeAdapter extends BaseAdapter {
     private List<PkNoticeModel> pkNoticeModelList;
     private boolean isDel=false;
     CheckBox cb_all;
-    int account=0;
+    public int account=0;
+    public boolean isselec=false;
 
 
     public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList,boolean isDel,CheckBox cb_all) {
@@ -159,11 +160,6 @@ public class MyPkNoticeAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
-//                    if (pkNoticeModel.getIsselect()==null)
-//                    {
-//                        finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circled);
-//                        pkNoticeModel.setIsselect(true);
-//                    }
                      if (!pkNoticeModel.getIsselect()){
                         finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circled);
                         pkNoticeModel.setIsselect(true);
@@ -174,13 +170,16 @@ public class MyPkNoticeAdapter extends BaseAdapter {
                         finalViewHolder.iv_checke.setImageResource(R.drawable.history_data_circle);
                         pkNoticeModel.setIsselect(false);
                         account--;
+                        isselec=false;
                     }
                     if (account==pkNoticeModelList.size())
                     {
                         cb_all.setChecked(true);
+                        isselec=true;
                     }
                     else {
                         cb_all.setChecked(false);
+                        isselec=false;
                     }
                 }
             });
@@ -204,6 +203,8 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             im_pk_head = (CircleImageView) view.findViewById(R.id.im_pk_head);
             img_red = (ImageView) view.findViewById(R.id.img_red);
             tv_pk_date = (TextView) view.findViewById(R.id.tv_pk_date);
+            iv_checke= (ImageView) view.findViewById(R.id.iv_checke);
+            ll_click= (LinearLayout) view.findViewById(R.id.ll_click);
 
         }
     }

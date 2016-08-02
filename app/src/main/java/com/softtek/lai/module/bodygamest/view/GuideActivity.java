@@ -73,9 +73,9 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
         LayoutInflater inflater = LayoutInflater.from(this);
         //views = new ArrayList<View>();
         // 初始化引导图片列表
-        views.add(inflater.inflate(R.layout.guideonelayout, null));
-        views.add(inflater.inflate(R.layout.guidetwolayout, null));
-        views.add(inflater.inflate(R.layout.guidethreelayout, null));
+        views.add(inflater.inflate(R.layout.guidewonelayout, null));
+        views.add(inflater.inflate(R.layout.guidewtwolayout, null));
+        views.add(inflater.inflate(R.layout.guidewthreelayout, null));
         views.add(inflater.inflate(R.layout.guidefourlayout, null));
         views.add(inflater.inflate(R.layout.guidefivelayout, null));
         views.add(inflater.inflate(R.layout.guidesixlayout, null));
