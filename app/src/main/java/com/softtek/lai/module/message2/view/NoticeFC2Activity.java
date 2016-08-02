@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,6 +49,11 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
     @InjectView(R.id.list)
     ListView list;
 
@@ -70,7 +76,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     String type;
     private MessageNoticeAdapter adapter;
 
-    private boolean isSelsetAll = false;
+    public static boolean isSelsetAll = false;
 
     List<SelectNoticeMsgModel> noticeList;
     public static List<OperateMsgModel> operatList;
@@ -87,22 +93,25 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         ll_left.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+        tv_right.setText("编辑");
         list.setEmptyView(img_no_message);
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter != null) {
-                    cb_all.setChecked(false);
-                    isSelsetAll = false;
-                    noticeList.get(position).setSelect(true);
-                    footer.setVisibility(View.VISIBLE);
-                    adapter.isDel = true;
-                    adapter.select_count++;
-                    adapter.notifyDataSetChanged();
-                }
-                return false;
-            }
-        });
+//        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (adapter != null) {
+//                    tv_right.setText("完成");
+//                    cb_all.setChecked(false);
+//                    isSelsetAll = false;
+//                    noticeList.get(position).setSelect(true);
+//                    footer.setVisibility(View.VISIBLE);
+//                    adapter.isDel = true;
+//                    adapter.select_count++;
+//                    adapter.notifyDataSetChanged();
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -127,29 +136,29 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (adapter == null) {
-                finish();
-            } else {
-                if (adapter.isDel) {
-                    for (int i = 0; i < noticeList.size(); i++) {
-                        noticeList.get(i).setSelect(false);
-                    }
-                    adapter.select_count = 0;
-                    isSelsetAll = false;
-                    footer.setVisibility(View.GONE);
-                    adapter.isDel = false;
-                    adapter.notifyDataSetChanged();
-                } else {
-                    finish();
-                }
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            if (adapter == null) {
+//                finish();
+//            } else {
+//                if (adapter.isDel) {
+//                    for (int i = 0; i < noticeList.size(); i++) {
+//                        noticeList.get(i).setSelect(false);
+//                    }
+//                    adapter.select_count = 0;
+//                    isSelsetAll = false;
+//                    footer.setVisibility(View.GONE);
+//                    adapter.isDel = false;
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    finish();
+//                }
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     private String getMsgId() {
         String msgId = "";
@@ -169,6 +178,29 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.fl_right:
+                if("编辑".equals(tv_right.getText())){
+                    tv_right.setText("完成");
+                    if (adapter != null) {
+                        cb_all.setChecked(false);
+                        isSelsetAll = false;
+                        footer.setVisibility(View.VISIBLE);
+                        adapter.isDel = true;
+                        adapter.notifyDataSetChanged();
+                    }
+                }else {
+                    tv_right.setText("编辑");
+                    for (int i = 0; i < noticeList.size(); i++) {
+                        noticeList.get(i).setSelect(false);
+                    }
+                    isSelsetAll = false;
+                    adapter.select_count = 0;
+                    footer.setVisibility(View.GONE);
+                    adapter.isDel = false;
+                    adapter.notifyDataSetChanged();
+                }
+
+                break;
             case R.id.tv_delete:
                 String msgId = getMsgId();
                 System.out.println("msgId:" + msgId);
@@ -217,22 +249,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.ll_left:
-                if (adapter == null) {
-                    finish();
-                } else {
-                    if (adapter.isDel) {
-                        for (int i = 0; i < noticeList.size(); i++) {
-                            noticeList.get(i).setSelect(false);
-                        }
-                        isSelsetAll = false;
-                        adapter.select_count = 0;
-                        footer.setVisibility(View.GONE);
-                        adapter.isDel = false;
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        finish();
-                    }
-                }
+                finish();
                 break;
         }
     }
@@ -293,7 +310,9 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
             List<SelectNoticeMsgModel> nList = new ArrayList<SelectNoticeMsgModel>();
             nList.addAll(noticeList);
             List<OperateMsgModel> oList = new ArrayList<OperateMsgModel>();
-            oList.addAll(operatList);
+            if ("xzs".equals(type)) {
+                oList.addAll(operatList);
+            }
             for (int i = 0; i < nList.size(); i++) {
                 SelectNoticeMsgModel selectNoticeMsgModel = nList.get(i);
                 if (selectNoticeMsgModel.isSelect()) {
@@ -306,6 +325,9 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
             }
             adapter.select_count = 0;
             adapter.notifyDataSetChanged();
+            if(noticeList.size()==0){
+                cb_all.setChecked(false);
+            }
         }
     }
 
