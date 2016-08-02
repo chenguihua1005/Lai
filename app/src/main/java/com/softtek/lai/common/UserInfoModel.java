@@ -1,11 +1,12 @@
 package com.softtek.lai.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
-import com.softtek.lai.chat.Constant;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
@@ -24,13 +25,13 @@ import zilla.libcore.file.SharedPreferenceService;
  */
 public class UserInfoModel {
 
+    private static final String USER_ID="user_id";
+
     private static UserInfoModel info=null;
     private UserModel user;
     private String token=null;
     private ACache aCache;
     private Role role;
-    private boolean isLoginOut=false;//是否退出帐号
-    private boolean isGroupOut=false;//是否退出跑团
 
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
@@ -69,7 +70,6 @@ public class UserInfoModel {
      */
     public void loginOut(){
         //请出用户数据
-        isLoginOut=true;
         setUser(null);
         token=null;
         //清除token
@@ -79,21 +79,8 @@ public class UserInfoModel {
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
     }
-
-    public boolean isLoginOut() {
-        return isLoginOut;
-    }
-
-    public void setLoginOut(boolean loginOut) {
-        isLoginOut = loginOut;
-    }
-
-    public boolean isGroupOut() {
-        return isGroupOut;
-    }
-
-    public void setGroupOut(boolean groupOut) {
-        isGroupOut = groupOut;
+    public long getUserId(){
+        return SharedPreferenceService.getInstance(LaiApplication.getInstance().getApplicationContext()).get(USER_ID,0);
     }
 
     /**
@@ -102,6 +89,7 @@ public class UserInfoModel {
      */
     public void saveUserCache(UserModel user){
         //存入内存
+        SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
         setUser(user);
         setToken(user.getToken());
         //存储本地
@@ -128,7 +116,6 @@ public class UserInfoModel {
         user.setMobile("");
         user.setHXAccountId("");
         user.setHasEmchat("0");
-        isLoginOut=true;
         setUser(user);
         //存储本地
         aCache.put(Constants.USER_ACACHE_KEY,user);

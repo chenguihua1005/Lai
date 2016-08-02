@@ -11,8 +11,6 @@ import android.text.TextUtils;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
-import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
@@ -150,7 +148,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                UserInfoModel.getInstance().setGroupOut(true);
                                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
@@ -167,7 +164,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                UserInfoModel.getInstance().setGroupOut(true);
                                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
