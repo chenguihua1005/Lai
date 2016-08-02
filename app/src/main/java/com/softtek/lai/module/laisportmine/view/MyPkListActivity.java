@@ -25,6 +25,9 @@ import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPkDelPKMsgManager;
 import com.softtek.lai.module.laisportmine.present.PkNoticeManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.message2.model.OperateMsgModel;
+import com.softtek.lai.module.message2.model.SelectNoticeMsgModel;
+import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.utils.StringUtil;
 
@@ -33,11 +36,12 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_pk_list)
 public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
         AdapterView.OnItemLongClickListener,MyPkDelPKMsgManager.MyPkDelPKMsgCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener,DeleteMessageManager.DeleteMsgCallBack{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -52,6 +56,10 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_select;//全选按钮
     @InjectView(R.id.cb_all)
     CheckBox cb_all;
+    @InjectView(R.id.tv_delete)
+    TextView tv_delete;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
     private PkNoticeManager pkNoticeManager;
     private UserInfoModel userInfoModel;
     String accountid;
@@ -59,15 +67,20 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
     private CharSequence[] items={"删除"};
     boolean isselec = false;
+    boolean isdelpage=false;
     int account=0;
+    DeleteMessageManager delManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     MyPkDelPKMsgManager myPkDelPKMsgManager;
     @Override
     protected void initViews() {
         tv_title.setText("莱运动PK挑战");
+        tv_right.setText("编辑");
+        tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         ll_select.setOnClickListener(this);
         cb_all.setOnClickListener(this);
+        tv_delete.setOnClickListener(this);
         listview_pk.setOnItemLongClickListener(this);
         listview_pk.setOnItemClickListener(this);
     }
@@ -78,6 +91,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         if (!userInfoModel.getUser().getUserid().isEmpty()) {
             accountid = userInfoModel.getUser().getUserid();
             pkNoticeManager=new PkNoticeManager(this);
+            dialogShow("加载中");
             pkNoticeManager.doGetPKINotice(accountid);
             updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
             updateMsgRTimeManager.doUpdateMsgRTime(accountid,"0");
@@ -85,6 +99,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         myPkNoticeAdapter=new MyPkNoticeAdapter(this,pkNoticeModelList,false,cb_all);
         listview_pk.setAdapter(myPkNoticeAdapter);
         myPkDelPKMsgManager=new MyPkDelPKMsgManager(this);
+        delManager = new DeleteMessageManager(this);
 
 
     }
@@ -96,47 +111,82 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.tv_delete:
+                String msgId = getMsgId();
+                System.out.println("msgId:" + msgId);
+                if ("".equals(msgId)) {
+                    Util.toastMsg("请先选择要删除的数据");
+                    return;
+                }
+                dialogShow("删除中");
+                    delManager.DodeleteOneMsg("5", msgId);
+
+                break;
             case R.id.cb_all:
             case R.id.ll_select:
-                for (int i = 0; i < pkNoticeModelList.size(); i++) {
-                    if (pkNoticeModelList.get(i).getIsselect())
-                    {
-                        account++;
-                    }
-                }
-                if (account==pkNoticeModelList.size())
+                if (myPkNoticeAdapter.isselec)
                 {
                     for (int i = 0; i < pkNoticeModelList.size(); i++) {
-                        pkNoticeModelList.get(i).setIsselect(true);
-                    }
-                    myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, true,cb_all);
-                    listview_pk.setAdapter(myPkNoticeAdapter);
-                    isselec = true;
-                    cb_all.setChecked(true);
-                }
-                else {
-                    if (isselec) {
-                        for (int i = 0; i < pkNoticeModelList.size(); i++) {
                             pkNoticeModelList.get(i).setIsselect(false);
                         }
                         myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, true,cb_all);
                         listview_pk.setAdapter(myPkNoticeAdapter);
-                        isselec = false;
-                    } else {
-                        for (int i = 0; i < pkNoticeModelList.size(); i++) {
+                        myPkNoticeAdapter.isselec=false;
+                        cb_all.setChecked(false);
+                }
+                else {
+                    for (int i = 0; i < pkNoticeModelList.size(); i++) {
                             pkNoticeModelList.get(i).setIsselect(true);
                         }
                         myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, true,cb_all);
                         listview_pk.setAdapter(myPkNoticeAdapter);
-                        isselec = true;
-                    }
+                    myPkNoticeAdapter.isselec=true;
+                        cb_all.setChecked(true);
                 }
+                break;
+            case R.id.tv_right:
+                if (isdelpage)
+                {
+                    tv_right.setText("编辑");
+                    cb_all.setChecked(false);
+                    footer.setVisibility(View.GONE);
+                    myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, false, cb_all);
+                    listview_pk.setAdapter(myPkNoticeAdapter);
+                    isdelpage=false;
+                }
+                else
+            {
+                tv_right.setText("完成");
+                footer.setVisibility(View.VISIBLE);
+                for (int i = 0; i < pkNoticeModelList.size(); i++) {
+                    pkNoticeModelList.get(i).setIsselect(false);
+
+                }
+                myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, true, cb_all);
+                listview_pk.setAdapter(myPkNoticeAdapter);
+                isdelpage=true;
+            }
                 break;
         }
     }
-
+    private String getMsgId() {
+        String msgId = "";
+        //遍历取出为选中状态的消息id
+        for (int i = 0; i < pkNoticeModelList.size(); i++) {
+            PkNoticeModel pkNoticeModel = pkNoticeModelList.get(i);
+            if (pkNoticeModel.getIsselect()) {
+                if ("".equals(msgId)) {
+                    msgId = pkNoticeModel.getPKMsgId();
+                } else {
+                    msgId = msgId + "," + pkNoticeModel.getPKMsgId();
+                }
+            }
+        }
+        return msgId;
+    }
     @Override
     public void getPkNotice(List<PkNoticeModel> pkNoticeModels) {
+        dialogDissmiss();
         try {
             if (pkNoticeModels==null||pkNoticeModels.isEmpty())
             {
@@ -153,27 +203,10 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        footer.setVisibility(View.VISIBLE);
-        for (int i = 0; i < pkNoticeModelList.size(); i++) {
-            pkNoticeModelList.get(i).setIsselect(false);
 
-        }
-        myPkNoticeAdapter=new MyPkNoticeAdapter(this,pkNoticeModelList,true,cb_all);
-        listview_pk.setAdapter(myPkNoticeAdapter);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        positions=position;
-//        builder.setItems(items, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                myPkDelPKMsgManager.doDelPKMsg(pkNoticeModelList.get(position).getPKMsgId());
-//                pkNoticeModelList.remove(positions);
-//                myPkNoticeAdapter.notifyDataSetChanged();
-//
-//
-//            }
-//        }).create().show();
         return true;
     }
 
@@ -183,5 +216,24 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra("pkId",Long.parseLong(pkNoticeModelList.get(position).getPKId()));
         intent.putExtra("pkType", Constants.MESSAGE_PK);
         startActivity(intent);
+    }
+
+    @Override
+    public void deleteMsg(String type) {
+        dialogDissmiss();
+        if ("true".equals(type)) {
+            List<PkNoticeModel> nList = new ArrayList<PkNoticeModel>();
+            nList.addAll(pkNoticeModelList);
+            for (int i = 0; i < nList.size(); i++) {
+                PkNoticeModel pkNoticeModel = nList.get(i);
+                if (pkNoticeModel.getIsselect()) {
+                    pkNoticeModelList.remove(pkNoticeModel);
+                }
+            }
+            myPkNoticeAdapter.account = 0;
+            myPkNoticeAdapter = new MyPkNoticeAdapter(this, pkNoticeModelList, true,cb_all);
+            listview_pk.setAdapter(myPkNoticeAdapter);
+            myPkNoticeAdapter.notifyDataSetChanged();
+        }
     }
 }

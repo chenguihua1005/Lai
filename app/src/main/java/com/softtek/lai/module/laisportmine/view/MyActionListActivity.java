@@ -21,12 +21,15 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
+import com.softtek.lai.module.laisportmine.adapter.MyPkNoticeAdapter;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
+import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +44,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_action_list)
 public class MyActionListActivity extends BaseActivity implements View.OnClickListener, ActionListManager.ActionListCallback, UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemLongClickListener, DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback, AdapterView.OnItemClickListener {
+         DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback, AdapterView.OnItemClickListener,DeleteMessageManager.DeleteMsgCallBack {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -58,7 +61,10 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     LinearLayout ll_select;
     @InjectView(R.id.cb_all)
             CheckBox cb_all;
+    @InjectView(R.id.tv_delete)
+            TextView tv_delete;
     MyActionAdapter myActionAdapter;
+    DeleteMessageManager delManager;
     private List<ActionModel> actionModelLists = new ArrayList<ActionModel>();
     ActionListManager actionListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
@@ -72,10 +78,12 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         tv_title.setText("活动邀请");
+        tv_right.setText("编辑");
+        tv_delete.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
         ll_select.setOnClickListener(this);
         cb_all.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        list_action.setOnItemLongClickListener(this);
         list_action.setOnItemClickListener(this);
     }
 
@@ -90,6 +98,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         updateMsgRTimeManager = new UpdateMsgRTimeManager(this);
         updateMsgRTimeManager.doUpdateMsgRTime(accountid, "22");
         delNoticeOrMeasureManager = new DelNoticeOrMeasureManager(this);
+        delManager=new DeleteMessageManager(this);
 
 
     }
@@ -109,44 +118,62 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                     finish();
                 }
                 break;
+            case R.id.tv_delete:
+                String msgId = getMsgId();
+                System.out.println("msgId:" + msgId);
+                if ("".equals(msgId)) {
+                    Util.toastMsg("请先选择要删除的数据");
+                    return;
+                }
+                dialogShow("正在删除");
+                delManager.DodeleteOneMsg("5", msgId);
+
+                break;
             case R.id.cb_all:
             case R.id.ll_select:
                 /*点击全选，若为true选中状态，则设为false，重置为未选中状态*/
 
-                for (int i = 0; i < actionModelLists.size(); i++) {
-                    if (actionModelLists.get(i).isselect())
-                    {
-                        account++;
-                    }
-                }
-                if (account==actionModelLists.size())
+                if (myActionAdapter.isselec)
                 {
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect(false);
+                    }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true,cb_all);
+                    list_action.setAdapter(myActionAdapter);
+                    myActionAdapter.isselec=false;
+                    cb_all.setChecked(false);
+                }
+                else {
                     for (int i = 0; i < actionModelLists.size(); i++) {
                         actionModelLists.get(i).setIsselect(true);
                     }
                     myActionAdapter = new MyActionAdapter(this, actionModelLists, true,cb_all);
                     list_action.setAdapter(myActionAdapter);
-                    isselec = true;
+                    myActionAdapter.isselec=true;
                     cb_all.setChecked(true);
                 }
-                else {
-                    if (isselec) {
-                        for (int i = 0; i < actionModelLists.size(); i++) {
-                            actionModelLists.get(i).setIsselect(false);
-                        }
-                        myActionAdapter = new MyActionAdapter(this, actionModelLists, true,cb_all);
-                        list_action.setAdapter(myActionAdapter);
-                        isselec = false;
-                        cb_all.setChecked(false);
-                    } else {
-                        for (int i = 0; i < actionModelLists.size(); i++) {
-                            actionModelLists.get(i).setIsselect(true);
-                        }
-                        myActionAdapter = new MyActionAdapter(this, actionModelLists, true,cb_all);
-                        list_action.setAdapter(myActionAdapter);
-                        isselec = true;
-                        cb_all.setChecked(true);
+                break;
+            case R.id.tv_right:
+                if (isdelpage)
+                {
+                    tv_right.setText("编辑");
+                    cb_all.setChecked(false);
+                    footer.setVisibility(View.GONE);
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, false, cb_all);
+                    list_action.setAdapter(myActionAdapter);
+                    isdelpage=false;
+                }
+                else
+                {
+                    tv_right.setText("完成");
+                    footer.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < actionModelLists.size(); i++) {
+                        actionModelLists.get(i).setIsselect(false);
+
                     }
+                    myActionAdapter = new MyActionAdapter(this, actionModelLists, true, cb_all);
+                    list_action.setAdapter(myActionAdapter);
+                    isdelpage=true;
                 }
                 break;
 
@@ -156,6 +183,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void getActionList(List<ActionModel> actionModelList) {
+        dialogDissmiss();
         try {
             if (actionModelList == null || (actionModelList.isEmpty())) {
                 ll_action_nomessage.setVisibility(View.VISIBLE);
@@ -168,18 +196,20 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         }
 
     }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        isdelpage=true;
-        footer.setVisibility(View.VISIBLE);
+    private String getMsgId() {
+        String msgId = "";
+        //遍历取出为选中状态的消息id
         for (int i = 0; i < actionModelLists.size(); i++) {
-            actionModelLists.get(i).setIsselect(false);
+            ActionModel actionModel = actionModelLists.get(i);
+            if (actionModel.isselect()) {
+                if ("".equals(msgId)) {
+                    msgId = actionModel.getMessageId();
+                } else {
+                    msgId = msgId + "," + actionModel.getMessageId();
+                }
+            }
         }
-        actionModelLists.get(position).setIsselect(true);
-        myActionAdapter = new MyActionAdapter(this, actionModelLists, true,cb_all);
-        list_action.setAdapter(myActionAdapter);
-        return true;
+        return msgId;
     }
 
     @Override
@@ -192,6 +222,25 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             Intent intent = new Intent(this, ActActivity.class);
             intent.putExtra("id", actionModelLists.get(position).getActId());
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void deleteMsg(String type) {
+        dialogDissmiss();
+        footer.setVisibility(View.GONE);
+        if ("true".equals(type)) {
+            List<ActionModel> nList = new ArrayList<ActionModel>();
+            nList.addAll(actionModelLists);
+            for (int i = 0; i < nList.size(); i++) {
+                ActionModel actionModel = nList.get(i);
+                if (actionModel.isselect()) {
+                    actionModelLists.remove(actionModel);
+                }
+            }
+            myActionAdapter = new MyActionAdapter(this, actionModelLists, true, cb_all);
+            list_action.setAdapter(myActionAdapter);
+            myActionAdapter.notifyDataSetChanged();
         }
     }
 }
