@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
-import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.model.NewstudentsModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
 

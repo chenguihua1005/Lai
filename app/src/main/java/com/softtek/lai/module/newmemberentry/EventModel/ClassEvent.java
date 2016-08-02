@@ -3,9 +3,9 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.EventModel;
+package com.softtek.lai.module.newmemberentry.EventModel;
 
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
 
 import java.util.List;
 

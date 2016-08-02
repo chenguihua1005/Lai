@@ -39,7 +39,7 @@ import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.newmemberentry.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;

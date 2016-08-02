@@ -2,13 +2,9 @@ package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
-import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;

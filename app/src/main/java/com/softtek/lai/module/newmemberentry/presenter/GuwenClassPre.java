@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.newmemberentry.view.presenter;
+package com.softtek.lai.module.newmemberentry.presenter;
 
 /**
  * Created by julie.zhu on 3/23/2016.

@@ -5,7 +5,7 @@
 
 package com.softtek.lai.module.confirmInfo.EventModel;
 
-import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.model.PargradeModel;
 
 import java.util.List;
 
