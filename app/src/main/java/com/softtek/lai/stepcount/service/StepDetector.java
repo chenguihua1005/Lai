@@ -4,8 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-import zilla.libcore.util.Util;
-
 /**
  * Created by jerry.guan on 2016/7/10.
  *
@@ -47,9 +45,6 @@ public class StepDetector implements SensorEventListener {
 
     public StepDetector() {
 
-    }
-
-    public void setSensitivity(int sensitivity) {
     }
 
     public void setStepListeners(StepCountListener sl) {
