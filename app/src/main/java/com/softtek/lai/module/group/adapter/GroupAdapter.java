@@ -102,7 +102,6 @@ public class GroupAdapter extends BaseAdapter {
                     public void joinRunGroup(boolean b) {
                         context.dialogDissmiss();
                         if(b){
-                            UserInfoModel.getInstance().setGroupOut(false);
                             UserModel model=UserInfoModel.getInstance().getUser();
                             model.setIsJoin("1");//加入跑团标识
                             UserInfoModel.getInstance().saveUserCache(model);

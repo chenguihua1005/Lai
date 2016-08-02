@@ -146,7 +146,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 switch (status)
                 {
                     case 200:
-                        UserInfoModel.getInstance().setGroupOut(true);
                         LocalBroadcastManager.getInstance(MyInformationActivity.this).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                         UserModel model=UserInfoModel.getInstance().getUser();
                         model.setIsJoin("0");

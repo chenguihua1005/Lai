@@ -3,7 +3,7 @@ package com.softtek.lai.module.sport.view;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -21,11 +21,12 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -36,11 +37,11 @@ import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.MineMovementModel;
+import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.net.SportService;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.sport.util.ColorUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
@@ -103,10 +104,8 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     TextView tv_create_time;
 
     AMap aMap;
-    PolygonOptions polygonOptions;
     PolylineOptions polylineOptions;
-    MarkerOptions startMark;
-    MarkerOptions endMark;
+    GroundOverlayOptions groundOverlayOptions;
     MineMovementModel mineMovementModel;
     String url;
     String value;
@@ -114,8 +113,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     SelectPicPopupWindow menuWindow;
 
     Bitmap bitmap_map;
-
-    boolean isFirst = true;
 
     private IGetProinfopresenter iGetProinfopresenter;
     HistorySportModel model;
@@ -301,11 +298,11 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         iv_email.setOnClickListener(this);
         fl_right.setOnClickListener(this);
     }
-
+    LatLng end;
+    LatLng start;
     @Override
     protected void initDatas() {
         aMap = mapView.getMap();
-        //aMap.getMapScreenShot(onMapScreenShotListener);
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
@@ -320,27 +317,14 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         tv_avg_speed.setText(model.getSpeed());
         tv_create_time.setText(model.getCreatetime());
         String coords = model.getTrajectory();
-        List<LatLng> list = readLatLngs(coords);
-        int color = Color.parseColor("#ffffff");
-        if (!list.isEmpty()) {
-            polylineOptions = new PolylineOptions().color(Color.GREEN).addAll(list).width(20);
-            polylineOptions.zIndex(150);
-            aMap.addPolyline(polylineOptions);
-            LatLng start = list.get(0);
-            LatLng end = list.get(list.size() - 1);
-            polygonOptions = new PolygonOptions().addAll(createRectangle(start, 5, 5)).fillColor(color).strokeColor(color).strokeWidth(1);
-            polygonOptions.visible(false);
-            polygonOptions.zIndex(100);
-            aMap.addPolygon(polygonOptions);
-            LatLngBounds bounds = new LatLngBounds.Builder().include(start).include(end).build();
-            startMark = new MarkerOptions().position(start).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start));
-            endMark = new MarkerOptions().position(end).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_mark_end));
-            aMap.addMarker(startMark);
-            aMap.addMarker(endMark);
-            // 移动地图，所有marker自适应显示。LatLngBounds与地图边缘10像素的填充区域
-            aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, DisplayUtil.getMobileWidth(this), (int) (DisplayUtil.getMobileHeight(this) * 1.5), 8));
-
-
+        List<SportModel> list = drawPath(coords);
+        if(list!=null&&!list.isEmpty()){
+            start = new LatLng(list.get(0).getLatitude(),list.get(0).getLongitude());
+            end = new LatLng(list.get(list.size()-1).getLatitude(),list.get(list.size()-1).getLongitude());
+            setMarker(start,end);
+            cb_map_switch.setEnabled(true);
+        }else{
+            cb_map_switch.setEnabled(false);
         }
     }
 
@@ -357,19 +341,63 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                         - halfWidth));
     }
 
-    private List<LatLng> readLatLngs(String coords) {
-        List<LatLng> points = new ArrayList<>();
+    private List<SportModel> drawPath(String coords) {
+        List<SportModel> models=null;
+        List<Integer> colorList = new ArrayList<>();
         Gson gson = new Gson();
         Trajectory trajectory = gson.fromJson(coords, Trajectory.class);
         if (trajectory != null) {
-            List<LatLon> latLons = trajectory.getTrajectory();
-            for (int i = 0; i < latLons.size(); i++) {
-                LatLon latLon = latLons.get(i);
-                points.add(new LatLng(latLon.getLatitude(), latLon.getLongitude()));
+            polylineOptions = new PolylineOptions().useGradient(true).width(23).zIndex(150);
+            models = trajectory.getTrajectory();
+            for (SportModel model:models) {
+                double speed=Double.parseDouble(model.getSpeed());
+                Log.i("speed>>>"+speed);
+                colorList.add(ColorUtil.getSpeedColor(speed,model.isHasProblem()));
+                polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
             }
+            polylineOptions.colorValues(colorList);
+            aMap.addPolyline(polylineOptions);
         }
-        return points;
+        return models;
     }
+
+    private void setMarker(LatLng startPoint,LatLng endPoint) {
+        addMarker(startPoint, R.drawable.location_mark_start);
+        addMarker(endPoint, R.drawable.location_mark_end);
+        addBgMarker(endPoint,R.drawable.ic_marker_bg_white);
+
+        aMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(new CameraPosition(endPoint,17,0,0)));
+    }
+   /* 添加起点终点Marker
+    * @param ll
+    * @param icon
+    */
+    public final void addMarker(LatLng ll, int icon) {
+        final MarkerOptions mo = new MarkerOptions();
+        mo.position(ll);
+        mo.draggable(true);
+        mo.zIndex(5);
+        mo.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(this.getResources(), icon)));
+        aMap.addMarker(mo);
+    }
+
+    /**
+     *
+     * Description: 添加障碍物
+     *
+     */
+    public final void addBgMarker(LatLng endPoint,int icon) {
+        groundOverlayOptions=new GroundOverlayOptions()
+                .position(endPoint, 5*1000*1000, 5*1000*1000)
+                .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                        .decodeResource(this.getResources(), icon)));
+        groundOverlayOptions.visible(false);
+        groundOverlayOptions.zIndex(100);
+        aMap.addGroundOverlay(groundOverlayOptions);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -419,17 +447,17 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.cb_map_switch:
                 aMap.clear();
-                if (polygonOptions.isVisible()) {
-                    polygonOptions.visible(false);
+                if (groundOverlayOptions.isVisible()) {
+                    groundOverlayOptions.visible(false);
                     cb_map_switch.setChecked(true);
                 } else {
-                    polygonOptions.visible(true);
+                    groundOverlayOptions.visible(true);
                     cb_map_switch.setChecked(false);
                 }
-                aMap.addPolygon(polygonOptions);
+                aMap.addGroundOverlay(groundOverlayOptions);
                 aMap.addPolyline(polylineOptions);
-                aMap.addMarker(startMark);
-                aMap.addMarker(endMark);
+                addMarker(start, R.drawable.location_mark_start);
+                addMarker(end, R.drawable.location_mark_end);
                 break;
         }
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.SelectPublicWewlfModel;
+import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.utils.DateUtil;
 
@@ -121,7 +122,9 @@ public class MyPublicWealfareAdapter extends BaseAdapter {
                     }
                     if (select_count == publicWewlfModelList.size()) {
                         cb.setChecked(true);
+                        MyPublicwelfareActivity.isSelsetAll=true;
                     } else {
+                        MyPublicwelfareActivity.isSelsetAll=false;
                         cb.setChecked(false);
                     }
                 }

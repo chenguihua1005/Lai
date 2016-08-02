@@ -7,11 +7,13 @@ package com.softtek.lai.module.welcome;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.RelativeLayout;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -42,7 +44,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_guide)
 public class WelcomeActivity extends BaseActivity implements Runnable{
 
-    private  String token=null;
     @InjectView(R.id.guide)
     RelativeLayout guide;
 
@@ -59,69 +60,63 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initDatas() {
-        //检查是否存在token
-        token= UserInfoModel.getInstance().getToken();
+
+        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         new Handler().postDelayed(this,1000);
     }
 
     @Override
     public void run() {
-        if(StringUtils.isEmpty(token)){
+        //获取用户的帐号和密码
+        String user=SharedPreferenceService.getInstance().get(Constants.USER,"");
+        String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
+        if(StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
             finish();
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
         }else{
-            //获取用户的帐号和密码
-            String user=SharedPreferenceService.getInstance().get(Constants.USER,"");
-            String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
-            if(StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
-                finish();
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }else{
-                //登录
-                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(user, password, new Callback<ResponseData<UserModel>>() {
-                    @Override
-                    public void success(ResponseData<UserModel> userModelResponseData, Response response) {
-                        int status=userModelResponseData.getStatus();
-                        switch (status) {
-                            case 200:
-                                //JPushInterface.init(WelcomeActivity.this);
-                                //JpushSet set = new JpushSet(WelcomeActivity.this);
-                                UserModel model=userModelResponseData.getData();
-                                Log.i("token=="+model.getToken());
-                                //set.setAlias(model.getMobile());
-                                //set.setStyleBasic();
-                                UserInfoModel.getInstance().saveUserCache(model);
-                                //如果用户加入了跑团
-                                if("1".equals(model.getIsJoin())){
-                                    LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has join Group",
-                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
-                                    stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
-                                }else{
-                                    LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has not join Group",
-                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
-                                }
-                                finish();
-                                Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
-                                startActivity(start);
-                                break;
-                            default:
-                                finish();
-                                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                break;
-                        }
+            //登录
+            ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(user, password, new Callback<ResponseData<UserModel>>() {
+                @Override
+                public void success(ResponseData<UserModel> userModelResponseData, Response response) {
+                    int status=userModelResponseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            //JPushInterface.init(WelcomeActivity.this);
+                            //JpushSet set = new JpushSet(WelcomeActivity.this);
+                            UserModel model=userModelResponseData.getData();
+                            Log.i("token=="+model.getToken());
+                            //set.setAlias(model.getMobile());
+                            //set.setStyleBasic();
+                            UserInfoModel.getInstance().saveUserCache(model);
+                            //如果用户加入了跑团
+                            if("1".equals(model.getIsJoin())){
+                                LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has join Group",
+                                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                                stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                            }else{
+                                LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has not join Group",
+                                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                            }
+                            finish();
+                            Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
+                            startActivity(start);
+                            break;
+                        default:
+                            finish();
+                            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            break;
                     }
+                }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        finish();
-                        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-            }
+                @Override
+                public void failure(RetrofitError error) {
+                    finish();
+                    Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
