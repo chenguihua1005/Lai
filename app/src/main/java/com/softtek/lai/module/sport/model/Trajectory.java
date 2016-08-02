@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class Trajectory {
 
-    //private List<LatLon> Trajectory;
     private List<SportModel> Trajectory;
 
     public Trajectory(List<SportModel> trajectory) {
@@ -25,11 +24,4 @@ public class Trajectory {
         Trajectory = trajectory;
     }
 
-    /* public List<LatLon> getTrajectory() {
-        return Trajectory;
-    }
-
-    public void setTrajectory(List<LatLon> trajectory) {
-        Trajectory = trajectory;
-    }*/
 }
