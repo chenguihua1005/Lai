@@ -172,7 +172,9 @@ public class MessageNoticeAdapter extends BaseAdapter {
                     }
                     if (select_count == list.size()) {
                         cb.setChecked(true);
+                        NoticeFC2Activity.isSelsetAll=true;
                     } else {
+                        NoticeFC2Activity.isSelsetAll=false;
                         cb.setChecked(false);
                     }
                 } else {

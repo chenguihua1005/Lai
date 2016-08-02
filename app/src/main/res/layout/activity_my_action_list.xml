@@ -5,19 +5,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laisportmine.view.MyActionListActivity">
-<include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <ListView
             android:id="@+id/list_action"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null">
-        </ListView>
+            android:divider="@null"></ListView>
 
     </LinearLayout>
 
@@ -26,34 +27,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
+        android:background="#ffffff"
         android:gravity="center"
-        android:visibility="gone"
-        android:background="#ffffff">
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/no_message"/>
+            android:src="@drawable/no_message" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#999999"
-        />
+        android:background="#999999" />
+
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#f3f3f3"
         android:layout_alignParentBottom="true"
+        android:background="#f3f3f3"
         android:orientation="horizontal"
         android:visibility="gone">
+
         <LinearLayout
             android:id="@+id/ll_select"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <CheckBox
                 android:id="@+id/cb_all"
@@ -63,20 +67,21 @@
                 android:button="@null"
                 android:drawableLeft="@drawable/history_data_item_checkbox"
                 android:drawablePadding="10dp"
+                android:text="全选"
                 android:textColor="#333333"
-                android:textSize="18sp"
-                android:text="全选"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="删除"
-            android:textSize="18sp"
             android:textColor="#333333"
-            android:gravity="center"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
 </RelativeLayout>

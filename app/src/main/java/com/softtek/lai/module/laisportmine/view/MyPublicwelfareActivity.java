@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,10 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     CheckBox cb_all;
     @InjectView(R.id.tv_delete)
     TextView tv_delete;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     @InjectView(R.id.lin_select)
     LinearLayout lin_select;
     @InjectView(R.id.listview_publicwe)
@@ -60,7 +65,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     int positions;
     private CharSequence[] items = {"删除"};
 
-    private boolean isSelsetAll = false;
+    public static boolean isSelsetAll = false;
 
     @Override
     protected void initViews() {
@@ -68,6 +73,8 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
         ll_left.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+        tv_right.setText("编辑");
         listview_publicwe.setOnItemLongClickListener(this);
     }
 
@@ -85,29 +92,29 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (myPublicWealfareAdapter == null) {
-                finish();
-            } else {
-                if (myPublicWealfareAdapter.isDel) {
-                    for (int i = 0; i < publicWewlfModelList.size(); i++) {
-                        publicWewlfModelList.get(i).setSelect(false);
-                    }
-                    isSelsetAll = false;
-                    myPublicWealfareAdapter.select_count = 0;
-                    footer.setVisibility(View.GONE);
-                    myPublicWealfareAdapter.isDel = false;
-                    myPublicWealfareAdapter.notifyDataSetChanged();
-                } else {
-                    finish();
-                }
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            if (myPublicWealfareAdapter == null) {
+//                finish();
+//            } else {
+//                if (myPublicWealfareAdapter.isDel) {
+//                    for (int i = 0; i < publicWewlfModelList.size(); i++) {
+//                        publicWewlfModelList.get(i).setSelect(false);
+//                    }
+//                    isSelsetAll = false;
+//                    myPublicWealfareAdapter.select_count = 0;
+//                    footer.setVisibility(View.GONE);
+//                    myPublicWealfareAdapter.isDel = false;
+//                    myPublicWealfareAdapter.notifyDataSetChanged();
+//                } else {
+//                    finish();
+//                }
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     private String getMsgId() {
         String msgId = "";
@@ -127,6 +134,30 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.fl_right:
+                if ("编辑".equals(tv_right.getText())) {
+                    tv_right.setText("完成");
+                    if (myPublicWealfareAdapter != null) {
+                        cb_all.setChecked(false);
+                        isSelsetAll = false;
+                        footer.setVisibility(View.VISIBLE);
+                        myPublicWealfareAdapter.isDel = true;
+                        myPublicWealfareAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    tv_right.setText("编辑");
+                    for (int i = 0; i < publicWewlfModelList.size(); i++) {
+                        publicWewlfModelList.get(i).setSelect(false);
+                    }
+                    isSelsetAll = false;
+                    myPublicWealfareAdapter.select_count = 0;
+                    footer.setVisibility(View.GONE);
+                    myPublicWealfareAdapter.isDel = false;
+                    myPublicWealfareAdapter.notifyDataSetChanged();
+                }
+
+                break;
+
             case R.id.tv_delete:
                 String msgId = getMsgId();
                 System.out.println("msgId:" + msgId);
@@ -159,22 +190,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.ll_left:
-                if (myPublicWealfareAdapter == null) {
-                    finish();
-                } else {
-                    if (myPublicWealfareAdapter.isDel) {
-                        for (int i = 0; i < publicWewlfModelList.size(); i++) {
-                            publicWewlfModelList.get(i).setSelect(false);
-                        }
-                        isSelsetAll = false;
-                        myPublicWealfareAdapter.select_count = 0;
-                        footer.setVisibility(View.GONE);
-                        myPublicWealfareAdapter.isDel = false;
-                        myPublicWealfareAdapter.notifyDataSetChanged();
-                    } else {
-                        finish();
-                    }
-                }
+                finish();
                 break;
         }
     }
@@ -226,6 +242,9 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
             }
             myPublicWealfareAdapter.select_count = 0;
             myPublicWealfareAdapter.notifyDataSetChanged();
+            if (publicWewlfModelList.size() == 0) {
+                cb_all.setChecked(false);
+            }
         }
     }
 }
