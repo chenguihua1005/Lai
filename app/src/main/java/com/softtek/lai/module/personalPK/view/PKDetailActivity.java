@@ -170,6 +170,10 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                                 setResult(RESULT_OK, intent);
                                                 finish();
                                             }else if(type== Constants.MESSAGE_PK){
+                                                //如果是从消息列表过来的话
+                                                Intent intent = new Intent();
+                                                //设置返回数据
+                                                setResult(RESULT_OK, intent);
                                                 finish();
                                             }else {
                                                 finish();
@@ -559,9 +563,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            Intent intent = new Intent();
-            //设置返回数据
-            setResult(RESULT_OK, intent);
             finish();
         }
     }
