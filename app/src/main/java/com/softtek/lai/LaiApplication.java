@@ -116,6 +116,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "currentkm text,"+//当前公里数
             "kilometre integer,"+//是否是一公里
             "hasProblem integer,"+//是否是问题坐标
+            "kilometre_time integer,"+//一公里配速
             "time_consuming integer)";//耗时
 
     @Override

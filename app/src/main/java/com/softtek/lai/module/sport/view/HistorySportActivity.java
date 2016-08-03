@@ -350,9 +350,8 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             polylineOptions = new PolylineOptions().useGradient(true).width(23).zIndex(150);
             models = trajectory.getTrajectory();
             for (SportModel model:models) {
-                double speed=Double.parseDouble(model.getSpeed());
-                Log.i("speed>>>"+speed);
-                colorList.add(ColorUtil.getSpeedColor(speed,model.isHasProblem()));
+
+                colorList.add(ColorUtil.getSpeedColor(model.getKilometreTime(),model.isHasProblem()));
                 polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
             }
             polylineOptions.colorValues(colorList);

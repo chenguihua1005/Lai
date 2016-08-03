@@ -21,6 +21,7 @@ import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -32,8 +33,8 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_information)
-public class MyInformationActivity extends BaseActivity implements View.OnClickListener,MyRunTeamManager.MyRunTeamCallback{
-@InjectView(R.id.ll_left)
+public class MyInformationActivity extends BaseActivity implements View.OnClickListener, MyRunTeamManager.MyRunTeamCallback {
+    @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -51,13 +52,14 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.re_pk_mysport)
     RelativeLayout re_pk_mysport;
     @InjectView(R.id.tv_runteamnum)
-            TextView tv_runteamnum;
+    TextView tv_runteamnum;
     MyRunTeamManager myRunTeamManager;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
     private MineService service;
     RunTeamModel runTeamModels;
     AlertDialog.Builder information_dialog = null;
+
     @Override
     protected void initViews() {
         tv_title.setText("我的资料");
@@ -69,8 +71,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        runTeamModels=new RunTeamModel();
-        myRunTeamManager=new MyRunTeamManager(this);
+        runTeamModels = new RunTeamModel();
+        myRunTeamManager = new MyRunTeamManager(this);
         myRunTeamManager.doGetNowRgName(accountid);
     }
 
@@ -82,8 +84,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
@@ -102,13 +103,13 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 }).create().show();
                 break;
             case R.id.Re_mynews:
-                Intent intent=new Intent(this,MyNewsActivity.class);
-                Log.i("retestWrite="+runTeamModels.toString());
-                intent.putExtra("runTeamModels", runTeamModels);
+                Intent intent = new Intent(this, Message2Activity.class);
+//                Log.i("retestWrite="+runTeamModels.toString());
+//                intent.putExtra("runTeamModels", runTeamModels);
                 startActivity(intent);
                 break;
             case R.id.re_pk_mysport:
-                startActivity(new Intent(this,HistorySportListActivity.class));
+                startActivity(new Intent(this, HistorySportListActivity.class));
                 break;
         }
     }
@@ -116,7 +117,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
         try {
-            if (runTeamModel!=null) {
+            if (runTeamModel != null) {
                 runTeamModels = runTeamModel;
                 if (!runTeamModel.getRgName().isEmpty()) {
                     tv_runteamname.setText(runTeamModels.getRgName());
@@ -131,26 +132,26 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 }
             }
 
-        }catch (Exception e)
-        {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-    public void doSignOutRG(long accountid)
-    {
-        final String token= UserInfoModel.getInstance().getToken();
-        service= ZillaApi.NormalRestAdapter.create(MineService.class);
+
+    public void doSignOutRG(long accountid) {
+        final String token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(MineService.class);
         service.doSignOutRG(token, accountid, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                int status=responseData.getStatus();
-                switch (status)
-                {
+                int status = responseData.getStatus();
+                switch (status) {
                     case 200:
                         LocalBroadcastManager.getInstance(MyInformationActivity.this).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                        UserModel model=UserInfoModel.getInstance().getUser();
+                        UserModel model = UserInfoModel.getInstance().getUser();
                         model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
-                        startActivity(new Intent(MyInformationActivity.this,HomeActviity.class));
+                        startActivity(new Intent(MyInformationActivity.this, HomeActviity.class));
                         break;
                     case 100:
                         Log.i(responseData.getMsg());

@@ -51,7 +51,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.locationservice.LocationService;
-import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
@@ -665,6 +664,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     boolean isFirst = true;
     LatLng lastLatLon;
     int index;//公里节点记录
+    long kilometerTime=0;
 
     //位置接收器
     private class LocationReceiver extends BroadcastReceiver {
@@ -702,14 +702,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         model.setConsumingTime(time);
                         model.setStep((int) step);
                         model.setCurrentKM(previousDistance);
-                        //辨别问题坐标更具速度大于8
-                        model.setHasProblem(speed>9);
+
                         //辨别是否是一公里了
                         //量化距离（公里）
                         int kilometre= (int) (previousDistance/1000);
                         if(kilometre-index==1){
                             index=kilometre;
                             model.setIskilometre(true);
+                            long tempTime=time-kilometerTime;
+                            model.setKilometreTime(tempTime);
+                            //辨别问题坐标每公里耗费时间2分10秒约130秒
+                            model.setHasProblem(tempTime<=130);
+                            kilometerTime=time;
                         }else if(kilometre-index>1){
                             index=kilometre;
                             model.setIskilometre(false);
