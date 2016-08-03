@@ -103,7 +103,14 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
 
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            dialogShow("加载中");
+            actionListManager.GetActiveMsg(accountid);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -222,7 +229,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         } else {
             Intent intent = new Intent(this, ActActivity.class);
             intent.putExtra("id", actionModelLists.get(position).getActId());
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
     }
 

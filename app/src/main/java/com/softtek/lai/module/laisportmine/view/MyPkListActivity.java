@@ -103,7 +103,14 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
 
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            dialogShow("加载中");
+            pkNoticeManager.doGetPKINotice(accountid);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -215,7 +222,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         Intent intent=new Intent(this, PKDetailActivity.class);
         intent.putExtra("pkId",Long.parseLong(pkNoticeModelList.get(position).getPKId()));
         intent.putExtra("pkType", Constants.MESSAGE_PK);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     @Override
