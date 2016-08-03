@@ -24,15 +24,20 @@ public class ColorUtil {
 
     public static int getSpeedColor(long time,boolean flag){
         int color=0;
+        Log.i("耗时："+time);
         if(!flag){
             if(time<ABNORMAL){
                 color=colorList[3];
+                Log.i("灰色");
             }else if(time<HIGH_SPEED){
                 color=colorList[2];
+                Log.i("红色");
             }else if(time<MEDIUM_SPEED){
                 color=colorList[1];
+                Log.i("黄色");
             }else {
                 color=colorList[0];
+                Log.i("绿色");
             }
         }else{
             color=colorList[3];
