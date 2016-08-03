@@ -3,10 +3,9 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.home.adapter;
+package com.softtek.lai.module.welcome.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -14,8 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.welcome.WelcomeActivity;
 
 import java.util.List;
 

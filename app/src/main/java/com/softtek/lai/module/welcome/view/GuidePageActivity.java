@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.home.view;
+package com.softtek.lai.module.welcome.view;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.home.adapter.GuidePagerAdapter;
+import com.softtek.lai.module.welcome.adapter.GuidePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
