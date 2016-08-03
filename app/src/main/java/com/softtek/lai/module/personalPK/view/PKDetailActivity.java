@@ -170,6 +170,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                                 finish();
                                             }else if(type== Constants.MESSAGE_PK){
                                                 finish();
+                                            }else {
+                                                finish();
                                             }
                                         }else if(responseData.getStatus()==100){
                                             rl_load.setVisibility(View.VISIBLE);
