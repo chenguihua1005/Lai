@@ -109,6 +109,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "recordTime text )";
     public static final String CREATE_SPORT_DATA="create table sport_data(" +
             "id text primary key,"+
+            "user_id text,"+
             "longitude text,"+
             "latitude text,"+
             "speed text,"+//速度
@@ -117,6 +118,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "kilometre integer,"+//是否是一公里
             "hasProblem integer,"+//是否是问题坐标
             "kilometre_time integer,"+//一公里配速
+            "index text,"+//索引字段
             "time_consuming integer)";//耗时
 
     @Override

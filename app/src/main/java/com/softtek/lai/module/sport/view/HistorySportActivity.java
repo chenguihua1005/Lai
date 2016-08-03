@@ -37,6 +37,7 @@ import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.KilometrePace;
 import com.softtek.lai.module.sport.model.MineMovementModel;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
@@ -242,7 +243,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         System.out.println("url:" + url);
         String[] time = model.getTimeLength().split(":");
         String times = time[0] + "时" + time[1] + "分" + time[2] + "秒";
-        value = "我刚刚完成跑步" + model.getKilometre() + "km,用时" + times + "，平均速度" + model.getSpeed() + ",消耗" + model.getCalories() + "大卡。快来和我一起运动吧！";
+        value = "我刚刚完成跑步" + model.getKilometre() + "km,用时" + times + "，平均速度" + model.getSpeed() + "km/h,消耗" + model.getCalories() + "大卡。快来和我一起运动吧！";
         System.out.println("value:" + value);
         title_value = "莱运动, 陪伴我运动第" + mineMovementModel.getRgTime() + "天";
         menuWindow = new SelectPicPopupWindow(HistorySportActivity.this, itemsOnClick);
@@ -347,18 +348,49 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         Gson gson = new Gson();
         Trajectory trajectory = gson.fromJson(coords, Trajectory.class);
         if (trajectory != null) {
-            polylineOptions = new PolylineOptions().useGradient(true).width(23).zIndex(150);
+            polylineOptions = new PolylineOptions().useGradient(true).width(22).zIndex(150);
             models = trajectory.getTrajectory();
-            for (SportModel model:models) {
-
-                colorList.add(ColorUtil.getSpeedColor(model.getKilometreTime(),model.isHasProblem()));
-                polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
+            List<KilometrePace> paceList=trajectory.getKilometrePaces();
+            if(paceList==null||paceList.isEmpty()){
+                //表示不满一公里按照最后一个坐标的耗时在计算
+                if(models!=null&&!models.isEmpty()){
+                    SportModel lastModel=models.get(models.size()-1);
+                    polylineOptions.color(ColorUtil.getSpeedColor(lastModel.getKilometreTime(),lastModel.isHasProblem()));
+                    for (SportModel model : models) {
+                        polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
+                    }
+                }
+            }else {
+                //如果满了一公里多，按照公里节点
+                int index=0;
+                for(KilometrePace pace:paceList){
+                    for(int i=index;i<models.size();i++){
+                        SportModel model=models.get(i);
+                        colorList.add(ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem()));
+                        polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
+                        if(Integer.parseInt(pace.getIndex())==Integer.parseInt(model.getIndex())){
+                            //表示到了一个公里节点应该跳出这个循环
+                            index=++i;
+                            break;
+                        }
+                    }
+                }
+                //或许还有剩余的公里数,画剩余的颜色和表记
+                if(index<models.size()){
+                    SportModel lastModel=models.get(models.size()-1);
+                    for(int i=index;i<models.size();i++){
+                        SportModel model=models.get(i);
+                        colorList.add(ColorUtil.getSpeedColor(lastModel.getKilometreTime(),lastModel.isHasProblem()));
+                        polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
+                    }
+                }
+                polylineOptions.colorValues(colorList);
             }
-            polylineOptions.colorValues(colorList);
             aMap.addPolyline(polylineOptions);
         }
         return models;
     }
+
 
     private void setMarker(LatLng startPoint,LatLng endPoint) {
         addMarker(startPoint, R.drawable.location_mark_start);

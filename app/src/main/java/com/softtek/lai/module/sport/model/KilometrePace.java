@@ -15,5 +15,53 @@ public class KilometrePace {
     private long kilometreTime;
     //改公里是否有问题
     private boolean hasProblem;
+    private String index;
 
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public long getKilometreTime() {
+        return kilometreTime;
+    }
+
+    public void setKilometreTime(long kilometreTime) {
+        this.kilometreTime = kilometreTime;
+    }
+
+    public boolean isHasProblem() {
+        return hasProblem;
+    }
+
+    public void setHasProblem(boolean hasProblem) {
+        this.hasProblem = hasProblem;
+    }
 }

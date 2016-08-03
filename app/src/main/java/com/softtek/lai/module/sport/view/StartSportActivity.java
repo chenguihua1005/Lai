@@ -42,6 +42,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
@@ -341,7 +342,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
             case R.id.rel_start:
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
-                    /*final ArrayList<SportModel> list= (ArrayList<SportModel>) SportUtil.getInstance().querySport();
+                    final ArrayList<SportModel> list= (ArrayList<SportModel>) SportUtil.getInstance().querySport(UserInfoModel.getInstance().getUserId()+"");
                     if(!list.isEmpty()){//如果不是空则表示有异常记录未提交
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.login_out_title))
@@ -363,8 +364,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                                 }).create().show();
                     }else {
                         startBigAnimal();
-                    }*/
-                    startBigAnimal();
+                    }
                 } else {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
                             .setTitle(getString(R.string.login_out_title))

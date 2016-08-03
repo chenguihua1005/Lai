@@ -41,7 +41,7 @@ public class LocationService extends Service implements AMapLocationListener {
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         aMapLocationClientOption.setMockEnable(true);
         //设置定位间隔,单位毫秒,默认为5000ms
-        aMapLocationClientOption.setInterval(5000);
+        aMapLocationClientOption.setInterval(2000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         aMapLocationClient.startLocation();

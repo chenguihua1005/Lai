@@ -10,6 +10,7 @@ import android.os.Parcelable;
 public class SportModel implements Parcelable{
 
     private String id;
+    private String user;
     private double longitude;
     private double latitude;
 
@@ -20,6 +21,7 @@ public class SportModel implements Parcelable{
     private double currentKM;
     private long kilometreTime;
     private int step;
+    private String index;
 
     public SportModel() {
     }
@@ -35,6 +37,9 @@ public class SportModel implements Parcelable{
         step=in.readInt();
         currentKM=in.readDouble();
         kilometreTime=in.readLong();
+        user=in.readString();
+        index=in.readString();
+
     }
 
     public static final Creator<SportModel> CREATOR = new Creator<SportModel>() {
@@ -129,6 +134,22 @@ public class SportModel implements Parcelable{
         this.kilometreTime = kilometreTime;
     }
 
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,5 +167,7 @@ public class SportModel implements Parcelable{
         dest.writeInt(step);
         dest.writeDouble(currentKM);
         dest.writeLong(kilometreTime);
+        dest.writeString(user);
+        dest.writeString(index);
     }
 }
