@@ -133,7 +133,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             previousDistance=savedInstanceState.getDouble("previousDistance",0);
             lastLatLon=savedInstanceState.getParcelable("lastLatLon");
             isLocation=savedInstanceState.getBoolean("isLocation");
-            List<SportModel> models=SportUtil.getInstance().querySport();
+            List<SportModel> models=SportUtil.getInstance().querySport(UserInfoModel.getInstance().getUserId()+"");
             if(!models.isEmpty()){
                 for(SportModel model:models){
                     polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
@@ -258,9 +258,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.setLayoutParams(params);
     }
 
-    ScreenListener screenListener;
+    /*ScreenListener screenListener;
     HomeListener homeListener;
-    boolean isForeground=false;
+    boolean isForeground=false;*/
     @Override
     protected void initDatas() {
         manager = new SportManager();
@@ -271,7 +271,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
 
-        screenListener=new ScreenListener(this);
+        /*screenListener=new ScreenListener(this);
         homeListener=new HomeListener(this);
 
         screenListener.registerListener(new ScreenListener.ScreenStateListener() {
@@ -285,9 +285,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 //锁屏后
                 if(isForeground){
                     Intent intent = new Intent(RunSportActivity.this,RunSportActivity.class);
-                    /*intent.addFlags (Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+                    *//*intent.addFlags (Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
                             |Intent.FLAG_ACTIVITY_TASK_ON_HOME
-                            |Intent.FLAG_ACTIVITY_NEW_TASK);*/
+                            |Intent.FLAG_ACTIVITY_NEW_TASK);*//*
                     intent.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     Log.i("锁屏");
@@ -308,7 +308,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             public void onHomeLongPressed() {
                 isForeground=true;
             }
-        });
+        });*/
     }
     //6.0权限回调方法
     @Override
@@ -410,8 +410,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
         super.onDestroy();
-        screenListener.unregisterListener();
-        homeListener.stopWatch();
+        /*screenListener.unregisterListener();
+        homeListener.stopWatch();*/
     }
 
     @Override
@@ -515,10 +515,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                     data.setCalories(tv_calorie.getText().toString());
                                     data.setKilometre(tv_distance.getText().toString());
                                     data.setMType(0);
-                                    data.setSpeed(tv_avg_speed.getText().toString());
+                                    data.setSpeed(avgSpeed);
                                     data.setTimeLength(tv_clock.getText().toString() + ";" + time);
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                    data.setTrajectory(new Gson().toJson(new Trajectory(SportUtil.getInstance().querySport())));
+                                    String userId=UserInfoModel.getInstance().getUserId()+"";
+                                    data.setTrajectory(new Gson().
+                                            toJson(new Trajectory(SportUtil.getInstance().
+                                                    querySport(userId),SportUtil.getInstance()
+                                            .queryKilmoetre(userId))));
                                     dialogShow("正在提交");
                                     manager.submitSportData(RunSportActivity.this, data);
                                 }
@@ -665,6 +669,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     LatLng lastLatLon;
     int index;//公里节点记录
     long kilometerTime=0;
+    long count=0;//坐标计数器
+    String avgSpeed="";
 
     //位置接收器
     private class LocationReceiver extends BroadcastReceiver {
@@ -691,6 +697,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
                 previousDistance += distance;
                 double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
+                avgSpeed=format.format(speed);
                 if (lastLatLon != null) {
                     if (distance >= 8) {
                         polylineOptions.add(latLng);
@@ -698,29 +705,36 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         SportModel model=new SportModel();
                         model.setLatitude(latLng.latitude);
                         model.setLongitude(latLng.longitude);
-                        model.setSpeed(format.format(speed));
+                        model.setSpeed(avgSpeed);
                         model.setConsumingTime(time);
                         model.setStep((int) step);
+                        model.setIndex(count+"");
+                        model.setUser(UserInfoModel.getInstance().getUserId()+"");
                         model.setCurrentKM(previousDistance);
-
+                        //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
+                        long tempTime=time-kilometerTime;
+                        model.setKilometreTime(tempTime);
                         //辨别是否是一公里了
                         //量化距离（公里）
                         int kilometre= (int) (previousDistance/1000);
                         if(kilometre-index==1){
                             index=kilometre;
                             model.setIskilometre(true);
-                            long tempTime=time-kilometerTime;
-                            model.setKilometreTime(tempTime);
                             //辨别问题坐标每公里耗费时间2分10秒约130秒
                             model.setHasProblem(tempTime<=130);
                             kilometerTime=time;
                         }else if(kilometre-index>1){
+                            //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
+                            //所以标注为问题坐标
                             index=kilometre;
+                            model.setHasProblem(true);
                             model.setIskilometre(false);
                         }else {
                             model.setIskilometre(false);
                         }
                         SportUtil.getInstance().addSport(model);
+                        lastLatLon = latLng;//暂存上一次坐标
+                        count++;
                     }
 
                 } else {
@@ -734,12 +748,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     model.setSpeed(format.format(speed));
                     model.setConsumingTime(time);
                     model.setStep((int) step);
+                    model.setIndex(count+"");
+                    model.setUser(UserInfoModel.getInstance().getUserId()+"");
                     model.setIskilometre(false);
                     SportUtil.getInstance().addSport(model);
-
+                    lastLatLon = latLng;//暂存上一次坐标
+                    count++;
                 }
-                lastLatLon = latLng;//暂存上一次坐标
-                tv_avg_speed.setText(format.format(speed) + "km/h");
+                tv_avg_speed.setText( avgSpeed+ "km/h");
                 tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
 
             }

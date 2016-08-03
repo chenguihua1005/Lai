@@ -10,13 +10,12 @@
         />
     <Button
         android:id="@+id/start_btn"
-        android:layout_width="260dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/star_btn_bg"
-        android:text="开启莱聚+"
+        android:background="@drawable/start_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="40dp"
         android:textColor="#ffffff"
         />
 

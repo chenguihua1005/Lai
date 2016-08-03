@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.home.view;
+package com.softtek.lai.module.welcome.view;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.home.adapter.GuidePagerAdapter;
+import com.softtek.lai.module.welcome.adapter.GuidePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +29,24 @@ public class GuidePageActivity extends BaseActivity implements OnPageChangeListe
     @InjectView(R.id.viewpager)
     ViewPager vp;
 
-    @InjectView(R.id.iv_one)
+    /*@InjectView(R.id.iv_one)
     ImageView iv_one;
 
     @InjectView(R.id.iv_two)
     ImageView iv_two;
 
     @InjectView(R.id.iv_three)
-    ImageView iv_three;
+    ImageView iv_three;*/
 
 
     private GuidePagerAdapter vpAdapter;
-    private List<View> views = new ArrayList<View>();
+    private List<View> views = new ArrayList<>();
 
     // 底部小点图片
     private ImageView[] dots;
     // 记录当前选中位置
     private int currentIndex;
+
 
 
     @Override
@@ -65,8 +66,7 @@ public class GuidePageActivity extends BaseActivity implements OnPageChangeListe
         views.add(inflater.inflate(R.layout.guidethreelayout, null));
         vpAdapter = new GuidePagerAdapter(views, this);
         vp.setAdapter(vpAdapter);
-        vp.setOnPageChangeListener(this);
-
+        vp.addOnPageChangeListener(this);
        // iv_one.setBackgroundResource(R.drawable.white_dot);
     }
 

@@ -8,12 +8,22 @@ import java.util.List;
 public class Trajectory {
 
     private List<SportModel> Trajectory;
+    private List<KilometrePace> kilometrePaces;
 
-    public Trajectory(List<SportModel> trajectory) {
+    public Trajectory(List<SportModel> trajectory, List<KilometrePace> kilometrePaces) {
         Trajectory = trajectory;
+        this.kilometrePaces = kilometrePaces;
     }
 
     public Trajectory() {
+    }
+
+    public List<KilometrePace> getKilometrePaces() {
+        return kilometrePaces;
+    }
+
+    public void setKilometrePaces(List<KilometrePace> kilometrePaces) {
+        this.kilometrePaces = kilometrePaces;
     }
 
     public List<SportModel> getTrajectory() {

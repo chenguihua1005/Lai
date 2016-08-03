@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.softtek.lai.module.sport.model.KilometrePace;
 import com.softtek.lai.module.sport.model.SportModel;
 
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class SportUtil {
         values.put("step",model.getStep());
         values.put("currentkm",model.getCurrentKM());
         values.put("hasProblem",model.isHasProblem()?1:0);
+        values.put("index_count",model.getIndex());
+        values.put("kilometre_time",model.getKilometreTime());
+        values.put("user_id",model.getUser());
         db.insertWithOnConflict("sport_data",null,values,SQLiteDatabase.CONFLICT_NONE);
         db.close();
     }
@@ -60,10 +64,11 @@ public class SportUtil {
         }
     }
 
-    public List<SportModel> querySport(){
+    //queryAll
+    public List<SportModel> querySport(String userId){
         List<SportModel> sportModels=new ArrayList<>();
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-        Cursor cursor=db.query("sport_data",null,null,null,null,null,null);
+        Cursor cursor=db.query("sport_data",null,"user_id=?",new String[]{userId},null,null,null);
         if (cursor.moveToFirst()){
             do {
                 String id=cursor.getString(cursor.getColumnIndex("id"));
@@ -74,6 +79,7 @@ public class SportUtil {
                 String currentKM=cursor.getString(cursor.getColumnIndex("currentkm"));
                 int kilometre=cursor.getInt(cursor.getColumnIndex("kilometre"));
                 int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
+                String index=cursor.getString(cursor.getColumnIndex("index_count"));
                 long consuming=cursor.getLong(cursor.getColumnIndex("time_consuming"));
                 SportModel model=new SportModel();
                 model.setId(id);
@@ -85,10 +91,39 @@ public class SportUtil {
                 model.setConsumingTime(consuming);
                 model.setCurrentKM(Double.parseDouble(currentKM));
                 model.setStep(step);
+                model.setIndex(index);
 
                 sportModels.add(model);
             }while (cursor.moveToNext());
         }
         return sportModels;
+    }
+
+    //query one kilmoetre
+    public List<KilometrePace> queryKilmoetre(String userId){
+        List<KilometrePace> kilometrePaces=new ArrayList<>();
+        SQLiteDatabase db=dbHelper.getReadableDatabase();
+        String selection="user_id=? and kilometre=?";
+        Cursor cursor=db.query("sport_data",null,selection,new String[]{userId,"1"},null,null,null);
+        if (cursor.moveToFirst()){
+            do {
+                String id=cursor.getString(cursor.getColumnIndex("id"));
+                String longitude=cursor.getString(cursor.getColumnIndex("longitude"));
+                String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
+                int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
+                long kilometreTime=cursor.getLong(cursor.getColumnIndex("kilometre_time"));
+                String index=cursor.getString(cursor.getColumnIndex("index_count"));
+                KilometrePace model=new KilometrePace();
+                model.setId(id);
+                model.setLatitude(Double.parseDouble(latitude));
+                model.setLongitude(Double.parseDouble(longitude));
+                model.setHasProblem(hasProblem==1);
+                model.setKilometreTime(kilometreTime);
+                model.setIndex(index);
+                kilometrePaces.add(model);
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        return kilometrePaces;
     }
 }
