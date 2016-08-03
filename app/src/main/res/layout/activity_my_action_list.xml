@@ -37,11 +37,6 @@
             android:src="@drawable/no_message" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#999999" />
-
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"

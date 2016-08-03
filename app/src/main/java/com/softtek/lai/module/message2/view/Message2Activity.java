@@ -169,7 +169,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         dialogDissmiss();
         if ("true".equals(type)) {
             String noticeMsg = unreadMsgModel.getNoticeMsg();
-            if (!"".equals(noticeMsg)) {
+            if (!noticeMsg.isEmpty()) {
                 rel_fwc.setVisibility(View.VISIBLE);
                 text_value_fwc.setText(noticeMsg);
                 text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
@@ -183,7 +183,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String operateMsg = unreadMsgModel.getOperateMsg();
-            if (!"".equals(operateMsg)) {
+            if (!operateMsg.isEmpty()) {
                 rel_xzs.setVisibility(View.VISIBLE);
                 text_value_xzs.setText(operateMsg);
                 text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
@@ -198,7 +198,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String measureMsg = unreadMsgModel.getMeasureMsg();
-            if (!"".equals(measureMsg)) {
+            if (!measureMsg.isEmpty()) {
                 rel_fc.setVisibility(View.VISIBLE);
                 text_value_fc.setText(measureMsg);
                 text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
@@ -212,7 +212,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String angleMsg = unreadMsgModel.getAngleMsg();
-            if (!"".equals(angleMsg)) {
+            if (!angleMsg.isEmpty()) {
                 rel_gs.setVisibility(View.VISIBLE);
                 text_value_gs.setText(angleMsg);
                 text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
@@ -226,7 +226,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String actMsg = unreadMsgModel.getActiveMsg();
-            if (!"".equals(actMsg)) {
+            if (!actMsg.isEmpty()) {
                 rel_act.setVisibility(View.VISIBLE);
                 text_value_act.setText(actMsg);
                 text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
@@ -240,7 +240,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String chaMsg = unreadMsgModel.getChallMsg();
-            if (!"".equals(chaMsg)) {
+            if (!chaMsg.isEmpty()) {
                 rel_pk.setVisibility(View.VISIBLE);
                 text_value_pk.setText(chaMsg);
                 text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
