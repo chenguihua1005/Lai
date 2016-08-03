@@ -108,16 +108,16 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                if (isdelpage)
-                {
-                    myActionAdapter = new MyActionAdapter(this, actionModelLists, false,cb_all);
-                    list_action.setAdapter(myActionAdapter);
-                    footer.setVisibility(View.GONE);
-                    isdelpage=false;
-                }
-                else {
+//                if (isdelpage)
+//                {
+//                    myActionAdapter = new MyActionAdapter(this, actionModelLists, false,cb_all);
+//                    list_action.setAdapter(myActionAdapter);
+//                    footer.setVisibility(View.GONE);
+//                    isdelpage=false;
+//                }
+//                else {
                     finish();
-                }
+//                }
                 break;
             case R.id.tv_delete:
                 String msgId = getMsgId();
@@ -229,7 +229,6 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void deleteMsg(String type) {
         dialogDissmiss();
-        footer.setVisibility(View.GONE);
         if ("true".equals(type)) {
             List<ActionModel> nList = new ArrayList<ActionModel>();
             nList.addAll(actionModelLists);
