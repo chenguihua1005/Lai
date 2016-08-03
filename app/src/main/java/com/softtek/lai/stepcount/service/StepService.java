@@ -207,8 +207,8 @@ public class StepService extends Service implements SensorEventListener {
         if (countSensor != null) {
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else {
-            /*LogManager.getManager(getApplicationContext()).log(TAG,
-                    "Mobile phone support StepCounter but countSensor is null therefore use Simulation program algorithm.",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+            LogManager.getManager(getApplicationContext()).log(TAG,
+                    "Mobile phone support StepCounter but countSensor is null therefore use Simulation program algorithm.",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             stepAccelerometerListener();
         }
     }
@@ -277,8 +277,8 @@ public class StepService extends Service implements SensorEventListener {
         stepIntent.putExtra("currentStep",todayStep);
         LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification(todayStep + "");
-        /*LogManager.getManager(getApplicationContext())
-                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+        LogManager.getManager(getApplicationContext())
+                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
     //模拟计步传感器所使用的计算方法
     private void calTodayStepByCustome(int stepTemp){
@@ -313,8 +313,8 @@ public class StepService extends Service implements SensorEventListener {
         stepIntent.putExtra("currentStep",todayStep);
         LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification(todayStep + "");
-        /*LogManager.getManager(getApplicationContext())
-                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+        LogManager.getManager(getApplicationContext())
+                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
 
     @Override
@@ -356,11 +356,11 @@ public class StepService extends Service implements SensorEventListener {
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(todayStep);
             StepUtil.getInstance().saveStep(step);
-            /*LogManager.getManager(getApplicationContext()).log(TAG,"Save successfuly!Current Step "+todayStep,
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+            LogManager.getManager(getApplicationContext()).log(TAG,"Save successfuly!Current Step "+todayStep,
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }else{
-            /*LogManager.getManager(getApplicationContext()).log(TAG,"not save!step no change  "+todayStep,
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+            LogManager.getManager(getApplicationContext()).log(TAG,"not save!step no change  "+todayStep,
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
 
 
@@ -374,16 +374,16 @@ public class StepService extends Service implements SensorEventListener {
         //如果不是退出且跑团也没退出
         if(!isLoginOut){
             sendBroadcast(new Intent(STEP_CLOSE));
-            /*LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }else {
             todayStep =0;
             lastStep=0;
             serverStep =0;
             currentStep=0;
             stopForeground(true);
-            /*LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is realy",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is realy",
+                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             nm.cancelAll();
             unregisterReceiver(uploadStepReceive);
             LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);

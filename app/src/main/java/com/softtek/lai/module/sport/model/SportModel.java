@@ -174,7 +174,6 @@ public class SportModel implements Parcelable{
     @Override
     public String toString() {
         return "SportModel{" +
-                "id='" + id + '\'' +
                 ", user='" + user + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
