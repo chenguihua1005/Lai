@@ -7,6 +7,11 @@ import com.github.snowdream.android.util.Log;
  */
 public class ColorUtil {
 
+    private static final int ABNORMAL=130;//2分10秒小于这个值异常
+    private static final int HIGH_SPEED=360;//6分钟小于这个值高速
+    private static final int MEDIUM_SPEED=540;//9分钟小于这个值中速
+
+
     private static int[] colorList = {
             /*绿*/
             0xFF99FC35,
@@ -17,24 +22,20 @@ public class ColorUtil {
             /*灰*/
             0xFFCCCCCC};
 
-    public static int getSpeedColor(double speed,boolean flag){
+    public static int getSpeedColor(long time,boolean flag){
         int color=0;
         if(!flag){
-            if(speed<4){
-                color=colorList[0];
-                Log.i("绿");
-            }else if(speed<5){
-                color=colorList[1];
-                Log.i("淡黄");
-            }else if(speed<6){
-                color=colorList[2];
-                Log.i("黄");
-            }else{
+            if(time<ABNORMAL){
                 color=colorList[3];
-                Log.i("红");
+            }else if(time<HIGH_SPEED){
+                color=colorList[2];
+            }else if(time<MEDIUM_SPEED){
+                color=colorList[1];
+            }else {
+                color=colorList[0];
             }
         }else{
-            color=colorList[4];
+            color=colorList[3];
             Log.i("异常");
         }
         return color;

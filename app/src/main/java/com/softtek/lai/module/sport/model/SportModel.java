@@ -18,6 +18,7 @@ public class SportModel implements Parcelable{
     private long consumingTime;
     private boolean hasProblem;
     private double currentKM;
+    private long kilometreTime;
     private int step;
 
     public SportModel() {
@@ -33,6 +34,7 @@ public class SportModel implements Parcelable{
         hasProblem=in.readByte()!=0;
         step=in.readInt();
         currentKM=in.readDouble();
+        kilometreTime=in.readLong();
     }
 
     public static final Creator<SportModel> CREATOR = new Creator<SportModel>() {
@@ -119,6 +121,14 @@ public class SportModel implements Parcelable{
         this.currentKM = currentKM;
     }
 
+    public long getKilometreTime() {
+        return kilometreTime;
+    }
+
+    public void setKilometreTime(long kilometreTime) {
+        this.kilometreTime = kilometreTime;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -135,5 +145,6 @@ public class SportModel implements Parcelable{
         dest.writeByte((byte)(hasProblem?1:0));
         dest.writeInt(step);
         dest.writeDouble(currentKM);
+        dest.writeLong(kilometreTime);
     }
 }
