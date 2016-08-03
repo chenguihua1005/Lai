@@ -366,19 +366,23 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         switch (msg.what){
             case StepService.MSG_FROM_SERVER:
                 //处理接收到的数据
-                Bundle bundle=msg.getData();
-                int tempStep = bundle.getInt("todayStep",0);
-                if (startStep == 0) startStep = tempStep;
-                step = ((tempStep - startStep) <= 0 ? 0+oldStep : (tempStep - startStep))+oldStep;
-                int calori = (int) (step / 35);
-                tv_step.setText(step + "");
-                tv_calorie.setText(calori + "");
-                if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
-                    DecimalFormat format = new DecimalFormat("#0.00");
-                    previousDistance = step * 1000 / 1428f;
-                    double speed = (previousDistance / 1000) / (time * 1f / 3600);
-                    tv_avg_speed.setText(format.format(speed) + "km/h");
-                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                try {
+                    Bundle bundle=msg.getData();
+                    int tempStep = bundle.getInt("todayStep",0);
+                    if (startStep == 0) startStep = tempStep;
+                    step = ((tempStep - startStep) <= 0 ? 0+oldStep : (tempStep - startStep))+oldStep;
+                    int calori = (int) (step / 35);
+                    tv_step.setText(step + "");
+                    tv_calorie.setText(calori + "");
+                    if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
+                        DecimalFormat format = new DecimalFormat("#0.00");
+                        previousDistance = step * 1000 / 1428f;
+                        double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                        tv_avg_speed.setText(format.format(speed) + "km/h");
+                        tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 //延迟
                 delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
@@ -403,9 +407,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        unbindService(connection);
         delayHandler.removeMessages(REQUEST_DELAY);
         if (intent != null) stopService(intent);
-        unbindService(connection);
         if (locationReceiver != null)
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
@@ -668,7 +672,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     boolean isFirst = true;
     LatLng lastLatLon;
     int index;//公里节点记录
-    long kilometerTime=0;
+    long kilometerTime=0;//公里耗时
     long count=0;//坐标计数器
     String avgSpeed="";
 

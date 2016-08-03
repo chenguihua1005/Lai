@@ -26,6 +26,7 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -328,18 +329,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 生成一个长方形的四个坐标点
-     */
-    private List<LatLng> createRectangle(LatLng center, double halfWidth,
-                                         double halfHeight) {
-        return Arrays.asList(new LatLng(center.latitude - halfHeight,
-                        center.longitude - halfWidth), new LatLng(center.latitude
-                        - halfHeight, center.longitude + halfWidth), new LatLng(
-                        center.latitude + halfHeight, center.longitude + halfWidth),
-                new LatLng(center.latitude + halfHeight, center.longitude
-                        - halfWidth));
-    }
 
     private List<SportModel> drawPath(String coords) {
         List<SportModel> models=null;
@@ -363,9 +352,10 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 //如果满了一公里多，按照公里节点
                 int index=0;
                 for(KilometrePace pace:paceList){
+                    int color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
                     for(int i=index;i<models.size();i++){
                         SportModel model=models.get(i);
-                        colorList.add(ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem()));
+                        colorList.add(color);
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                         if(Integer.parseInt(pace.getIndex())==Integer.parseInt(model.getIndex())){
                             //表示到了一个公里节点应该跳出这个循环

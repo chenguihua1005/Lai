@@ -170,4 +170,22 @@ public class SportModel implements Parcelable{
         dest.writeString(user);
         dest.writeString(index);
     }
+
+    @Override
+    public String toString() {
+        return "SportModel{" +
+                "id='" + id + '\'' +
+                ", user='" + user + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", speed='" + speed + '\'' +
+                ", iskilometre=" + iskilometre +
+                ", consumingTime=" + consumingTime +
+                ", hasProblem=" + hasProblem +
+                ", currentKM=" + currentKM +
+                ", kilometreTime=" + kilometreTime +
+                ", step=" + step +
+                ", index='" + index + '\'' +
+                '}';
+    }
 }
