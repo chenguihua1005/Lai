@@ -101,13 +101,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".module.home.view.GuidePageActivity"
+            android:name=".module.welcome.view.GuidePageActivity"
             android:screenOrientation="portrait">
 
 
         </activity>
         <activity
-            android:name=".module.welcome.WelcomeActivity"
+            android:name=".module.welcome.view.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
