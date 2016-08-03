@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.forlong401.log.transaction.utils.LogUtils;
@@ -257,12 +258,15 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(final String userName, final String password, final ProgressDialog dialog) {
+    public void doLogin(final String userName, final String password, final ProgressDialog dialog,final TextView tv) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
                 if (dialog != null) dialog.dismiss();
+                if(tv!=null){
+                    tv.setEnabled(true);
+                }
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:

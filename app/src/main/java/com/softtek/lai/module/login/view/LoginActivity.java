@@ -130,11 +130,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-
+        tv_login.setEnabled(false);
         String phone = et_phone.getText().toString();
         String password = et_password.getText().toString();
         progressDialog.show();
-        loginPresenter.doLogin(phone, MD5.md5WithEncoder(password), progressDialog);
+        loginPresenter.doLogin(phone, MD5.md5WithEncoder(password), progressDialog,tv_login);
     }
 
     @Override

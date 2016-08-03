@@ -26,7 +26,6 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -315,7 +314,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         tv_calorie.setText(model.getCalories());
         tv_step.setText(model.getTotal());
         tv_distance.setText(model.getKilometre());
-        tv_avg_speed.setText(model.getSpeed());
+        tv_avg_speed.setText(model.getSpeed()+"km/h");
         tv_create_time.setText(model.getCreatetime());
         String coords = model.getTrajectory();
         List<SportModel> list = drawPath(coords);

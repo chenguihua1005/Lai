@@ -75,11 +75,11 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (isfirstRun)
         {
-            finish();
             Intent intent1=new Intent(this,GuidePageActivity.class);
             startActivity(intent1);
             editor.putBoolean("isfirstRun", false);
             editor.commit();
+            finish();
         } else {
             //获取用户的帐号和密码
             String user=SharedPreferenceService.getInstance().get(Constants.USER,"");

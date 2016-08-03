@@ -45,6 +45,9 @@ public class SportUtil {
         values.put("step",model.getStep());
         values.put("currentkm",model.getCurrentKM());
         values.put("hasProblem",model.isHasProblem()?1:0);
+        values.put("index_count",model.getIndex());
+        values.put("kilometre_time",model.getKilometreTime());
+        values.put("user_id",model.getUser());
         db.insertWithOnConflict("sport_data",null,values,SQLiteDatabase.CONFLICT_NONE);
         db.close();
     }
@@ -76,7 +79,7 @@ public class SportUtil {
                 String currentKM=cursor.getString(cursor.getColumnIndex("currentkm"));
                 int kilometre=cursor.getInt(cursor.getColumnIndex("kilometre"));
                 int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
-                String index=cursor.getString(cursor.getColumnIndex("index"));
+                String index=cursor.getString(cursor.getColumnIndex("index_count"));
                 long consuming=cursor.getLong(cursor.getColumnIndex("time_consuming"));
                 SportModel model=new SportModel();
                 model.setId(id);
@@ -109,7 +112,7 @@ public class SportUtil {
                 String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
                 int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
                 long kilometreTime=cursor.getLong(cursor.getColumnIndex("kilometre_time"));
-                String index=cursor.getString(cursor.getColumnIndex("index"));
+                String index=cursor.getString(cursor.getColumnIndex("index_count"));
                 KilometrePace model=new KilometrePace();
                 model.setId(id);
                 model.setLatitude(Double.parseDouble(latitude));

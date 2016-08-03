@@ -697,6 +697,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
                 previousDistance += distance;
                 double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
+                avgSpeed=format.format(speed);
                 if (lastLatLon != null) {
                     if (distance >= 8) {
                         polylineOptions.add(latLng);
@@ -704,10 +705,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         SportModel model=new SportModel();
                         model.setLatitude(latLng.latitude);
                         model.setLongitude(latLng.longitude);
-                        model.setSpeed(format.format(speed));
+                        model.setSpeed(avgSpeed);
                         model.setConsumingTime(time);
                         model.setStep((int) step);
                         model.setIndex(count+"");
+                        model.setUser(UserInfoModel.getInstance().getUserId()+"");
                         model.setCurrentKM(previousDistance);
                         //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
                         long tempTime=time-kilometerTime;
@@ -731,6 +733,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             model.setIskilometre(false);
                         }
                         SportUtil.getInstance().addSport(model);
+                        lastLatLon = latLng;//暂存上一次坐标
                         count++;
                     }
 
@@ -746,12 +749,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     model.setConsumingTime(time);
                     model.setStep((int) step);
                     model.setIndex(count+"");
+                    model.setUser(UserInfoModel.getInstance().getUserId()+"");
                     model.setIskilometre(false);
                     SportUtil.getInstance().addSport(model);
+                    lastLatLon = latLng;//暂存上一次坐标
                     count++;
                 }
-                lastLatLon = latLng;//暂存上一次坐标
-                avgSpeed=format.format(speed);
                 tv_avg_speed.setText( avgSpeed+ "km/h");
                 tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
 
