@@ -492,7 +492,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 if (bStatus == REFUSE) {//如果接受者拒绝
                     //显示旁观者提示
                     tip_pk.setVisibility(View.VISIBLE);
-                    tip_pk.setText("PK还没开始，预知详情，敬请围观！");
+                    tip_pk.setText("PK还没开始，欲知详情，敬请围观！");
                 } else if (bStatus == NOCHALLENGE) {//接受者未应战
                     btn_refuse.setVisibility(View.VISIBLE);
                     btn_receive.setVisibility(View.VISIBLE);
@@ -575,7 +575,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         btn_receive.setVisibility(View.GONE);
         //显示旁观者提示
         tip_pk.setVisibility(View.VISIBLE);
-        tip_pk.setText("挑战尚未开始敬请期待！");
+        tip_pk.setText("PK还没开始，欲知详情，敬请围观！");
 
     }
 

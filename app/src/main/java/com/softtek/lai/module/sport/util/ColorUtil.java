@@ -14,34 +14,28 @@ public class ColorUtil {
 
     private static int[] colorList = {
             /*绿*/
-            0xFF99FD34,
+            0xFF99FC35,
             /*黄*/
-            0xFFF1F936,
+            0xFFF0F936,
             /*红*/
-            0xFFF7584A,
+            0xFFF7594A,
             /*灰*/
             0xFFCCCCCC};
 
     public static int getSpeedColor(long time,boolean flag){
         int color;
-        Log.i("耗时："+time);
         if(!flag){
             if(time<ABNORMAL){
                 color=colorList[3];
-                Log.i("灰色");
             }else if(time<HIGH_SPEED){
                 color=colorList[2];
-                Log.i("红色");
             }else if(time<MEDIUM_SPEED){
                 color=colorList[1];
-                Log.i("黄色");
             }else {
                 color=colorList[0];
-                Log.i("绿色");
             }
         }else{
             color=colorList[3];
-            Log.i("异常");
         }
         return color;
     }

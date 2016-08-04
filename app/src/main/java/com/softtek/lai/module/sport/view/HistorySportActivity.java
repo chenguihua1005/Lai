@@ -26,7 +26,6 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -56,7 +55,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -105,6 +103,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     TextView tv_create_time;
 
     AMap aMap;
+    List<PolylineOptions> optionses=new ArrayList<>();
     PolylineOptions polylineOptions;
     GroundOverlayOptions groundOverlayOptions;
     MineMovementModel mineMovementModel;
@@ -347,45 +346,95 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                     }
                 }
+                aMap.addPolyline(polylineOptions);
             }else {
-                //如果满了一公里多，按照公里节点
-                int index=0;
-                List<Integer> colorList = new ArrayList<>();
-                for(KilometrePace pace:paceList){
-                    int color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
-                    for(int i=index;i<models.size();i++){
-                        SportModel model=models.get(i);
-                        colorList.add(color);
-                        polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
-                        if(Integer.parseInt(pace.getIndex())==Integer.parseInt(model.getIndex())){
-                            //表示到了一个公里节点应该跳出这个循环
-                            index=++i;
-                            break;
-                        }
-                    }
+                optionses=getRoute(paceList,models);
+                for (PolylineOptions options:optionses){
+                    aMap.addPolyline(options);
                 }
-                //或许还有剩余的公里数,画剩余的颜色和表记
-                if(index<models.size()){
-                    SportModel startModel=models.get(index);
-                    SportModel lastModel=models.get(models.size()-1);
-                    //计算两个坐标之间的平均速度获取1公里的耗时补足
-                    double avgSpeed=(lastModel.getCurrentKM()-startModel.getCurrentKM())/lastModel.getKilometreTime();
-                    int time= (int) (1000/avgSpeed);
-                    int color=ColorUtil.getSpeedColor(time,lastModel.isHasProblem());
-                    for(int i=index;i<models.size();i++){
-                        SportModel model=models.get(i);
-                        colorList.add(color);
-                        polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
-                    }
-                }
-                System.out.println(colorList);
-                polylineOptions.useGradient(true).colorValues(colorList);
             }
-            aMap.addPolyline(polylineOptions);
         }
         return models;
     }
 
+    //拿到每一公里的坐标
+    private List<PolylineOptions> getRoute(List<KilometrePace> paces,List<SportModel> models){
+        List<PolylineOptions> polylineOptionses=new ArrayList<>();
+        int index=0;
+        int lastColor=0;
+        for (KilometrePace pace:paces) {
+            //创建每一公里的坐标组
+            List<LatLng> latLngs=new ArrayList<>();
+            List<Integer> colorList = new ArrayList<>();
+            int color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
+            for (int i = index; i < models.size(); i++) {
+                SportModel model = models.get(i);
+                if (Integer.parseInt(pace.getIndex()) == Integer.parseInt(model.getIndex())) {
+                    //表示到了下一个公里节点的开始
+                    //移除最后一个坐标
+                    /*latLngs.remove(latLngs.size()-1);
+                    colorList.remove(colorList.size()-1);*/
+                    //创建一个polylineOptions
+                    polylineOptionses.add(new PolylineOptions().width(22)
+                            .zIndex(150).useGradient(true).colorValues(colorList)
+                            .addAll(latLngs));
+                    //把索引指向下一个公里点开始的上25个坐标
+                    int temp=i-20;
+                    index=temp<0?0:temp;
+                    lastColor=color;
+                    break;
+                }
+                /**
+                 * 判断是否是前一公里的坐标。
+                 * 规则:
+                 * 1.上一公里的颜色是否存在
+                 * 2.本次坐标不是公里节点
+                 */
+                if(lastColor!=0&&!model.iskilometre()){
+                    //如果是前一公里的坐标则使用上一公里的颜色
+                    colorList.add(lastColor);
+                }else {
+                    lastColor=0;
+                    //否则使用当前公里的颜色
+                    colorList.add(color);
+                }
+                latLngs.add(new LatLng(model.getLatitude(), model.getLongitude()));
+            }
+        }
+        /**
+         * 或许还有剩余的公里数,画剩余的颜色和表记
+         * 如果真有最后一点剩余数据那么
+         * 那么公里节点的最后一个的index属性肯定比全部的数据要少
+         */
+        KilometrePace lastPace=paces.get(paces.size()-1);
+        index=Integer.parseInt(lastPace.getIndex());
+        if(index<models.size()-1) {
+            SportModel startModel = models.get(index);
+            SportModel lastModel = models.get(models.size() - 1);
+            //计算两个坐标之间的平均速度获取1公里的耗时补足
+            double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
+            int time = (int) (1000 / avgSpeed);
+            int color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());
+            List<Integer> colorList = new ArrayList<>();
+            List<LatLng> latLngs = new ArrayList<>();
+            for (int i = index-20; i < models.size(); i++) {
+                SportModel model = models.get(i);
+                if (lastColor != 0 && !model.iskilometre()) {
+                    //如果是前一公里的坐标则使用上一公里的颜色
+                    colorList.add(lastColor);
+                } else {
+                    lastColor = 0;
+                    //否则使用当前公里的颜色
+                    colorList.add(color);
+                }
+                latLngs.add(new LatLng(model.getLatitude(), model.getLongitude()));
+            }
+            polylineOptionses.add(new PolylineOptions().width(22)
+                    .zIndex(150).useGradient(true).colorValues(colorList)
+                    .addAll(latLngs));
+        }
+        return polylineOptionses;
+    }
 
     private void setMarker(LatLng startPoint,LatLng endPoint) {
         addMarker(startPoint, R.drawable.location_mark_start);
@@ -481,7 +530,13 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     cb_map_switch.setChecked(false);
                 }
                 aMap.addGroundOverlay(groundOverlayOptions);
-                aMap.addPolyline(polylineOptions);
+                if(optionses.isEmpty()){
+                    aMap.addPolyline(polylineOptions);
+                }else {
+                    for (PolylineOptions options:optionses){
+                        aMap.addPolyline(options);
+                    }
+                }
                 addMarker(start, R.drawable.location_mark_start);
                 addMarker(end, R.drawable.location_mark_end);
                 break;

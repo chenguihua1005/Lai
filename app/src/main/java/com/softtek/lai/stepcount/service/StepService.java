@@ -272,10 +272,10 @@ public class StepService extends Service implements SensorEventListener {
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
         //发送广播
-        Intent stepIntent=new Intent(STEP);
+        /*Intent stepIntent=new Intent(STEP);
         stepIntent.putExtra("step",stepTemp);
         stepIntent.putExtra("currentStep",todayStep);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);*/
         updateNotification(todayStep + "");
         LogManager.getManager(getApplicationContext())
                 .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
@@ -308,10 +308,10 @@ public class StepService extends Service implements SensorEventListener {
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
         //发送广播
-        Intent stepIntent=new Intent(STEP);
+        /*Intent stepIntent=new Intent(STEP);
         stepIntent.putExtra("step",stepTemp);
         stepIntent.putExtra("currentStep",todayStep);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);*/
         updateNotification(todayStep + "");
         LogManager.getManager(getApplicationContext())
                 .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
