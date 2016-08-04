@@ -238,7 +238,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        tv_title.setText("当期进度");
+        tv_title.setText("当前进度");
         honorPresenter = new HonorImpl(this);
     }
 

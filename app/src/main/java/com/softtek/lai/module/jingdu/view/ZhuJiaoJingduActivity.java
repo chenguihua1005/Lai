@@ -179,7 +179,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        tv_title.setText("当期进度");
+        tv_title.setText("当前进度");
     }
 
     @Subscribe
