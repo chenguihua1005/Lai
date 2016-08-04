@@ -69,7 +69,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViews() {
-        tv_title.setText("慈善公益");
+        tv_title.setText("爱心慈善");
         ll_left.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
