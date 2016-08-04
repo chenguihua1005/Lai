@@ -745,7 +745,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if ("".equals(details.getClassBanner())) {
                     Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
                 } else {
-                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().centerCrop().error(R.drawable.default_icon_rect).into(img_banner);
                 }
                 if ("0".equals(details.getClmCnt())) {
                     text_class_count.setText("--");
@@ -878,7 +878,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if ("".equals(details.getClassBanner())) {
                     Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
                 } else {
-                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+                    Picasso.with(getContext()).load(path + details.getClassBanner()).fit().centerCrop().error(R.drawable.default_icon_rect).into(img_banner);
                 }
                 if ("0".equals(details.getClmCnt())) {
                     text_class_count.setText("--");
