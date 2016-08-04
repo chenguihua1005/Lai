@@ -288,7 +288,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:layout_marginRight="5dp"
                         android:textSize="16sp"
                         android:textColor="#fea300"
@@ -344,12 +343,12 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textColor="#fea300"
                         android:textSize="16sp"
                         android:background="@null"
                         android:editable="false"
                         android:cursorVisible="false"
+                        android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_retestWrites_nowweight" />
 
@@ -399,9 +398,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textSize="16sp"
                         android:paddingRight="3dp"
+                        android:layout_marginRight="5dp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView17"
                         android:id="@+id/tv_retestWritest_tizhi" />
@@ -452,8 +451,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textSize="16sp"
+                        android:layout_marginRight="12dp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retestWritest_neizhi" />
