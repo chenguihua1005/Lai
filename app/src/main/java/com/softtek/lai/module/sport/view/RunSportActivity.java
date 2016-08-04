@@ -699,11 +699,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 DecimalFormat format = new DecimalFormat("#0.00");
                 //计算距离单位米
                 double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
-                previousDistance += distance;
-                double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
-                avgSpeed=format.format(speed);
+
                 if (lastLatLon != null) {
                     if (distance >= 8) {
+                        previousDistance += distance;
+                        double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
+                        avgSpeed=format.format(speed);
+
                         polylineOptions.add(latLng);
                         aMap.addPolyline(polylineOptions);
                         SportModel model=new SportModel();
@@ -749,7 +751,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     SportModel model=new SportModel();
                     model.setLatitude(latLng.latitude);
                     model.setLongitude(latLng.longitude);
-                    model.setSpeed(format.format(speed));
+                    model.setSpeed("0.00");
                     model.setConsumingTime(time);
                     model.setStep((int) step);
                     model.setIndex(count+"");
