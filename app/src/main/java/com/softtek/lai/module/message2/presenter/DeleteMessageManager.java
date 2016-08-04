@@ -41,9 +41,6 @@ public class DeleteMessageManager {
                         case 200:
                             deleteMsgCallBack.deleteMsg("true");
                             break;
-                        case 500:
-                            deleteMsgCallBack.deleteMsg("false");
-                            break;
                         default:
                             deleteMsgCallBack.deleteMsg("false");
                             Util.toastMsg(responseData.getMsg());
