@@ -1,5 +1,7 @@
 package com.softtek.lai.stepcount.service;
 
+import com.github.snowdream.android.util.Log;
+
 import zilla.libcore.util.Util;
 
 /**
@@ -22,24 +24,25 @@ public class StepCount implements StepCountListener {
         }
         timeOfThisPeak = System.currentTimeMillis();
         long time=timeOfThisPeak - timeOfLastPeak;
-        if (time >= 3000) {
-            //时间超过3秒后之前的步数清零
-            count = 1;
-        } else if(time>=250){
+        if(time<3000&&time>=200){
             count++;
-        }
-        Util.toastMsg("当前计步器步数出发>>>count="+count+";mCount="+mCount);
-        if (count == 5) {
-            mCount += count;
-            if (mListeners != null) {
-                mListeners.stepsChanged(mCount);
+            if (count == 5) {
+                mCount += count;
+                Log.i("mCount======="+mCount);
+                if (mListeners != null) {
+                    mListeners.stepsChanged(mCount);
+                }
+            }else if (count > 5) {
+                Log.i("mCount======="+mCount);
+                mCount++;
+                if (mListeners != null) {
+                    mListeners.stepsChanged(mCount);
+                }
             }
-        }else if (count > 5) {
-            mCount++;
-            if (mListeners != null) {
-                mListeners.stepsChanged(mCount);
-            }
+        }else {
+            count=1;
         }
+
     }
 
     public void setmListeners(StepPaseValueListener mListeners) {

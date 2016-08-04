@@ -220,6 +220,7 @@ public class StepService extends Service implements SensorEventListener {
         if(sensorManager!=null&&stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             sensorManager=null;
+            stepCount=null;
             stepDetector=null;
         }
         stepDetector=new StepDetector();
@@ -389,6 +390,7 @@ public class StepService extends Service implements SensorEventListener {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
             if(stepDetector!=null){
                 sensorManager.unregisterListener(stepDetector);
+                stepCount=null;
                 stepDetector=null;
             }
             if (countSensor != null) {
