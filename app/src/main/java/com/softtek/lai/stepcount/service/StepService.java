@@ -50,7 +50,6 @@ public class StepService extends Service implements SensorEventListener {
 
     private static final String TAG="StepService";
 
-    public static final String STEP="com.softtek.lai.StepService.StepCount";
     public static final String STEP_CLOSE="com.softtek.lai.StepService.StepClose";
     public static final String STEP_CLOSE_SELF="com.softtek.lai.StepService.STEP_CLOSE_SELF";
 
@@ -58,7 +57,7 @@ public class StepService extends Service implements SensorEventListener {
     public static final int MSG_FROM_SERVER=10;
 
     //默认为30秒进行一次存储
-    private static int duration = 10000;
+    private static final int duration = 10000;
     private SensorManager sensorManager;
     private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;

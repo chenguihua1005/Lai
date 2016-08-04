@@ -1,9 +1,5 @@
 package com.softtek.lai.stepcount.service;
 
-import com.github.snowdream.android.util.Log;
-
-import zilla.libcore.util.Util;
-
 /**
  * Created by John on 2016/7/10.
  */
