@@ -8,7 +8,6 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -38,7 +36,6 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_my)
 public class MineFragment extends BaseFragment implements View.OnClickListener, Validator.ValidationListener {
@@ -229,7 +226,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     // TODO Auto-generated method stub
                     System.out.println("onSuccess------");
                     UserInfoModel.getInstance().loginOut();
-                    getContext().stopService(new Intent(getContext(), StepService.class));
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     getActivity().finish();
                     startActivity(new Intent(getContext(), LoginActivity.class));
                 }

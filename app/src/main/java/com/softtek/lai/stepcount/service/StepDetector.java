@@ -48,6 +48,7 @@ public class StepDetector implements SensorEventListener {
     }
 
     public void setStepListeners(StepCountListener sl) {
+        mStepListeners=null;
         mStepListeners = sl;
     }
 

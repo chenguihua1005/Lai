@@ -220,7 +220,6 @@ public class StepService extends Service implements SensorEventListener {
         if(sensorManager!=null&&stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             sensorManager=null;
-            stepCount=null;
             stepDetector=null;
         }
         stepDetector=new StepDetector();
@@ -373,11 +372,12 @@ public class StepService extends Service implements SensorEventListener {
         save();
         super.onDestroy();
         //如果不是退出且跑团也没退出
-        if(!isLoginOut){
+        if(!isLoginOut/*&&UserInfoModel.getInstance().getUser()!=null*/){
             sendBroadcast(new Intent(STEP_CLOSE));
             LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
                     LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }else {
+            Log.i("清楚数据");
             todayStep =0;
             lastStep=0;
             serverStep =0;
@@ -386,20 +386,19 @@ public class StepService extends Service implements SensorEventListener {
             LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is realy",
                     LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             nm.cancelAll();
-            unregisterReceiver(uploadStepReceive);
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
-            if(stepDetector!=null){
-                sensorManager.unregisterListener(stepDetector);
-                stepCount=null;
-                stepDetector=null;
-            }
-            if (countSensor != null) {
-                sensorManager.unregisterListener(this, countSensor);
-            }
-            sensorManager=null;
-            time.cancel();
-        }
 
+        }
+        unregisterReceiver(uploadStepReceive);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
+        if(stepDetector!=null){
+            sensorManager.unregisterListener(stepDetector);
+            stepDetector=null;
+        }
+        if (countSensor != null) {
+            sensorManager.unregisterListener(this, countSensor);
+        }
+        sensorManager=null;
+        time.cancel();
 
     }
 
@@ -425,6 +424,7 @@ public class StepService extends Service implements SensorEventListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.i("自己关闭自己");
             isLoginOut=true;
             stopSelf();
         }

@@ -7,7 +7,7 @@ import com.github.snowdream.android.util.Log;
  */
 public class ColorUtil {
 
-    private static final int ABNORMAL=130;//2分10秒小于这个值异常
+    private static final int ABNORMAL=120;//2分10秒小于这个值异常
     private static final int HIGH_SPEED=360;//6分钟小于这个值高速
     private static final int MEDIUM_SPEED=540;//9分钟小于这个值中速
 

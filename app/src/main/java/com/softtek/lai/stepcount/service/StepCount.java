@@ -28,12 +28,10 @@ public class StepCount implements StepCountListener {
             count++;
             if (count == 5) {
                 mCount += count;
-                Log.i("mCount======="+mCount);
                 if (mListeners != null) {
                     mListeners.stepsChanged(mCount);
                 }
             }else if (count > 5) {
-                Log.i("mCount======="+mCount);
                 mCount++;
                 if (mListeners != null) {
                     mListeners.stepsChanged(mCount);
