@@ -313,17 +313,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         // 需要做的事:发送消息
                         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                         if (hxid.equals(model.getHXAccountId())) {
-                            System.out.println("111111111");
                             if (timer != null) {
                                 timer.cancel();
                             }
                         } else {
-                            System.out.println("2222222222222");
                             if ("-1".equals(hxid)) {
-                                System.out.println("333333333333");
                                 loginChat(progressDialog, model.getHXAccountId());
                             } else {
-                                System.out.println("4444444444");
                                 new Thread(
                                         new Runnable() {
                                             @Override

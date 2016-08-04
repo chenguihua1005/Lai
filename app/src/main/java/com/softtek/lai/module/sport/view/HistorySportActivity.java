@@ -26,6 +26,7 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -121,7 +122,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     private AMap.OnMapScreenShotListener onMapScreenShotListener = new AMap.OnMapScreenShotListener() {
         @Override
         public void onMapScreenShot(Bitmap bitmap) {
-            System.out.println("onMapScreenShot--");
             bitmap_map = bitmap;
             if (ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(HistorySportActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -200,7 +200,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 service.getMineMovement(UserInfoModel.getInstance().getToken(), model.getUserid(), new RequestCallback<ResponseData<MineMovementModel>>() {
                     @Override
                     public void success(ResponseData<MineMovementModel> responseData, Response response) {
-                        android.util.Log.e("jarvis", responseData.toString());
                         int status = responseData.getStatus();
                         switch (status) {
                             case 200:
@@ -223,7 +222,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 });
             } else {
                 dialogDissmiss();
-                //ToastUtil.show(ScreenShotActivity.this, "截屏失败");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -233,7 +231,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @Subscribe
     public void onEvent(PhotosModel photModel) {
         dialogDissmiss();
-        System.out.println(photModel);
         if (UserInfoModel.getInstance().getUser() == null) {
             return;
         }
@@ -328,33 +325,24 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 生成一个长方形的四个坐标点
-     */
-    private List<LatLng> createRectangle(LatLng center, double halfWidth,
-                                         double halfHeight) {
-        return Arrays.asList(new LatLng(center.latitude - halfHeight,
-                        center.longitude - halfWidth), new LatLng(center.latitude
-                        - halfHeight, center.longitude + halfWidth), new LatLng(
-                        center.latitude + halfHeight, center.longitude + halfWidth),
-                new LatLng(center.latitude + halfHeight, center.longitude
-                        - halfWidth));
-    }
 
     private List<SportModel> drawPath(String coords) {
         List<SportModel> models=null;
-        List<Integer> colorList = new ArrayList<>();
         Gson gson = new Gson();
         Trajectory trajectory = gson.fromJson(coords, Trajectory.class);
         if (trajectory != null) {
-            polylineOptions = new PolylineOptions().useGradient(true).width(22).zIndex(150);
+            polylineOptions = new PolylineOptions().width(22).zIndex(150);
             models = trajectory.getTrajectory();
             List<KilometrePace> paceList=trajectory.getKilometrePaces();
             if(paceList==null||paceList.isEmpty()){
                 //表示不满一公里按照最后一个坐标的耗时在计算
                 if(models!=null&&!models.isEmpty()){
+                    SportModel startModel=models.get(0);
                     SportModel lastModel=models.get(models.size()-1);
-                    polylineOptions.color(ColorUtil.getSpeedColor(lastModel.getKilometreTime(),lastModel.isHasProblem()));
+                    //计算两个坐标之间的平均速度获取1公里的耗时补足
+                    double avgSpeed=(lastModel.getCurrentKM()-startModel.getCurrentKM())/lastModel.getKilometreTime();
+                    int time= (int) (1000/avgSpeed);
+                    polylineOptions.color(ColorUtil.getSpeedColor(time,lastModel.isHasProblem()));
                     for (SportModel model : models) {
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                     }
@@ -362,10 +350,12 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             }else {
                 //如果满了一公里多，按照公里节点
                 int index=0;
+                List<Integer> colorList = new ArrayList<>();
                 for(KilometrePace pace:paceList){
+                    int color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
                     for(int i=index;i<models.size();i++){
                         SportModel model=models.get(i);
-                        colorList.add(ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem()));
+                        colorList.add(color);
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                         if(Integer.parseInt(pace.getIndex())==Integer.parseInt(model.getIndex())){
                             //表示到了一个公里节点应该跳出这个循环
@@ -376,14 +366,20 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 }
                 //或许还有剩余的公里数,画剩余的颜色和表记
                 if(index<models.size()){
+                    SportModel startModel=models.get(index);
                     SportModel lastModel=models.get(models.size()-1);
+                    //计算两个坐标之间的平均速度获取1公里的耗时补足
+                    double avgSpeed=(lastModel.getCurrentKM()-startModel.getCurrentKM())/lastModel.getKilometreTime();
+                    int time= (int) (1000/avgSpeed);
+                    int color=ColorUtil.getSpeedColor(time,lastModel.isHasProblem());
                     for(int i=index;i<models.size();i++){
                         SportModel model=models.get(i);
-                        colorList.add(ColorUtil.getSpeedColor(lastModel.getKilometreTime(),lastModel.isHasProblem()));
+                        colorList.add(color);
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                     }
                 }
-                polylineOptions.colorValues(colorList);
+                System.out.println(colorList);
+                polylineOptions.useGradient(true).colorValues(colorList);
             }
             aMap.addPolyline(polylineOptions);
         }

@@ -128,8 +128,8 @@ public class StepService extends Service implements SensorEventListener {
         lastStep = todayStep = currentStep + serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
         updateNotification(todayStep + "");
-        LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated,\ninitTodayData was called,current todaystep="+todayStep+"\nserverStep="+serverStep,
-                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+        /*LogManager.getManager(getApplicationContext()).log(TAG,"StepService onCreated,\ninitTodayData was called,current todaystep="+todayStep+"\nserverStep="+serverStep,
+                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
 
     }
 
@@ -261,8 +261,6 @@ public class StepService extends Service implements SensorEventListener {
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
-            LogManager.getManager(getApplicationContext())
-                    .log(TAG,"The current hour between 23:50 and 23:59, current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -297,8 +295,8 @@ public class StepService extends Service implements SensorEventListener {
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
-            LogManager.getManager(getApplicationContext())
-                    .log(TAG,"The current hour between 23:50 and 23:59, current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+            /*LogManager.getManager(getApplicationContext())
+                    .log(TAG,"The current hour between 23:50 and 23:59, current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -349,8 +347,8 @@ public class StepService extends Service implements SensorEventListener {
     int lastStep;
     //存入数据库
     private void save() {
-        LogManager.getManager(getApplicationContext()).log(TAG,"Start save Step Count into datebase",
-                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+        /*LogManager.getManager(getApplicationContext()).log(TAG,"Start save Step Count into datebase",
+                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
         if(todayStep>lastStep){
             lastStep = todayStep;//记录上一次保存的值
             UserStep step = new UserStep();
@@ -372,8 +370,6 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         save();
-        LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory",
-                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         super.onDestroy();
         //如果不是退出且跑团也没退出
         if(!isLoginOut){
@@ -443,7 +439,7 @@ public class StepService extends Service implements SensorEventListener {
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minutes=c.get(Calendar.MINUTE);
             if(Intent.ACTION_TIME_TICK.equals(action)){
-                Log.i("一分钟到了。。。。。。。");
+                //Log.i("一分钟到了。。。。。。。");
                 //每晚的23点30分到24点之间
                 if(hour==23&&minutes>50&&minutes<=59){
                     serverStep=0;
@@ -470,29 +466,27 @@ public class StepService extends Service implements SensorEventListener {
                             buffer.append(DateUtil.getInstance().getCurrentDate());
                             buffer.append(",");
                             buffer.append(todayStep);
-                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...data="+buffer.toString(),
-                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                             //提交数据
                             ZillaApi.NormalRestAdapter.create(StepNetService.class)
                                     .synStepCount(
                                             UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed...\n"+
+                                                    /*LogManager.getManager(getApplicationContext()).log(TAG,"uploading success...\n"+
                                                                     response.getUrl()+"\nstatus="+response.getStatus(),
-                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
                                                 }
 
                                                 @Override
                                                 public void failure(RetrofitError error) {
-                                                    LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed..",
-                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                                                    /*LogManager.getManager(getApplicationContext()).log(TAG,"uploading failed..",
+                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
                                                     super.failure(error);
                                                 }
                                             });
                         }else {
-                            LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...but userModle is null",
-                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
+                            /*LogManager.getManager(getApplicationContext()).log(TAG,"Start uploading...but userModle is null",
+                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
                         }
                     }
                 }

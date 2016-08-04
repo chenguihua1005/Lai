@@ -8,6 +8,7 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -169,7 +170,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         dialogDissmiss();
         if ("true".equals(type)) {
             String noticeMsg = unreadMsgModel.getNoticeMsg();
-            if (!noticeMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(noticeMsg)) {
                 rel_fwc.setVisibility(View.VISIBLE);
                 text_value_fwc.setText(noticeMsg);
                 text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
@@ -183,7 +184,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String operateMsg = unreadMsgModel.getOperateMsg();
-            if (!operateMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(operateMsg)) {
                 rel_xzs.setVisibility(View.VISIBLE);
                 text_value_xzs.setText(operateMsg);
                 text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
@@ -198,7 +199,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String measureMsg = unreadMsgModel.getMeasureMsg();
-            if (!measureMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(measureMsg)) {
                 rel_fc.setVisibility(View.VISIBLE);
                 text_value_fc.setText(measureMsg);
                 text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
@@ -212,7 +213,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String angleMsg = unreadMsgModel.getAngleMsg();
-            if (!angleMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(angleMsg)) {
                 rel_gs.setVisibility(View.VISIBLE);
                 text_value_gs.setText(angleMsg);
                 text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
@@ -226,7 +227,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String actMsg = unreadMsgModel.getActiveMsg();
-            if (!actMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(actMsg)) {
                 rel_act.setVisibility(View.VISIBLE);
                 text_value_act.setText(actMsg);
                 text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
@@ -240,7 +241,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             }
 
             String chaMsg = unreadMsgModel.getChallMsg();
-            if (!chaMsg.isEmpty()) {
+            if (!TextUtils.isEmpty(chaMsg)) {
                 rel_pk.setVisibility(View.VISIBLE);
                 text_value_pk.setText(chaMsg);
                 text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());

@@ -1,9 +1,11 @@
 package com.softtek.lai.module.act.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,9 +58,24 @@ public class ActActivity extends BaseActivity implements View.OnClickListener, B
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            Intent intent = new Intent();
+            //把返回数据存入Intent
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
+                Intent intent = new Intent();
+                //把返回数据存入Intent
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
