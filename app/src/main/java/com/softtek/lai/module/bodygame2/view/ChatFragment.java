@@ -387,7 +387,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 loginChat(progressDialog, model.getHXAccountId());
             }
         } else {
-            Util.toastMsg("学员会话功能开通中，请稍后再试");
+            Util.toastMsg("会话功能开通中，请稍后再试");
         }
     }
 

@@ -269,7 +269,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     progressDialog.show();
                     loginChat(progressDialog, model.getHXAccountId());
                 }else{
-                    Util.toastMsg("您的会话功能开通中，请稍后再试");
+                    Util.toastMsg("会话功能开通中，请稍后再试");
                 }
             }
         }
@@ -351,7 +351,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     if (hxid.equals(model.getHXAccountId())) {
                         String HX_ID = clmInfoModel.getHXAccountId();
                         if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
-                            Util.toastMsg("学员会话功能开通中，请稍后再试");
+                            Util.toastMsg("会话功能开通中，请稍后再试");
                         } else {
                             Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
                             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -371,7 +371,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                                 progressDialog.show();
                                 loginChat(progressDialog, model.getHXAccountId());
                             }else{
-                                Util.toastMsg("您的会话功能开通中，请稍后再试");
+                                Util.toastMsg("会话功能开通中，请稍后再试");
                             }
                         } else {
                             new Thread(
