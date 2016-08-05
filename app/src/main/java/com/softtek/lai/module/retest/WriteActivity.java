@@ -420,6 +420,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker)view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(np1maxvalur);
         np1.setValue(np1value);
         np1.setMinValue(np1minvalue);
