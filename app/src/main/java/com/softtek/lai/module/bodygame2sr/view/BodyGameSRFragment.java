@@ -22,7 +22,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
@@ -38,9 +37,7 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.net.MessageService;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
@@ -402,35 +399,29 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        UserModel model= UserInfoModel.getInstance().getUser();
-        if(model==null){
-            return;
-        }
-        String userrole = model.getUserrole();
-        if (!String.valueOf(Constants.VR).equals(userrole)) {
-            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
-                @Override
-                public void success(ResponseData listResponseData, Response response) {
-                    int status = listResponseData.getStatus();
-                    try {
-                        switch (status) {
-                            case 200:
-                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
-                                break;
-                            default:
-                                iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
-                                break;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                try {
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                            break;
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
 
-                @Override
-                public void failure(RetrofitError error) {
-                }
-            });
-        }
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
     }
 
 
@@ -582,6 +573,28 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
     @Override
     public void onRefresh() {
         manager.getSPHomeInfo(this);
+        ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                try {
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.email));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
     }
 
 }

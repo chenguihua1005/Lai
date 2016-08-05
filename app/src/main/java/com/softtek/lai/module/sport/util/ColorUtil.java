@@ -41,6 +41,7 @@ public class ColorUtil {
             }
         }else{
             color=colorList[3];
+            Log.i("异常");
         }
         return color;
     }

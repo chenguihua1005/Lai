@@ -37,6 +37,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
+import com.softtek.lai.module.mygrades.model.GradesModel;
 import com.softtek.lai.module.mygrades.model.ScoreModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
@@ -177,7 +178,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     int n = 7;
     boolean state = true;
     List<String> days = new ArrayList<>();
-    List<Float> dates = new ArrayList<>();
+    List<Integer> dates = new ArrayList<>();
     String nowdate7, nowdate6, nowdate5, nowdate4, nowdate3, nowdate2, nowdate1;
 
     @Override
@@ -281,13 +282,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         //3.3.2	成绩勋章信息
         getGradeHonor();
 
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
         days.clear();
         nowdate7 = getPeriodDate(type, 0) + "";
         nowdate6 = getPeriodDate(type, 1) + "";
@@ -327,37 +328,39 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     public void onEvent(GradesEvent gradesEvent) {
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
-            if (getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(0, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            GradesModel model=gradesEvent.getgradesModels().get(i);
+            int totalCnt=Integer.parseInt(model.getTotalCnt());
+            if (getDateform(nowdate1).equals(model.getDate())) {
+                dates.set(0, totalCnt);
             }
-            if (getDateform(nowdate2).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(1, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate2).equals(model.getDate())) {
+                dates.set(1, totalCnt);
             }
-            if (getDateform(nowdate3).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(2, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate3).equals(model.getDate())) {
+                dates.set(2, totalCnt);
             }
-            if (getDateform(nowdate4).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(3, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate4).equals(model.getDate())) {
+                dates.set(3, totalCnt);
             }
-            if (getDateform(nowdate5).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(4, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate5).equals(model.getDate())) {
+                dates.set(4, totalCnt);
             }
-            if (getDateform(nowdate6).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(5, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate6).equals(model.getDate())) {
+                dates.set(5, totalCnt);
             }
-            if (getDateform(nowdate7).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(6, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate7).equals(model.getDate())) {
+                dates.set(6, totalCnt);
             }
         }
         chartUtil.addDataf(dates, 7, days);
         dates.clear();
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
-        dates.add(0f);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
+        dates.add(0);
     }
 
     private SpannableString getString(String value,int color,int start){
