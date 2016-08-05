@@ -171,7 +171,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                                 finish();
                                             }else if(type== Constants.MESSAGE_PK){
                                                 //如果是从消息列表过来的话
-                                                Intent intent = new Intent();
+                                                Intent intent =getIntent();
                                                 //设置返回数据
                                                 setResult(RESULT_OK, intent);
                                                 finish();
@@ -542,7 +542,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             startActivity(intent);
         } else if (type == Constants.MESSAGE_PK) {
             //如果是从消息列表过来的话
-            Intent intent = new Intent();
+            Intent intent = getIntent();
             //设置返回数据
             setResult(RESULT_OK, intent);
             finish();

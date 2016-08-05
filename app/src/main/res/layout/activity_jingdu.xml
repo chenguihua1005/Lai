@@ -175,7 +175,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月:"
+                            android:text="月"
                             android:textColor="#6f6f6f"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -248,7 +248,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月:"
+                            android:text="月"
                             android:textColor="#6f6f6f"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -319,7 +319,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月:"
+                            android:text="月"
                             android:textColor="#6f6f6f"
                             android:textSize="12sp" />
                     </LinearLayout>

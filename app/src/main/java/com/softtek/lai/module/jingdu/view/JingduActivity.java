@@ -326,7 +326,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
             onebanname = rank.getTable2().get(0).getClassName();
             oneban = rank.getTable2().get(0).getLoseWeight();
-            tv_classname1.setText(onebanname);
+            tv_classname1.setText("本月减重");
             tv_oneban.setText(oneban);
             float a = Float.parseFloat(oneban);
             total_weight.setValue(a, 0, 0);
@@ -370,9 +370,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             oneban = rank.getTable2().get(0).getLoseWeight();
             twobanname = rank.getTable2().get(1).getClassName();
             twoban = rank.getTable2().get(1).getLoseWeight();
-            tv_classname1.setText(onebanname);
+            tv_classname1.setText("本月减重");
             tv_oneban.setText(oneban);
-            tv_classname2.setText(twobanname);
+            tv_classname2.setText("本月减重");
             tv_twoban.setText(twoban);
             float a = Float.parseFloat(oneban);
             float b = Float.parseFloat(twoban);
@@ -438,11 +438,11 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             twoban = rank.getTable2().get(1).getLoseWeight();
             threebanname = rank.getTable2().get(2).getClassName();
             threeban = rank.getTable2().get(2).getLoseWeight();
-            tv_classname1.setText(onebanname);
+            tv_classname1.setText("本月减重");
             tv_oneban.setText(oneban);
-            tv_classname2.setText(twobanname);
+            tv_classname2.setText("本月减重");
             tv_twoban.setText(twoban);
-            tv_classname3.setText(threebanname);
+            tv_classname3.setText("本月减重");
             tv_threeban.setText(threeban);
             float a = Float.parseFloat(oneban);
             float b = Float.parseFloat(twoban);
