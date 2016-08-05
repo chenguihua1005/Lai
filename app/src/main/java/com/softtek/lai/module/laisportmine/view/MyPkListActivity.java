@@ -106,7 +106,9 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("--------");
         if (requestCode == 0 && resultCode == RESULT_OK) {
+            updateMsgRTimeManager.doUpdateMsgRTime(accountid,"0");
             dialogShow("加载中");
             pkNoticeManager.doGetPKINotice(accountid);
         }
