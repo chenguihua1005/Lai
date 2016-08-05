@@ -108,6 +108,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == RESULT_OK) {
             dialogShow("加载中");
+            updateMsgRTimeManager.doUpdateMsgRTime(accountid, "22");
             actionListManager.GetActiveMsg(accountid);
         }
     }
