@@ -59,9 +59,7 @@ import com.softtek.lai.module.sport.presenter.SportManager;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.JCountDownTimer;
-import com.softtek.lai.utils.ScreenListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -538,6 +536,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                         pace.setLatitude(model.getLatitude());
                                         pace.setLongitude(model.getLongitude());
                                         pace.setIskilometre(model.iskilometre());
+                                        pace.setCurrentKM(model.getCurrentKM());
+                                        pace.setStep(model.getStep());
+                                        pace.setUser(model.getUser());
+                                        pace.setConsumingTime(model.getConsumingTime());
+                                        pace.setSpeed(model.getSpeed());
                                         paces.add(pace);
                                     }
                                     data.setTrajectory(new Gson().

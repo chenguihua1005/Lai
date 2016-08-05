@@ -375,7 +375,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             }else {
                 //如果是最后一条且又不是总路径的最后一条，那么肯定剩余的路径数
                 index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
-                SportModel startModel = models.get(index+1);
+                SportModel startModel = models.get(index);
                 SportModel lastModel = models.get(models.size() - 1);
                 //计算两个坐标之间的平均速度获取1公里的耗时补足
                 double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
@@ -384,6 +384,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             }
             for (int i = index; i < models.size(); i++) {
                 SportModel model = models.get(i);
+                System.out.println("坐标>>"+model);
                 if (Integer.parseInt(pace.getIndex()) == Integer.parseInt(model.getIndex())) {
                     //表示到了下一个公里节点的开始
                     //移除最后一个坐标

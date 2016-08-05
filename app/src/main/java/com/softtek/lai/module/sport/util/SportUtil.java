@@ -114,12 +114,23 @@ public class SportUtil {
                 String id=cursor.getString(cursor.getColumnIndex("id"));
                 String longitude=cursor.getString(cursor.getColumnIndex("longitude"));
                 String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
-                int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
-                long kilometreTime=cursor.getLong(cursor.getColumnIndex("kilometre_time"));
-                String index=cursor.getString(cursor.getColumnIndex("index_count"));
+                String speed=cursor.getString(cursor.getColumnIndex("speed"));
+                int step=cursor.getInt(cursor.getColumnIndex("step"));
+                String user=cursor.getString(cursor.getColumnIndex("user_id"));
+                String currentKM=cursor.getString(cursor.getColumnIndex("currentkm"));
                 int kilometre=cursor.getInt(cursor.getColumnIndex("kilometre"));
+                int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
+                String index=cursor.getString(cursor.getColumnIndex("index_count"));
+                long kilometreTime=cursor.getLong(cursor.getColumnIndex("kilometre_time"));
+                long consuming=cursor.getLong(cursor.getColumnIndex("time_consuming"));
+
                 KilometrePace model=new KilometrePace();
                 model.setId(id);
+                model.setSpeed(speed);
+                model.setUser(user);
+                model.setStep(step);
+                model.setConsumingTime(consuming);
+                model.setCurrentKM(Double.parseDouble(currentKM));
                 model.setIskilometre(kilometre==1);
                 model.setLatitude(Double.parseDouble(latitude));
                 model.setLongitude(Double.parseDouble(longitude));
