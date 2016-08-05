@@ -175,7 +175,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月:"
+                            android:text="月"
                             android:textColor="#6f6f6f"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -254,7 +254,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname2"
-                        android:layout_width="80dp"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="未开班"
                         android:textColor="#6f6f6f"
@@ -325,7 +325,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname3"
-                        android:layout_width="80dp"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="未开班"
                         android:textColor="#6f6f6f"
