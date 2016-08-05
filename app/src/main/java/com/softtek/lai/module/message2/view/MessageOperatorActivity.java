@@ -128,7 +128,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent = new Intent();
+            Intent intent =getIntent();
             //把返回数据存入Intent
             intent.putExtra("type", "xzs");
             //设置返回数据
@@ -211,7 +211,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     public void refuseRemoveSR(String type) {
         dialogDissmiss();
         if ("true".equals(type)) {
-            Intent intent = new Intent();
+            Intent intent =getIntent();
             //把返回数据存入Intent
             intent.putExtra("type", "xzs");
             //设置返回数据

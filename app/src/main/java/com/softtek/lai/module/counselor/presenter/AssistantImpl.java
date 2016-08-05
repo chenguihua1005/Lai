@@ -161,7 +161,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 switch (status) {
                     case 200:
                         if ("message".equals(type)) {
-                            Intent intent = new Intent();
+                            Intent intent =context.getIntent();
                             //把返回数据存入Intent
                             intent.putExtra("type", "xzs");
                             //设置返回数据

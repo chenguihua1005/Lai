@@ -221,7 +221,7 @@ public class MessageImpl implements IMessagePresenter {
                             context.startActivity(new Intent(context, LoginActivity.class));
 
                         }else {
-                            Intent intent = new Intent();
+                            Intent intent = context.getIntent();
                             //把返回数据存入Intent
                             intent.putExtra("type", "xzs");
                             //设置返回数据
@@ -262,7 +262,7 @@ public class MessageImpl implements IMessagePresenter {
                             intent.putExtra("type", "0");
                             context.startActivity(intent);
                         } else {
-                            Intent intent = new Intent();
+                            Intent intent = context.getIntent();
                             //把返回数据存入Intent
                             intent.putExtra("type", "xzs");
                             //设置返回数据
