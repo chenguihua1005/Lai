@@ -117,8 +117,10 @@ public class SportUtil {
                 int hasProblem=cursor.getInt(cursor.getColumnIndex("hasProblem"));
                 long kilometreTime=cursor.getLong(cursor.getColumnIndex("kilometre_time"));
                 String index=cursor.getString(cursor.getColumnIndex("index_count"));
+                int kilometre=cursor.getInt(cursor.getColumnIndex("kilometre"));
                 KilometrePace model=new KilometrePace();
                 model.setId(id);
+                model.setIskilometre(kilometre==1);
                 model.setLatitude(Double.parseDouble(latitude));
                 model.setLongitude(Double.parseDouble(longitude));
                 model.setHasProblem(hasProblem==1);

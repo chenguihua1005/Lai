@@ -16,6 +16,15 @@ public class KilometrePace {
     //改公里是否有问题
     private boolean hasProblem;
     private String index;
+    private boolean iskilometre;
+
+    public boolean iskilometre() {
+        return iskilometre;
+    }
+
+    public void setIskilometre(boolean iskilometre) {
+        this.iskilometre = iskilometre;
+    }
 
     public String getIndex() {
         return index;

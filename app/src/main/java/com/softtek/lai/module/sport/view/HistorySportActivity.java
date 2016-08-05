@@ -26,7 +26,6 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -363,11 +362,26 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         List<PolylineOptions> polylineOptionses=new ArrayList<>();
         int index=0;
         int lastColor=0;
-        for (KilometrePace pace:paces) {
+        for (int j=0;j<paces.size();j++) {
+            KilometrePace pace=paces.get(j);
             //创建每一公里的坐标组
             List<LatLng> latLngs=new ArrayList<>();
             List<Integer> colorList = new ArrayList<>();
-            int color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
+            int color;
+            //最后一条可能不是真的公里节点，所以要判断一下
+            //判断这个公里节点是不是最后一条,如果是最后一条在判断是不是总路径的最后一条
+            if(j!=paces.size()-1||Integer.parseInt(pace.getIndex())==Integer.parseInt(models.get(models.size()-1).getIndex())){
+                color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
+            }else {
+                //如果是最后一条且又不是总路径的最后一条，那么肯定剩余的路径数
+                index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
+                SportModel startModel = models.get(index+1);
+                SportModel lastModel = models.get(models.size() - 1);
+                //计算两个坐标之间的平均速度获取1公里的耗时补足
+                double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
+                int time = (int) (1000 / avgSpeed);
+                color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());
+            }
             for (int i = index; i < models.size(); i++) {
                 SportModel model = models.get(i);
                 if (Integer.parseInt(pace.getIndex()) == Integer.parseInt(model.getIndex())) {
@@ -407,7 +421,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
          * 如果真有最后一点剩余数据那么
          * 那么公里节点的最后一个的index属性肯定比全部的数据要少
          */
-        KilometrePace lastPace=paces.get(paces.size()-1);
+       /* KilometrePace lastPace=paces.get(paces.size()-1);
         index=Integer.parseInt(lastPace.getIndex());
         if(index<models.size()-1) {
             SportModel startModel = models.get(index+1);
@@ -433,7 +447,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             polylineOptionses.add(new PolylineOptions().width(22)
                     .zIndex(150).useGradient(true).colorValues(colorList)
                     .addAll(latLngs));
-        }
+        }*/
         return polylineOptionses;
     }
 
