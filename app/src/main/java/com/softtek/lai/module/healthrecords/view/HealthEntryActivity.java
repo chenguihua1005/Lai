@@ -198,6 +198,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(600);
         String gender=UserInfoModel.getInstance().getUser().getGender();
         if("0".equals(gender)){//男
@@ -248,6 +250,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(50);
         np1.setValue(25);
         np1.setMinValue(1);
@@ -277,6 +281,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(30);
         np1.setValue(2);
         np1.setMinValue(1);
@@ -307,6 +313,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(200);
         np1.setValue(90);
         np1.setMinValue(50);
@@ -335,6 +343,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(200);
         np1.setValue(80);
         np1.setMinValue(40);
@@ -363,6 +373,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(250);
         np1.setValue(90);
         np1.setMinValue(50);
@@ -391,6 +403,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(70);
         np1.setValue(50);
         np1.setMinValue(10);
@@ -420,6 +434,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(90);
         np1.setValue(50);
         np1.setMinValue(10);
@@ -448,6 +464,8 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(70);
         np1.setValue(50);
         np1.setMinValue(10);
