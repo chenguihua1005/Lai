@@ -379,7 +379,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         if (model != null) {
             String state = model.getState();
             if ("0".equals(state)) {
-                Util.toastMsg("您的会话功能开通中，请稍后再试");
+                Util.toastMsg("会话功能开通中，请稍后再试");
             } else if ("-1".equals(state)) {
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
