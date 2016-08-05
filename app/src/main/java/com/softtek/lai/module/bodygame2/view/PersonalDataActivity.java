@@ -263,8 +263,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
-                progressDialog.show();
-                loginChat(progressDialog, model.getHXAccountId());
+                String hasEmchat = model.getHasEmchat();
+                System.out.println("hasEmchat:" + hasEmchat);
+                if ("1".equals(hasEmchat)) {
+                    progressDialog.show();
+                    loginChat(progressDialog, model.getHXAccountId());
+                }else{
+                    Util.toastMsg("您的会话功能开通中，请稍后再试");
+                }
             }
         }
 
@@ -359,8 +365,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                             HomeFragment.timer.cancel();
                         }
                         if ("-1".equals(hxid)) {
-                            progressDialog.show();
-                            loginChat(progressDialog, model.getHXAccountId());
+                            String hasEmchat = model.getHasEmchat();
+                            System.out.println("hasEmchat:" + hasEmchat);
+                            if ("1".equals(hasEmchat)) {
+                                progressDialog.show();
+                                loginChat(progressDialog, model.getHXAccountId());
+                            }else{
+                                Util.toastMsg("您的会话功能开通中，请稍后再试");
+                            }
                         } else {
                             new Thread(
                                     new Runnable() {
