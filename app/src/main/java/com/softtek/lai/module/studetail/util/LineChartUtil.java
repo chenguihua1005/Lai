@@ -163,8 +163,8 @@ public class LineChartUtil {
         chart.notifyDataSetChanged();
         chart.invalidate();
     }
-    //健康记录重构方法
-    public  void addDataf(List<Float> datas,int n,List<String> dates)
+    //莱运动今日步数
+    public  void addDataf(List<Integer> datas,int n,List<String> dates)
     {
         if(datas.size()==0)
         {

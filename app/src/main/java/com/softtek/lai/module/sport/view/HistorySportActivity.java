@@ -26,6 +26,7 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -379,7 +380,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                             .zIndex(150).useGradient(true).colorValues(colorList)
                             .addAll(latLngs));
                     //把索引指向下一个公里点开始的上25个坐标
-                    int temp=i-20;
+                    int temp=i-10;
                     index=temp<0?0:temp;
                     lastColor=color;
                     break;
@@ -409,7 +410,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         KilometrePace lastPace=paces.get(paces.size()-1);
         index=Integer.parseInt(lastPace.getIndex());
         if(index<models.size()-1) {
-            SportModel startModel = models.get(index);
+            SportModel startModel = models.get(index+1);
             SportModel lastModel = models.get(models.size() - 1);
             //计算两个坐标之间的平均速度获取1公里的耗时补足
             double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
@@ -417,7 +418,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             int color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());
             List<Integer> colorList = new ArrayList<>();
             List<LatLng> latLngs = new ArrayList<>();
-            for (int i = index-20; i < models.size(); i++) {
+            for (int i = index-10; i < models.size(); i++) {
                 SportModel model = models.get(i);
                 if (lastColor != 0 && !model.iskilometre()) {
                     //如果是前一公里的坐标则使用上一公里的颜色
