@@ -345,7 +345,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     if (hxid.equals(model.getHXAccountId())) {
                         String HX_ID = clmInfoModel.getHXAccountId();
                         if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
-                            Util.toastMsg("会话异常，请稍后再试");
+                            Util.toastMsg("学员会话功能开通中，请稍后再试");
                         } else {
                             Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
                             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
