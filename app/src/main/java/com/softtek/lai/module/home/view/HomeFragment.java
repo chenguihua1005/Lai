@@ -151,7 +151,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         fragments.add(recordFragment);
         fragments.add(productInfoFragment);
         fragments.add(saleInfoFragment);
-        fragementAdapter = new FragementAdapter(getFragmentManager(), fragments);
+        fragementAdapter = new FragementAdapter(getChildFragmentManager(), fragments);
         page.setAdapter(fragementAdapter);
         page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
