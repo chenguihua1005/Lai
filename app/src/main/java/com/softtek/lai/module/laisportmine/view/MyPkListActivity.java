@@ -74,7 +74,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     MyPkDelPKMsgManager myPkDelPKMsgManager;
     @Override
     protected void initViews() {
-        tv_title.setText("莱运动PK挑战");
+        tv_title.setText("运动挑战");
         tv_right.setText("编辑");
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -106,7 +106,9 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("--------");
         if (requestCode == 0 && resultCode == RESULT_OK) {
+            updateMsgRTimeManager.doUpdateMsgRTime(accountid,"0");
             dialogShow("加载中");
             pkNoticeManager.doGetPKINotice(accountid);
         }

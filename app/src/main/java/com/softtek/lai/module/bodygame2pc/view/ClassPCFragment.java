@@ -501,7 +501,7 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 if ("".equals(model.getClassBanner())) {
                     Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
                 } else {
-                    Picasso.with(getContext()).load(path + model.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+                    Picasso.with(getContext()).load(path + model.getClassBanner()).fit().centerCrop().error(R.drawable.default_icon_rect).into(img_banner);
                 }
 
                 if (model.getGender().equals("1")) {

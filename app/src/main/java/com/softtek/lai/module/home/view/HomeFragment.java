@@ -55,9 +55,7 @@ import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -153,7 +151,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         fragments.add(recordFragment);
         fragments.add(productInfoFragment);
         fragments.add(saleInfoFragment);
-        fragementAdapter = new FragementAdapter(getFragmentManager(), fragments);
+        fragementAdapter = new FragementAdapter(getChildFragmentManager(), fragments);
         page.setAdapter(fragementAdapter);
         page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联

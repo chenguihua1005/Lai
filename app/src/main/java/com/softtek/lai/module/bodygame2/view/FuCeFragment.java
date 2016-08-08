@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -137,7 +136,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 //        获取班级初列表始高度
             chuheight = setListViewHeightBasedOnChildren(list_class);
             chuheight += ll_shousuolist.getHeight();
-        Log.i("班级列表的高度为>>>>>" + chuheight);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,18 +192,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(intent);
             }
             break;
-            case R.id.ll_left: {
-//                String type = getActivity().getIntent().getStringExtra("type");
-//                if ("0".equals(type)) {
-//                    Intent inten=new Intent(getContext(), HomeActviity.class);
-//                    inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(inten);
-//                } else {
-//                    getActivity().finish();
-//                }
-            }
-            break;
-
         }
     }
 
@@ -267,7 +253,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         //监听
         ll_classlist.setOnClickListener(this);
         ll_shousuo.setOnClickListener(this);
-        ll_left.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         //班级item点击事件监听
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {

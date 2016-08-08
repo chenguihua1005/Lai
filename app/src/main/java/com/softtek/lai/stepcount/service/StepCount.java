@@ -19,24 +19,24 @@ public class StepCount implements StepCountListener {
             timeOfLastPeak = timeOfThisPeak;
         }
         timeOfThisPeak = System.currentTimeMillis();
-        if ((timeOfThisPeak - timeOfLastPeak) >= 3000) {
-            count = 1;
-        } else {
+        long time=timeOfThisPeak - timeOfLastPeak;
+        if(time<3000&&time>=200){
             count++;
-        }
-        if (count == 5) {
-            mCount = mCount + count;
-            if (mListeners != null) {
-                mListeners.stepsChanged(mCount);
+            if (count == 5) {
+                mCount += count;
+                if (mListeners != null) {
+                    mListeners.stepsChanged(mCount);
+                }
+            }else if (count > 5) {
+                mCount++;
+                if (mListeners != null) {
+                    mListeners.stepsChanged(mCount);
+                }
             }
-            return;
+        }else {
+            count=1;
         }
-        if (count > 5) {
-            mCount++;
-            if (mListeners != null) {
-                mListeners.stepsChanged(mCount);
-            }
-        }
+
     }
 
     public void setmListeners(StepPaseValueListener mListeners) {

@@ -34,6 +34,8 @@ import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +74,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         MineHealthyFragment mineHealthyFragment=new MineHealthyFragment();
         fragments.add(recommendHealthyFragment);
         fragments.add(mineHealthyFragment);
-        tab_content.setAdapter(new CommunityAdapter(getFragmentManager(),fragments));
+        tab_content.setAdapter(new CommunityAdapter(getChildFragmentManager(),fragments));
         tab.setupWithViewPager(tab_content);
 
     }
@@ -81,7 +83,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
         String token= UserInfoModel.getInstance().getToken();
-        if(null==token||"".equals(token)){
+        if(StringUtils.isEmpty(token)){
             fl_right.setVisibility(View.GONE);
         }else{
             fl_right.setVisibility(View.VISIBLE);

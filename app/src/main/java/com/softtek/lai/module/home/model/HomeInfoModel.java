@@ -20,7 +20,6 @@ public class HomeInfoModel implements Serializable {
 
     private String Img_Addr;//图片路径
 
-    private String Img_Content;//详情
     private String BannerType;
 
     public String getBannerType() {
@@ -63,13 +62,6 @@ public class HomeInfoModel implements Serializable {
         Img_Addr = img_Addr;
     }
 
-    public String getImg_Content() {
-        return Img_Content;
-    }
-
-    public void setImg_Content(String img_Content) {
-        Img_Content = img_Content;
-    }
 
     @Override
     public String toString() {
@@ -78,7 +70,6 @@ public class HomeInfoModel implements Serializable {
                 ", Img_Title='" + Img_Title + '\'' +
                 ", Img_Order='" + Img_Order + '\'' +
                 ", Img_Addr='" + Img_Addr + '\'' +
-                ", Img_Content='" + Img_Content + '\'' +
                 '}';
     }
 }

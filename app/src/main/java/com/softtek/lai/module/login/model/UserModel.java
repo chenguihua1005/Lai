@@ -5,8 +5,6 @@
 
 package com.softtek.lai.module.login.model;
 
-import com.github.snowdream.android.util.Log;
-
 import java.io.Serializable;
 
 /**

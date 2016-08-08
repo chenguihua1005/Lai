@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -27,9 +26,7 @@ import java.util.List;
 import butterknife.InjectView;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_home_actviity)
 public class HomeActviity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {

@@ -220,7 +220,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     protected void lazyLoad() {
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (hxid.equals(model.getHXAccountId())) {
-            System.out.println("555555555555");
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
@@ -239,15 +238,12 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
         } else {
-            System.out.println("666666666666");
             if (HomeFragment.timer != null) {
                 HomeFragment.timer.cancel();
             }
             if ("-1".equals(hxid)) {
-                System.out.println("77777777777");
                 loginPresenter.getEMChatAccount(progressDialog);
             } else {
-                System.out.println("888888888");
                 new Thread(
                         new Runnable() {
                             @Override
@@ -383,7 +379,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         if (model != null) {
             String state = model.getState();
             if ("0".equals(state)) {
-                Util.toastMsg("您的会话权限开通中，请稍候再试");
+                Util.toastMsg("会话功能开通中，请稍后再试");
             } else if ("-1".equals(state)) {
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
@@ -391,7 +387,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 loginChat(progressDialog, model.getHXAccountId());
             }
         } else {
-            Util.toastMsg("会话异常，请稍后再试");
+            Util.toastMsg("会话功能开通中，请稍后再试");
         }
     }
 
@@ -427,6 +423,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
             @Override
             public void onError(final int code, final String message) {
+                Util.toastMsg("登录失败，请稍候再试");
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }

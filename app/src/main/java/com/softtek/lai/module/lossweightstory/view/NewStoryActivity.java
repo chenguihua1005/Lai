@@ -117,6 +117,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(600);
         String gender=UserInfoModel.getInstance().getUser().getGender();
         if("0".equals(gender)){//男

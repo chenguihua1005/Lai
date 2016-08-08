@@ -16,6 +16,62 @@ public class KilometrePace {
     //改公里是否有问题
     private boolean hasProblem;
     private String index;
+    private boolean iskilometre;
+
+    private int step;
+    private String speed;
+    private String user;
+    private long consumingTime;
+    private double currentKM;
+
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public long getConsumingTime() {
+        return consumingTime;
+    }
+
+    public void setConsumingTime(long consumingTime) {
+        this.consumingTime = consumingTime;
+    }
+
+    public double getCurrentKM() {
+        return currentKM;
+    }
+
+    public void setCurrentKM(double currentKM) {
+        this.currentKM = currentKM;
+    }
+
+    public boolean iskilometre() {
+        return iskilometre;
+    }
+
+    public void setIskilometre(boolean iskilometre) {
+        this.iskilometre = iskilometre;
+    }
 
     public String getIndex() {
         return index;

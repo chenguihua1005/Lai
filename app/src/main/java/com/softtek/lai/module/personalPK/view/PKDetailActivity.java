@@ -171,7 +171,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                                 finish();
                                             }else if(type== Constants.MESSAGE_PK){
                                                 //如果是从消息列表过来的话
-                                                Intent intent = new Intent();
+                                                Intent intent =getIntent();
                                                 //设置返回数据
                                                 setResult(RESULT_OK, intent);
                                                 finish();
@@ -492,7 +492,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 if (bStatus == REFUSE) {//如果接受者拒绝
                     //显示旁观者提示
                     tip_pk.setVisibility(View.VISIBLE);
-                    tip_pk.setText("PK还没开始，预知详情，敬请围观！");
+                    tip_pk.setText("PK还没开始，欲知详情，敬请围观！");
                 } else if (bStatus == NOCHALLENGE) {//接受者未应战
                     btn_refuse.setVisibility(View.VISIBLE);
                     btn_receive.setVisibility(View.VISIBLE);
@@ -536,13 +536,14 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     }
 
     private void doBack() {
+        System.out.println("type:"+type);
         if (type == Constants.CREATE_PK) {//创建新PK跳转过来,按下返回按钮直接返回PK首页
             Intent intent = new Intent(this, GroupMainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (type == Constants.MESSAGE_PK) {
             //如果是从消息列表过来的话
-            Intent intent = new Intent();
+            Intent intent = getIntent();
             //设置返回数据
             setResult(RESULT_OK, intent);
             finish();
@@ -575,7 +576,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         btn_receive.setVisibility(View.GONE);
         //显示旁观者提示
         tip_pk.setVisibility(View.VISIBLE);
-        tip_pk.setText("挑战尚未开始敬请期待！");
+        tip_pk.setText("PK还没开始，欲知详情，敬请围观！");
 
     }
 

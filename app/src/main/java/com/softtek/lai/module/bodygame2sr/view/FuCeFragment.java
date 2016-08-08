@@ -451,9 +451,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if (!h) {
-
-//        }
 
     }
 }

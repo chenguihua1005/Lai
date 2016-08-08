@@ -1,7 +1,11 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,19 +17,28 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.ui.ChatActivity;
+import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.model.ClmInfoModel;
 import com.softtek.lai.module.bodygame2.model.HonorListModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
 import com.softtek.lai.module.bodygame2.present.PersonDateManager;
 import com.softtek.lai.module.bodygamest.view.FuceStActivity;
+import com.softtek.lai.module.home.view.HomeFragment;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.pastreview.honors.Medal;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.retest.AuditActivity;
@@ -34,6 +47,7 @@ import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.ChMonth;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -48,6 +62,7 @@ import java.util.Map;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -164,11 +179,11 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private long classId = 0;
     private String review_flag = "1";
     ChMonth chMonth;
-    String typedate="";
-    String AMStatus="";
-    Boolean Lossstate=true;
-    Boolean xunzh=true;
-    Boolean photostate=true;
+    String typedate = "";
+    String AMStatus = "";
+    Boolean Lossstate = true;
+    Boolean xunzh = true;
+    Boolean photostate = true;
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
     ClemeberExitManager clemberExitmanager;
@@ -177,6 +192,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     ClmInfoModel clmInfoModel;
     LossWeightChartFragment lwcf;
     DimensionChartFragment dcf;
+    UserModel model;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -200,8 +218,11 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         re_xunzhang.setOnClickListener(this);
         re_jianzh.setOnClickListener(this);
         tv_title.setText("个人资料");
-        lwcf=null;
-        dcf=null;
+        lwcf = null;
+        dcf = null;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("加载中");
         userId = getIntent().getLongExtra("userId", 0);
         classId = getIntent().getLongExtra("classId", 0);
         review_flag = getIntent().getStringExtra("review");
@@ -209,13 +230,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Map<String, String> params = new HashMap<>();
         params.put("userId", userId + "");
         params.put("classId", classId + "");
-        if(lwcf==null){
-            lwcf= LossWeightChartFragment.newInstance(params);
+        if (lwcf == null) {
+            lwcf = LossWeightChartFragment.newInstance(params);
         }
-        if(dcf==null){
-            dcf= DimensionChartFragment.newInstance(params);
+        if (dcf == null) {
+            dcf = DimensionChartFragment.newInstance(params);
         }
-        if (lwcf!=null&&dcf!=null) {
+        if (lwcf != null && dcf != null) {
             fragmentList.add(lwcf);
             fragmentList.add(dcf);
             tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
@@ -228,7 +249,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     protected void initDatas() {
         persondatemanager = new PersonDateManager();
         dialogShow("加载中");
-        persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
+        persondatemanager.doGetClmemberDetial(this, 3, userId + "", classId + "");
     }
 
 
@@ -236,18 +257,101 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     }
 
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                String hasEmchat = model.getHasEmchat();
+                System.out.println("hasEmchat:" + hasEmchat);
+                if ("1".equals(hasEmchat)) {
+                    progressDialog.show();
+                    loginChat(progressDialog, model.getHXAccountId());
+                }else{
+                    Util.toastMsg("会话功能开通中，请稍后再试");
+                }
+            }
+        }
+
+    };
+
+    private void HXLoginOut() {
+        EMChatManager.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                SharedPreferenceService.getInstance().put("HXID", "-1");
+                handler.sendEmptyMessage(0);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                // TODO Auto-generated method stub
+                HXLoginOut();
+            }
+        });
+    }
+
+    private void loginChat(final ProgressDialog progressDialog, final String account) {
+        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                // ** manually load all local groups and
+                SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                ChatUserModel chatUserModel = new ChatUserModel();
+                chatUserModel.setUserName(model.getNickname());
+                chatUserModel.setUserPhone(path + model.getPhoto());
+                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+                ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                EMChatManager.getInstance().loadAllConversations();
+                if (!isFinishing()) {
+                    Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
+                    intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
+                    intent.putExtra("name", clmInfoModel.getUserName());
+                    intent.putExtra("photo", path + clmInfoModel.getPhoto());
+                    startActivity(intent);
+                }
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                Util.toastMsg("登录失败，请稍候再试");
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_send_message:
-                if(clmInfoModel!=null) {
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    System.out.println("isLogin:" + isLogin);
-                    if (isLogin) {
+                if (clmInfoModel != null) {
+                    model = UserInfoModel.getInstance().getUser();
+                    final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+                    if (hxid.equals(model.getHXAccountId())) {  
                         String HX_ID = clmInfoModel.getHXAccountId();
                         if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
-                            Util.toastMsg("会话异常，请稍后");
+                            Util.toastMsg("会话功能开通中，请稍后再试");
                         } else {
                             Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
                             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -257,7 +361,28 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                             startActivity(intent);
                         }
                     } else {
-                        Util.toastMsg("会话异常，请稍后再试");
+                        if (HomeFragment.timer != null) {
+                            HomeFragment.timer.cancel();
+                        }
+                        if ("-1".equals(hxid)) {
+                            String hasEmchat = model.getHasEmchat();
+                            System.out.println("hasEmchat:" + hasEmchat);
+                            if ("1".equals(hasEmchat)) {
+                                progressDialog.show();
+                                loginChat(progressDialog, model.getHXAccountId());
+                            }else{
+                                Util.toastMsg("会话功能开通中，请稍后再试");
+                            }
+                        } else {
+                            new Thread(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            HXLoginOut();
+                                        }
+                                    }
+                            ).start();
+                        }
                     }
                 }
                 break;
@@ -277,8 +402,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     intent1.putExtra("accountId", userId);
                     intent1.putExtra("review", Integer.parseInt(review_flag));
                     startActivity(intent1);
-                }
-                else {
+                } else {
                     Util.toastMsg("暂无减重数据");
                 }
                 break;
@@ -296,8 +420,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     intent2.putExtra("userId", userId);
                     intent2.putExtra("classId", classId);
                     startActivity(intent2);
-                }
-                else {
+                } else {
                     Util.toastMsg("暂无相册");
                 }
                 break;
@@ -311,31 +434,27 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     honor.putExtra("type", 1);
                     honor.putExtra("accountid", userId);
                     startActivity(honor);
-                }
-                else {
+                } else {
                     Util.toastMsg("暂无勋章数据");
                 }
                 break;
             case R.id.ll_persondatefuce:
-                if(AMStatus.equals("-1"))
-                {
-                    Intent fucewrite=new Intent(this, WriteActivity.class);
-                    fucewrite.putExtra("accountId",userId+"");
-                    fucewrite.putExtra("classId",classId+"");
-                    startActivityForResult(fucewrite,GET_BODY);
-                }
-                else if (AMStatus.equals("0")){
-                    Intent fucewrite=new Intent(this, AuditActivity.class);
-                    fucewrite.putExtra("accountId",userId+"");
-                    fucewrite.putExtra("classId",classId+"");
-                    String[] date=typedate.split(" ");
-                    fucewrite.putExtra("typeDate",date[0]);
-                    startActivityForResult(fucewrite,GET_BODY);
-                }
-                else if (AMStatus.equals("1")){
-                    Intent fucewrite=new Intent(this, FuceStActivity.class);
-                    fucewrite.putExtra("quanxian",false);
-                    fucewrite.putExtra("accountId",userId+"");
+                if (AMStatus.equals("-1")) {
+                    Intent fucewrite = new Intent(this, WriteActivity.class);
+                    fucewrite.putExtra("accountId", userId + "");
+                    fucewrite.putExtra("classId", classId + "");
+                    startActivityForResult(fucewrite, GET_BODY);
+                } else if (AMStatus.equals("0")) {
+                    Intent fucewrite = new Intent(this, AuditActivity.class);
+                    fucewrite.putExtra("accountId", userId + "");
+                    fucewrite.putExtra("classId", classId + "");
+                    String[] date = typedate.split(" ");
+                    fucewrite.putExtra("typeDate", date[0]);
+                    startActivityForResult(fucewrite, GET_BODY);
+                } else if (AMStatus.equals("1")) {
+                    Intent fucewrite = new Intent(this, FuceStActivity.class);
+                    fucewrite.putExtra("quanxian", false);
+                    fucewrite.putExtra("accountId", userId + "");
                     startActivity(fucewrite);
                 }
                 break;
@@ -346,9 +465,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         dialogDissmiss();
         try {
             if (data != null) {
-                AMStatus=data.getClmInfo().getIstest();
-                clmInfoModel=data.getClmInfo();
-                typedate=data.getClmInfo().getTypedate();
+                AMStatus = data.getClmInfo().getIstest();
+                clmInfoModel = data.getClmInfo();
+                typedate = data.getClmInfo().getTypedate();
                 /*判断性别*/
                 if (data.getClmInfo().getGender().equals("0")) {
                     im_gender.setImageResource(R.drawable.bg2_male);
@@ -356,8 +475,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 String path = AddressManager.get("photoHost");
                 /*头像显示*/
                 /*IsRetire=1表示退赛*/
-                if (data.getClmInfo().getIsRetire().equals("1"))
-                {
+                if (data.getClmInfo().getIsRetire().equals("1")) {
                     cir_headimexit.setImageResource(R.drawable.exit_match);
                     ll_remove_class.setVisibility(View.INVISIBLE);
                 }
@@ -369,8 +487,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
                 if (data.getClmInfo().getSuperType().equals("2")) {
                     tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
-                }else if (data.getClmInfo().getSuperType().equals("3"))
-                {
+                } else if (data.getClmInfo().getSuperType().equals("3")) {
                     tv_SuperName.setText("顾问：" + data.getClmInfo().getSuperName());
                 }
                 String[] star = data.getClmInfo().getStartDate().split(" ");
@@ -378,32 +495,30 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 String[] end = data.getClmInfo().getEndDate().split(" ");
                 String[] enddate = end[0].split("-");
                 tv_classdate.setText("（" + stardate[0] + "." + stardate[1] + "." + stardate[2] + "-" + enddate[0] + "." + enddate[1] + "." + enddate[2] + "）");
-                if (data.getLossStory()==null||TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+                if (data.getLossStory() == null || TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
                     tv_jianzhflag.setText("这个家伙很懒～没有发布故事哦");
-                    Lossstate=false;
+                    Lossstate = false;
                     ll_story.setClickable(false);
                 } else {
 
-                        String[] day = data.getLossStory().getCreateDate().split(" ");
-                        String[] date = day[0].split("-");
-                        tv_weightday.setText(date[2]);
-                        chMonth = new ChMonth();
-                        tv_mon.setText(chMonth.tomonth(date[1]));
-                        tv_storycontent.setText(data.getLossStory().getLogContent());
+                    String[] day = data.getLossStory().getCreateDate().split(" ");
+                    String[] date = day[0].split("-");
+                    tv_weightday.setText(date[2]);
+                    chMonth = new ChMonth();
+                    tv_mon.setText(chMonth.tomonth(date[1]));
+                    tv_storycontent.setText(data.getLossStory().getLogContent());
                     if (!TextUtils.isEmpty(data.getLossStory().getImgUrl())) {
-                        Picasso.with(this).load(path+data.getLossStory().getImgUrl()).error(R.drawable.default_icon_square).into(im_storypic);
+                        Picasso.with(this).load(path + data.getLossStory().getImgUrl()).error(R.drawable.default_icon_square).into(im_storypic);
                     }
 
                 }
                 //荣誉勋章
-                if (data.getHonorList().size()==0)
-                {
+                if (data.getHonorList().size() == 0) {
                     tv_xunzhflag.setText("加油！完成挑战，获得更多勋章");
-                    xunzh=false;
+                    xunzh = false;
                     ll_xunzh.setFocusable(false);
                     ll_xunzh.setClickable(false);
-                }
-                else {
+                } else {
                     List<HonorListModel> honors = data.getHonorList();
                     for (int i = 0; i < data.getHonorList().size(); i++) {
                         HonorListModel honor = honors.get(i);
@@ -422,15 +537,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 //无图片显示
-                if (data.getPhotoList().size()==0)
-                {
+                if (data.getPhotoList().size() == 0) {
                     tv_nophoto.setText("暂无照片");
-                    photostate=false;
+                    photostate = false;
                     ll_personphot.setFocusable(false);
                 }
                 //少于等于三张图片隐藏剩余图片位置
-                if (data.getPhotoList().size()<=3)
-                {
+                if (data.getPhotoList().size() <= 3) {
                     ll_personphoto2.setVisibility(View.GONE);
                 }
                 //显示图片
@@ -488,28 +601,26 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            AMStatus="1";
+            AMStatus = "1";
             tv_jianzhflag.setText("");
             ll_story.setClickable(true);
             tv_xunzhflag.setText("");
             ll_xunzh.setClickable(true);
-            xunzh=true;
-            persondatemanager.doGetClmemberDetial(this,3, userId + "", classId + "");
+            xunzh = true;
+            persondatemanager.doGetClmemberDetial(this, 3, userId + "", classId + "");
             fragmentList.clear();
             Map<String, String> params = new HashMap<>();
             params.put("userId", userId + "");
             params.put("classId", classId + "");
-            if(lwcf==null){
-                lwcf= LossWeightChartFragment.newInstance(params);
+            if (lwcf == null) {
+                lwcf = LossWeightChartFragment.newInstance(params);
             }
-            if(dcf==null){
-                dcf= DimensionChartFragment.newInstance(params);
+            if (dcf == null) {
+                dcf = DimensionChartFragment.newInstance(params);
             }
             fragmentList.add(lwcf);
             fragmentList.add(dcf);
@@ -521,7 +632,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-
     public void onExitompleted(String aTrue) {
         if (aTrue.equals("true")) {
             Util.toastMsg("移出班级成功");
@@ -530,6 +640,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             Util.toastMsg("移出班级失败");
         }
     }
+
     private void setMedal(HonorListModel honor, Medal medal, TextView tv) {
         int medalType = Integer.parseInt(honor.getHonorType());
         if (medalType == Medal.LOSS_WEIGHT) {
@@ -538,7 +649,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             tv.setText("减重" + honor.getValue() + "斤奖章");
         } else if (medalType == Medal.FUCE) {//复测
             medal.setType(Medal.FUCE);
-            Log.i("当前复测类型>>>>>>>>>"+honor.getValue());
+            Log.i("当前复测类型>>>>>>>>>" + honor.getValue());
             if ("3".equals(honor.getValue())) {
                 medal.setHonorType(Medal.GOLD);
                 tv.setText("复测金牌奖章");
@@ -570,9 +681,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 medal.setHonorType(Medal.NORMAL);
             }
             tv.setText("全国减重明星第" + honor.getValue() + "名");
-        }
-        else if (medalType == Medal.NATION_SPEC)
-        {
+        } else if (medalType == Medal.NATION_SPEC) {
             String value = honor.getValue();
             medal.setType(Medal.NATION_SPEC);
             medal.setmText("第" + honor.getValue() + "名");
@@ -592,6 +701,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         }
         medal.refreshView(this);
     }
+
     private void setText(TextView view, String text) {
         if (view != null) {
             view.setText(text);

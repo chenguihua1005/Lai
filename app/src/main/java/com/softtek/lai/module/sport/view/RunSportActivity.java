@@ -51,6 +51,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.locationservice.LocationService;
+import com.softtek.lai.module.sport.model.KilometrePace;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
@@ -58,9 +59,7 @@ import com.softtek.lai.module.sport.presenter.SportManager;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.JCountDownTimer;
-import com.softtek.lai.utils.ScreenListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -523,10 +522,29 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                     data.setTimeLength(tv_clock.getText().toString() + ";" + time);
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
                                     String userId=UserInfoModel.getInstance().getUserId()+"";
+                                    List<SportModel> modes=SportUtil.getInstance().
+                                            querySport(userId);
+                                    List<KilometrePace> paces=SportUtil.getInstance()
+                                            .queryKilmoetre(userId);
+                                    SportModel model=modes.get(modes.size()-1);
+                                    if(!model.iskilometre()){
+                                        KilometrePace pace=new KilometrePace();
+                                        pace.setIndex(model.getIndex());
+                                        pace.setKilometreTime(model.getKilometreTime());
+                                        pace.setHasProblem(model.isHasProblem());
+                                        pace.setId(model.getId());
+                                        pace.setLatitude(model.getLatitude());
+                                        pace.setLongitude(model.getLongitude());
+                                        pace.setIskilometre(model.iskilometre());
+                                        pace.setCurrentKM(model.getCurrentKM());
+                                        pace.setStep(model.getStep());
+                                        pace.setUser(model.getUser());
+                                        pace.setConsumingTime(model.getConsumingTime());
+                                        pace.setSpeed(model.getSpeed());
+                                        paces.add(pace);
+                                    }
                                     data.setTrajectory(new Gson().
-                                            toJson(new Trajectory(SportUtil.getInstance().
-                                                    querySport(userId),SportUtil.getInstance()
-                                            .queryKilmoetre(userId))));
+                                            toJson(new Trajectory(modes,paces)));
                                     dialogShow("正在提交");
                                     manager.submitSportData(RunSportActivity.this, data);
                                 }

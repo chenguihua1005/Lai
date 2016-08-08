@@ -163,6 +163,51 @@
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp">
+
+            <ImageView
+                android:id="@+id/iv_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/normal_speed"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_normal"
+                android:layout_centerInParent="true"
+                android:textSize="10sp"
+                android:layout_marginLeft="5dp"
+                android:text="最慢 9'00''"/>
+
+            <TextView
+                android:id="@+id/tv_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="15dp"
+                android:textSize="10sp"
+                android:text="最快 6'00''"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_high"
+                android:layout_centerInParent="true"
+                android:src="@drawable/speed_high"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="15dp"/>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/speed_legend"/>
     </LinearLayout>
 
     <com.amap.api.maps.MapView
@@ -180,6 +225,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
+        android:textSize="9sp"
         android:background="@drawable/sport_speed_panel" />
 
     <LinearLayout
