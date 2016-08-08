@@ -352,6 +352,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 for (PolylineOptions options:optionses){
                     aMap.addPolyline(options);
                 }
+
             }
         }
         return models;
@@ -384,7 +385,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             }
             for (int i = index; i < models.size(); i++) {
                 SportModel model = models.get(i);
-                System.out.println("坐标>>"+model);
                 if (Integer.parseInt(pace.getIndex()) == Integer.parseInt(model.getIndex())) {
                     //表示到了下一个公里节点的开始
                     //移除最后一个坐标
@@ -394,7 +394,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     polylineOptionses.add(new PolylineOptions().width(22)
                             .zIndex(150).useGradient(true).colorValues(colorList)
                             .addAll(latLngs));
-                    //把索引指向下一个公里点开始的上25个坐标
+                    //把索引指向下一个公里点开始的前10个坐标
                     int temp=i-10;
                     index=temp<0?0:temp;
                     lastColor=color;
