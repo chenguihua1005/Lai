@@ -384,7 +384,9 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             String value = honor.getValue();
             medal.setType(Medal.NATION);
             medal.setmText("第" + honor.getValue() + "名");
-            medal.setDate(honor.getCreateDate());
+            String time[]=honor.getCreateDate().split(" ");
+            String date[]=time[0].split("-");
+            medal.setDate(date[0]+"/"+date[1]+"/"+date[2]);
             if ("1".equals(value)) {
                 medal.setHonorType(Medal.GOLD);
             } else if ("2".equals(value)) {
