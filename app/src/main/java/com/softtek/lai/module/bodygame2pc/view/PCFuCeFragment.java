@@ -223,15 +223,19 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Subscribe
     public void event(LaichModel laichModel) {
 
-        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight()) ? "" : (Float.parseFloat(laichModel.getWeight()) + "").equals("0.0") ? "" : Float.parseFloat(laichModel.getWeight()) + "");
-        tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical()) ? "" : Float.parseFloat(laichModel.getPysical()) + "");
-        tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat()) ? "" : Float.parseFloat(laichModel.getFat()) + "");
-        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum()) ? "" : Float.parseFloat(laichModel.getCircum()) + "");
-        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline()) ? "" : Float.parseFloat(laichModel.getWaistline()) + "");
-        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie()) ? "" : Float.parseFloat(laichModel.getHiplie()) + "");
-        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth()) ? "" : Float.parseFloat(laichModel.getUpArmGirth()) + "");
-        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth()) ? "" : Float.parseFloat(laichModel.getUpLegGirth()) + "");
-        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth()) ? "" : Float.parseFloat(laichModel.getDoLegGirth()) + "");
+        try {
+            tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight()) ? "" : (Float.parseFloat(laichModel.getWeight()) + "").equals("0.0") ? "" : Float.parseFloat(laichModel.getWeight()) + "");
+            tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical()) ? "" : Float.parseFloat(laichModel.getPysical()) + "");
+            tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat()) ? "" : Float.parseFloat(laichModel.getFat()) + "");
+            retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum()) ? "" : Float.parseFloat(laichModel.getCircum()) + "");
+            retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline()) ? "" : Float.parseFloat(laichModel.getWaistline()) + "");
+            retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie()) ? "" : Float.parseFloat(laichModel.getHiplie()) + "");
+            retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth()) ? "" : Float.parseFloat(laichModel.getUpArmGirth()) + "");
+            retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth()) ? "" : Float.parseFloat(laichModel.getUpLegGirth()) + "");
+            retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth()) ? "" : Float.parseFloat(laichModel.getDoLegGirth()) + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -323,8 +327,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     if (isFirstRun) {
                         Intent intent1 = new Intent(getContext(), GuideActivity.class);
                         startActivityForResult(intent1, BODY);
-
-                        Log.d("debug", "第一次运行");
                         editor.putBoolean("isFirstRun", false);
                         editor.commit();
                     } else {
@@ -382,11 +384,15 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 switch (status) {
                     case 200:
                         isState = "false";
-                        tv_right.setText("待审核");
-                        shenhestatue = false;
-                        iv_email.setVisibility(View.INVISIBLE);
-                        btn_retest_write_addbodyst.setText("查看身体围度");
-                        im_deletest.setVisibility(View.GONE);//隐藏删除按钮
+                        try {
+                            tv_right.setText("待审核");
+                            shenhestatue = false;
+                            iv_email.setVisibility(View.INVISIBLE);
+                            btn_retest_write_addbodyst.setText("查看身体围度");
+                            im_deletest.setVisibility(View.GONE);//隐藏删除按钮
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case 201:
                         Util.toastMsg(retestWriteModelResponseData.getMsg());
@@ -404,83 +410,84 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
             public void failure(RetrofitError error) {
                 progressDialog.dismiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
 
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) throws Exception {
-        Log.i("retestAuditModel" + retestAuditModelEvent.getRetestAuditModels());
-        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("") ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight()) + "");
-        tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
-        Mobile = retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
-        tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
-        gender = retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
-        String StartDate = retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
-        String CurrStart = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
-        String CurrEnd = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
-        String[] mon = StartDate.split("-");
-        String[] currStart = CurrStart.split("-");
-        String[] currEnd = CurrEnd.split("-");
-        retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
-        tv_writest_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
-        tv_writest_monst.setText(currStart[1]);
-        tv_writest_dayst.setText(currStart[2]);
-        tv_writest_monen.setText(currEnd[1]);
-        tv_writest_dayen.setText(currEnd[2]);
-        tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
-            Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(iv_writest_head);
-        } else {
-            Picasso.with(getActivity()).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
-        }
-        if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate())) {
-            if (!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() >= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime() &&
-                    ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() <= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime())) {
-                retestPre.GetUserMeasuredInfo(moblie);
-                tv_right.setText("保存");
+        try {
+            tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("") ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight()) + "");
+            tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
+            Mobile = retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
+            tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+            gender = retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
+            String StartDate = retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
+            String CurrStart = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
+            String CurrEnd = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
+            String[] currStart = CurrStart.split("-");
+            String[] currEnd = CurrEnd.split("-");
+            retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
+            tv_writest_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
+            tv_writest_monst.setText(currStart[1]);
+            tv_writest_dayst.setText(currStart[2]);
+            tv_writest_monen.setText(currEnd[1]);
+            tv_writest_dayen.setText(currEnd[2]);
+            tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
+            if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
+                Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(iv_writest_head);
             } else {
-                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
-                    if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
-                        tv_right.setText("待审核");
-                        shenhestatue = false;
-                    } else {
-                        tv_right.setText("");
-                        tv_right.setFocusable(false);
-                        iv_email.setImageResource(R.drawable.img_share_bt);
-                        iv_email.setOnClickListener(this);
-                    }
-                    tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
-                    tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()) + "");
-                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()) + "");
-                    retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
-                    retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
-                    retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
-                    retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
-                    retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
-                    retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
-                    isState = "false";
-                    btn_retest_write_addbodyst.setText("查看身体围度");
-
-                    if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
-                        im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-                        Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
-                        String[] images = retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
-                        retestWrite.setImage(images[images.length - 1]);
-                    } else {
-                        im_retestwritest_showphoto.setVisibility(View.GONE);
-                        Picasso.with(getActivity()).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
-                    }
-                } else {
+                Picasso.with(getActivity()).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
+            }
+            if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate())) {
+                if (!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() >= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime() &&
+                        ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() <= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime())) {
                     retestPre.GetUserMeasuredInfo(moblie);
                     tv_right.setText("保存");
+                } else {
+                    if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                            tv_right.setText("待审核");
+                            shenhestatue = false;
+                        } else {
+                            tv_right.setText("");
+                            tv_right.setFocusable(false);
+                            iv_email.setImageResource(R.drawable.img_share_bt);
+                            iv_email.setOnClickListener(this);
+                        }
+                        tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
+                        tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()) + "");
+                        tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())) ? "" : Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()) + "");
+                        retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
+                        retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
+                        retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
+                        retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+                        retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
+                        retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+                        isState = "false";
+                        btn_retest_write_addbodyst.setText("查看身体围度");
 
+                        if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
+                            im_retestwritest_showphoto.setVisibility(View.VISIBLE);
+                            Picasso.with(getActivity()).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
+                            String[] images = retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+                            retestWrite.setImage(images[images.length - 1]);
+                        } else {
+                            im_retestwritest_showphoto.setVisibility(View.GONE);
+                            Picasso.with(getActivity()).load(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
+                        }
+                    } else {
+                        retestPre.GetUserMeasuredInfo(moblie);
+                        tv_right.setText("保存");
+
+                    }
                 }
+            } else {
+                retestPre.GetUserMeasuredInfo(moblie);
+                tv_right.setText("保存");
             }
-        } else {
-            retestPre.GetUserMeasuredInfo(moblie);
-            tv_right.setText("保存");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -491,8 +498,12 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
-        System.out.println("照片名称" + photModel.getImg());
-        retestWrite.setImage(photModel.getImg() + "");
+        Log.i("照片名称" + photModel.getImg());
+        try {
+            retestWrite.setImage(photModel.getImg() + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -649,7 +660,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
         View view = getView().inflate(getActivity(), R.layout.dimension_dialog, null);
-//        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -692,7 +702,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
     @Override
     protected void lazyLoad() {
 
-        Log.i("FuCeFragment 加载数据");
         retestPre.doGetAudit(Long.parseLong(loginid), 0, "");
     }
 }
