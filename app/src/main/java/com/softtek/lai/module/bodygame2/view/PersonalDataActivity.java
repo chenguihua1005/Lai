@@ -557,7 +557,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             String value = honor.getValue();
             medal.setType(Medal.NATION);
             medal.setmText("第" + honor.getValue() + "名");
-            medal.setDate(honor.getCreateDate());
+            String time[]=honor.getCreateDate().split(" ");
+            String date[]=time[0].split("-");
+            medal.setDate(date[0]+"/"+date[1]+"/"+date[2]);
             if ("1".equals(value)) {
                 medal.setHonorType(Medal.GOLD);
             } else if ("2".equals(value)) {
@@ -574,7 +576,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             String value = honor.getValue();
             medal.setType(Medal.NATION_SPEC);
             medal.setmText("第" + honor.getValue() + "名");
-//            medal.setDate(honor.getCreateDate());
+//            String time[]=honor.getCreateDate().split(" ");
+//            String date[]=time[0].split("-");
+//            medal.setDate(date[0]+"年"+date[1]+"月"+date[2]+"日");
             if ("1".equals(value)) {
                 medal.setHonorType(Medal.GOLD);
             } else if ("2".equals(value)) {
