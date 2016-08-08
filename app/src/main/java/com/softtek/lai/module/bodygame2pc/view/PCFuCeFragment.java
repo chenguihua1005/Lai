@@ -327,6 +327,8 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                     if (isFirstRun) {
                         Intent intent1 = new Intent(getContext(), GuideActivity.class);
                         startActivityForResult(intent1, BODY);
+
+                        Log.d("debug", "第一次运行");
                         editor.putBoolean("isFirstRun", false);
                         editor.commit();
                     } else {
@@ -356,7 +358,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                                 }
                             }
                         }).create().show();
-                        Log.d("debug", "不是第一次运行");
                     }
 
                 }
@@ -384,6 +385,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 switch (status) {
                     case 200:
                         isState = "false";
+
                         try {
                             tv_right.setText("待审核");
                             shenhestatue = false;
@@ -425,6 +427,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
             String StartDate = retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
             String CurrStart = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
             String CurrEnd = retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
+            String[] mon = StartDate.split("-");
             String[] currStart = CurrStart.split("-");
             String[] currEnd = CurrEnd.split("-");
             retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
@@ -474,7 +477,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                             retestWrite.setImage(images[images.length - 1]);
                         } else {
                             im_retestwritest_showphoto.setVisibility(View.GONE);
-                            Picasso.with(getActivity()).load(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
+                            Picasso.with(getActivity()).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
                         }
                     } else {
                         retestPre.GetUserMeasuredInfo(moblie);
@@ -498,7 +501,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
-        Log.i("照片名称" + photModel.getImg());
         try {
             retestWrite.setImage(photModel.getImg() + "");
         } catch (Exception e) {
@@ -701,7 +703,7 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
 
     @Override
     protected void lazyLoad() {
-
+        Log.i("FuCeFragment 加载数据");
         retestPre.doGetAudit(Long.parseLong(loginid), 0, "");
     }
 }
