@@ -232,7 +232,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 //延迟在一次向服务端请求
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,500);
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
@@ -240,15 +240,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //携带服务器上的步数
                 if (deviation>0){
                     int deviationTemp=deviation;
+                    deviation=0;
                     Bundle surplusStep = new Bundle();
                     surplusStep.putInt("surplusStep",deviationTemp);
                     message.setData(surplusStep);
                 }
-                deviation=0;
                 message.replyTo = getReplyMessage;
                 try {
                     clientMessenger.send(message);
                 } catch (RemoteException e) {
+                    deviation=0;
                     e.printStackTrace();
                 }
                 break;
@@ -419,8 +420,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        pull_sroll.onRefreshComplete();
         try {
+            deviation=0;
+            pull_sroll.onRefreshComplete();
             if ("success".equals(type)) {
                 String TodayStepCnt = sportMainModel.getTodayStepCnt();
                 if ("0".equals(TodayStepCnt)) {
