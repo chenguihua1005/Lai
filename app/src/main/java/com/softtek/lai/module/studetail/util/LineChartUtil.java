@@ -110,7 +110,6 @@ public class LineChartUtil {
             data.getXVals().clear();
             for (int i = 0; i <n; i++) {
                 //int f=n;
-                System.out.println("用n"+n);
                 data.getXVals().add(dates.get(i));
             }
 

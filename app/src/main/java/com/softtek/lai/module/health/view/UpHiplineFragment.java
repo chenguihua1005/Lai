@@ -281,19 +281,19 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
 
     @Override
     public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(healthUpArmGirthModel==null){
                 return;
             }
-            System.out.println("健康记录上臂围" + healthUpArmGirthModel.getFirstrecordtime());
             int n=healthUpArmGirthModel.getUpArmGirthlist().size();
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(healthUpArmGirthModel.getUpArmGirthlist().get(i).getUpArmGirth()));
             }
 
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

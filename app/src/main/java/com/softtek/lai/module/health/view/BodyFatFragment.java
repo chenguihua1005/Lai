@@ -21,15 +21,8 @@ import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
 import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
-import com.softtek.lai.module.health.model.WeekDateModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -571,18 +564,18 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     public void getHealthPysicalRecords(PysicalModel pysicalModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(pysicalModel==null){
                 return;
             }
-            System.out.println("健康记录" + pysicalModel.getFirstrecordtime());
             int n=pysicalModel.getPysicallist().size();
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
             }
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

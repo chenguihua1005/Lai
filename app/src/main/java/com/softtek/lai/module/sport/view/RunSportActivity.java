@@ -494,8 +494,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 break;
             case R.id.iv_stop:
                 if (countDown != null) countDown.cancel();
-                if ( !isLocation&&Integer.parseInt(tv_step.getText().toString()) == 0) {
-                    AlertDialog dialog = new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
+                final List<SportModel> modes=SportUtil.getInstance().
+                        querySport(UserInfoModel.getInstance().getUserId()+"");
+                if (modes.isEmpty()) {
+                    new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -506,10 +508,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                 public void onClick(DialogInterface dialog, int which) {
                                     startCountDown();
                                 }
-                            }).setCancelable(false).create();
-                    dialog.show();
+                            }).setCancelable(false).create().show();
                 } else {
-                    AlertDialog dialog = new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
+                    new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -521,11 +522,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                     data.setSpeed(avgSpeed);
                                     data.setTimeLength(tv_clock.getText().toString() + ";" + time);
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                    String userId=UserInfoModel.getInstance().getUserId()+"";
-                                    List<SportModel> modes=SportUtil.getInstance().
-                                            querySport(userId);
+
+
                                     List<KilometrePace> paces=SportUtil.getInstance()
-                                            .queryKilmoetre(userId);
+                                            .queryKilmoetre(UserInfoModel.getInstance().getUserId()+"");
                                     SportModel model=modes.get(modes.size()-1);
                                     if(!model.iskilometre()){
                                         KilometrePace pace=new KilometrePace();
@@ -554,8 +554,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                 public void onClick(DialogInterface dialog, int which) {
                                     startCountDown();
                                 }
-                            }).setCancelable(false).create();
-                    dialog.show();
+                            }).setCancelable(false).create().show();
                 }
                 break;
             case R.id.cb_control:
@@ -703,7 +702,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 listener.onLocationChanged(location);
             }
             float accuracy=location.getAccuracy();
-            if (accuracy <= 30 && accuracy > 0) {
+            if (accuracy <= 25 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
@@ -785,7 +784,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
             if(accuracy<=0||accuracy>1000){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
-            }else if(accuracy<=20){
+            }else if(accuracy<=25){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
             }else if(accuracy<60){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));

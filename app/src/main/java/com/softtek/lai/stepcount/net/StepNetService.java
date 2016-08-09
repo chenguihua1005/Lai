@@ -25,4 +25,5 @@ public interface StepNetService {
     @POST("/HerbSports/UpdateIsMove")
     void updateIsMove(@Header("token")String token,
                       RequestCallback<ResponseData> callback);
+
 }

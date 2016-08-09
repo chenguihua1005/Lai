@@ -251,6 +251,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             }
             adapter.notifyDataSetChanged();
 
+
         }
     }
 
