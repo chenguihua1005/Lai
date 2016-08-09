@@ -230,7 +230,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
         DimensionChartFragmentPC dcf=DimensionChartFragmentPC.newInstance();
         fragments.add(lwcf);
         fragments.add(dcf);
-        tab_content.setAdapter(new StudentDetailFragmentAdapter(getFragmentManager(), fragments));
+        tab_content.setAdapter(new StudentDetailFragmentAdapter(getChildFragmentManager(), fragments));
         tab.setTabMode(TabLayout.MODE_FIXED);
         tab.setupWithViewPager(tab_content);
 

@@ -72,7 +72,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_group_main)
 public class GroupMainActivity extends BaseActivity implements View.OnClickListener, SportGroupManager.GetSportIndexCallBack
-        , PullToRefreshBase.OnRefreshListener<ScrollView> ,Handler.Callback{
+        , PullToRefreshBase.OnRefreshListener<ScrollView>, Handler.Callback {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -201,21 +201,22 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     private Messenger clientMessenger;
     //用来接收服务端发送过来的信息使用
-    private Messenger getReplyMessage=new Messenger(new Handler(this));
+    private Messenger getReplyMessage = new Messenger(new Handler(this));
     private int currentStep;
     private int serverStep;
-    private static final int REQUEST_DELAY=3;
-    private Handler delayHandler=new Handler(this);
-    private int deviation=0;
+    private static final int REQUEST_DELAY = 3;
+    private Handler delayHandler = new Handler(this);
+    private int deviation = 0;
+
     @Override
     public boolean handleMessage(Message msg) {
         //在这里获取服务端发来的信息
-        switch (msg.what){
+        switch (msg.what) {
             case StepService.MSG_FROM_SERVER:
                 //获取数据
-                Bundle data=msg.getData();
-                currentStep=data.getInt("todayStep",0);
-                serverStep=data.getInt("serverStep",0);
+                Bundle data = msg.getData();
+                currentStep = data.getInt("todayStep", 0);
+                serverStep = data.getInt("serverStep", 0);
                 //更新显示
                 try {
                     if (currentStep == 0) {
@@ -231,23 +232,25 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //延迟在一次向服务端请求                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                //延迟在一次向服务端请求
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY, 500);
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
                 Message message = Message.obtain(null, StepService.MSG_FROM_CLIENT);
                 //携带服务器上的步数
-                if (deviation>0){
-                    int deviationTemp=deviation;
+                if (deviation > 0) {
+                    int deviationTemp = deviation;
+                    deviation = 0;
                     Bundle surplusStep = new Bundle();
-                    surplusStep.putInt("surplusStep",deviationTemp);
+                    surplusStep.putInt("surplusStep", deviationTemp);
                     message.setData(surplusStep);
                 }
-                deviation=0;
                 message.replyTo = getReplyMessage;
                 try {
                     clientMessenger.send(message);
                 } catch (RemoteException e) {
+                    deviation = 0;
                     e.printStackTrace();
                 }
                 break;
@@ -256,13 +259,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     //用于绑定服务使用
-    private ServiceConnection connection=new ServiceConnection() {
+    private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             //当连接开始时向服务端发起一个信使，然后服务端会拿到这个信使并返回一个数据
-            clientMessenger=new Messenger(service);
-            Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
-            message.replyTo=getReplyMessage;
+            clientMessenger = new Messenger(service);
+            Message message = Message.obtain(null, StepService.MSG_FROM_CLIENT);
+            message.replyTo = getReplyMessage;
             try {
                 clientMessenger.send(message);
             } catch (RemoteException e) {
@@ -300,7 +303,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
         //绑定服务
-        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
+        bindService(new Intent(this, StepService.class), connection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -345,7 +348,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.ll_left:
                 finish();
-                Intent inten=new Intent(this, HomeActviity.class);
+                Intent inten = new Intent(this, HomeActviity.class);
                 startActivity(inten);
                 break;
 
@@ -418,31 +421,28 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        pull_sroll.onRefreshComplete();
         try {
+            deviation = 0;
+            pull_sroll.onRefreshComplete();
             if ("success".equals(type)) {
                 String TodayStepCnt = sportMainModel.getTodayStepCnt();
                 if ("0".equals(TodayStepCnt)) {
                     text_step.setText("--");
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
+                    text_pm.setText("--");
                 } else {
                     //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
-                    int currentTemp=currentStep;
-                    int tempStep=Integer.parseInt(TodayStepCnt);
-                    if(tempStep-currentTemp>0){
+                    int currentTemp = currentStep;
+                    int tempStep = Integer.parseInt(TodayStepCnt);
+                    if (tempStep - currentTemp > 0) {
                         //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
-                        deviation=tempStep-serverStep;
+                        deviation = tempStep - serverStep;
                     }
                     text_step.setText(TodayStepCnt);
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
                     text_rl.setText(kaluli + "");
-                }
-                String todayStepOdr = sportMainModel.getTodayStepOdr();
-                if ("0".equals(todayStepOdr)) {
-                    text_pm.setText("--");
-                } else {
                     text_pm.setText(sportMainModel.getTodayStepOdr());
                 }
                 String medalCnt = sportMainModel.getMedalCnt();
@@ -477,7 +477,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     } else if ("2".equals(chipType)) {
                         img_pk_type.setImageResource(R.drawable.img_group_main_3);
                     }
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    String path = AddressManager.get("photoHost");
                     if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
                         Picasso.with(this).load(R.drawable.img_default).into(img_left);
                     } else {
@@ -532,23 +532,19 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text_step.setText("--");
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
+                    text_pm.setText("--");
                 } else {
                     //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
-                    int currentTemp=currentStep;
-                    int tempStep=Integer.parseInt(TodayStepCnt);
-                    if(tempStep-currentTemp>0){
+                    int currentTemp = currentStep;
+                    int tempStep = Integer.parseInt(TodayStepCnt);
+                    if (tempStep - currentTemp > 0) {
                         //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
-                        deviation=tempStep-serverStep;
+                        deviation = tempStep - serverStep;
                     }
                     text_step.setText(model.getTodayStepCnt());
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
                     text_rl.setText(kaluli + "");
-                }
-                String todayStepOdr = model.getTodayStepOdr();
-                if ("0".equals(todayStepOdr)) {
-                    text_pm.setText("--");
-                } else {
                     text_pm.setText(model.getTodayStepOdr());
                 }
                 String medalCnt = model.getMedalCnt();
@@ -581,7 +577,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
         userId = UserInfoModel.getInstance().getUser().getUserid();
         String str = DateUtil.getInstance().getCurrentDate() + "," + currentStep;
-        Log.i("当前最新步数>>>>"+str);
+        Log.i("当前最新步数>>>>" + str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
     }
