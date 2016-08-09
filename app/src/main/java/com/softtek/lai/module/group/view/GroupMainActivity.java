@@ -202,11 +202,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     private Messenger clientMessenger;
     //用来接收服务端发送过来的信息使用
     private Messenger getReplyMessage=new Messenger(new Handler(this));
-    private int currentStep;
-    private int serverStep;
+    private static int currentStep;
+    private static int serverStep;
     private static final int REQUEST_DELAY=3;
     private Handler delayHandler=new Handler(this);
-    private int deviation=0;
+    private static int deviation=0;
+
     @Override
     public boolean handleMessage(Message msg) {
         //在这里获取服务端发来的信息
@@ -240,11 +241,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //携带服务器上的步数
                 if (deviation>0){
                     int deviationTemp=deviation;
-                    deviation=0;
                     Bundle surplusStep = new Bundle();
                     surplusStep.putInt("surplusStep",deviationTemp);
                     message.setData(surplusStep);
+                    deviation=0;
                 }
+                deviation=0;
                 message.replyTo = getReplyMessage;
                 try {
                     clientMessenger.send(message);
@@ -584,6 +586,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         //解绑服务
+        deviation=0;
         delayHandler.removeMessages(REQUEST_DELAY);
         unbindService(connection);
         super.onDestroy();
