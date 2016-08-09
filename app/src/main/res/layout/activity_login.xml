@@ -61,6 +61,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:background="@drawable/border_none"
                     android:textColor="#333333"
+                    android:textColorHint="#c0c0c0"
                     android:textSize="16sp"
                     android:hint="@string/phoneOr"/>
                 <View
@@ -91,6 +92,7 @@
                     android:background="@drawable/border_none"
                     android:paddingTop="9dp"
                     android:textColor="#333333"
+                    android:textColorHint="#c0c0c0"
                     android:textSize="16sp"
                     android:inputType="textPassword"/>
                 <View
@@ -107,7 +109,7 @@
                 android:layout_height="40dp"
                 android:text="@string/login"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:background="@drawable/bg_login_btn"
                 android:textColor="#FFFFFD"/>
 
@@ -118,7 +120,7 @@
                 android:layout_height="40dp"
                 android:text="@string/regist"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:background="@drawable/bg_next_btn"
                 android:textColor="#FFFFFd"/>
             
@@ -145,14 +147,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/visitor"
-                    android:layout_gravity="center|right"
+                    android:layout_gravity="center"
                     android:textSize="18sp"
                     android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center|right"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="6dp"
                     android:src="@drawable/arrow_copy"/>
             </LinearLayout>
         </LinearLayout>

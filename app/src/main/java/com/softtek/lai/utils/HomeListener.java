@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by jerry.guan on 2016/6/21.
  */
 public class HomeListener {
 
-    private Context mContext;
+    private WeakReference<Context> mContext;
     private OnHomePressedListener mListener;
     private InnerRecevier mRecevier;
 
@@ -22,7 +24,7 @@ public class HomeListener {
     }
 
     public HomeListener(Context context) {
-        mContext = context;
+        mContext = new WeakReference(context);
         mRecevier=new InnerRecevier();
 
     }
@@ -33,14 +35,14 @@ public class HomeListener {
     public void startWatch(OnHomePressedListener listener) {
         mListener = listener;
         IntentFilter mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        mContext.registerReceiver(mRecevier, mFilter);
+        mContext.get().registerReceiver(mRecevier, mFilter);
     }
 
     /**
      * 停止监听，注销广播
      */
     public void stopWatch() {
-        mContext.unregisterReceiver(mRecevier);
+        mContext.get().unregisterReceiver(mRecevier);
         mRecevier=null;
         mListener=null;
     }
