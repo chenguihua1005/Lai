@@ -21,7 +21,6 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -177,6 +176,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.cb_zan.setEnabled(false);
                 } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                     //没有点赞
+                    holder.ll_dianzan.setVisibility(View.INVISIBLE);
                     holder.cb_zan.setChecked(false);
                     holder.cb_zan.setEnabled(true);
                     holder.cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -195,8 +195,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    RecommendHealthyFragment recommendHealthyFragment = null;
-                                                    recommendHealthyFragment.updateList();
                                                 }
 
                                                 @Override
