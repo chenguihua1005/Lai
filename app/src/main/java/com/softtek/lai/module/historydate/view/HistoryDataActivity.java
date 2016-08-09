@@ -56,7 +56,7 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
     private int totalPage=0;
     @Override
     protected void initViews() {
-        tv_title.setText("历史数据测量");
+        tv_title.setText("历史测量数据");
         tv_right.setText("编辑");
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);

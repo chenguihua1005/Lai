@@ -251,7 +251,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(PhotosModel photModel) {
-        System.out.println("photModel:" + photModel);
         change_photo = photModel.getImg();
         upload();
 
@@ -343,7 +342,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             tv_title.setText("报名参赛");
             et_phone.setEnabled(false);
             ll_class.setEnabled(false);
-            ll_left.setVisibility(View.GONE);
+            ll_left.setVisibility(View.INVISIBLE);
         } else {
             tv_right.setText("保存");
             tv_title.setText("新学员录入");
@@ -359,13 +358,11 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    System.out.println("hasFocus--------");
                     if (hasFocus) {
                         // 此处为得到焦点时的处理内容
 
                     } else {
                         String phone = et_phone.getText().toString();
-                        System.out.println("phone.length:" + phone.length());
                         if (phone.length() == 11) {
                             progressDialog.show();
                             isOperation = true;
@@ -417,7 +414,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
-        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
         List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
         for (PargradeModel cl : pargradeModels) {
             pargradeIdlList.add(cl.getClassId());

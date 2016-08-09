@@ -334,16 +334,16 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             polylineOptions = new PolylineOptions().width(22).zIndex(150);
             models = trajectory.getTrajectory();
             List<KilometrePace> paceList=trajectory.getKilometrePaces();
-            Log.i("公里节点的数量="+paceList.size());
-            System.out.println("aa>>"+paceList);
             if(paceList==null||paceList.isEmpty()||paceList.size()==1){
                 //表示不满一公里按照最后一个坐标的耗时在计算
                 if(models!=null&&!models.isEmpty()){
-                    SportModel startModel=models.get(0);
+                    //SportModel startModel=models.get(0);
                     SportModel lastModel=models.get(models.size()-1);
+                    System.out.println("坐标>>"+lastModel);
                     //计算两个坐标之间的平均速度获取1公里的耗时补足
-                    double avgSpeed=(lastModel.getCurrentKM()-startModel.getCurrentKM())/lastModel.getKilometreTime();
+                    double avgSpeed=(lastModel.getCurrentKM())/lastModel.getKilometreTime();
                     int time= (int) (1000/avgSpeed);
+                    Log.i("公里耗时=="+time);
                     polylineOptions.color(ColorUtil.getSpeedColor(time,lastModel.isHasProblem()));
                     for (SportModel model : models) {
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
