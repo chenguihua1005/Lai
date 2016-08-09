@@ -87,7 +87,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname1"
-                        android:layout_width="80dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:text="未开班"
                         android:textColor="#6f6f6f"
@@ -158,7 +158,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname2"
-                        android:layout_width="80dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:text="未开班"
                         android:textColor="#6f6f6f"
@@ -229,7 +229,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname3"
-                        android:layout_width="80dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:text="未开班"
                         android:textColor="#6f6f6f"

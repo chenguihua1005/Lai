@@ -231,8 +231,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //延迟在一次向服务端请求
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                //延迟在一次向服务端请求                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
