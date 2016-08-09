@@ -348,7 +348,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 if (clmInfoModel != null) {
                     model = UserInfoModel.getInstance().getUser();
                     final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-                    if (hxid.equals(model.getHXAccountId())) {  
+                    if (hxid.equals(model.getHXAccountId())) {
                         String HX_ID = clmInfoModel.getHXAccountId();
                         if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
                             Util.toastMsg("会话功能开通中，请稍后再试");

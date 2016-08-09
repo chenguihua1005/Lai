@@ -285,8 +285,9 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
 
     @Override
     public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(healthupLegGirthModel==null){
                 return;
             }
@@ -296,7 +297,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 dates.add(Float.parseFloat(healthupLegGirthModel.getUpLegGirthlist().get(i).getUpLegGirth()));
             }
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

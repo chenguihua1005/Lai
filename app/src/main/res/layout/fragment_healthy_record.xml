@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/im_healthright"
-                        android:text="查看历史记录"
+                        android:text="查看历史数据"
                         android:textColor="#75ba2b"
                         android:textSize="14sp" />
 

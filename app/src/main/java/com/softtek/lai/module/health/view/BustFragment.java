@@ -1,7 +1,6 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -10,7 +9,6 @@ import android.widget.RadioGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
@@ -27,12 +25,8 @@ import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -179,8 +173,9 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     @Override
     public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(healthCircrumModel==null){
                 return;
             }
@@ -191,7 +186,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
             }
 
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

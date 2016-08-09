@@ -46,9 +46,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
                 Log.i(pysicalModelResponseData.toString());
-                cb.getHealthPysicalRecords(pysicalModelResponseData.getData());
-                if (pysicalModelResponseData.getStatus()!=200)
-                {
+                if (pysicalModelResponseData.getStatus()==200) {
+                    cb.getHealthPysicalRecords(pysicalModelResponseData.getData());
+                }else {
                     Util.toastMsg(pysicalModelResponseData.getMsg());
                 }
             }
@@ -66,11 +66,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthWeightModel> healthWeightModelResponseData, Response response) {
                 Log.i(healthWeightModelResponseData.toString());
-                Log.i("diaoyonng");
-                cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
-                Log.i("diaoyonng111111");
-                if (healthWeightModelResponseData.getStatus()!=200)
-                {
+                if (healthWeightModelResponseData.getStatus()==200) {
+                    cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthWeightModelResponseData.getMsg());
                 }
             }
@@ -89,9 +87,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthFatModel> healthFatModelResponseData, Response response) {
                 Log.i(healthFatModelResponseData.toString());
-                cb.getHealthfatRecords(healthFatModelResponseData.getData());
-                if (healthFatModelResponseData.getStatus()!=200)
-                {
+                if (healthFatModelResponseData.getStatus()==200) {
+                    cb.getHealthfatRecords(healthFatModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthFatModelResponseData.getMsg());
                 }
             }
@@ -110,9 +108,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthCircrumModel> healthCircrumModelResponseData, Response response) {
                 Log.i(healthCircrumModelResponseData.toString());
-                cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
-                if (healthCircrumModelResponseData.getStatus()!=200)
-                {
+                if (healthCircrumModelResponseData.getStatus()==200) {
+                    cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthCircrumModelResponseData.getMsg());
                 }
             }
@@ -130,9 +128,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthWaistlineModel> healthWaistlineModelResponseData, Response response) {
                 Log.i(healthWaistlineModelResponseData.toString());
-                cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
-                if (healthWaistlineModelResponseData.getStatus()!=200)
-                {
+                if (healthWaistlineModelResponseData.getStatus()==200) {
+                    cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthWaistlineModelResponseData.getMsg());
                 }
             }
@@ -150,10 +148,11 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthHiplieModel> healthHiplieModelResponseData, Response response) {
                 Log.i(healthHiplieModelResponseData.toString());
-                cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
-                if (healthHiplieModelResponseData.getStatus()!=200)
-                {
+                if (healthHiplieModelResponseData.getStatus()==200) {
+                    cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthHiplieModelResponseData.getMsg());
+
                 }
             }
             @Override
@@ -171,9 +170,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthUpArmGirthModel> healthUpArmGirthModelResponseData, Response response) {
                 Log.i(healthUpArmGirthModelResponseData.toString());
-                cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
-                if (healthUpArmGirthModelResponseData.getStatus()!=200)
-                {
+                if (healthUpArmGirthModelResponseData.getStatus()==200) {
+                    cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthUpArmGirthModelResponseData.getMsg());
                 }
             }
@@ -191,9 +190,9 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthupLegGirthModel> healthupLegGirthModelResponseData, Response response) {
                 Log.i(healthupLegGirthModelResponseData.toString());
-                cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
-                if (healthupLegGirthModelResponseData.getStatus()!=200)
-                {
+                if (healthupLegGirthModelResponseData.getStatus()==200) {
+                    cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthupLegGirthModelResponseData.getMsg());
                 }
             }
@@ -211,9 +210,10 @@ public class HealthRecordManager {
             @Override
             public void success(ResponseData<HealthdoLegGirthModel> healthdoLegGirthModelResponseData, Response response) {
                 Log.i(healthdoLegGirthModelResponseData.toString());
-                cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
-                if (healthdoLegGirthModelResponseData.getStatus()!=200)
+                if (healthdoLegGirthModelResponseData.getStatus()==200)
                 {
+                    cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
+                }else {
                     Util.toastMsg(healthdoLegGirthModelResponseData.getMsg());
                 }
             }

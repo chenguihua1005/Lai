@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,6 +29,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 
@@ -55,8 +58,8 @@ public class EaseNotifier {
     };
 
 
-    protected static int notifyID = 1; // start notification id
-    protected static int foregroundNotifyID = 1;
+    protected static int notifyID = 0525; // start notification id
+    protected static int foregroundNotifyID = 0555;
     protected NotificationManager notificationManager = null;
 
     protected HashSet<String> fromUsers = new HashSet<String>();
@@ -82,8 +85,8 @@ public class EaseNotifier {
      */
     public EaseNotifier init(Context context) {
         appContext = context;
+        notifyID = new Random().nextInt(100000);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         packageName = appContext.getApplicationInfo().packageName;
         if (Locale.getDefault().getLanguage().equals("zh")) {
             msgs = msg_ch;
@@ -114,7 +117,7 @@ public class EaseNotifier {
     void cancelNotificaton() {
         if (notificationManager != null)
             //notificationManager.cancel(notifyID);
-        notificationManager.cancelAll();
+            notificationManager.cancelAll();
     }
 
     /**
@@ -255,7 +258,7 @@ public class EaseNotifier {
                 // 设置自定义的notification点击跳转intent
                 msgIntent = notificationInfoProvider.getLaunchIntent(message);
             }
-            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, new Random().nextInt(100000), msgIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, notifyID, msgIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (numIncrease) {
                 // prepare latest event info section
@@ -288,15 +291,23 @@ public class EaseNotifier {
             mBuilder.setContentIntent(pendingIntent);
             // mBuilder.setNumber(notificationNum);
             Notification notification = mBuilder.build();
-            notificationManager = (NotificationManager)appContext .getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) appContext.getSystemService(Context.NOTIFICATION_SERVICE);
             if (isForeground) {
                 notificationManager.notify(foregroundNotifyID, notification);
-                notificationManager.cancelAll();
-                //notificationManager.cancel(foregroundNotifyID);
+                //notificationManager.cancelAll();
+                TimerTask task = new TimerTask()
+                {
+                    public void run()
+                    {
+                        //execute the task
+                        notificationManager.cancel(foregroundNotifyID);
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task,100);
             } else {
                 notificationManager.notify(notifyID, notification);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
