@@ -473,9 +473,7 @@ public class StepService extends Service implements SensorEventListener {
                                             UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    /*LogManager.getManager(getApplicationContext()).log(TAG,"uploading success...\n"+
-                                                                    response.getUrl()+"\nstatus="+response.getStatus(),
-                                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);*/
+
                                                 }
 
                                                 @Override
