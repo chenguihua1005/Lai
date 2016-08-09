@@ -91,13 +91,13 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        String type="0";
-
-        type=getIntent().getStringExtra("type");
-        if ("0".equals(type))
-        {
-            cb_zan.setVisibility(View.GONE);
-        }
+//        String type="0";
+//
+//        type=getIntent().getStringExtra("type");
+//        if ("0".equals(type))
+//        {
+//            cb_zan.setVisibility(View.GONE);
+//        }
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= getIntent().getParcelableExtra("log");

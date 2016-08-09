@@ -21,6 +21,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -131,17 +132,24 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             }
         });
 
-        if (type == 1) {
-            holder.cb_zan.setVisibility(View.INVISIBLE);
-            if (Constants.NO_ZAN.equals(model.getIsPraise())) {
-                holder.ll_dianzan.setVisibility(View.INVISIBLE);
-            } else {
-                holder.ll_dianzan.setVisibility(View.VISIBLE);
-            }
 
-        } else {
+//            holder.cb_zan.setVisibility(View.INVISIBLE);
+//            if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+//                holder.ll_dianzan.setVisibility(View.INVISIBLE);
+//            } else {
+//                holder.ll_dianzan.setVisibility(View.VISIBLE);
+//            }
+
+
+//        if (type == 1) {
+//        } else {
+        if (type==1) {
+            holder.tv_delete.setVisibility(View.VISIBLE);
+        }
+        else {
             holder.tv_delete.setVisibility(View.INVISIBLE);
-            if (isVR) {
+        }
+        if (isVR) {
                 holder.cb_zan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -187,6 +195,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
+                                                    RecommendHealthyFragment recommendHealthyFragment = null;
+                                                    recommendHealthyFragment.updateList();
                                                 }
 
                                                 @Override
@@ -236,7 +246,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     });
                 }
             }
-        }
+//        }
         //加载图片
         String path = AddressManager.get("photoHost");
         Picasso.with(context).load(path + model.getPhoto()).fit()

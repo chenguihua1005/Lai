@@ -192,6 +192,8 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
+                    pageIndex=1;
+                    community.getHealthyMine(1);
                 }
             }
         }, 300);
