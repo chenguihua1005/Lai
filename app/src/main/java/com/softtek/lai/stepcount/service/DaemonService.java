@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 
 import com.github.snowdream.android.util.Log;
@@ -31,11 +32,17 @@ public class DaemonService extends Service{
     }
 
     StepCloseReceiver closeReceiver;
+    PendingIntent pi;
+    AlarmManager am;
     @Override
     public void onCreate() {
         super.onCreate();
         closeReceiver=new StepCloseReceiver();
         registerReceiver(closeReceiver,new IntentFilter(StepService.STEP_CLOSE));
+        am= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        long triggerAtTime = SystemClock.elapsedRealtime();
+        pi=PendingIntent.getService(this,0,new Intent(this,UploadLogService.class),0);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,3600*3000,pi);
 
     }
 
@@ -43,6 +50,7 @@ public class DaemonService extends Service{
     public void onDestroy() {
         sendBroadcast(new Intent("com.softtek.lai.service_destory"));
         super.onDestroy();
+        am.cancel(pi);
         unregisterReceiver(closeReceiver);
     }
 
