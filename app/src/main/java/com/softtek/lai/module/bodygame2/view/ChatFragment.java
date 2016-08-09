@@ -186,7 +186,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         };
         //EMChatManager.getInstance().addConnectionListener(connectionListener);
         registerBroadcastReceiver();
-        EaseUI.getInstance().getNotifier().reset();
     }
 
     @Override
@@ -460,6 +459,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                         EMNotifierEvent.Event.EventReadAck
                 });
         EaseUI.getInstance().pushActivity(getActivity());
+        EaseUI.getInstance().getNotifier().reset();
         // if push service available, connect will be disconnected after app in background
         // after activity restore to foreground, reconnect
         if (!EMChatManager.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {
