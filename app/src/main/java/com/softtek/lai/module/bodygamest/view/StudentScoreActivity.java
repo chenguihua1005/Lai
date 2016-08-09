@@ -3,11 +3,8 @@ package com.softtek.lai.module.bodygamest.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -15,32 +12,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.Adapter.ScoresFragmentAdapter;
+import com.softtek.lai.module.bodygame2pc.view.*;
+import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.utils.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -116,17 +108,26 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
         String path = AddressManager.get("shareHost");
         url = path + "ShareTranscript?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         System.out.println("url:" + url);
+
         menuWindow = new SelectPicPopupWindow(StudentScoreActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        menuWindow.showAtLocation(StudentScoreActivity.this.findViewById(R.id.list_student_score), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+        menuWindow.showAtLocation(findViewById(R.id.lin), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(StudentScoreActivity.this, BodyGamePCActivity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                //finish();
+                startActivity(new Intent(StudentScoreActivity.this, BodyGamePCActivity.class));
                 break;
             case R.id.iv_email:
             case R.id.fl_right:

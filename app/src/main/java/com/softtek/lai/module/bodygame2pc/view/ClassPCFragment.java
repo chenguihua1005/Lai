@@ -533,6 +533,8 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
                 if (dyNoticeModel.getPhoto() == null) {
                     dyNoticeModel = null;
                 }
+                img_gg.setImageResource(R.drawable.img_gg_select);
+                img_xtxx.setImageResource(R.drawable.img_xt_unselect);
                 if (dyNoticeModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
