@@ -120,4 +120,22 @@ public class KilometrePace {
     public void setHasProblem(boolean hasProblem) {
         this.hasProblem = hasProblem;
     }
+
+    @Override
+    public String toString() {
+        return "KilometrePace{" +
+                "id='" + id + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", kilometreTime=" + kilometreTime +
+                ", hasProblem=" + hasProblem +
+                ", index='" + index + '\'' +
+                ", iskilometre=" + iskilometre +
+                ", step=" + step +
+                ", speed='" + speed + '\'' +
+                ", user='" + user + '\'' +
+                ", consumingTime=" + consumingTime +
+                ", currentKM=" + currentKM +
+                '}';
+    }
 }

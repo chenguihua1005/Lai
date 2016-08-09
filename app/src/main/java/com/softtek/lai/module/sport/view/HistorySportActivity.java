@@ -26,6 +26,7 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -333,7 +334,9 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             polylineOptions = new PolylineOptions().width(22).zIndex(150);
             models = trajectory.getTrajectory();
             List<KilometrePace> paceList=trajectory.getKilometrePaces();
-            if(paceList==null||paceList.isEmpty()){
+            Log.i("公里节点的数量="+paceList.size());
+            System.out.println("aa>>"+paceList);
+            if(paceList==null||paceList.isEmpty()||paceList.size()==1){
                 //表示不满一公里按照最后一个坐标的耗时在计算
                 if(models!=null&&!models.isEmpty()){
                     SportModel startModel=models.get(0);
@@ -370,11 +373,13 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             List<Integer> colorList = new ArrayList<>();
             int color;
             //最后一条可能不是真的公里节点，所以要判断一下
-            //判断这个公里节点是不是最后一条,如果是最后一条在判断是不是总路径的最后一条
-            if(j!=paces.size()-1||Integer.parseInt(pace.getIndex())==Integer.parseInt(models.get(models.size()-1).getIndex())){
+            //当当前的公里节点不是最后一条的时候，直接取正常的颜色，
+            // 如果它到了最后一条了，那么在看看他是不是总路径的最后一条？
+            //如果他不是总路径的最后一条成立则去正常颜色否则就是剩余路径
+            if(j!=paces.size()-1||Integer.parseInt(pace.getIndex())!=Integer.parseInt(models.get(models.size()-1).getIndex())){
                 color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
             }else {
-                //如果是最后一条且又不是总路径的最后一条，那么肯定剩余的路径数
+                //如果是最后一条且又是总路径的最后一条，那么肯定剩余的路径数
                 index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
                 SportModel startModel = models.get(index);
                 SportModel lastModel = models.get(models.size() - 1);
@@ -387,9 +392,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 SportModel model = models.get(i);
                 if (Integer.parseInt(pace.getIndex()) == Integer.parseInt(model.getIndex())) {
                     //表示到了下一个公里节点的开始
-                    //移除最后一个坐标
-                    /*latLngs.remove(latLngs.size()-1);
-                    colorList.remove(colorList.size()-1);*/
                     //创建一个polylineOptions
                     polylineOptionses.add(new PolylineOptions().width(22)
                             .zIndex(150).useGradient(true).colorValues(colorList)
@@ -415,6 +417,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     colorList.add(color);
                 }
                 latLngs.add(new LatLng(model.getLatitude(), model.getLongitude()));
+                System.out.println("坐标>>"+model);
             }
         }
         /**

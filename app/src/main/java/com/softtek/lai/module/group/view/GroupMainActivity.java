@@ -232,7 +232,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 //延迟在一次向服务端请求
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,500);
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
@@ -240,15 +240,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //携带服务器上的步数
                 if (deviation>0){
                     int deviationTemp=deviation;
+                    deviation=0;
                     Bundle surplusStep = new Bundle();
                     surplusStep.putInt("surplusStep",deviationTemp);
                     message.setData(surplusStep);
                 }
-                deviation=0;
                 message.replyTo = getReplyMessage;
                 try {
                     clientMessenger.send(message);
                 } catch (RemoteException e) {
+                    deviation=0;
                     e.printStackTrace();
                 }
                 break;
@@ -419,14 +420,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        pull_sroll.onRefreshComplete();
         try {
+            deviation=0;
+            pull_sroll.onRefreshComplete();
             if ("success".equals(type)) {
                 String TodayStepCnt = sportMainModel.getTodayStepCnt();
                 if ("0".equals(TodayStepCnt)) {
                     text_step.setText("--");
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
+                    text_pm.setText("--");
                 } else {
                     //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
                     int currentTemp=currentStep;
@@ -439,11 +442,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
                     text_rl.setText(kaluli + "");
-                }
-                String todayStepOdr = sportMainModel.getTodayStepOdr();
-                if ("0".equals(todayStepOdr)) {
-                    text_pm.setText("--");
-                } else {
                     text_pm.setText(sportMainModel.getTodayStepOdr());
                 }
                 String medalCnt = sportMainModel.getMedalCnt();
@@ -478,7 +476,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     } else if ("2".equals(chipType)) {
                         img_pk_type.setImageResource(R.drawable.img_group_main_3);
                     }
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    String path = AddressManager.get("photoHost");
                     if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
                         Picasso.with(this).load(R.drawable.img_default).into(img_left);
                     } else {
@@ -533,6 +531,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text_step.setText("--");
                     text_rl.setText("--");
                     text3.setVisibility(View.GONE);
+                    text_pm.setText("--");
                 } else {
                     //如果本次同步发现服务器上的步数比本地还多则计算误差并显示
                     int currentTemp=currentStep;
@@ -545,11 +544,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
                     text_rl.setText(kaluli + "");
-                }
-                String todayStepOdr = model.getTodayStepOdr();
-                if ("0".equals(todayStepOdr)) {
-                    text_pm.setText("--");
-                } else {
                     text_pm.setText(model.getTodayStepOdr());
                 }
                 String medalCnt = model.getMedalCnt();
