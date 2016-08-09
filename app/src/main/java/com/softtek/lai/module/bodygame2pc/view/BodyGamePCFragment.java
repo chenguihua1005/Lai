@@ -48,6 +48,7 @@ import com.softtek.lai.module.studetail.view.LogDetailActivity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
+import com.softtek.lai.utils.ChMonth;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -335,7 +336,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                     int day=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(date);
                     int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(date);
                     tv_day.setText(day+"");
-                    tv_month.setText(month+"月");
+                    tv_month.setText(ChMonth.toText(month));
                     tv_content.setText(info.getPCStoryContent());
                     if(StringUtils.isNotEmpty(info.getPCStoryImg())){
                         Picasso.with(getContext()).load(basePath+info.getPCStoryImg()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
@@ -346,7 +347,6 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 }
                 if(StringUtils.isNotEmpty(info.getTips_Video_id())){
                     tv_video_name.setText(info.getTips_video_name());
-                    //tv_video_time.setText(StringUtil.convertValue3(info.getTips_video_timelen()));
                     if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
                         Picasso.with(getContext()).load(basePath+info.getTips_video_backPicture())
                                 .fit().placeholder(R.drawable.default_icon_rect)
@@ -570,7 +570,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
                 int day=DateUtil.getInstance().getCurrentDay();
                 int month=DateUtil.getInstance().getCurrentMonth();
                 tv_day.setText(day+"");
-                tv_month.setText(month+"月");
+                tv_month.setText(ChMonth.toText(month));
                 tv_content.setText(model.getLogContent());
                 info.setPCStoryContent(model.getLogContent());
                 String photo=model.getPhotoes().split(",")[0];
