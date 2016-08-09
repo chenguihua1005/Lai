@@ -36,6 +36,8 @@ import com.softtek.lai.module.message2.view.NoticeFC2Activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import zilla.libcore.util.Util;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
@@ -193,9 +195,14 @@ public class MessageNoticeAdapter extends BaseAdapter {
     }
 
     private void turnToXZSActivity(OperateMsgModel model) {
-        Intent intent = new Intent(context, MessageOperatorActivity.class);
-        intent.putExtra("model", model);
-        context.startActivityForResult(intent, 0);
+        String isDo=model.getIsDo();
+        if("1".equals(isDo)){
+            Util.toastMsg("该消息已操作过, 不能重复操作");
+        }else {
+            Intent intent = new Intent(context, MessageOperatorActivity.class);
+            intent.putExtra("model", model);
+            context.startActivityForResult(intent, 0);
+        }
     }
 
     private void turnToFCActivity() {
