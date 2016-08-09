@@ -3,17 +3,12 @@ package com.softtek.lai.module.community.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.model.DoZan;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.ImageResponse;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.List;
-
 import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
