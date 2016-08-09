@@ -264,8 +264,9 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(healthHiplieModel==null){
                 return;
             }
@@ -274,10 +275,8 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));
             }
-
-
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

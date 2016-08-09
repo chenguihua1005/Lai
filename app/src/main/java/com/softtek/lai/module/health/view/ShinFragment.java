@@ -288,8 +288,9 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     @Override
     public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
-        progressDialog.dismiss();
         try {
+            if (progressDialog!=null)
+                progressDialog.dismiss();
             if(healthdoLegGirthModel==null){
                 return;
             }
@@ -300,7 +301,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
             }
 
             chartUtil.addData(dates,n,days);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
