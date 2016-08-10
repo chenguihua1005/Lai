@@ -45,7 +45,7 @@
         android:layout_alignParentBottom="true"
         android:background="#f3f3f3"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/lin_select"

@@ -294,6 +294,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/tv_weightday"
                         android:textColor="#333333"
+                        android:textStyle="bold"
                         android:textSize="12sp"/>
                     </RelativeLayout>
                     <ImageView

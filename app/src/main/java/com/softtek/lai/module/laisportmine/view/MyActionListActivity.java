@@ -70,10 +70,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     UpdateMsgRTimeManager updateMsgRTimeManager;
     DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     String accountid;
-    boolean isselec = false;
     boolean isdelpage=false;
-    int account=0;
-    private CharSequence[] items = {"删除"};
 
     @Override
     protected void initViews() {
@@ -116,16 +113,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-//                if (isdelpage)
-//                {
-//                    myActionAdapter = new MyActionAdapter(this, actionModelLists, false,cb_all);
-//                    list_action.setAdapter(myActionAdapter);
-//                    footer.setVisibility(View.GONE);
-//                    isdelpage=false;
-//                }
-//                else {
                     finish();
-//                }
                 break;
             case R.id.tv_delete:
                 String msgId = getMsgId();
