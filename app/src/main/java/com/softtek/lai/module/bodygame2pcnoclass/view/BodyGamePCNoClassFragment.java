@@ -38,6 +38,7 @@ import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
@@ -88,7 +89,7 @@ public class BodyGamePCNoClassFragment extends LazyBaseFragment implements View.
     ImageView iv2;
 
     @InjectView(R.id.mgv)
-    MyGridView mgv;
+    CustomGridView mgv;
     private List<CompetitionModel> competitionModels=new ArrayList<>();
     SaiKuangAdapter saiKuangAdapter;
     @InjectView(R.id.tv_video_name)
