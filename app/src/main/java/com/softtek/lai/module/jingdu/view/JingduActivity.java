@@ -399,7 +399,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 }
             });
 
-        } else if (rank.getTable2().size() == 3) {
+        } else {
 
             String yue1 = rank.getTable2().get(0).getStartDate();
             String yue2 = rank.getTable2().get(1).getStartDate();
