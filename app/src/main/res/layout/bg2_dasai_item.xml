@@ -42,7 +42,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/iv_tropy"
-                android:text="男子180斤以上组"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </RelativeLayout>
@@ -79,7 +78,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="2dp"
-                        android:text="小李子小李子"
                         android:textColor="@color/white"
                         android:textSize="8sp" />
                 </LinearLayout>
@@ -113,7 +111,6 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="健身狂人班"
                         android:textColor="@color/white"
                         android:textSize="8sp" />
                 </LinearLayout>
@@ -144,7 +141,6 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
-            android:text="Bill"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
@@ -155,7 +151,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
-            android:text="减重202斤"
             android:textColor="@color/white"
             android:textSize="10sp" />
     </RelativeLayout>
