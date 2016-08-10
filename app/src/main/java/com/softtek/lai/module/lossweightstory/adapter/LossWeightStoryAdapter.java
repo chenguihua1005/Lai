@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -91,6 +92,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         final UserInfoModel infoModel = UserInfoModel.getInstance();
                         model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
                         model.setIsClicked(Constants.HAS_ZAN);
+                        holder.ll_dianzan.setVisibility(View.VISIBLE);
                         model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(),infoModel.getUser().getNickname(),
                                 infoModel.getUser().getMobile()));
                         //向服务器提交
@@ -126,10 +128,19 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPriase());
+        if(StringUtils.isEmpty(model.getPriase())||Integer.parseInt(model.getPriase())==0){
+            holder.ll_dianzan.setVisibility(View.GONE);
+        }else{
+            holder.ll_dianzan.setVisibility(View.VISIBLE);
+        }
         //加载图片
         String path= AddressManager.get("photoHost");
-        Picasso.with(context).load(path+model.getPhoto()).fit()
-                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        if(StringUtils.isNotEmpty(model.getPhoto())){
+            Picasso.with(context).load(path+model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        }else{
+            Picasso.with(context).load(R.drawable.img_default).into(holder.civ_header_image);
+        }
         ArrayList<String> list=new ArrayList<>();
         String[] imgs=model.getImgCollection().split(",");
         for(int i=0;i<imgs.length;i++){
@@ -144,6 +155,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         TextView tv_name,tv_content,tv_date,tv_zan_name,tv_delete;
         ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
         CheckBox cb_zan;
+        LinearLayout ll_dianzan;
 
         public ViewHolder(View view){
             civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -162,6 +174,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             img9= (ImageView) view.findViewById(R.id.img_9);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
             tv_delete= (TextView) view.findViewById(R.id.tv_delete);
+            ll_dianzan= (LinearLayout) view.findViewById(R.id.ll_dianzan);
         }
 
     }
