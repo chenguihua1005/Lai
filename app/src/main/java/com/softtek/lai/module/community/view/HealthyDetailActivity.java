@@ -177,6 +177,8 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 else {
                     ll_zan.setVisibility(View.VISIBLE);
+                    cb_zan.setChecked(true);
+                    cb_zan.setEnabled(false);
                     model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
                     model.setIsPraise(Constants.HAS_ZAN);
                     model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));

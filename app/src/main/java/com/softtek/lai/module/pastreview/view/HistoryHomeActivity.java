@@ -19,6 +19,7 @@ import com.softtek.lai.module.pastreview.model.PastBaseData;
 import com.softtek.lai.module.pastreview.model.PastClass;
 import com.softtek.lai.module.pastreview.model.Photo;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
+import com.softtek.lai.utils.ChMonth;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -212,7 +213,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 int day = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(story.getCreateDate());
                 int month = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(story.getCreateDate());
                 setText(tv_day, day + "");
-                setText(tv_month, month + "月");
+                setText(tv_month, ChMonth.toText(month));
                 setText(tv_content, story.getLogContent());
                 if (cb_zan != null) {
                     cb_zan.setText(story.getPriase());

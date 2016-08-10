@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity2">
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
@@ -21,18 +20,19 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin"
-            android:src="@drawable/logo" />
+            android:layout_marginTop="25dp"
+            android:src="@drawable/logo2" />
 
         <TextView
             android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="25dp"
             android:textColor="#808080"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            />
     </LinearLayout>
 
 
@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fragmentMineMargin"
-        android:background="@color/white">
+        android:background="@drawable/ll_selector_grey">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -127,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:background="@color/white">
+        android:background="@drawable/ll_selector_grey">
 
         <RelativeLayout
             android:layout_width="fill_parent"
