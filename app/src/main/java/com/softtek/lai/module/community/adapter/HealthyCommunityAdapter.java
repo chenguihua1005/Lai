@@ -232,6 +232,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                             new RequestCallback<ResponseData<Zan>>() {
                                                 @Override
                                                 public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                                    holder.ll_dianzan.setVisibility(View.VISIBLE);
                                                 }
 
                                                 @Override
