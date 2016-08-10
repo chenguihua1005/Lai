@@ -12,15 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:orientation="vertical">
+        android:layout_above="@+id/footer"
+        android:orientation="vertical"
+        >
 
         <ListView
             android:id="@+id/list_action"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"></ListView>
+        </LinearLayout>
 
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_action_nomessage"
@@ -41,6 +43,7 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+
         android:layout_alignParentBottom="true"
         android:background="#f3f3f3"
         android:orientation="horizontal"
