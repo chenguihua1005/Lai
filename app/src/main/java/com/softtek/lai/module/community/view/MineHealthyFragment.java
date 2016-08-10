@@ -14,6 +14,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
@@ -37,7 +38,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_mine_healthy)
-public class MineHealthyFragment extends BaseFragment  implements  AdapterView.OnItemClickListener
+public class MineHealthyFragment extends LazyBaseFragment implements  AdapterView.OnItemClickListener
         ,PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback,View.OnClickListener{
 
     @InjectView(R.id.ptrlv)
@@ -55,6 +56,21 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     int pageIndex=1;
     int totalPage=0;
     boolean isLogin=false;
+
+    @Override
+    protected void lazyLoad() {
+        if(isLogin){
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if(ptrlv!=null) {
+                        ptrlv.setRefreshing();
+                    }
+                }
+            });
+        }
+    }
+
     @Override
     protected void initViews() {
         but_login.setOnClickListener(this);
@@ -85,16 +101,7 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             ptrlv.setVisibility(View.VISIBLE);
         }
         //自动加载
-        if(isLogin){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(ptrlv!=null) {
-                        ptrlv.setRefreshing();
-                    }
-                }
-            }, 500);
-        }
+
 
     }
 

@@ -25,11 +25,13 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
+import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -44,7 +46,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy)
-public class HealthyFragment extends BaseFragment implements View.OnClickListener{
+public class HealthyFragment extends LazyBaseFragment implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -63,6 +65,16 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     List<Fragment> fragments=new ArrayList<>();
 
     private ImageFileSelector imageFileSelector;
+    private CommunityAdapter adapter;
+
+    @Override
+    protected void lazyLoad() {
+        fragments.add(new RecommendHealthyFragment());
+        fragments.add(new MineHealthyFragment());
+        adapter=new CommunityAdapter(getChildFragmentManager(),fragments);
+        tab_content.setAdapter(adapter);
+        tab.setupWithViewPager(tab_content);
+    }
 
     @Override
     protected void initViews() {
@@ -70,12 +82,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         tv_title.setText("健康圈");
         iv_email.setBackgroundResource(R.drawable.camera);
         fl_right.setOnClickListener(this);
-        RecommendHealthyFragment recommendHealthyFragment=new RecommendHealthyFragment();
-        MineHealthyFragment mineHealthyFragment=new MineHealthyFragment();
-        fragments.add(recommendHealthyFragment);
-        fragments.add(mineHealthyFragment);
-        tab_content.setAdapter(new CommunityAdapter(getChildFragmentManager(),fragments));
-        tab.setupWithViewPager(tab_content);
+
 
     }
 
@@ -164,11 +171,6 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
             if(requestCode==OPEN_SENDER_REQUEST){
 
                 tab_content.setCurrentItem(1);
-//                TabLayout.Tab reTab=tab.getTabAt(0);
-//                TabLayout.Tab mineTab=tab.getTabAt(1);
-//                tab.removeAllTabs();
-//                tab.addTab(reTab,false);
-//                tab.addTab(mineTab,true);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
                 ((RecommendHealthyFragment)fragments.get(0)).updateList();
 
@@ -181,7 +183,6 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==CAMERA_PREMISSION) {
-            Log.i("拍照权限返回>>>>>>"+grantResults.length+";grantResults[0]=="+(grantResults[0]== PackageManager.PERMISSION_GRANTED));
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the

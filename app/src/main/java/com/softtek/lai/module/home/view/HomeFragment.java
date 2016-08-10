@@ -32,7 +32,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -84,7 +84,7 @@ import zilla.libcore.ui.InjectLayout;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
@@ -119,8 +119,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
 
     private IHomeInfoPresenter homeInfoPresenter;
-//    private ILoginPresenter loginPresenter;
-//    private StudentImpl studentImpl;
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
@@ -182,14 +180,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
-        //第一次加载自动刷新
-        pull.post(new Runnable() {
-            @Override
-            public void run() {
-                pull.setRefreshing(true);
-            }
-        });
-        onRefresh();
+
     }
 
     @Subscribe
@@ -260,17 +251,26 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     @Override
+    protected void lazyLoad() {
+        //第一次加载自动刷新
+        pull.post(new Runnable() {
+            @Override
+            public void run() {
+                pull.setRefreshing(true);
+            }
+        });
+        onRefresh();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
         }
-
         String userrole = model.getUserrole();
-        if (String.valueOf(Constants.VR).equals(userrole)) {
-
-        } else {
+        if (!String.valueOf(Constants.VR).equals(userrole)) {
             ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(),
                     new Callback<ResponseData>() {
                         @Override

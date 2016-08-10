@@ -12,6 +12,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
@@ -21,6 +22,8 @@ import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
-public class RecommendHealthyFragment extends BaseFragment implements AdapterView.OnItemClickListener
+public class RecommendHealthyFragment extends LazyBaseFragment implements AdapterView.OnItemClickListener
         ,PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
 
     @InjectView(R.id.ptrlv)
@@ -49,6 +52,20 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
     int totalPage=0;
 
     @Override
+    protected void lazyLoad() {
+        /*new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
+            }
+        }, 400);*/
+        pageIndex=1;
+        community.getRecommendDynamic(accountId,1);
+    }
+
+    @Override
     protected void initViews() {
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -61,21 +78,14 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         community=new RecommentHealthyManager(this);
         UserModel user= UserInfoModel.getInstance().getUser();
         String token=UserInfoModel.getInstance().getToken();
-        if(token==null||"".equals(token)){
+        if(StringUtils.isEmpty(token)){
             accountId=-1;
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
         adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false,2);
         ptrlv.setAdapter(adapter);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        }, 400);
+
     }
     private static final int LIST_JUMP=1;
     private static final int LIST_JUMP_2=2;

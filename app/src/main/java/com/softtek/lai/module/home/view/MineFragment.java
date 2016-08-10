@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -22,7 +23,7 @@ import com.easemob.chat.EMChatManager;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
@@ -38,7 +39,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_my)
-public class MineFragment extends BaseFragment implements View.OnClickListener, Validator.ValidationListener {
+public class MineFragment extends LazyBaseFragment implements View.OnClickListener, Validator.ValidationListener {
     @InjectView(R.id.tv_title)
     TextView title;
 
@@ -133,10 +134,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             text_state.setText("已认证");
-            text_state.setTextColor(getResources().getColor(R.color.green));
+            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.green));
         } else {
             text_state.setText("未认证");
-            text_state.setTextColor(getResources().getColor(R.color.grey_font));
+            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.grey_font));
         }
 
         text_zgzh.setText(certification);
@@ -151,6 +152,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+
+    }
+
+    @Override
+    protected void lazyLoad() {
 
     }
 
