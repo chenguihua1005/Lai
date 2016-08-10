@@ -278,7 +278,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                     startActivity(intent);
                 }
             });
-        } else if (spModel.getTable2().size() == 3) {
+        } else{
 
             String yue1 = spModel.getTable2().get(0).getStartDate();
             String yue2 = spModel.getTable2().get(1).getStartDate();

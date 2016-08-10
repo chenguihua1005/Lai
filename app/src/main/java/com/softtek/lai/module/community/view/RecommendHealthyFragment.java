@@ -12,6 +12,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
@@ -34,7 +35,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
-public class RecommendHealthyFragment extends BaseFragment implements AdapterView.OnItemClickListener
+public class RecommendHealthyFragment extends LazyBaseFragment implements AdapterView.OnItemClickListener
         ,PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
 
     @InjectView(R.id.ptrlv)
@@ -47,6 +48,18 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
     private List<HealthyCommunityModel> communityModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
+
+    @Override
+    protected void lazyLoad() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
+            }
+        }, 400);
+    }
 
     @Override
     protected void initViews() {
@@ -68,14 +81,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         }
         adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false,2);
         ptrlv.setAdapter(adapter);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        }, 400);
+
     }
     private static final int LIST_JUMP=1;
     private static final int LIST_JUMP_2=2;
