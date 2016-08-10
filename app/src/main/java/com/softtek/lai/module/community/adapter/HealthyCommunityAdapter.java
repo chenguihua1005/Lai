@@ -105,6 +105,13 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             holder.tv_delete.setVisibility(View.VISIBLE);
 
         }
+        if ("0".equals(model.getPraiseNum()))
+        {
+            holder.ll_dianzan.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.ll_dianzan.setVisibility(View.VISIBLE);
+        }
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,9 +181,10 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     //有点赞
                     holder.cb_zan.setChecked(true);
                     holder.cb_zan.setEnabled(false);
-                } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+                }
+                else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                     //没有点赞
-                    holder.ll_dianzan.setVisibility(View.INVISIBLE);
+
                     holder.cb_zan.setChecked(false);
                     holder.cb_zan.setEnabled(true);
                     holder.cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +203,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
+                                                    holder.ll_dianzan.setVisibility(View.VISIBLE);
                                                 }
 
                                                 @Override

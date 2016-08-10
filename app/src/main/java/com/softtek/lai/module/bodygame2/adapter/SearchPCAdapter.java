@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame2.model.MemberResultModel;
-import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -60,7 +59,7 @@ public class SearchPCAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         MemberResultModel model=pc.get(position);
-        holder.tv_start_weight.setText("初始体重："+StringUtil.getFloatValue(model.getInitWt())+"斤");
+        holder.tv_start_weight.setText("初始体重："+StringUtil.convertValue5(model.getInitWt())+"斤");
         if(model.getGender()==0){//男
             holder.cb_gender.setChecked(false);
         }else{
@@ -68,7 +67,7 @@ public class SearchPCAdapter extends BaseAdapter{
         }
         holder.tv_name.setText(model.getUserName());
         holder.tv_who.setText(" "+StringUtil.withValue(model.getSuperName()));
-        holder.tv_total_weight.setText(StringUtil.getFloatValue(model.getLossW())+"斤");
+        holder.tv_total_weight.setText(StringUtil.convertValue5(model.getLossW())+"斤");
         if(model.getStarCou()==0){//不是明星学员
             holder.cb_mingxing.setChecked(false);
         }else{
