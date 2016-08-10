@@ -95,6 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dip"
+            android:textSize="10sp"
+            android:text="全国减重明星第4名"
             />
     </LinearLayout>
 </RelativeLayout>
