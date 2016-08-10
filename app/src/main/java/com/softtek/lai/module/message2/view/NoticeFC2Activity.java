@@ -128,7 +128,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
             tv_title.setText("复测提醒");
             manager.doGetMeasureMsg(model.getUserid());
         } else if ("notice".equals(type)) {
-            tv_title.setText("系统通知");
+            tv_title.setText("服务窗");
             manager.doGetNoticeMsg(model.getUserid());
         } else if ("xzs".equals(type)) {
             tv_title.setText("小助手");

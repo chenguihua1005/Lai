@@ -31,6 +31,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
+import com.softtek.lai.module.bodygamest.net.PhotoListService;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.bodygamest.view.BodyweidustActivity;
@@ -70,6 +71,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -199,20 +201,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
         tv_retestWrites_nowweight.setEnabled(false);
     }
 
-    @Subscribe
-    public void onEvent(LossModel model) {
-        if (UserInfoModel.getInstance().getUser() == null) {
-            return;
-        }
-        lossModel = model;
-        String path = AddressManager.get("shareHost");
-        url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:" + url);
-        menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
-        //显示窗口
-        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        menuWindow.showAtLocation(getActivity().findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-    }
 
     @Override
     public void onDestroy() {
@@ -277,7 +265,39 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
                         progressDialog.setMessage("加载中");
                         progressDialog.show();
-                        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                        //photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                        PhotoListService service = ZillaApi.NormalRestAdapter.create(PhotoListService.class);
+                        String token =  UserInfoModel.getInstance().getToken();
+                        service.getLossData(token, UserInfoModel.getInstance().getUser().getUserid(), new Callback<ResponseData<LossModel>>() {
+                            @Override
+                            public void success(ResponseData<LossModel> listResponseData, Response response) {
+                                System.out.println("listResponseData:" + listResponseData);
+                                progressDialog.dismiss();
+                                int status = listResponseData.getStatus();
+                                switch (status) {
+                                    case 200:
+                                        lossModel = listResponseData.getData();
+                                        String path = AddressManager.get("shareHost");
+                                        url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+                                        System.out.println("url:" + url);
+                                        menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
+                                        //显示窗口
+                                        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                                        menuWindow.showAtLocation(getActivity().findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                                        break;
+                                    case 500:
+                                        Util.toastMsg(listResponseData.getMsg());
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                progressDialog.dismiss();
+                                ZillaApi.dealNetError(error);
+                                error.printStackTrace();
+                            }
+                        });
                     }
                 }
 
