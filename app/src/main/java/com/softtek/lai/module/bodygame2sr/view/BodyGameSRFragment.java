@@ -35,6 +35,7 @@ import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
+import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.message.net.MessageService;
@@ -46,6 +47,7 @@ import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
@@ -111,7 +113,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
     //adapter
     SPPCAdapter sppcAdapter;
     @InjectView(R.id.mgv)
-    MyGridView mgv;
+    CustomGridView mgv;
     private List<CompetitionModel> competitionModels=new ArrayList<>();
     SaiKuangAdapter saiKuangAdapter;
     @InjectView(R.id.tv_video_name)
@@ -540,8 +542,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.ll_honor:
                 //荣誉榜
-                Intent intent = new Intent(getContext(), SPHonorActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getContext(), SRHonorActivity.class));
                 break;
             case R.id.fl_search:
                 String text=et_person.getText().toString();

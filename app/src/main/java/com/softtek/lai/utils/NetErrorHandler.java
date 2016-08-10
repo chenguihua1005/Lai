@@ -121,8 +121,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         }
                                     });
                                 }
-
-                                if (builder != null || (LaiApplication.getInstance().getContext().get() instanceof LoginActivity)) {
+                                if (builder != null ||LaiApplication.getInstance().getContext()==null|| (LaiApplication.getInstance().getContext().get() instanceof LoginActivity)) {
                                     return;
                                 }
                                 builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())

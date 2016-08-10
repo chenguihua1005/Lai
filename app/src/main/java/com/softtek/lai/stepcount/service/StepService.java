@@ -462,7 +462,7 @@ public class StepService extends Service implements SensorEventListener {
 
                                                 @Override
                                                 public void failure(RetrofitError error) {
-                                                    super.failure(error);
+                                                    //super.failure(error);
                                                 }
                                             });
                         }

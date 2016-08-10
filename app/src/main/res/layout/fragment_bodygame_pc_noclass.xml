@@ -190,7 +190,7 @@
                     android:gravity="center"
                     android:text="暂无大赛赛况信息"
                     android:visibility="gone" />
-                <com.softtek.lai.widgets.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/mgv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -203,7 +203,7 @@
                     android:numColumns="2"
                     android:verticalSpacing="19dp">
 
-                </com.softtek.lai.widgets.MyGridView>
+                </com.softtek.lai.widgets.CustomGridView>
                 <!--Tips-->
                 <include layout="@layout/home_tips_layout" />
             </LinearLayout>

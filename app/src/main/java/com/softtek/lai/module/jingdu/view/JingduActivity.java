@@ -430,7 +430,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
             img_oneban.setVisibility(View.VISIBLE);
             img_twoban.setVisibility(View.VISIBLE);
-            img_threeban.setVisibility(View.INVISIBLE);
+            img_threeban.setVisibility(View.VISIBLE);
 
             onebanname = rank.getTable2().get(0).getClassName();
             oneban = rank.getTable2().get(0).getLoseWeight();

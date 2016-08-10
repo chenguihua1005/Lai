@@ -72,6 +72,8 @@ public class SaiKuangAdapter extends BaseAdapter {
         if(StringUtils.isNotEmpty(model.getPCPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPCPhoto()).resize(px,px).centerCrop().placeholder(R.drawable.default_icon_square)
                     .error(R.drawable.default_icon_square).into(holder.iv_picture);
+        }else {
+            Picasso.with(context).load(R.drawable.default_icon_square).into(holder.iv_picture);
         }
         return convertView;
     }
