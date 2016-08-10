@@ -218,6 +218,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void lazyLoad() {
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+        if (HomeFragment.timer != null) {
+            HomeFragment.timer.cancel();
+        }
         if (hxid.equals(model.getHXAccountId())) {
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
@@ -237,9 +240,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
         } else {
-            if (HomeFragment.timer != null) {
-                HomeFragment.timer.cancel();
-            }
             if ("-1".equals(hxid)) {
                 loginPresenter.getEMChatAccount(progressDialog);
             } else {
@@ -276,7 +276,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
-                HXLoginOut();
             }
         });
     }

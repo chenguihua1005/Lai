@@ -295,7 +295,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
-                HXLoginOut();
             }
         });
     }
@@ -348,6 +347,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 if (clmInfoModel != null) {
                     model = UserInfoModel.getInstance().getUser();
                     final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+                    if (HomeFragment.timer != null) {
+                        HomeFragment.timer.cancel();
+                    }
                     if (hxid.equals(model.getHXAccountId())) {
                         String HX_ID = clmInfoModel.getHXAccountId();
                         if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
@@ -361,9 +363,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                             startActivity(intent);
                         }
                     } else {
-                        if (HomeFragment.timer != null) {
-                            HomeFragment.timer.cancel();
-                        }
                         if ("-1".equals(hxid)) {
                             String hasEmchat = model.getHasEmchat();
                             System.out.println("hasEmchat:" + hasEmchat);

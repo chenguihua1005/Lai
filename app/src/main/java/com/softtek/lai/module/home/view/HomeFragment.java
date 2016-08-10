@@ -355,7 +355,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
-                HXLoginOut();
             }
         });
     }
