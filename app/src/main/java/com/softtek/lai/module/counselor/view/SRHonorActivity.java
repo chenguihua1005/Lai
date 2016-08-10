@@ -9,6 +9,7 @@ package com.softtek.lai.module.counselor.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,7 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
@@ -33,8 +34,6 @@ import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.model.ShareSRHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
-import com.softtek.lai.module.studetail.view.StudentDetailActivity;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -118,7 +117,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
     SelectPicPopupWindow menuWindow;
 
     private IHonorPresenter honorPresenter;
-    private ACache aCache;
 
     List<HonorTable1Model> honorTable1;
 
@@ -215,7 +213,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_3);
@@ -230,7 +228,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_10);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_3);
@@ -248,7 +246,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                     text_weight.setText(num);
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_3);
@@ -267,19 +265,19 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("servernum_rank".equals(rowname)) {
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_100);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
                     text_weight.setText(num);
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 }
             }
         }
@@ -289,17 +287,15 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
         list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String accountId = honorTable1.get(position).getAccountId();
                 String classId = honorTable1.get(position).getClassId();
-                Intent intent = new Intent(SRHonorActivity.this, StudentDetailActivity.class);
+                Intent intent = new Intent(SRHonorActivity.this, PersonalDataActivity.class);
                 intent.putExtra("userId", Long.parseLong(accountId));
                 intent.putExtra("classId", Long.parseLong(classId));
-                intent.putExtra("review", 1);
                 startActivity(intent);
             }
         });
@@ -308,7 +304,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initDatas() {
         honorPresenter = new HonorImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         dialogShow("加载中");
         honorPresenter.getSRHonor();
     }

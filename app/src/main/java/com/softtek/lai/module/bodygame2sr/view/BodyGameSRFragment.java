@@ -35,6 +35,7 @@ import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
+import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.message.net.MessageService;
@@ -540,7 +541,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.ll_honor:
                 //荣誉榜
-                startActivity(new Intent(getContext(), SPHonorActivity.class));
+                startActivity(new Intent(getContext(), SRHonorActivity.class));
                 break;
             case R.id.fl_search:
                 String text=et_person.getText().toString();
