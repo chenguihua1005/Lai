@@ -52,6 +52,8 @@
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:paddingLeft="40dp"
                         android:background="@drawable/border_none"
+                        android:textColor="#333333"
+                        android:textColorHint="#c0c0c0"
                         android:paddingTop="6dp"
                         android:singleLine="true"
                         android:textSize="16sp" />
@@ -81,6 +83,8 @@
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="@string/passwordReg"
                         android:paddingTop="6dp"
+                        android:textColor="#333333"
+                        android:textColorHint="#c0c0c0"
                         android:inputType="textPassword"
                         android:background="@drawable/border_none"
                         android:paddingLeft="40dp"
@@ -115,6 +119,8 @@
                         android:inputType="textPassword"
                         android:paddingTop="6dp"
                         android:paddingLeft="40dp"
+                        android:textColor="#333333"
+                        android:textColorHint="#c0c0c0"
                         android:singleLine="true"
                         android:textSize="16sp" />
                     <View
@@ -151,6 +157,8 @@
                             android:inputType="number"
                             android:paddingLeft="40dp"
                             android:singleLine="true"
+                            android:textColor="#333333"
+                            android:textColorHint="#c0c0c0"
                             android:paddingTop="6dp"
                             android:textCursorDrawable="@drawable/color_cursor"
                             android:background="@drawable/border_none"

@@ -193,7 +193,7 @@ public class LineChartUtil {
         //添加具体数据
         float max=0;
         for (int i = 0; i <data.getXValCount()&&i<datas.size(); i++) {
-                float val = datas.get(i);
+                int val = datas.get(i);
                 //获取数值
                 yVals.add(new Entry(val, i));
                 if (val > max) {
