@@ -295,6 +295,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
+                Util.toastMsg("会话功能开通中，请稍后再试");
             }
         });
     }
