@@ -19,13 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
@@ -33,9 +31,6 @@ import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
-import com.softtek.lai.module.studetail.view.StudentDetailActivity;
-import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
@@ -49,8 +44,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -58,10 +51,9 @@ import zilla.libcore.ui.InjectLayout;
  * 荣誉榜
  */
 @InjectLayout(R.layout.activity_sp_honor)
-public class SPHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class SPHonorActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
-    @LifeCircleInject
-    ValidateLife validateLife;
+
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -121,7 +113,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
 
     private IHonorPresenter honorPresenter;
-    private ACache aCache;
     String url;
     String value;
 
@@ -296,17 +287,15 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
         list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String accountId = honorTable1.get(position).getAccountId();
                 String classId = honorTable1.get(position).getClassId();
-                Intent intent = new Intent(SPHonorActivity.this, StudentDetailActivity.class);
+                Intent intent = new Intent(SPHonorActivity.this, PersonalDataActivity.class);
                 intent.putExtra("userId", Long.parseLong(accountId));
                 intent.putExtra("classId", Long.parseLong(classId));
-                intent.putExtra("review", 1);
                 startActivity(intent);
             }
         });
@@ -315,7 +304,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initDatas() {
         honorPresenter = new HonorImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         dialogShow("加载中");
         honorPresenter.getSPHonor();
     }
@@ -335,23 +323,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
         }
     }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
