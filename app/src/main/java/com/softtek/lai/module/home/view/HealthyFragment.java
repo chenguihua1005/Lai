@@ -169,7 +169,7 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         imageFileSelector.onActivityResult(requestCode,resultCode,data);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
-
+                tab_content.setCurrentItem(0);
                 tab_content.setCurrentItem(1);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
                 ((RecommendHealthyFragment)fragments.get(0)).updateList();

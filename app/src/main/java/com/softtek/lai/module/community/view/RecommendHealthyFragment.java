@@ -53,14 +53,14 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
 
     @Override
     protected void lazyLoad() {
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
                 }
             }
-        }, 400);*/
+        }, 400);
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }
