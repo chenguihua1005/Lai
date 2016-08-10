@@ -139,23 +139,23 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         });
 
 
-//            holder.cb_zan.setVisibility(View.INVISIBLE);
-//            if (Constants.NO_ZAN.equals(model.getIsPraise())) {
-//                holder.ll_dianzan.setVisibility(View.INVISIBLE);
-//            } else {
-//                holder.ll_dianzan.setVisibility(View.VISIBLE);
-//            }
+
 
 
 //        if (type == 1) {
 //        } else {
         if (type==1) {
             holder.tv_delete.setVisibility(View.VISIBLE);
+            holder.cb_zan.setVisibility(View.INVISIBLE);
+            if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+                holder.ll_dianzan.setVisibility(View.INVISIBLE);
+            } else {
+                holder.ll_dianzan.setVisibility(View.VISIBLE);
+            }
         }
         else {
             holder.tv_delete.setVisibility(View.INVISIBLE);
-        }
-        if (isVR) {
+            if (isVR) {
                 holder.cb_zan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -184,7 +184,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 }
                 else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                     //没有点赞
-
                     holder.cb_zan.setChecked(false);
                     holder.cb_zan.setEnabled(true);
                     holder.cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +252,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         }
                     });
                 }
+        }
+
             }
 //        }
         //加载图片

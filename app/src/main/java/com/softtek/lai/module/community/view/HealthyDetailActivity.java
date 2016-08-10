@@ -83,12 +83,12 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-//        String type="0";
-//        type=getIntent().getStringExtra("type");
-//        if (type.equals("0"))
-//        {
-//            cb_zan.setVisibility(View.GONE);
-//        }
+        String type="0";
+        type=getIntent().getStringExtra("type");
+        if (type.equals("0"))
+        {
+            cb_zan.setVisibility(View.GONE);
+        }
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
         model=getIntent().getParcelableExtra("dynamicModel");
         if(StringUtils.isNotEmpty(model.getPhoto())){
