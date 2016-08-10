@@ -60,14 +60,14 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
     @Override
     protected void lazyLoad() {
         if(isLogin){
-            new Handler().postDelayed(new Runnable() {
+            new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     if(ptrlv!=null) {
                         ptrlv.setRefreshing();
                     }
                 }
-            }, 400);
+            });
         }
     }
 

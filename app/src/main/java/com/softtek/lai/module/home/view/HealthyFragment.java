@@ -31,6 +31,7 @@ import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
+import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -64,10 +65,15 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
     List<Fragment> fragments=new ArrayList<>();
 
     private ImageFileSelector imageFileSelector;
+    private CommunityAdapter adapter;
 
     @Override
     protected void lazyLoad() {
-
+        fragments.add(new RecommendHealthyFragment());
+        fragments.add(new MineHealthyFragment());
+        adapter=new CommunityAdapter(getChildFragmentManager(),fragments);
+        tab_content.setAdapter(adapter);
+        tab.setupWithViewPager(tab_content);
     }
 
     @Override
@@ -76,12 +82,7 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         tv_title.setText("健康圈");
         iv_email.setBackgroundResource(R.drawable.camera);
         fl_right.setOnClickListener(this);
-        RecommendHealthyFragment recommendHealthyFragment=new RecommendHealthyFragment();
-        MineHealthyFragment mineHealthyFragment=new MineHealthyFragment();
-        fragments.add(recommendHealthyFragment);
-        fragments.add(mineHealthyFragment);
-        tab_content.setAdapter(new CommunityAdapter(getChildFragmentManager(),fragments));
-        tab.setupWithViewPager(tab_content);
+
 
     }
 
