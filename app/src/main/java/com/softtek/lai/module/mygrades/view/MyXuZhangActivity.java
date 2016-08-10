@@ -90,62 +90,62 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                 //3天勋章是否获得
                 if (xunZhangModel.getThreeDays().equals("0")) {
                     images.add(R.drawable.img_three_none);//3天勋章图片
-                    content.add("连续3天1万");
+                    content.add("连续3天步数1万");
                 } else {
                     images1.add(R.drawable.img_three_have);//3天勋章图片
-                    content1.add("连续3天1万");
+                    content1.add("连续3天步数1万");
                 }
                 //7天勋章是否获得
                 if (xunZhangModel.getSevenDays().equals("0")) {
 
                     images.add(R.drawable.img_seven_none);//7天勋章图片
-                    content.add("连续7天1万");
+                    content.add("连续7天步数1万");
                 } else {
                     images1.add(R.drawable.img_seven_have);//7天勋章图片
-                    content1.add("连续7天1万");
+                    content1.add("连续7天步数1万");
                 }
                 //21天勋章是否获得
                 if (xunZhangModel.getTwentyOneDays().equals("0")) {
 
                     images.add(R.drawable.img_twenty_one_none);//21天勋章图片
-                    content.add("连续21天1万");
+                    content.add("连续21天步数1万");
                 } else {
                     images1.add(R.drawable.img_twenty_one_have);//21天勋章图片
-                    content1.add("连续21天1万");
+                    content1.add("连续21天步数1万");
                 }
                 //30天勋章是否获得
                 if (xunZhangModel.getThirtyDays().equals("0")) {
 
                     images.add(R.drawable.img_thirty_none);//30天勋章图片
-                    content.add("连续30天1万");
+                    content.add("连续30天步数1万");
                 } else {
                     images1.add(R.drawable.img_thirty_have);//30天勋章图片
-                    content1.add("连续30天1万");
+                    content1.add("连续30天步数1万");
                 }
                 //100天勋章是否获得
                 if (xunZhangModel.getOneHundredDays().equals("0")) {
                     images.add(R.drawable.img_hundred_day_none);//100天勋章图片
-                    content.add("连续100天1万");
+                    content.add("连续100天步数1万");
                 } else {
                     images1.add(R.drawable.img_hundred_day_have);//100天勋章图片
-                    content1.add("连续100天1万");
+                    content1.add("连续100天步数1万");
                 }
                 //200天勋章是否获得
                 if (xunZhangModel.getTwoHundredyDays().equals("0")) {
 
                     images.add(R.drawable.img_day200_none);//200天勋章图片
-                    content.add("连续200天1万");
+                    content.add("连续200天步数1万");
                 } else {
                     images1.add(R.drawable.img_day200_have);//200天勋章图片
-                    content1.add("连续200天1万");
+                    content1.add("连续200天步数1万");
                 }
                 //365天勋章是否获得
                 if (xunZhangModel.getOneYearDays().equals("0")) {
                     images.add(R.drawable.img_day365_none);//365天勋章图片
-                    content.add("连续365天1万");
+                    content.add("连续365天步数1万");
                 } else {
                     images1.add(R.drawable.img_day365_have);//365天勋章图片
-                    content1.add("连续3天1万");
+                    content1.add("连续3天步数1万");
                 }
                 //爱心天使勋章是否获得
                 if (xunZhangModel.getAngle().equals("0")) {
