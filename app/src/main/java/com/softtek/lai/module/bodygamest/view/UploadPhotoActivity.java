@@ -387,6 +387,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 @Override
                 public void run() {
                     ptrlvlist.setRefreshing();
+                    String userId = UserInfoModel.getInstance().getUser().getUserid();
+                    pageIndex = 1;
+                    downloadManager.doGetDownPhoto(userId, 1);
                 }
             }, 500);
         }
@@ -405,6 +408,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 @Override
                 public void run() {
                     ptrlvlist.setRefreshing();
+                    String userId = UserInfoModel.getInstance().getUser().getUserid();
+                    pageIndex = 1;
+                    downloadManager.doGetDownPhoto(userId, 1);
                 }
             }, 500);
         }
