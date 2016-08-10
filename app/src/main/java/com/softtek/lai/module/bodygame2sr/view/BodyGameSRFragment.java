@@ -540,8 +540,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.ll_honor:
                 //荣誉榜
-                Intent intent = new Intent(getContext(), SPHonorActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getContext(), SPHonorActivity.class));
                 break;
             case R.id.fl_search:
                 String text=et_person.getText().toString();

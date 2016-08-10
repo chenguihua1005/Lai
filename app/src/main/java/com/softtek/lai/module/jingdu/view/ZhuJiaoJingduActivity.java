@@ -189,7 +189,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         rankAdapter.updateData(table1ModelList, paimingModelList);
 
         //Table2:各个班本月累计减重
-        System.out.println("spEvent.getRanks()------------------------Table2:" + spModel.getTable2());
+
         if (spModel.getTable2().size() == 1) {
             img_oneban.setVisibility(View.VISIBLE);
             // 需要解析的日期字符串
@@ -202,7 +202,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 int month = calendar.get(Calendar.MONTH);
                 ll_yue1.setVisibility(View.VISIBLE);
                 tv_yue1.setText("" + (month + 1));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             onebanname = spModel.getTable2().get(0).getClassName();
@@ -239,7 +239,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 ll_yue2.setVisibility(View.VISIBLE);
                 tv_yue2.setText("" + (month2 + 1));
 
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
