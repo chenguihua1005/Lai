@@ -383,12 +383,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
             photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(), path.toString(), progressDialog);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptrlvlist.setRefreshing();
-                }
-            }, 500);
         }
         if (requestCode == 101 && resultCode == Activity.RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -401,12 +395,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
             photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(), picturePath, progressDialog);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptrlvlist.setRefreshing();
-                }
-            }, 500);
         }
 
     }
@@ -473,6 +461,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 @Override
                 public void run() {
                     ptrlvlist.setRefreshing();
+                    String userId = UserInfoModel.getInstance().getUser().getUserid();
+                    pageIndex = 1;
+                    downloadManager.doGetDownPhoto(userId, 1);
                 }
             }, 300);
         }
