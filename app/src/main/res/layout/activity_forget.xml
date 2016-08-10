@@ -45,8 +45,9 @@
                     android:inputType="phone"
                     android:paddingTop="6dp"
                     android:singleLine="true"
+                    android:textColorHint="#c0c0c0"
                     android:textSize="16sp"
-                    android:textColor="#343434"
+                    android:textColor="#333333"
                     android:hint="@string/phoneNum"/>
                 <View
                     android:layout_width="match_parent"
@@ -84,6 +85,7 @@
                         android:background="@drawable/border_none"
                         android:textSize="16sp"
                         android:textColor="#343434"
+                        android:textColorHint="#c0c0c0"
                         android:hint="验证码"/>
                     <View
                         android:layout_width="match_parent"
