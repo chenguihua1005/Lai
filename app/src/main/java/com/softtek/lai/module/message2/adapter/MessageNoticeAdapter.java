@@ -132,7 +132,7 @@ public class MessageNoticeAdapter extends BaseAdapter {
             holder.img_select.setImageResource(R.drawable.history_data_circle);
         }
         if ("notice".equals(type)) {
-            holder.text_title.setText("服务窗");
+            holder.text_title.setText("系统通知");
             holder.rel_more.setVisibility(View.GONE);
             holder.view_1.setVisibility(View.GONE);
         } else if ("fc".equals(type)) {
