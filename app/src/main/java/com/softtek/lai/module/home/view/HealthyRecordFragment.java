@@ -119,7 +119,12 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             //获取健康记录
             mobile = UserInfoModel.getInstance().getUser().getMobile();
             retestPre = new HealthyRecordManager(this);
-            retestPre.GetUserMeasuredInfo(mobile);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    healthy_refresh.setRefreshing();
+                }
+            }, 300);
 
         }
     }

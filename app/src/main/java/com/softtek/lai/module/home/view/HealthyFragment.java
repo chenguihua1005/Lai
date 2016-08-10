@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
@@ -44,7 +45,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy)
-public class HealthyFragment extends BaseFragment implements View.OnClickListener{
+public class HealthyFragment extends LazyBaseFragment implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -63,6 +64,11 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     List<Fragment> fragments=new ArrayList<>();
 
     private ImageFileSelector imageFileSelector;
+
+    @Override
+    protected void lazyLoad() {
+
+    }
 
     @Override
     protected void initViews() {
