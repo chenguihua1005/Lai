@@ -22,6 +22,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
@@ -37,7 +38,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy_record)
-public class HealthyRecordFragment extends BaseFragment implements View.OnClickListener, PullToRefreshScrollView.OnRefreshListener<ScrollView>
+public class HealthyRecordFragment extends LazyBaseFragment implements View.OnClickListener, PullToRefreshScrollView.OnRefreshListener<ScrollView>
         , HealthyRecordManager.HealthyRecordCallback {
 
     @InjectView(R.id.ll_left)
@@ -104,6 +105,26 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     String mobile;
 
     @Override
+    protected void lazyLoad() {
+        if (StringUtils.isEmpty(UserInfoModel.getInstance().getToken())) {
+            lin_is_vr.setVisibility(View.VISIBLE);
+            ll.setVisibility(View.GONE);
+            fl_right.setVisibility(View.INVISIBLE);
+
+        } else {
+            lin_is_vr.setVisibility(View.GONE);
+            ll.setVisibility(View.VISIBLE);
+            fl_right.setVisibility(View.VISIBLE);
+            fl_right.setOnClickListener(this);
+            //获取健康记录
+            mobile = UserInfoModel.getInstance().getUser().getMobile();
+            retestPre = new HealthyRecordManager(this);
+            retestPre.GetUserMeasuredInfo(mobile);
+
+        }
+    }
+
+    @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         tv_weight.setOnClickListener(this);
@@ -125,22 +146,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
-        if (StringUtils.isEmpty(UserInfoModel.getInstance().getToken())) {
-            lin_is_vr.setVisibility(View.VISIBLE);
-            ll.setVisibility(View.GONE);
-            fl_right.setVisibility(View.INVISIBLE);
 
-        } else {
-            lin_is_vr.setVisibility(View.GONE);
-            ll.setVisibility(View.VISIBLE);
-            fl_right.setVisibility(View.VISIBLE);
-            fl_right.setOnClickListener(this);
-            //获取健康记录
-            mobile = UserInfoModel.getInstance().getUser().getMobile();
-            retestPre = new HealthyRecordManager(this);
-            retestPre.GetUserMeasuredInfo(mobile);
-
-        }
 
     }
 

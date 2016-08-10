@@ -164,11 +164,6 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
             if(requestCode==OPEN_SENDER_REQUEST){
 
                 tab_content.setCurrentItem(1);
-//                TabLayout.Tab reTab=tab.getTabAt(0);
-//                TabLayout.Tab mineTab=tab.getTabAt(1);
-//                tab.removeAllTabs();
-//                tab.addTab(reTab,false);
-//                tab.addTab(mineTab,true);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
                 ((RecommendHealthyFragment)fragments.get(0)).updateList();
 
@@ -181,7 +176,6 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==CAMERA_PREMISSION) {
-            Log.i("拍照权限返回>>>>>>"+grantResults.length+";grantResults[0]=="+(grantResults[0]== PackageManager.PERMISSION_GRANTED));
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
