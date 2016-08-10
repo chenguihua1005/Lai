@@ -7,7 +7,6 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

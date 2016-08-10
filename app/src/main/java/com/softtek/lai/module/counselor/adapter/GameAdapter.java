@@ -7,7 +7,7 @@ package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +22,6 @@ import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -41,7 +39,6 @@ public class GameAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        Log.e("jarvis", list.toString());
     }
 
     @Override
@@ -85,17 +82,16 @@ public class GameAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         MarchInfoModel marchInfo = list.get(position);
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        //String path = AddressManager.get("photoHost");
         if ("".equals(marchInfo.getPhoto()) || "null".equals(marchInfo.getPhoto()) || marchInfo.getPhoto() == null) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(R.drawable.img_default).into(holder.img);
         } else {
             Picasso.with(context).load(marchInfo.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
-        //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         if ((position + 1) < 4) {
             holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
         } else {
-            holder.text_rnum.setTextColor(context.getResources().getColor(R.color.word3));
+            holder.text_rnum.setTextColor(ContextCompat.getColor(context,R.color.word3));
         }
 
         holder.text_rnum.setText(marchInfo.getRnum().toString());
