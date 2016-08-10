@@ -67,7 +67,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
                         ptrlv.setRefreshing();
                     }
                 }
-            }, 500);
+            }, 400);
         }
     }
 

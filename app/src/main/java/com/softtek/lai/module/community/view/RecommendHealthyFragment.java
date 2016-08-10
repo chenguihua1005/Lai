@@ -23,6 +23,8 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
 
     @Override
     protected void lazyLoad() {
+        Log.i("推荐记录开始加载数据了================================================");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -74,7 +77,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
         community=new RecommentHealthyManager(this);
         UserModel user= UserInfoModel.getInstance().getUser();
         String token=UserInfoModel.getInstance().getToken();
-        if(token==null||"".equals(token)){
+        if(StringUtils.isEmpty(token)){
             accountId=-1;
         }else{
             accountId=Long.parseLong(user.getUserid());
