@@ -102,7 +102,6 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
 //            }
 //        }, 500);
         actDetiallistModel = (ActDetiallistModel) getIntent().getSerializableExtra("actDetiallistModel");
-        System.out.println(actDetiallistModel);
         id = getIntent().getStringExtra("id");
         m_tpye = getIntent().getStringExtra("type");
         setHeadView();
@@ -125,7 +124,6 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
         } else {
             pageIndex--;
             if (zk_list != null) {
-                System.out.println("pageIndex:" + pageIndex);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

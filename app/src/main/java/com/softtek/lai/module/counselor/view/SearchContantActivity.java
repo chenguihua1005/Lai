@@ -154,7 +154,6 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
 
     public static String getPinYin(String input) {
         ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
-        System.out.println("tokens:" + tokens);
         StringBuilder sb = new StringBuilder();
         if (tokens != null && tokens.size() > 0) {
             for (HanziToPinyin.Token token : tokens) {

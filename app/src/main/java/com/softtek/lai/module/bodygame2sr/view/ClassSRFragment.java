@@ -231,7 +231,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
         list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("------");
                 ClmListModel clmListModel = student_list.get(position);
                 String isHasAssi = clmListModel.getIsHasAssi();
                 if (!"0".equals(isHasAssi)) {
@@ -347,7 +346,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
                 startActivity(intents);
                 break;
             case R.id.rel_xtxx://系统消息
-                System.out.println("dySysModel:" + dySysModel);
                 img_xtxx.setImageResource(R.drawable.img_xt_select);
                 img_gg.setImageResource(R.drawable.img_gg_unselect);
                 if (dySysModel != null) {
@@ -657,7 +655,6 @@ public class ClassSRFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     public void getStudentList(MemberChangeModel memberChangeModel) {
-        System.out.println("memberChangeModel:" + memberChangeModel);
         if (memberChangeModel != null) {
             list_student.setVisibility(View.VISIBLE);
             student_list = memberChangeModel.getClmlist();

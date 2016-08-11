@@ -379,7 +379,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("resultCode:" + resultCode);
 //        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
 //        if (ssoHandler != null) {
 //            ssoHandler.authorizeCallBack(requestCode, resultCode, data);

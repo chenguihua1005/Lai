@@ -33,6 +33,7 @@ import com.easemob.easeui.controller.EaseUI;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.util.NetUtils;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
@@ -96,7 +97,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
-                System.out.println("0000000000000");
                 if (builder != null) {
                     return;
                 }
@@ -107,7 +107,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                             public void onClick(DialogInterface dialog, int which) {
                                 builder = null;
                                 UserInfoModel.getInstance().loginOut();
-                                getActivity().stopService(new Intent(getActivity(), StepService.class));
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,7 +162,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("ChatFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
 
@@ -377,7 +376,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Subscribe
     public void onEvent(EMChatAccountModel model) {
-        System.out.println("model:" + model);
         if (model != null) {
             String state = model.getState();
             if ("0".equals(state)) {
@@ -413,7 +411,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
                 EMChatManager.getInstance().loadAllConversations();
-                System.out.println("22222222");
                 handler.sendEmptyMessage(2);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
@@ -426,7 +423,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
             @Override
             public void onError(final int code, final String message) {
-                System.out.println("55555555");
                 handler.sendEmptyMessage(4);
                 if (progressDialog != null) {
                     progressDialog.dismiss();

@@ -230,7 +230,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 @Override
                 public void onSuccess() {
                     // TODO Auto-generated method stub
-                    System.out.println("onSuccess------");
                     UserInfoModel.getInstance().loginOut();
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     getActivity().finish();

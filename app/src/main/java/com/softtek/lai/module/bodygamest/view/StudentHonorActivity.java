@@ -113,7 +113,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
 
     @Subscribe
     public void onEvent(List<StudentHonorInfo> studentHonorList) {
-        System.out.println("studentHonorList:" + studentHonorList);
         for (int i = 0; i < studentHonorList.size(); i++) {
             StudentHonorInfo studentHonorInfo = studentHonorList.get(i);
             String honorType = studentHonorInfo.getHonorType().toString();
@@ -135,7 +134,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
         jz_list.add(studentHonorInfo1);
         jz_list.add(studentHonorInfo2);
         jz_list.add(studentHonorInfo3);
-        System.out.println("jz_list:" + jz_list);
         StudentHonorJZAdapter adapter = new StudentHonorJZAdapter(this, jz_list);
         list_jz.setAdapter(adapter);
 

@@ -239,7 +239,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
         return strForwardDate;
         //return c.getTimeInMillis();
     }

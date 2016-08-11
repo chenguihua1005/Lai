@@ -59,7 +59,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
-                        System.out.println("getConfirmInfoModelResponseData:" + getConfirmInfoModelResponseData);
                         break;
                     case 100:
                         Util.toastMsg("暂无数据");
@@ -113,7 +112,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             @Override
             public void success(ResponseData<PhotosModel> upimgResponseData, Response response) {
                 ((JoinGameDetailActivity) context).dialogDissmiss();
-                System.out.println("upimgResponseData:" + upimgResponseData);
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:

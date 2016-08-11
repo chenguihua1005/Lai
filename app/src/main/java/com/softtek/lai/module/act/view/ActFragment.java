@@ -151,7 +151,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         } else {
             pageIndex--;
             if (zk_list != null) {
-                System.out.println("pageIndex:" + pageIndex);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

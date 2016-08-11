@@ -148,7 +148,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(RoleInfo roleInfo) {
-        System.out.println("roleInfo:" + roleInfo);
         edit_password.setText("");
         edit_account.setText("");
         setData();
@@ -249,7 +248,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
-        System.out.println("account:" + account + "   password:" + password + " memberId:" + memberId);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("认证中");

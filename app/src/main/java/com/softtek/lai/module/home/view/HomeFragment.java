@@ -301,7 +301,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
             String hasEmchat = model.getHasEmchat();
-            System.out.println("hasEmchat:" + hasEmchat);
             if ("1".equals(hasEmchat)) {
                 timer = new Timer();
                 TimerTask task = new TimerTask() {

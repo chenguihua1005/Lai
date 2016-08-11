@@ -79,7 +79,6 @@ public class SelectGroupSentAdapter extends BaseAdapter {
         final SelectContactInfoModel selectContactInfoModel = list.get(position);
         ChatContactInfoModel contactListInfo = selectContactInfoModel.getModel();
         String photo = contactListInfo.getPhoto();
-        System.out.println("photo:" + photo);
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);

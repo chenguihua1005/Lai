@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,6 +29,7 @@ import com.easemob.easeui.ui.EaseChatFragment;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -65,7 +67,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            System.out.println("6666666666666");
             if (builder != null) {
                 return;
             }
@@ -76,7 +77,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            stopService(new Intent(ChatActivity.this, StepService.class));
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                             Intent intent = new Intent(ChatActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

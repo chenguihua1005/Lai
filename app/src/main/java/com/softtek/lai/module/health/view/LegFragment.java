@@ -219,7 +219,6 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
         return strForwardDate;
         //return c.getTimeInMillis();
     }
@@ -291,7 +290,6 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
             if(healthupLegGirthModel==null){
                 return;
             }
-            System.out.println("健康记录大腿围" + healthupLegGirthModel.getFirstrecordtime());
             int n=healthupLegGirthModel.getUpLegGirthlist().size();
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(healthupLegGirthModel.getUpLegGirthlist().get(i).getUpLegGirth()));

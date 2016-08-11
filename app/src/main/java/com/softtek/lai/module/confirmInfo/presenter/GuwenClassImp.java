@@ -40,7 +40,6 @@ public class GuwenClassImp implements GuwenClassPre {
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
-                        System.out.println(listResponseData);
                         Util.toastMsg("列表查询成功");
                         break;
                     case 201:

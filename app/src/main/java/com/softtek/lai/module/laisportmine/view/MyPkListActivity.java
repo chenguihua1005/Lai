@@ -106,7 +106,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("--------");
         if (requestCode == 0 && resultCode == RESULT_OK) {
             updateMsgRTimeManager.doUpdateMsgRTime(accountid,"0");
             dialogShow("加载中");
@@ -122,7 +121,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tv_delete:
                 String msgId = getMsgId();
-                System.out.println("msgId:" + msgId);
                 if ("".equals(msgId)) {
                     Util.toastMsg("请先选择要删除的数据");
                     return;

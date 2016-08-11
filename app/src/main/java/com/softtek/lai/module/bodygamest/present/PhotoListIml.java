@@ -47,7 +47,6 @@ public class PhotoListIml implements PhotoListPre {
         service.getLossData(token, accountId, new Callback<ResponseData<LossModel>>() {
             @Override
             public void success(ResponseData<LossModel> listResponseData, Response response) {
-                System.out.println("listResponseData:" + listResponseData);
                 loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
@@ -103,7 +102,6 @@ public class PhotoListIml implements PhotoListPre {
         service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
-                System.out.println("listResponseData:" + listResponseData);
                 loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {

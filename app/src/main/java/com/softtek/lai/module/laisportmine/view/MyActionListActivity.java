@@ -117,7 +117,6 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.tv_delete:
                 String msgId = getMsgId();
-                System.out.println("msgId:" + msgId);
                 if ("".equals(msgId)) {
                     Util.toastMsg("请先选择要删除的数据");
                     return;

@@ -95,7 +95,6 @@ public class AssistantApplyAdapter extends BaseAdapter {
         holder.but_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("applyId:" + assistantApplyInfo.getApplyId());
                 context.dialogShow("加载中");
                 assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, position,"manage");
             }

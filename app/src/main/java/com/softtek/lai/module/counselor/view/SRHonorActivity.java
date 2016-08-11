@@ -148,7 +148,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
         }
         String path = AddressManager.get("shareHost");
         url = path + "ShareSRHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:"+url);
         value = "我已累计服务" + shareSRHonorModel.getNum() + "学员，共帮助他们减重" + shareSRHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(SRHonorActivity.this, itemsOnClick);
@@ -198,7 +197,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
-        System.out.println("honorInfo:" + honorInfo);
         honorTable1 = honorInfo.getTable1();
         List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);

@@ -283,7 +283,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         list_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("------");
                 ClmListModel clmListModel = student_list.get(position);
                 String accountId = clmListModel.getAccountid();
                 Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
@@ -462,7 +461,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 alert.create().show();
                 break;
             case R.id.rel_xtxx://系统消息
-                System.out.println("dySysModel:" + dySysModel);
                 img_xtxx.setImageResource(R.drawable.img_xt_select);
                 img_gg.setImageResource(R.drawable.img_gg_unselect);
                 if (dySysModel != null) {
@@ -1100,10 +1098,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 String classId = SharedPreferenceService.getInstance().get("classId", "-1");
                 pull.setEnabled(true);
                 if ("-1".equals(classId)) {
-                    System.out.println("刷新整个页面");
                     classMainManager.doClassMainIndex(model.getUser().getUserid());
                 } else {
-                    System.out.println("刷新班级列表");
                     classMainManager.doGetClasslist(model.getUser().getUserid());
                 }
             }

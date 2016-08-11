@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +27,7 @@ import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -72,7 +74,6 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
-                System.out.println("QQQQQQQQQQQQQQ");
                 if (builder != null) {
                     return;
                 }
@@ -83,7 +84,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                             public void onClick(DialogInterface dialog, int which) {
                                 builder = null;
                                 UserInfoModel.getInstance().loginOut();
-                                stopService(new Intent(BodyGameSPActivity.this, StepService.class));
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                 Intent intent = new Intent(BodyGameSPActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -151,7 +152,6 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("CONNECTION_CONFLICT-------");
                                 handler.sendEmptyMessage(0);
                             }
 

@@ -160,7 +160,6 @@ public class ActZKAdapter extends BaseAdapter {
                     holder.rcpb_prog.setProgress(85);
                 }
             } else {
-                System.out.println("(float) (step * 0.8 / target_step):" + (int) ((step * 0.85 / target_step) * 100));
                 holder.rcpb_prog.setProgress((int) ((step * 0.8 / target_step) * 100));
 
             }
