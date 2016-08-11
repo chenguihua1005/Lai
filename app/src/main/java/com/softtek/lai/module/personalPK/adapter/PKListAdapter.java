@@ -30,8 +30,8 @@ public class PKListAdapter extends BaseAdapter{
     public static final int NAIXI=0;
     public static final int NAIXICAO=1;
     public static final int CUSTOM=2;
-    public static final int NOSTART=0;
-    public static final int PROCESSING=1;
+    public static final int NOSTART=1;
+    public static final int PROCESSING=0;
     public static final int Completed=2;
 
     private Context context;

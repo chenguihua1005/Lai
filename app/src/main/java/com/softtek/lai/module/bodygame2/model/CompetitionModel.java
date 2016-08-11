@@ -12,7 +12,7 @@ public class CompetitionModel {
     private int LoseWeight;
     private String PCPhoto;
     private String PCUserName;
-    private String UserName;
+    private String SupUserName;
     private int ClassId;
     private int rnum;
 
@@ -72,12 +72,12 @@ public class CompetitionModel {
         this.PCUserName = PCUserName;
     }
 
-    public String getUserName() {
-        return UserName;
+    public String getSupUserName() {
+        return SupUserName;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setSupUserName(String supUserName) {
+        SupUserName = supUserName;
     }
 
     public int getRnum() {
@@ -87,4 +87,6 @@ public class CompetitionModel {
     public void setRnum(int rnum) {
         this.rnum = rnum;
     }
+
+
 }

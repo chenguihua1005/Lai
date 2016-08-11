@@ -65,9 +65,9 @@ public class SaiKuangAdapter extends BaseAdapter {
         }
         CompetitionModel model=competitionModels.get(position);
         holder.tv_zubie.setText(model.getGroupName());
-        holder.tv_name.setText(model.getUserName());
+        holder.tv_name.setText(model.getPCUserName());
         holder.tv_classname.setText(model.getClassName());
-        holder.tv_zhujiao.setText(model.getPCUserName());
+        holder.tv_zhujiao.setText(model.getSupUserName());
         holder.tv_jianzhong.setText("减重"+model.getLoseWeight()+"斤");
         if(StringUtils.isNotEmpty(model.getPCPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPCPhoto()).resize(px,px).centerCrop().placeholder(R.drawable.default_icon_square)
