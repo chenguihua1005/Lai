@@ -239,9 +239,9 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         System.out.println("url:" + url);
         String[] time = model.getTimeLength().split(":");
         String times = time[0] + "时" + time[1] + "分" + time[2] + "秒";
-        value = "我刚刚完成跑步" + model.getKilometre() + "km,用时" + times + "，平均速度" + model.getSpeed() + "km/h，消耗" + model.getCalories() + "大卡。快来和我一起运动吧！";
+        value = "我刚刚完成跑步" + model.getKilometre() + "km，用时" + times + "，平均速度" + model.getSpeed() + "km/h，消耗" + model.getCalories() + "大卡。快来和我一起运动吧！";
         System.out.println("value:" + value);
-        title_value = "莱运动, 陪伴我运动第" + mineMovementModel.getRgTime() + "天";
+        title_value = "莱运动， 陪伴我运动第" + mineMovementModel.getRgTime() + "天";
         menuWindow = new SelectPicPopupWindow(HistorySportActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

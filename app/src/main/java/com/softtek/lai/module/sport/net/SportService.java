@@ -25,6 +25,7 @@ public interface SportService {
     //运动列表
     @GET("/StepCount/GetMovementList")
     void getMovementList(@Header(TOKEN) String token,
+                         @Query("PageIndex")String pageIndex,
                          RequestCallback<ResponseData<List<HistorySportModel>>> callback);
 
 
