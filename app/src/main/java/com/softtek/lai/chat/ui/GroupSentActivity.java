@@ -119,6 +119,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("9999999");
             if (builder != null) {
                 return;
             }

@@ -92,6 +92,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("777777777777");
             if (builder != null) {
                 return;
             }

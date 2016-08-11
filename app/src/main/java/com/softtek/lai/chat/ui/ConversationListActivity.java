@@ -97,6 +97,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("8888888888888");
             if (builder != null) {
                 return;
             }

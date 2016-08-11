@@ -80,6 +80,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("wwwwwwwww");
             if (builder != null) {
                 return;
             }

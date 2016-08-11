@@ -271,6 +271,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 }else{
                     Util.toastMsg("会话功能开通中，请稍后再试");
                 }
+            }else {
+                Util.toastMsg("会话功能开通中，请稍后再试");
             }
         }
 
@@ -295,7 +297,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
-                Util.toastMsg("会话功能开通中，请稍后再试");
+                handler.sendEmptyMessage(1);
             }
         });
     }
@@ -333,7 +335,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onError(final int code, final String message) {
-                Util.toastMsg("登录失败，请稍候再试");
+                handler.sendEmptyMessage(0);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }

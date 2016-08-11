@@ -72,6 +72,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
+                System.out.println("QQQQQQQQQQQQQQ");
                 if (builder != null) {
                     return;
                 }
@@ -150,6 +151,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
+                                System.out.println("CONNECTION_CONFLICT-------");
                                 handler.sendEmptyMessage(0);
                             }
 
