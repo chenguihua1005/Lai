@@ -7,7 +7,6 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
@@ -52,7 +50,7 @@ import zilla.libcore.ui.InjectLayout;
  * 荣誉榜
  */
 @InjectLayout(R.layout.activity_sp_honor)
-public class SPHonorActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
+public class SPHonorActivity extends BaseActivity implements View.OnClickListener{
 
 
 
@@ -324,11 +322,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 break;
 
         }
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }

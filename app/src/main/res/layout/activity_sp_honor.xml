@@ -145,7 +145,7 @@
                     android:id="@+id/text_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="0.0"
                     android:textColor="@color/green"
                     android:textSize="@dimen/textSize3" />
 
@@ -239,7 +239,7 @@
                     android:id="@+id/text_rtest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="0.0"
                     android:textColor="@color/green"
                     android:textSize="@dimen/textSize3" />
 
