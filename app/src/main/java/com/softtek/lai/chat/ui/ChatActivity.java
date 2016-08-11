@@ -65,6 +65,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("6666666666666");
             if (builder != null) {
                 return;
             }

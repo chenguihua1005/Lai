@@ -96,6 +96,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
+                System.out.println("0000000000000");
                 if (builder != null) {
                     return;
                 }
@@ -121,11 +122,13 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 }
             } else if(msg.what==1) {
                 loginPresenter.getEMChatAccount(progressDialog);
-            }else {
+            }else if(msg.what==2) {
                 img_mo_message.setVisibility(View.GONE);
                 conversationListFragment = new ConversationListFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                         .commit();
+            }else {
+                Util.toastMsg("会话功能开通中，请稍后再试");
             }
         }
 
@@ -276,7 +279,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onError(int code, String message) {
                 // TODO Auto-generated method stub
-                Util.toastMsg("会话功能开通中，请稍后再试");
+                handler.sendEmptyMessage(4);
             }
         });
     }
@@ -410,6 +413,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
                 EMChatManager.getInstance().loadAllConversations();
+                System.out.println("22222222");
                 handler.sendEmptyMessage(2);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
@@ -422,7 +426,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
             @Override
             public void onError(final int code, final String message) {
-                Util.toastMsg("登录失败，请稍候再试");
+                System.out.println("55555555");
+                handler.sendEmptyMessage(4);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }

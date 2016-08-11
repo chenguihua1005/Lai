@@ -87,6 +87,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
+            System.out.println("!!!!!!");
             if (builder != null) {
                 return;
             }
