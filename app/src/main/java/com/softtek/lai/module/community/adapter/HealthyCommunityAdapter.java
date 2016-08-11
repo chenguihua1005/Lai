@@ -145,7 +145,13 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 //        if (type == 1) {
 //        } else {
         if (type==1) {
-            holder.tv_delete.setVisibility(View.VISIBLE);
+            if ("1".equals(model.getMinetype()))
+            {
+                holder.tv_delete.setVisibility(View.INVISIBLE);
+            }
+            else {
+                holder.tv_delete.setVisibility(View.VISIBLE);
+            }
             holder.cb_zan.setVisibility(View.INVISIBLE);
             if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                 holder.ll_dianzan.setVisibility(View.INVISIBLE);
