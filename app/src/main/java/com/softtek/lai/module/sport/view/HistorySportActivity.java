@@ -26,7 +26,6 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -339,12 +338,10 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 if(models!=null&&!models.isEmpty()){
                     //SportModel startModel=models.get(0);
                     SportModel lastModel=models.get(models.size()-1);
-                    System.out.println("坐标>>"+lastModel);
                     //计算两个坐标之间的平均速度获取1公里的耗时补足
                     double avgSpeed=(lastModel.getCurrentKM())/lastModel.getKilometreTime();
                     int time= (int) (1000/avgSpeed);
-                    Log.i("公里耗时=="+time);
-                    polylineOptions.color(ColorUtil.getSpeedColor(time,lastModel.isHasProblem()));
+                    polylineOptions.color(ColorUtil.getSpeedColor(time, Integer.parseInt(lastModel.getHasProblem())==1));
                     for (SportModel model : models) {
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                     }
@@ -377,16 +374,17 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             // 如果它到了最后一条了，那么在看看他是不是总路径的最后一条？
             //如果他不是总路径的最后一条成立则去正常颜色否则就是剩余路径
             if(j!=paces.size()-1||Integer.parseInt(pace.getIndex())!=Integer.parseInt(models.get(models.size()-1).getIndex())){
-                color=ColorUtil.getSpeedColor(pace.getKilometreTime(), pace.isHasProblem());
+                color=ColorUtil.getSpeedColor(pace.getKilometreTime(), Integer.parseInt(pace.getHasProblem())==1);
             }else {
+                break;
                 //如果是最后一条且又是总路径的最后一条，那么肯定剩余的路径数
-                index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
-                SportModel startModel = models.get(index);
+                /*index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
+                SportModel startModel = models.get(index+1);
                 SportModel lastModel = models.get(models.size() - 1);
                 //计算两个坐标之间的平均速度获取1公里的耗时补足
                 double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
                 int time = (int) (1000 / avgSpeed);
-                color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());
+                color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());*/
             }
             for (int i = index; i < models.size(); i++) {
                 SportModel model = models.get(i);
@@ -397,7 +395,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                             .zIndex(150).useGradient(true).colorValues(colorList)
                             .addAll(latLngs));
                     //把索引指向下一个公里点开始的前10个坐标
-                    int temp=i-10;
+                    int temp=Integer.parseInt(pace.getIndex())-10;
                     index=temp<0?0:temp;
                     lastColor=color;
                     break;
@@ -408,7 +406,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                  * 1.上一公里的颜色是否存在
                  * 2.本次坐标不是公里节点
                  */
-                if(lastColor!=0&&!model.iskilometre()){
+                if(lastColor!=0&&Integer.parseInt(paces.get(j-1).getIndex()) != Integer.parseInt(model.getIndex())){
                     //如果是前一公里的坐标则使用上一公里的颜色
                     colorList.add(lastColor);
                 }else {
@@ -417,7 +415,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     colorList.add(color);
                 }
                 latLngs.add(new LatLng(model.getLatitude(), model.getLongitude()));
-                System.out.println("坐标>>"+model);
             }
         }
         /**
@@ -425,20 +422,20 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
          * 如果真有最后一点剩余数据那么
          * 那么公里节点的最后一个的index属性肯定比全部的数据要少
          */
-       /* KilometrePace lastPace=paces.get(paces.size()-1);
-        index=Integer.parseInt(lastPace.getIndex());
-        if(index<models.size()-1) {
-            SportModel startModel = models.get(index+1);
+        KilometrePace lastPace=paces.get(paces.size()-1);
+        if(Integer.parseInt(lastPace.getIskilometre())==0) {
+            index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
+            SportModel startModel = models.get(index);
             SportModel lastModel = models.get(models.size() - 1);
             //计算两个坐标之间的平均速度获取1公里的耗时补足
             double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
             int time = (int) (1000 / avgSpeed);
-            int color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());
+            int color = ColorUtil.getSpeedColor(time, Integer.parseInt(lastModel.getHasProblem())==1);
             List<Integer> colorList = new ArrayList<>();
             List<LatLng> latLngs = new ArrayList<>();
-            for (int i = index-10; i < models.size(); i++) {
+            for (int i = index-4; i < models.size(); i++) {
                 SportModel model = models.get(i);
-                if (lastColor != 0 && !model.iskilometre()) {
+                if (lastColor != 0 && Integer.parseInt(model.getIskilometre())!=1) {
                     //如果是前一公里的坐标则使用上一公里的颜色
                     colorList.add(lastColor);
                 } else {
@@ -451,7 +448,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             polylineOptionses.add(new PolylineOptions().width(22)
                     .zIndex(150).useGradient(true).colorValues(colorList)
                     .addAll(latLngs));
-        }*/
+        }
         return polylineOptionses;
     }
 

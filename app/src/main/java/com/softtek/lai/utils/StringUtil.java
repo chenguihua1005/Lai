@@ -163,4 +163,11 @@ public class StringUtil {
         DecimalFormat format=new DecimalFormat("#0.0");
         return format.format(Float.parseFloat(value));
     }
+    public static String convertValue6(String value){
+        if(StringUtils.isEmpty(value)||Float.parseFloat(value)==0){
+            return "0.0";
+        }
+        DecimalFormat format=new DecimalFormat("#0.0");
+        return format.format(Float.parseFloat(value));
+    }
 }
