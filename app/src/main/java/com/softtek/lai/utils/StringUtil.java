@@ -145,6 +145,9 @@ public class StringUtil {
     public static String convertValue2(String value){
         return StringUtils.isEmpty(value)?"--":Float.parseFloat(value)==0?"--":value;
     }
+    public static String convertValue7(String value,String unit){
+        return StringUtils.isEmpty(value)?"--":Float.parseFloat(value)==0?"--":value+unit;
+    }
     public static String convertValue3(String value){
         return StringUtils.isEmpty(value)?"--:--":value;
     }

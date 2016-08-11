@@ -26,13 +26,13 @@ public class ColorUtil {
         int color;
         /*if(!flag){*/
             //Log.i("时耗>>"+time);
-            if(time<ABNORMAL){
+            if(time<=ABNORMAL){
                 color=colorList[3];
                 //Log.i("灰");
-            }else if(time<HIGH_SPEED){
+            }else if(time<=HIGH_SPEED){
                 color=colorList[2];
                 //Log.i("红");
-            }else if(time<MEDIUM_SPEED){
+            }else if(time<=MEDIUM_SPEED){
                 color=colorList[1];
                 //Log.i("黄");
             }else {

@@ -125,8 +125,9 @@ public class SportManager {
                         com.github.snowdream.android.util.Log.i(responseData.toString());
                         if (responseData.getStatus() != 200) {
                             Util.toastMsg(responseData.getMsg());
+                        }else if(responseData.getStatus() == 200){
+                            SportUtil.getInstance().deleteSport();
                         }
-                        SportUtil.getInstance().deleteSport();
                         if (activity != null) {
                             activity.doSubmitResult(responseData.getStatus());
                         }
