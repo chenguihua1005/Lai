@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -34,6 +35,7 @@ import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.model.ShareSRHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -146,7 +148,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
         }
         String path = AddressManager.get("shareHost");
         url = path + "ShareSRHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:"+url);
         value = "我已累计服务" + shareSRHonorModel.getNum() + "学员，共帮助他们减重" + shareSRHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(SRHonorActivity.this, itemsOnClick);
@@ -196,7 +197,6 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
-        System.out.println("honorInfo:" + honorInfo);
         honorTable1 = honorInfo.getTable1();
         List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);
@@ -204,13 +204,14 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
         for (int i = 0; i < honorTable.size(); i++) {
             HonorTableModel honor = honorTable.get(i);
-            String rowname = honor.getRowname().toString();
-            String num = honor.getNum().toString();
-            String rank_num = honor.getRank_num().toString();
+            String rowname = honor.getRowname();
+            String num = honor.getNum();
+            String rank_num = honor.getRank_num();
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    Log.i("助教>>>"+StringUtil.convertValue6(num));
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
                     text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
@@ -243,7 +244,8 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    Log.i("助教1>>>"+StringUtil.convertValue6(num));
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
                     text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
@@ -262,7 +264,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
                     text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
@@ -274,7 +276,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
                     text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));

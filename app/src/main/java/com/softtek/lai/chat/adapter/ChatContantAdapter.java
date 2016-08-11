@@ -75,7 +75,6 @@ public class ChatContantAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ChatContactInfoModel contactListInfo = list.get(position);
         String photo = contactListInfo.getPhoto();
-        System.out.println("photo:"+photo);
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
             Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.img_default).into(holder.img);

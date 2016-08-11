@@ -14,9 +14,9 @@ public class KilometrePace {
     //一公里的耗时
     private long kilometreTime;
     //改公里是否有问题
-    private boolean hasProblem;
+    private String hasProblem;
     private String index;
-    private boolean iskilometre;
+    private String iskilometre;
 
     private int step;
     private String speed;
@@ -65,14 +65,6 @@ public class KilometrePace {
         this.currentKM = currentKM;
     }
 
-    public boolean iskilometre() {
-        return iskilometre;
-    }
-
-    public void setIskilometre(boolean iskilometre) {
-        this.iskilometre = iskilometre;
-    }
-
     public String getIndex() {
         return index;
     }
@@ -113,12 +105,20 @@ public class KilometrePace {
         this.kilometreTime = kilometreTime;
     }
 
-    public boolean isHasProblem() {
+    public String getHasProblem() {
         return hasProblem;
     }
 
-    public void setHasProblem(boolean hasProblem) {
+    public void setHasProblem(String hasProblem) {
         this.hasProblem = hasProblem;
+    }
+
+    public String getIskilometre() {
+        return iskilometre;
+    }
+
+    public void setIskilometre(String iskilometre) {
+        this.iskilometre = iskilometre;
     }
 
     @Override

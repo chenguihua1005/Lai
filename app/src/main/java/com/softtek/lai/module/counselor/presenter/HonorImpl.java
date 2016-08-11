@@ -40,7 +40,6 @@ public class HonorImpl implements IHonorPresenter {
     @Override
     public void getShareSRHonor() {
         String token = UserInfoModel.getInstance().getToken();
-        System.out.println("getShareSRHonor-------");
         counselorService.getShareSRHonor(token, new Callback<ResponseData<ShareSRHonorModel>>() {
 
             @Override

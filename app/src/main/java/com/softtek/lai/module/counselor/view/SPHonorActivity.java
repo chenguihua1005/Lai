@@ -7,8 +7,8 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
@@ -51,7 +50,7 @@ import zilla.libcore.ui.InjectLayout;
  * 荣誉榜
  */
 @InjectLayout(R.layout.activity_sp_honor)
-public class SPHonorActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
+public class SPHonorActivity extends BaseActivity implements View.OnClickListener{
 
 
 
@@ -182,7 +181,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         if (UserInfoModel.getInstance().getUser()==null){
             return;
         }
-        System.out.println("userHonorModel:" + userHonorModel);
         String path = AddressManager.get("shareHost");
         url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
@@ -196,7 +194,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
-        System.out.println("honorInfo:" + honorInfo);
         honorTable1 = honorInfo.getTable1();
         List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);
@@ -210,10 +207,10 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(StringUtil.getFloatValue(num));
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_3);
@@ -228,7 +225,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_10);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_3);
@@ -243,10 +240,11 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(StringUtil.getFloatValue(num));
+
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_3);
@@ -262,22 +260,22 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(StringUtil.getFloatValue(num));
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("servernum_rank".equals(rowname)) {
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_100);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(StringUtil.getFloatValue(num));
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 }
             }
         }
@@ -322,11 +320,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 break;
 
         }
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }

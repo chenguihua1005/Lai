@@ -244,13 +244,11 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(PhotosModel photModel) {
-        System.out.println(photModel);
         if (UserInfoModel.getInstance().getUser() == null) {
             return;
         }
         String path = AddressManager.get("shareHost");
         url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
-        System.out.println("url:" + url);
         value = "我在" + dangQiShare.getTotalDays() + "天里已累计服务" + dangQiShare.getTotalNum() + "学员，共帮助他们减重" + dangQiShare.getLoseWeight() + "斤，快来参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(JingduActivity.this, itemsOnClick);
@@ -547,7 +545,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("resultCode:" + resultCode);
 //        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
 //        if (ssoHandler != null) {
 //            ssoHandler.authorizeCallBack(requestCode, resultCode, data);

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -48,6 +49,7 @@ import com.easemob.easeui.widget.EaseVoiceRecorderView;
 import com.easemob.util.PathUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
@@ -129,11 +131,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            stopService(new Intent(GroupSentActivity.this, StepService.class));
-                            Intent intent = new Intent(GroupSentActivity.this, LoginActivity.class);
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                            Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                            LaiApplication.getInstance().startActivity(intent);
                         }
                     }).setCancelable(false);
             Dialog dialog=builder.create();
@@ -170,7 +172,6 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                System.out.println("GroupSentActivity onDisconnected-------");
                 if (error == EMError.CONNECTION_CONFLICT) {
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
@@ -179,7 +180,6 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("GroupSentActivity onSuccess-------");
                                 handler.sendEmptyMessage(0);
 
                             }

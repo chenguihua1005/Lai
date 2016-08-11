@@ -28,7 +28,6 @@ public class StudentHonorJZAdapter extends BaseAdapter {
     private Context context;
 
     public StudentHonorJZAdapter(Context context, List<StudentHonorInfo> list) {
-        System.out.println("list:" + list);
         this.context = context;
         this.list = list;
         mInflater = LayoutInflater.from(context);

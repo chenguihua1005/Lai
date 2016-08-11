@@ -148,7 +148,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("position:" + position);
                 isShow = false;
                 lin_class.setVisibility(View.GONE);
                 img_more.setImageResource(R.drawable.more_down);
@@ -186,7 +185,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe
     public void onEvent(ReviewAssistantApplyEvent reviewAssistantApplyEvent) {
-        System.out.println("reviewAssistantApplyEvent:" + reviewAssistantApplyEvent);
         int p = reviewAssistantApplyEvent.getPosion();
         list_aa.remove(p);
         assistantApplyAdapter.notifyDataSetChanged();
@@ -194,7 +192,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe
     public void onEvent(AssistantInfoEvent assistantInfoEvent) {
-        System.out.println("assistantInfoEvent:" + assistantInfoEvent);
         list_ai = assistantInfoEvent.getList();
         list_assistant.setVisibility(View.VISIBLE);
         AssistantClassListAdapter adapter = new AssistantClassListAdapter(this, list_ai);
@@ -203,7 +200,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe
     public void onEvent(AssistantClassEvent assistantClassEvent) {
-        System.out.println("assistantClassEvent:" + assistantClassEvent);
         list_apply.setVisibility(View.GONE);
         lin_assistant.setVisibility(View.VISIBLE);
         text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
@@ -217,7 +213,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe
     public void onEvent(AssistantApplyEvent assistantApplyEvent) {
-        System.out.println("assistantApplyEvent:" + assistantApplyEvent);
         list_aa = assistantApplyEvent.getLists();
         assistantApplyAdapter = new AssistantApplyAdapter(this, list_aa);
         list_apply.setAdapter(assistantApplyAdapter);
@@ -313,7 +308,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
-            System.out.println("classId");
             dialogShow("加载中");
             //assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
             list_assistant.setVisibility(View.GONE);

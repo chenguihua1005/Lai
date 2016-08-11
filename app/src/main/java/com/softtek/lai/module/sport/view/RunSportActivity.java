@@ -522,20 +522,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                                     data.setSpeed(avgSpeed);
                                     data.setTimeLength(tv_clock.getText().toString() + ";" + time);
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-
-
                                     List<KilometrePace> paces=SportUtil.getInstance()
                                             .queryKilmoetre(UserInfoModel.getInstance().getUserId()+"");
                                     SportModel model=modes.get(modes.size()-1);
-                                    if(!model.iskilometre()){
+                                    if(Integer.parseInt(model.getIskilometre())!=1){
                                         KilometrePace pace=new KilometrePace();
                                         pace.setIndex(model.getIndex());
                                         pace.setKilometreTime(model.getKilometreTime());
-                                        pace.setHasProblem(model.isHasProblem());
+                                        pace.setHasProblem(model.getHasProblem());
                                         pace.setId(model.getId());
                                         pace.setLatitude(model.getLatitude());
                                         pace.setLongitude(model.getLongitude());
-                                        pace.setIskilometre(model.iskilometre());
+                                        pace.setIskilometre(model.getIskilometre());
                                         pace.setCurrentKM(model.getCurrentKM());
                                         pace.setStep(model.getStep());
                                         pace.setUser(model.getUser());
@@ -742,18 +740,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         int kilometre= (int) (previousDistance/1000);
                         if(kilometre-index==1){
                             index=kilometre;
-                            model.setIskilometre(true);
+                            model.setIskilometre("1");
                             //辨别问题坐标每公里耗费时间2分10秒约130秒
-                            model.setHasProblem(tempTime<=130);
+                            model.setHasProblem(tempTime<=130?"1":"0");
                             kilometerTime=time;
                         }else if(kilometre-index>1){
                             //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
                             //所以标注为问题坐标
                             index=kilometre;
-                            model.setHasProblem(true);
-                            model.setIskilometre(false);
+                            model.setHasProblem("1");
+                            model.setIskilometre("0");
                         }else {
-                            model.setIskilometre(false);
+                            model.setIskilometre("0");
                         }
                         SportUtil.getInstance().addSport(model);
                         lastLatLon = latLng;//暂存上一次坐标
@@ -773,7 +771,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     model.setStep((int) step);
                     model.setIndex(count+"");
                     model.setUser(UserInfoModel.getInstance().getUserId()+"");
-                    model.setIskilometre(false);
+                    model.setIskilometre("0");
                     SportUtil.getInstance().addSport(model);
                     lastLatLon = latLng;//暂存上一次坐标
                     count++;

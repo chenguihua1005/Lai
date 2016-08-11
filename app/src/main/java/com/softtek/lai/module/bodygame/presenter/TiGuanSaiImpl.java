@@ -52,7 +52,6 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 int status = tiGuanSaiResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        System.out.println(tiGuanSaiResponseData);
                         EventBus.getDefault().post(tiGuanSaiResponseData.getData());
                         break;
                     default:
@@ -79,7 +78,6 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 int status = fuceNumResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        System.out.println(fuceNumResponseData);
                         EventBus.getDefault().post(fuceNumResponseData.getData());
                         break;
                     default:
@@ -109,7 +107,6 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 switch (status)
                 {
                     case 200:
-                        System.out.println(listResponseData.getMsg());
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -135,7 +132,6 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 switch (status)
                 {
                     case 200:
-                        System.out.println(listResponseData.getMsg());
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

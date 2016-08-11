@@ -117,7 +117,6 @@ public class ActZKPAdapter extends BaseAdapter {
             holder.text_value.setText(actZKP1Model.getActDTotal() + "步");
         }
         int f = (int) ((step / target_distance) * 100);
-        System.out.println("f:"+f+"   target_distance:"+target_distance+"    step:"+step);
         holder.rcpb_prog.setProgress(f);
 
         return convertView;

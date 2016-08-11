@@ -106,10 +106,8 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
             return;
         }
         lossModel = model;
-        System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
         url = path + "ShareTranscript?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(StudentScoreActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

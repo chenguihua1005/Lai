@@ -55,7 +55,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
         } else {
             List<HomeInfoModel> infos = new ArrayList<>();
             EventBus.getDefault().post(infos);
-            System.out.println("没有缓存数据");
         }
 
     }

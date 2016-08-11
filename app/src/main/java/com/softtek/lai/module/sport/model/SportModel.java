@@ -15,9 +15,9 @@ public class SportModel implements Parcelable{
     private double latitude;
 
     private String speed;
-    private boolean iskilometre;
+    private String iskilometre;
     private long consumingTime;
-    private boolean hasProblem;
+    private String hasProblem;
     private double currentKM;
     private long kilometreTime;
     private int step;
@@ -31,9 +31,9 @@ public class SportModel implements Parcelable{
         longitude = in.readDouble();
         latitude = in.readDouble();
         speed = in.readString();
-        iskilometre = in.readByte() != 0;
+        iskilometre = in.readString();
         consumingTime = in.readLong();
-        hasProblem=in.readByte()!=0;
+        hasProblem=in.readString();
         step=in.readInt();
         currentKM=in.readDouble();
         kilometreTime=in.readLong();
@@ -86,14 +86,6 @@ public class SportModel implements Parcelable{
         this.speed = speed;
     }
 
-    public boolean iskilometre() {
-        return iskilometre;
-    }
-
-    public void setIskilometre(boolean iskilometre) {
-        this.iskilometre = iskilometre;
-    }
-
     public long getConsumingTime() {
         return consumingTime;
     }
@@ -102,11 +94,19 @@ public class SportModel implements Parcelable{
         this.consumingTime = consumingTime;
     }
 
-    public boolean isHasProblem() {
+    public String getIskilometre() {
+        return iskilometre;
+    }
+
+    public void setIskilometre(String iskilometre) {
+        this.iskilometre = iskilometre;
+    }
+
+    public String getHasProblem() {
         return hasProblem;
     }
 
-    public void setHasProblem(boolean hasProblem) {
+    public void setHasProblem(String hasProblem) {
         this.hasProblem = hasProblem;
     }
 
@@ -161,9 +161,9 @@ public class SportModel implements Parcelable{
         dest.writeDouble(longitude);
         dest.writeDouble(latitude);
         dest.writeString(speed);
-        dest.writeByte((byte) (iskilometre ? 1 : 0));
+        dest.writeString(iskilometre);
         dest.writeLong(consumingTime);
-        dest.writeByte((byte)(hasProblem?1:0));
+        dest.writeString(hasProblem);
         dest.writeInt(step);
         dest.writeDouble(currentKM);
         dest.writeLong(kilometreTime);

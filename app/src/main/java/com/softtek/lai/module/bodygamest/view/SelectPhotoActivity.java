@@ -83,7 +83,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
 
     @Subscribe
     public void onEvent(DownPhotoModel downPhotoModel) {
-        System.out.println(downPhotoModel);
         list_info = downPhotoModel.getLogList();
         if (list_info != null) {
             for (int i = 0; i < list_info.size(); i++) {
@@ -148,7 +147,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 }
-                System.out.println("str:" + str);
                 if ("".equals(str)) {
                     Util.toastMsg("您还未选择照片");
                 } else {

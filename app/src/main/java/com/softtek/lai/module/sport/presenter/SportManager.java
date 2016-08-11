@@ -46,7 +46,6 @@ public class SportManager {
         service.getMovementList(UserInfoModel.getInstance().getToken(),pageIndex, new RequestCallback<ResponseData<List<HistorySportModel>>>() {
             @Override
             public void success(ResponseData<List<HistorySportModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -84,7 +83,6 @@ public class SportManager {
         service.getHistoryTotalMovement(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<TotalSportModel>>() {
             @Override
             public void success(ResponseData<TotalSportModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:

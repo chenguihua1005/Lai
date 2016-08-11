@@ -24,25 +24,25 @@ public class ColorUtil {
 
     public static int getSpeedColor(long time,boolean flag){
         int color;
-        if(!flag){
-            Log.i("时耗>>"+time);
+        /*if(!flag){*/
+            //Log.i("时耗>>"+time);
             if(time<ABNORMAL){
                 color=colorList[3];
-                Log.i("灰");
+                //Log.i("灰");
             }else if(time<HIGH_SPEED){
                 color=colorList[2];
-                Log.i("红");
+                //Log.i("红");
             }else if(time<MEDIUM_SPEED){
                 color=colorList[1];
-                Log.i("黄");
+                //Log.i("黄");
             }else {
                 color=colorList[0];
-                Log.i("绿");
+                //Log.i("绿");
             }
-        }else{
+        /*}else{
             color=colorList[3];
             Log.i("异常");
-        }
+        }*/
         return color;
     }
 }

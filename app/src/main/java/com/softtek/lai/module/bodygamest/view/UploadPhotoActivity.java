@@ -143,10 +143,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Subscribe
     public void onEvent(LossModel model) {
         lossModel = model;
-        System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
         url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -299,7 +297,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             } else {
                 str_url = result;
             }
-            System.out.println("path:" + path + str_url);
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.lin_weixin:

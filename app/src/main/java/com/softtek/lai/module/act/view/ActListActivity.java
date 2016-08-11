@@ -138,21 +138,18 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        System.out.println("onPullDownToRefresh");
         pageIndex = 1;
         actManager.activityList(pageIndex + "", userId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        System.out.println("onPullUpToRefresh");
         pageIndex++;
         if (pageIndex <= totalPage) {
             actManager.activityList(pageIndex + "", userId);
         } else {
             pageIndex--;
             if (act_list != null) {
-                System.out.println("pageIndex:" + pageIndex);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

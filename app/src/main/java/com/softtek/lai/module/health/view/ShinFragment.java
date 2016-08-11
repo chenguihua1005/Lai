@@ -218,7 +218,6 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
         return strForwardDate;
         //return c.getTimeInMillis();
     }
@@ -294,7 +293,6 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
             if(healthdoLegGirthModel==null){
                 return;
             }
-            System.out.println("健康记录体重" + healthdoLegGirthModel.getFirstrecordtime());
             int n=healthdoLegGirthModel.getDoLegGirthlist().size();
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(healthdoLegGirthModel.getDoLegGirthlist().get(i).getDoLegGirth()));

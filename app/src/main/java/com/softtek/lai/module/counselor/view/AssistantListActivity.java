@@ -89,7 +89,6 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
         assistantPresenter = new AssistantImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         classId = SharedPreferenceService.getInstance().get("classId", "");
-        System.out.println("classId:" + classId);
         dialogShow("加载中");
         assistantPresenter.getAssistantList(classId, list_assistant);
     }

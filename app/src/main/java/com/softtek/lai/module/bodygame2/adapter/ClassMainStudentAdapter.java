@@ -116,10 +116,8 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             if (!"--".equals(model.getLoss())) {
                 DecimalFormat fnum = new DecimalFormat("##0.00");
                 String dd = fnum.format(Float.parseFloat(model.getLoss()));
-                System.out.println("dd:" + dd);
                 String str = Float.parseFloat(dd)  + "";
                 String ddd = fnum.format(Float.parseFloat(str));
-                System.out.println("ddd:" + ddd);
                 String value = StringUtil.getFloatValue(ddd);
                 holder.text_value.setText(value + "%");
             } else {

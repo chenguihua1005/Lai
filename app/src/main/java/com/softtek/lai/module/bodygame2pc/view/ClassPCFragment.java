@@ -303,7 +303,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     protected void lazyLoad() {
         Log.i("ClassSRFragment 加载数据");
         dialogShow("加载中");
-        System.out.println("doClassMainIndex------------");
         classMainManager.doClassMainIndex(model.getUser().getUserid());//固定值fanny帐号，作测试用
     }
 
@@ -311,7 +310,6 @@ public class ClassPCFragment extends LazyBaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_person:
-                System.out.println("select_class_id:"+select_class_id);
                 if (!"-1".equals(select_class_id)) {
                     Intent intent = new Intent(getActivity(), StuPersonDateActivity.class);
                     intent.putExtra("classId", select_class_id);

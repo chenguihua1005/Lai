@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.adapter.ChatContantAdapter;
@@ -90,7 +92,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            getActivity().stopService(new Intent(getActivity(), StepService.class));
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                             Intent intent = new Intent(getActivity(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -126,7 +128,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         service.getEMchatContacts(token, new Callback<ResponseData<List<ChatContactInfoModel>>>() {
             @Override
             public void success(ResponseData<List<ChatContactInfoModel>> userResponseData, Response response) {
-                System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
                 dialogDissmiss();
                 switch (status) {
@@ -191,7 +192,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("ContactFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
 
@@ -224,7 +224,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 boolean isLogin = EMChat.getInstance().isLoggedIn();
-                System.out.println("isLogin:" + isLogin);
                 if (isLogin) {
                     ChatContactInfoModel model = list.get(position);
                     Intent intent = new Intent(getActivity(), ChatActivity.class);

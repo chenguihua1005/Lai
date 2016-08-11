@@ -40,11 +40,11 @@ public class SportUtil {
         values.put("longitude",model.getLongitude());
         values.put("latitude",model.getLatitude());
         values.put("speed",model.getSpeed());
-        values.put("kilometre",model.iskilometre()?1:0);
+        values.put("kilometre",model.getIskilometre());
         values.put("time_consuming",model.getConsumingTime());
         values.put("step",model.getStep());
         values.put("currentkm",model.getCurrentKM());
-        values.put("hasProblem",model.isHasProblem()?1:0);
+        values.put("hasProblem",model.getHasProblem());
         values.put("index_count",model.getIndex());
         values.put("kilometre_time",model.getKilometreTime());
         values.put("user_id",model.getUser());
@@ -90,8 +90,8 @@ public class SportUtil {
                 model.setLongitude(Double.parseDouble(longitude));
                 model.setSpeed(speed);
                 model.setKilometreTime(kilometreTime);
-                model.setIskilometre(kilometre==1);
-                model.setHasProblem(hasProblem==1);
+                model.setIskilometre(kilometre+"");
+                model.setHasProblem(hasProblem+"");
                 model.setConsumingTime(consuming);
                 model.setCurrentKM(Double.parseDouble(currentKM));
                 model.setStep(step);
@@ -131,10 +131,10 @@ public class SportUtil {
                 model.setStep(step);
                 model.setConsumingTime(consuming);
                 model.setCurrentKM(Double.parseDouble(currentKM));
-                model.setIskilometre(kilometre==1);
+                model.setIskilometre(kilometre+"");
                 model.setLatitude(Double.parseDouble(latitude));
                 model.setLongitude(Double.parseDouble(longitude));
-                model.setHasProblem(hasProblem==1);
+                model.setHasProblem(hasProblem+"");
                 model.setKilometreTime(kilometreTime);
                 model.setIndex(index);
                 kilometrePaces.add(model);
