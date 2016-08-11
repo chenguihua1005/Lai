@@ -9,6 +9,7 @@ package com.softtek.lai.module.counselor.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -210,10 +211,10 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(StringUtil.getFloatValue(num));
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_3);
@@ -228,7 +229,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_10);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_3);
@@ -243,10 +244,11 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(StringUtil.getFloatValue(num));
+
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
                     if (rank_num.equals("3")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_3);
@@ -262,22 +264,22 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(StringUtil.getFloatValue(num));
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("servernum_rank".equals(rowname)) {
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_100);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_fwrs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(StringUtil.getFloatValue(num));
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word10));
+                    text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
                 }
             }
         }

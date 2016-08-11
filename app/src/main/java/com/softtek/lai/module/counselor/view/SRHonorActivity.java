@@ -34,6 +34,7 @@ import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.model.ShareSRHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -210,7 +211,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
                     text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
@@ -243,7 +244,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
                     text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word11));
@@ -262,7 +263,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
                     text_fc_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));
@@ -274,7 +275,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
                     text_jzjs_mc.setTextColor(ContextCompat.getColor(this,R.color.word10));

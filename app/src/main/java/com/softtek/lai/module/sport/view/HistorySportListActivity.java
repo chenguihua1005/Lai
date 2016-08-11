@@ -58,8 +58,9 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
         sport_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent=new Intent(HistorySportListActivity.this,HistorySportActivity.class);
-                intent.putExtra("history",list.get(position));
+                intent.putExtra("history",list.get(position-1));
                 startActivity(intent);
             }
         });
