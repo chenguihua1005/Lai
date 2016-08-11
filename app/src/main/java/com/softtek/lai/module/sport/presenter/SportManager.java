@@ -42,8 +42,8 @@ public class SportManager {
         this.getHistoryTotalMovementCallBack = getHistoryTotalMovementCallBack;
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
-    public void getMovementList() {
-        service.getMovementList(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<HistorySportModel>>>() {
+    public void getMovementList(String pageIndex) {
+        service.getMovementList(UserInfoModel.getInstance().getToken(),pageIndex, new RequestCallback<ResponseData<List<HistorySportModel>>>() {
             @Override
             public void success(ResponseData<List<HistorySportModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -51,19 +51,19 @@ public class SportManager {
                 switch (status) {
                     case 200:
                         if (getMovementListCallBack != null) {
-                            getMovementListCallBack.getMovementList("true", listResponseData.getData());
+                            getMovementListCallBack.getMovementList("true",listResponseData);
                         }
 
                         break;
                     case 100:
                         if (getMovementListCallBack != null) {
-                            getMovementListCallBack.getMovementList("false", new ArrayList<HistorySportModel>());
+                            getMovementListCallBack.getMovementList("false", null);
                         }
 
                         break;
                     default:
                         if (getMovementListCallBack != null) {
-                            getMovementListCallBack.getMovementList("false", new ArrayList<HistorySportModel>());
+                            getMovementListCallBack.getMovementList("false", null);
                             Util.toastMsg(listResponseData.getMsg());
                         }
                         break;
@@ -73,7 +73,7 @@ public class SportManager {
             @Override
             public void failure(RetrofitError error) {
                 if (getMovementListCallBack != null) {
-                    getMovementListCallBack.getMovementList("false", new ArrayList<HistorySportModel>());
+                    getMovementListCallBack.getMovementList("false",null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -147,7 +147,7 @@ public class SportManager {
 
     public interface GetMovementListCallBack {
 
-        void getMovementList(String type, List<HistorySportModel> list);
+        void getMovementList(String type,ResponseData<List<HistorySportModel>> listResponseData);
     }
 
     public interface GetHistoryTotalMovementCallBack {
