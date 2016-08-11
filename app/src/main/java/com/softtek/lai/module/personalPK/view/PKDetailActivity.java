@@ -361,13 +361,13 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             } else if (model.getStatus() == REFUSE) {
                 tv_is_accept.setText("已拒绝");
             }
-            if (model.getTStatus() == PKListAdapter.NOSTART) {
+            if (model.getTStatus() ==NOSTART) {
                 tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
                 tv_status.setText("未开始");
-            } else if (model.getTStatus() == PKListAdapter.PROCESSING) {
+            } else if (model.getTStatus() == PROCESSING) {
                 tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
                 tv_status.setText("进行中");
-            } else if (model.getTStatus() == PKListAdapter.Completed) {
+            } else if (model.getTStatus() == Completed) {
                 tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
                 tv_status.setText("已结束");
             }
@@ -464,7 +464,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     private void changeStatus(int pkStatus, int bStatus) {
         clearStatus();
         switch (pkStatus) {
-            case PKListAdapter.NOSTART://未开始
+            case NOSTART://未开始
                 if (bStatus == REFUSE) {//如果接受者拒绝
                     btn_cancle_pk.setVisibility(View.VISIBLE);
                     btn_restart.setVisibility(View.VISIBLE);
@@ -475,20 +475,24 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     tip_pk.setText("PK还没开始，准备好状态吧！");
                 }
                 break;
-            case PKListAdapter.PROCESSING://进行中
+            case PROCESSING://进行中
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK已开始，要加油哦！");
                 break;
-            case PKListAdapter.Completed://已结束
+            case Completed://已结束
                 break;
         }
     }
+    public static final int NOSTART=0;
+    public static final int PROCESSING=1;
+    public static final int Completed=2;
+
 
     //接受方逻辑
     private void beChangeStatus(int pkStatus, int bStatus) {
         clearStatus();
         switch (pkStatus) {
-            case PKListAdapter.NOSTART://未开始
+            case NOSTART://未开始
                 if (bStatus == REFUSE) {//如果接受者拒绝
                     //显示旁观者提示
                     tip_pk.setVisibility(View.VISIBLE);
@@ -501,11 +505,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     tip_pk.setText("PK还没开始，准备好状态吧！");
                 }
                 break;
-            case PKListAdapter.PROCESSING://进行中
+            case PROCESSING://进行中
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK已开始，要加油哦！");
                 break;
-            case PKListAdapter.Completed://已结束
+            case Completed://已结束
                 break;
         }
     }
@@ -514,11 +518,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     private void other(int pkStatus) {
         clearStatus();
         switch (pkStatus) {
-            case PKListAdapter.NOSTART://未开始
+            case NOSTART://未开始
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK还没开始，预知详情，敬请围观！");
                 break;
-            case PKListAdapter.PROCESSING://进行中
+            case PROCESSING://进行中
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK正在进行，为他们加油吧！");
                 break;

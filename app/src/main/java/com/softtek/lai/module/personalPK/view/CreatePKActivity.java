@@ -133,7 +133,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
             case R.id.fl_right:
                 //下一步
                 if(cb_zidingyi.isChecked()){
-                    if(et_content.getText().toString().length()==0){
+                    if(et_content.getText().toString().trim().length()==0){
                         new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
                         return;
                     }else if(StringUtil.length(et_content.getText().toString())>40){

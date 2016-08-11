@@ -232,7 +232,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         System.out.println("url:" + url);
         value = "我已累计跑步" + scoreModel.getTodayKaluli() + "km，总步数" + scoreModel.getTotalStep() + "步，今日全国排名第" + scoreModel.getContryDayOrder() + "名，跑团排名第" + scoreModel.getDayOrder() + "名。快来和我一起运动吧！";
         System.out.println("value:" + value);
-        title_value = "莱运动, 陪伴我运动第" + scoreModel.getRgTime() + "天";
+        title_value = "莱运动，陪伴我运动第" + scoreModel.getRgTime() + "天";
         menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
