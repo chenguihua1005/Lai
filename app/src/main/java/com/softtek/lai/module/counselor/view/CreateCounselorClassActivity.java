@@ -256,7 +256,6 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
                         }
                         try {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            System.out.println("startTimeStr:" + startTimeStr);
                             start_time = sdf.parse(startTimeStr);
                         } catch (ParseException e) {
                             System.out.println(e.getMessage());
@@ -299,8 +298,6 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
             rightNow.add(Calendar.DAY_OF_YEAR, -1);//日期减1天
             end_time = rightNow.getTime();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println("--------end_time-------:" + sdf.format(end_time));
-            System.out.println("--------start_time-------:" + sdf.format(start_time));
             UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
             dialogShow("加载中");
             counselorClassPresenter.createClass(edit_class_name.getText().toString(), sdf.format(start_time), sdf.format(end_time), userModel.getUserid());

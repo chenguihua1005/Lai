@@ -183,7 +183,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         if (UserInfoModel.getInstance().getUser()==null){
             return;
         }
-        System.out.println("userHonorModel:" + userHonorModel);
         String path = AddressManager.get("shareHost");
         url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
@@ -197,7 +196,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
-        System.out.println("honorInfo:" + honorInfo);
         honorTable1 = honorInfo.getTable1();
         List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);

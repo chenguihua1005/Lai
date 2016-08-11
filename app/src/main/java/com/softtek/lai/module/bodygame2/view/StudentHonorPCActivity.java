@@ -101,7 +101,6 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         dialogShow("加载中");
         studentHonorPresenter = new StudentImpl(this);
-        System.out.println("getIntent():" + getIntent().getLongExtra("accountid", 0) + "");
         studentHonorPresenter.getStudentHonorPC(getIntent().getLongExtra("accountid", 0) + "");
     }
 

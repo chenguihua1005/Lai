@@ -199,7 +199,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
         }
         String path = AddressManager.get("shareHost");
         url = path + "ShareStudent?id=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:" + url);
         value = "我已获得" + hnumsModel.getHnums() + "勋章，快来和我一起参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(StudentHonorGridActivity.this, itemsOnClick);
@@ -249,7 +248,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
 
     @Subscribe
     public void onEvent(HonorModel honorModel) {
-        System.out.println("honorModel:" + honorModel);
         List<StudentHonorInfo> table1 = honorModel.getTable1();
         List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
         String type = table2.get(0).getIsHave();

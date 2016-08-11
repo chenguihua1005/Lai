@@ -76,8 +76,6 @@ public class ConversationListFragment extends EaseConversationListFragment {
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
-
-                    System.out.println("userId:"+userId+"    f:"+f);
                     if(f.equals(userId)){
                         String str=conversation.getExtField();
                         if(!TextUtils.isEmpty(str)){
@@ -88,8 +86,6 @@ public class ConversationListFragment extends EaseConversationListFragment {
                             }
                         }
                     }
-                    // it's single chat
-                    System.out.println("username:"+username);
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     intent.putExtra("name", name);
                     intent.putExtra("photo", photo);

@@ -42,6 +42,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
@@ -97,7 +98,6 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            System.out.println("8888888888888");
             if (builder != null) {
                 return;
             }
@@ -108,7 +108,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            stopService(new Intent(ConversationListActivity.this, StepService.class));
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                             Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

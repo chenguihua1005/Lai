@@ -96,10 +96,8 @@ public class AssistantAdapter extends BaseAdapter {
             holder.img_invite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("img_invite---------------");
                     assistantPresenter = new AssistantImpl(context);
                     String classId = SharedPreferenceService.getInstance().get("classId", "");
-                    System.out.println("classId:" + classId + "    accountId:" + assistant.getAccountId());
                     context.dialogShow("加载中");
                     assistantPresenter.sendInviterSR(classId, assistant.getAccountId(), holder.img_invite);
                 }

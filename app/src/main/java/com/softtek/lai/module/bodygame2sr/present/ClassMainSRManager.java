@@ -35,14 +35,12 @@ public class ClassMainSRManager {
                 int status = memberChangeModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        System.out.println("2222222");
                         Log.i("获取学员列,切换维度" + memberChangeModelResponseData.getData());
                         if (cb != null) {
                             cb.getStudentList(memberChangeModelResponseData.getData());
                         }
                         break;
                     default:
-                        System.out.println("111111111");
                         if (cb != null) {
                             cb.getStudentList(null);
                         }

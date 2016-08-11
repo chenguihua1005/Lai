@@ -271,7 +271,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                         service.getLossData(token, UserInfoModel.getInstance().getUser().getUserid(), new Callback<ResponseData<LossModel>>() {
                             @Override
                             public void success(ResponseData<LossModel> listResponseData, Response response) {
-                                System.out.println("listResponseData:" + listResponseData);
                                 progressDialog.dismiss();
                                 int status = listResponseData.getStatus();
                                 switch (status) {
@@ -279,7 +278,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                                         lossModel = listResponseData.getData();
                                         String path = AddressManager.get("shareHost");
                                         url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-                                        System.out.println("url:" + url);
                                         menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
                                         //显示窗口
                                         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

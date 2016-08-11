@@ -210,7 +210,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
         return strForwardDate;
         //return c.getTimeInMillis();
     }
@@ -270,7 +269,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
             if(healthHiplieModel==null){
                 return;
             }
-            System.out.println("健康记录臀围" + healthHiplieModel.getFirstrecordtime());
             int n=healthHiplieModel.getHiplielist().size();
             for (int i=0;i<=n-1;i++) {
                 dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));

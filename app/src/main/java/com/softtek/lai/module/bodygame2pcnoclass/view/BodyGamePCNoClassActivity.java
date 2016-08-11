@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -82,7 +84,7 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
                             public void onClick(DialogInterface dialog, int which) {
                                 builder = null;
                                 UserInfoModel.getInstance().loginOut();
-                                stopService(new Intent(BodyGamePCNoClassActivity.this, StepService.class));
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                 Intent intent = new Intent(BodyGamePCNoClassActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -175,7 +177,6 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                System.out.println("ChatFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
 

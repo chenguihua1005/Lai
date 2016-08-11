@@ -264,7 +264,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             // TODO Auto-generated method stub
             if (msg.what == 0) {
                 String hasEmchat = model.getHasEmchat();
-                System.out.println("hasEmchat:" + hasEmchat);
                 if ("1".equals(hasEmchat)) {
                     progressDialog.show();
                     loginChat(progressDialog, model.getHXAccountId());
@@ -368,7 +367,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         if ("-1".equals(hxid)) {
                             String hasEmchat = model.getHasEmchat();
-                            System.out.println("hasEmchat:" + hasEmchat);
                             if ("1".equals(hasEmchat)) {
                                 progressDialog.show();
                                 loginChat(progressDialog, model.getHXAccountId());

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
@@ -57,8 +58,8 @@ public class ChatHelper {
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
-                            Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                            Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             LaiApplication.getInstance().startActivity(intent);
@@ -109,7 +110,6 @@ public class ChatHelper {
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            System.out.println("--------");
                             onConnectionConflict();
                         }
 
@@ -202,7 +202,6 @@ public class ChatHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict() {
-        System.out.println("onConnectionConflict-----");
 //        Intent intent = new Intent(appContext, LoginActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
@@ -252,7 +251,6 @@ public class ChatHelper {
                             EMMessage m=messagess.get(i);
                             try {
                                 String name=m.getStringAttribute("nickname");
-                                System.out.println("name:"+name);
                             } catch (EaseMobException e) {
                                 e.printStackTrace();
                             }

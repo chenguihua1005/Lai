@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.adapter.ChatContantAdapter;
 import com.softtek.lai.chat.Constant;
@@ -92,7 +94,6 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            System.out.println("777777777777");
             if (builder != null) {
                 return;
             }
@@ -103,7 +104,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            stopService(new Intent(ContantListActivity.this, StepService.class));
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                             Intent intent = new Intent(ContantListActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -193,7 +194,6 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
         service.getEMchatContacts(token, new Callback<ResponseData<List<ChatContactInfoModel>>>() {
             @Override
             public void success(ResponseData<List<ChatContactInfoModel>> userResponseData, Response response) {
-                System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
                 dialogDissmiss();
                 switch (status) {
