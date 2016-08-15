@@ -40,4 +40,14 @@ public class PhotoListModel {
     public void setWeight(String weight) {
         Weight = weight;
     }
+
+    @Override
+    public String toString() {
+        return "PhotoListModel{" +
+                "LLId='" + LLId + '\'' +
+                ", ImgUrl='" + ImgUrl + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
+                ", Weight='" + Weight + '\'' +
+                '}';
+    }
 }
