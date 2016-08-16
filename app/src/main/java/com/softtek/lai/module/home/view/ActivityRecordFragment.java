@@ -6,6 +6,7 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -88,6 +89,9 @@ public class ActivityRecordFragment extends BaseFragment  {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i("点击了第几个item？position="+position+"===========================");
+                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+                intent.putExtra("info",infos.get(position));
+                startActivity(intent);
             }
         });
 

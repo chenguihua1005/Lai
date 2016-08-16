@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.home.model.HomeInfoModel;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -33,10 +34,11 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<HomeInfoModel> infos;
-
+    private int width;
     public LoadMoreRecyclerViewAdapter(Context mContext, List<HomeInfoModel> infos) {
         this.mContext = mContext;
         this.infos = infos;
+        width= DisplayUtil.getMobileWidth(mContext);
     }
 
     @Override
@@ -65,13 +67,12 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             if(bitmap!=null&&bitmap.isRecycled()){
                 bitmap.recycle();
             }
-            Picasso.with(mContext).load(info.getImg_Addr())
-                    .fit().placeholder(R.drawable.default_icon_rect)
+            Picasso.with(mContext).load(info.getImg_Addr()).resize(width,DisplayUtil.dip2px(mContext,150))
+                    .centerInside().placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
             //将数据保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
-
         }
 
     }
@@ -125,7 +126,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     //定义点击接口
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view , int position);
     }
 
