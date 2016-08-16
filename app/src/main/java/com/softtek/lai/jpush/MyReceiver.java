@@ -10,6 +10,7 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 
 import org.json.JSONException;
@@ -60,7 +61,7 @@ public class MyReceiver extends BroadcastReceiver {
                     context.startActivity(runIntent);
                 }else{
                     //打开自定义的Activity
-                    Intent i = new Intent(context, HomeActviity.class);
+                    Intent i = new Intent(context, Message2Activity.class);
                     i.putExtras(bundle);
                     //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -69,7 +70,7 @@ public class MyReceiver extends BroadcastReceiver {
                 }
             }else{
                 //打开自定义的Activity
-                Intent i = new Intent(context, HomeActviity.class);
+                Intent i = new Intent(context, Message2Activity.class);
                 i.putExtras(bundle);
                 //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
