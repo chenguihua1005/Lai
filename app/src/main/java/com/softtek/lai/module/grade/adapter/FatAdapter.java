@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -129,8 +130,8 @@ public class FatAdapter extends BaseAdapter {
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
         holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_py_before.setText("前 " + studentModel.getLossBefore()+ "%" );
-        holder.tv_py_after.setText("后 " + studentModel.getLossAfter()+ "%" );
+        holder.tv_py_before.setText("前 " + StringUtil.convertValue7(studentModel.getLossBefore(),"%") );
+        holder.tv_py_after.setText("后 " + StringUtil.convertValue7(studentModel.getLossAfter(),"%"));
         holder.tv_physical.setText(studentModel.getPysical());
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)

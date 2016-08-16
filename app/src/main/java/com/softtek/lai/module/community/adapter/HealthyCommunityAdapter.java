@@ -152,7 +152,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             else {
                 holder.tv_delete.setVisibility(View.VISIBLE);
             }
-            holder.cb_zan.setVisibility(View.INVISIBLE);
+            holder.cb_zan.setChecked(true);
+            holder.cb_zan.setEnabled(false);
+//            holder.cb_zan.setVisibility(View.INVISIBLE);
             if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                 holder.ll_dianzan.setVisibility(View.INVISIBLE);
             } else {

@@ -49,4 +49,15 @@ public class StuHonorListModel {
     public void setHonorStatus(String honorStatus) {
         HonorStatus = honorStatus;
     }
+
+    @Override
+    public String toString() {
+        return "StuHonorListModel{" +
+                "CreateDate='" + CreateDate + '\'' +
+                ", HonorName='" + HonorName + '\'' +
+                ", HonorType='" + HonorType + '\'' +
+                ", Value='" + Value + '\'' +
+                ", HonorStatus='" + HonorStatus + '\'' +
+                '}';
+    }
 }

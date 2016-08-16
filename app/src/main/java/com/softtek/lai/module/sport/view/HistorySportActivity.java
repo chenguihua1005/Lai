@@ -341,7 +341,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     //计算两个坐标之间的平均速度获取1公里的耗时补足
                     double avgSpeed=(lastModel.getCurrentKM())/lastModel.getKilometreTime();
                     int time= (int) (1000/avgSpeed);
-                    polylineOptions.color(ColorUtil.getSpeedColor(time, Integer.parseInt(lastModel.getHasProblem())==1));
+                    polylineOptions.color(ColorUtil.getSpeedColor(time, getBoolean(lastModel.getHasProblem())));
                     for (SportModel model : models) {
                         polylineOptions.add(new LatLng(model.getLatitude(), model.getLongitude()));
                     }
@@ -373,8 +373,9 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             //当当前的公里节点不是最后一条的时候，直接取正常的颜色，
             // 如果它到了最后一条了，那么在看看他是不是总路径的最后一条？
             //如果他不是总路径的最后一条成立则去正常颜色否则就是剩余路径
+
             if(j!=paces.size()-1||Integer.parseInt(pace.getIndex())!=Integer.parseInt(models.get(models.size()-1).getIndex())){
-                color=ColorUtil.getSpeedColor(pace.getKilometreTime(), Integer.parseInt(pace.getHasProblem())==1);
+                color=ColorUtil.getSpeedColor(pace.getKilometreTime(), getBoolean(pace.getHasProblem()));
             }else {
                 break;
                 //如果是最后一条且又是总路径的最后一条，那么肯定剩余的路径数
@@ -423,19 +424,19 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
          * 那么公里节点的最后一个的index属性肯定比全部的数据要少
          */
         KilometrePace lastPace=paces.get(paces.size()-1);
-        if(Integer.parseInt(lastPace.getIskilometre())==0) {
+        if(!getBoolean(lastPace.getIskilometre())) {
             index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
             SportModel startModel = models.get(index);
             SportModel lastModel = models.get(models.size() - 1);
             //计算两个坐标之间的平均速度获取1公里的耗时补足
             double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
             int time = (int) (1000 / avgSpeed);
-            int color = ColorUtil.getSpeedColor(time, Integer.parseInt(lastModel.getHasProblem())==1);
+            int color = ColorUtil.getSpeedColor(time, getBoolean(lastModel.getHasProblem()));
             List<Integer> colorList = new ArrayList<>();
             List<LatLng> latLngs = new ArrayList<>();
             for (int i = index-4; i < models.size(); i++) {
                 SportModel model = models.get(i);
-                if (lastColor != 0 && Integer.parseInt(model.getIskilometre())!=1) {
+                if (lastColor != 0 && !getBoolean(model.getIskilometre())) {
                     //如果是前一公里的坐标则使用上一公里的颜色
                     colorList.add(lastColor);
                 } else {
@@ -450,6 +451,16 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                     .addAll(latLngs));
         }
         return polylineOptionses;
+    }
+
+    private boolean getBoolean(String value){
+        boolean res;
+        try {
+            res=Integer.parseInt(value)==1;
+        } catch (Exception e) {
+            res=false;
+        }
+        return res;
     }
 
     private void setMarker(LatLng startPoint,LatLng endPoint) {

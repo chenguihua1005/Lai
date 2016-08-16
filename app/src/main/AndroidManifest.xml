@@ -105,6 +105,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".module.welcome.view.WelcomeActivity"
+            android:theme="@style/SplashTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -38,6 +38,7 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.TimeTickListener;
 
 import java.util.Calendar;
 
@@ -46,7 +47,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 
-public class StepService extends Service implements SensorEventListener {
+public class StepService extends Service implements SensorEventListener,TimeTickListener.OnTimeTick {
 
     private static final String TAG="StepService";
 
@@ -59,10 +60,11 @@ public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
     private static final int duration = 10000;
     private SensorManager sensorManager;
-    private UploadStepReceive uploadStepReceive;
+    //private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
+    private TimeTickListener tickListener;
     private static int currentStep;//当前计步器 得出的步数结果用与做数据使用
     private static int serverStep;//记录服务器上的步数
     private static int firstStep=0;//启动应用服务的时候的第一次步数
@@ -78,12 +80,11 @@ public class StepService extends Service implements SensorEventListener {
                 case MSG_FROM_CLIENT:
                     Messenger server=msg.replyTo;
                     Bundle  deviationBundle=msg.getData();//获取服务器误差数据
-                    if(deviationBundle!=null){
-                        //服务器和本地步数修正
-                        int deviation=deviationBundle.getInt("surplusStep",0);
+                    //服务器和本地步数修正
+                    int deviation=deviationBundle.getInt("surplusStep",0);
+                    if(deviation>0){
                         serverStep+=deviation;
                         todayStep=serverStep+currentStep;
-                        SharedPreferenceService.getInstance().put("currentStep",todayStep);
                     }
                     Message message=Message.obtain(null,MSG_FROM_SERVER);
                     Bundle data=new Bundle();
@@ -108,8 +109,8 @@ public class StepService extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         isLoginOut=false;
-        initBroadcastReceiver();
         initTodayData();
+        initBroadcastReceiver();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,10 +129,8 @@ public class StepService extends Service implements SensorEventListener {
     }
 
     private void initBroadcastReceiver() {
-        uploadStepReceive=new UploadStepReceive();
-        IntentFilter upload=new IntentFilter();
-        upload.addAction(Intent.ACTION_TIME_TICK);
-        registerReceiver(uploadStepReceive,upload);
+        tickListener=new TimeTickListener(this);
+        tickListener.startTick(this);
         closeReceive=new CloseReceive();
         LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive,new IntentFilter(STEP_CLOSE_SELF));
 
@@ -178,8 +177,7 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        flags = START_STICKY;
-        return super.onStartCommand(intent, flags, startId);
+        return super.onStartCommand(intent, START_STICKY, startId);
     }
 
     private void startStepDetector() {
@@ -248,11 +246,10 @@ public class StepService extends Service implements SensorEventListener {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes=c.get(Calendar.MINUTE);
         //每晚的23点50分到24点之间
-        if(hour==23&&minutes>50&&minutes<=59){
+        if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            serverStep=0;
+            //serverStep=0;
             firstStep=0;
-            todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -265,11 +262,6 @@ public class StepService extends Service implements SensorEventListener {
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
-        //发送广播
-        /*Intent stepIntent=new Intent(STEP);
-        stepIntent.putExtra("step",stepTemp);
-        stepIntent.putExtra("currentStep",todayStep);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);*/
         updateNotification(todayStep + "");
         LogManager.getManager(getApplicationContext())
                 .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
@@ -282,11 +274,10 @@ public class StepService extends Service implements SensorEventListener {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes=c.get(Calendar.MINUTE);
         //每晚的23点50分到24点之间
-        if(hour==23&&minutes>50&&minutes<=59){
+        if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            serverStep=0;
+            //serverStep=0;
             firstStep=0;
-            todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -299,11 +290,6 @@ public class StepService extends Service implements SensorEventListener {
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
-        //发送广播
-        /*Intent stepIntent=new Intent(STEP);
-        stepIntent.putExtra("step",stepTemp);
-        stepIntent.putExtra("currentStep",todayStep);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);*/
         updateNotification(todayStep + "");
         LogManager.getManager(getApplicationContext())
                 .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
@@ -373,8 +359,10 @@ public class StepService extends Service implements SensorEventListener {
             nm.cancelAll();
 
         }
-        unregisterReceiver(uploadStepReceive);
+        //unregisterReceiver(uploadStepReceive);
+        tickListener.stopTick();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
+        time.cancel();
         if(stepDetector!=null){
             sensorManager.unregisterListener(stepDetector);
             stepDetector=null;
@@ -383,7 +371,6 @@ public class StepService extends Service implements SensorEventListener {
             sensorManager.unregisterListener(this, countSensor);
         }
         sensorManager=null;
-        time.cancel();
 
     }
 
@@ -414,7 +401,55 @@ public class StepService extends Service implements SensorEventListener {
         }
     }
 
-    public class UploadStepReceive extends BroadcastReceiver{
+    int index=4;
+    @Override
+    public void onTick(Calendar calendar) {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes=calendar.get(Calendar.MINUTE);
+        if(hour==23&&minutes>=50&&minutes<=59){
+            firstStep=0;
+            lastStep=0;
+            int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
+            updateNotification(tempStep+"");
+        }if(hour==0&&minutes==0){
+            index=4;
+            serverStep=0;
+            todayStep=0;
+            SharedPreferenceService.getInstance().put("currentStep",0);
+            updateNotification(0+"");
+        }else {
+            index--;
+            if(index==0) {
+                index=4;
+                //做上传工作
+                UserModel model = UserInfoModel.getInstance().getUser();
+                if (model != null) {
+                    String userId = model.getUserid();
+                    int step = todayStep;
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append(DateUtil.getInstance().getCurrentDate());
+                    buffer.append(",");
+                    buffer.append(step);
+                    //提交数据
+                    ZillaApi.NormalRestAdapter.create(StepNetService.class)
+                            .synStepCount(
+                                    UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+
+                                        }
+                                    });
+                }
+            }
+        }
+    }
+
+    /*public class UploadStepReceive extends BroadcastReceiver{
         int index=4;
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -427,7 +462,7 @@ public class StepService extends Service implements SensorEventListener {
             if(Intent.ACTION_TIME_TICK.equals(action)){
                 //Log.i("一分钟到了。。。。。。。");
                 //每晚的23点30分到24点之间
-                if(hour==23&&minutes>50&&minutes<=59){
+                if(hour==23&&minutes>=50&&minutes<=59){
                     serverStep=0;
                     firstStep=0;
                     lastStep=0;
@@ -470,5 +505,5 @@ public class StepService extends Service implements SensorEventListener {
                 }
             }
         }
-    }
+    }*/
 }

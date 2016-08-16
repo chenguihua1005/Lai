@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -203,12 +204,13 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
 
         for (int i = 0; i < honorTable.size(); i++) {
             HonorTableModel honor = honorTable.get(i);
-            String rowname = honor.getRowname().toString();
-            String num = honor.getNum().toString();
-            String rank_num = honor.getRank_num().toString();
+            String rowname = honor.getRowname();
+            String num = honor.getNum();
+            String rank_num = honor.getRank_num();
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
+                    Log.i("助教>>>"+StringUtil.convertValue6(num));
                     text_rtest.setText(StringUtil.convertValue6(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
@@ -242,6 +244,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
+                    Log.i("助教1>>>"+StringUtil.convertValue6(num));
                     text_weight.setText(StringUtil.convertValue6(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);

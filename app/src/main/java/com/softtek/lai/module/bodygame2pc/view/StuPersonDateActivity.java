@@ -17,15 +17,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2.view.StudentHonorPCActivity;
 import com.softtek.lai.module.bodygame2pc.model.StuHonorListModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.module.bodygame2pc.present.StuPersonDateManager;
 import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.pastreview.honors.Medal;
-import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
@@ -52,6 +49,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 7/14/2016.
+ *
  */
 @InjectLayout(R.layout.stupersondate_layout)
 public class StuPersonDateActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,ObservableScrollView.ScrollViewListener {
@@ -250,7 +248,6 @@ public class StuPersonDateActivity extends BaseActivity implements View.OnClickL
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(stu.getClmInfo().getClassBanner()))
             {
-                Log.i("班级图片",path+stu.getClmInfo().getClassBanner());
                 Picasso.with(this).load(path + stu.getClmInfo().getClassBanner()).fit().error(R.drawable.default_icon_rect).into(iv_banner);
             }
             if (!TextUtils.isEmpty(stu.getClmInfo().getPhoto())) {
