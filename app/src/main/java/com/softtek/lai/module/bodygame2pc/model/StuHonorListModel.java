@@ -50,14 +50,4 @@ public class StuHonorListModel {
         HonorStatus = honorStatus;
     }
 
-    @Override
-    public String toString() {
-        return "StuHonorListModel{" +
-                "CreateDate='" + CreateDate + '\'' +
-                ", HonorName='" + HonorName + '\'' +
-                ", HonorType='" + HonorType + '\'' +
-                ", Value='" + Value + '\'' +
-                ", HonorStatus='" + HonorStatus + '\'' +
-                '}';
-    }
 }

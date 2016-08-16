@@ -41,13 +41,4 @@ public class PhotoListModel {
         Weight = weight;
     }
 
-    @Override
-    public String toString() {
-        return "PhotoListModel{" +
-                "LLId='" + LLId + '\'' +
-                ", ImgUrl='" + ImgUrl + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
-                ", Weight='" + Weight + '\'' +
-                '}';
-    }
 }

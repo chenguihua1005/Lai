@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -28,6 +29,9 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
     WebView webView;
     @InjectView(R.id.iv_bg)
     ImageView iv_bg;
+
+    @InjectView(R.id.pb)
+    ProgressBar pb;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -38,6 +42,20 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
                 super.onPageFinished(view, url);
                 iv_bg.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if(newProgress==100){
+                    pb.setVisibility(View.GONE);
+                }else {
+                    if(pb.getVisibility()==View.GONE){
+                        pb.setVisibility(View.VISIBLE);
+                    }
+                    pb.setProgress(newProgress);
+                }
+                super.onProgressChanged(view, newProgress);
             }
         });
     }

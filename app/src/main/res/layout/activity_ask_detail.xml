@@ -6,6 +6,11 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.tips.view.AskDetailActivity">
     <include layout="@layout/toolbar"/>
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@id/toolbar"/>
     <ImageView
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"

@@ -23,13 +23,14 @@ import java.util.List;
 /**
  * Created by John on 2016/3/27.
  */
-public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     private static final int ITEM=1;
     private static final int FOOTER=2;
     private static final int EMPTY=3;
 
     private Context mContext;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<HomeInfoModel> infos;
 
@@ -42,6 +43,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public RecyclerView.ViewHolder  onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==ITEM){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+            view.setOnClickListener(this);
             return new ViewHolder(view);
         }else if(viewType==FOOTER){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.up_load_view, parent, false);
@@ -67,6 +69,9 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     .fit().placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
+            //将数据保存在itemView的Tag中，以便点击时进行获取
+            holder.itemView.setTag(position);
+
         }
 
     }
@@ -85,6 +90,14 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             type=ITEM;
         }
         return type;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取数据
+            mOnItemClickListener.onItemClick(v,(Integer) v.getTag());
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,5 +124,12 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
+    //定义点击接口
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view , int position);
+    }
 
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
 }

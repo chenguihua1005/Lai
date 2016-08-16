@@ -45,13 +45,4 @@ public class StumemberDetialModel {
         PhotoList = photoList;
     }
 
-    @Override
-    public String toString() {
-        return "StumemberDetialModel{" +
-                "ClmInfo=" + ClmInfo +
-                ", LossStory=" + LossStory +
-                ", HonorList=" + HonorList +
-                ", PhotoList=" + PhotoList +
-                '}';
-    }
 }

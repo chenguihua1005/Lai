@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -74,6 +75,7 @@ public class ActivityRecordFragment extends BaseFragment  {
             }
         });
 
+
     }
 
 
@@ -82,6 +84,12 @@ public class ActivityRecordFragment extends BaseFragment  {
         homeInfoPresenter = new HomeInfoImpl(getContext());
         adapter=new LoadMoreRecyclerViewAdapter(getContext(),infos);
         ptrrv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i("点击了第几个item？position="+position+"===========================");
+            }
+        });
 
     }
 
