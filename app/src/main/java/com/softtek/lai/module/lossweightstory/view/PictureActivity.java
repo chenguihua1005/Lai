@@ -1,6 +1,5 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
