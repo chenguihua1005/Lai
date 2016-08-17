@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.home.model.HomeInfoModel;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,25 +24,28 @@ import java.util.List;
 /**
  * Created by John on 2016/3/27.
  */
-public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     private static final int ITEM=1;
     private static final int FOOTER=2;
     private static final int EMPTY=3;
 
     private Context mContext;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<HomeInfoModel> infos;
-
+    private int width;
     public LoadMoreRecyclerViewAdapter(Context mContext, List<HomeInfoModel> infos) {
         this.mContext = mContext;
         this.infos = infos;
+        width= DisplayUtil.getMobileWidth(mContext);
     }
 
     @Override
     public RecyclerView.ViewHolder  onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==ITEM){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+            view.setOnClickListener(this);
             return new ViewHolder(view);
         }else if(viewType==FOOTER){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.up_load_view, parent, false);
@@ -63,10 +67,12 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             if(bitmap!=null&&bitmap.isRecycled()){
                 bitmap.recycle();
             }
-            Picasso.with(mContext).load(info.getImg_Addr())
-                    .fit().placeholder(R.drawable.default_icon_rect)
+            Picasso.with(mContext).load(info.getImg_Addr()).resize(width,DisplayUtil.dip2px(mContext,150))
+                    .centerInside().placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
+            //将数据保存在itemView的Tag中，以便点击时进行获取
+            holder.itemView.setTag(position);
         }
 
     }
@@ -85,6 +91,14 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             type=ITEM;
         }
         return type;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取数据
+            mOnItemClickListener.onItemClick(v,(Integer) v.getTag());
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,5 +125,12 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
+    //定义点击接口
+    public interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view , int position);
+    }
 
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
 }

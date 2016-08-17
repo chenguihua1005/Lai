@@ -1,13 +1,12 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.ActionMode;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -16,21 +15,17 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.lossweightstory.adapter.PictureFragementAdapter;
 import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.DebugViewPage;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import uk.co.senab.photoview.PhotoView;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_picture_layout)
-public class PictureActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class PictureActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener {
 
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -50,7 +45,7 @@ public class PictureActivity extends BaseActivity implements View.OnClickListene
         images=getIntent().getStringArrayListExtra("images");
         position=getIntent().getIntExtra("position",0);
         tv_title.setText(position+1+"/"+images.size());
-        ll_left.setOnClickListener(this);
+
         toggleHideyBar();
     }
 
@@ -117,22 +112,10 @@ public class PictureActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_left:
-                finish();
-                break;
-        }
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    @Override
-    public void onActionModeFinished(ActionMode mode) {
-        super.onActionModeFinished(mode);
-    }
 }

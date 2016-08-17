@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -224,7 +223,6 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
             new AlertDialog.Builder(this).setMessage("PK结束时间不能小于PK开始时间").create().show();
             return;
         }
-        Log.i(form.toString());
         dialogShow("创建PK中...");
         manager.savePK(form, new RequestCallback<ResponseData<SavePK>>() {
             @Override

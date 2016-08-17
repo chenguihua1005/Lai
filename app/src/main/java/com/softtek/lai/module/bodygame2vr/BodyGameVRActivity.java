@@ -286,6 +286,7 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
         ZillaApi.NormalRestAdapter.create(BodyGameVRService.class).getBodyGameVr(new RequestCallback<ResponseData<BodyGameVrInfo>>() {
             @Override
             public void success(ResponseData<BodyGameVrInfo> data, Response response) {
+                pull.setRefreshing(false);
                 if(data.getStatus()==200){
                     onloadCompleted(data.getData());
                 }
@@ -295,7 +296,7 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     BodyGameVrInfo info;
     public void onloadCompleted(BodyGameVrInfo info){
-        pull.setRefreshing(false);
+
         if(info!=null){
             this.info=info;
             String basePath= AddressManager.get("photoHost");
