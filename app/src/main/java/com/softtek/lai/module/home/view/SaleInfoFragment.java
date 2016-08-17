@@ -6,10 +6,12 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -85,7 +87,15 @@ public class SaleInfoFragment extends BaseFragment{
         homeInfoPresenter = new HomeInfoImpl(getContext());
         adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
-
+        adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+                intent.putExtra("info",infos.get(position));
+                intent.putExtra("title","品牌动向");
+                startActivity(intent);
+            }
+        });
     }
 
 

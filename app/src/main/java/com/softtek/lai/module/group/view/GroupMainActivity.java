@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.forlong401.log.transaction.utils.LogUtils;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
@@ -361,7 +360,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                pull_sroll.setRefreshing();
+                if(pull_sroll!=null)
+                    pull_sroll.setRefreshing();
             }
         }, 600);
     }
@@ -612,11 +612,4 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-    }
 }
