@@ -44,4 +44,5 @@ public class StumemberDetialModel {
     public void setPhotoList(List<PhotoListModel> photoList) {
         PhotoList = photoList;
     }
+
 }

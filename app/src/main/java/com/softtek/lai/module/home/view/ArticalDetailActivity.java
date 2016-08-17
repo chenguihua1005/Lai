@@ -1,7 +1,5 @@
-package com.softtek.lai.module.tips.view;
+package com.softtek.lai.module.home.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -13,13 +11,14 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_ask_detail)
-public class AskDetailActivity extends BaseActivity implements View.OnClickListener{
+public class ArticalDetailActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -27,20 +26,17 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
     TextView tv_title;
     @InjectView(R.id.webView)
     WebView webView;
-    /*@InjectView(R.id.iv_bg)
-    ImageView iv_bg;*/
 
     @InjectView(R.id.pb)
     ProgressBar pb;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
-        tv_title.setText("资讯详情");
+        tv_title.setText("文章详情");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                //iv_bg.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
             }
         });
@@ -62,9 +58,9 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        AskHealthyModel model=getIntent().getParcelableExtra("ask");
+        HomeInfoModel model= (HomeInfoModel) getIntent().getSerializableExtra("info");
         if(model!=null){
-            webView.loadUrl(model.getTips_Link());
+            webView.loadUrl(model.getArtUrl());
         }
     }
 

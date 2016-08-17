@@ -21,6 +21,15 @@ public class HomeInfoModel implements Serializable {
     private String Img_Addr;//图片路径
 
     private String BannerType;
+    private String ArtUrl;//文章链接
+
+    public String getArtUrl() {
+        return ArtUrl;
+    }
+
+    public void setArtUrl(String artUrl) {
+        ArtUrl = artUrl;
+    }
 
     public String getBannerType() {
         return BannerType;

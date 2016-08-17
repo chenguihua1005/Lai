@@ -147,7 +147,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);
@@ -163,7 +163,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);

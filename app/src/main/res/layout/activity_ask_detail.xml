@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.tips.view.AskDetailActivity">
     <include layout="@layout/toolbar"/>
-    <ImageView
+
+    <!--<ImageView
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:scaleType="fitCenter"
         android:background="#f1f1f1"
-        android:src="@drawable/default_icon_rect"/>
+        android:src="@drawable/default_icon_rect"/>-->
+
+
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:indeterminateOnly="false"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_bar_states"
+        android:visibility="visible" />
     <WebView
         android:id="@+id/webView"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:visibility="gone"
+        android:visibility="visible"
         android:overScrollMode="never"/>
-
-</RelativeLayout>
+</LinearLayout>

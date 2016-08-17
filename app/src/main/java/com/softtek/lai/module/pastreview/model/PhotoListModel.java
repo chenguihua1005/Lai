@@ -40,4 +40,5 @@ public class PhotoListModel {
     public void setWeight(String weight) {
         Weight = weight;
     }
+
 }

@@ -2,8 +2,8 @@ package com.softtek.lai.module.lossweightstory.view;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.utils.DisplayUtil;
@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -35,7 +36,17 @@ public class PictureFragment extends BaseFragment{
 
     @Override
     protected void initViews() {
+        iv_image.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float x, float y) {
+                getActivity().finish();
+            }
 
+            @Override
+            public void onOutsidePhotoTap() {
+
+            }
+        });
 
     }
 
@@ -50,13 +61,13 @@ public class PictureFragment extends BaseFragment{
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
                 .resize(px,px).centerCrop()
                 .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+
     }
 
     @Override
     public void onDestroyView() {
         Bitmap cache=iv_image.getDrawingCache();
         if(cache!=null&&!cache.isRecycled()){
-            Log.i("onDestroyView释放资源。。。。。。。");
             cache.recycle();
         }
         super.onDestroyView();

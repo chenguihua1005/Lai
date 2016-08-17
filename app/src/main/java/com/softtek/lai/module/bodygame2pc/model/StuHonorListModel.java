@@ -49,4 +49,5 @@ public class StuHonorListModel {
     public void setHonorStatus(String honorStatus) {
         HonorStatus = honorStatus;
     }
+
 }

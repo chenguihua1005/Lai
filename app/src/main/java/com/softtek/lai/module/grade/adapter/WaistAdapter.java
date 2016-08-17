@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -129,8 +130,8 @@ public class WaistAdapter extends BaseAdapter {
             holder.tv_unit.setVisibility(View.INVISIBLE);
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
-        holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore()+ "cm" );
-        holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter()+ "cm");
+        holder.tv_wl_before.setText("前 " + StringUtil.convertValue7(studentModel.getWaistlinebefore(),"cm") );
+        holder.tv_wl_after.setText("后 " + StringUtil.convertValue7(studentModel.getWaistlineAfter(),"cm"));
         holder.tv_wl_totle.setText(studentModel.getLossline());
         holder.tv_name.setText(studentModel.getUserName());
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
