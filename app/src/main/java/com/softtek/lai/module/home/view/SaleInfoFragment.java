@@ -27,7 +27,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -51,6 +53,14 @@ public class SaleInfoFragment extends BaseFragment{
     private int lastVisitableItem;
     private boolean isLoading=false;
 
+    public static SaleInfoFragment getInstance(ArrayList<HomeInfoModel> records){
+        Bundle data=new Bundle();
+        data.putParcelableArrayList("datas",records);
+        SaleInfoFragment fragment=new SaleInfoFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
+
     @Override
     protected void initViews() {
         ptrrv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -63,7 +73,6 @@ public class SaleInfoFragment extends BaseFragment{
                     if(!isLoading){
                         isLoading=true;
                         //加载更多数据
-                        Log.i("开始加载更多");
                         page++;
                         homeInfoPresenter.getContentByPage( page, Constants.SALE_INFO);
                     }
@@ -83,17 +92,19 @@ public class SaleInfoFragment extends BaseFragment{
 
     @Override
     protected void initDatas() {
-
         homeInfoPresenter = new HomeInfoImpl(getContext());
+        /*Bundle bundle=getArguments();
+        page=1;
+        infos=bundle.getParcelableArrayList("datas");*/
         adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-                intent.putExtra("info",infos.get(position));
-                intent.putExtra("title","品牌动向");
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+//                intent.putExtra("info", (Serializable) infos.get(position));
+//                intent.putExtra("title","品牌动向");
+//                startActivity(intent);
             }
         });
     }
@@ -125,7 +136,11 @@ public class SaleInfoFragment extends BaseFragment{
 
     public void updateInfo(List<HomeInfoModel> sales){
         page=1;
-        infos.clear();
+        if(infos==null){
+            infos=new ArrayList<>();
+        }else{
+            infos.clear();
+        }
         infos.addAll(sales);
         if(adapter==null){
             adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
@@ -140,7 +155,7 @@ public class SaleInfoFragment extends BaseFragment{
     public boolean isRecycleFirst(){
         boolean result=true;
         if(ptrrv!=null&&adapter!=null){
-            if(infos.isEmpty()){
+            if(infos==null||infos.isEmpty()){
                 result=true;
             }else{
                 LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();

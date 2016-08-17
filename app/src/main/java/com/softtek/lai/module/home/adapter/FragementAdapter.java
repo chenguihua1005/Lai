@@ -19,9 +19,11 @@ public class FragementAdapter extends FragmentPagerAdapter {
 
     private String[] titles = {"活动推荐", "产品信息", "品牌动向"};
     private List<Fragment> fragmentList;
+    private FragmentManager fm;
 
     public FragementAdapter(FragmentManager fm,List<Fragment> fragments) {
         super(fm);
+        this.fm=fm;
         this.fragmentList=fragments;
 
     }
@@ -40,4 +42,5 @@ public class FragementAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return titles[position];
     }
+
 }

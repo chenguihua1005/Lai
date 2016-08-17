@@ -155,6 +155,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
         tab.setTabMode(TabLayout.MODE_FIXED);
+
         appBar.addOnOffsetChangedListener(this);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
@@ -226,6 +227,12 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             }
         }
         rhv_adv.setImgUrlData(advList);
+        /*fragments.clear();
+        fragments.add(ActivityRecordFragment.getInstance((ArrayList<HomeInfoModel>) records));
+        fragments.add(ProductInfoFragment.getInstance((ArrayList<HomeInfoModel>) products));
+        fragments.add(SaleInfoFragment.getInstance((ArrayList<HomeInfoModel>) sales));
+        fragementAdapter.notifyDataSetChanged();*/
+
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
         ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
         productInfoFragment.updateInfo(products);
@@ -238,8 +245,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
-//        loginPresenter = new LoginPresenterImpl(getContext());
-//        studentImpl = new StudentImpl(getContext());
         registerMessageReceiver();
     }
 
@@ -360,16 +365,11 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        //float num = Math.abs(1f * Math.abs(verticalOffset) / 1000);
-        //toolbar.setAlpha(num);
-        /*if(verticalOffset<0){
-            toolbar.setVisibility(View.VISIBLE);
+        int position=tab.getSelectedTabPosition();
+        Fragment fragment=null;
+        if(fragments!=null&&position!=-1){
+            fragment = fragments.get(tab.getSelectedTabPosition());
         }
-
-        if(num<=0){
-            toolbar.setVisibility(View.GONE);
-        }*/
-        Fragment fragment = fragments.get(tab.getSelectedTabPosition());
         if (fragment != null) {
             if (fragment instanceof ActivityRecordFragment) {
                 ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
