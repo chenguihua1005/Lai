@@ -95,8 +95,7 @@ public class MessageNoticeAdapter extends BaseAdapter {
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_title = (TextView) convertView.findViewById(R.id.text_title);
             holder.img_red = (ImageView) convertView.findViewById(R.id.img_red);
-            holder.rel_more = (RelativeLayout) convertView.findViewById(R.id.rel_more);
-            holder.view_1 = (View) convertView.findViewById(R.id.view_1);
+            holder.lin_more = (LinearLayout) convertView.findViewById(R.id.lin_more);
             holder.lin_item = (LinearLayout) convertView.findViewById(R.id.lin_item);
             holder.img_select = (ImageView) convertView.findViewById(R.id.img_select);
 
@@ -133,12 +132,10 @@ public class MessageNoticeAdapter extends BaseAdapter {
         }
         if ("notice".equals(type)) {
             holder.text_title.setText("系统通知");
-            holder.rel_more.setVisibility(View.GONE);
-            holder.view_1.setVisibility(View.GONE);
+            holder.lin_more.setVisibility(View.GONE);
         } else if ("fc".equals(type)) {
             holder.text_title.setText("复测提醒");
-            holder.rel_more.setVisibility(View.VISIBLE);
-            holder.view_1.setVisibility(View.VISIBLE);
+            holder.lin_more.setVisibility(View.VISIBLE);
         } else if ("xzs".equals(type)) {
             String msg_type = noticeMsgModel.getMessageType();
             if ("0".equals(msg_type)) {
@@ -150,8 +147,13 @@ public class MessageNoticeAdapter extends BaseAdapter {
             } else if ("3".equals(msg_type)) {
                 holder.text_title.setText("确认参赛");
             }
-            holder.rel_more.setVisibility(View.VISIBLE);
-            holder.view_1.setVisibility(View.VISIBLE);
+            OperateMsgModel model = NoticeFC2Activity.operatList.get(position);
+            String isDo = model.getIsDo();
+            if ("1".equals(isDo)) {
+                holder.lin_more.setVisibility(View.GONE);
+            } else {
+                holder.lin_more.setVisibility(View.VISIBLE);
+            }
         }
         holder.lin_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -174,9 +176,9 @@ public class MessageNoticeAdapter extends BaseAdapter {
                     }
                     if (select_count == list.size()) {
                         cb.setChecked(true);
-                        NoticeFC2Activity.isSelsetAll=true;
+                        NoticeFC2Activity.isSelsetAll = true;
                     } else {
-                        NoticeFC2Activity.isSelsetAll=false;
+                        NoticeFC2Activity.isSelsetAll = false;
                         cb.setChecked(false);
                     }
                 } else {
@@ -195,10 +197,10 @@ public class MessageNoticeAdapter extends BaseAdapter {
     }
 
     private void turnToXZSActivity(OperateMsgModel model) {
-        String isDo=model.getIsDo();
-        if("1".equals(isDo)){
+        String isDo = model.getIsDo();
+        if ("1".equals(isDo)) {
             Util.toastMsg("该消息已操作过, 不能重复操作");
-        }else {
+        } else {
             Intent intent = new Intent(context, MessageOperatorActivity.class);
             intent.putExtra("model", model);
             context.startActivityForResult(intent, 0);
@@ -235,8 +237,7 @@ public class MessageNoticeAdapter extends BaseAdapter {
         public TextView text_title;
         public ImageView img_red;
         public ImageView img_select;
-        public View view_1;
-        public RelativeLayout rel_more;
+        public LinearLayout lin_more;
         public LinearLayout lin_item;
     }
 }

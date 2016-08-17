@@ -8,6 +8,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="#fafafa"
     tools:context=".module.retest.WriteActivity">
 
     <LinearLayout
@@ -19,33 +20,22 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/messageMarginTop2"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="115dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/img_line_left" />
 
             <TextView
                 android:id="@+id/text_time"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/messageMargin"
                 android:layout_marginRight="@dimen/messageMargin"
                 android:gravity="center"
-                android:text="2015年3月12号"
                 android:textColor="@color/word5"
                 android:textSize="@dimen/textSize2" />
 
-            <ImageView
-                android:layout_width="115dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/img_line_right" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,15 +45,15 @@
                 android:id="@+id/img_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dip"
+                android:layout_marginRight="15dip"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/history_data_circle"
-                android:visibility="gone" />
+                android:visibility="visible" />
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop2"
-                android:background="@color/grey2"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/message_list_corner_round"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -78,7 +68,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/messageMarginTop"
                         android:textColor="@color/word"
-                        android:textSize="@dimen/textSize3" />
+                        android:layout_centerVertical="true"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/img_red"
@@ -89,6 +80,30 @@
                         android:layout_toRightOf="@+id/text_title"
                         android:src="@drawable/img_unread"
                         android:visibility="gone" />
+                    <LinearLayout
+                        android:id="@+id/lin_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="详情"
+                            android:layout_toLeftOf="@+id/img_more1"
+                            android:layout_marginRight="5dip"
+                            android:textColor="#ffa300"
+                            android:textSize="@dimen/textSize4" />
+
+                        <ImageView
+                            android:id="@+id/img_more1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_message_more_1" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <TextView
@@ -97,42 +112,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dip"
                     android:layout_marginLeft="@dimen/messageMarginTop"
-                    android:layout_marginRight="@dimen/messageMarginRight"
-                    android:layout_marginTop="@dimen/messageMarginTop"
-                    android:text="dsdsa"
-                    android:textColor="@color/word6"
-                    android:textSize="@dimen/textSize1" />
+                    android:layout_marginTop="13dip"
+                    android:layout_marginRight="@dimen/messageMarginTop"
+                    android:textColor="@color/word5"
+                    android:textSize="14sp" />
 
-                <View
-                    android:id="@+id/view_1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="@dimen/messageMargin1"
-                    android:layout_marginRight="@dimen/messageMargin1"
-                    android:background="@color/grey3" />
-
-                <RelativeLayout
-                    android:id="@+id/rel_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/messageMarginTop"
-                    android:layout_marginLeft="@dimen/messageMarginTop"
-                    android:layout_marginTop="@dimen/messageMarginTop">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="详情"
-                        android:textColor="@color/word5"
-                        android:textSize="@dimen/textSize4" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dip"
-                        android:src="@drawable/img_fc_more" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
