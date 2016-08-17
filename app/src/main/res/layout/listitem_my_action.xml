@@ -3,134 +3,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fafafa"
     tools:context="com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="14dp"
-        android:gravity="center">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/publicwelfare_left"
-            android:layout_weight="3"/>
-        <TextView
-            android:id="@+id/tv_action_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2016年3月5日"
-            android:textSize="12sp"
-            android:textColor="#999999"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_weight="0.001"
 
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/publicwelfare_right"
-            android:layout_weight="3"/>
-    </LinearLayout>
     <LinearLayout
-        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/iv_checked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/history_data_circle"
-            android:visibility="visible"
-            />
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="310dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="#e6e6e6">
+        android:background="#fafafa"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:id="@+id/ll_action_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp">
-        <TextView
-            android:id="@+id/tv_action_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            android:focusable="false"
-            />
-            <ImageView
-                android:id="@+id/img_red"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@+id/text_title"
-                android:src="@drawable/img_unread"
-                android:visibility="gone" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_lab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@+id/ll_action_content">
-        <ImageView
-            android:id="@+id/lab2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/action_right_line"
-            />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_action_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@+id/ll_lab2">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="14dp"
+            android:paddingTop="16dp">
+
             <TextView
-                android:id="@+id/tv_action_name"
+                android:id="@+id/tv_action_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:textSize="14sp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:textColor="#999999"
+                android:textSize="12sp"
 
                 />
         </LinearLayout>
-        <ImageView
-            android:id="@+id/lab"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/ll_item"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/action_right"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/history_data_circle"
+                android:visibility="visible" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/message_list_corner_round"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/ll_action_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_action_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_centerVertical="true"
+                        android:focusable="false"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/img_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@+id/tv_action_content"
+                        android:src="@drawable/img_unread"
+                        android:visibility="gone" />
+                    <LinearLayout
+                        android:id="@+id/lin_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="详情"
+                            android:layout_toLeftOf="@+id/img_more1"
+                            android:layout_marginRight="5dip"
+                            android:textColor="#ffa300"
+                            android:textSize="@dimen/textSize4" />
+
+                        <ImageView
+                            android:id="@+id/img_more1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_message_more_1" />
+                    </LinearLayout>
+                </RelativeLayout>
 
 
-    </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/ll_action_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_action_content"
+                    android:layout_marginLeft="5dp">
 
+                    <TextView
+                        android:id="@+id/tv_action_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dip"
+                        android:layout_marginTop="5dip"
+                        android:textColor="#999999"
+                        android:textSize="14sp"
+
+                        />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 </RelativeLayout>
