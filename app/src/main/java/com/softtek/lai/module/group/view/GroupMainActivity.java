@@ -381,6 +381,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.lin_reflash:
                 dialogShow("加载中");
                 String str = DateUtil.getInstance().getCurrentDate() + "," + currentStep;
+                android.util.Log.e("jarvis--->", str);
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:

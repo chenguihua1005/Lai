@@ -197,6 +197,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onDisconnected(final int error) {
                 if (error == EMError.CONNECTION_CONFLICT) {
+                    System.out.println("cccccccccc");
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
                         EMChatManager.getInstance().logout(true, new EMCallBack() {
