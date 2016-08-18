@@ -36,13 +36,17 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if(newProgress==100){
-                    pb.setVisibility(View.GONE);
-                }else {
-                    if(pb.getVisibility()==View.GONE){
-                        pb.setVisibility(View.VISIBLE);
+                try {
+                    if(newProgress==100){
+                        pb.setVisibility(View.GONE);
+                    }else {
+                        if(pb.getVisibility()==View.GONE){
+                            pb.setVisibility(View.VISIBLE);
+                        }
+                        pb.setProgress(newProgress);
                     }
-                    pb.setProgress(newProgress);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 super.onProgressChanged(view, newProgress);
             }
