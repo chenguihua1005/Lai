@@ -100,10 +100,10 @@ public class ProductInfoFragment extends BaseFragment  {
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-                intent.putExtra("info", (Serializable) infos.get(position));
-                intent.putExtra("title","产品信息");
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+//                intent.putExtra("info", (Serializable) infos.get(position));
+//                intent.putExtra("title","产品信息");
+//                startActivity(intent);
             }
         });
     }
