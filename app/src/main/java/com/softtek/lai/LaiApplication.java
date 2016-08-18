@@ -42,8 +42,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         FIR.init(this);//注册Fir自动更新
-        CrashHandler catchHandler = CrashHandler.getInstance();
-        catchHandler.init(getApplicationContext());
+        //CrashHandler.getInstance().init(getApplicationContext());
         LogManager.getManager(getApplicationContext()).registerCrashHandler();
         ChatHelper.getInstance().init(getApplicationContext());
 
