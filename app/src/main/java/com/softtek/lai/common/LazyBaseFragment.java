@@ -66,6 +66,7 @@ public abstract class LazyBaseFragment extends Fragment{
     public void onDestroyView() {
         isCreatedView=false;
         super.onDestroyView();
+        ButterKnife.reset(this);
     }
     public void dialogShow(String value) {
         if (progressDialogs == null) {
@@ -86,7 +87,6 @@ public abstract class LazyBaseFragment extends Fragment{
     public void onDestroy() {
         super.onDestroy();
         LifeCircle.onDestory(this);
-        ButterKnife.reset(this);
     }
 
 

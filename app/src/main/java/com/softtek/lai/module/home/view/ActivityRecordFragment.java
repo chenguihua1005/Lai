@@ -7,6 +7,8 @@ package com.softtek.lai.module.home.view;
 
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,7 +39,7 @@ public class ActivityRecordFragment extends BaseFragment  {
     @InjectView(R.id.ptrrv)
     RecyclerView ptrrv;
 
-    private List<HomeInfoModel> infos = new ArrayList<>();
+    private List<HomeInfoModel> infos=new ArrayList<>();
 
     private IHomeInfoPresenter homeInfoPresenter;
 
@@ -47,6 +49,14 @@ public class ActivityRecordFragment extends BaseFragment  {
     private static final int LOADCOUNT=5;
     private int lastVisitableItem;
     private boolean isLoading=false;
+
+    public static ActivityRecordFragment getInstance(ArrayList<HomeInfoModel> records){
+        Bundle data=new Bundle();
+        data.putParcelableArrayList("datas",records);
+        ActivityRecordFragment fragment=new ActivityRecordFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
 
     @Override
     protected void initViews() {
@@ -61,7 +71,6 @@ public class ActivityRecordFragment extends BaseFragment  {
                     if(!isLoading){
                         isLoading=true;
                         //加载更多数据
-                        Log.i("开始加载更多");
                         page++;
                         homeInfoPresenter.getContentByPage( page, Constants.ACTIVITY_RECORD);
                     }
@@ -83,15 +92,18 @@ public class ActivityRecordFragment extends BaseFragment  {
     @Override
     protected void initDatas() {
         homeInfoPresenter = new HomeInfoImpl(getContext());
+        /*page=1;
+        Bundle bundle=getArguments();
+        infos=bundle.getParcelableArrayList("datas");*/
         adapter=new LoadMoreRecyclerViewAdapter(getContext(),infos);
         ptrrv.setAdapter(adapter);
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.i("点击了第几个item？position="+position+"===========================");
-                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-                intent.putExtra("info",infos.get(position));
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+//                intent.putExtra("info", (Parcelable) infos.get(position));
+//                intent.putExtra("title","活动推荐");
+//                startActivity(intent);
             }
         });
 
@@ -106,7 +118,6 @@ public class ActivityRecordFragment extends BaseFragment  {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshView(ActivityEvent activity) {
-        Log.i("数据加载完毕");
         isLoading=false;
         adapter.notifyItemRemoved(adapter.getItemCount());
         if(activity.activitys==null||activity.activitys.isEmpty()){
@@ -119,9 +130,12 @@ public class ActivityRecordFragment extends BaseFragment  {
     }
 
     public void updateInfo(List<HomeInfoModel> records){
-        Log.i("刷新操作");
         page=1;
-        infos.clear();
+        if(infos==null){
+            infos=new ArrayList<>();
+        }else{
+            infos.clear();
+        }
         infos.addAll(records);
         if(adapter==null){
             adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
@@ -135,20 +149,29 @@ public class ActivityRecordFragment extends BaseFragment  {
     //确定recycle的位置
     public boolean isRecycleFirst(){
         boolean result;
-        if(ptrrv!=null&&adapter!=null){
-            if(infos.isEmpty()){
+        //if(ptrrv!=null&&adapter!=null){
+            if(infos==null||infos.isEmpty()){
                 result=true;
+                Log.i("infos==null||infos.isEmpty()==="+result);
             }else{
                 LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
                 int first=llm.findFirstVisibleItemPosition();
                 result= first==0?true:false;
+                Log.i("first==="+first);
             }
 
-        }else{
+        /*}else{
             result=true;
-        }
+            Log.i("ptrrv!=null&&adapter!=null==="+result);
+            Log.i("ptrrv:"+ptrrv+"adapter:"+adapter);
+        }*/
         //Log.i("内容滚动区域是否到达了第一条？="+result);
         return result;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("活动推荐销毁拉拉拉拉啦啦啦啦啦啦啦啦");
+    }
 }

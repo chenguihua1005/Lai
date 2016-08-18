@@ -84,13 +84,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ButterKnife.reset(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         LifeCircle.onDestory(this);
-        ButterKnife.reset(this);
     }
 
     /**

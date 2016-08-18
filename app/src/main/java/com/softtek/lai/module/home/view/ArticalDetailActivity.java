@@ -32,24 +32,21 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
-        tv_title.setText("文章详情");
-        webView.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                webView.setVisibility(View.VISIBLE);
-            }
-        });
+        tv_title.setText(getIntent().getStringExtra("title"));
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if(newProgress==100){
-                    pb.setVisibility(View.GONE);
-                }else {
-                    if(pb.getVisibility()==View.GONE){
-                        pb.setVisibility(View.VISIBLE);
+                try {
+                    if(newProgress==100){
+                        pb.setVisibility(View.GONE);
+                    }else {
+                        if(pb.getVisibility()==View.GONE){
+                            pb.setVisibility(View.VISIBLE);
+                        }
+                        pb.setProgress(newProgress);
                     }
-                    pb.setProgress(newProgress);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 super.onProgressChanged(view, newProgress);
             }

@@ -36,24 +36,20 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
         ll_left.setOnClickListener(this);
         tv_title.setText("资讯详情");
-        webView.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                //iv_bg.setVisibility(View.GONE);
-                webView.setVisibility(View.VISIBLE);
-            }
-        });
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if(newProgress==100){
-                    pb.setVisibility(View.GONE);
-                }else {
-                    if(pb.getVisibility()==View.GONE){
-                        pb.setVisibility(View.VISIBLE);
+                try {
+                    if(newProgress==100){
+                        pb.setVisibility(View.GONE);
+                    }else {
+                        if(pb.getVisibility()==View.GONE){
+                            pb.setVisibility(View.VISIBLE);
+                        }
+                        pb.setProgress(newProgress);
                     }
-                    pb.setProgress(newProgress);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 super.onProgressChanged(view, newProgress);
             }

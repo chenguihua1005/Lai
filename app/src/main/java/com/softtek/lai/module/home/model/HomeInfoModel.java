@@ -5,12 +5,15 @@
 
 package com.softtek.lai.module.home.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * Created by jerry.guan on 3/17/2016.
  */
-public class HomeInfoModel implements Serializable {
+public class HomeInfoModel implements Serializable ,Parcelable{
 
     private String Img_Type;//放置位置
 
@@ -22,6 +25,27 @@ public class HomeInfoModel implements Serializable {
 
     private String BannerType;
     private String ArtUrl;//文章链接
+
+    protected HomeInfoModel(Parcel in) {
+        Img_Type = in.readString();
+        Img_Title = in.readString();
+        Img_Order = in.readString();
+        Img_Addr = in.readString();
+        BannerType = in.readString();
+        ArtUrl = in.readString();
+    }
+
+    public static final Creator<HomeInfoModel> CREATOR = new Creator<HomeInfoModel>() {
+        @Override
+        public HomeInfoModel createFromParcel(Parcel in) {
+            return new HomeInfoModel(in);
+        }
+
+        @Override
+        public HomeInfoModel[] newArray(int size) {
+            return new HomeInfoModel[size];
+        }
+    };
 
     public String getArtUrl() {
         return ArtUrl;
@@ -80,5 +104,20 @@ public class HomeInfoModel implements Serializable {
                 ", Img_Order='" + Img_Order + '\'' +
                 ", Img_Addr='" + Img_Addr + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Img_Type);
+        dest.writeString(Img_Title);
+        dest.writeString(Img_Order);
+        dest.writeString(Img_Addr);
+        dest.writeString(BannerType);
+        dest.writeString(ArtUrl);
     }
 }
