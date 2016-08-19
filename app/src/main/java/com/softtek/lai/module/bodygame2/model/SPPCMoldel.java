@@ -22,6 +22,7 @@ public class SPPCMoldel {
     private int acmCou;
     private int Gender;
     private String PCPhoto;
+    private int MStatus;
 
     public int getAssistantId() {
         return AssistantId;
@@ -149,5 +150,13 @@ public class SPPCMoldel {
 
     public void setAcmCou(int acmCou) {
         this.acmCou = acmCou;
+    }
+
+    public int getMStatus() {
+        return MStatus;
+    }
+
+    public void setMStatus(int MStatus) {
+        this.MStatus = MStatus;
     }
 }

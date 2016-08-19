@@ -460,7 +460,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
                     break;
-                case Constants.CHAT:
+                case Constants.LAI_CLASS:
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();
 //                    if (isLogin) {
 //                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -512,31 +512,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                 case Constants.NC:
                 case Constants.INC:
                 case Constants.PC:
-                    if (position == Constants.CHAT) {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).create().show();
-                    } else {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //跳转到身份认证界面
-                                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                            }
-                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create().show();
-                    }
-                    break;
                 case Constants.SR:
-                    break;
                 case Constants.SP:
                     break;
             }

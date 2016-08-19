@@ -100,10 +100,10 @@ public class ActivityRecordFragment extends BaseFragment  {
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-//                intent.putExtra("info", (Parcelable) infos.get(position));
-//                intent.putExtra("title","活动推荐");
-//                startActivity(intent);
+                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+                intent.putExtra("info", (Parcelable) infos.get(position));
+                intent.putExtra("title","活动推荐");
+                startActivity(intent);
             }
         });
 
@@ -149,22 +149,18 @@ public class ActivityRecordFragment extends BaseFragment  {
     //确定recycle的位置
     public boolean isRecycleFirst(){
         boolean result;
-        //if(ptrrv!=null&&adapter!=null){
+        if(ptrrv!=null&&adapter!=null){
             if(infos==null||infos.isEmpty()){
                 result=true;
-                Log.i("infos==null||infos.isEmpty()==="+result);
             }else{
                 LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
                 int first=llm.findFirstVisibleItemPosition();
                 result= first==0?true:false;
-                Log.i("first==="+first);
             }
 
-        /*}else{
+        }else{
             result=true;
-            Log.i("ptrrv!=null&&adapter!=null==="+result);
-            Log.i("ptrrv:"+ptrrv+"adapter:"+adapter);
-        }*/
+        }
         //Log.i("内容滚动区域是否到达了第一条？="+result);
         return result;
     }

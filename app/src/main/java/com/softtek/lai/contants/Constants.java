@@ -99,7 +99,7 @@ public class Constants {
      */
     public static final int BODY_GAME=0;
     public static final int LAI_YUNDONG=1;
-    public static final int CHAT=2;
+    public static final int LAI_CLASS=2;
     public static final int LAI_EXCLE=3;
     public static final int LAI_SHOP=4;
 

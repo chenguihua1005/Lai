@@ -140,8 +140,8 @@ public class UserInfoModel {
             case Constants.LAI_YUNDONG:
                 has=power.isLaiYunDong();
                 break;
-            case Constants.CHAT:
-                has=power.isChat();
+            case Constants.LAI_CLASS:
+                has=power.isLaiClass();
                 break;
             case Constants.LAI_EXCLE:
                 has=power.isLaiExcel();

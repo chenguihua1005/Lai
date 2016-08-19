@@ -29,7 +29,16 @@
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            />
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/civ_exit"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/exit_match"
+            android:scaleType="centerCrop"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/tv_start_weight"
             android:layout_width="wrap_content"
