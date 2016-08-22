@@ -57,7 +57,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        //checkUpdate();
+        checkUpdate();
         content.setOffscreenPageLimit(3);
 
     }

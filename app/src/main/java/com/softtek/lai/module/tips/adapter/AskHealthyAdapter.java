@@ -59,15 +59,15 @@ public class AskHealthyAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         AskHealthyModel model=models.get(position);
-        String mask=model.getTips_TagTitle();
+        String mask=StringUtils.isEmpty(model.getTips_TagTitle())?"":model.getTips_TagTitle().trim();
         holder.tv_mask.setText(mask);
         if("运动健身".equals(mask)){
             holder.tv_mask.setTextColor(Color.parseColor("#ffa300"));
             holder.iv_mask.setBackgroundResource(R.drawable.mask_org);
-        }else if("营养养身".equals(mask)){
+        }else if("营养课堂".equals(mask)){
             holder.tv_mask.setTextColor(Color.parseColor("#75ba2b"));
             holder.iv_mask.setBackgroundResource(R.drawable.mask_green);
-        }else if("养身保健知识".equals(mask)){
+        }else if("养生保健知识".equals(mask)){
             holder.tv_mask.setTextColor(Color.parseColor("#98dee6"));
             holder.iv_mask.setBackgroundResource(R.drawable.mask_blue);
         }else if("健康饮食".equals(mask)){
