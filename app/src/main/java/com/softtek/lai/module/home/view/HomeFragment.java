@@ -423,7 +423,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                System.out.println("aaaaaaaa");
                 Constants.IS_LOGINIMG="0";
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
