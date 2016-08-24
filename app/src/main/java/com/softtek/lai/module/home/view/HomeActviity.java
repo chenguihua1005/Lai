@@ -152,36 +152,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     }
 
-    int count = 2;
-
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
         super.onBackPressed();
     }
-
-    /*@Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (count == 2) {
-                Util.toastMsg("再按一次,退出应用");
-                //5秒中后恢复
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        count = 2;
-                    }
-                }, 5000);
-            }
-            count--;
-            if (count <= 0) {
-
-                //AppManager.getAppManager().AppExit(this);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
 
     @Override
     public void onFragmentInteraction(Uri uri) {

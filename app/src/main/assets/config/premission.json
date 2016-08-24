@@ -2,42 +2,42 @@
   "vr": {
     "bodyGame":true,
     "laiYunDong":false,
-    "chat":false,//会话
-    "laiExcel":false,
-    "laiShop":false
+    "laiClass":true,
+    "laiExcel":true,
+    "laiShop":true
   },
   "nc": {
     "bodyGame":true,
     "laiYunDong":true,
-    "chat":false,
-    "laiExcel":false,
-    "laiShop":false
+    "laiClass":true,
+    "laiExcel":true,
+    "laiShop":true
   },
   "inc":{
     "bodyGame":true,
     "laiYunDong":true,
-    "chat":true,
-    "laiExcel":false,
-    "laiShop":false
+    "laiClass":true,
+    "laiExcel":true,
+    "laiShop":true
   },
   "pc": {
     "bodyGame":true,
     "laiYunDong":true,
-    "chat":true,
-    "laiExcel":false,
-    "laiShop":false
+    "laiClass":true,
+    "laiExcel":true,
+    "laiShop":true
   },
   "sr": {
     "bodyGame":true,
     "laiYunDong":true,
-    "chat":true,
+    "laiClass":true,
     "laiExcel":true,
     "laiShop":true
   },
   "sp": {
     "bodyGame":true,
     "laiYunDong":true,
-    "chat":true,
+    "laiClass":true,
     "laiExcel":true,
     "laiShop":true
   }

@@ -4,6 +4,8 @@ package com.softtek.lai.contants;
  * Created by jerry.guan on 3/4/2016.
  */
 public class Constants {
+    //是否在登录环信
+    public static String IS_LOGINIMG="0";  //0不再登录 1在登录
 
     //注册验证码标识
     public static final String REGIST_IDENTIFY="0";
@@ -99,7 +101,7 @@ public class Constants {
      */
     public static final int BODY_GAME=0;
     public static final int LAI_YUNDONG=1;
-    public static final int CHAT=2;
+    public static final int LAI_CLASS=2;
     public static final int LAI_EXCLE=3;
     public static final int LAI_SHOP=4;
 

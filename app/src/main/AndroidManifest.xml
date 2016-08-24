@@ -102,7 +102,7 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.welcome.view.GuidePageActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.welcome.view.WelcomeActivity"
             android:theme="@style/SplashTheme"

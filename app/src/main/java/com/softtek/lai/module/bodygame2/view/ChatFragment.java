@@ -120,14 +120,14 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                         dialog.show();
                     }
                 }
-            } else if(msg.what==1) {
+            } else if (msg.what == 1) {
                 loginPresenter.getEMChatAccount(progressDialog);
-            }else if(msg.what==2) {
+            } else if (msg.what == 2) {
                 img_mo_message.setVisibility(View.GONE);
                 conversationListFragment = new ConversationListFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                         .commit();
-            }else {
+            } else {
                 Util.toastMsg("会话功能开通中，请稍后再试");
             }
         }
@@ -219,43 +219,48 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-        if (HomeFragment.timer != null) {
-            HomeFragment.timer.cancel();
-        }
-        if (hxid.equals(model.getHXAccountId())) {
-            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            ChatUserModel chatUserModel = new ChatUserModel();
-            chatUserModel.setUserName(model.getNickname());
-            chatUserModel.setUserPhone(path + model.getPhoto());
-            chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-            ChatUserInfoModel.getInstance().setUser(chatUserModel);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                    EMChatManager.getInstance().loadAllConversations();
-                }
-            }).start();
-            img_mo_message.setVisibility(View.GONE);
-            conversationListFragment = new ConversationListFragment();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
-                    .commit();
-        } else {
-            if ("-1".equals(hxid)) {
-                loginPresenter.getEMChatAccount(progressDialog);
-            } else {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                HXLoginOut();
-                            }
-                        }
-                ).start();
+        if ("0".equals(Constants.IS_LOGINIMG)) {
+            final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+            if (HomeFragment.timer != null) {
+                HomeFragment.timer.cancel();
             }
+            if (hxid.equals(model.getHXAccountId())) {
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                ChatUserModel chatUserModel = new ChatUserModel();
+                chatUserModel.setUserName(model.getNickname());
+                chatUserModel.setUserPhone(path + model.getPhoto());
+                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+                ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                        EMChatManager.getInstance().loadAllConversations();
+                    }
+                }).start();
+                img_mo_message.setVisibility(View.GONE);
+                conversationListFragment = new ConversationListFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
+                        .commit();
+            } else {
+                if ("-1".equals(hxid)) {
+                    loginPresenter.getEMChatAccount(progressDialog);
+                } else {
+                    new Thread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    HXLoginOut();
+                                }
+                            }
+                    ).start();
+                }
 
+            }
+        }else {
+            Util.toastMsg("会话功能开通中，请稍后再试");
         }
+
 
     }
 
@@ -392,11 +397,14 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     }
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
+        Constants.IS_LOGINIMG = "1";
         EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                Constants.IS_LOGINIMG = "0";
+                System.out.println("bbbbbbbbbbb");
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
@@ -424,6 +432,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onError(final int code, final String message) {
                 handler.sendEmptyMessage(4);
+                Constants.IS_LOGINIMG = "0";
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }

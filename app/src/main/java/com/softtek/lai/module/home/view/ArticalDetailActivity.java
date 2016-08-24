@@ -3,8 +3,6 @@ package com.softtek.lai.module.home.view;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.home.model.HomeInfoModel;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -43,8 +40,8 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
                         if(pb.getVisibility()==View.GONE){
                             pb.setVisibility(View.VISIBLE);
                         }
-                        pb.setProgress(newProgress);
                     }
+                    pb.setProgress(newProgress);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -318,9 +318,24 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                             if (timer != null) {
                                 timer.cancel();
                             }
+                            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                            ChatUserModel chatUserModel = new ChatUserModel();
+                            chatUserModel.setUserName(model.getNickname());
+                            chatUserModel.setUserPhone(path + model.getPhoto());
+                            chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+                            ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                                    EMChatManager.getInstance().loadAllConversations();
+                                }
+                            }).start();
                         } else {
                             if ("-1".equals(hxid)) {
-                                loginChat(progressDialog, model.getHXAccountId());
+                                if("0".equals(Constants.IS_LOGINIMG)){
+                                    loginChat(progressDialog, model.getHXAccountId());
+                                }
                             } else {
                                 new Thread(
                                         new Runnable() {
@@ -402,11 +417,13 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     }
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
+        Constants.IS_LOGINIMG="1";
         EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                Constants.IS_LOGINIMG="0";
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
@@ -427,10 +444,12 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
             @Override
             public void onProgress(int progress, String status) {
+                System.out.println("progress:"+progress+"     status:"+status);
             }
 
             @Override
             public void onError(final int code, final String message) {
+                Constants.IS_LOGINIMG="0";
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
@@ -460,7 +479,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
                     break;
-                case Constants.CHAT:
+                case Constants.LAI_CLASS:
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();
 //                    if (isLogin) {
 //                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -512,31 +531,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                 case Constants.NC:
                 case Constants.INC:
                 case Constants.PC:
-                    if (position == Constants.CHAT) {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).create().show();
-                    } else {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //跳转到身份认证界面
-                                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                            }
-                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create().show();
-                    }
-                    break;
                 case Constants.SR:
-                    break;
                 case Constants.SP:
                     break;
             }

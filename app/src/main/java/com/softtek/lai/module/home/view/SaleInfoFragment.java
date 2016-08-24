@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
@@ -29,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import butterknife.InjectView;

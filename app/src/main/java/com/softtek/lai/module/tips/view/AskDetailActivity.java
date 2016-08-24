@@ -46,8 +46,8 @@ public class AskDetailActivity extends BaseActivity implements View.OnClickListe
                         if(pb.getVisibility()==View.GONE){
                             pb.setVisibility(View.VISIBLE);
                         }
-                        pb.setProgress(newProgress);
                     }
+                    pb.setProgress(newProgress);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

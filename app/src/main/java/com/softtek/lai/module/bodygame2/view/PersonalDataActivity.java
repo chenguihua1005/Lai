@@ -30,6 +30,7 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.model.ClmInfoModel;
 import com.softtek.lai.module.bodygame2.model.HonorListModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
@@ -302,11 +303,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
+        Constants.IS_LOGINIMG="1";
         EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                Constants.IS_LOGINIMG="0";
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
@@ -335,6 +338,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onError(final int code, final String message) {
                 handler.sendEmptyMessage(0);
+                Constants.IS_LOGINIMG="0";
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
@@ -346,44 +350,48 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_send_message:
-                if (clmInfoModel != null) {
-                    model = UserInfoModel.getInstance().getUser();
-                    final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-                    if (HomeFragment.timer != null) {
-                        HomeFragment.timer.cancel();
-                    }
-                    if (hxid.equals(model.getHXAccountId())) {
-                        String HX_ID = clmInfoModel.getHXAccountId();
-                        if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
-                            Util.toastMsg("会话功能开通中，请稍后再试");
-                        } else {
-                            Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
-                            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                            intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
-                            intent.putExtra("name", clmInfoModel.getUserName());
-                            intent.putExtra("photo", path + clmInfoModel.getPhoto());
-                            startActivity(intent);
+                if("0".equals(Constants.IS_LOGINIMG)) {
+                    if (clmInfoModel != null) {
+                        model = UserInfoModel.getInstance().getUser();
+                        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+                        if (HomeFragment.timer != null) {
+                            HomeFragment.timer.cancel();
                         }
-                    } else {
-                        if ("-1".equals(hxid)) {
-                            String hasEmchat = model.getHasEmchat();
-                            if ("1".equals(hasEmchat)) {
-                                progressDialog.show();
-                                loginChat(progressDialog, model.getHXAccountId());
-                            }else{
+                        if (hxid.equals(model.getHXAccountId())) {
+                            String HX_ID = clmInfoModel.getHXAccountId();
+                            if (TextUtils.isEmpty(HX_ID) || HX_ID == null || "null".equals(HX_ID)) {
                                 Util.toastMsg("会话功能开通中，请稍后再试");
+                            } else {
+                                Intent intent = new Intent(PersonalDataActivity.this, ChatActivity.class);
+                                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                                intent.putExtra(Constant.EXTRA_USER_ID, clmInfoModel.getHXAccountId().toLowerCase());
+                                intent.putExtra("name", clmInfoModel.getUserName());
+                                intent.putExtra("photo", path + clmInfoModel.getPhoto());
+                                startActivity(intent);
                             }
                         } else {
-                            new Thread(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            HXLoginOut();
+                            if ("-1".equals(hxid)) {
+                                String hasEmchat = model.getHasEmchat();
+                                if ("1".equals(hasEmchat)) {
+                                    progressDialog.show();
+                                    loginChat(progressDialog, model.getHXAccountId());
+                                } else {
+                                    Util.toastMsg("会话功能开通中，请稍后再试");
+                                }
+                            } else {
+                                new Thread(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                HXLoginOut();
+                                            }
                                         }
-                                    }
-                            ).start();
+                                ).start();
+                            }
                         }
                     }
+                }else {
+                    Util.toastMsg("会话功能开通中，请稍后再试");
                 }
                 break;
             case R.id.ll_left:

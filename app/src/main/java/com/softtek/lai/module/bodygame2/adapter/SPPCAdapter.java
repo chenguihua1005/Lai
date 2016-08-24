@@ -92,12 +92,18 @@ public class SPPCAdapter extends BaseAdapter{
         }else{
             Picasso.with(context).load(R.drawable.img_default).into(holder.civ_header);
         }
+        if(model.getMStatus()==-1){
+            holder.civ_exit.setVisibility(View.VISIBLE);
+        }else {
+            holder.civ_exit.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
     private static class ViewHolder{
         TextView tv_order;
         CircleImageView civ_header;
+        CircleImageView civ_exit;
         TextView tv_start_weight;
         CheckBox cb_gender;
         TextView tv_name;
@@ -118,6 +124,7 @@ public class SPPCAdapter extends BaseAdapter{
             cb_mingxing= (CheckBox) view.findViewById(R.id.cb_mingxing);
             cb_fuce= (CheckBox) view.findViewById(R.id.cb_fuce);
             tv_xunzhang= (TextView) view.findViewById(R.id.tv_xunzhang);
+            civ_exit= (CircleImageView) view.findViewById(R.id.civ_exit);
         }
 
     }
