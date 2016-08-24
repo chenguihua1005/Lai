@@ -100,10 +100,10 @@ public class ActivityRecordFragment extends BaseFragment  {
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-                intent.putExtra("info", (Parcelable) infos.get(position));
-                intent.putExtra("title","活动推荐");
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+//                intent.putExtra("info", (Parcelable) infos.get(position));
+//                intent.putExtra("title","活动推荐");
+//                startActivity(intent);
             }
         });
 

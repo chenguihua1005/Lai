@@ -102,7 +102,7 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.welcome.view.GuidePageActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.welcome.view.WelcomeActivity"
             android:theme="@style/SplashTheme"
@@ -547,13 +547,13 @@
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
         <!--正式-->
-        <!--<meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="1a3bbb691bfbfca0d0676e9f" />-->
-        <!--测试54-->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />
+            android:value="1a3bbb691bfbfca0d0676e9f" />
+        <!--测试54-->
+        <!--<meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="b004a008690a103f8b6ebbf7" />-->
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity
             android:name=".module.historydate.view.HistoryDataActivity"
