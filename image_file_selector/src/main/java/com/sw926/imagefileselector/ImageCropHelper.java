@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 
 import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
 
@@ -138,12 +140,18 @@ public class ImageCropHelper {
             uri = Uri.fromFile(mTempFile);
             AppLogger.w(TAG, "use temp file:" + mTempFile.getPath());
         }
+        UCrop.Options options=new UCrop.Options();
+        options.setShowCropGrid(false);
+        options.setHideBottomControls(true);
+        options.setAllowedGestures(UCropActivity.SCALE,UCropActivity.ROTATE,UCropActivity.ALL);
+        options.setToolbarColor(ContextCompat.getColor(getContext(),android.R.color.black));
+        options.setToolbarTitle(" ");
         if (mActivity != null) {
             UCrop.of(uri,Uri.fromFile(outFile)).withMaxResultSize(mOutPutX,mOutPutY)
-                    .withAspectRatio(mAspectX,mAspectY).start(mActivity);
+                    .withAspectRatio(mAspectX,mAspectY).withOptions(options).start(mActivity);
         } else {
             UCrop.of(uri,Uri.fromFile(outFile)).withMaxResultSize(mOutPutX,mOutPutY)
-                    .withAspectRatio(mAspectX,mAspectY).start(getContext(),mFragment);
+                    .withAspectRatio(mAspectX,mAspectY).withOptions(options).start(getContext(),mFragment);
         }
     }
 
