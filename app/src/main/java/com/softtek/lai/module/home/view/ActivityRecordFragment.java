@@ -154,7 +154,7 @@ public class ActivityRecordFragment extends BaseFragment  {
                 result=true;
             }else{
                 LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
-                int first=llm.findFirstVisibleItemPosition();
+                int first=(llm==null?0:llm.findFirstVisibleItemPosition());
                 result= first==0?true:false;
             }
 

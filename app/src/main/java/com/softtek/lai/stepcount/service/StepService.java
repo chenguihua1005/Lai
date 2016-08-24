@@ -397,6 +397,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         @Override
         public void onReceive(Context context, Intent intent) {
             isLoginOut=true;
+            firstStep=0;
             stopSelf();
         }
     }
@@ -448,62 +449,4 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             }
         }
     }
-
-    /*public class UploadStepReceive extends BroadcastReceiver{
-        int index=4;
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            //检查日期
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(System.currentTimeMillis());
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minutes=c.get(Calendar.MINUTE);
-            if(Intent.ACTION_TIME_TICK.equals(action)){
-                //Log.i("一分钟到了。。。。。。。");
-                //每晚的23点30分到24点之间
-                if(hour==23&&minutes>=50&&minutes<=59){
-                    serverStep=0;
-                    firstStep=0;
-                    lastStep=0;
-                    todayStep=0;
-                    int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
-                    updateNotification(tempStep+"");
-                }if(hour==0&&minutes==0){
-                    index=4;
-                    SharedPreferenceService.getInstance().put("currentStep",0);
-                    updateNotification(0+"");
-                }else {
-                    index--;
-                    if(index==0) {
-                        index=4;
-                        //做上传工作
-                        UserModel model = UserInfoModel.getInstance().getUser();
-                        if (model != null) {
-                            String userId = model.getUserid();
-                            int todayStep = StepService.todayStep;
-                            StringBuilder buffer = new StringBuilder();
-                            buffer.append(DateUtil.getInstance().getCurrentDate());
-                            buffer.append(",");
-                            buffer.append(todayStep);
-                            //提交数据
-                            ZillaApi.NormalRestAdapter.create(StepNetService.class)
-                                    .synStepCount(
-                                            UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-
-                                                }
-
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    //super.failure(error);
-                                                }
-                                            });
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 }

@@ -156,13 +156,13 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         tab.setupWithViewPager(page);
         tab.setTabMode(TabLayout.MODE_FIXED);
 
-        appBar.addOnOffsetChangedListener(this);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
+        appBar.addOnOffsetChangedListener(this);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
@@ -227,11 +227,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             }
         }
         rhv_adv.setImgUrlData(advList);
-        /*fragments.clear();
-        fragments.add(ActivityRecordFragment.getInstance((ArrayList<HomeInfoModel>) records));
-        fragments.add(ProductInfoFragment.getInstance((ArrayList<HomeInfoModel>) products));
-        fragments.add(SaleInfoFragment.getInstance((ArrayList<HomeInfoModel>) sales));
-        fragementAdapter.notifyDataSetChanged();*/
 
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
         ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));

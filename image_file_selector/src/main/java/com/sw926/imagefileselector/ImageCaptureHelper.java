@@ -67,6 +67,10 @@ class ImageCaptureHelper {
         }
     }
 
+    private void saveImageToGallery(File image){
+
+    }
+
     public void captureImage(Fragment fragment) {
         mOutFile = CommonUtils.generateExternalImageCacheFile(fragment.getContext(), ".jpg");
         try {

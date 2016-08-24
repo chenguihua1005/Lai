@@ -316,7 +316,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         text_start_pks.setOnClickListener(this);
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
-
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -338,7 +338,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
         userId = UserInfoModel.getInstance().getUser().getUserid();
-        String str = DateUtil.getInstance().getCurrentDate() + "," + (currentStep==0? SharedPreferenceService.getInstance().get("currentStep",0):currentStep);
+        String str = DateUtil.getInstance().getCurrentDate() + "," +currentStep;
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
     }

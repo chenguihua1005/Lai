@@ -6,7 +6,6 @@ package com.softtek.lai.module.welcome.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.RelativeLayout;
@@ -71,14 +70,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     public void run() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("shared", MODE_PRIVATE);
-        boolean isfirstRun = sharedPreferences.getBoolean("isfirstRun", true);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        boolean isfirstRun = SharedPreferenceService.getInstance().get("isfirstRun",true);
         if (isfirstRun)
         {
+            SharedPreferenceService.getInstance().put("isfirstRun",false);
             startActivity(new Intent(this,GuidePageActivity.class));
-            editor.putBoolean("isfirstRun", false);
-            editor.commit();
             finish();
         } else {
             //获取用户的帐号和密码
