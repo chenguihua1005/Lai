@@ -371,7 +371,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                             }else if("营养养身".equals(mask)){
                                 tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
                                 im_icon_tip.setBackgroundResource(R.drawable.mask_green);
-                            }else if("养身保健知识".equals(mask)){
+                            }else if("养生保健知识".equals(mask)){
                                 tv_tag1.setTextColor(Color.parseColor("#98dee6"));
                                 im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
                             }else if("健康饮食".equals(mask)){
@@ -391,7 +391,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                             }else if("营养养身".equals(mask)){
                                 tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
                                 im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
-                            }else if("养身保健知识".equals(mask)){
+                            }else if("养生保健知识".equals(mask)){
                                 tv_tag2.setTextColor(Color.parseColor("#98dee6"));
                                 im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
                             }else if("健康饮食".equals(mask)){
