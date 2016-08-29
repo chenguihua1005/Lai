@@ -19,6 +19,7 @@ import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -340,7 +341,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }
     }
     private void start(ArrayList<String> imgs,int position){
-        Intent in=new Intent(context, PictureActivity.class);
+        Intent in=new Intent(context, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", imgs);
         in.putExtra("position",position);
         context.startActivity(in);

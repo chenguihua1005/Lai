@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
+ *
  */
 public class GroupAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局

@@ -165,9 +165,4 @@ public class ActivityRecordFragment extends BaseFragment  {
         return result;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("活动推荐销毁拉拉拉拉啦啦啦啦啦啦啦啦");
-    }
 }

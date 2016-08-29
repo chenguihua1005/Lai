@@ -24,7 +24,7 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -44,6 +44,7 @@ import zilla.libcore.file.AddressManager;
 
 /**
  * Created by John on 2016/4/14.
+ *
  */
 public class HealthyCommunityAdapter extends BaseAdapter {
 
@@ -327,7 +328,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 0);
                             context.startActivity(in);
@@ -350,7 +351,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 1);
                             context.startActivity(in);
@@ -373,7 +374,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 2);
                             context.startActivity(in);
@@ -394,7 +395,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img4.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 3);
                             context.startActivity(in);
@@ -414,7 +415,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img5.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 4);
                             context.startActivity(in);
@@ -433,7 +434,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img6.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 5);
                             context.startActivity(in);
@@ -451,7 +452,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img7.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 6);
                             context.startActivity(in);
@@ -468,7 +469,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img8.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 7);
                             context.startActivity(in);
@@ -484,7 +485,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     holder.img9.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent in = new Intent(context, PictureActivity.class);
+                            Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 8);
                             context.startActivity(in);
