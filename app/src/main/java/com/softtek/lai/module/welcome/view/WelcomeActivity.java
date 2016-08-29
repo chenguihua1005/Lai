@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
@@ -69,14 +68,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
 
         LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-        new Handler().postDelayed(this,500);
-
+        new Handler().postDelayed(this,600);
 
     }
 
     @Override
     public void run() {
-
         boolean isfirstRun = SharedPreferenceService.getInstance().get("isfirstRun",true);
         if (isfirstRun)
         {
@@ -87,7 +84,8 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             //获取用户的帐号和密码
             String user=SharedPreferenceService.getInstance().get(Constants.USER,"");
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
-            if(StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
+            String token=UserInfoModel.getInstance().getToken();
+            if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
                 finish();
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -164,10 +162,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 });
             }
         }
-
-
-
-
     }
 
     private void stepDeal(Context context, String userId, long step){
