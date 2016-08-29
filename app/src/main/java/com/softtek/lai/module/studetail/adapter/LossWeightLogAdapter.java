@@ -16,6 +16,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
@@ -128,7 +129,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
             holder.iv_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent in=new Intent(context, PictureActivity.class);
+                    Intent in=new Intent(context, PictureMoreActivity.class);
                     ArrayList<String> imgs=new ArrayList<String>();
                     imgs.add(log.getImgCollectionFirst());
                     in.putStringArrayListExtra("images", imgs);

@@ -18,6 +18,7 @@ import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.presenter.LogStoryDetailManager;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.module.studetail.adapter.LossWeightLogAdapter;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
@@ -210,7 +211,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent in=new Intent(this, PictureActivity.class);
+        Intent in=new Intent(this, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", (ArrayList<String>) images);
         in.putExtra("position",position);
         startActivity(in);

@@ -50,7 +50,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initViews() {
-        //guide.setBackgroundResource(R.drawable.guide_bac2);
         Constants.IS_LOGINIMG="0";
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
@@ -63,7 +62,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
 
         LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-        new Handler().postDelayed(this,1000);
+        new Handler().postDelayed(this,500);
 
 
     }

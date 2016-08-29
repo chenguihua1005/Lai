@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -78,6 +79,8 @@ public class PictureMoreFragment extends BaseFragment{
         return fragment;
     }
 
+    private static int READ_WRITER=0X10;
+
     @Override
     protected void initViews() {
         iv_image.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
@@ -99,15 +102,31 @@ public class PictureMoreFragment extends BaseFragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            //保存
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
+                            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                                    ||ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                        ||ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                    //允许弹出提示
+                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                    ,READ_WRITER);
 
-                                    Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-                                    saveImageToGallery(getContext(),bitmap);
+                                } else {
+                                    //不允许弹出提示
+                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                            ,READ_WRITER);
                                 }
-                            }).start();
+                            }else {
+                                //保存
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                                        saveImageToGallery(getContext(),bitmap);
+                                    }
+                                }).start();
+
+                            }
                         } else if (which == 1) {
 
 
@@ -118,6 +137,30 @@ public class PictureMoreFragment extends BaseFragment{
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(getContext(),bitmap);
+                    }
+                }).start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+
     public  void saveImageToGallery(Context context, Bitmap bmp) {
         if (bmp == null){
             handler.sendEmptyMessage(0);
