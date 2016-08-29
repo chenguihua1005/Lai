@@ -104,7 +104,7 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         //*************************
         imageFileSelector=new ImageFileSelector(getContext());
         imageFileSelector.setOutPutImageSize(px,px);
-        imageFileSelector.setQuality(30);
+        imageFileSelector.setQuality(60);
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
@@ -132,6 +132,7 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         switch (v.getId()){
             case R.id.fl_right:
                 //弹出dialog
+
                 AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -140,15 +141,13 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
                             //拍照
                             if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                                if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
                                     //允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                    requestPermissions(new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
 
                                 }else{
                                     //不允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                    requestPermissions(new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                 }
                             }else {
                                 imageFileSelector.takePhoto(HealthyFragment.this);

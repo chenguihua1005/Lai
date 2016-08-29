@@ -3,6 +3,7 @@ package com.sw926.imagefileselector;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,9 +11,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.ref.WeakReference;
 
 @SuppressWarnings("unused")
 class ImageCaptureHelper {
@@ -22,6 +26,8 @@ class ImageCaptureHelper {
 
     private File mOutFile;
     private Callback mCallback;
+    private WeakReference<Activity> mActivityWeakReference;
+    private WeakReference<Fragment> mFragmentWeakReference;
 
     public void setCallback(Callback callback) {
         mCallback = callback;
@@ -45,18 +51,20 @@ class ImageCaptureHelper {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CHOOSE_PHOTO_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
             if (mOutFile != null && mOutFile.exists()) {
+                saveImageToGallery(mOutFile);
                 if (mCallback != null) {
                     mCallback.onSuccess(mOutFile.getPath());
                 }
             } else {
                 if (mCallback != null) {
-                    mCallback.onSuccess(null);
+                    mCallback.onError();
                 }
             }
         }
     }
     public void captureImage(Activity activity) {
         mOutFile = CommonUtils.generateExternalImageCacheFile(activity, ".jpg");
+        mActivityWeakReference=new WeakReference(activity);
         try {
             activity.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
@@ -68,11 +76,32 @@ class ImageCaptureHelper {
     }
 
     private void saveImageToGallery(File image){
-
+        Context context=null;
+        if(mFragmentWeakReference!=null){
+            Fragment fragment=mFragmentWeakReference.get();
+            if(fragment!=null){
+                context=fragment.getContext();
+            }
+        }else if(mActivityWeakReference!=null){
+            Activity activity=mActivityWeakReference.get();
+            if(activity!=null){
+                context=activity.getApplicationContext();
+            }
+        }
+        if(context!=null){
+            try {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                        image.getAbsolutePath(),image.getName(),null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(mOutFile)));
+        }
     }
 
     public void captureImage(Fragment fragment) {
         mOutFile = CommonUtils.generateExternalImageCacheFile(fragment.getContext(), ".jpg");
+        mFragmentWeakReference=new WeakReference(fragment);
         try {
             fragment.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {

@@ -43,6 +43,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.FileHelper;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
@@ -262,7 +263,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent in=new Intent(this, PictureActivity.class);
+        Intent in=new Intent(this, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", (ArrayList<String>) images);
         in.putExtra("position",position);
         startActivity(in);
