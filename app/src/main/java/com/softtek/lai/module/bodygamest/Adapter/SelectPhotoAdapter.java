@@ -101,7 +101,7 @@ public class SelectPhotoAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(holder.img);
         }
-        holder.lin.setOnClickListener(new View.OnClickListener() {
+        holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -120,18 +120,18 @@ public class SelectPhotoAdapter extends BaseAdapter {
                 }
             }
         });
-        holder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(context, PhotoDetailActivity.class);
-//                intent.putExtra("photo", logListModel.getImgUrl());
-//                context.startActivity(intent);
-                Intent in = new Intent(context, PictureActivity.class);
-                in.putStringArrayListExtra("images", img_list);
-                in.putExtra("position", position);
-                context.startActivity(in);
-            }
-        });
+//        holder.img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent intent = new Intent(context, PhotoDetailActivity.class);
+////                intent.putExtra("photo", logListModel.getImgUrl());
+////                context.startActivity(intent);
+//                Intent in = new Intent(context, PictureActivity.class);
+//                in.putStringArrayListExtra("images", img_list);
+//                in.putExtra("position", position);
+//                context.startActivity(in);
+//            }
+//        });
         return convertView;
     }
 
