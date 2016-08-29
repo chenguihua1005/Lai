@@ -189,7 +189,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
-                        //打开照相机
+                        //检查权限
                         if(ActivityCompat.checkSelfPermission(EditPersonalDynamicActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
                             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
                             if(ActivityCompat.shouldShowRequestPermissionRationale(EditPersonalDynamicActivity.this,Manifest.permission.CAMERA)){

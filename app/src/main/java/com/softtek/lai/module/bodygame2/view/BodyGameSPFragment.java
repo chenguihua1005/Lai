@@ -361,14 +361,14 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                     ll_tip2.setVisibility(View.INVISIBLE);
                     for (int i=0;i<tips.size();i++){
                         Tips tip=tips.get(i);
-                        String mask=tip.getTips_TagTitle();
+                        String mask=StringUtils.isEmpty(tip.getTips_TagTitle())?"":tip.getTips_TagTitle().trim();
                         if(i==0){
                             tv_title1.setText(tip.getTips_Title());
                             tv_tag1.setText(tip.getTips_TagTitle());
                             if("运动健身".equals(mask)){
                                 tv_tag1.setTextColor(Color.parseColor("#ffa300"));
                                 im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                            }else if("营养养身".equals(mask)){
+                            }else if("营养课堂".equals(mask)){
                                 tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
                                 im_icon_tip.setBackgroundResource(R.drawable.mask_green);
                             }else if("养生保健知识".equals(mask)){
@@ -388,7 +388,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                             if("运动健身".equals(mask)){
                                 tv_tag2.setTextColor(Color.parseColor("#ffa300"));
                                 im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
-                            }else if("营养养身".equals(mask)){
+                            }else if("营养课堂".equals(mask)){
                                 tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
                                 im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
                             }else if("养生保健知识".equals(mask)){
