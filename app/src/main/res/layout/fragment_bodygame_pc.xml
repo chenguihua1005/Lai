@@ -25,7 +25,8 @@
                 <FrameLayout
                     android:id="@+id/fl"
                     android:layout_width="match_parent"
-                    android:layout_height="173dp">
+                    android:layout_height="173dp"
+                    >
 
                     <ImageView
                         android:id="@+id/iv_banner"
@@ -110,7 +111,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg2_orange"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -448,7 +450,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="105dp"
                     android:background="@color/white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <LinearLayout
                         android:id="@+id/ll_upload_photo"
@@ -569,7 +572,8 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -683,12 +687,14 @@
                     android:id="@+id/tablayout"
                     style="@style/myTabLayout1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/tabcontent"
                     android:layout_width="match_parent"
-                    android:layout_height="440dp" />
+                    android:layout_height="440dp"
+                    />
 
                 <!--减重故事-->
                 <RelativeLayout
