@@ -49,6 +49,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
                         model.setNickname(file.getNickname());
                         model.setGender(file.getGender() + "");
                         model.setToken(token);
+                        model.setIsCreatInfo("1");
                         UserInfoModel.getInstance().saveUserCache(model);
                         ((AppCompatActivity) context).finish();
                         Intent intent=new Intent(context, HomeActviity.class);

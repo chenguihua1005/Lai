@@ -4,10 +4,14 @@
  */
 package com.softtek.lai.module.welcome.view;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
@@ -19,7 +23,9 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -28,6 +34,7 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.MD5;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -80,7 +87,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         } else {
             //获取用户的帐号和密码
             String user=SharedPreferenceService.getInstance().get(Constants.USER,"");
-            String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
+            final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             if(StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
                 finish();
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
@@ -109,9 +116,37 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has not join Group",
                                             LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                 }
-                                finish();
-                                Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
-                                startActivity(start);
+                                final String token=userModelResponseData.getData().getToken();
+                                if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
+                                    //如果没有创建档案且性别不是2才算没创建档案
+                                    UserInfoModel.getInstance().setToken("");
+                                    Intent intent=new Intent(WelcomeActivity.this, CreatFlleActivity.class);
+                                    intent.putExtra("token",token);
+                                    startActivity(intent);
+                                }else if(MD5.md5WithEncoder("000000").equals(password)){
+                                    UserInfoModel.getInstance().setToken("");
+                                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(WelcomeActivity.this)
+                                            .setTitle(getString(R.string.login_out_title))
+                                            .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
+                                            .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                    Intent intent=new Intent(WelcomeActivity.this, ModifyPasswordActivity.class);
+                                                    intent.putExtra("type","1");
+                                                    intent.putExtra("token",token);
+                                                    finish();
+                                                    startActivity(intent);
+                                                }
+                                            });
+                                    Dialog dialog=dialogBuilder.create();
+                                    dialog.setCancelable(false);
+                                    dialog.show();
+                                }else {
+                                    finish();
+                                    Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
+                                    startActivity(start);
+                                }
                                 break;
                             default:
                                 finish();
