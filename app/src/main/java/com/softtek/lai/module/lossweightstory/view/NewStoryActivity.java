@@ -107,7 +107,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
         imageFileSelector=new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(px,px);
-        imageFileSelector.setQuality(30);
+        imageFileSelector.setQuality(60);
         imageFileSelector.setCallback(this);
     }
 

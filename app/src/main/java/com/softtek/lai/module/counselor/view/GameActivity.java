@@ -153,7 +153,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         progressDialog1 = new ProgressDialog(this);
         progressDialog1.setCanceledOnTouchOutside(false);
         progressDialog1.setMessage("查询中");
-        int zubie=getIntent().getIntExtra("zubie",0);
+        int zubie=getIntent().getIntExtra("zubie",1);
         switch (zubie){
             case 1:
                 grade_id = "1";

@@ -22,6 +22,7 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -253,7 +254,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent in=new Intent(this, PictureActivity.class);
+        Intent in=new Intent(this, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", (ArrayList<String>) images);
         in.putExtra("position",position);
         startActivity(in);

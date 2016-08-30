@@ -100,10 +100,10 @@ public class ProductInfoFragment extends BaseFragment  {
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
-//                intent.putExtra("info", (Serializable) infos.get(position));
-//                intent.putExtra("title","产品信息");
-//                startActivity(intent);
+                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+                intent.putExtra("info", (Serializable) infos.get(position));
+                intent.putExtra("title","产品信息");
+                startActivity(intent);
             }
         });
     }
@@ -160,7 +160,7 @@ public class ProductInfoFragment extends BaseFragment  {
                 result=true;
             }else{
                 LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
-                int first=llm.findFirstVisibleItemPosition();
+                int first=llm==null?0:llm.findFirstVisibleItemPosition();
                 result= first==0?true:false;
             }
 
