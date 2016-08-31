@@ -57,7 +57,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         lin_about.setOnClickListener(this);
-        ll_check.setOnClickListener(this);
+        //ll_check.setOnClickListener(this);
     }
 
     @Override
