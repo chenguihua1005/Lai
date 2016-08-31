@@ -20,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.DisplayUtil;
@@ -32,16 +30,10 @@ import org.json.JSONObject;
 import butterknife.InjectView;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_setting)
-public class SettingsActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -111,16 +103,6 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
     }
 
     //**********************************************************
