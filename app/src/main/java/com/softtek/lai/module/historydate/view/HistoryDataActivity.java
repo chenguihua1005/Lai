@@ -130,7 +130,6 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
                 if(ids.toString().equals("")){
                     break;
                 }
-                Log.i("删除的id="+ids.toString().substring(1,ids.length()));
                 dialogShow("正在删除。。。");
                 manager.deleteHistoryData(ids.toString().substring(1,ids.length()));
                 break;
