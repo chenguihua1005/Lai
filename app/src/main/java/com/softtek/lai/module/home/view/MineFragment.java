@@ -39,7 +39,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_my)
-public class MineFragment extends LazyBaseFragment implements View.OnClickListener, Validator.ValidationListener {
+public class MineFragment extends LazyBaseFragment implements View.OnClickListener {
     @InjectView(R.id.tv_title)
     TextView title;
 
@@ -254,15 +254,5 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().finish();
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
@@ -26,6 +28,8 @@ import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2vr.model.BodyGameVrInfo;
 import com.softtek.lai.module.bodygame2vr.net.BodyGameVRService;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.view.AskDetailActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
@@ -109,6 +113,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     RelativeLayout rl_saikuang;
     @InjectView(R.id.rl_no_saikuang)
     RelativeLayout rl_no_saikuang;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    LinearLayout fl_right;
 
     //请求
 
@@ -121,6 +129,9 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
             params.topMargin=status;
             relativeLayout.setLayoutParams(params);
         }
+        boolean isNc=getIntent().getBooleanExtra("isNc",false);
+        fl_right.setVisibility(isNc?View.VISIBLE:View.GONE);
+        fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
         ll_tip2.setOnClickListener(this);
@@ -179,12 +190,43 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                try {
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.email));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
+    }
+
     Animation roate;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.fl_right:
+                startActivity(new Intent(this, Message2Activity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新
@@ -292,6 +334,29 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                 }
             }
         });
+        ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(), new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                try {
+                    switch (status) {
+                        case 200:
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.has_email));
+                            break;
+                        default:
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.email));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
     }
 
     BodyGameVrInfo info;

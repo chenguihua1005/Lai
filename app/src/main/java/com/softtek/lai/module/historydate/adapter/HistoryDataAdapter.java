@@ -77,6 +77,16 @@ public class HistoryDataAdapter extends BaseAdapter{
                 model.setChecked(isChecked);
                 if(!isChecked){
                     cb_all.setChecked(false);
+                }else {
+                    //检查是否是全部选中了
+                    boolean all=true;
+                    for(HistoryDataItemModel itemModel:dataModels){
+                        if(!itemModel.isChecked()){
+                            all=false;
+                            break;
+                        }
+                    }
+                    cb_all.setChecked(all);
                 }
             }
         });
