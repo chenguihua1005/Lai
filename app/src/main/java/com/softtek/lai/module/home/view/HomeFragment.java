@@ -31,6 +31,7 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -375,34 +376,10 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        int position=tab.getSelectedTabPosition();
-        Fragment fragment=null;
-        if(fragments!=null&&position!=-1){
-            fragment = fragments.get(tab.getSelectedTabPosition());
-        }
-        if (fragment != null) {
-            if (fragment instanceof ActivityRecordFragment) {
-                ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            } else if (fragment instanceof ProductInfoFragment) {
-                ProductInfoFragment recordFragment = (ProductInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            } else if (fragment instanceof SaleInfoFragment) {
-                SaleInfoFragment recordFragment = (SaleInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            }
+        if(verticalOffset>=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
         }
     }
 
