@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
@@ -151,25 +150,5 @@ public class ProductInfoFragment extends BaseFragment  {
         }
         adapter.notifyDataSetChanged();
     }
-
-    //确定recycle的位置
-    public boolean isRecycleFirst(){
-        boolean result=true;
-        if(ptrrv!=null&&adapter!=null){
-            if(infos==null||infos.isEmpty()){
-                result=true;
-            }else{
-                LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
-                int first=llm==null?0:llm.findFirstVisibleItemPosition();
-                result= first==0?true:false;
-            }
-
-        }else{
-            result=true;
-        }
-        //Log.i("内容滚动区域是否到达了第一条？="+result);
-        return result;
-    }
-
 
 }
