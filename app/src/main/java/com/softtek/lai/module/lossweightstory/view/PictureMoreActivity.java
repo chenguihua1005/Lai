@@ -100,5 +100,5 @@ public class PictureMoreActivity extends BaseActivity implements BaseFragment.On
     public void onFragmentInteraction(Uri uri) {
 
     }
-    
+
 }
