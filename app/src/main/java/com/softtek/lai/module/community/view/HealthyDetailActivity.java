@@ -2,6 +2,8 @@ package com.softtek.lai.module.community.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -257,6 +259,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         Intent in=new Intent(this, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", (ArrayList<String>) images);
         in.putExtra("position",position);
-        startActivity(in);
+        ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(view,view.getWidth()/2,view.getHeight()/2,0,0);
+        ActivityCompat.startActivity(this,in,optionsCompat.toBundle());
     }
 }

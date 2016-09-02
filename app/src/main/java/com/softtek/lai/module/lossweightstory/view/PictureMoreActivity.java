@@ -59,9 +59,7 @@ public class PictureMoreActivity extends BaseActivity implements BaseFragment.On
         View decorView=getWindow().getDecorView();
         int option=View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                |View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                |View.SYSTEM_UI_FLAG_FULLSCREEN;
+                |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(option);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
@@ -102,5 +100,5 @@ public class PictureMoreActivity extends BaseActivity implements BaseFragment.On
     public void onFragmentInteraction(Uri uri) {
 
     }
-
+    
 }

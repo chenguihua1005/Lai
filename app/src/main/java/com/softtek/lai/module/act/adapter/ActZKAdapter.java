@@ -6,34 +6,21 @@
 package com.softtek.lai.module.act.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.act.BitmapHelper;
 import com.softtek.lai.module.act.model.ActDetiallistModel;
-import com.softtek.lai.module.act.model.ActlistModel;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -42,11 +29,11 @@ import zilla.libcore.file.AddressManager;
  * Created by jarvis.liu on 3/22/2016.
  */
 public class ActZKAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
+
     private List<ActDetiallistModel> list;
 
     private Context context;
-    private IAssistantPresenter assistantPresenter;
+
     String type;
     double target_distance;
     int target_step;
@@ -57,7 +44,6 @@ public class ActZKAdapter extends BaseAdapter {
     public ActZKAdapter(Context context, List<ActDetiallistModel> list, String type, double distance) {
         this.type = type;
         this.target_distance = distance;
-        this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
     }
@@ -85,7 +71,7 @@ public class ActZKAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.act_list_distance_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.act_list_distance_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
