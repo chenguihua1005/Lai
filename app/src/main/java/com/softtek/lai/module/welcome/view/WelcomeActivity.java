@@ -109,9 +109,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has join Group",
                                             LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                     stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
-                                }else{
-                                    LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has not join Group",
-                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                 }
                                 final String token=userModelResponseData.getData().getToken();
                                 if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
@@ -119,6 +116,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     UserInfoModel.getInstance().setToken("");
                                     Intent intent=new Intent(WelcomeActivity.this, CreatFlleActivity.class);
                                     intent.putExtra("token",token);
+                                    finish();
                                     startActivity(intent);
                                 }else if(MD5.md5WithEncoder("000000").equals(password)){
                                     UserInfoModel.getInstance().setToken("");
