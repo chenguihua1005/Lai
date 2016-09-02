@@ -1,20 +1,31 @@
 package com.softtek.lai.module.home.view;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.ggx.jerryguan.widget_lib.SimpleButton;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import im.fir.sdk.FIR;
+import im.fir.sdk.VersionCheckCallback;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_home_actviity)
@@ -46,7 +57,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        content.setOffscreenPageLimit(3);
+        content.setOffscreenPageLimit(4);
 
     }
 

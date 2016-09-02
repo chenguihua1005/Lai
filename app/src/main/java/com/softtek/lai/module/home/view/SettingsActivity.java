@@ -38,6 +38,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_version)
     TextView tv_version;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             case R.id.lin_about:
                 startActivity(new Intent(this,AboutMeActivity.class));
                 break;
+
         }
     }
 
@@ -84,5 +86,4 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }
         return super.dispatchTouchEvent(ev);
     }
-
 }

@@ -121,5 +121,4 @@
                 android:src="@drawable/mine_more" />
         </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

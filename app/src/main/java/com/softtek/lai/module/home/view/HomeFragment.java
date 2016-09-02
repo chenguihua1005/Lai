@@ -375,34 +375,10 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        int position=tab.getSelectedTabPosition();
-        Fragment fragment=null;
-        if(fragments!=null&&position!=-1){
-            fragment = fragments.get(tab.getSelectedTabPosition());
-        }
-        if (fragment != null) {
-            if (fragment instanceof ActivityRecordFragment) {
-                ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            } else if (fragment instanceof ProductInfoFragment) {
-                ProductInfoFragment recordFragment = (ProductInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            } else if (fragment instanceof SaleInfoFragment) {
-                SaleInfoFragment recordFragment = (SaleInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            }
+        if(verticalOffset>=0){
+            pull.setEnabled(true);
+        }else {
+            pull.setEnabled(false);
         }
     }
 
@@ -558,7 +534,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-                    //startActivity(new Intent(getContext(), BodygameYkActivity.class));
                 }
             }).create().show();
         } else if (role == Constants.NC) {
@@ -572,8 +547,9 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-                    //startActivity(new Intent(getContext(), BodygameYkActivity.class));
+                    Intent nc=new Intent(getContext(), BodyGameVRActivity.class);
+                    nc.putExtra("isNc",true);
+                    startActivity(nc);
                 }
             }).create().show();
         } else if (role == Constants.PC||role == Constants.INC) {
@@ -609,7 +585,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
             startActivity(new Intent(getContext(), BodyGameSRActivity.class));
-            //startActivity(new Intent(getContext(), BodygameSRActivity.class));
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), BodyGameSPActivity.class));

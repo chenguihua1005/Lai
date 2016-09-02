@@ -6,7 +6,7 @@
     android:layout_height="50dp"
     android:background="@color/mytoolbar_green"
     android:minHeight="?attr/actionBarSize"
-    app:layout_scrollFlags="scroll|enterAlways">
+    app:layout_scrollFlags="scroll|snap">
 
     <LinearLayout
         android:id="@+id/ll_left"
