@@ -70,12 +70,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     }
 
     @Override
-    public void onTerminate() {
-        super.onTerminate();
-        LogManager.getManager(getApplicationContext()).unregisterCrashHandler();
-    }
-
-    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
