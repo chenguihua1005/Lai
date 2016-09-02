@@ -13,8 +13,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
-import com.github.snowdream.android.util.Log;
-
 /**
  * dp、sp 转换为 px 的工具类
  * @author fxsky 2012.11.12
@@ -158,6 +156,21 @@ public class DisplayUtil {
             e.printStackTrace();
         }
         return "";
+    }
+    /**
+     * 获取app的版本码
+     * @param context
+     * @return
+     */
+    public static int getAppVersionCode(Context context){
+        PackageManager pm=context.getPackageManager();
+        try {
+            PackageInfo packageInfo=pm.getPackageInfo(context.getPackageName(),0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
