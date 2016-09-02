@@ -31,6 +31,7 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -588,7 +589,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), BodyGameSPActivity.class));
-
+            Log.i("快乐的测试。。。。。");
         }
     }
 
