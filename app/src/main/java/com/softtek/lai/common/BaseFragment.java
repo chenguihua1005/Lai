@@ -68,10 +68,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
-        LifeCircle.onCreate(this);
-        ButterKnife.inject(this, contentView);
-        initViews();
+        if(contentView==null){
+            contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
+            LifeCircle.onCreate(this);
+            ButterKnife.inject(this, contentView);
+            initViews();
+        }
         return contentView;
     }
 
