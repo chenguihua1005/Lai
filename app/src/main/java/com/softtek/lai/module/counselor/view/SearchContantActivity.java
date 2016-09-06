@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
@@ -57,16 +58,12 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
     private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<>();
     private List<ContactListInfoModel> contactValue = new ArrayList<>();
 
-    Thread thread;
-
     private MyHandler handler;
 
-    public static class MyHandler extends Handler{
-
+    static class MyHandler extends Handler{
         private WeakReference<SearchContantActivity> mContext;
-
         public MyHandler(SearchContantActivity activity){
-            mContext=new WeakReference<>(activity);
+            this.mContext=new WeakReference<>(activity);
         }
 
         @Override
@@ -77,7 +74,6 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
                     activity.adapter.notifyDataSetChanged();
                 }
             }
-            super.handleMessage(msg);
         }
     }
 
@@ -103,6 +99,9 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    DealSearch run;
+    Thread thread;
+
     @Override
     protected void initDatas() {
         et_search.setFocusable(true);
@@ -113,7 +112,6 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
         adapter = new InviteContantAdapter(this, contactValue);
         list_contant.setAdapter(adapter);
         handler=new MyHandler(this);
-
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,44 +127,64 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 contactValue.clear();
                 adapter.notifyDataSetChanged();
+                String str=s.toString();
                 if(thread!=null&&thread.isAlive()){
-                    thread.interrupt();
+                    run.stop();
+                    run=null;
                     thread=null;
+
                 }
-                final String str=s.toString();
-                thread=new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (str.length() != 0) {
-                            for (int i = 0,size=contactListValue.size(); i < size; i++) {
-                                ContactListInfoModel contactListInfoModel = contactListValue.get(i);
-                                String py = getPinYin(contactListInfoModel.getUserName());
-                                if (py.contains(str)) {
-                                    if (!contactValue.contains(contactListInfoModel)) {
-                                        contactValue.add(contactListInfoModel);
-                                    }
-                                }
-                                if (contactListInfoModel.getUserName().contains(str)) {
-                                    if (!contactValue.contains(contactListInfoModel)) {
-                                        contactValue.add(contactListInfoModel);
-                                    }
-                                }
-                                if (contactListInfoModel.getMobile().contains(str)) {
-                                    if (!contactValue.contains(contactListInfoModel)) {
-                                        contactValue.add(contactListInfoModel);
-                                    }
-                                }
-                            }
-                            if(handler!=null){
-                                handler.sendEmptyMessage(0);
-                            }
-                        }
-                    }
-                });
+                run=new DealSearch(str);
+                thread=new Thread(run);
                 thread.start();
             }
         });
 
+    }
+
+    class DealSearch implements Runnable{
+
+        private String str;
+        private boolean stop;
+        public DealSearch(String str){
+            this.str=str;
+        }
+
+        @Override
+        public void run() {
+            if (str.length() != 0) {
+                List<ContactListInfoModel> models=new ArrayList<>();
+                for (int i = 0,size=contactListValue.size(); i < size; i++) {
+                    if(stop){
+                        return;
+                    }
+                    ContactListInfoModel contactListInfoModel = contactListValue.get(i);
+                    String py = getPinYin(contactListInfoModel.getUserName());
+                    if (py.contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                    if (contactListInfoModel.getUserName().contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                    if (contactListInfoModel.getMobile().contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                }
+                contactValue.clear();
+                contactValue.addAll(models);
+                handler.sendEmptyMessage(0);
+            }
+        }
+
+        public void stop(){
+            this.stop=true;
+        }
     }
 
     @Override
@@ -196,7 +214,12 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        handler.removeMessages(0);
+        if(thread!=null&&thread.isAlive()){
+            run.stop();
+            run=null;
+            thread=null;
+
+        }
         super.onDestroy();
     }
 }
