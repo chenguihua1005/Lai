@@ -6,8 +6,6 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
@@ -62,7 +59,7 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
 
     Thread thread;
 
-    private static  MyHandler handler;
+    private MyHandler handler;
 
     public static class MyHandler extends Handler{
 
@@ -84,14 +81,39 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    public static String getPinYin(String input) {
+        ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
+        StringBuilder sb = new StringBuilder();
+        if (tokens != null && tokens.size() > 0) {
+            for (HanziToPinyin.Token token : tokens) {
+                if (token.type == HanziToPinyin.Token.PINYIN) {
+                    sb.append(token.target);
+                } else {
+                    sb.append(token.source);
+                }
+            }
+        }
+        return sb.toString().toLowerCase();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        tv_title.setText("搜索联系人");
         ll_left.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void initDatas() {
+        et_search.setFocusable(true);
+        et_search.setFocusableInTouchMode(true);
+        et_search.requestFocus();
+        et_search.findFocus();
         contactListValue= (ArrayList<ContactListInfoModel>) ACache.get(this).getAsObject("contactList");
         adapter = new InviteContantAdapter(this, contactValue);
         list_contant.setAdapter(adapter);
         handler=new MyHandler(this);
+
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,23 +138,22 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void run() {
                         if (str.length() != 0) {
-                            List<ContactListInfoModel> models=contactValue;
                             for (int i = 0,size=contactListValue.size(); i < size; i++) {
                                 ContactListInfoModel contactListInfoModel = contactListValue.get(i);
                                 String py = getPinYin(contactListInfoModel.getUserName());
                                 if (py.contains(str)) {
-                                    if (!models.contains(contactListInfoModel)) {
-                                        models.add(contactListInfoModel);
+                                    if (!contactValue.contains(contactListInfoModel)) {
+                                        contactValue.add(contactListInfoModel);
                                     }
                                 }
                                 if (contactListInfoModel.getUserName().contains(str)) {
-                                    if (!models.contains(contactListInfoModel)) {
-                                        models.add(contactListInfoModel);
+                                    if (!contactValue.contains(contactListInfoModel)) {
+                                        contactValue.add(contactListInfoModel);
                                     }
                                 }
                                 if (contactListInfoModel.getMobile().contains(str)) {
-                                    if (!models.contains(contactListInfoModel)) {
-                                        models.add(contactListInfoModel);
+                                    if (!contactValue.contains(contactListInfoModel)) {
+                                        contactValue.add(contactListInfoModel);
                                     }
                                 }
                             }
@@ -145,36 +166,6 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
                 thread.start();
             }
         });
-
-    }
-
-    public static String getPinYin(String input) {
-        ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
-        StringBuilder sb = new StringBuilder();
-        if (tokens != null && tokens.size() > 0) {
-            for (HanziToPinyin.Token token : tokens) {
-                if (token.type == HanziToPinyin.Token.PINYIN) {
-                    sb.append(token.target);
-                } else {
-                    sb.append(token.source);
-                }
-            }
-        }
-        return sb.toString().toLowerCase();
-    }
-
-    @Override
-    protected void initViews() {
-        tv_title.setText("搜索联系人");
-
-    }
-
-    @Override
-    protected void initDatas() {
-        et_search.setFocusable(true);
-        et_search.setFocusableInTouchMode(true);
-        et_search.requestFocus();
-        et_search.findFocus();
 
     }
 
@@ -201,26 +192,6 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    class SearchTask extends AsyncTask<String,Integer,Void>{
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String str=params[0];
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-        }
-
-        @Override
-        protected void onCancelled() {
-
-        }
     }
 
     @Override
