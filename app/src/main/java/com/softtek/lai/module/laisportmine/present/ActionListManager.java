@@ -4,7 +4,6 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 
 import java.util.ArrayList;

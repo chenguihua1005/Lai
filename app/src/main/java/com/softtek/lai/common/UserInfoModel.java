@@ -1,12 +1,10 @@
 package com.softtek.lai.common;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetManager;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
@@ -80,7 +78,7 @@ public class UserInfoModel {
         aCache.remove(Constants.USER_ACACHE_KEY);
     }
     public long getUserId(){
-        return SharedPreferenceService.getInstance().get(USER_ID,0l);
+        return SharedPreferenceService.getInstance().get(USER_ID,0L);
     }
 
     /**

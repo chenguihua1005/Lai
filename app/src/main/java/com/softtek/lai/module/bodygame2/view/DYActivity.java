@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame2.view;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;

@@ -7,22 +7,13 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,18 +23,14 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.message.model.MessageDetailInfo;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
 import com.softtek.lai.utils.SoftInputUtil;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 

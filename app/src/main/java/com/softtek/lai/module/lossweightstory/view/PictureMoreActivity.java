@@ -1,26 +1,17 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.Manifest;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.lossweightstory.adapter.PictureFragementAdapter;
-import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.DebugViewPage;
 
 import java.util.ArrayList;

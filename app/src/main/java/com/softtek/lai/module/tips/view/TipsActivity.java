@@ -1,7 +1,6 @@
 package com.softtek.lai.module.tips.view;
 
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
-import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.tips.adapter.TipsFragmentAdapter;
 
 import java.util.ArrayList;

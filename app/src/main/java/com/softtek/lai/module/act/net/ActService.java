@@ -16,7 +16,7 @@ import retrofit.http.Query;
  */
 public interface ActService {
 
-    public static final String TOKEN = "token";
+    String TOKEN = "token";
 
     //活动列表
     @GET("/Activity/ActivityList")

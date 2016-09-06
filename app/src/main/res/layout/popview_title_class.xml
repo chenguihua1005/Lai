@@ -10,5 +10,5 @@
         android:layout_width="175dip"
         android:layout_height="wrap_content"
         android:padding="5dip"
-        android:scrollbars="none"></ListView>
+        android:scrollbars="none"/>
 </LinearLayout>

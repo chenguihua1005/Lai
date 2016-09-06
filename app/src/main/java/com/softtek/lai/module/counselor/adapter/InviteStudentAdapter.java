@@ -73,7 +73,7 @@ public class InviteStudentAdapter extends BaseAdapter {
             /**得到各个控件的对象*/
             holder.text_phone = (TextView) convertView.findViewById(R.id.text_phone);
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
-            holder.img = (ImageView) convertView.findViewById(R.id.img);
+            //holder.img = (ImageView) convertView.findViewById(R.id.img);
             holder.img_invite = (ImageView) convertView.findViewById(R.id.img_invite);
 
             convertView.setTag(holder);//绑定ViewHolder对象
@@ -83,11 +83,11 @@ public class InviteStudentAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final InviteStudentInfoModel assistant = list.get(position);
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(assistant.getPhoto())) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+        /*if ("".equals(assistant.getPhoto())) {
+            Picasso.with(context).load(R.drawable.img_default).into(holder.img);
         } else {
             Picasso.with(context).load(assistant.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
-        }
+        }*/
         holder.text_phone.setText(assistant.getMobile().toString());
         holder.text_name.setText(assistant.getUserName().toString());
         String state = assistant.getIsinvite().toString();
@@ -114,7 +114,7 @@ public class InviteStudentAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView text_phone;
         public TextView text_name;
-        public ImageView img;
+        //public ImageView img;
         public ImageView img_invite;
     }
 }

@@ -5,15 +5,12 @@
 
 package com.softtek.lai.module.counselor.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import butterknife.InjectView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -22,10 +19,9 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
 
+import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;

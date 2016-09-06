@@ -72,13 +72,13 @@ public class ChatHelper {
     };
 
 
-    static public interface DataSyncListener {
+     public interface DataSyncListener {
         /**
          * 同步完毕
          *
          * @param success true：成功同步到数据，false失败
          */
-        public void onSyncComplete(boolean success);
+         void onSyncComplete(boolean success);
     }
 
     private ChatHelper() {

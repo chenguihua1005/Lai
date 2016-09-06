@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.SystemBarTintManager;
@@ -85,10 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         LifeCircle.onPause(this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     @Override
     public Resources getResources() {

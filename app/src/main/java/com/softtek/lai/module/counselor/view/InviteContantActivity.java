@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -33,7 +34,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamest.view.FuceStActivity;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
@@ -109,8 +109,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         et_search.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
-        progressDialog.setMessage("正在加载内容...");
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("正在加载通讯录...");
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -232,59 +232,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst(); // 游标移动到第一项
-                //得到手机号码
-
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    cursor.moveToPosition(i);
-                    String name = cursor.getString(1);
-                    String number = cursor.getString(2);
-                    String sortKey = cursor.getString(3);
-                    int contactId = cursor.getInt(4);
-                    Long photoId = cursor.getLong(5);
-                    String lookUpKey = cursor.getString(6);
-
-
-                    Bitmap contactPhoto = null;
-
-
-                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
-
-                    if (photoId > 0) {
-
-                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-
-                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-
-                        contactPhoto = BitmapFactory.decodeStream(input);
-
-                    } else {
-
-                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
-
-                    }
-                    number = number.trim();
-                    if (number.contains("-")) {
-                        number = number.replace("-", "");
-                    }
-                    if (number.contains(" ")) {
-                        number = number.replace(" ", "");
-                    }
-                    if (number.contains("+86")) {
-                        number = number.replace("+86", "");
-                    }
-
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel(name, number);
-                    contactListValue.add(contactListInfo);
-
-                }
-                progressDialog.dismiss();
-                adapter.notifyDataSetChanged();
-                super.onQueryComplete(token, cookie, cursor);
-            } else {
-                progressDialog.dismiss();
-            }
+            super.onQueryComplete(token, cookie, cursor);
+            new DealTask().execute(cursor);
         }
 
     }
@@ -310,6 +259,55 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         cursor.close();
 
         if (!sb.toString().isEmpty()) {
+        }
+    }
+
+    class DealTask extends AsyncTask<Cursor,Integer,Void>{
+
+        @Override
+        protected Void doInBackground(Cursor... params) {
+            Cursor cursor=params[0];
+            if (cursor != null && cursor.moveToFirst()) {
+                //得到手机号码
+                do{
+                    String name = cursor.getString(1);
+                    String number = cursor.getString(2);
+                    String sortKey = cursor.getString(3);
+                    int contactId = cursor.getInt(4);
+                    Long photoId = cursor.getLong(5);
+                    String lookUpKey = cursor.getString(6);
+                    Bitmap contactPhoto = null;
+                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
+                    if (photoId > 0) {
+                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
+                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
+                        contactPhoto = BitmapFactory.decodeStream(input);
+                    } else {
+                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
+                    }
+                    number = number.trim();
+                    if (number.contains("-")) {
+                        number = number.replace("-", "");
+                    }
+                    if (number.contains(" ")) {
+                        number = number.replace(" ", "");
+                    }
+                    if (number.contains("+86")) {
+                        number = number.replace("+86", "");
+                    }
+                    ContactListInfoModel contactListInfo = new ContactListInfoModel(name, number);
+                    contactListValue.add(contactListInfo);
+
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.dismiss();
+            adapter.notifyDataSetChanged();
         }
     }
 

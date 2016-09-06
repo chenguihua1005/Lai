@@ -7,8 +7,6 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,19 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;

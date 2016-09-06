@@ -10,8 +10,6 @@ import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.List;
-
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;

@@ -8,22 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.Adapter.SelectPhotoAdapter;
-import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
-import com.softtek.lai.module.bodygamest.model.LogListModel;
-import com.softtek.lai.module.bodygamest.present.PhotoListIml;
-import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;

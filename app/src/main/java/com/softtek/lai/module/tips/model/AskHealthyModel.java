@@ -16,7 +16,7 @@ public class AskHealthyModel implements Parcelable{
     private String Tips_Content;
     private String Tips_Addr;
     private String Tips_Link;
-    private String Tips_video_backPicture;;
+    private String Tips_video_backPicture;
 
 
     public AskHealthyModel() {

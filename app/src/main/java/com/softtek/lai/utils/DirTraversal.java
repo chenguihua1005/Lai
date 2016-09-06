@@ -22,7 +22,7 @@ public class DirTraversal {
         }
         File tmp;
         while (!list.isEmpty()) {
-            tmp = (File) list.removeFirst();
+            tmp = list.removeFirst();
             if (tmp.isDirectory()) {
                 file = tmp.listFiles();
                 if (file == null)

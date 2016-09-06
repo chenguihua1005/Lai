@@ -8,29 +8,19 @@ package com.softtek.lai.module.home.view;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
-import zilla.libcore.file.PropertiesManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_about_me)
-public class AboutMeActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class AboutMeActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -82,13 +72,4 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
 }

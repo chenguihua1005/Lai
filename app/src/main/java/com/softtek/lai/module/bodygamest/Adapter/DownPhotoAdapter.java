@@ -41,7 +41,7 @@ public class DownPhotoAdapter extends BaseAdapter {
     }
     public void updateData(List<LogListModel> logListModelList){
         this.logListModelList = logListModelList;
-        notifyDataSetChanged();;
+        notifyDataSetChanged();
     }
 
     @Override

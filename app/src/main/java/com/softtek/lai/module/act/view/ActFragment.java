@@ -20,7 +20,6 @@ import com.softtek.lai.module.act.model.ActDetiallistModel;
 import com.softtek.lai.module.act.model.ActZKModel;
 import com.softtek.lai.module.act.model.ActZKPersonModel;
 import com.softtek.lai.module.act.presenter.ActManager;
-import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis on 4/27/2016.
+ *
  */
 @InjectLayout(R.layout.fragment_act)
 public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>, ActManager.GetActivitySituationCallBack {

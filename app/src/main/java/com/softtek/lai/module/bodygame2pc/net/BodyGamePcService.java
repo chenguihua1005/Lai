@@ -1,8 +1,6 @@
 package com.softtek.lai.module.bodygame2pc.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
-import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2pc.model.PCBodyGameInfo;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;

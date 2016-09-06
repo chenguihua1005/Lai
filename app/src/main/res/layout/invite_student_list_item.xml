@@ -15,13 +15,13 @@
         android:layout_height="106dip"
         android:background="@color/grey">
 
-        <com.softtek.lai.widgets.CircleImageView
+        <!--<com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
             android:layout_width="67dip"
             android:layout_height="67dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:src="@drawable/img_default" />
+            />-->
 
         <ImageView
             android:id="@+id/img_invite"

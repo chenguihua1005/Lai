@@ -1,7 +1,5 @@
 package com.softtek.lai.module.tips.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;

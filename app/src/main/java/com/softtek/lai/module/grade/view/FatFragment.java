@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -20,7 +19,6 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.grade.adapter.FatAdapter;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.presenter.FatManager;
-import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.grade.presenter.StudentListCallback;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 
@@ -51,8 +49,6 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
     private static FatFragment fragment=null;
     /**
      * 设置一些参数
-     * @param params
-     * @return
      */
     public static FatFragment newInstance( Map<String,String> params) {
         if(fragment==null){

@@ -7,6 +7,7 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.app.ProgressDialog;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -238,10 +239,10 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         img_women_up_bg.setImageResource(R.drawable.but_white_select);
         img_women_down_bg.setImageResource(R.drawable.but_white_select);
 
-        text_men_up.setTextColor(getResources().getColor(R.color.word2));
-        text_men_down.setTextColor(getResources().getColor(R.color.word2));
-        text_women_up.setTextColor(getResources().getColor(R.color.word2));
-        text_women_down.setTextColor(getResources().getColor(R.color.word2));
+        text_men_up.setTextColor(ContextCompat.getColor(this,R.color.word2));
+        text_men_down.setTextColor(ContextCompat.getColor(this,R.color.word2));
+        text_women_up.setTextColor(ContextCompat.getColor(this,R.color.word2));
+        text_women_down.setTextColor(ContextCompat.getColor(this,R.color.word2));
 
         img_men_up_icon.setImageResource(R.drawable.img_male_select);
         img_men_down_icon.setImageResource(R.drawable.img_male_select);
@@ -249,7 +250,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         img_women_down_icon.setImageResource(R.drawable.img_female_select);
 
         img_bg.setImageResource(R.drawable.but_yellow_selected);
-        tv.setTextColor(getResources().getColor(R.color.white));
+        tv.setTextColor(ContextCompat.getColor(this,R.color.white));
 
         if("1".equals(grade_id)){
             img_men_up_icon.setImageResource(R.drawable.img_male_selected);

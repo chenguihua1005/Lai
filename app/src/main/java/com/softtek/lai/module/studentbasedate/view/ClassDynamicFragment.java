@@ -1,9 +1,5 @@
 package com.softtek.lai.module.studentbasedate.view;
 
-import android.os.Bundle;
-import android.os.Handler;
-
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;

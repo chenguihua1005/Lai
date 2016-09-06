@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.counselor.adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +12,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.squareup.picasso.Picasso;
-
-import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 
 import java.util.List;
+
+import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -73,7 +71,7 @@ public class InviteContantAdapter extends BaseAdapter {
             /**得到各个控件的对象*/
             holder.text_phone = (TextView) convertView.findViewById(R.id.text_phone);
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
-            holder.img = (ImageView) convertView.findViewById(R.id.img);
+            //holder.img = (ImageView) convertView.findViewById(R.id.img);
             holder.img_invite = (ImageView) convertView.findViewById(R.id.img_invite);
 
             convertView.setTag(holder);//绑定ViewHolder对象
@@ -82,7 +80,7 @@ public class InviteContantAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ContactListInfoModel contactListInfo = list.get(position);
-        Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+        //Picasso.with(context).load(R.drawable.img_default).into(holder.img);
         holder.text_phone.setText(contactListInfo.getMobile().toString());
         holder.text_name.setText(contactListInfo.getUserName().toString());
 
@@ -104,7 +102,7 @@ public class InviteContantAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView text_phone;
         public TextView text_name;
-        public ImageView img;
+        //public ImageView img;
         public ImageView img_invite;
     }
 }

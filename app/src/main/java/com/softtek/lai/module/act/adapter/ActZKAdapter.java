@@ -7,6 +7,7 @@ package com.softtek.lai.module.act.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class ActZKAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.act_list_distance_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.act_list_distance_item, parent,false);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
@@ -99,7 +100,7 @@ public class ActZKAdapter extends BaseAdapter {
         if ((position + 1) < 4) {
             holder.text_order.setTextColor(Color.parseColor("#FDB02B"));
         } else {
-            holder.text_order.setTextColor(context.getResources().getColor(R.color.word3));
+            holder.text_order.setTextColor(ContextCompat.getColor(context,R.color.word3));
         }
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("1".equals(type) || "0".equals(type)) {

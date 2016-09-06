@@ -6,19 +6,7 @@
 package com.softtek.lai.module.message.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
-import com.softtek.lai.module.counselor.model.AssistantClassInfoModel;
-import com.softtek.lai.module.counselor.model.AssistantDetailInfoModel;
-import com.softtek.lai.module.counselor.model.AssistantInfoModel;
-import com.softtek.lai.module.counselor.model.AssistantModel;
-import com.softtek.lai.module.counselor.model.ClassIdModel;
-import com.softtek.lai.module.counselor.model.ClassInfoModel;
-import com.softtek.lai.module.counselor.model.HonorInfoModel;
-import com.softtek.lai.module.counselor.model.InviteStudentInfoModel;
-import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.message.model.MessageModel;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;

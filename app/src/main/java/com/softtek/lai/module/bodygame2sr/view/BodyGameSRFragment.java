@@ -34,7 +34,6 @@ import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
-import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
@@ -48,7 +47,6 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CustomGridView;
-import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 

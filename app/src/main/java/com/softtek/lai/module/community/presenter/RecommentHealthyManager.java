@@ -1,13 +1,9 @@
 package com.softtek.lai.module.community.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
