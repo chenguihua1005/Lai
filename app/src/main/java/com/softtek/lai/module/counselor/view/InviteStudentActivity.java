@@ -15,11 +15,10 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -46,7 +45,6 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
 
 
     private IStudentPresenter studentPresenter;
-    private ACache aCache;
     private UserModel userModel;
 
     @Override
@@ -60,8 +58,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        userModel=UserInfoModel.getInstance().getUser();
         String id = userModel.getUserid();
         String classId = SharedPreferenceService.getInstance().get("classId", "");
         dialogShow("加载中");
