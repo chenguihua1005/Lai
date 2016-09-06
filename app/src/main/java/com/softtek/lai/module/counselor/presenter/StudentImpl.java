@@ -81,7 +81,6 @@ public class StudentImpl implements IStudentPresenter {
         counselorService.getNotInvitePC(token, classid, spaccid, new Callback<ResponseData<List<InviteStudentInfoModel>>>() {
             @Override
             public void success(ResponseData<List<InviteStudentInfoModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<InviteStudentInfoModel> list = listResponseData.getData();
                 context.dialogDissmiss();
