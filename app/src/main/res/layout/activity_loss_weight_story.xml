@@ -20,6 +20,7 @@
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
+        app:ptrAnimationStyle="flip"
         android:id="@+id/ptrlv"
         android:layout_below="@id/toolbar"
         android:layout_marginTop="-3dp">

@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.counselor.presenter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,6 @@ import com.softtek.lai.module.counselor.model.AssistantModel;
 import com.softtek.lai.module.counselor.model.ReviewAssistantApplyEvent;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantDetailActivity;
-import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -165,14 +165,14 @@ public class AssistantImpl implements IAssistantPresenter {
                             //把返回数据存入Intent
                             intent.putExtra("type", "xzs");
                             //设置返回数据
-                            context.setResult(context.RESULT_OK, intent);
+                            context.setResult(Activity.RESULT_OK, intent);
                             context.finish();
                         } else {
                             Intent intent = new Intent();
                             //把返回数据存入Intent
                             intent.putExtra("classId", classId);
-                            ((AssistantDetailActivity) context).setResult(((AssistantDetailActivity) context).RESULT_OK, intent);
-                            ((AssistantDetailActivity) context).finish();
+                            context.setResult(Activity.RESULT_OK, intent);
+                            context.finish();
                         }
                         break;
                     case 100:
@@ -307,7 +307,7 @@ public class AssistantImpl implements IAssistantPresenter {
                             //把返回数据存入Intent
                             intent.putExtra("type", "xzs");
                             //设置返回数据
-                            context.setResult(context.RESULT_OK, intent);
+                            context.setResult(Activity.RESULT_OK, intent);
                             context.finish();
                         }
                         break;

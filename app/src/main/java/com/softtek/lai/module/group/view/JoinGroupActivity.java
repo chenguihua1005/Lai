@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -208,7 +209,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void resetCity() {
-        text_cs.setTextColor(getResources().getColor(R.color.word));
+        text_cs.setTextColor(ContextCompat.getColor(this,R.color.word));
         text_cs.setText("选择城市");
         img_cs.setImageResource(R.drawable.img_join_group_select);
 
@@ -227,10 +228,10 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void resetXQCity() {
-        text_xq.setTextColor(getResources().getColor(R.color.word));
+        text_xq.setTextColor(ContextCompat.getColor(this,R.color.word));
         text_xq.setText("选择小区");
         img_xq.setImageResource(R.drawable.img_join_group_select);
-        text_cs.setTextColor(getResources().getColor(R.color.word12));
+        text_cs.setTextColor(ContextCompat.getColor(this,R.color.word12));
         text_cs.setText("选择城市");
         img_cs.setImageResource(R.drawable.img_join_group_selected);
 

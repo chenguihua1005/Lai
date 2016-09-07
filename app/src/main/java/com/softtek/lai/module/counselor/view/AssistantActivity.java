@@ -7,9 +7,7 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -18,16 +16,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassListAdapter;
-import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
 import com.softtek.lai.module.counselor.model.AssistantApplyEvent;
 import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
 import com.softtek.lai.module.counselor.model.AssistantClassEvent;
@@ -43,12 +37,9 @@ import com.softtek.lai.utils.ACache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -56,10 +47,7 @@ import zilla.libcore.ui.InjectLayout;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_assistant)
-public class AssistantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class AssistantActivity extends BaseActivity implements View.OnClickListener {
 
 
     @InjectView(R.id.ll_left)
@@ -76,13 +64,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.img_more)
     ImageView img_more;
-
-    //
-//    @InjectView(R.id.viewpager)
-//    ViewPager viewpager;
-//
-//    @InjectView(R.id.sliding_tabs)
-//    TabLayout sliding_tabs;
 
     private boolean isShow = false;
 
@@ -113,38 +94,19 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     private IAssistantPresenter assistantPresenter;
     private ACache aCache;
 
-    private SimpleFragmentPagerAdapter pagerAdapter;
-
-    List<Fragment> lists = new ArrayList<Fragment>();
-    Fragment assistantListFragment;
-    Fragment assistantApplyFragment;
     AssistantClassInfoModel assistantClassInfo;
     AssistantApplyAdapter assistantApplyAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        EventBus.getDefault().register(this);
+        tv_title.setText(R.string.assistantManage);
         ll_left.setOnClickListener(this);
         rel_all_class_more.setOnClickListener(this);
 
         lin_class.setOnClickListener(this);
         text_apply.setOnClickListener(this);
         text_list.setOnClickListener(this);
-
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    protected void initViews() {
-        tv_title.setText(R.string.assistantManage);
-
-//        assistantListFragment = new AssistantListFragment();
-//        assistantApplyFragment = new AssistantApplyFragment();
-//        lists.add(assistantApplyFragment);
-//        lists.add(assistantListFragment);
-//        pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, lists);
-
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,7 +118,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_select));
                 }
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
+                imageView.setImageDrawable(ContextCompat.getDrawable(AssistantActivity.this,R.drawable.img_selceted));
                 assistantClassInfo = list_ac.get(position);
                 dialogShow("加载中");
                 assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
@@ -169,7 +131,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(AssistantActivity.this, AssistantDetailActivity.class);
                 intent.putExtra("assistantId", assistantInfo.getAccountId().toString());
                 intent.putExtra("classId", assistantInfo.getClassId().toString());
-                //startActivity(intent);
                 startActivityForResult(intent, 1);
             }
         });
@@ -202,10 +163,10 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     public void onEvent(AssistantClassEvent assistantClassEvent) {
         list_apply.setVisibility(View.GONE);
         lin_assistant.setVisibility(View.VISIBLE);
-        text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
-        text_list.setBackground(getResources().getDrawable(R.drawable.img_select_white));
-        text_apply.setTextColor(getResources().getColor(R.color.white));
-        text_list.setTextColor(getResources().getColor(R.color.black));
+        text_apply.setBackground(ContextCompat.getDrawable(this,R.drawable.img_select_grey));
+        text_list.setBackground(ContextCompat.getDrawable(this,R.drawable.img_select_white));
+        text_apply.setTextColor(ContextCompat.getColor(this,R.color.white));
+        text_list.setTextColor(ContextCompat.getColor(this,R.color.black));
         list_ac = assistantClassEvent.getList();
         AssistantClassAdapter adapter = new AssistantClassAdapter(this, list_ac);
         list_class.setAdapter(adapter);
@@ -231,16 +192,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         String id = userModel.getUserid();
         dialogShow("加载中");
         assistantPresenter.showAllApplyAssistants(id, list_apply);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        System.out.println("assistantClassInfo:"+assistantClassInfo);
-//        if (assistantClassInfo != null) {
-//            assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
-//        }
 
     }
 
@@ -272,34 +223,12 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
             case R.id.text_apply:
                 list_apply.setVisibility(View.VISIBLE);
                 lin_assistant.setVisibility(View.GONE);
-                text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_white));
-                text_list.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
-                text_apply.setTextColor(getResources().getColor(R.color.black));
-                text_list.setTextColor(getResources().getColor(R.color.white));
+                text_apply.setBackground(ContextCompat.getDrawable(this,R.drawable.img_select_white));
+                text_list.setBackground(ContextCompat.getDrawable(this,R.drawable.img_select_grey));
+                text_apply.setTextColor(ContextCompat.getColor(this,R.color.black));
+                text_list.setTextColor(ContextCompat.getColor(this,R.color.white));
                 break;
         }
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override
@@ -309,7 +238,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
             dialogShow("加载中");
-            //assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
             list_assistant.setVisibility(View.GONE);
             assistantPresenter.showAllClassList(userModel.getUserid(), list_class);
         }

@@ -1,7 +1,5 @@
 package com.softtek.lai.module.sport.presenter;
 
-import android.util.Log;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
@@ -12,7 +10,6 @@ import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;

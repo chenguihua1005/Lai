@@ -6,35 +6,24 @@
 package com.softtek.lai.module.pastreview.view;
 
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.pastreview.adapter.HistoryHonorFCAdapter;
 import com.softtek.lai.module.pastreview.adapter.HistoryHonorJZAdapter;
 import com.softtek.lai.module.pastreview.adapter.HistoryHonorStarAdapter;
 import com.softtek.lai.module.pastreview.adapter.HistoryHonorYGJAdapter;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 import com.softtek.lai.module.pastreview.presenter.HistoryHonorListManager;
-import com.softtek.lai.widgets.MyGridView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -42,10 +31,7 @@ import zilla.libcore.ui.InjectLayout;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener ,HistoryHonorListManager.HistoryHonorCallback{
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener,HistoryHonorListManager.HistoryHonorCallback{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -103,27 +89,6 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
                 finish();
                 break;
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override

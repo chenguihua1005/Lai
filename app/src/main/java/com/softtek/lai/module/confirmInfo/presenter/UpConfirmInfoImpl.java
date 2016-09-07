@@ -2,24 +2,16 @@ package com.softtek.lai.module.confirmInfo.presenter;
 
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.utils.MD5;
 
 import org.greenrobot.eventbus.EventBus;
 

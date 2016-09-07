@@ -2,9 +2,6 @@ package com.softtek.lai.module.bodygame2sr.present;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
-import com.softtek.lai.module.bodygame2.net.BodyGameService;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPFragment;
 import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.net.BodyGameSRService;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRFragment;

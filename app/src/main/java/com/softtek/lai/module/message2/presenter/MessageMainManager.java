@@ -8,14 +8,8 @@ import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
 import com.softtek.lai.module.message2.net.Message2Service;
-import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.model.SportData;
-import com.softtek.lai.module.sport.model.TotalSportModel;
-import com.softtek.lai.module.sport.net.SportService;
-import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;

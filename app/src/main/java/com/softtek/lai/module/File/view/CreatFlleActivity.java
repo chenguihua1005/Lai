@@ -210,7 +210,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     private boolean isLetter(char c) {
         int k = 0x80;
-        return c / k == 0 ? true : false;
+        return c / k == 0;
     }
 
     private int length(String s) {

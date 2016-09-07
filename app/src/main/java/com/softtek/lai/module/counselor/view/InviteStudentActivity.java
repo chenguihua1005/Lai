@@ -6,32 +6,22 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -39,11 +29,7 @@ import zilla.libcore.ui.InjectLayout;
  * 邀请学员列表
  */
 @InjectLayout(R.layout.activity_invite_student_list)
-public class InviteStudentActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class InviteStudentActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -59,29 +45,20 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
 
 
     private IStudentPresenter studentPresenter;
-    private ACache aCache;
     private UserModel userModel;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        tv_title.setText(R.string.joinGame);
         ll_left.setOnClickListener(this);
         but_contant.setOnClickListener(this);
 
     }
 
     @Override
-    protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.joinGame);
-    }
-
-    @Override
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        userModel=UserInfoModel.getInstance().getUser();
         String id = userModel.getUserid();
         String classId = SharedPreferenceService.getInstance().get("classId", "");
         dialogShow("加载中");
@@ -101,28 +78,5 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
 
 }

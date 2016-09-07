@@ -8,10 +8,6 @@ package com.softtek.lai.module.home.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.softtek.lai.module.home.view.HealthyFragment;
-import com.softtek.lai.module.home.view.HealthyRecordFragment;
-import com.softtek.lai.module.home.view.HomeFragment;
-import com.softtek.lai.module.home.view.MineFragment;
 
 import java.util.List;
 

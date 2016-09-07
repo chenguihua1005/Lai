@@ -156,7 +156,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                     content1.add("爱心天使");
                 }
 
-                Map<Integer, String> map_pk = new HashMap<Integer, String>();
+                Map<Integer, String> map_pk = new HashMap<>();
                 List<String> pk_list = xunZhangModel.getPK();
                 int pk_size = pk_list.size();
                 for (int i = 0; i < 6; i++) {
@@ -209,7 +209,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                     content1.add("pk挑战成功500次");
                 }
 
-                Map<Integer, String> map_total = new HashMap<Integer, String>();
+                Map<Integer, String> map_total = new HashMap<>();
                 List<String> total_list = xunZhangModel.getTotals();
                 int total_size = total_list.size();
                 for (int i = 0; i < 8; i++) {

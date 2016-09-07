@@ -8,16 +8,8 @@ import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.ClassModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.net.BodyGameService;
-import com.softtek.lai.module.group.model.DxqModel;
-import com.softtek.lai.module.laisportmine.model.ActionModel;
-import com.softtek.lai.module.laisportmine.net.MineService;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;

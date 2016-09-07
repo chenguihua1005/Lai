@@ -7,18 +7,17 @@ package com.softtek.lai.module.act.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.softtek.lai.R;
-import com.softtek.lai.module.act.model.ActDetiallistModel;
 import com.softtek.lai.module.act.model.ActZKP1Model;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
@@ -73,7 +72,7 @@ public class ActZKPAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.act_list_group_person_item, null);
+            convertView = mInflater.inflate(R.layout.act_list_group_person_item, parent,false);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
@@ -94,13 +93,13 @@ public class ActZKPAdapter extends BaseAdapter {
         if ((position + 1) < 4) {
             holder.text_order.setTextColor(Color.parseColor("#FDB02B"));
         } else {
-            holder.text_order.setTextColor(context.getResources().getColor(R.color.word3));
+            holder.text_order.setTextColor(ContextCompat.getColor(context,R.color.word3));
         }
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         if (!TextUtils.isEmpty(actZKP1Model.getActDImg())) {
             Picasso.with(context).load(path + actZKP1Model.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img_person);
         } else {
-            Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img_person);
+            Picasso.with(context).load(R.drawable.img_default).into(holder.img_person);
         }
 
         float step;

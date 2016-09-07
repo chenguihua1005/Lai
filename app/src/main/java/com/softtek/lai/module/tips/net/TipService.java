@@ -1,14 +1,10 @@
 package com.softtek.lai.module.tips.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.model.AskHealthyResponseModel;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.List;
-
 import retrofit.http.GET;
-import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**

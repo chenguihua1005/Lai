@@ -201,7 +201,6 @@ public class EaseNotifier {
         } catch (EaseMobException e) {
             e.printStackTrace();
         }
-        ;
 //        String username = message.getFrom();
 
         try {

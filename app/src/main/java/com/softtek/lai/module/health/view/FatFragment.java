@@ -1,7 +1,6 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -9,10 +8,7 @@ import android.widget.RadioGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
@@ -29,9 +25,6 @@ import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

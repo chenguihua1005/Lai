@@ -14,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -26,14 +25,12 @@ import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.model.SelectNoticeMsgModel;
 import com.softtek.lai.module.message2.view.MessageOperatorActivity;
 import com.softtek.lai.module.message2.view.NoticeFC2Activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import zilla.libcore.util.Util;

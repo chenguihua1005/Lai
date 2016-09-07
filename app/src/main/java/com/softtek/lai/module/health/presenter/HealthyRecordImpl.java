@@ -2,27 +2,12 @@ package com.softtek.lai.module.health.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.health.eventmodel.HealthEventModel;
-import com.softtek.lai.module.health.model.HealthCircrumModel;
-import com.softtek.lai.module.health.model.HealthDateModel;
-import com.softtek.lai.module.health.model.HealthFatModel;
-import com.softtek.lai.module.health.model.HealthHiplieModel;
-import com.softtek.lai.module.health.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.health.model.HealthWaistlineModel;
-import com.softtek.lai.module.health.model.HealthWeightModel;
-import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.health.model.HealthupLegGirthModel;
-import com.softtek.lai.module.health.model.HealthyRecordModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.net.HealthyService;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.utils.RequestCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;

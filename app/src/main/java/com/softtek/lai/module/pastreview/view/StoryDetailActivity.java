@@ -119,13 +119,6 @@ public class StoryDetailActivity extends BaseActivity implements View.OnClickLis
             }
             cb_zan.setChecked(true);
             cb_zan.setEnabled(false);
-            /*if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
-                cb_zan.setChecked(true);
-                cb_zan.setEnabled(false);
-            }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
-                cb_zan.setChecked(false);
-                cb_zan.setEnabled(true);
-            }*/
             //拆分字符串图片列表,并添加到图片集合中
             if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
                 String[] image=log.getImgCollection().split(",");

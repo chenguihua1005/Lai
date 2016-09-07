@@ -1,6 +1,7 @@
 package com.softtek.lai.module.home.view;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -65,5 +66,15 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (webView != null) {
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
     }
 }

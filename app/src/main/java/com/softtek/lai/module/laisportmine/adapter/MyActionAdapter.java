@@ -41,7 +41,6 @@ public class MyActionAdapter extends BaseAdapter {
     public void updateData(List<ActionModel> actionModelList) {
         this.actionModelList = actionModelList;
         notifyDataSetChanged();
-        ;
     }
 
 

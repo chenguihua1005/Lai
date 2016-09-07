@@ -7,15 +7,6 @@ package com.softtek.lai.module.message.presenter;
 
 import android.app.ProgressDialog;
 import android.widget.ImageView;
-import android.widget.ListView;
-
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.message.model.MessageDetailInfo;
-import com.softtek.lai.utils.StringUtil;
-
-import retrofit.Callback;
-import retrofit.http.Field;
-import retrofit.http.Header;
 
 /**
  * Created by jarvis on 3/3/2016.

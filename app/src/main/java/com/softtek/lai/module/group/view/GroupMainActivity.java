@@ -65,7 +65,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 /**

@@ -1,12 +1,9 @@
 package com.softtek.lai.module.tips.presenter;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
 import com.softtek.lai.module.tips.model.AskHealthyResponseModel;
 import com.softtek.lai.module.tips.net.TipService;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;

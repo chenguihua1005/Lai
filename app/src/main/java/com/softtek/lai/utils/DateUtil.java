@@ -277,7 +277,7 @@ public class DateUtil {
         try {
             Date d1=sdf.parse(date1);
             Date d2=convert2Date(date2);
-            return d1.compareTo(d2)==1?true:false;
+            return d1.compareTo(d2)==1;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -298,7 +298,7 @@ public class DateUtil {
         try {
             Date d1=sdf.parse(date1);
             Date d2=convert2Date(date2);
-            return d1.compareTo(d2)==-1?true:false;
+            return d1.compareTo(d2)==-1;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -318,7 +318,7 @@ public class DateUtil {
         try {
             Date d1=sdf.parse(date1);
             Date d2=convert2Date(date2);
-            return d1.compareTo(d2)==0?true:false;
+            return d1.compareTo(d2)==0;
         } catch (ParseException e) {
             e.printStackTrace();
         }

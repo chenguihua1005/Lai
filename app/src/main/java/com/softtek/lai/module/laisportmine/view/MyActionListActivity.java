@@ -1,15 +1,9 @@
 package com.softtek.lai.module.laisportmine.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,24 +11,16 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
-import com.softtek.lai.module.laisportmine.adapter.MyPkNoticeAdapter;
-import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
-import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
-import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

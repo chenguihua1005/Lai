@@ -20,12 +20,8 @@ import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
-import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message.net.MessageService;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.message2.view.Message2Activity;
 
 import org.greenrobot.eventbus.EventBus;
 

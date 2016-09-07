@@ -100,6 +100,7 @@ public class SportUtil {
                 sportModels.add(model);
             }while (cursor.moveToNext());
         }
+        cursor.close();
         return sportModels;
     }
 

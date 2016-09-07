@@ -1,11 +1,8 @@
 package com.softtek.lai.module.act.view;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,18 +13,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.act.adapter.ActZKAdapter;
 import com.softtek.lai.module.act.adapter.ActZKPAdapter;
-import com.softtek.lai.module.act.adapter.GroupListItemAdapter;
 import com.softtek.lai.module.act.model.ActDetiallistModel;
-import com.softtek.lai.module.act.model.ActZKModel;
 import com.softtek.lai.module.act.model.ActZKP1Model;
 import com.softtek.lai.module.act.model.ActZKPModel;
-import com.softtek.lai.module.act.model.ActZKPersonModel;
-import com.softtek.lai.module.act.model.ActivityModel;
-import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.act.presenter.ActManager;
 import com.squareup.picasso.Picasso;
 

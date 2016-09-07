@@ -5,8 +5,6 @@
 
 package com.softtek.lai.module.counselor.model;
 
-import com.softtek.lai.module.home.model.HomeInfoModel;
-
 import java.util.List;
 
 /**

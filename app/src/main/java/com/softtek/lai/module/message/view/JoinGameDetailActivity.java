@@ -550,7 +550,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                                         ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
                                     }
                                 } else {
-                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this);; // 图库选择图片
+                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this); // 图库选择图片
                                 }
 
                             }

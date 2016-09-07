@@ -801,6 +801,7 @@
             android:name=".stepcount.service.UploadLogService"
             android:exported="false"/>
         <activity android:name=".module.home.view.ArticalDetailActivity" android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

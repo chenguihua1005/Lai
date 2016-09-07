@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.counselor.adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.AssistantModel;
@@ -20,10 +20,10 @@ import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
-
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
