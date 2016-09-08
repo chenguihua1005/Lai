@@ -68,8 +68,6 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     Button btn_submit;
 
     private IPasswordPresenter passwordPresenter;
-    private String phone = "";
-    private String identify = "";
 
     private String old_psd;
     private String new_psd;
@@ -92,7 +90,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         String type=getIntent().getStringExtra("type");
         token= getIntent().getStringExtra("token");
         if("1".equals(type)){
-            ll_left.setVisibility(View.GONE);
+            ll_left.setVisibility(View.VISIBLE);
         }else {
             ll_left.setOnClickListener(this);
         }
