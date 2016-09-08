@@ -10,6 +10,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
 import com.softtek.lai.premission.Role;
 import com.softtek.lai.utils.ACache;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,6 +77,7 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
+        MobclickAgent.onProfileSignOff();
     }
     public long getUserId(){
         return SharedPreferenceService.getInstance().get(USER_ID,0L);
@@ -94,7 +96,7 @@ public class UserInfoModel {
         aCache.remove(Constants.USER_ACACHE_KEY);
         aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
-
+        MobclickAgent.onProfileSignIn(user.getUserid());
     }
 
     /**

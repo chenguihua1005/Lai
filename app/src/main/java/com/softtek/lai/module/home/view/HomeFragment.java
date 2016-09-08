@@ -61,6 +61,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -442,6 +443,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             switch (position) {
                 case Constants.BODY_GAME:
                     intoBodyGamePage(role);
+                    MobclickAgent.onEvent(getContext().getApplicationContext(),"BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
@@ -450,6 +452,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
+                    MobclickAgent.onEvent(getContext().getApplicationContext(),"LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();

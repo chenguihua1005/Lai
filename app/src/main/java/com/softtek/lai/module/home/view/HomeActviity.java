@@ -10,6 +10,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,10 +103,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
                 currentId = 1;
+                MobclickAgent.onEvent(getApplicationContext(),"HealthyCommunityEvent");
                 break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
                 currentId = 2;
+                MobclickAgent.onEvent(getApplicationContext(),"HealthyRecordEvent");
                 break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
