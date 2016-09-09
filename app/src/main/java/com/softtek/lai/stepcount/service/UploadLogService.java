@@ -36,7 +36,7 @@ public class UploadLogService extends IntentService {
         //检查日志是否存在
         File file=Environment.getExternalStorageDirectory();
         //日志目录
-        File log=new File(file,"com_softtek_lai");
+        final File log=new File(file,"com_softtek_lai");
         final File zip=new File(file,"com_softtek_lai.zip");
         if(zip.exists()){
             zip.delete();
@@ -53,8 +53,10 @@ public class UploadLogService extends IntentService {
                         .uploadMutilpartImage(UserInfoModel.getInstance().getToken(), new TypedFile("*/*", zip), new RequestCallback<ResponseData<ImageResponse>>() {
                             @Override
                             public void success(ResponseData<ImageResponse> imageResponseResponseData, Response response) {
+                                deleteFile(log);
                                 zip.delete();
                                 Log.i("上传日志成功");
+
                             }
 
                             @Override
@@ -62,6 +64,21 @@ public class UploadLogService extends IntentService {
                                 zip.delete();
                             }
                         });
+            }
+        }
+    }
+
+    private void deleteFile(File file){
+        if(file.isFile()){
+            file.delete();
+        }else {
+            File[] files=file.listFiles();
+            for (File file1:files){
+                if(file1.isFile()){
+                    file1.delete();
+                }else {
+                    deleteFile(file1);
+                }
             }
         }
     }
