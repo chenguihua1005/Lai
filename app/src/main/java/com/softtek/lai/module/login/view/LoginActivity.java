@@ -120,9 +120,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.ll_visitor:
-                finish();
                 UserInfoModel.getInstance().visitorLogin();
+                finish();
                 startActivity(new Intent(this, HomeActviity.class));
+                overridePendingTransition(R.anim.activity_enter,0);
                 break;
 
         }

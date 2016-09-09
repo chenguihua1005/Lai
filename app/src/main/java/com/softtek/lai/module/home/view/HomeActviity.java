@@ -92,6 +92,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onClick(View v) {
         isClick = true;
         restoreState();
