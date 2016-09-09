@@ -28,6 +28,7 @@
             android:listSelector="@android:color/transparent"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:ptrAnimationStyle="flip"
             app:ptrShowIndicator="false"
             />
     </FrameLayout>

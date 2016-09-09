@@ -104,7 +104,7 @@ public class EaseChatMessageList extends RelativeLayout{
      * @param position
      */
     public void refreshSeekTo(int position){
-        messageAdapter.refreshSeekTo(position);;
+        messageAdapter.refreshSeekTo(position);
     }
     
     

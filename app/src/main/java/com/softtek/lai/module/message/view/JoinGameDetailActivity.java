@@ -12,8 +12,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -39,7 +37,6 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
@@ -89,7 +86,7 @@ import zilla.libcore.util.Util;
  * 新學員錄入
  */
 @InjectLayout(R.layout.activity_joingame_detail)
-public class JoinGameDetailActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class JoinGameDetailActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -167,7 +164,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     private String type;
     private List<String> gradeList = new ArrayList<>();
-    private List<String> gradeIDList = new ArrayList<>();
     private INewStudentpresenter iNewStudentpresenter;
 
     boolean isR = false;//是否注册
@@ -177,13 +173,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private ILoginPresenter loginPresenter;
 
     //获取当前日期
-    Calendar ca;
     int myear;//获取年份
     int mmonth;//获取月份
     int mday;//获取日
-
-    private String select_grade = "";
-    private String grade_id = "";
 
     private IUpConfirmInfopresenter iUpConfirmInfopresenter;
     String classid;
@@ -191,16 +183,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private GetConfirmInfoModel getConfirmInfoModel;
     private ConinfoModel coninfoModel;
     private CharSequence[] items = {"拍照", "照片"};
-    String path = "";
-    private static final int PHOTO = 1;
 
     private String change_photo = "";
     private String upload_photo = "";
     private String photo_backup = "";
     private GuwenClassPre guwenClassPre;
     private IMessagePresenter messagePresenter;
-    private List<String> pargradeIdlList = new ArrayList<String>();
-    private List<String> pargradeNamelList = new ArrayList<String>();
+    private List<String> pargradeIdlList = new ArrayList<>();
+    private List<String> pargradeNamelList = new ArrayList<>();
 
     private int select_posion = 0;
 
@@ -208,40 +198,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     private ImageFileCropSelector imageFileCropSelector;
     private ProgressDialog progressDialog;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-
-        //获取当前日期
-        ca = Calendar.getInstance();
-        myear = ca.get(Calendar.YEAR);//获取年份
-        mmonth = ca.get(Calendar.MONTH);//获取月份
-        mday = ca.get(Calendar.DATE);//获取日
-
-        int px = DisplayUtil.dip2px(this, 300);
-        imageFileCropSelector = new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(px, px);
-        imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setOutPutAspect(1, 1);
-        imageFileCropSelector.setOutPut(px, px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                upload_photo = file;
-                img1.setVisibility(View.VISIBLE);
-                img_delete.setVisibility(View.VISIBLE);
-                File files = new File(upload_photo);
-                Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
@@ -261,15 +217,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         getConfirmInfoModel = coninfoEvent.getConfirmInfoModel();
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        change_photo = getConfirmInfoModel.getPhoto();
-        upload_photo = getConfirmInfoModel.getPhoto();
-        photo_backup = getConfirmInfoModel.getPhoto();
+        photo_backup=upload_photo=change_photo = getConfirmInfoModel.getPhoto();
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
         } else {
             img1.setImageResource(android.R.color.transparent);
         }
-        if ("".equals(change_photo)) {
+        if (TextUtils.isEmpty(change_photo)) {
             img1.setVisibility(View.GONE);
             img_delete.setVisibility(View.GONE);
         } else {
@@ -284,16 +238,16 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if ("".equals(weights)) {
             tv_weight.setText("");
         } else {
-            tv_weight.setText(StringUtil.getValue(getConfirmInfoModel.getWeight()) + "斤");
+            tv_weight.setText(weights + "斤");
         }
         String pysicals = StringUtil.getValue(getConfirmInfoModel.getPysical());
         if ("".equals(pysicals)) {
             tv_tizhi.setText("");
         } else {
-            tv_tizhi.setText(StringUtil.getValue(getConfirmInfoModel.getPysical()) + "%");
+            tv_tizhi.setText(pysicals + "%");
         }
 
-        tv_neizhi.setText(StringUtil.getValue(getConfirmInfoModel.getFat()) + "");
+        tv_neizhi.setText(StringUtil.getValue(getConfirmInfoModel.getFat()));
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
         tv_sex.setText(getConfirmInfoModel.getGender().equals("0") ? "男" : "女");
     }
@@ -301,6 +255,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         fl_right.setOnClickListener(this);
         ll_class.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -311,6 +266,33 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         img_photoupload.setOnClickListener(this);
         img_delete.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
+        //获取当前日期
+        Calendar ca = Calendar.getInstance();
+        myear = ca.get(Calendar.YEAR);//获取年份
+        mmonth = ca.get(Calendar.MONTH);//获取月份
+        mday = ca.get(Calendar.DATE);//获取日
+
+        int px = DisplayUtil.dip2px(this, 300);
+        imageFileCropSelector = new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(50);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px, px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {
+                upload_photo = file;
+                img1.setVisibility(View.VISIBLE);
+                img_delete.setVisibility(View.VISIBLE);
+                File files = new File(upload_photo);
+                Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
     }
 
@@ -318,8 +300,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private void addGrade() {
         gradeList.add("女");
         gradeList.add("男");
-        gradeIDList.add("1");
-        gradeIDList.add("0");
     }
 
     @Override
@@ -358,10 +338,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        // 此处为得到焦点时的处理内容
-
-                    } else {
+                    if (!hasFocus) {
                         String phone = et_phone.getText().toString();
                         if (phone.length() == 11) {
                             progressDialog.show();
@@ -550,7 +527,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                                         ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
                                     }
                                 } else {
-                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this);; // 图库选择图片
+                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this); // 图库选择图片
                                 }
 
                             }
@@ -629,15 +606,15 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 // contacts-related task you need to do.
                 imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
 
-            } if(requestCode == 200){
+            }
+        }else if(requestCode == 200){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 imageFileCropSelector.selectImage(JoinGameDetailActivity.this);// 图库选择图片
-            }else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
         }
     }
+    String select_grade;
     public void showGradeDialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_select_grade, null);
@@ -645,21 +622,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         wheel_grade.setOffset(1);
         wheel_grade.setItems(gradeList);
         wheel_grade.setSeletion(0);
-        select_grade = "";
+
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_grade = item;
-                grade_id = gradeIDList.get(selectedIndex - 1);
             }
         });
         birdialog.setTitle("选择性别").setView(view)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if ("".equals(select_grade)) {
+                        if (TextUtils.isEmpty(select_grade)) {
                             select_grade = gradeList.get(0);
-                            grade_id = gradeIDList.get(0);
                         }
                         tv_sex.setText(select_grade);
                         select_grade = "";
@@ -806,7 +781,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private void upload() {
         if ("1".equals(type)) {
             String name = et_nickname.getText().toString();
-            if (length(name) > 12) {
+            if (StringUtil.length(name) > 12) {
                 Util.toastMsg("姓名不能超过6个汉字");
             } else {
                 coninfoModel = new ConinfoModel();
@@ -837,42 +812,41 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     coninfoModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
                 }
 
-                if (getConfirmInfoModel.getCircum().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getCircum())) {
                     coninfoModel.setCircum(0.0);
                 } else {
                     coninfoModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
                 }
 
-                if (getConfirmInfoModel.getWaistline().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getWaistline())) {
                     coninfoModel.setWaistline(0.0);
                 } else {
                     coninfoModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
                 }
 
-                if (getConfirmInfoModel.getHiplie().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getHiplie())) {
                     coninfoModel.setHiplie(0.0);
                 } else {
                     coninfoModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
                 }
 
-                if (getConfirmInfoModel.getUpArmGirth().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getUpArmGirth())) {
                     coninfoModel.setUparmgirth(0.0);
                 } else {
                     coninfoModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
                 }
 
-                if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getUpLegGirth())) {
                     coninfoModel.setUpleggirth(0.0);
                 } else {
                     coninfoModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
                 }
 
-                if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getDoLegGirth())) {
                     coninfoModel.setDoleggirth(0.0);
                 } else {
                     coninfoModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
                 }
-                System.out.println("coninfoModel:" + coninfoModel);
                 String token = UserInfoModel.getInstance().getToken();
                 UserModel user = UserInfoModel.getInstance().getUser();
                 user.setNickname(et_nickname.getText().toString());
@@ -882,7 +856,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
         } else {
             String name = et_nickname.getText().toString();
-            if (length(name) > 12) {
+            if (StringUtil.length(name) > 12) {
                 Util.toastMsg("姓名不能超过6个汉字");
             } else {
                 NewstudentsModel newstudentsModel = new NewstudentsModel();
@@ -890,7 +864,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 newstudentsModel.setNickname(name);
                 String mobile = et_phone.getText().toString();
                 String b = "000000";
-//                String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
                 newstudentsModel.setPassword(MD5.md5WithEncoder(b));
                 newstudentsModel.setMobile(mobile);
                 String classId = pargradeIdlList.get(select_posion);
@@ -916,40 +889,40 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 } else {
                     newstudentsModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
                 }
-                if (getConfirmInfoModel.getCircum().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getCircum())) {
                     newstudentsModel.setCircum(0.0);
                 } else {
                     newstudentsModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
                 }
 
-                if (getConfirmInfoModel.getWaistline().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getWaistline())) {
                     newstudentsModel.setWaistline(0.0);
                 } else {
-                    newstudentsModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
+                    newstudentsModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline()));
                 }
 
-                if (getConfirmInfoModel.getHiplie().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getHiplie())) {
                     newstudentsModel.setHiplie(0.0);
                 } else {
-                    newstudentsModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
+                    newstudentsModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie()));
                 }
 
-                if (getConfirmInfoModel.getUpArmGirth().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getUpArmGirth())) {
                     newstudentsModel.setUparmgirth(0.0);
                 } else {
-                    newstudentsModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
+                    newstudentsModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth()));
                 }
 
-                if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getUpLegGirth())) {
                     newstudentsModel.setUpleggirth(0.0);
                 } else {
-                    newstudentsModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
+                    newstudentsModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth()));
                 }
 
-                if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
+                if (TextUtils.isEmpty(getConfirmInfoModel.getDoLegGirth())) {
                     newstudentsModel.setDoleggirth(0.0);
                 } else {
-                    newstudentsModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
+                    newstudentsModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth()));
                 }
                 dialogShow("加载中");
                 iNewStudentpresenter.input(newstudentsModel);
@@ -957,24 +930,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private boolean isLetter(char c) {
-        int k = 0x80;
-        return c / k == 0 ? true : false;
-    }
-
-    private int length(String s) {
-        if (s == null)
-            return 0;
-        char[] c = s.toCharArray();
-        int len = 0;
-        for (int i = 0; i < c.length; i++) {
-            len++;
-            if (!isLetter(c[i])) {
-                len++;
-            }
-        }
-        return len;
-    }
 
     @Override
     public void onValidationSucceeded() {
@@ -997,12 +952,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     //体重对话框
@@ -1069,9 +1018,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     public void show_class_dialog() {
         View outerView = LayoutInflater.from(this).inflate(R.layout.class_view, null);
-
-        final WheelView wheel_class = (WheelView) outerView.findViewById(R.id.wheel_class);
-
+        WheelView wheel_class = (WheelView) outerView.findViewById(R.id.wheel_class);
         wheel_class.setOffset(1);
         wheel_class.setItems(pargradeNamelList);
         wheel_class.setSeletion(0);
@@ -1082,7 +1029,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
         });
 
-        new android.app.AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("请选择班级")
                 .setView(outerView)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -1131,9 +1078,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ("1".equals(type)) {
-                System.out.println("");
-            } else {
+            if (!"1".equals(type)) {
                 finish();
             }
             return true;

@@ -1,9 +1,13 @@
 package com.softtek.lai.module.community.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -331,7 +335,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 0);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -354,7 +359,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 1);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
 
@@ -377,7 +383,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 2);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -398,7 +405,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 3);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -418,7 +426,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 4);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -437,7 +446,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 5);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -455,7 +465,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 6);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -472,7 +483,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 7);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -488,7 +500,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 8);
-                            context.startActivity(in);
+                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()

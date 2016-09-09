@@ -2,11 +2,8 @@ package com.softtek.lai.module.bodygamest.present;
 
 import android.app.ProgressDialog;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygamest.eventModel.PhotoListEvent;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
-import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.bodygamest.net.PhotoListService;
@@ -14,7 +11,6 @@ import com.softtek.lai.module.bodygamest.net.PhotoListService;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -23,7 +19,6 @@ import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
-import zilla.libzilla.dialog.LoadingDialog;
 
 /**
  * Created by lareina.qiao on 3/31/2016.

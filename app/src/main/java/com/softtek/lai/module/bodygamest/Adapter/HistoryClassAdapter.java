@@ -6,28 +6,22 @@
 package com.softtek.lai.module.bodygamest.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.HistoryClassModel;
-import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

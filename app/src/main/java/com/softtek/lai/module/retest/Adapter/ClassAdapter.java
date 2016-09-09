@@ -30,7 +30,7 @@ public class ClassAdapter extends BaseAdapter {
 
     public void updateData(List<BanjiModel> banjiModelList){
         this.banjiModelList=banjiModelList;
-        notifyDataSetChanged();;
+        notifyDataSetChanged();
     }
 
 

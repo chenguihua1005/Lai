@@ -10,6 +10,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.SystemUtils;
 
@@ -213,6 +215,14 @@ public class LineChartUtil {
         set1.setDrawCircleHole(false);//实心圆点
         set1.setValueTextSize(9f);
         set1.setDrawFilled(true);//背景色的开关
+        set1.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                int val= (int) value;
+
+                return String.valueOf(val);
+            }
+        });
 
         //填充背景色效果
         if(SystemUtils.getSDKInt() >= 18) {

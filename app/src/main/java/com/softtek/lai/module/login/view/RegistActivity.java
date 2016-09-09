@@ -6,13 +6,15 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.*;
-import butterknife.InjectView;
-import com.github.snowdream.android.util.Log;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -28,8 +30,8 @@ import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;

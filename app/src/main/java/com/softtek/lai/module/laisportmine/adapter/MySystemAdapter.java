@@ -31,7 +31,7 @@ public class MySystemAdapter extends BaseAdapter {
 
     public void updateData(List<SystemNewsModel> systemNewsModelList){
         this.systemNewsModelList=systemNewsModelList;
-        notifyDataSetChanged();;
+        notifyDataSetChanged();
     }
 
 

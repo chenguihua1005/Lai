@@ -9,14 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.snowdream.android.util.Log;
-import com.softtek.lai.R;
-import com.softtek.lai.utils.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import zilla.libcore.lifecircle.LifeCircle;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
 
 /**
@@ -88,7 +84,17 @@ public abstract class LazyBaseFragment extends Fragment{
         super.onDestroy();
         LifeCircle.onDestory(this);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getContext());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getContext());
+    }
 
     public boolean isCreatedView() {
         return isCreatedView;

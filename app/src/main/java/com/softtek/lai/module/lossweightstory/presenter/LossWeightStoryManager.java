@@ -1,24 +1,16 @@
 package com.softtek.lai.module.lossweightstory.presenter;
 
 import android.content.Context;
-import android.widget.CheckBox;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.model.LogList;
-import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
-import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
-import com.softtek.lai.module.studetail.model.LossWeightLogModel;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 4/8/2016.

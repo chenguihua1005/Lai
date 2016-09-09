@@ -87,16 +87,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
+        <!--正式-->
+        <!--<meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5728545a67e58ea7cf001701" />-->
+        <!--测试-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5728545a67e58ea7cf001701" />
+            android:value="57c527bbe0f55a2255000aba" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="5704e47c748aac462300001d" />
-
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <!--正式-->
+        <!--<meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="1a3bbb691bfbfca0d0676e9f" />-->
+        <!--测试54-->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="b004a008690a103f8b6ebbf7" />
+        <!-- 值来自开发者平台取得的AppKey -->
         <activity
             android:name=".module.login.view.LoginActivity"
             android:screenOrientation="portrait"
@@ -542,20 +559,6 @@
                 <category android:name="com.softtek.lai" />
             </intent-filter>
         </receiver>
-
-        <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
-        <!--正式-->
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="1a3bbb691bfbfca0d0676e9f" />
-        <!--测试54-->
-        <!--<meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />-->
-        <!-- 值来自开发者平台取得的AppKey -->
         <activity
             android:name=".module.historydate.view.HistoryDataActivity"
             android:screenOrientation="portrait" />
@@ -801,6 +804,7 @@
             android:name=".stepcount.service.UploadLogService"
             android:exported="false"/>
         <activity android:name=".module.home.view.ArticalDetailActivity" android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

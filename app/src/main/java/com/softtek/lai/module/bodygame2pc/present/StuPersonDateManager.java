@@ -1,15 +1,7 @@
 package com.softtek.lai.module.bodygame2pc.present;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
-import com.softtek.lai.module.bodygame2.model.ClassMainModel;
-import com.softtek.lai.module.bodygame2.model.ClassModel;
-import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
-import com.softtek.lai.module.bodygame2.model.memberDetialModel;
-import com.softtek.lai.module.bodygame2.net.BodyGameService;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2pc.model.PCClassMainModel;
 import com.softtek.lai.module.bodygame2pc.model.StumemberDetialModel;
 import com.softtek.lai.module.bodygame2pc.net.BodyGamePcService;

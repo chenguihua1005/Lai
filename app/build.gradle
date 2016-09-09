@@ -23,6 +23,15 @@ android {
         // Enabling multidex support.
         multiDexEnabled true
     }
+    lintOptions {
+        // set to true to turn off analysis progress reporting by lint
+        quiet true
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+        // if true, only report errors
+        ignoreWarnings true
+    }
+
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
@@ -78,5 +87,6 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
 }

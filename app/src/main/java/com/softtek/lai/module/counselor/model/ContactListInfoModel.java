@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class ContactListInfoModel implements Serializable {
+public class ContactListInfoModel implements Serializable ,Cloneable{
 
     private String Mobile;     //助教电话
     private String UserName;     //助教名字
@@ -47,11 +47,25 @@ public class ContactListInfoModel implements Serializable {
         Mobile = mobile;
     }
 
+    public ContactListInfoModel() {
+    }
+
     @Override
     public String toString() {
         return "ContactListInfoModel{" +
                 "Mobile='" + Mobile + '\'' +
                 ", UserName='" + UserName + '\'' +
                 '}';
+    }
+
+    @Override
+    public ContactListInfoModel clone() {
+        ContactListInfoModel model;
+        try {
+            model= (ContactListInfoModel) super.clone();
+        } catch (CloneNotSupportedException e) {
+            model=new ContactListInfoModel();
+        }
+        return model;
     }
 }

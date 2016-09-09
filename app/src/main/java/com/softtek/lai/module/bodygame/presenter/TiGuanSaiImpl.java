@@ -6,19 +6,14 @@
 package com.softtek.lai.module.bodygame.presenter;
 
 import android.app.ProgressDialog;
-import android.util.Log;
-import android.view.animation.Animation;
 
-import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TipsDetailModel;
 import com.softtek.lai.module.bodygame.model.TipsModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

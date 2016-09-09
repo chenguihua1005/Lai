@@ -252,7 +252,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 switch (flag)
                 {
                     case 0:
-                        if (state!=true)
+                        if (!state)
                         {
                             n=n+7;
                         }
@@ -301,7 +301,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         bt_right.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        if (state!=true)
+                        if (!state)
                         {
                             n=n+4;
                         }
@@ -355,7 +355,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 switch (flag)
                 {
                     case 0:
-                        if (state!=false) {
+                        if (state) {
                             n = n - 14;
                         }
                         else {
@@ -409,7 +409,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 2:
-                        if (state!=false) {
+                        if (state) {
                             n = n - 8;
                         }
                         else {

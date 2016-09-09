@@ -6,12 +6,9 @@
 package com.softtek.lai.module.counselor.presenter;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,10 +25,10 @@ import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
-import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
-import com.softtek.lai.module.login.view.LoginActivity;
 
-import org.greenrobot.eventbus.EventBus;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -39,10 +36,6 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

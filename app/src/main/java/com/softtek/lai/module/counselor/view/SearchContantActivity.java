@@ -6,50 +6,30 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
 import com.softtek.lai.utils.SoftInputUtil;
 
-import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -57,11 +37,7 @@ import zilla.libcore.ui.InjectLayout;
  * 邀请通讯录学员
  */
 @InjectLayout(R.layout.activity_search_contant)
-public class SearchContantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class SearchContantActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -75,81 +51,29 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.list_contant)
     ListView list_contant;
 
-
-    private IStudentPresenter studentPresenter;
-    private UserModel userModel;
     InviteContantAdapter adapter;
 
 
-    private List<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
-    private List<ContactListInfoModel> contactValue = new ArrayList<ContactListInfoModel>();
-    private ProgressDialog progressDialog;
+    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<>();
+    private List<ContactListInfoModel> contactValue = new ArrayList<>();
 
+    private MyHandler handler;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ll_left.setOnClickListener(this);
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
-//        progressDialog.setMessage("正在加载内容...");
-//        progressDialog.show();
-        contactListValue = (ArrayList<ContactListInfoModel>) getIntent().getSerializableExtra("list");
+    static class MyHandler extends Handler{
+        private WeakReference<SearchContantActivity> mContext;
+        public MyHandler(SearchContantActivity activity){
+            this.mContext=new WeakReference<>(activity);
+        }
 
-        adapter = new InviteContantAdapter(this, contactValue);
-        list_contant.setAdapter(adapter);
-
-//        String str="我萨达DSSDSss";
-//        String pin = getPinYin(str);
-//        String s="w";
-//        System.out.println("ssssss:"+pin.contains(s)+"    pin:"+pin);
-        et_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                contactValue.clear();
-                String str = s.toString();
-                if (str.length() != 0) {
-                    for (int i = 0; i < contactListValue.size(); i++) {
-                        ContactListInfoModel contactListInfoModel = contactListValue.get(i);
-                        String py = getPinYin(contactListInfoModel.getUserName());
-                        if (py.contains(str)) {
-                            if (contactValue.contains(contactListInfoModel)) {
-
-                            } else {
-                                contactValue.add(contactListInfoModel);
-                            }
-                        }
-                        if (contactListInfoModel.getUserName().contains(str)) {
-                            if (contactValue.contains(contactListInfoModel)) {
-
-                            } else {
-                                contactValue.add(contactListInfoModel);
-                            }
-                        }
-                        if (contactListInfoModel.getMobile().contains(str)) {
-                            if (contactValue.contains(contactListInfoModel)) {
-
-                            } else {
-                                contactValue.add(contactListInfoModel);
-                            }
-                        }
-                    }
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SearchContantActivity activity=mContext.get();
+                if(activity!=null){
+                    activity.adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
             }
-        });
-
+        }
     }
 
     public static String getPinYin(String input) {
@@ -169,19 +93,100 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("搜索联系人");
+        ll_left.setOnClickListener(this);
 
     }
 
+    DealSearch run;
+    Thread thread;
+
     @Override
     protected void initDatas() {
-        studentPresenter = new StudentImpl(this);
         et_search.setFocusable(true);
         et_search.setFocusableInTouchMode(true);
         et_search.requestFocus();
         et_search.findFocus();
+        contactListValue= (ArrayList<ContactListInfoModel>) ACache.get(this).getAsObject("contactList");
+        adapter = new InviteContantAdapter(this, contactValue);
+        list_contant.setAdapter(adapter);
+        handler=new MyHandler(this);
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                contactValue.clear();
+                adapter.notifyDataSetChanged();
+                String str=s.toString();
+                if(thread!=null&&thread.isAlive()){
+                    run.stop();
+                    run=null;
+                    thread=null;
+
+                }
+                run=new DealSearch(str);
+                thread=new Thread(run);
+                thread.start();
+            }
+        });
+
+    }
+
+    class DealSearch implements Runnable{
+
+        private String str;
+        private boolean stop;
+        public DealSearch(String str){
+            this.str=str;
+        }
+
+        @Override
+        public void run() {
+            if (str.length() != 0) {
+                List<ContactListInfoModel> models=new ArrayList<>();
+                for (int i = 0,size=contactListValue.size(); i < size; i++) {
+                    if(stop){
+                        return;
+                    }
+                    ContactListInfoModel contactListInfoModel = contactListValue.get(i);
+                    String py = getPinYin(contactListInfoModel.getUserName());
+                    if (py.contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                    if (contactListInfoModel.getUserName().contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                    if (contactListInfoModel.getMobile().contains(str)) {
+                        if (!models.contains(contactListInfoModel)) {
+                            models.add(contactListInfoModel);
+                        }
+                    }
+                }
+                contactValue.clear();
+                contactValue.addAll(models);
+                if(stop){
+                    return;
+                }
+                handler.sendEmptyMessage(0);
+            }
+        }
+
+        public void stop(){
+            this.stop=true;
+        }
     }
 
     @Override
@@ -210,25 +215,13 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        if(thread!=null&&thread.isAlive()){
+            run.stop();
+            run=null;
+            thread=null;
+
+        }
+        super.onDestroy();
     }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-
 }

@@ -1,6 +1,8 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -214,6 +216,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         Intent in=new Intent(this, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", (ArrayList<String>) images);
         in.putExtra("position",position);
-        startActivity(in);
+        ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(view,view.getWidth()/2,view.getHeight()/2,0,0);
+        ActivityCompat.startActivity(this,in,optionsCompat.toBundle());
     }
 }

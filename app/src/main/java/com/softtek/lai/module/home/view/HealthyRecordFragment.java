@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
@@ -121,7 +122,9 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    healthy_refresh.setRefreshing();
+                    if(healthy_refresh!=null){
+                        healthy_refresh.setRefreshing();
+                    }
                 }
             }, 300);
 
@@ -145,6 +148,10 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
         iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.healthedit));
         healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
+        ILoadingLayout startLabelse = healthy_refresh.getLoadingLayoutProxy(true,false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setReleaseLabel("松开立即刷新中");// 下来达到一定距离时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
     }
 
     @Override
@@ -252,8 +259,8 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     public void getModel(LaichModel laichModel) {
-        healthy_refresh.onRefreshComplete();
         try {
+            healthy_refresh.onRefreshComplete();
             if (laichModel == null) {
                 laichModel = new LaichModel();
             }

@@ -27,8 +27,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
@@ -65,7 +63,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -219,12 +216,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 Bundle data=msg.getData();
                 currentStep=data.getInt("todayStep",0);
                 serverStep=data.getInt("serverStep",0);
-                LogManager.getManager(getApplicationContext())
-                        .log("GroupMainActivity","currentStep="+currentStep+";serverStep="+serverStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                 //更新显示
                 try {
                     if (currentStep == 0) {
-                        text_step.setText("--");
                         text_rl.setText("--");
                         text3.setVisibility(View.GONE);
                     } else {
@@ -243,15 +237,11 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //继续向服务端发送请求获取数据
                 Message message = Message.obtain(null, StepService.MSG_FROM_CLIENT);
                 //携带服务器上的步数
-                LogManager.getManager(getApplicationContext())
-                        .log("GroupMainActivity","request Step, now deviation="+deviation, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                 if (deviation>0){
                     int deviationTemp=deviation;
                     Bundle surplusStep = new Bundle();
                     surplusStep.putInt("surplusStep",deviationTemp);
                     message.setData(surplusStep);
-                    LogManager.getManager(getApplicationContext())
-                            .log("GroupMainActivity","has deviation value,now deviation="+deviation, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                 }
                 deviation=0;
                 message.replyTo = getReplyMessage;
@@ -259,11 +249,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     clientMessenger.send(message);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
-                    LogManager.getManager(getApplicationContext())
-                            .log("GroupMainActivity","bindService successfully.......", LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                 }
-
                 break;
         }
         return false;
@@ -282,14 +268,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            LogManager.getManager(getApplicationContext())
-                    .log("GroupMainActivity","bindService successfully.......", LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            LogManager.getManager(getApplicationContext())
-                    .log("GroupMainActivity","unbindService successfully.......", LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }
     };
 
@@ -316,6 +298,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         text_start_pks.setOnClickListener(this);
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
+        userId = UserInfoModel.getInstance().getUserId()+"";
         bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
     }
 
@@ -327,17 +310,23 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        delayHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         //解绑服务
         deviation=0;
-        delayHandler.removeMessages(REQUEST_DELAY);
+        delayHandler.removeCallbacksAndMessages(null);
         unbindService(connection);
     }
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        userId = UserInfoModel.getInstance().getUser().getUserid();
+
         String str = DateUtil.getInstance().getCurrentDate() + "," +currentStep;
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
@@ -357,6 +346,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -381,7 +371,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.lin_reflash:
                 dialogShow("加载中");
                 String str = DateUtil.getInstance().getCurrentDate() + "," + currentStep;
-                android.util.Log.e("jarvis--->", str);
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
@@ -476,10 +465,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                         //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
                         deviation=tempStep-serverStep;
                     }
-                    LogManager.getManager(getApplicationContext())
-                            .log("GroupMainActivity","pull down request,\n" +
-                                    " currentTemp="+currentTemp+"\n" +
-                                    " serverStep="+serverStep+"\n, now deviation="+deviation, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                     text_step.setText(TodayStepCnt);
                     text3.setVisibility(View.VISIBLE);
                     int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;

@@ -2,6 +2,9 @@ package com.softtek.lai.module.studetail.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
@@ -128,13 +130,14 @@ public class LossWeightLogAdapter extends BaseAdapter{
         if(StringUtils.isNotEmpty(log.getImgCollectionFirst())){
             holder.iv_image.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     Intent in=new Intent(context, PictureMoreActivity.class);
                     ArrayList<String> imgs=new ArrayList<String>();
                     imgs.add(log.getImgCollectionFirst());
                     in.putStringArrayListExtra("images", imgs);
                     in.putExtra("position",0);
-                    context.startActivity(in);
+                    ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(view,view.getWidth()/2,view.getHeight()/2,0,0);
+                    ActivityCompat.startActivity((AppCompatActivity)context,in,optionsCompat.toBundle());
                 }
             });
             Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).resize(px,px).centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(holder.iv_image);

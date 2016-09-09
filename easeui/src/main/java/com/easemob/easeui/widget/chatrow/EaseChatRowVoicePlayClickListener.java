@@ -109,7 +109,7 @@ public class EaseChatRowVoicePlayClickListener implements View.OnClickListener {
 			File file = new File(body.getLocalUrl());
 	        if (file.exists() && file.isFile()) {
 	            file.delete();
-	        };
+	        }
             EMChatManager.getInstance().getConversation(message.getFrom()).removeMessage(message.getMsgId());
 			if(adapter instanceof EaseMessageAdapter){
 	            ((EaseMessageAdapter) adapter).refresh();

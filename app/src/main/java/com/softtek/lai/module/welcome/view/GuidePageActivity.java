@@ -67,7 +67,6 @@ public class GuidePageActivity extends BaseActivity implements OnPageChangeListe
         vpAdapter = new GuidePagerAdapter(views, this);
         vp.setAdapter(vpAdapter);
         vp.addOnPageChangeListener(this);
-       // iv_one.setBackgroundResource(R.drawable.white_dot);
     }
 
     @Override

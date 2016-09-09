@@ -1,8 +1,5 @@
 package com.softtek.lai.stepcount.model;
 
-import zilla.libcore.db.Id;
-import zilla.libcore.db.Table;
-
 /**
  * Created by jerry.guan on 5/23/2016.
  * 保存用户步数的对象

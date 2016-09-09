@@ -2,6 +2,9 @@ package com.softtek.lai.module.lossweightstory.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +21,6 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -197,7 +199,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,0);
+                            start(v,imgs,0);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -217,7 +219,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,1);
+                            start(v,imgs,1);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -236,7 +238,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,2);
+                            start(v,imgs,2);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -254,7 +256,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img4.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,3);
+                            start(v,imgs,3);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -271,7 +273,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img5.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,4);
+                            start(v,imgs,4);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -287,7 +289,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img6.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,5);
+                            start(v,imgs,5);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -302,7 +304,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img7.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,6);
+                            start(v,imgs,6);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -316,7 +318,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img8.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,7);
+                            start(v,imgs,7);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -329,7 +331,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     holder.img9.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            start(imgs,8);
+                            start(v,imgs,8);
                         }
                     });
                     Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
@@ -340,10 +342,11 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             }
         }
     }
-    private void start(ArrayList<String> imgs,int position){
+    private void start(View v,ArrayList<String> imgs,int position){
         Intent in=new Intent(context, PictureMoreActivity.class);
         in.putStringArrayListExtra("images", imgs);
         in.putExtra("position",position);
-        context.startActivity(in);
+        ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+        ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
     }
 }

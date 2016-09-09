@@ -42,7 +42,6 @@ public class MyPublicWealfareAdapter extends BaseAdapter {
     public void updateData(List<SelectPublicWewlfModel> publicWewlfModelList) {
         this.publicWewlfModelList = publicWewlfModelList;
         notifyDataSetChanged();
-        ;
     }
 
 

@@ -22,5 +22,6 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         app:ptrShowIndicator="false"
+        app:ptrAnimationStyle="flip"
         />
 </RelativeLayout>

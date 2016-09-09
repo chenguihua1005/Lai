@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.message.adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 
 import java.util.ArrayList;

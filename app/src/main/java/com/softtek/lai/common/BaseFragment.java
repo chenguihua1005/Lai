@@ -12,15 +12,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.umeng.analytics.MobclickAgent;
+
+import java.io.Serializable;
+
 import butterknife.ButterKnife;
 import zilla.libcore.lifecircle.LifeCircle;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Fragment基类
@@ -68,12 +69,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        if(contentView==null){
-            contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
-            LifeCircle.onCreate(this);
-            ButterKnife.inject(this, contentView);
-            initViews();
-        }
+        contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
+        LifeCircle.onCreate(this);
+        ButterKnife.inject(this, contentView);
+        initViews();
+
         return contentView;
     }
 
@@ -87,6 +87,18 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getContext());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getContext());
     }
 
     @Override
@@ -107,7 +119,7 @@ public abstract class BaseFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
 
@@ -117,8 +129,8 @@ public abstract class BaseFragment extends Fragment {
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement OnFragmentInteractionListener");
         }
     }
 

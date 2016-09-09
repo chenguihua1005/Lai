@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -17,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
-import com.google.gson.annotations.Until;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -27,7 +24,6 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.utils.MD5;
@@ -37,7 +33,6 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_password)
 public class ModifyPasswordActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -73,8 +68,6 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     Button btn_submit;
 
     private IPasswordPresenter passwordPresenter;
-    private String phone = "";
-    private String identify = "";
 
     private String old_psd;
     private String new_psd;
@@ -97,7 +90,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         String type=getIntent().getStringExtra("type");
         token= getIntent().getStringExtra("token");
         if("1".equals(type)){
-            ll_left.setVisibility(View.GONE);
+            ll_left.setVisibility(View.VISIBLE);
         }else {
             ll_left.setOnClickListener(this);
         }

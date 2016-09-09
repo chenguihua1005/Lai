@@ -170,9 +170,15 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
             if(requestCode==OPEN_SENDER_REQUEST){
                 tab_content.setCurrentItem(0);
                 tab_content.setCurrentItem(1);
-                ((MineHealthyFragment)fragments.get(1)).updateList();
-                ((RecommendHealthyFragment)fragments.get(0)).updateList();
-
+                int size=fragments.size();
+                if(size>0){
+                    if(size==1){
+                        ((RecommendHealthyFragment)fragments.get(0)).updateList();
+                    }
+                    if(size>1){
+                        ((MineHealthyFragment)fragments.get(1)).updateList();
+                    }
+                }
             }
 
         }

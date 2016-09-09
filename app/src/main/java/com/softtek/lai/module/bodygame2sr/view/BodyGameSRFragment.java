@@ -34,7 +34,6 @@ import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
-import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
@@ -48,7 +47,6 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CustomGridView;
-import com.softtek.lai.widgets.MyGridView;
 import com.softtek.lai.widgets.ObservableScrollView;
 import com.squareup.picasso.Picasso;
 
@@ -452,21 +450,25 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                                 ZillaApi.NormalRestAdapter.create(BodyGameService.class).doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
                                     @Override
                                     public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
-                                        iv_refresh.clearAnimation();
-                                        if(listResponseData.getStatus()==200){
-                                            List<TotolModel> models=listResponseData.getData();
-                                            try {
+                                        try {
+                                            iv_refresh.clearAnimation();
+                                            if(listResponseData.getStatus()==200){
+                                                List<TotolModel> models=listResponseData.getData();
                                                 tv_totalperson.setText(models.get(0).getTotal_person());
                                                 tv_total_loss.setText(models.get(0).getTotal_loss());
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
                                             }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
                                     }
 
                                     @Override
                                     public void failure(RetrofitError error) {
-                                        iv_refresh.clearAnimation();
+                                        try {
+                                            iv_refresh.clearAnimation();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
                             }

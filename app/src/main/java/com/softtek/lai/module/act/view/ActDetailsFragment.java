@@ -1,6 +1,7 @@
 package com.softtek.lai.module.act.view;
 
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -94,15 +95,15 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 if ("1".equals(status)) {
                     text_state.setText("进行中");
                     img_state.setImageResource(R.drawable.img_activity_1);
-                    text_state.setTextColor(getResources().getColor(R.color.editorText));
+                    text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.editorText));
                 } else if ("0".equals(status)) {
                     text_state.setText("已结束");
                     img_state.setImageResource(R.drawable.img_activity_3);
-                    text_state.setTextColor(getResources().getColor(R.color.word16));
+                    text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.word16));
                 } else {
                     text_state.setText("未开始");
                     img_state.setImageResource(R.drawable.img_activity_2);
-                    text_state.setTextColor(getResources().getColor(R.color.word15));
+                    text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.word15));
 
                 }
                 String activeType = model.getActiveType();
@@ -148,7 +149,7 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 img_loss.setVisibility(View.GONE);
                 lin_have.setVisibility(View.GONE);
             }
-        } catch (Resources.NotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

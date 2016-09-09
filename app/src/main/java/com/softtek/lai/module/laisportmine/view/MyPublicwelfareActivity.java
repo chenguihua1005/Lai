@@ -1,8 +1,5 @@
 package com.softtek.lai.module.laisportmine.view;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -14,15 +11,12 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.SelectPublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
-import com.softtek.lai.module.message2.model.OperateMsgModel;
-import com.softtek.lai.module.message2.model.SelectNoticeMsgModel;
 import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
 
 import java.util.ArrayList;

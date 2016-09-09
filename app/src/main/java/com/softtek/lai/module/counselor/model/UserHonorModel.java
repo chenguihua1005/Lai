@@ -6,7 +6,6 @@
 package com.softtek.lai.module.counselor.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

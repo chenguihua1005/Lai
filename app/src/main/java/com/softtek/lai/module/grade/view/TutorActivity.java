@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.grade.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -14,9 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import butterknife.InjectView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -24,18 +21,20 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.grade.adapter.TutorAdapter;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_tutor)
 public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>, OnClickListener {

@@ -39,7 +39,6 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.present.RetestPre;

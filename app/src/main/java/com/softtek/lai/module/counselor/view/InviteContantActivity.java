@@ -10,14 +10,10 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -27,29 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamest.view.FuceStActivity;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
 
-import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -57,11 +40,7 @@ import zilla.libcore.ui.InjectLayout;
  * 邀请通讯录学员
  */
 @InjectLayout(R.layout.activity_invite_contant_list)
-public class InviteContantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class InviteContantActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -80,10 +59,6 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.list_contant)
     ListView list_contant;
 
-
-    private IStudentPresenter studentPresenter;
-    private ACache aCache;
-    private UserModel userModel;
     InviteContantAdapter adapter;
     private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
 
@@ -97,32 +72,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
             ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
 
-    private List<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
+    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<>();
     private ProgressDialog progressDialog;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ll_left.setOnClickListener(this);
-        fl.setOnClickListener(this);
-        et_search.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
-        progressDialog.setMessage("正在加载内容...");
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
-            }
-        } else {
-            loadContants();
-        }
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -134,10 +85,6 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                 // contacts-related task you need to do.
                 loadContants();
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
         }
     }
@@ -169,17 +116,27 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.contactList);
-
+        ll_left.setOnClickListener(this);
+        fl.setOnClickListener(this);
+        et_search.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("正在加载通讯录...");
     }
 
     @Override
     protected void initDatas() {
-        studentPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            }
+        } else {
+            loadContants();
+        }
     }
 
     @Override
@@ -191,35 +148,12 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
             case R.id.et_search:
             case R.id.fl:
+                ACache.get(this).put("contactList",contactListValue);
                 Intent intent = new Intent(this, SearchContantActivity.class);
-                intent.putExtra("list", (Serializable) contactListValue);
                 startActivity(intent);
                 break;
         }
     }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
 
     /**
      * @author jarvis
@@ -232,59 +166,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst(); // 游标移动到第一项
-                //得到手机号码
-
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    cursor.moveToPosition(i);
-                    String name = cursor.getString(1);
-                    String number = cursor.getString(2);
-                    String sortKey = cursor.getString(3);
-                    int contactId = cursor.getInt(4);
-                    Long photoId = cursor.getLong(5);
-                    String lookUpKey = cursor.getString(6);
-
-
-                    Bitmap contactPhoto = null;
-
-
-                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
-
-                    if (photoId > 0) {
-
-                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-
-                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-
-                        contactPhoto = BitmapFactory.decodeStream(input);
-
-                    } else {
-
-                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
-
-                    }
-                    number = number.trim();
-                    if (number.contains("-")) {
-                        number = number.replace("-", "");
-                    }
-                    if (number.contains(" ")) {
-                        number = number.replace(" ", "");
-                    }
-                    if (number.contains("+86")) {
-                        number = number.replace("+86", "");
-                    }
-
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel(name, number);
-                    contactListValue.add(contactListInfo);
-
-                }
-                progressDialog.dismiss();
-                adapter.notifyDataSetChanged();
-                super.onQueryComplete(token, cookie, cursor);
-            } else {
-                progressDialog.dismiss();
-            }
+            super.onQueryComplete(token, cookie, cursor);
+            new DealTask().execute(cursor);
         }
 
     }
@@ -310,6 +193,59 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         cursor.close();
 
         if (!sb.toString().isEmpty()) {
+        }
+    }
+
+    class DealTask extends AsyncTask<Cursor,Integer,Void>{
+
+        @Override
+        protected Void doInBackground(Cursor... params) {
+            Cursor cursor=params[0];
+            if (cursor != null && cursor.moveToFirst()) {
+                //产生一个原型对象
+                ContactListInfoModel prototype = new ContactListInfoModel();
+                do{
+                    String name = cursor.getString(1);
+                    String number = cursor.getString(2);
+                   /* String sortKey = cursor.getString(3);
+                    int contactId = cursor.getInt(4);
+                    Long photoId = cursor.getLong(5);
+                    String lookUpKey = cursor.getString(6);
+                    Bitmap contactPhoto = null;
+                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
+                    if (photoId > 0) {
+                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
+                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
+                        contactPhoto = BitmapFactory.decodeStream(input);
+                    } else {
+                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
+                    }*/
+                    number = number.trim();
+                    if (number.contains("-")) {
+                        number = number.replace("-", "");
+                    }
+                    if (number.contains(" ")) {
+                        number = number.replace(" ", "");
+                    }
+                    if (number.contains("+86")) {
+                        number = number.replace("+86", "");
+                    }
+                    ContactListInfoModel contactListInfo =prototype.clone();
+                    contactListInfo.setUserName(name);
+                    contactListInfo.setMobile(number);
+                    contactListValue.add(contactListInfo);
+
+                }while (cursor.moveToNext());
+
+            }
+            cursor.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.dismiss();
+            adapter.notifyDataSetChanged();
         }
     }
 

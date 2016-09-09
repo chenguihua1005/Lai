@@ -18,7 +18,7 @@ public class TimeTickListener {
     private TimeTickReceiver receiver;
 
     public TimeTickListener(Context context) {
-        weakReference=new WeakReference(context);
+        weakReference=new WeakReference<>(context);
         receiver=new TimeTickReceiver();
     }
 

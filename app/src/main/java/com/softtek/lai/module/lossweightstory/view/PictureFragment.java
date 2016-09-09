@@ -53,9 +53,11 @@ public class PictureFragment extends BaseFragment{
     @Override
     protected void initDatas() {
         String uri=getArguments().getString("image_path");
-        Bitmap cache=iv_image.getDrawingCache();
-        if(cache!=null&&!cache.isRecycled()){
-            cache.recycle();
+        if(iv_image!=null){
+            Bitmap cache=iv_image.getDrawingCache();
+            if(cache!=null&&!cache.isRecycled()){
+                cache.recycle();
+            }
         }
         //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
