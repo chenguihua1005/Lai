@@ -149,7 +149,7 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 img_loss.setVisibility(View.GONE);
                 lin_have.setVisibility(View.GONE);
             }
-        } catch (Resources.NotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

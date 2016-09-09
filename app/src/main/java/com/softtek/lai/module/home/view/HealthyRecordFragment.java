@@ -122,7 +122,9 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    healthy_refresh.setRefreshing();
+                    if(healthy_refresh!=null){
+                        healthy_refresh.setRefreshing();
+                    }
                 }
             }, 300);
 
@@ -257,8 +259,8 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     public void getModel(LaichModel laichModel) {
-        healthy_refresh.onRefreshComplete();
         try {
+            healthy_refresh.onRefreshComplete();
             if (laichModel == null) {
                 laichModel = new LaichModel();
             }

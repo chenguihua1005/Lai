@@ -223,7 +223,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 //更新显示
                 try {
                     if (currentStep == 0) {
-                        text_step.setText("--");
                         text_rl.setText("--");
                         text3.setVisibility(View.GONE);
                     } else {
@@ -315,6 +314,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         text_start_pks.setOnClickListener(this);
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
+        userId = UserInfoModel.getInstance().getUserId()+"";
         bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
     }
 
@@ -326,17 +326,23 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        delayHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         //解绑服务
         deviation=0;
-        delayHandler.removeMessages(REQUEST_DELAY);
+        delayHandler.removeCallbacksAndMessages(null);
         unbindService(connection);
     }
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        userId = UserInfoModel.getInstance().getUser().getUserid();
+
         String str = DateUtil.getInstance().getCurrentDate() + "," +currentStep;
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
@@ -356,6 +362,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

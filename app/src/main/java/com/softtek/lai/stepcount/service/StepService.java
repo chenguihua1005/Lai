@@ -60,7 +60,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     //默认为30秒进行一次存储
     private static final int duration = 10000;
     private SensorManager sensorManager;
-    //private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
@@ -359,7 +358,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             nm.cancelAll();
 
         }
-        //unregisterReceiver(uploadStepReceive);
         tickListener.stopTick();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
         time.cancel();

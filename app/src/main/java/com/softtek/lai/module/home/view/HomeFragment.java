@@ -31,7 +31,6 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -141,8 +140,8 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);
+            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         }
-        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
@@ -177,9 +176,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
-
-        //载入缓存数据
-        homeInfoPresenter.loadCacheData();
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
@@ -255,13 +251,8 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     @Override
     protected void lazyLoad() {
         //第一次加载自动刷新
-        pull.post(new Runnable() {
-            @Override
-            public void run() {
-                pull.setRefreshing(true);
-            }
-        });
-        onRefresh();
+        pull.setRefreshing(true);
+        homeInfoPresenter.getHomeInfoData(pull);
     }
 
     @Override
@@ -303,7 +294,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
             String hasEmchat = model.getHasEmchat();
-            if ("1".equals(hasEmchat)) {
+            if ("1".equals(hasEmchat)) {//如果有环信号
                 timer = new Timer();
                 TimerTask task = new TimerTask() {
 
@@ -641,7 +632,11 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                try {
+                    iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

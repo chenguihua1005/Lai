@@ -159,102 +159,100 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
     @Override
     public void getUnreadMsg(String type, UnreadMsgModel unreadMsgModel) {
         dialogDissmiss();
-        if ("true".equals(type)) {
-            String noticeMsg = unreadMsgModel.getNoticeMsg();
-            if (!TextUtils.isEmpty(noticeMsg)) {
-                rel_fwc.setVisibility(View.VISIBLE);
-                text_value_fwc.setText(noticeMsg);
-                text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
-                if ("0".equals(unreadMsgModel.getIsHasNoticeMsg())) {
-                    text_unread_count_fwc.setVisibility(View.INVISIBLE);
+        try {
+            if ("true".equals(type)) {
+                String noticeMsg = unreadMsgModel.getNoticeMsg();
+                if (!TextUtils.isEmpty(noticeMsg)) {
+                    rel_fwc.setVisibility(View.VISIBLE);
+                    text_value_fwc.setText(noticeMsg);
+                    text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasNoticeMsg())) {
+                        text_unread_count_fwc.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_fwc.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    text_unread_count_fwc.setVisibility(View.VISIBLE);
-                }
-            } else {
-                rel_fwc.setVisibility(View.GONE);
-            }
-
-            String operateMsg = unreadMsgModel.getOperateMsg();
-            if (!TextUtils.isEmpty(operateMsg)) {
-                rel_xzs.setVisibility(View.VISIBLE);
-                text_value_xzs.setText(operateMsg);
-                text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
-                if ("0".equals(unreadMsgModel.getIsHasOperateMsg())) {
-                    text_unread_count_xzs.setVisibility(View.INVISIBLE);
-                } else {
-                    text_unread_count_xzs.setVisibility(View.VISIBLE);
+                    rel_fwc.setVisibility(View.GONE);
                 }
 
-            } else {
-                rel_xzs.setVisibility(View.GONE);
-            }
+                String operateMsg = unreadMsgModel.getOperateMsg();
+                if (!TextUtils.isEmpty(operateMsg)) {
+                    rel_xzs.setVisibility(View.VISIBLE);
+                    text_value_xzs.setText(operateMsg);
+                    text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasOperateMsg())) {
+                        text_unread_count_xzs.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_xzs.setVisibility(View.VISIBLE);
+                    }
 
-            String measureMsg = unreadMsgModel.getMeasureMsg();
-            if (!TextUtils.isEmpty(measureMsg)) {
-                rel_fc.setVisibility(View.VISIBLE);
-                text_value_fc.setText(measureMsg);
-                text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
-                if ("0".equals(unreadMsgModel.getIsHasMeasureMsg())) {
-                    text_unread_count_fc.setVisibility(View.INVISIBLE);
                 } else {
-                    text_unread_count_fc.setVisibility(View.VISIBLE);
+                    rel_xzs.setVisibility(View.GONE);
                 }
-            } else {
-                rel_fc.setVisibility(View.GONE);
-            }
 
-            String angleMsg = unreadMsgModel.getAngleMsg();
-            if (!TextUtils.isEmpty(angleMsg)) {
-                rel_gs.setVisibility(View.VISIBLE);
-                text_value_gs.setText(angleMsg);
-                text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
-                if ("0".equals(unreadMsgModel.getIsHasAngelMsg())) {
-                    text_unread_count_gs.setVisibility(View.INVISIBLE);
+                String measureMsg = unreadMsgModel.getMeasureMsg();
+                if (!TextUtils.isEmpty(measureMsg)) {
+                    rel_fc.setVisibility(View.VISIBLE);
+                    text_value_fc.setText(measureMsg);
+                    text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasMeasureMsg())) {
+                        text_unread_count_fc.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_fc.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    text_unread_count_gs.setVisibility(View.VISIBLE);
+                    rel_fc.setVisibility(View.GONE);
                 }
-            } else {
-                rel_gs.setVisibility(View.GONE);
-            }
 
-            String actMsg = unreadMsgModel.getActiveMsg();
-            if (!TextUtils.isEmpty(actMsg)) {
-                rel_act.setVisibility(View.VISIBLE);
-                text_value_act.setText(actMsg);
-                text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
-                if ("0".equals(unreadMsgModel.getIsHasActMsg())) {
-                    text_unread_count_act.setVisibility(View.INVISIBLE);
+                String angleMsg = unreadMsgModel.getAngleMsg();
+                if (!TextUtils.isEmpty(angleMsg)) {
+                    rel_gs.setVisibility(View.VISIBLE);
+                    text_value_gs.setText(angleMsg);
+                    text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasAngelMsg())) {
+                        text_unread_count_gs.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_gs.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    text_unread_count_act.setVisibility(View.VISIBLE);
+                    rel_gs.setVisibility(View.GONE);
                 }
-            } else {
-                rel_act.setVisibility(View.GONE);
-            }
 
-            String chaMsg = unreadMsgModel.getChallMsg();
-            if (!TextUtils.isEmpty(chaMsg)) {
-                rel_pk.setVisibility(View.VISIBLE);
-                text_value_pk.setText(chaMsg);
-                text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
-                if ("0".equals(unreadMsgModel.getIsHasChaMsg())) {
-                    text_unread_count_pk.setVisibility(View.INVISIBLE);
+                String actMsg = unreadMsgModel.getActiveMsg();
+                if (!TextUtils.isEmpty(actMsg)) {
+                    rel_act.setVisibility(View.VISIBLE);
+                    text_value_act.setText(actMsg);
+                    text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasActMsg())) {
+                        text_unread_count_act.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_act.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    text_unread_count_pk.setVisibility(View.VISIBLE);
+                    rel_act.setVisibility(View.GONE);
                 }
-            } else {
-                rel_pk.setVisibility(View.GONE);
+
+                String chaMsg = unreadMsgModel.getChallMsg();
+                if (!TextUtils.isEmpty(chaMsg)) {
+                    rel_pk.setVisibility(View.VISIBLE);
+                    text_value_pk.setText(chaMsg);
+                    text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
+                    if ("0".equals(unreadMsgModel.getIsHasChaMsg())) {
+                        text_unread_count_pk.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_pk.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    rel_pk.setVisibility(View.GONE);
+
+                }
 
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

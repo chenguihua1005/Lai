@@ -22,6 +22,7 @@ import com.softtek.lai.utils.RequestCallback;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -60,24 +61,35 @@ public class SearchPcActivity extends BaseActivity implements View.OnClickListen
     protected void initDatas() {
         String key=getIntent().getStringExtra("value");
         String token=UserInfoModel.getInstance().getToken();
+        dialogShow("正在查询...");
         ZillaApi.NormalRestAdapter.create(BodyGameService.class).doSearchMember(token,
                 UserInfoModel.getInstance().getUser().getUserid(),
                 key, new RequestCallback<ResponseData<SearchMemberModel>>() {
                     @Override
                     public void success(ResponseData<SearchMemberModel> data, Response response) {
+                        dialogDissmiss();
                         if(data.getStatus()==200){
                             memberResultModels=data.getData().getResult();
                             if(memberResultModels==null||memberResultModels.isEmpty()){
-                                new AlertDialog.Builder(SearchPcActivity.this).setMessage("查询失败，无此学员").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).create().show();
+                                try {
+                                    new AlertDialog.Builder(SearchPcActivity.this).setMessage("查询失败，无此学员").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    }).create().show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }else{
                                 lv.setAdapter(new SearchPCAdapter(SearchPcActivity.this,memberResultModels));
                             }
                         }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
                     }
                 });
     }
