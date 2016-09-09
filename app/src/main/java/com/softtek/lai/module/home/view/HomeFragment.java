@@ -443,7 +443,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             switch (position) {
                 case Constants.BODY_GAME:
                     intoBodyGamePage(role);
-                    MobclickAgent.onEvent(getContext().getApplicationContext(),"BodyGameEvent");
+                    MobclickAgent.onEvent(getContext(),"BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
@@ -452,7 +452,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
-                    MobclickAgent.onEvent(getContext().getApplicationContext(),"LaiSportEvent");
+                    MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();
@@ -592,7 +592,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), BodyGameSPActivity.class));
-            Log.i("快乐的测试。。。。。");
         }
     }
 

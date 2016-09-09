@@ -54,7 +54,6 @@ public class RetestclassImp implements RetestPre{
 
     @Override
     public void doGetRetestclass(long id) {
-        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
         String token=SharedPreferenceService.getInstance().get("token","");
        service.doGetRetestclass(token,id, new Callback<ResponseData<List<BanjiModel>>>() {
            @Override
@@ -63,7 +62,6 @@ public class RetestclassImp implements RetestPre{
                switch (status){
                    case 200:{
                        EventBus.getDefault().post(new BanJiEvent(banjiResponseData.getData()));
-                       System.out.println(banjiResponseData);
                        Log.i("全部班级加载成功");
                    }
                    break;

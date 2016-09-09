@@ -1,7 +1,5 @@
 package com.softtek.lai.module.group.presenter;
 
-import android.util.Log;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.CityModel;
@@ -10,7 +8,6 @@ import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.model.MineResultModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
-import com.softtek.lai.module.group.model.TotalGroupModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -24,6 +21,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 4/8/2016.
+ *
  */
 public class SportGroupManager {
 
@@ -74,7 +72,6 @@ public class SportGroupManager {
         service.isJoinRunGroup(token, accoundId, new RequestCallback<ResponseData<StepResponseModel>>() {
             @Override
             public void success(ResponseData<StepResponseModel> stepResponseModelResponseData, Response response) {
-                Log.e("jarvis", stepResponseModelResponseData.toString());
                 int status = stepResponseModelResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -111,7 +108,6 @@ public class SportGroupManager {
         service.getBregionList(token, new RequestCallback<ResponseData<List<DxqModel>>>() {
             @Override
             public void success(ResponseData<List<DxqModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -147,7 +143,6 @@ public class SportGroupManager {
         service.getSregionList(token, bregionId, new RequestCallback<ResponseData<List<DxqModel>>>() {
             @Override
             public void success(ResponseData<List<DxqModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -183,7 +178,6 @@ public class SportGroupManager {
         service.getCityList(token, sregionId, new RequestCallback<ResponseData<List<CityModel>>>() {
             @Override
             public void success(ResponseData<List<CityModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -220,7 +214,6 @@ public class SportGroupManager {
         service.getHQRGlist(token, bregionId, new RequestCallback<ResponseData<List<GroupModel>>>() {
             @Override
             public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -256,7 +249,6 @@ public class SportGroupManager {
         service.getRGListByCity(token, cityId, new RequestCallback<ResponseData<List<GroupModel>>>() {
             @Override
             public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -292,7 +284,6 @@ public class SportGroupManager {
         service.getRGListByPId(token, rgId, new RequestCallback<ResponseData<List<GroupModel>>>() {
             @Override
             public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -328,7 +319,6 @@ public class SportGroupManager {
         service.getRGByNameOrCode(token, str, new RequestCallback<ResponseData<List<GroupModel>>>() {
             @Override
             public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -364,7 +354,6 @@ public class SportGroupManager {
         service.getSportIndex(token, str, todaystep, new RequestCallback<ResponseData<SportMainModel>>() {
             @Override
             public void success(ResponseData<SportMainModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -400,7 +389,6 @@ public class SportGroupManager {
         service.getMineResult(token, accountid, todaystep, new RequestCallback<ResponseData<MineResultModel>>() {
             @Override
             public void success(ResponseData<MineResultModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -462,7 +450,6 @@ public class SportGroupManager {
         service.joinRunGroup(token, rGId, rGAccId, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:

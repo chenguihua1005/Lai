@@ -254,5 +254,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().finish();
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
+
     }
 }

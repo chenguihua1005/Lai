@@ -103,12 +103,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
                 currentId = 1;
-                MobclickAgent.onEvent(getApplicationContext(),"HealthyCommunityEvent");
+                MobclickAgent.onEvent(this,"HealthyCommunityEvent");
                 break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
                 currentId = 2;
-                MobclickAgent.onEvent(getApplicationContext(),"HealthyRecordEvent");
+                MobclickAgent.onEvent(this,"HealthyRecordEvent");
                 break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
