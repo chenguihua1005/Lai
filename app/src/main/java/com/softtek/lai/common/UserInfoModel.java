@@ -81,10 +81,10 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
-        JPushInterface.init(context);
-        JpushSet set = new JpushSet(context);
-        set.setAlias("");
-        set.setStyleBasic();
+//        JPushInterface.init(context);
+//        JpushSet set = new JpushSet(context);
+//        set.setAlias("");
+//        set.setStyleBasic();
         MobclickAgent.onProfileSignOff();
     }
     public long getUserId(){
