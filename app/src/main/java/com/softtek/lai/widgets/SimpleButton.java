@@ -1,4 +1,4 @@
-package com.ggx.jerryguan.widget_lib;
+package com.softtek.lai.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import com.softtek.lai.R;
 
 public class SimpleButton extends View {
 
@@ -65,10 +67,9 @@ public class SimpleButton extends View {
 		normalBitmap= ((BitmapDrawable)tArray.getDrawable(R.styleable.weixin_normalBitmap)).getBitmap();
 		pitchBitmap=((BitmapDrawable)tArray.getDrawable(R.styleable.weixin_pitchBitmap)).getBitmap();
 		mText=tArray.getString(R.styleable.weixin_text);
-		boolean alpha=tArray.getBoolean(R.styleable.weixin_alpha, false);
+		boolean alpha=tArray.getBoolean(R.styleable.weixin_wx_alpha, false);
 		tArray.recycle();
 		currentAlpha=alpha?255:0;
-		
 	}
 
 	@Override

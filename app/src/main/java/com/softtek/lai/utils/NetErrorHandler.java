@@ -136,7 +136,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
-
                                             }
                                         }).setCancelable(false);
                                 builder.create().show();
@@ -144,9 +143,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                             case 4001:
                                 new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
-                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                        .setPositiveButton("确认",new DialogInterface.OnClickListener(){
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
+                                            public void onClick(DialogInterface dialog, int which){
                                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
@@ -195,7 +194,6 @@ public class NetErrorHandler implements IApiErrorHandler {
 
                                                     }
                                                 });
-
                                             }
                                         }).setCancelable(false).create().show();
                                 break;

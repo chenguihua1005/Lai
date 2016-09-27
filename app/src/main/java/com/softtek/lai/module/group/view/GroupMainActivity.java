@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -75,6 +76,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_left)
+    ImageView iv_left;
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -278,6 +281,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
+        iv_left.setImageResource(R.drawable.back_home);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
@@ -504,12 +508,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                         img_pk_type.setImageResource(R.drawable.img_group_main_3);
                     }
                     String path = AddressManager.get("photoHost");
-                    if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
+                    if (TextUtils.isEmpty(praiseChallengeModel.getUserPhoto())) {
                         Picasso.with(this).load(R.drawable.img_default).into(img_left);
                     } else {
                         Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
                     }
-                    if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
+                    if (TextUtils.isEmpty(praiseChallengeModel.getBPhoto())) {
                         Picasso.with(this).load(R.drawable.img_default).into(img_right);
                     } else {
                         Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);

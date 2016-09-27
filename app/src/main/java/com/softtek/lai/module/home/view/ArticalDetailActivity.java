@@ -16,7 +16,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_ask_detail)
-public class ArticalDetailActivity extends BaseActivity implements View.OnClickListener{
+public class ArticalDetailActivity extends BaseActivity{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -29,7 +29,12 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
     ProgressBar pb;
     @Override
     protected void initViews() {
-        ll_left.setOnClickListener(this);
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         tv_title.setText(getIntent().getStringExtra("title"));
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
@@ -56,15 +61,6 @@ public class ArticalDetailActivity extends BaseActivity implements View.OnClickL
         HomeInfoModel model= (HomeInfoModel) getIntent().getSerializableExtra("info");
         if(model!=null){
             webView.loadUrl(model.getArtUrl());
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_left:
-                finish();
-                break;
         }
     }
 

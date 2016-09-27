@@ -1,6 +1,5 @@
-package com.ggx.jerryguan.widget_lib;
+package com.softtek.lai.widgets;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -10,11 +9,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.renderscript.Sampler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import com.softtek.lai.R;
 
 /**
  * Created by John on 2016/4/11.

@@ -24,14 +24,12 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
-import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -46,7 +44,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy)
-public class HealthyFragment extends LazyBaseFragment implements View.OnClickListener{
+public class HealthyFragment extends LazyBaseFragment{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -76,12 +74,46 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         tab.setupWithViewPager(tab_content);
     }
 
+    private CharSequence[] items={"拍照","从相册选择照片"};
+    private static final int OPEN_SENDER_REQUEST=1;
+    private static final int CAMERA_PREMISSION=100;
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("健康圈");
         iv_email.setBackgroundResource(R.drawable.camera);
-        fl_right.setOnClickListener(this);
+        fl_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //弹出dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            //拍照
+                            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                    //允许弹出提示
+                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+
+                                } else {
+                                    //不允许弹出提示
+                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                }
+                            } else {
+                                imageFileSelector.takePhoto(HealthyFragment.this);
+                            }
+                        } else if (which == 1) {
+                            //照片
+                            imageFileSelector.selectImage(HealthyFragment.this);
+                        }
+                    }
+                }).create().show();
+            }
+        });
 
 
     }
@@ -124,43 +156,6 @@ public class HealthyFragment extends LazyBaseFragment implements View.OnClickLis
         //**************************
     }
 
-    private CharSequence[] items={"拍照","从相册选择照片"};
-    private static final int OPEN_SENDER_REQUEST=1;
-    private static final int CAMERA_PREMISSION=100;
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.fl_right:
-                //弹出dialog
-
-                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
-                            //拍照
-                            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
-                                    //允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-
-                                }else{
-                                    //不允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-                                }
-                            }else {
-                                imageFileSelector.takePhoto(HealthyFragment.this);
-                            }
-                        }else if(which==1){
-                            //照片
-                            imageFileSelector.selectImage(HealthyFragment.this);
-                        }
-                    }
-                }).create().show();
-                break;
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
