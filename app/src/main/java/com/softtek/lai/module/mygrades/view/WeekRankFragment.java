@@ -13,8 +13,6 @@ import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
-import com.softtek.lai.module.mygrades.presenter.GradesImpl;
-import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -49,13 +47,10 @@ public class WeekRankFragment extends BaseFragment {
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
-    private DayRankModel dayRankModel;
-
     private List<OrderDataModel> orderDataModelList = new ArrayList<OrderDataModel>();
-    private OrderDataModel orderDataModel;
+
     public RankAdapter rankAdapter;
 
-    private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
     int accoutid;
 
@@ -63,8 +58,6 @@ public class WeekRankFragment extends BaseFragment {
     protected void initViews() {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
-
-        iGradesPresenter = new GradesImpl();
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         Bundle bundle2 = getArguments();
@@ -112,43 +105,44 @@ public class WeekRankFragment extends BaseFragment {
                 int status = dayRankModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        if (!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
-                            Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        } else {
-                            Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        }
-                        if (dayRankModelResponseData.getData().getOrderName().isEmpty()) {
-                            if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()) {
-                                tv_name.setText("");
+                        try {
+                            String path = AddressManager.get("photoHost");
+                            if (!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
+                                Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                             } else {
-                                //(姓名如果为空，手机号码前3后4中间4个*的)
-                                String mobile = dayRankModelResponseData.getData().getOrderMobile();
-                                String before = mobile.substring(0, 3);
-                                String after = mobile.substring(mobile.length() - 4, mobile.length());
-                                tv_name.setText(before + "****" + after);
+                                Picasso.with(getContext()).load(R.drawable.img_default).into(img_myheadportrait);
                             }
-                        } else {
-                            tv_name.setText(dayRankModelResponseData.getData().getOrderName());
-                        }
-                        if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()) {
-                            tv_bushu1.setText("0");
-                        } else {
-                            tv_bushu1.setText(dayRankModelResponseData.getData().getOrderSteps());
-                        }
-                        if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()) {
-                            tv_ranking.setText("0");
-                        } else {
-                            tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
-                        }
+                            if (dayRankModelResponseData.getData().getOrderName().isEmpty()) {
+                                if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()) {
+                                    tv_name.setText("");
+                                } else {
+                                    //(姓名如果为空，手机号码前3后4中间4个*的)
+                                    String mobile = dayRankModelResponseData.getData().getOrderMobile();
+                                    String before = mobile.substring(0, 3);
+                                    String after = mobile.substring(mobile.length() - 4, mobile.length());
+                                    tv_name.setText(before + "****" + after);
+                                }
+                            } else {
+                                tv_name.setText(dayRankModelResponseData.getData().getOrderName());
+                            }
+                            if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()) {
+                                tv_bushu1.setText("0");
+                            } else {
+                                tv_bushu1.setText(dayRankModelResponseData.getData().getOrderSteps());
+                            }
+                            if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()) {
+                                tv_ranking.setText("0");
+                            } else {
+                                tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
+                            }
 
-                        if (dayRankModelResponseData.getData().getOrderData().isEmpty()) {
-//                            Util.toastMsg("我的周排名--暂无数据");
-                        } else {
-                            orderDataModelList = dayRankModelResponseData.getData().getOrderData();
-                            rankAdapter.updateData(orderDataModelList);
+                            if (!dayRankModelResponseData.getData().getOrderData().isEmpty()) {
+                                orderDataModelList = dayRankModelResponseData.getData().getOrderData();
+                                rankAdapter.updateData(orderDataModelList);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-//                        Util.toastMsg("我的周排名--查询正确");
                         break;
                     case 500:
                         break;
@@ -158,7 +152,6 @@ public class WeekRankFragment extends BaseFragment {
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }

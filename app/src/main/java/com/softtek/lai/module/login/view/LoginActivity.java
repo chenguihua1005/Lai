@@ -143,13 +143,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            AppManager.getAppManager().AppExit(this);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

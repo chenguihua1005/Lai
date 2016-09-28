@@ -253,7 +253,6 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        Log.i("健康记录开始请求");
         retestPre.GetUserMeasuredInfo(mobile);
     }
 

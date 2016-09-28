@@ -149,11 +149,11 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                 }
                 //爱心天使勋章是否获得
                 if (xunZhangModel.getAngle().equals("0")) {
-                    images.add(R.drawable.img_angel_none);//爱心天使勋章图片
-                    content.add("爱心天使");
+                    images.add(R.drawable.jijinno);//爱心天使勋章图片
+                    content.add("康宝莱公益基金会");
                 } else {
-                    images1.add(R.drawable.img_angel_have);//爱心天使勋章图片
-                    content1.add("爱心天使");
+                    images1.add(R.drawable.jijin);//爱心天使勋章图片
+                    content1.add("康宝莱公益基金会");
                 }
 
                 Map<Integer, String> map_pk = new HashMap<>();

@@ -119,7 +119,6 @@
     <string name="CounselorH">TIPS</string>
     <string name="CounselorI">助教管理</string>
     <string name="CounselorJ">消息中心</string>
-    <string name="CounselorBarL">体管赛（顾问版）</string>
     <string name="AuditBarT">复测审核</string>
     <string name="AuditBarR">确认</string>
     <string name="sendDynamic">发布动态</string>
@@ -140,7 +139,6 @@
     <string name="applyAssistant">助教申请</string>
     <string name="createClass">创建班级</string>
     <string name="joinGame">参赛邀请</string>
-    <string name="share">分享</string>
     <string name="review">往期回顾</string>
     <string name="message1">体管赛小助手</string>
     <string name="message2">助教申请</string>
@@ -165,6 +163,4 @@
     <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
     <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

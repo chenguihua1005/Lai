@@ -13,6 +13,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -281,7 +282,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
-        iv_left.setImageResource(R.drawable.back_home);
+        //iv_left.setImageResource(R.drawable.back_home);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
@@ -351,7 +352,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(pull_sroll!=null)

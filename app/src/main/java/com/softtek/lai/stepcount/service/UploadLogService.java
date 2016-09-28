@@ -44,7 +44,7 @@ public class UploadLogService extends IntentService {
         if(log.exists()&&log.isDirectory()){
             try {
                 ZipUtils.zipFolder(log, zip);
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             //上传

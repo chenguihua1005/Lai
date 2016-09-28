@@ -7,7 +7,6 @@ package com.softtek.lai.chat.ui;
 
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,29 +25,21 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.ui.EaseChatFragment;
-import com.easemob.easeui.utils.EaseACKUtil;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.em_activity_chat)
-public class ChatActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class ChatActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
-    @LifeCircleInject
-    ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -212,13 +203,4 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
-    }
 }

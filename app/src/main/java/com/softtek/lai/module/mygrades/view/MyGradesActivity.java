@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -328,8 +329,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     public void onEvent(GradesEvent gradesEvent) {
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
-            GradesModel model=gradesEvent.getgradesModels().get(i);
-            int totalCnt=Integer.parseInt(model.getTotalCnt());
+            GradesModel model = gradesEvent.getgradesModels().get(i);
+            int totalCnt = Integer.parseInt(model.getTotalCnt());
             if (getDateform(nowdate1).equals(model.getDate())) {
                 dates.set(0, totalCnt);
             }
@@ -363,9 +364,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0);
     }
 
-    private SpannableString getString(String value,int color,int start){
-        SpannableString spannableString=new SpannableString(value);
-        spannableString.setSpan(new ForegroundColorSpan(color),start,value.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private SpannableString getString(String value, int color, int start) {
+        SpannableString spannableString = new SpannableString(value);
+        spannableString.setSpan(new ForegroundColorSpan(color), start, value.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
 
@@ -380,16 +381,16 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                     switch (status) {
                         case 200:
                             //总步数
-                            GradeHonorModel model=gradeHonorModelResponseData.getData();
+                            GradeHonorModel model = gradeHonorModelResponseData.getData();
                             String totalnumber = model.getTotalStep();
-                            if (totalnumber == "") {
+                            if (TextUtils.isEmpty(totalnumber)) {
                                 tv_totalnumber.setText("0");
                             } else {
                                 tv_totalnumber.setText(totalnumber);
                             }
                             //总公里数计算公式: 1公里=1428步 (单位为公里, 0.01公里, 不足0.01公里时显示0)
                             DecimalFormat format = new DecimalFormat("##0.00");
-                            Double totalmileage = Double.parseDouble(totalnumber) / 1428;
+                            Double totalmileage = Double.parseDouble(TextUtils.isEmpty(totalnumber)?"0":totalnumber) / 1428;
                             String temp = format.format(totalmileage);
                             if (totalmileage == 0.0) {
                                 tv_totalmileage.setText("0");
@@ -398,65 +399,65 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                             } else {
                                 tv_totalmileage.setText(temp);
                             }
-                            String nationalDayRank=model.getContryDayOrder();
-                            String runDayRank=model.getDayOrder();
-                            String nationWeekRank=model.getWeekOrder();
-                            String runWeekRank=model.getWeekOrderRG();
-                            if("--".equals(nationalDayRank)){
+                            String nationalDayRank = model.getContryDayOrder();
+                            String runDayRank = model.getDayOrder();
+                            String nationWeekRank = model.getWeekOrder();
+                            String runWeekRank = model.getWeekOrderRG();
+                            if ("--".equals(nationalDayRank)) {
                                 //全国日排名
                                 tv_Nationaldayrank.setText(nationalDayRank);
 
-                            }else {
+                            } else {
                                 int Nationaldayrank = Integer.parseInt(nationalDayRank);
-                                if(Nationaldayrank>0&&Nationaldayrank<=3){
-                                    tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xffff9c00,3));
-                                }else{
-                                    tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xff74b92a,3));
+                                if (Nationaldayrank > 0 && Nationaldayrank <= 3) {
+                                    tv_Nationaldayrank.setText(getString("全国第 " + nationalDayRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Nationaldayrank.setText(getString("全国第 " + nationalDayRank + " 名", 0xff74b92a, 3));
                                 }
 
                             }
-                            if("--".equals(runDayRank)){
+                            if ("--".equals(runDayRank)) {
                                 //跑团日排名
                                 tv_Rundayrank.setText(runDayRank);
 
-                            }else {
+                            } else {
                                 int Rundayrank = Integer.parseInt(runDayRank);
-                                if(Rundayrank>0&&Rundayrank<=3){
-                                    tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xffff9c00,3));
-                                }else {
-                                    tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xff74b92a,3));
+                                if (Rundayrank > 0 && Rundayrank <= 3) {
+                                    tv_Rundayrank.setText(getString("跑团第 " + runDayRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Rundayrank.setText(getString("跑团第 " + runDayRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                            if("--".equals(nationWeekRank)){
+                            if ("--".equals(nationWeekRank)) {
                                 //全国周排名
                                 tv_Nationalweekrank.setText(nationWeekRank);
 
-                            }else{
+                            } else {
                                 int Nationalweekrank = Integer.parseInt(nationWeekRank);
-                                if(Nationalweekrank>0&&Nationalweekrank<=3){
-                                    tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xffff9c00,3));
-                                }else {
-                                    tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xff74b92a,3));
+                                if (Nationalweekrank > 0 && Nationalweekrank <= 3) {
+                                    tv_Nationalweekrank.setText(getString("全国第 " + nationWeekRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Nationalweekrank.setText(getString("全国第 " + nationWeekRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                            if("--".equals(runWeekRank)){
+                            if ("--".equals(runWeekRank)) {
                                 //跑团团周排名
                                 tv_Runweekrank.setText(runWeekRank);
 
-                            }else{
+                            } else {
                                 int Runweekrank = Integer.parseInt(runWeekRank);
-                                if(Runweekrank>0&&Runweekrank<=3){
-                                    tv_Runweekrank.setText(getString("跑团第 "+runWeekRank+" 名",0xffff9c00,3));
-                                }else {
-                                    tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名",0xff74b92a, 3));
+                                if (Runweekrank > 0 && Runweekrank <= 3) {
+                                    tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                            tv_Nationaldaypeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
-                            tv_Rundaypeople.setText("共 "+model.getDayOrderTotal()+" 人");
-                            tv_Nationalweekpeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
-                            tv_Runweekpeople.setText("共 "+model.getDayOrderTotal()+" 人");
+                            tv_Nationaldaypeople.setText("共 " + model.getContryDayOrderTotal() + " 人");
+                            tv_Rundaypeople.setText("共 " + model.getDayOrderTotal() + " 人");
+                            tv_Nationalweekpeople.setText("共 " + model.getContryDayOrderTotal() + " 人");
+                            tv_Runweekpeople.setText("共 " + model.getDayOrderTotal() + " 人");
 
-                            tv_medalnumber.setText("我的勋章（"+model.getTotalHonor()+"）");
+                            tv_medalnumber.setText("我的勋章（" + model.getTotalHonor() + "）");
                             //我的勋章显示
                             if (model.getLaiHonor().size() == 0) {
                                 ll_honor.setVisibility(View.GONE);
@@ -541,8 +542,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             break;
                                         case 3:
                                             //
-                                            tv_str1.setText("爱心天使");
-                                            img_honor1.setImageResource(R.drawable.img_angel_have);
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -657,9 +658,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
-                                            //爱心天使
-                                            tv_str1.setText("爱心天使");
-                                            img_honor1.setImageResource(R.drawable.img_angel_have);
+                                            //康宝莱公益基金会
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -771,9 +772,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
-                                            //爱心天使
-                                            tv_str2.setText("爱心天使");
-                                            img_honor2.setImageResource(R.drawable.img_angel_have);
+                                            //康宝莱公益基金会
+                                            tv_str2.setText("康宝莱公益基金会");
+                                            img_honor2.setImageResource(R.drawable.jijin);
                                             ll_honor2.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -888,9 +889,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
-                                            //爱心天使
-                                            tv_str1.setText("爱心天使");
-                                            img_honor1.setImageResource(R.drawable.img_angel_have);
+                                            //康宝莱公益基金会
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -1002,9 +1003,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             ll_honor2.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
-                                            //爱心天使
-                                            tv_str2.setText("爱心天使");
-                                            img_honor2.setImageResource(R.drawable.img_angel_have);
+                                            //康宝莱公益基金会
+                                            tv_str2.setText("康宝莱公益基金会");
+                                            img_honor2.setImageResource(R.drawable.jijin);
                                             ll_honor2.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -1116,9 +1117,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                             ll_honor1.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
-                                            //爱心天使
-                                            tv_str3.setText("爱心天使");
-                                            img_honor3.setImageResource(R.drawable.img_angel_have);
+                                            //康宝莱公益基金会
+                                            tv_str3.setText("康宝莱公益基金会");
+                                            img_honor3.setImageResource(R.drawable.jijin);
                                             ll_honor3.setVisibility(View.VISIBLE);
                                             break;
                                         case 4:
@@ -1185,7 +1186,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 switch (status) {
                     case 200:
                         scoreModel = responseData.getData();
-                        System.out.println("scoreModel:"+scoreModel);
+                        System.out.println("scoreModel:" + scoreModel);
                         iGetProinfopresenter.upload("/sdcard/scores.png");
                         break;
                     default:
@@ -1387,8 +1388,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         v.buildDrawingCache();
         Bitmap cacheBitmap = v.getDrawingCache();
         if (cacheBitmap == null) {
-            Log.e("TTTTTTTTActivity", "failed getViewBitmap(" + v + ")",
-                    new RuntimeException());
             return null;
         }
 

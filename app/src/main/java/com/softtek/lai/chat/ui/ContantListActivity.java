@@ -26,13 +26,10 @@ import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.utils.EaseACKUtil;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.adapter.ChatContantAdapter;
 import com.softtek.lai.chat.Constant;
+import com.softtek.lai.chat.adapter.ChatContantAdapter;
 import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -53,8 +50,6 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -62,11 +57,7 @@ import zilla.libcore.util.Util;
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_chat_contant_list)
-public class ContantListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class ContantListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -252,16 +243,6 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
     }
 
 

@@ -1,6 +1,5 @@
 package com.softtek.lai.module.mygrades.view;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ListView;
@@ -13,8 +12,6 @@ import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
-import com.softtek.lai.module.mygrades.presenter.GradesImpl;
-import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +26,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by julie.zhu on 5/16/2016.
@@ -51,18 +47,15 @@ public class DayRankFragment extends BaseFragment {
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
-    private DayRankModel dayRankModel;
-    private OrderDataModel orderDataModel;
     private List<OrderDataModel> orderDataModelList = new ArrayList<OrderDataModel>();
     public RankAdapter rankAdapter;
 
-    private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
-    private FragmentManager manager;
+
 
     @Override
     protected void initViews() {
-        iGradesPresenter = new GradesImpl();
+
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
         Bundle bundle1 = getArguments();
         int i = bundle1.getInt("id");
@@ -74,41 +67,12 @@ public class DayRankFragment extends BaseFragment {
         }
         rankAdapter = new RankAdapter(getContext(), orderDataModelList);
         list_rank.setAdapter(rankAdapter);
-        manager = getActivity().getFragmentManager();
+
     }
-    // handler类接收数据
-//    Handler handler = new Handler() {
-//        public void handleMessage(Message msg) {
-//            if (msg.what == 1) {
-//                getCurrentDateOrder(0);
-//                getCurrentDateOrder(1);
-//                System.out.println("receive....");
-//            }
-//        };
-//    };
-//    // 线程类
-//    class ThreadShow implements Runnable {
-//        @Override
-//        public void run() {
-//            while (true) {
-//                try {
-//                    //半小时刷新一次
-//                    Thread.sleep(5000);//1800000
-//                    Message msg = new Message();
-//                    msg.what = 1;
-//                    handler.sendMessage(msg);
-//                    System.out.println("send...");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    System.out.println("thread error...");
-//                }
-//            }
-//        }
-//    }
 
     @Override
     protected void initDatas() {
-//        new Thread(new ThreadShow()).start();
+
     }
 
     //切换日排名，周排名时更新数据
@@ -139,47 +103,47 @@ public class DayRankFragment extends BaseFragment {
                 int status = dayRankModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        if (!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
-                            Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        } else {
-                            Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        }
-
-                        if (dayRankModelResponseData.getData().getOrderName().isEmpty()) {
-                            if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()) {
-                                tv_name.setText("");
+                        try {
+                            String path = AddressManager.get("photoHost");
+                            if (!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
+                                Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                             } else {
-                                //(姓名如果为空，手机号码前3后4中间4个*的)
-                                String mobile = dayRankModelResponseData.getData().getOrderMobile();
-                                String qian = mobile.substring(0, 3);
-                                String hou = mobile.substring(mobile.length() - 4, mobile.length());
-                                tv_name.setText(qian + "****" + hou);
+                                Picasso.with(getContext()).load(R.drawable.img_default).into(img_myheadportrait);
                             }
-                        } else {
-                            tv_name.setText(dayRankModelResponseData.getData().getOrderName());
-                        }
-                        if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()) {
-                            tv_bushu1.setText("0");
-                        } else {
-                            tv_bushu1.setText(dayRankModelResponseData.getData().getOrderSteps());
-                        }
-                        if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()) {
-                            tv_ranking.setText("0");
-                        } else {
-                            tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
-                        }
 
-                        if (dayRankModelResponseData.getData().getOrderData().isEmpty()) {
-                            //Util.toastMsg("我的日排名--暂无数据");
-                        } else {
-                            orderDataModelList = dayRankModelResponseData.getData().getOrderData();
-                            rankAdapter.updateData(orderDataModelList);
+                            if (dayRankModelResponseData.getData().getOrderName().isEmpty()) {
+                                if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()) {
+                                    tv_name.setText("");
+                                } else {
+                                    //(姓名如果为空，手机号码前3后4中间4个*的)
+                                    String mobile = dayRankModelResponseData.getData().getOrderMobile();
+                                    String qian = mobile.substring(0, 3);
+                                    String hou = mobile.substring(mobile.length() - 4, mobile.length());
+                                    tv_name.setText(qian + "****" + hou);
+                                }
+                            } else {
+                                tv_name.setText(dayRankModelResponseData.getData().getOrderName());
+                            }
+                            if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()) {
+                                tv_bushu1.setText("0");
+                            } else {
+                                tv_bushu1.setText(dayRankModelResponseData.getData().getOrderSteps());
+                            }
+                            if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()) {
+                                tv_ranking.setText("0");
+                            } else {
+                                tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
+                            }
+
+                            if (!dayRankModelResponseData.getData().getOrderData().isEmpty()) {
+                                orderDataModelList = dayRankModelResponseData.getData().getOrderData();
+                                rankAdapter.updateData(orderDataModelList);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        //Util.toastMsg("我的日排名--查询正确");
                         break;
                     case 500:
-                        Util.toastMsg("我的日排名--查询出bug");
                         break;
                 }
             }
@@ -187,7 +151,6 @@ public class DayRankFragment extends BaseFragment {
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
