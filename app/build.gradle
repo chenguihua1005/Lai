@@ -18,6 +18,7 @@ android {
         applicationId "com.softtek.lai"
         minSdkVersion MINI_SDK_VERSION as int
         targetSdkVersion COMPILE_SDK_VERSION as int
+        versionCode VERSION_CODE as int
         versionName VERSION_NAME
         // Enabling multidex support.
         multiDexEnabled true

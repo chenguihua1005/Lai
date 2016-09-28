@@ -22,8 +22,10 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -44,6 +46,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener,TimeTickListener.OnTimeTick {
 
@@ -183,9 +186,11 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         PackageManager pm=getPackageManager();
         if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
             stepCounterListener();
-        }else {
+        }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
             stepAccelerometerListener();
-        }
+        }/*else{
+            Util.toastMsg("此手机不支持计步功能");
+        }*/
 
     }
     private Sensor countSensor;
@@ -210,7 +215,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         stepDetector=new StepDetector();
         stepCount=new StepCount();
         Sensor sensor = sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
+                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
