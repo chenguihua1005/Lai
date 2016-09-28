@@ -22,11 +22,11 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -46,10 +46,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener,TimeTickListener.OnTimeTick {
-
-    private static final String TAG="StepService";
 
     public static final String STEP_CLOSE="com.softtek.lai.StepService.StepClose";
     public static final String STEP_CLOSE_SELF="com.softtek.lai.StepService.STEP_CLOSE_SELF";
@@ -60,7 +59,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     //默认为30秒进行一次存储
     private static final int duration = 10000;
     private SensorManager sensorManager;
-    //private UploadStepReceive uploadStepReceive;
     private CloseReceive closeReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
@@ -188,9 +186,11 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         PackageManager pm=getPackageManager();
         if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
             stepCounterListener();
-        }else {
+        }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
             stepAccelerometerListener();
-        }
+        }/*else{
+            Util.toastMsg("此手机不支持计步功能");
+        }*/
 
     }
     private Sensor countSensor;
@@ -199,8 +199,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if (countSensor != null) {
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else {
-            LogManager.getManager(getApplicationContext()).log(TAG,
-                    "Mobile phone support StepCounter but countSensor is null therefore use Simulation program algorithm.",LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             stepAccelerometerListener();
         }
     }
@@ -217,7 +215,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         stepDetector=new StepDetector();
         stepCount=new StepCount();
         Sensor sensor = sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
+                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
@@ -263,8 +261,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
         updateNotification(todayStep + "");
-        LogManager.getManager(getApplicationContext())
-                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
     //模拟计步传感器所使用的计算方法
     private void calTodayStepByCustome(int stepTemp){
@@ -291,8 +287,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
         updateNotification(todayStep + "");
-        LogManager.getManager(getApplicationContext())
-                .log(TAG,"The step sensor was triggered,current step is "+todayStep, LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
     }
 
     @Override
@@ -345,8 +339,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //如果不是退出且跑团也没退出
         if(!isLoginOut/*&&UserInfoModel.getInstance().getUser()!=null*/){
             sendBroadcast(new Intent(STEP_CLOSE));
-            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is not realy,start service",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         }else {
             Log.i("清楚数据");
             todayStep =0;
@@ -354,12 +346,9 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             serverStep =0;
             currentStep=0;
             stopForeground(true);
-            LogManager.getManager(getApplicationContext()).log(TAG,"StepServcice is onDestory is realy",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             nm.cancelAll();
 
         }
-        //unregisterReceiver(uploadStepReceive);
         tickListener.stopTick();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
         time.cancel();

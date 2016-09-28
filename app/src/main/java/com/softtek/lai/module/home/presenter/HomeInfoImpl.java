@@ -44,21 +44,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
         aCache = ACache.get(context, Constants.HOME_CACHE_DATA_DIR);
     }
 
-    //加载本地缓存数据
-    @Override
-    public void loadCacheData() {
-        String json = aCache.getAsString(Constants.HOEM_ACACHE_KEY);
-        if (json != null && !json.equals("")) {
-            Gson gson = new Gson();
-            HomeInfoCache infoCache = gson.fromJson(json, HomeInfoCache.class);
-            EventBus.getDefault().post(infoCache.getInfos());
-        } else {
-            List<HomeInfoModel> infos = new ArrayList<>();
-            EventBus.getDefault().post(infos);
-        }
-
-    }
-
     @Override
     public void getHomeInfoData(final SwipeRefreshLayout pull) {
         homeService.doLoadHomeData(new Callback<ResponseData<List<HomeInfoModel>>>() {

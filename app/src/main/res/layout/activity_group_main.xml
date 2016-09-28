@@ -780,7 +780,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_group_main_csgy" />
+                        android:src="@drawable/jijin" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -794,7 +794,7 @@
                             android:id="@+id/text2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="你已为“天使听见爱”贡献"
+                            android:text="你已为“康宝莱公益基金会”贡献"
                             android:textColor="@color/word"
                             android:textSize="@dimen/textSize1" />
 
@@ -823,9 +823,9 @@
                     android:layout_marginBottom="30dip"
                     android:layout_marginTop="24dip"
                     android:gravity="center"
-                    android:text="每天，康宝莱将为日排名前100名的用户，向“天使听见爱”项目捐献一元爱心善款。"
-                    android:textColor="@color/word13"
-                    android:textSize="@dimen/textSize12" />
+                    android:text="每天，康宝莱将为日排名前100名的用户，向“康宝莱公益基金会”项目捐献一元爱心善款。"
+                    android:textColor="#b3b3b3"
+                    android:textSize="9sp" />
             </LinearLayout>
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

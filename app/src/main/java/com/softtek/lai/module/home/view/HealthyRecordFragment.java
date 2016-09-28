@@ -122,7 +122,9 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    healthy_refresh.setRefreshing();
+                    if(healthy_refresh!=null){
+                        healthy_refresh.setRefreshing();
+                    }
                 }
             }, 300);
 
@@ -251,14 +253,13 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        Log.i("健康记录开始请求");
         retestPre.GetUserMeasuredInfo(mobile);
     }
 
     @Override
     public void getModel(LaichModel laichModel) {
-        healthy_refresh.onRefreshComplete();
         try {
+            healthy_refresh.onRefreshComplete();
             if (laichModel == null) {
                 laichModel = new LaichModel();
             }
@@ -284,7 +285,7 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             int minutes = util.getMinute(date);
             tv_healthdate.setText(month + "月" + day + "日");
             tv_healthtime.setText(hour + ":" + (minutes < 10 ? "0" + minutes : minutes));
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

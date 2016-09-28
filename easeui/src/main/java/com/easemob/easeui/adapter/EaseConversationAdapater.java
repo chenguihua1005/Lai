@@ -179,8 +179,8 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 //				}
 //			}
 			holder.name.setText(name);
-			if("".equals(photo)){
-				Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(holder.avatar);
+			if(TextUtils.isEmpty(photo)){
+				Picasso.with(getContext()).load(R.drawable.img_default).into(holder.avatar);
 			}else {
 				Picasso.with(getContext()).load(photo).fit().error(R.drawable.img_default).into(holder.avatar);
 			}

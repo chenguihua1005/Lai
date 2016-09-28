@@ -31,7 +31,6 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -61,6 +60,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -85,7 +85,7 @@ import zilla.libcore.ui.InjectLayout;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
@@ -140,8 +140,8 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);
+            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         }
-        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
@@ -163,8 +163,16 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-        appBar.addOnOffsetChangedListener(this);
-
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(verticalOffset>=0){
+                    pull.setEnabled(true);
+                }else {
+                    pull.setEnabled(false);
+                }
+            }
+        });
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
@@ -176,13 +184,9 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
-
-        //载入缓存数据
-        homeInfoPresenter.loadCacheData();
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
-
     }
 
     @Subscribe
@@ -228,7 +232,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             }
         }
         rhv_adv.setImgUrlData(advList);
-
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
         ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
         productInfoFragment.updateInfo(products);
@@ -254,18 +257,14 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     @Override
     protected void lazyLoad() {
         //第一次加载自动刷新
-        pull.post(new Runnable() {
-            @Override
-            public void run() {
-                pull.setRefreshing(true);
-            }
-        });
-        onRefresh();
+        pull.setRefreshing(true);
+        homeInfoPresenter.getHomeInfoData(pull);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -302,7 +301,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
             String hasEmchat = model.getHasEmchat();
-            if ("1".equals(hasEmchat)) {
+            if ("1".equals(hasEmchat)) {//如果有环信号
                 timer = new Timer();
                 TimerTask task = new TimerTask() {
 
@@ -352,6 +351,12 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        rhv_adv.stopRoll();
+    }
+
     private void HXLoginOut() {
         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
@@ -374,14 +379,14 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         });
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if(verticalOffset>=0){
-            pull.setEnabled(true);
-        }else {
-            pull.setEnabled(false);
-        }
-    }
+//    @Override
+//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//        if(verticalOffset>=0){
+//            pull.setEnabled(true);
+//        }else {
+//            pull.setEnabled(false);
+//        }
+//    }
 
     @Override
     public void onRefresh() {
@@ -442,6 +447,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             switch (position) {
                 case Constants.BODY_GAME:
                     intoBodyGamePage(role);
+                    MobclickAgent.onEvent(getContext(),"BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
@@ -450,6 +456,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
+                    MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
 //                    boolean isLogin = EMChat.getInstance().isLoggedIn();
@@ -589,7 +596,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), BodyGameSPActivity.class));
-            Log.i("快乐的测试。。。。。");
         }
     }
 
@@ -639,7 +645,11 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                try {
+                    iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

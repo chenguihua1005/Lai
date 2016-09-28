@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.umeng.analytics.MobclickAgent;
+
 import butterknife.ButterKnife;
 import zilla.libcore.lifecircle.LifeCircle;
 import zilla.libcore.ui.LayoutInjectUtil;
@@ -82,7 +84,17 @@ public abstract class LazyBaseFragment extends Fragment{
         super.onDestroy();
         LifeCircle.onDestory(this);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getContext());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getContext());
+    }
 
     public boolean isCreatedView() {
         return isCreatedView;

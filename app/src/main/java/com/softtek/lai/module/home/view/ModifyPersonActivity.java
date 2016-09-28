@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -102,13 +103,13 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(photo) || "null".equals(photo) || photo == null) {
-            Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img);
+        if (TextUtils.isEmpty(photo)) {
+            Picasso.with(this).load(R.drawable.img_default).into(img);
         } else {
             Picasso.with(this).load(path + photo).fit().error(R.drawable.img_default).into(img);
         }
 
-        if (model.getNickname() == null || "".equals(model.getNickname())) {
+        if (TextUtils.isEmpty(model.getNickname())) {
             text_name.setText(model.getMobile());
         } else {
             text_name.setText(model.getNickname());
@@ -138,8 +139,6 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
     }
-
-    private static final int CAMERA_PREMISSION = 100;
 
     @Override
     public void onClick(View v) {

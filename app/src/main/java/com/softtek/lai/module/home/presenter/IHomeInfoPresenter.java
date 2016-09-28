@@ -15,7 +15,6 @@ import java.util.List;
  */
 public interface IHomeInfoPresenter {
 
-    void loadCacheData();
 
     //获取主页信息
     void getHomeInfoData(SwipeRefreshLayout pull);

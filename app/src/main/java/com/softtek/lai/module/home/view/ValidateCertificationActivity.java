@@ -103,6 +103,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
             progressDialog.show();
         }
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 try {
                     // 调用sdk注册方法
@@ -110,6 +111,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                     final String account = MD5.md5WithEncoder(phone).toLowerCase();
                     EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
                     runOnUiThread(new Runnable() {
+                        @Override
                         public void run() {
                             if (!ValidateCertificationActivity.this.isFinishing()) {
                                 if (progressDialog != null) {
@@ -123,6 +125,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                     });
                 } catch (final EaseMobException e) {
                     runOnUiThread(new Runnable() {
+                        @Override
                         public void run() {
                             if (!ValidateCertificationActivity.this.isFinishing()) {
                                 if (progressDialog != null) {
@@ -131,7 +134,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                                 }
                             }
                             int errorCode = e.getErrorCode();
-                            String msg = "";
                             if (errorCode == EMError.USER_ALREADY_EXISTS) {
                                 String phone = model.getMobile();
                                 final String account = MD5.md5WithEncoder(phone).toLowerCase();

@@ -26,6 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
@@ -34,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
@@ -254,5 +256,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().finish();
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
+        JPushInterface.init(getContext().getApplicationContext());
+        JpushSet set = new JpushSet(getContext().getApplicationContext());
+        set.setAlias("");
     }
 }

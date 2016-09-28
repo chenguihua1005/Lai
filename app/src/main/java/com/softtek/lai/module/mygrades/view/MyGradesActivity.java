@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -328,8 +329,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     public void onEvent(GradesEvent gradesEvent) {
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
-            GradesModel model=gradesEvent.getgradesModels().get(i);
-            int totalCnt=Integer.parseInt(model.getTotalCnt());
+            GradesModel model = gradesEvent.getgradesModels().get(i);
+            int totalCnt = Integer.parseInt(model.getTotalCnt());
             if (getDateform(nowdate1).equals(model.getDate())) {
                 dates.set(0, totalCnt);
             }
@@ -363,9 +364,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0);
     }
 
-    private SpannableString getString(String value,int color,int start){
-        SpannableString spannableString=new SpannableString(value);
-        spannableString.setSpan(new ForegroundColorSpan(color),start,value.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private SpannableString getString(String value, int color, int start) {
+        SpannableString spannableString = new SpannableString(value);
+        spannableString.setSpan(new ForegroundColorSpan(color), start, value.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
 
@@ -376,795 +377,797 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void success(ResponseData<GradeHonorModel> gradeHonorModelResponseData, Response response) {
                 int status = gradeHonorModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        //总步数
-                        GradeHonorModel model=gradeHonorModelResponseData.getData();
-                        String totalnumber = model.getTotalStep();
-                        if (totalnumber == "") {
-                            tv_totalnumber.setText("0");
-                        } else {
-                            tv_totalnumber.setText(totalnumber);
-                        }
-                        //总公里数计算公式: 1公里=1428步 (单位为公里, 0.01公里, 不足0.01公里时显示0)
-                        DecimalFormat format = new DecimalFormat("##0.00");
-                        Double totalmileage = Double.parseDouble(totalnumber) / 1428;
-                        String temp = format.format(totalmileage);
-                        if (totalmileage == 0.0) {
-                            tv_totalmileage.setText("0");
-                        } else if (totalmileage < 0.01) {
-                            tv_totalmileage.setText("0");
-                        } else {
-                            tv_totalmileage.setText(temp);
-                        }
-                        String nationalDayRank=model.getContryDayOrder();
-                        String runDayRank=model.getDayOrder();
-                        String nationWeekRank=model.getWeekOrder();
-                        String runWeekRank=model.getWeekOrderRG();
-                        if("--".equals(nationalDayRank)){
-                            //全国日排名
-                            tv_Nationaldayrank.setText(nationalDayRank);
-
-                        }else {
-                            int Nationaldayrank = Integer.parseInt(nationalDayRank);
-                            if(Nationaldayrank>0&&Nationaldayrank<=3){
-                                tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xffff9c00,3));
-                            }else{
-                                tv_Nationaldayrank.setText(getString("全国第 "+nationalDayRank+" 名",0xff74b92a,3));
+                try {
+                    switch (status) {
+                        case 200:
+                            //总步数
+                            GradeHonorModel model = gradeHonorModelResponseData.getData();
+                            String totalnumber = model.getTotalStep();
+                            if (TextUtils.isEmpty(totalnumber)) {
+                                tv_totalnumber.setText("0");
+                            } else {
+                                tv_totalnumber.setText(totalnumber);
                             }
-                            //全国第几名
-
-                        }
-                        if("--".equals(runDayRank)){
-                            //跑团日排名
-                            tv_Rundayrank.setText(runDayRank);
-
-                        }else {
-                            int Rundayrank = Integer.parseInt(runDayRank);
-                            if(Rundayrank>0&&Rundayrank<=3){
-                                tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xffff9c00,3));
-                            }else {
-                                tv_Rundayrank.setText(getString("跑团第 "+runDayRank+" 名",0xff74b92a,3));
+                            //总公里数计算公式: 1公里=1428步 (单位为公里, 0.01公里, 不足0.01公里时显示0)
+                            DecimalFormat format = new DecimalFormat("##0.00");
+                            Double totalmileage = Double.parseDouble(TextUtils.isEmpty(totalnumber)?"0":totalnumber) / 1428;
+                            String temp = format.format(totalmileage);
+                            if (totalmileage == 0.0) {
+                                tv_totalmileage.setText("0");
+                            } else if (totalmileage < 0.01) {
+                                tv_totalmileage.setText("0");
+                            } else {
+                                tv_totalmileage.setText(temp);
                             }
-                        }
-                        if("--".equals(nationWeekRank)){
-                            //全国周排名
-                            tv_Nationalweekrank.setText(nationWeekRank);
+                            String nationalDayRank = model.getContryDayOrder();
+                            String runDayRank = model.getDayOrder();
+                            String nationWeekRank = model.getWeekOrder();
+                            String runWeekRank = model.getWeekOrderRG();
+                            if ("--".equals(nationalDayRank)) {
+                                //全国日排名
+                                tv_Nationaldayrank.setText(nationalDayRank);
 
-                        }else{
-                            int Nationalweekrank = Integer.parseInt(nationWeekRank);
-                            if(Nationalweekrank>0&&Nationalweekrank<=3){
-                                tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xffff9c00,3));
-                            }else {
-                                tv_Nationalweekrank.setText(getString("全国第 "+nationWeekRank+" 名",0xff74b92a,3));
+                            } else {
+                                int Nationaldayrank = Integer.parseInt(nationalDayRank);
+                                if (Nationaldayrank > 0 && Nationaldayrank <= 3) {
+                                    tv_Nationaldayrank.setText(getString("全国第 " + nationalDayRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Nationaldayrank.setText(getString("全国第 " + nationalDayRank + " 名", 0xff74b92a, 3));
+                                }
+
                             }
-                        }
-                        if("--".equals(runWeekRank)){
-                            //跑团团周排名
-                            tv_Runweekrank.setText(runWeekRank);
+                            if ("--".equals(runDayRank)) {
+                                //跑团日排名
+                                tv_Rundayrank.setText(runDayRank);
 
-                        }else{
-                            int Runweekrank = Integer.parseInt(runWeekRank);
-                            if(Runweekrank>0&&Runweekrank<=3){
-                                tv_Runweekrank.setText(getString("跑团第 "+runWeekRank+" 名",0xffff9c00,3));
-                            }else {
-                                tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名",0xff74b92a, 3));
-                            }
-                        }
-                        tv_Nationaldaypeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
-                        tv_Rundaypeople.setText("共 "+model.getDayOrderTotal()+" 人");
-                        tv_Nationalweekpeople.setText("共 "+model.getContryDayOrderTotal()+" 人");
-                        tv_Runweekpeople.setText("共 "+model.getDayOrderTotal()+" 人");
-
-                        tv_medalnumber.setText("我的勋章（"+model.getTotalHonor()+"）");
-                        //我的勋章显示
-                        if (model.getLaiHonor().size() == 0) {
-                            ll_honor.setVisibility(View.GONE);
-                        } else {
-                            //判断是否是3个勋章
-                            if (model.getLaiHonor().size() == 1) {
-                                //判断第一个勋章是什么类型
-                                switch (model.getLaiHonor().get(0).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = model.getLaiHonor().get(0).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = model.getLaiHonor().get(0).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str1.setText("累计步数10万");
-                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("累计步数50万");
-                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("累计步数100万");
-                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("累计步数200万");
-                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("累计步数500万");
-                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str1.setText("累计步数1000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str1.setText("累计步数2000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str1.setText("累计步数3000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //
-                                        tv_str1.setText("爱心天使");
-                                        img_honor1.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = model.getLaiHonor().get(0).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-
+                            } else {
+                                int Rundayrank = Integer.parseInt(runDayRank);
+                                if (Rundayrank > 0 && Rundayrank <= 3) {
+                                    tv_Rundayrank.setText(getString("跑团第 " + runDayRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Rundayrank.setText(getString("跑团第 " + runDayRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 2) {
-                                //判断第一，第二个勋章是什么类型
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str1.setText("累计步数10万");
-                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("累计步数50万");
-                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("累计步数100万");
-                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("累计步数200万");
-                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("累计步数500万");
-                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str1.setText("累计步数1000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str1.setText("累计步数2000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str1.setText("累计步数3000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //爱心天使
-                                        tv_str1.setText("爱心天使");
-                                        img_honor1.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
+                            if ("--".equals(nationWeekRank)) {
+                                //全国周排名
+                                tv_Nationalweekrank.setText(nationWeekRank);
 
-                                }
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str2.setText("连续3天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str2.setText("连续7天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str2.setText("连续21天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str2.setText("连续30天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str2.setText("连续100天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str2.setText("连续200天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str2.setText("连续365天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str1.setText("累计步数10万");
-                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("累计步数50万");
-                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("累计步数100万");
-                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("累计步数200万");
-                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("累计步数500万");
-                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str1.setText("累计步数1000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str1.setText("累计步数2000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str1.setText("累计步数3000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //爱心天使
-                                        tv_str2.setText("爱心天使");
-                                        img_honor2.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str2.setText("挑战达人铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str2.setText("挑战达人银牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str2.setText("挑战达人金牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str2.setText("挑战明星铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str2.setText("挑战明星银牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str2.setText("挑战明星金牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-
+                            } else {
+                                int Nationalweekrank = Integer.parseInt(nationWeekRank);
+                                if (Nationalweekrank > 0 && Nationalweekrank <= 3) {
+                                    tv_Nationalweekrank.setText(getString("全国第 " + nationWeekRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Nationalweekrank.setText(getString("全国第 " + nationWeekRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 3) {
-                                //判断第一，第二，第三个勋章是什么类型
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str1.setText("累计步数10万");
-                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("累计步数50万");
-                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("累计步数100万");
-                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("累计步数200万");
-                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("累计步数500万");
-                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str1.setText("累计步数1000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str1.setText("累计步数2000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str1.setText("累计步数3000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //爱心天使
-                                        tv_str1.setText("爱心天使");
-                                        img_honor1.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
+                            if ("--".equals(runWeekRank)) {
+                                //跑团团周排名
+                                tv_Runweekrank.setText(runWeekRank);
 
-                                }
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str2.setText("连续3天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str2.setText("连续7天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str2.setText("连续21天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str2.setText("连续30天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str2.setText("连续100天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str2.setText("连续200天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str2.setText("连续365天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str2.setText("累计步数10万");
-                                                img_honor2.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str2.setText("累计步数50万");
-                                                img_honor2.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str2.setText("累计步数100万");
-                                                img_honor2.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str2.setText("累计步数200万");
-                                                img_honor2.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str2.setText("累计步数500万");
-                                                img_honor2.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str2.setText("累计步数1000万");
-                                                img_honor2.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str2.setText("累计步数2000万");
-                                                img_honor2.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str2.setText("累计步数3000万");
-                                                img_honor2.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //爱心天使
-                                        tv_str2.setText("爱心天使");
-                                        img_honor2.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str2.setText("挑战达人铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str2.setText("挑战达人银牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str2.setText("挑战达人金牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str2.setText("挑战明星铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str2.setText("挑战明星银牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str2.setText("挑战明星金牌");
-                                                img_honor2.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor2.setVisibility(View.VISIBLE);
-                                        break;
-
-                                }
-                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorType()) {
-                                    case 1:
-                                        //天数
-                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
-                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
-                                            case 3:
-                                                tv_str3.setText("连续3天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_three_have);
-                                                break;
-                                            case 7:
-                                                tv_str3.setText("连续7天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_seven_have);
-                                                break;
-                                            case 21:
-                                                tv_str3.setText("连续21天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_twenty_one_have);
-                                                break;
-                                            case 30:
-                                                tv_str3.setText("连续30天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_thirty_have);
-                                                break;
-                                            case 100:
-                                                tv_str3.setText("连续100天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_hundred_day_have);
-                                                break;
-                                            case 200:
-                                                tv_str3.setText("连续200天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_day200_have);
-                                                break;
-                                            case 365:
-                                                tv_str3.setText("连续365天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_day365_have);
-                                                break;
-                                        }
-                                        ll_honor3.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 2:
-                                        //步数
-                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
-                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
-                                            case 10:
-                                                tv_str1.setText("累计步数10万");
-                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
-                                                break;
-                                            case 50:
-                                                tv_str1.setText("累计步数50万");
-                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str1.setText("累计步数100万");
-                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str1.setText("累计步数200万");
-                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
-                                                break;
-                                            case 500:
-                                                tv_str1.setText("累计步数500万");
-                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
-                                                break;
-                                            case 1000:
-                                                tv_str1.setText("累计步数1000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
-                                                break;
-                                            case 2000:
-                                                tv_str1.setText("累计步数2000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
-                                                break;
-                                            case 3000:
-                                                tv_str1.setText("累计步数3000万");
-                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
-                                                break;
-                                        }
-                                        ll_honor1.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 3:
-                                        //爱心天使
-                                        tv_str3.setText("爱心天使");
-                                        img_honor3.setImageResource(R.drawable.img_angel_have);
-                                        ll_honor3.setVisibility(View.VISIBLE);
-                                        break;
-                                    case 4:
-                                        //PK挑战
-                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
-                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
-                                            case 1:
-                                                tv_str3.setText("挑战达人铜牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_1_have);
-                                                break;
-                                            case 50:
-                                                tv_str3.setText("挑战达人银牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_50_have);
-                                                break;
-                                            case 100:
-                                                tv_str3.setText("挑战达人金牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_100_have);
-                                                break;
-                                            case 200:
-                                                tv_str3.setText("挑战明星铜牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_200_have);
-                                                break;
-                                            case 300:
-                                                tv_str3.setText("挑战明星银牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_300_have);
-                                                break;
-                                            case 500:
-                                                tv_str3.setText("挑战明星金牌");
-                                                img_honor3.setImageResource(R.drawable.img_pk_500_have);
-                                                break;
-                                        }
-                                        ll_honor3.setVisibility(View.VISIBLE);
-                                        break;
+                            } else {
+                                int Runweekrank = Integer.parseInt(runWeekRank);
+                                if (Runweekrank > 0 && Runweekrank <= 3) {
+                                    tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名", 0xffff9c00, 3));
+                                } else {
+                                    tv_Runweekrank.setText(getString("跑团第 " + runWeekRank + " 名", 0xff74b92a, 3));
                                 }
                             }
-                        }
-                        break;
-                    default:
-                        break;
+                            tv_Nationaldaypeople.setText("共 " + model.getContryDayOrderTotal() + " 人");
+                            tv_Rundaypeople.setText("共 " + model.getDayOrderTotal() + " 人");
+                            tv_Nationalweekpeople.setText("共 " + model.getContryDayOrderTotal() + " 人");
+                            tv_Runweekpeople.setText("共 " + model.getDayOrderTotal() + " 人");
+
+                            tv_medalnumber.setText("我的勋章（" + model.getTotalHonor() + "）");
+                            //我的勋章显示
+                            if (model.getLaiHonor().size() == 0) {
+                                ll_honor.setVisibility(View.GONE);
+                            } else {
+                                //判断是否是3个勋章
+                                if (model.getLaiHonor().size() == 1) {
+                                    //判断第一个勋章是什么类型
+                                    switch (model.getLaiHonor().get(0).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = model.getLaiHonor().get(0).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str1.setText("连续3天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str1.setText("连续7天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str1.setText("连续21天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str1.setText("连续30天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("连续100天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("连续200天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str1.setText("连续365天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = model.getLaiHonor().get(0).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str1.setText("累计步数10万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("累计步数50万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("累计步数100万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("累计步数200万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("累计步数500万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str1.setText("累计步数1000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str1.setText("累计步数2000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str1.setText("累计步数3000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = model.getLaiHonor().get(0).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str1.setText("挑战达人铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("挑战达人银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("挑战达人金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("挑战明星铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str1.setText("挑战明星银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("挑战明星金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+
+                                    }
+                                }
+                                if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 2) {
+                                    //判断第一，第二个勋章是什么类型
+                                    switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str1.setText("连续3天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str1.setText("连续7天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str1.setText("连续21天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str1.setText("连续30天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("连续100天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("连续200天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str1.setText("连续365天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str1.setText("累计步数10万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("累计步数50万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("累计步数100万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("累计步数200万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("累计步数500万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str1.setText("累计步数1000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str1.setText("累计步数2000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str1.setText("累计步数3000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //康宝莱公益基金会
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str1.setText("挑战达人铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("挑战达人银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("挑战达人金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("挑战明星铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str1.setText("挑战明星银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("挑战明星金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+
+                                    }
+                                    switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str2.setText("连续3天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str2.setText("连续7天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str2.setText("连续21天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str2.setText("连续30天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str2.setText("连续100天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str2.setText("连续200天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str2.setText("连续365天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str1.setText("累计步数10万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("累计步数50万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("累计步数100万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("累计步数200万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("累计步数500万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str1.setText("累计步数1000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str1.setText("累计步数2000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str1.setText("累计步数3000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //康宝莱公益基金会
+                                            tv_str2.setText("康宝莱公益基金会");
+                                            img_honor2.setImageResource(R.drawable.jijin);
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str2.setText("挑战达人铜牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str2.setText("挑战达人银牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str2.setText("挑战达人金牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str2.setText("挑战明星铜牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str2.setText("挑战明星银牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str2.setText("挑战明星金牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+
+                                    }
+                                }
+                                if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 3) {
+                                    //判断第一，第二，第三个勋章是什么类型
+                                    switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str1.setText("连续3天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str1.setText("连续7天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str1.setText("连续21天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str1.setText("连续30天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("连续100天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("连续200天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str1.setText("连续365天步数一万");
+                                                    img_honor1.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str1.setText("累计步数10万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("累计步数50万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("累计步数100万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("累计步数200万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("累计步数500万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str1.setText("累计步数1000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str1.setText("累计步数2000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str1.setText("累计步数3000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //康宝莱公益基金会
+                                            tv_str1.setText("康宝莱公益基金会");
+                                            img_honor1.setImageResource(R.drawable.jijin);
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str1.setText("挑战达人铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("挑战达人银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("挑战达人金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("挑战明星铜牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str1.setText("挑战明星银牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("挑战明星金牌");
+                                                    img_honor1.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+
+                                    }
+                                    switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str2.setText("连续3天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str2.setText("连续7天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str2.setText("连续21天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str2.setText("连续30天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str2.setText("连续100天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str2.setText("连续200天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str2.setText("连续365天步数一万");
+                                                    img_honor2.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str2.setText("累计步数10万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str2.setText("累计步数50万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str2.setText("累计步数100万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str2.setText("累计步数200万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str2.setText("累计步数500万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str2.setText("累计步数1000万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str2.setText("累计步数2000万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str2.setText("累计步数3000万");
+                                                    img_honor2.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //康宝莱公益基金会
+                                            tv_str2.setText("康宝莱公益基金会");
+                                            img_honor2.setImageResource(R.drawable.jijin);
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str2.setText("挑战达人铜牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str2.setText("挑战达人银牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str2.setText("挑战达人金牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str2.setText("挑战明星铜牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str2.setText("挑战明星银牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str2.setText("挑战明星金牌");
+                                                    img_honor2.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor2.setVisibility(View.VISIBLE);
+                                            break;
+
+                                    }
+                                    switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorType()) {
+                                        case 1:
+                                            //天数
+                                            int value = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                            switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
+                                                case 3:
+                                                    tv_str3.setText("连续3天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_three_have);
+                                                    break;
+                                                case 7:
+                                                    tv_str3.setText("连续7天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_seven_have);
+                                                    break;
+                                                case 21:
+                                                    tv_str3.setText("连续21天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_twenty_one_have);
+                                                    break;
+                                                case 30:
+                                                    tv_str3.setText("连续30天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_thirty_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str3.setText("连续100天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_hundred_day_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str3.setText("连续200天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_day200_have);
+                                                    break;
+                                                case 365:
+                                                    tv_str3.setText("连续365天步数一万");
+                                                    img_honor3.setImageResource(R.drawable.img_day365_have);
+                                                    break;
+                                            }
+                                            ll_honor3.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 2:
+                                            //步数
+                                            int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                            switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                                case 10:
+                                                    tv_str1.setText("累计步数10万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str1.setText("累计步数50万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str1.setText("累计步数100万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str1.setText("累计步数200万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str1.setText("累计步数500万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                    break;
+                                                case 1000:
+                                                    tv_str1.setText("累计步数1000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                    break;
+                                                case 2000:
+                                                    tv_str1.setText("累计步数2000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                    break;
+                                                case 3000:
+                                                    tv_str1.setText("累计步数3000万");
+                                                    img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                    break;
+                                            }
+                                            ll_honor1.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 3:
+                                            //康宝莱公益基金会
+                                            tv_str3.setText("康宝莱公益基金会");
+                                            img_honor3.setImageResource(R.drawable.jijin);
+                                            ll_honor3.setVisibility(View.VISIBLE);
+                                            break;
+                                        case 4:
+                                            //PK挑战
+                                            int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                            switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
+                                                case 1:
+                                                    tv_str3.setText("挑战达人铜牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_1_have);
+                                                    break;
+                                                case 50:
+                                                    tv_str3.setText("挑战达人银牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_50_have);
+                                                    break;
+                                                case 100:
+                                                    tv_str3.setText("挑战达人金牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_100_have);
+                                                    break;
+                                                case 200:
+                                                    tv_str3.setText("挑战明星铜牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_200_have);
+                                                    break;
+                                                case 300:
+                                                    tv_str3.setText("挑战明星银牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_300_have);
+                                                    break;
+                                                case 500:
+                                                    tv_str3.setText("挑战明星金牌");
+                                                    img_honor3.setImageResource(R.drawable.img_pk_500_have);
+                                                    break;
+                                            }
+                                            ll_honor3.setVisibility(View.VISIBLE);
+                                            break;
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -1183,7 +1186,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 switch (status) {
                     case 200:
                         scoreModel = responseData.getData();
-                        System.out.println("scoreModel:"+scoreModel);
+                        System.out.println("scoreModel:" + scoreModel);
                         iGetProinfopresenter.upload("/sdcard/scores.png");
                         break;
                     default:
@@ -1385,8 +1388,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         v.buildDrawingCache();
         Bitmap cacheBitmap = v.getDrawingCache();
         if (cacheBitmap == null) {
-            Log.e("TTTTTTTTActivity", "failed getViewBitmap(" + v + ")",
-                    new RuntimeException());
             return null;
         }
 

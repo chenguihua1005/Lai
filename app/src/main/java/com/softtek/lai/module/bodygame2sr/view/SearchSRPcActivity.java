@@ -1,8 +1,8 @@
 package com.softtek.lai.module.bodygame2sr.view;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -61,20 +61,26 @@ public class SearchSRPcActivity extends BaseActivity implements View.OnClickList
     protected void initDatas() {
         String key=getIntent().getStringExtra("value");
         String token=UserInfoModel.getInstance().getToken();
+        dialogShow("正在查询...");
         ZillaApi.NormalRestAdapter.create(BodyGameService.class).doSearchSRMember(token,
                 UserInfoModel.getInstance().getUser().getUserid(),
                 key, new RequestCallback<ResponseData<SearchMemberModel>>() {
                     @Override
                     public void success(ResponseData<SearchMemberModel> data, Response response) {
+                        dialogDissmiss();
                         if(data.getStatus()==200){
                             memberResultModels=data.getData().getResult();
                             if(memberResultModels==null||memberResultModels.isEmpty()){
-                                new AlertDialog.Builder(SearchSRPcActivity.this).setMessage("查询失败，无此学员").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).create().show();
+                                try {
+                                    new AlertDialog.Builder(SearchSRPcActivity.this).setMessage("查询失败，无此学员").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    }).create().show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }else{
                                 lv.setAdapter(new SearchPCAdapter(SearchSRPcActivity.this,memberResultModels));
                             }

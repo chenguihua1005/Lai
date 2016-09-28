@@ -15,8 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -55,6 +53,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/3/2016.
+ *
  */
 public class LoginPresenterImpl implements ILoginPresenter {
 
@@ -280,12 +279,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         SharedPreferenceService.getInstance().put(Constants.PDW,password);
                         //如果用户加入了跑团
                         if("1".equals(model.getIsJoin())){
-                            LogManager.getManager(context.getApplicationContext()).log("Login:","This user has join Group",
-                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                             stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
-                        }else{
-                            LogManager.getManager(context.getApplicationContext()).log("Login:","This user has not join Group",
-                                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                         }
                         final String token=userResponseData.getData().getToken();
                         if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
@@ -343,15 +337,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
         //删除旧数据
         StepUtil.getInstance().deleteOldDate(dateStar);
-        LogManager.getManager(context.getApplicationContext()).log("Login:","stepDeal function was called! execute delete old step\n"+
-                "dateStar="+dateStar,
-                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
-            LogManager.getManager(context.getApplicationContext()).log("Login:","stepDeal function was called!Service Step="+step+"\n" +
-                            "query current step was not empty,current step="+currentStep,
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             if(step>currentStep){
                 //如果服务器上的步数大于本地
                 UserStep userStep=new UserStep();
@@ -359,8 +347,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
-                LogManager.getManager(context.getApplicationContext()).log("Login:","service step >current step",
-                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             }else{
                 //如果不大于则 不需要操作什么
                 UserStep userStep=new UserStep();
@@ -368,14 +354,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(currentStep);
                 StepUtil.getInstance().saveStep(userStep);
-                LogManager.getManager(context.getApplicationContext()).log("Login:","service step <= current step",
-                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             }
         }else{
             //本地没有数据则写入本地
-            LogManager.getManager(context.getApplicationContext()).log("Login:","stepDeal function was called!Service Step="+step+"\n" +
-                            "query current step was empty",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             UserStep serverStep=new UserStep();
             serverStep.setAccountId(Long.parseLong(userId));
             serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());

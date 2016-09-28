@@ -107,6 +107,9 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
     /*计算listview高度*/
     public static int setListViewHeightBasedOnChildren(ListView listView) {
+        if(listView==null){
+            return 0;
+        }
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
             // pre-condition

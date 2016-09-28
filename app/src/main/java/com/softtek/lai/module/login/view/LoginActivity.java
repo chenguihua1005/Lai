@@ -120,9 +120,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.ll_visitor:
-                finish();
                 UserInfoModel.getInstance().visitorLogin();
+                finish();
                 startActivity(new Intent(this, HomeActviity.class));
+                overridePendingTransition(R.anim.activity_enter,0);
                 break;
 
         }
@@ -142,13 +143,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            AppManager.getAppManager().AppExit(this);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

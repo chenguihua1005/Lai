@@ -22,7 +22,7 @@ import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.ggx.jerryguan.widget_lib.SimpleButton;
+import com.softtek.lai.widgets.SimpleButton;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -37,6 +37,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.widgets.NoSlidingViewPage;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +138,7 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void initViews() {
-
+        MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
         btn_contact.setOnClickListener(this);

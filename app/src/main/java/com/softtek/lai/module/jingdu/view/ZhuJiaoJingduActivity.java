@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.jerryguan.widget_lib.Chart;
+import com.softtek.lai.widgets.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;

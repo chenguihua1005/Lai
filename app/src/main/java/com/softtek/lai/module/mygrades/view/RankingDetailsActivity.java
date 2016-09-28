@@ -49,8 +49,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-//    @InjectView(R.id.RL_rungroup)
-//    LinearLayout RL_rungroup;
     @InjectView(R.id.list_group)
     ListView list_group;
     @InjectView(R.id.Iv_fold)
@@ -71,12 +69,9 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     List<Fragment> fragments = new ArrayList<>();
 
     private List<RankSelectModel> rankSelectModelList = new ArrayList<RankSelectModel>();
-    //private RankSelectModel rankSelectModel;
+
     public RankInfoAdapter rankInfoAdapter;
 
-    /* private DayRankModel dayRankModel;
-
-     private IGradesPresenter iGradesPresenter;*/
     private GradesService gradesService;
 
     long accoutid;
@@ -85,13 +80,11 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //iGradesPresenter = new GradesImpl();
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         //当前用户所参加的跑团
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
-        //doGetNowRgName(accoutid);
         tv_rungroupname.setText("跑团排名");
         init();
 
@@ -108,7 +101,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     list_group.setVisibility(View.INVISIBLE);
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(1);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(1);
-                    tv_rungroupname.setText(/*rungroupname*/"跑团排名");
+                    tv_rungroupname.setText("跑团排名");
                     iv1.setImageResource(R.drawable.radiosel);
                     iv2.setImageResource(R.drawable.radiocir);
                 }
@@ -136,9 +129,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 int status = runTeamModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Log.i("成功" + runTeamModelResponseData.getData());
                         rungroupname = runTeamModelResponseData.getData().getRgName();
-                        tv_rungroupname.setText(/*runTeamModelResponseData.getData().getRgName()*/"跑团排名");
+                        tv_rungroupname.setText("跑团排名");
                         break;
                     case 100:
                         break;
@@ -224,7 +216,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onPageSelected(int position) {
-        Log.i("页面切换到===》" + position);
         switch (position) {
             case 0:
                 Util.toastMsg("更新日排名");

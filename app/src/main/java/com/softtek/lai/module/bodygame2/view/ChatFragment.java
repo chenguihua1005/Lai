@@ -24,7 +24,6 @@ import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -404,7 +403,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
                 Constants.IS_LOGINIMG = "0";
-                System.out.println("bbbbbbbbbbb");
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
@@ -450,10 +448,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
         unregisterBroadcastReceiver();
 
-        try {
-            getActivity().unregisterReceiver(internalDebugReceiver);
-        } catch (Exception e) {
-        }
+//        try {
+//            getActivity().unregisterReceiver(internalDebugReceiver);
+//        } catch (Exception e) {
+//        }
     }
 
     @Override
@@ -493,10 +491,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
 
     private android.app.AlertDialog.Builder conflictBuilder;
-    private android.app.AlertDialog.Builder accountRemovedBuilder;
-    private boolean isConflictDialogShow;
-    private boolean isAccountRemovedDialogShow;
-    private BroadcastReceiver internalDebugReceiver;
+//    private android.app.AlertDialog.Builder accountRemovedBuilder;
+//    private boolean isConflictDialogShow;
+//    private boolean isAccountRemovedDialogShow;
+//    private BroadcastReceiver internalDebugReceiver;
     private ConversationListFragment conversationListFragment;
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;

@@ -21,6 +21,7 @@ import com.forlong401.log.transaction.log.manager.LogManager;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.WeakReference;
 
@@ -67,6 +68,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         LogManager.getManager(getApplicationContext()).registerActivity(this);
         initViews();
         initDatas();
+        //有盟统计
+        MobclickAgent.setDebugMode(true);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
 
     }
@@ -76,12 +80,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         Zilla.ACTIVITY = this;
         LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         LifeCircle.onResume(this);
+        MobclickAgent.onResume(this);
 
     }
 
     public void onPause() {
         super.onPause();
         LifeCircle.onPause(this);
+        MobclickAgent.onPause(this);
     }
 
 

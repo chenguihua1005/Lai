@@ -25,45 +25,45 @@
         android:background="@color/white"
             android:gravity="center_horizontal">
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_home"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/rehome"
                 app:pitchBitmap="@drawable/home"
-                app:alpha="true"
+                app:wx_alpha="true"
                 app:text="@string/home"
                 />
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_healthy"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/rehealthy"
                 app:pitchBitmap="@drawable/healthy"
-                app:alpha="true"
+                app:wx_alpha="true"
                 app:text="@string/healthy"/>
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_healthy_record"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/hrecord"
                 app:pitchBitmap="@drawable/rehrecord"
-                app:alpha="true"
+                app:wx_alpha="true"
                 app:text="@string/healthyRecord"/>
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_mine"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/remine"
                 app:pitchBitmap="@drawable/mine"
-                app:alpha="true"
+                app:wx_alpha="true"
                 app:text="@string/mine"/>
 
     </LinearLayout>

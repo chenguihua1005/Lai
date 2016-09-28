@@ -128,7 +128,6 @@
 
     <dimen name="messageMarginLeft">11dip</dimen>
     <dimen name="messageMarginTop">10dip</dimen>
-    <dimen name="messageMarginTop1">14dip</dimen>
     <dimen name="messageMarginTop2">15dip</dimen>
     <dimen name="messageMarginTop3">40dip</dimen>
     <dimen name="messageMarginTop4">25dip</dimen>
@@ -158,5 +157,4 @@
     <dimen name="textSize13">22sp</dimen>
     <dimen name="textSize14">21sp</dimen>
 
-    <dimen name="logStoryPic">79dp</dimen>
 </resources>

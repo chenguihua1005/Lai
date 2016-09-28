@@ -15,27 +15,27 @@
         android:background="@color/white"
         android:gravity="center_horizontal">
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_bodygame"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             app:normalBitmap="@drawable/bg_home"
             app:pitchBitmap="@drawable/bg_rehome"
-            app:alpha="true"
+            app:wx_alpha="true"
             app:text="体管赛"
             />
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
-            <com.ggx.jerryguan.widget_lib.SimpleButton
+            <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_chat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/bg_chat"
                 app:pitchBitmap="@drawable/bg_rechat"
-                app:alpha="true"
+                app:wx_alpha="true"
                 app:text="会话"/>
             <TextView
                 android:id="@+id/tv_unread_num"
@@ -52,33 +52,33 @@
 
         </FrameLayout>
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_contact"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             app:normalBitmap="@drawable/bg_contact"
             app:pitchBitmap="@drawable/bg_recontact"
-            app:alpha="true"
+            app:wx_alpha="true"
             app:text="通讯录"/>
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_fuce"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             app:normalBitmap="@drawable/bg_fuce"
             app:pitchBitmap="@drawable/bg_refuce"
-            app:alpha="true"
+            app:wx_alpha="true"
             app:text="复测"/>
-        <com.ggx.jerryguan.widget_lib.SimpleButton
+        <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_class"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             app:normalBitmap="@drawable/bg_class"
             app:pitchBitmap="@drawable/bg_reclass"
-            app:alpha="true"
+            app:wx_alpha="true"
             app:text="班级"/>
 
     </LinearLayout>

@@ -13,8 +13,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.RelativeLayout;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
-import com.forlong401.log.transaction.utils.LogUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -106,8 +104,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 UserInfoModel.getInstance().saveUserCache(model);
                                 //如果用户加入了跑团
                                 if("1".equals(model.getIsJoin())){
-                                    LogManager.getManager(getApplicationContext()).log("autoLogin:","This user has join Group",
-                                            LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
                                     stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                                 }
                                 final String token=userModelResponseData.getData().getToken();
@@ -169,15 +165,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
         //删除旧数据
         StepUtil.getInstance().deleteOldDate(dateStar);
-        LogManager.getManager(context.getApplicationContext()).log("autoLogin:","stepDeal function was called! execute delete old step\n"+
-                        "dateStar="+dateStar,
-                LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
         if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
-            LogManager.getManager(context.getApplicationContext()).log("autoLogin:","stepDeal function was called!Service Step="+step+"\n" +
-                            "query current step was not empty,current step="+currentStep,
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             if(step>currentStep){
                 //如果服务器上的步数大于本地
                 UserStep userStep=new UserStep();
@@ -185,8 +175,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
-                LogManager.getManager(context.getApplicationContext()).log("autoLogin:","service step >current step",
-                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             }else{
                 //如果本地大于服务器的
                 UserStep userStep=new UserStep();
@@ -194,15 +182,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(currentStep);
                 StepUtil.getInstance().saveStep(userStep);
-                LogManager.getManager(context.getApplicationContext()).log("autoLogin:","service step <= current step",
-                        LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             }
             //如果不大于则 不需要操作什么
         }else{
             //本地没有数据则写入本地
-            LogManager.getManager(context.getApplicationContext()).log("autoLogin:","stepDeal function was called!Service Step="+step+"\n" +
-                            "query current step was empty",
-                    LogUtils.LOG_TYPE_2_FILE_AND_LOGCAT);
             UserStep serverStep=new UserStep();
             serverStep.setAccountId(Long.parseLong(userId));
             serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
