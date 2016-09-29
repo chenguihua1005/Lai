@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -31,6 +32,7 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -59,6 +61,7 @@ import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -94,7 +97,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     CustomGridView gv_model;
 
     @InjectView(R.id.pull)
-    SwipeRefreshLayout pull;
+    MySwipRefreshView pull;
 
     @InjectView(R.id.page)
     ViewPager page;

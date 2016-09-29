@@ -48,7 +48,6 @@ import zilla.libcore.file.AddressManager;
 
 /**
  * Created by John on 2016/4/14.
- *
  */
 public class HealthyCommunityAdapter extends BaseAdapter {
 
@@ -110,11 +109,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             holder.tv_delete.setVisibility(View.VISIBLE);
 
         }
-        if ("0".equals(model.getPraiseNum()))
-        {
+        if ("0".equals(model.getPraiseNum())) {
             holder.ll_dianzan.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             holder.ll_dianzan.setVisibility(View.VISIBLE);
         }
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
@@ -143,18 +140,10 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             }
         });
 
-
-
-
-
-//        if (type == 1) {
-//        } else {
-        if (type==1) {
-            if ("1".equals(model.getMinetype()))
-            {
+        if (type == 1) {
+            if ("1".equals(model.getMinetype())) {
                 holder.tv_delete.setVisibility(View.INVISIBLE);
-            }
-            else {
+            } else {
                 holder.tv_delete.setVisibility(View.VISIBLE);
             }
             holder.cb_zan.setChecked(true);
@@ -165,8 +154,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             } else {
                 holder.ll_dianzan.setVisibility(View.VISIBLE);
             }
-        }
-        else {
+        } else {
             holder.tv_delete.setVisibility(View.INVISIBLE);
             if (isVR) {
                 holder.cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -194,8 +182,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                     //有点赞
                     holder.cb_zan.setChecked(true);
                     holder.cb_zan.setEnabled(false);
-                }
-                else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
+                } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                     //没有点赞
                     holder.cb_zan.setChecked(false);
                     holder.cb_zan.setEnabled(true);
@@ -231,7 +218,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                             });
                                 }
 
-                            }else {
+                            } else {
                                 if (holder.cb_zan.isChecked()) {
                                     final UserInfoModel infoModel = UserInfoModel.getInstance();
                                     model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
@@ -265,10 +252,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         }
                     });
                 }
-        }
-
             }
-//        }
+
+        }
         //加载图片
         String path = AddressManager.get("photoHost");
         Picasso.with(context).load(path + model.getPhoto()).fit()
@@ -294,6 +280,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
+
             tv_content = (TextView) view.findViewById(R.id.tv_content);
             tv_date = (TextView) view.findViewById(R.id.tv_date);
             tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
@@ -335,8 +322,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 0);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -359,8 +346,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 1);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
 
@@ -383,8 +370,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 2);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -405,8 +392,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 3);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -426,8 +413,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 4);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -446,8 +433,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 5);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -465,8 +452,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 6);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -483,8 +470,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 7);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
@@ -500,8 +487,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                             Intent in = new Intent(context, PictureMoreActivity.class);
                             in.putStringArrayListExtra("images", imgs);
                             in.putExtra("position", 8);
-                            ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-                            ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                            ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                         }
                     });
                     Picasso.with(context).load(path + uri).resize(px, px).centerCrop()

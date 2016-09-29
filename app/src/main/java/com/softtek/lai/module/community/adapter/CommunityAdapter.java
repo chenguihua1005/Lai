@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CommunityAdapter extends FragmentPagerAdapter{
 
-    String[] titles={"推荐","我的"};
+    String[] titles={"推荐","关注"};
     List<Fragment> fragments;
 
     public CommunityAdapter(FragmentManager fm,List<Fragment> fragments) {

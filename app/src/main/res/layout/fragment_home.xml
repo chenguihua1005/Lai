@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.softtek.lai.widgets.MySwipRefreshView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pull"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:addStatesFromChildren="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:addStatesFromChildren="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/content"
@@ -28,17 +28,12 @@
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll|snap">
 
-                <RelativeLayout
+                <com.softtek.lai.widgets.RollHeaderView
+                    android:id="@+id/rhv_adv"
                     android:layout_width="match_parent"
                     android:layout_height="130dp">
 
-                    <com.softtek.lai.widgets.RollHeaderView
-                        android:id="@+id/rhv_adv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    </com.softtek.lai.widgets.RollHeaderView>
-                </RelativeLayout>
+                </com.softtek.lai.widgets.RollHeaderView>
 
                 <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/gv_model"
@@ -79,4 +74,4 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</com.softtek.lai.widgets.MySwipRefreshView>
