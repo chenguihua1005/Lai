@@ -121,11 +121,11 @@
                 android:layout_weight="0.45"
                 android:gravity="center"
                 android:layout_height="180dp">
-                <com.ggx.jerryguan.widget_lib.Chart
+                <com.softtek.lai.widgets.Chart
                     android:layout_width="140dp"
                     android:layout_height="140dp"
                     android:id="@+id/total_weight">
-                </com.ggx.jerryguan.widget_lib.Chart>
+                </com.softtek.lai.widgets.Chart>
 
             </LinearLayout>
             <LinearLayout

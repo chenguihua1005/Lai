@@ -44,7 +44,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         LogManager.getManager(getApplicationContext()).registerCrashHandler();
         ChatHelper.getInstance().init(getApplicationContext());
 
-
     }
 
     public static LaiApplication getInstance() {

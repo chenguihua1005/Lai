@@ -83,8 +83,9 @@ public class ImageCropHelper {
         if (mActivity != null) {
             return mActivity;
         } else {
-            return mFragment.getActivity();
+            return mFragment.getContext();
         }
+
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

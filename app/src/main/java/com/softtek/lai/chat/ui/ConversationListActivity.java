@@ -61,10 +61,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_conversation_list)
-public class ConversationListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, EMEventListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class ConversationListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, EMEventListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -489,13 +486,4 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
-    }
 }

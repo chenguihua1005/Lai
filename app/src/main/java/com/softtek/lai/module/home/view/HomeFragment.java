@@ -85,7 +85,7 @@ import zilla.libcore.ui.InjectLayout;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
@@ -163,8 +163,16 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-        appBar.addOnOffsetChangedListener(this);
-
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(verticalOffset>=0){
+                    pull.setEnabled(true);
+                }else {
+                    pull.setEnabled(false);
+                }
+            }
+        });
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
@@ -179,7 +187,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
-
     }
 
     @Subscribe
@@ -225,7 +232,6 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
             }
         }
         rhv_adv.setImgUrlData(advList);
-
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
         ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
         productInfoFragment.updateInfo(products);
@@ -258,6 +264,7 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
     @Override
     public void onResume() {
         super.onResume();
+        rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -344,6 +351,12 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        rhv_adv.stopRoll();
+    }
+
     private void HXLoginOut() {
         EMChatManager.getInstance().logout(true, new EMCallBack() {
 
@@ -366,14 +379,14 @@ public class HomeFragment extends LazyBaseFragment implements AppBarLayout.OnOff
         });
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if(verticalOffset>=0){
-            pull.setEnabled(true);
-        }else {
-            pull.setEnabled(false);
-        }
-    }
+//    @Override
+//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//        if(verticalOffset>=0){
+//            pull.setEnabled(true);
+//        }else {
+//            pull.setEnabled(false);
+//        }
+//    }
 
     @Override
     public void onRefresh() {

@@ -253,7 +253,6 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        Log.i("健康记录开始请求");
         retestPre.GetUserMeasuredInfo(mobile);
     }
 
@@ -286,7 +285,7 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
             int minutes = util.getMinute(date);
             tv_healthdate.setText(month + "月" + day + "日");
             tv_healthtime.setText(hour + ":" + (minutes < 10 ? "0" + minutes : minutes));
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

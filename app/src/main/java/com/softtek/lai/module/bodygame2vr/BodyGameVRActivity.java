@@ -58,7 +58,7 @@ import zilla.libcore.ui.InjectLayout;
  * 体管赛游客版
  */
 @InjectLayout(R.layout.activity_body_game_vr)
-public class BodyGameVRActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,ObservableScrollView.ScrollViewListener{
+public class BodyGameVRActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ObservableScrollView.ScrollViewListener {
 
     @InjectView(R.id.scroll)
     ObservableScrollView scroll;
@@ -81,7 +81,7 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     @InjectView(R.id.mgv)
     CustomGridView mgv;
-    private List<CompetitionModel> competitionModels=new ArrayList<>();
+    private List<CompetitionModel> competitionModels = new ArrayList<>();
     SaiKuangAdapter saiKuangAdapter;
     @InjectView(R.id.tv_video_name)
     TextView tv_video_name;
@@ -122,15 +122,15 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        if(DisplayUtil.getSDKInt()>18){
+        if (DisplayUtil.getSDKInt() > 18) {
             tintManager.setStatusBarAlpha(0);
-            int status= DisplayUtil.getStatusHeight(this);
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
-            params.topMargin=status;
+            int status = DisplayUtil.getStatusHeight(this);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
+            params.topMargin = status;
             relativeLayout.setLayoutParams(params);
         }
-        boolean isNc=getIntent().getBooleanExtra("isNc",false);
-        fl_right.setVisibility(isNc?View.VISIBLE:View.GONE);
+        boolean isNc = getIntent().getBooleanExtra("isNc", false);
+        fl_right.setVisibility(isNc ? View.VISIBLE : View.GONE);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         iv_refresh.setOnClickListener(this);
@@ -146,33 +146,33 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CompetitionModel model=competitionModels.get(position);
-                Intent jumpStudent=new Intent(BodyGameVRActivity.this,GameActivity.class);
-                int zubie=0;
-                if("女子140斤以下".equals(model.getGroupName())){
-                    zubie=6;
-                }else if("女子140斤以上".equals(model.getGroupName())){
-                    zubie=5;
-                }else if("男子180斤以下".equals(model.getGroupName())){
-                    zubie=4;
-                }else if("男子180斤以上".equals(model.getGroupName())){
-                    zubie=1;
+                CompetitionModel model = competitionModels.get(position);
+                Intent jumpStudent = new Intent(BodyGameVRActivity.this, GameActivity.class);
+                int zubie = 0;
+                if ("女子140斤以下".equals(model.getGroupName())) {
+                    zubie = 6;
+                } else if ("女子140斤以上".equals(model.getGroupName())) {
+                    zubie = 5;
+                } else if ("男子180斤以下".equals(model.getGroupName())) {
+                    zubie = 4;
+                } else if ("男子180斤以上".equals(model.getGroupName())) {
+                    zubie = 1;
                 }
-                jumpStudent.putExtra("zubie",zubie);
+                jumpStudent.putExtra("zubie", zubie);
                 startActivity(jumpStudent);
             }
         });
         scroll.post(new Runnable() {
             public void run() {
-                scroll.scrollTo(0,0);
+                scroll.scrollTo(0, 0);
             }
         });
     }
 
     @Override
     protected void initDatas() {
-        roate= AnimationUtils.loadAnimation(this,R.anim.rotate);
-        saiKuangAdapter=new SaiKuangAdapter(this,competitionModels);
+        roate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        saiKuangAdapter = new SaiKuangAdapter(this, competitionModels);
         mgv.setAdapter(saiKuangAdapter);
         pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(this, 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
@@ -200,10 +200,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                 try {
                     switch (status) {
                         case 200:
-                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.has_email));
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this, R.drawable.has_email));
                             break;
                         default:
-                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.email));
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this, R.drawable.email));
                             break;
                     }
                 } catch (Exception e) {
@@ -219,9 +219,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     }
 
     Animation roate;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
@@ -242,8 +243,8 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                                     public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
                                         try {
                                             iv_refresh.clearAnimation();
-                                            if(listResponseData.getStatus()==200){
-                                                List<TotolModel> models=listResponseData.getData();
+                                            if (listResponseData.getStatus() == 200) {
+                                                List<TotolModel> models = listResponseData.getData();
                                                 tv_totalperson.setText(models.get(0).getTotal_person());
                                                 tv_total_loss.setText(models.get(0).getTotal_loss());
                                             }
@@ -279,20 +280,20 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_tip1:
                 //第一个tip
-                Tips tip1=info.getTips_content().get(0);
-                AskHealthyModel ask=new AskHealthyModel();
+                Tips tip1 = info.getTips_content().get(0);
+                AskHealthyModel ask = new AskHealthyModel();
                 ask.setTips_Link(tip1.getTips_Link());
-                Intent tip1Intent=new Intent(this, AskDetailActivity.class);
-                tip1Intent.putExtra("ask",ask);
+                Intent tip1Intent = new Intent(this, AskDetailActivity.class);
+                tip1Intent.putExtra("ask", ask);
                 startActivity(tip1Intent);
                 break;
             case R.id.ll_tip2:
                 //第二个tip
-                Tips tip2=info.getTips_content().get(1);
-                AskHealthyModel ask2=new AskHealthyModel();
+                Tips tip2 = info.getTips_content().get(1);
+                AskHealthyModel ask2 = new AskHealthyModel();
                 ask2.setTips_Link(tip2.getTips_Link());
-                Intent tip2Intent=new Intent(this, AskDetailActivity.class);
-                tip2Intent.putExtra("ask",ask2);
+                Intent tip2Intent = new Intent(this, AskDetailActivity.class);
+                tip2Intent.putExtra("ask", ask2);
                 startActivity(tip2Intent);
                 break;
             case R.id.rl_tip:
@@ -301,10 +302,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.fl_video:
                 //视频
-                if(info!=null&&StringUtils.isNotEmpty(info.getTips_video_name())){
-                    Uri uri=Uri.parse(AddressManager.get("photoHost")+info.getTips_video_url());
-                    Intent intent=new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri,"video/*");
+                if (info != null && StringUtils.isNotEmpty(info.getTips_video_name())) {
+                    Uri uri = Uri.parse(AddressManager.get("photoHost") + info.getTips_video_url());
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "video/*");
                     startActivity(intent);
                 }
                 break;
@@ -317,12 +318,12 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if(y<=0){
+        if (y <= 0) {
             pull.setEnabled(true);
-        }else {
+        } else {
             pull.setEnabled(false);
         }
-        float alpha=(1f*y/950);
+        float alpha = (1f * y / 950);
         tintManager.setStatusBarAlpha(alpha);
         rl_color.setAlpha(alpha);
     }
@@ -332,9 +333,13 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
         ZillaApi.NormalRestAdapter.create(BodyGameVRService.class).getBodyGameVr(new RequestCallback<ResponseData<BodyGameVrInfo>>() {
             @Override
             public void success(ResponseData<BodyGameVrInfo> data, Response response) {
-                pull.setRefreshing(false);
-                if(data.getStatus()==200){
-                    onloadCompleted(data.getData());
+                try {
+                    pull.setRefreshing(false);
+                    if (data.getStatus() == 200) {
+                        onloadCompleted(data.getData());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -345,10 +350,10 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
                 try {
                     switch (status) {
                         case 200:
-                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.has_email));
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this, R.drawable.has_email));
                             break;
                         default:
-                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this,R.drawable.email));
+                            iv_email.setBackground(ContextCompat.getDrawable(BodyGameVRActivity.this, R.drawable.email));
                             break;
                     }
                 } catch (Exception e) {
@@ -364,14 +369,15 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
     }
 
     BodyGameVrInfo info;
-    public void onloadCompleted(BodyGameVrInfo info){
 
-        if(info!=null){
-            this.info=info;
-            String basePath= AddressManager.get("photoHost");
+    public void onloadCompleted(BodyGameVrInfo info) {
+
+        if (info != null) {
+            this.info = info;
+            String basePath = AddressManager.get("photoHost");
             //首页banner
-            if(StringUtils.isNotEmpty(info.getBanner())){
-                Picasso.with(this).load(basePath+info.getBanner()).placeholder(R.drawable.default_icon_rect)
+            if (StringUtils.isNotEmpty(info.getBanner())) {
+                Picasso.with(this).load(basePath + info.getBanner()).placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect).into(iv_banner);
             }
             tv_totalperson.setText(StringUtil.convertValue1(info.getTotalPc()));
@@ -379,61 +385,61 @@ public class BodyGameVRActivity extends BaseActivity implements View.OnClickList
             competitionModels.clear();
             competitionModels.addAll(info.getCompetition());
             saiKuangAdapter.notifyDataSetChanged();
-            if(StringUtils.isNotEmpty(info.getTips_video_id())){
+            if (StringUtils.isNotEmpty(info.getTips_video_id())) {
                 tv_video_name.setText(info.getTips_video_name());
-                if(StringUtils.isNotEmpty(info.getTips_video_backPicture())){
-                    Picasso.with(this).load(basePath+info.getTips_video_backPicture())
+                if (StringUtils.isNotEmpty(info.getTips_video_backPicture())) {
+                    Picasso.with(this).load(basePath + info.getTips_video_backPicture())
                             .fit().placeholder(R.drawable.default_icon_rect)
                             .error(R.drawable.default_icon_rect).into(iv_video_image);
                 }
                 fl_video.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 fl_video.setVisibility(View.GONE);
             }
-            List<Tips> tips=info.getTips_content();
-            if(tips==null||tips.isEmpty()){
+            List<Tips> tips = info.getTips_content();
+            if (tips == null || tips.isEmpty()) {
                 ll_tips_content.setVisibility(View.GONE);
-            }else{
+            } else {
                 ll_tip2.setVisibility(View.INVISIBLE);
-                for (int i=0;i<tips.size();i++){
-                    Tips tip=tips.get(i);
-                    String mask=StringUtils.isEmpty(tip.getTips_TagTitle())?"":tip.getTips_TagTitle().trim();
-                    if(i==0){
+                for (int i = 0; i < tips.size(); i++) {
+                    Tips tip = tips.get(i);
+                    String mask = StringUtils.isEmpty(tip.getTips_TagTitle()) ? "" : tip.getTips_TagTitle().trim();
+                    if (i == 0) {
                         tv_title1.setText(tip.getTips_Title());
                         tv_tag1.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
+                        if ("运动健身".equals(mask)) {
                             tv_tag1.setTextColor(Color.parseColor("#ffa300"));
                             im_icon_tip.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养课堂".equals(mask)){
+                        } else if ("营养课堂".equals(mask)) {
                             tv_tag1.setTextColor(Color.parseColor("#75ba2b"));
                             im_icon_tip.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养生保健知识".equals(mask)){
+                        } else if ("养生保健知识".equals(mask)) {
                             tv_tag1.setTextColor(Color.parseColor("#98dee6"));
                             im_icon_tip.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
+                        } else if ("健康饮食".equals(mask)) {
                             tv_tag1.setTextColor(Color.parseColor("#cfdc3d"));
                             im_icon_tip.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
+                        } else {
                             tv_tag1.setTextColor(Color.parseColor("#ffa300"));
                             im_icon_tip.setBackgroundResource(R.drawable.mask_org);
                         }
-                    }else if(i==1){
+                    } else if (i == 1) {
                         ll_tip2.setVisibility(View.VISIBLE);
                         tv_title2.setText(tip.getTips_Title());
                         tv_tag2.setText(tip.getTips_TagTitle());
-                        if("运动健身".equals(mask)){
+                        if ("运动健身".equals(mask)) {
                             tv_tag2.setTextColor(Color.parseColor("#ffa300"));
                             im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
-                        }else if("营养课堂".equals(mask)){
+                        } else if ("营养课堂".equals(mask)) {
                             tv_tag2.setTextColor(Color.parseColor("#75ba2b"));
                             im_icon_tip2.setBackgroundResource(R.drawable.mask_green);
-                        }else if("养生保健知识".equals(mask)){
+                        } else if ("养生保健知识".equals(mask)) {
                             tv_tag2.setTextColor(Color.parseColor("#98dee6"));
                             im_icon_tip2.setBackgroundResource(R.drawable.mask_blue);
-                        }else if("健康饮食".equals(mask)){
+                        } else if ("健康饮食".equals(mask)) {
                             tv_tag2.setTextColor(Color.parseColor("#cfdc3d"));
                             im_icon_tip2.setBackgroundResource(R.drawable.mask_cyan);
-                        }else{
+                        } else {
                             tv_tag2.setTextColor(Color.parseColor("#ffa300"));
                             im_icon_tip2.setBackgroundResource(R.drawable.mask_org);
                         }

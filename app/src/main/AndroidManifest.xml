@@ -87,14 +87,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <!--正式-->
-        <!--<meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5728545a67e58ea7cf001701" />-->
-        <!--测试-->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="57c527bbe0f55a2255000aba" />
+        <!--============================设置各个开发者平台的key====================-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
@@ -105,15 +98,34 @@
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
+
         <!--正式-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5728545a67e58ea7cf001701" />
+        <!--测试-->
         <!--<meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="1a3bbb691bfbfca0d0676e9f" />-->
-        <!--测试54-->
+            android:name="UMENG_APPKEY"
+            android:value="57d60ab167e58ec4f60000cb" />-->
+
+        <!--正式-->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />
-        <!-- 值来自开发者平台取得的AppKey -->
+            android:value="1a3bbb691bfbfca0d0676e9f" />
+        <!--测试54-->
+        <!--<meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="b004a008690a103f8b6ebbf7" />-->
+
+        <!-- uat设置环信应用的appkey -->
+        <!--正式-->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalife#laiju" />
+        <!--<meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalifeuat#laiapp" />-->
+        <!-- ============================================================================== -->
         <activity
             android:name=".module.login.view.LoginActivity"
             android:screenOrientation="portrait"
@@ -667,13 +679,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 设置环信应用的appkey -->
-        <!-- <meta-data -->
-        <!-- android:name="EASEMOB_APPKEY" -->
-        <!-- android:value="easemob-demo#chatdemoui" /> -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="herbalife#laiju" />
+
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.easemob.chat.EMChatService"

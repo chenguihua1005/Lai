@@ -202,7 +202,7 @@ public class LineChartUtil {
                     max = val;
                 }
         }
-        chart.getAxisLeft().setAxisMaxValue(max+3000);
+        chart.getAxisLeft().setAxisMaxValue(max+100);
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals,null);
         // set the line to be drawn like this "- - - - - -"
