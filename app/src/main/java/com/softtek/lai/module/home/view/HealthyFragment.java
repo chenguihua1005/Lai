@@ -18,9 +18,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -46,12 +43,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_healthy)
 public class HealthyFragment extends LazyBaseFragment{
 
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
@@ -80,9 +71,6 @@ public class HealthyFragment extends LazyBaseFragment{
 
     @Override
     protected void initViews() {
-        ll_left.setVisibility(View.INVISIBLE);
-        tv_title.setText("健康圈");
-        iv_email.setBackgroundResource(R.drawable.camera);
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,12 +103,6 @@ public class HealthyFragment extends LazyBaseFragment{
             }
         });
 
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         String token= UserInfoModel.getInstance().getToken();
         if(StringUtils.isEmpty(token)){
             fl_right.setVisibility(View.GONE);

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    tools:context="com.softtek.lai.module.community.view.PersionalActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null">
+
+        <include layout="@layout/toolbar"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_scrollFlags="scroll|snap">
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/cir_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/img_default"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"/>
+
+            <CheckBox
+                android:id="@+id/cb_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/civ_header_image"
+                android:button="@null"
+                android:background="@drawable/cb_guanzhu_bg"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/cir_image"
+                android:layout_toLeftOf="@id/cb_attention"
+                android:layout_marginLeft="14dp"
+                android:gravity="center|left"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:text="Lee"/>
+
+                <TextView
+                    android:id="@+id/tv_dynamic_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9sp"
+                    android:layout_marginTop="11dp"
+                    android:textColor="#999999"
+                    android:text="共有18条动态"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

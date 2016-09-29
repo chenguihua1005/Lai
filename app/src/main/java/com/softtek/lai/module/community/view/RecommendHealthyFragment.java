@@ -2,6 +2,7 @@ package com.softtek.lai.module.community.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
 
     @Override
     protected void lazyLoad() {
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){
