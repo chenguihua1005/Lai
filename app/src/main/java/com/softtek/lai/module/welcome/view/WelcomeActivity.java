@@ -26,7 +26,6 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;

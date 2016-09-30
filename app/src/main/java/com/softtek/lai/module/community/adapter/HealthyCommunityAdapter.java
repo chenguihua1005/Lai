@@ -1,6 +1,5 @@
 package com.softtek.lai.module.community.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,6 +107,31 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             holder.tv_delete.setVisibility(View.GONE);
         } else {
             holder.tv_delete.setVisibility(View.VISIBLE);
+            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    if (responseData.getStatus() == 200) {
+                                                        lossWeightStoryModels.remove(model);
+                                                        notifyDataSetChanged();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+            });
 
         }
         if ("0".equals(model.getPraiseNum())) {
@@ -115,31 +139,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         } else {
             holder.ll_dianzan.setVisibility(View.VISIBLE);
         }
-        holder.tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
-                                        new RequestCallback<ResponseData>() {
-                                            @Override
-                                            public void success(ResponseData responseData, Response response) {
-                                                if (responseData.getStatus() == 200) {
-                                                    lossWeightStoryModels.remove(model);
-                                                    notifyDataSetChanged();
-                                                }
-                                            }
-                                        });
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).create().show();
-            }
-        });
 
         if (type == 1) {
             if ("1".equals(model.getMinetype())) {
