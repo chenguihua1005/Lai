@@ -25,6 +25,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -259,6 +260,12 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         String path = AddressManager.get("photoHost");
         Picasso.with(context).load(path + model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, PersionalActivity.class));
+            }
+        });
         String[] imgs = model.getImgCollection().split(",");
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < imgs.length; i++) {

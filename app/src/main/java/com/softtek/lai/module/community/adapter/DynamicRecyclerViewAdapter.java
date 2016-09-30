@@ -33,9 +33,9 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-    private List<HomeInfoModel> infos;
+    private List infos;
     private int width;
-    public DynamicRecyclerViewAdapter(Context mContext, List<HomeInfoModel> infos) {
+    public DynamicRecyclerViewAdapter(Context mContext, List infos) {
         this.mContext = mContext;
         this.infos = infos;
         width= DisplayUtil.getMobileWidth(mContext);
@@ -62,7 +62,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //绑定数据
         if(holder instanceof ViewHolder){
-            HomeInfoModel info = infos.get(position);
+            /*HomeInfoModel info = infos.get(position);
             Bitmap bitmap=((ViewHolder)holder).iv_image.getDrawingCache();
             if(bitmap!=null&&bitmap.isRecycled()){
                 bitmap.recycle();
@@ -72,7 +72,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
             //将数据保存在itemView的Tag中，以便点击时进行获取
-            holder.itemView.setTag(position);
+            holder.itemView.setTag(position);*/
         }
 
     }

@@ -85,10 +85,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_home.setProgress(1);
         currentId = 0;
         content.setCurrentItem(0);
-        if (!isTaskRoot()) {
-            finish();
-            return;
-        }
+//        if (!isTaskRoot()) {
+//            finish();
+//            return;
+//        }
     }
 
     @Override
