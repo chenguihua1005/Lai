@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.RelativeLayout;
@@ -66,7 +67,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
 
         LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-        new Handler().postDelayed(this,600);
+        new Handler(Looper.getMainLooper()).postDelayed(this,1000);
 
     }
 
@@ -84,9 +85,11 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
             if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
+                UserInfoModel.getInstance().visitorLogin();
                 finish();
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_enter,0);
             }else{
                 //登录
                 ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(user, password, new Callback<ResponseData<UserModel>>() {
@@ -137,21 +140,26 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     finish();
                                     Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
                                     startActivity(start);
+                                    overridePendingTransition(R.anim.activity_enter,0);
                                 }
                                 break;
                             default:
+                                UserInfoModel.getInstance().visitorLogin();
                                 finish();
-                                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.activity_enter,0);
                                 break;
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        UserInfoModel.getInstance().visitorLogin();
                         finish();
-                        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.activity_enter,0);
                     }
                 });
             }
@@ -197,4 +205,5 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
     }
+
 }
