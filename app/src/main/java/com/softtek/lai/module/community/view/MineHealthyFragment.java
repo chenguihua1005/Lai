@@ -2,8 +2,8 @@ package com.softtek.lai.module.community.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,7 +14,6 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
@@ -24,7 +23,6 @@ import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.CommunityManager;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
-import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,8 +37,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_mine_healthy)
-public class MineHealthyFragment extends LazyBaseFragment implements  AdapterView.OnItemClickListener
-        ,PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback,View.OnClickListener{
+public class MineHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback,View.OnClickListener{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -75,7 +72,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
     @Override
     protected void initViews() {
         but_login.setOnClickListener(this);
-        ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setEmptyView(img_mo_message);
@@ -95,7 +91,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
     protected void initDatas() {
         community=new CommunityManager(this);
         //加载数据适配器
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,false,1);
+        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels,false,1);
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
         //判断token是否为空
@@ -130,7 +126,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
             community.getHealthyMine(pageIndex);
         }else{
             pageIndex--;
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if(ptrlv!=null){
@@ -144,23 +140,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
 
     private static final int LIST_JUMP=1;
     private static final int LIST_JUMP_2=2;
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HealthyCommunityModel model=communityModels.get(position-1);
-        if("1".equals(model.getMinetype())){//减重日志
-            Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
-            logDetail.putExtra("log",copyModel(model));
-            logDetail.putExtra("position",position-1);
-            logDetail.putExtra("type","0");
-            startActivityForResult(logDetail,LIST_JUMP_2);
-        }else if("0".equals(model.getMinetype())){//动态
-            Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
-            logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
-            logDetail.putExtra("position",position-1);
-            logDetail.putExtra("type","0");
-            startActivityForResult(logDetail,LIST_JUMP);
-        }
-    }
 
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
@@ -214,36 +193,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements  AdapterVie
                 }
             }
         }, 300);
-    }
-
-    private HealthyDynamicModel copyModeltoDynamci(HealthyCommunityModel model){
-        HealthyDynamicModel dynamicModel=new HealthyDynamicModel();
-        dynamicModel.setPraiseNum(model.getPraiseNum());
-        dynamicModel.setUsernameSet(model.getUsernameSet());
-        dynamicModel.setContent(model.getContent());
-        dynamicModel.setUserName(model.getUserName());
-        dynamicModel.setHealtId(model.getID());
-        dynamicModel.setIsPraise(model.getIsPraise());
-        dynamicModel.setCreateDate(model.getCreateDate());
-        dynamicModel.setImgCollection(model.getImgCollection());
-        dynamicModel.setPhoto(model.getPhoto());
-        return dynamicModel;
-    }
-    private LossWeightStoryModel copyModel(HealthyCommunityModel model){
-        LossWeightStoryModel storyModel=new LossWeightStoryModel();
-        storyModel.setPriase(model.getPraiseNum());
-        storyModel.setLogContent(model.getContent());
-        storyModel.setLogTitle(model.getTitle());
-        storyModel.setAfterWeight("0");
-        storyModel.setCreateDate(model.getCreateDate());
-        storyModel.setImgCollection(model.getImgCollection());
-        storyModel.setIsClicked(model.getIsPraise());
-        storyModel.setLossLogId(model.getID());
-        storyModel.setPhoto(model.getPhoto());
-        storyModel.setUserName(model.getUserName());
-        storyModel.setUsernameSet(model.getUsernameSet());
-
-        return storyModel;
     }
 
     @Override
