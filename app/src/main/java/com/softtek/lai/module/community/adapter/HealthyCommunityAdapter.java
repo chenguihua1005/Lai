@@ -264,7 +264,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             public void onClick(View v) {
                 context.startActivity(new Intent(context, PersionalActivity.class));
             }
-        });
+        }); //测试
         String[] imgs = model.getImgCollection().split(",");
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < imgs.length; i++) {
