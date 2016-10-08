@@ -19,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -114,7 +113,6 @@ public class HealthyFragment extends LazyBaseFragment{
     @Override
     protected void initDatas() {
         int px=DisplayUtil.dip2px(getContext(),300);
-        Log.i("图片尺寸"+px);
         //*************************
         imageFileSelector=new ImageFileSelector(getContext());
         imageFileSelector.setOutPutImageSize(px,px);
@@ -146,18 +144,12 @@ public class HealthyFragment extends LazyBaseFragment{
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
                 tab_content.setCurrentItem(0);
-                tab_content.setCurrentItem(1);
                 int size=fragments.size();
-                if(size>0){
-                    if(size==1){
-                        ((RecommendHealthyFragment)fragments.get(0)).updateList();
-                    }
-                    if(size>1){
-                        ((MineHealthyFragment)fragments.get(1)).updateList();
-                    }
+                if(size==1){
+                    ((RecommendHealthyFragment)fragments.get(0)).updateList();
                 }
-            }
 
+            }
         }
     }
 

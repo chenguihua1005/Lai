@@ -24,6 +24,7 @@
         android:checked="true"
         />
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_toRightOf="@id/civ_header_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,83 +42,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textStyle="bold"
             android:textSize="15sp"
             android:textColor="#666666"
             android:ellipsize="end"
             android:gravity="center|left"
             android:maxLines="2" />
-        <GridLayout
-            android:layout_marginTop="10dp"
+        <com.softtek.lai.module.mygrades.view.MyGridView
+            android:id="@+id/photos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_gravity="fill">
-
-            <ImageView
-                android:id="@+id/img_1"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_2"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_3"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_4"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                android:layout_marginTop="3dp" />
-            <ImageView
-                android:id="@+id/img_5"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_6"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_7"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_8"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_9"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-        </GridLayout>
+            android:numColumns="3"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:verticalSpacing="3dp"
+            android:columnWidth="79dp"
+            android:scrollbars="none"
+            android:stretchMode="none"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
