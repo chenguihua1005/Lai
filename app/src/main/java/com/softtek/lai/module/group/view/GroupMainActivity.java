@@ -358,7 +358,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 if(pull_sroll!=null)
                     pull_sroll.setRefreshing();
             }
-        }, 600);
+        }, 500);
     }
 
     @Override

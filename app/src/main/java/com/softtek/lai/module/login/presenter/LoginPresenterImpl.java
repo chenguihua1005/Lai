@@ -378,7 +378,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:

@@ -172,7 +172,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, START_STICKY, startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void startStepDetector() {
@@ -245,7 +245,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
@@ -271,7 +270,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");

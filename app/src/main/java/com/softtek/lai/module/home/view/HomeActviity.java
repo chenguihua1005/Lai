@@ -3,6 +3,7 @@ package com.softtek.lai.module.home.view;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.softtek.lai.widgets.SimpleButton;
@@ -150,9 +151,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-        super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
