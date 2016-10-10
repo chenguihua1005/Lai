@@ -138,8 +138,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-        if (String.valueOf(Constants.VR).equals(userroles)) {
+        UserModel userModel=UserInfoModel.getInstance().getUser();
+        if (userModel==null||String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);

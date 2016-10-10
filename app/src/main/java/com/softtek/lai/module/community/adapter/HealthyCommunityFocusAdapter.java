@@ -3,8 +3,6 @@ package com.softtek.lai.module.community.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -23,6 +21,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -43,6 +42,7 @@ import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ import zilla.libcore.util.Util;
 /**
  * Created by John on 2016/4/14.
  */
-public class HealthyCommunityAdapter extends BaseAdapter {
+public class HealthyCommunityFocusAdapter extends BaseAdapter {
 
     private Context context;
     private Fragment fragment;
@@ -67,7 +67,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
     private static final int LIST_JUMP_2 = 2;
 
 
-    public HealthyCommunityAdapter(Fragment fragment, Context context, List<HealthyCommunityModel> lossWeightStoryModels) {
+    public HealthyCommunityFocusAdapter(Fragment fragment, Context context, List<HealthyCommunityModel> lossWeightStoryModels) {
         this.fragment = fragment;
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
@@ -128,102 +128,43 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 "年" + DateUtil.getInstance().getMonth(date) +
                 "月" + DateUtil.getInstance().getDay(date) + "日");
         holder.tv_zan_name.setText(model.getUsernameSet());
-        boolean isMine=Long.parseLong(model.getAccountId()) == UserInfoModel.getInstance().getUserId();
-        //如果是自己的则隐藏关注按钮
-        if(isMine){
-            holder.cb_focus.setVisibility(View.GONE);
-        }else {
-            holder.cb_focus.setVisibility(View.VISIBLE);
-            //看一下是否被关注了
-            if (model.getIsFocus() == 0) {
-                holder.cb_focus.setChecked(false);
-            } else {
-                holder.cb_focus.setChecked(true);
-            }
-            holder.cb_focus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checkVr()) {
-                        holder.cb_focus.setChecked(false);
-                    } else {
-                        if (holder.cb_focus.isChecked()) {
-                            service.focusAccount(UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(model.getAccountId()),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if(responseData.getStatus()!=502){
-                                                model.setIsFocus(1);
-                                                for (int i=0,j=lossWeightStoryModels.size();i<j;i++){
-                                                    HealthyCommunityModel item = lossWeightStoryModels.get(i);
-                                                    if(item.getAccountId().equals(model.getAccountId())){
-                                                        item.setIsFocus(1);
-                                                    }
-                                                }
-                                                notifyDataSetChanged();
-                                            }
-                                            Util.toastMsg(responseData.getMsg());
-                                        }
-                                    });
-                        } else {
-                            service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(model.getAccountId()),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if(responseData.getStatus()!=502){
-                                                for (int i=0,j=lossWeightStoryModels.size();i<j;i++){
-                                                    HealthyCommunityModel item = lossWeightStoryModels.get(i);
-                                                    if(item.getAccountId().equals(model.getAccountId())){
-                                                        item.setIsFocus(0);
-                                                    }
-                                                }
-                                                notifyDataSetChanged();
-                                            }
-                                            Util.toastMsg(responseData.getMsg());
-                                        }
-                                    });
+        //关注
+        holder.cb_focus.setVisibility(View.VISIBLE);
+        //看一下是否被关注了
+        holder.cb_focus.setChecked(true);
+        holder.cb_focus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkVr()) {
+                    holder.cb_focus.setChecked(false);
+                } else {
+                    List<HealthyCommunityModel> models=new ArrayList<>();
+                    for (int i=0,j=lossWeightStoryModels.size();i<j;i++){
+                        HealthyCommunityModel item = lossWeightStoryModels.get(i);
+                        if(item.getAccountId().equals(model.getAccountId())){
+                            models.add(item);
                         }
                     }
+                    for(HealthyCommunityModel item:models){
+                        lossWeightStoryModels.remove(item);
+                    }
+                    notifyDataSetChanged();
+                    EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId()));
+                    service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            Long.parseLong(model.getAccountId()),
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                }
+                            });
                 }
-            });
-        }
-        //删除按钮
+            }
+        });
+        //删除按钮隐藏
+        holder.tv_delete.setVisibility(View.GONE);
         //如果不是自己的or是减重日志
         holder.cb_zan.setText(model.getPraiseNum());
-        if ( !isMine|| "1".equals(model.getMinetype())) {
-            holder.tv_delete.setVisibility(View.GONE);//隐藏删除按钮
-        } else {//否则显示删除按钮
-            holder.tv_delete.setVisibility(View.VISIBLE);
-            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
-                                            new RequestCallback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-                                                    if (responseData.getStatus() == 200) {
-                                                        lossWeightStoryModels.remove(model);
-                                                        notifyDataSetChanged();
-                                                    }
-                                                }
-                                            });
-                                }
-                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).create().show();
-                }
-            });
-
-        }
         //点赞
         //如果没有人点赞就隐藏点咱人姓名显示
         if (!"0".equals(model.getPraiseNum())) {
@@ -312,6 +253,8 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             });
 
         }
+
+
         //加载图片
         String path = AddressManager.get("photoHost");
         Picasso.with(context).load(path + model.getPhoto()).fit()
@@ -319,10 +262,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent personal=new Intent(context, PersionalActivity.class);
-                personal.putExtra("isFocus",model.getIsFocus());
-                personal.putExtra("personalId",model.getAccountId());
-                context.startActivity(personal);
+                context.startActivity(new Intent(context, PersionalActivity.class));
             }
         });
         String[] imgs = model.getImgCollection().split(",");

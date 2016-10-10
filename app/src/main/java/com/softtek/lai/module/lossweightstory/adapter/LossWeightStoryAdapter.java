@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -27,6 +28,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -144,21 +146,31 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }else{
             Picasso.with(context).load(R.drawable.img_default).into(holder.civ_header_image);
         }
-        ArrayList<String> list=new ArrayList<>();
+        final ArrayList<String> list=new ArrayList<>();
         String[] imgs=model.getImgCollection().split(",");
         for(int i=0;i<imgs.length;i++){
             list.add(imgs[i]);
         }
-        visitableOrGone(holder,list,path);
+        holder.photos.setAdapter(new PhotosAdapter(list, context));
+        holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Intent in=new Intent(context, PictureMoreActivity.class);
+                in.putStringArrayListExtra("images", list);
+                in.putExtra("position",position);
+                ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
+                ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
+            }
+        });
         return convertView;
     }
 
     static class ViewHolder{
         CircleImageView civ_header_image;
         TextView tv_name,tv_content,tv_date,tv_zan_name,tv_delete;
-        ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
         CheckBox cb_zan;
         LinearLayout ll_dianzan;
+        CustomGridView photos;
 
         public ViewHolder(View view){
             civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -166,187 +178,11 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             tv_content=(TextView)view.findViewById(R.id.tv_content);
             tv_date=(TextView)view.findViewById(R.id.tv_date);
             tv_zan_name=(TextView)view.findViewById(R.id.tv_zan_name);
-            img1= (ImageView) view.findViewById(R.id.img_1);
-            img2=(ImageView)view.findViewById(R.id.img_2);
-            img3=(ImageView)view.findViewById(R.id.img_3);
-            img4=(ImageView)view.findViewById(R.id.img_4);
-            img5=(ImageView)view.findViewById(R.id.img_5);
-            img6=(ImageView)view.findViewById(R.id.img_6);
-            img7=(ImageView)view.findViewById(R.id.img_7);
-            img8=(ImageView)view.findViewById(R.id.img_8);
-            img9= (ImageView) view.findViewById(R.id.img_9);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
             tv_delete= (TextView) view.findViewById(R.id.tv_delete);
             ll_dianzan= (LinearLayout) view.findViewById(R.id.ll_dianzan);
+            photos= (CustomGridView) view.findViewById(R.id.photos);
         }
 
-    }
-
-    private void visitableOrGone(ViewHolder holder,final ArrayList<String> imgs,String path) {
-        for (int i = 0; i < imgs.size(); i++) {
-            final String uri=imgs.get(i);
-            switch (i + 1) {
-                case 1:
-                    holder.img1.setVisibility(View.VISIBLE);
-                    holder.img2.setVisibility(View.GONE);
-                    holder.img3.setVisibility(View.GONE);
-                    holder.img4.setVisibility(View.GONE);
-                    holder.img5.setVisibility(View.GONE);
-                    holder.img6.setVisibility(View.GONE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,0);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img1);
-                    break;
-                case 2:
-                    holder.img2.setVisibility(View.VISIBLE);
-                    holder.img3.setVisibility(View.GONE);
-                    holder.img4.setVisibility(View.GONE);
-                    holder.img5.setVisibility(View.GONE);
-                    holder.img6.setVisibility(View.GONE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,1);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img2);
-                    break;
-                case 3:
-                    holder.img3.setVisibility(View.VISIBLE);
-                    holder.img4.setVisibility(View.GONE);
-                    holder.img5.setVisibility(View.GONE);
-                    holder.img6.setVisibility(View.GONE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img3.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,2);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img3);
-                    break;
-                case 4:
-                    holder.img4.setVisibility(View.VISIBLE);
-                    holder.img5.setVisibility(View.GONE);
-                    holder.img6.setVisibility(View.GONE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img4.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,3);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img4);
-                    break;
-                case 5:
-                    holder.img5.setVisibility(View.VISIBLE);
-                    holder.img6.setVisibility(View.GONE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img5.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,4);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img5);
-                    break;
-                case 6:
-                    holder.img6.setVisibility(View.VISIBLE);
-                    holder.img7.setVisibility(View.GONE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img6.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,5);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img6);
-                    break;
-                case 7:
-                    holder.img7.setVisibility(View.VISIBLE);
-                    holder.img8.setVisibility(View.GONE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img7.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,6);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img7);
-                    break;
-                case 8:
-                    holder.img8.setVisibility(View.VISIBLE);
-                    holder.img9.setVisibility(View.GONE);
-                    holder.img8.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,7);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img8);
-                    break;
-                case 9:
-                    holder.img9.setVisibility(View.VISIBLE);
-                    holder.img9.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            start(v,imgs,8);
-                        }
-                    });
-                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                            .placeholder(R.drawable.default_icon_square)
-                            .error(R.drawable.default_icon_square)
-                            .into(holder.img9);
-                    break;
-            }
-        }
-    }
-    private void start(View v,ArrayList<String> imgs,int position){
-        Intent in=new Intent(context, PictureMoreActivity.class);
-        in.putStringArrayListExtra("images", imgs);
-        in.putExtra("position",position);
-        ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeScaleUpAnimation(v,v.getWidth()/2,v.getHeight()/2,0,0);
-        ActivityCompat.startActivity((AppCompatActivity) context,in,optionsCompat.toBundle());
     }
 }

@@ -1,10 +1,6 @@
 package com.softtek.lai.module.community.view;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,18 +11,21 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.community.adapter.DynamicRecyclerViewAdapter;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.community.model.PersonalListModel;
+import com.softtek.lai.module.community.model.PersonalRecommendModel;
+import com.softtek.lai.module.community.presenter.CommunityManager;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.DividerItemDecoration;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_persional)
-public class PersionalActivity extends BaseActivity {
+public class PersionalActivity extends BaseActivity implements CommunityManager.CommunityManagerCallback<PersonalRecommendModel>{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -48,27 +47,99 @@ public class PersionalActivity extends BaseActivity {
     @InjectView(R.id.refresh)
     SwipeRefreshLayout refresh;
 
-    private List dynamics;
+    private List<PersonalListModel> dynamics;
     private DynamicRecyclerViewAdapter adapter;
+    private CommunityManager manager;
 
-
+    private int totalPage=0;
+    private int pageIndex=1;
+    long personalId=0;
+    private static final int LOADCOUNT=5;
+    private int lastVisitableItem;
+    private boolean isLoading=false;
     @Override
     protected void initViews() {
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         refresh.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageIndex=1;
+                manager.getHealthyMine(personalId,1);
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int count=adapter.getItemCount();
+                if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
+                    if(!isLoading){
+                        isLoading=true;
+                        //加载更多数据
+                        pageIndex++;
+                        manager.getHealthyMine(personalId,pageIndex);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager llm= (LinearLayoutManager) recyclerView.getLayoutManager();
+                lastVisitableItem=llm.findLastVisibleItemPosition();
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
         dynamics=new ArrayList();
-        for(int i=0;i<20;i++){
-            dynamics.add(i);
-        }
+        manager=new CommunityManager(this);
         adapter=new DynamicRecyclerViewAdapter(this,dynamics);
         recyclerView.setAdapter(adapter);
+        int isFocus=getIntent().getIntExtra("isFocus",0);
+        if(isFocus==0){
+            cb_attention.setChecked(false);
+        }else {
+            cb_attention.setChecked(true);
+        }
+        personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
+        refresh.setRefreshing(true);
+        manager.getHealthyMine(personalId,1);
+    }
+
+    @Override
+    public void getMineDynamic(PersonalRecommendModel model) {
+        refresh.setRefreshing(false);
+        //加载图片
+        String path = AddressManager.get("photoHost");
+        Picasso.with(this).load(path + model.getPhoto()).fit()
+                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(circleImageView);
+        tv_name.setText(model.getUserName());
+        totalPage=model.getTotalPage();
+        tv_dynamic_num.setText("共有");
+        tv_dynamic_num.append(String.valueOf(model.getHealthCount()));
+        tv_dynamic_num.append("条动态");
+        List<PersonalListModel> models=model.getHealthList();
+        if(models==null||models.isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
+        }
+        if(pageIndex==1){
+            dynamics.clear();
+        }
+        dynamics.addAll(models);
+        adapter.notifyDataSetChanged();
+
     }
 }

@@ -19,6 +19,7 @@ import com.softtek.lai.module.pastreview.adapter.HistoryHonorStarAdapter;
 import com.softtek.lai.module.pastreview.adapter.HistoryHonorYGJAdapter;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 import com.softtek.lai.module.pastreview.presenter.HistoryHonorListManager;
+import com.softtek.lai.widgets.CustomGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +41,16 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     TextView tv_title;
 
     @InjectView(R.id.historylist_star)
-    com.softtek.lai.module.mygrades.view.MyGridView historylist_star;
+    CustomGridView historylist_star;
 
     @InjectView(R.id.list_ygj)
-    com.softtek.lai.module.mygrades.view.MyGridView list_ygj;
+    CustomGridView list_ygj;
 
     @InjectView(R.id.list_jz)
-    com.softtek.lai.module.mygrades.view.MyGridView list_jz;
+    CustomGridView list_jz;
 
     @InjectView(R.id.list_fc)
-    com.softtek.lai.module.mygrades.view.MyGridView list_fc;
+    CustomGridView list_fc;
 
     @InjectView(R.id.view_jz)
     View view_jz;

@@ -14,6 +14,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -22,6 +23,8 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +67,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setEmptyView(img_mo_message);
@@ -88,10 +92,27 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
-        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels,accountId==-1?true:false,2);
+        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels);
         ptrlv.setAdapter(adapter);
 
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void refreshList(RefreshRecommedEvent event){
+        for (HealthyCommunityModel model:communityModels){
+            if(model.getAccountId().equals(event.getAccountId())){
+                model.setIsFocus(0);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private static final int LIST_JUMP=1;
     private static final int LIST_JUMP_2=2;
 
@@ -134,8 +155,8 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
     @Override
     public void getRecommendDynamic(HealthyRecommendModel model) {
         Log.i("推荐记录请求结束");
-        ptrlv.onRefreshComplete();
         try {
+            ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;
                 return;
@@ -155,7 +176,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
             }
             this.communityModels.addAll(models);
             adapter.notifyDataSetChanged();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

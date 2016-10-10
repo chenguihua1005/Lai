@@ -4,120 +4,74 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:padding="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="26dp"
     android:background="@color/white">
-    <TextView
-        android:id="@+id/tv_month"
+    <RelativeLayout
+        android:id="@+id/rl_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="#333333"
-        android:layout_marginBottom="4dp"
-        android:text="279月" />
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_month"
-        android:textSize="11sp"
-        android:textColor="#999999"
-        android:text="上午1：00"
-        />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="11sp"
+            android:text="27 1月"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_month"
+            android:layout_alignLeft="@id/tv_month"
+            android:layout_marginLeft="4dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="11sp"
+            android:text="上午9：30"
+            />
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_toRightOf="@id/tv_time"
+        android:layout_toRightOf="@id/rl_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="#333333" />
-        <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textStyle="bold"
             android:textSize="15sp"
             android:textColor="#666666"
-            android:ellipsize="end"
-            android:gravity="center|left"
-            android:maxLines="2" />
-        <GridLayout
-            android:layout_marginTop="10dp"
+            android:gravity="center|left" />
+        <com.softtek.lai.widgets.CustomGridView
+            android:id="@+id/photos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_gravity="fill">
-
-            <ImageView
-                android:id="@+id/img_1"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_2"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_3"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_4"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                android:layout_marginTop="3dp" />
-            <ImageView
-                android:id="@+id/img_5"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_6"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_7"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_8"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-            <ImageView
-                android:id="@+id/img_9"
-                android:layout_height="79dp"
-                android:layout_width="79dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="3dp"
-                android:visibility="gone" />
-        </GridLayout>
+            android:numColumns="3"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:verticalSpacing="3dp"
+            android:columnWidth="79dp"
+            android:layout_marginTop="5dp"
+            android:scrollbars="none"
+            android:stretchMode="none"/>
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="13sp"
+            android:text="删除"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/tv_date"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/textview_blue"
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>

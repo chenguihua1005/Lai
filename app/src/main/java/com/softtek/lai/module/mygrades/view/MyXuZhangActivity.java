@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -18,6 +17,7 @@ import com.softtek.lai.module.mygrades.adapter.XuZhangAdapter;
 import com.softtek.lai.module.mygrades.adapter.XuZhangNullAdapter;
 import com.softtek.lai.module.mygrades.model.XunZhangModel;
 import com.softtek.lai.module.mygrades.presenter.XunZhangListManager;
+import com.softtek.lai.widgets.CustomGridView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,24 +34,20 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.scroll_content)
-    ScrollView scroll_content;
     @InjectView(R.id.tv_huode)
     TextView tv_huode;
     @InjectView(R.id.grid_view1)
-    GridView grid_view1;
+    CustomGridView grid_view1;
     @InjectView(R.id.grid_view2)
-    GridView grid_view2;
+    CustomGridView grid_view2;
 
     XuZhangAdapter xuZhangAdapter;
     XuZhangNullAdapter xuZhangNullAdapter;
     XunZhangListManager xunZhangListManager;
-    List<Integer> images = new ArrayList<Integer>();
-    List<Integer> images1 = new ArrayList<Integer>();
-    List<String> content = new ArrayList<String>();
-    List<String> content1 = new ArrayList<String>();
-    private List<XunZhangModel> xunZhangModelList = new ArrayList<XunZhangModel>();
-    private List<XunZhangModel> xunZhangModelList1 = new ArrayList<XunZhangModel>();
+    List<Integer> images = new ArrayList<>();
+    List<Integer> images1 = new ArrayList<>();
+    List<String> content = new ArrayList<>();
+    List<String> content1 = new ArrayList<>();
 
 
     @Override
@@ -297,74 +293,74 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 
     }
 
-    private class ImageAdapter extends BaseAdapter {
-        private Context mContext;
-
-        public ImageAdapter(Context context) {
-            this.mContext = context;
-        }
-
-        @Override
-        public int getCount() {
-            return mThumbIds.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mThumbIds[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            //定义一个ImageView,显示在GridView里
-            ImageView imageView;
-            if (convertView == null) {
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
-            } else {
-                imageView = (ImageView) convertView;
-            }
-            imageView.setImageResource(mThumbIds[position]);
-
-            return imageView;
-        }
-
-
-    }
+//    private class ImageAdapter extends BaseAdapter {
+//        private Context mContext;
+//
+//        public ImageAdapter(Context context) {
+//            this.mContext = context;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mThumbIds.length;
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return mThumbIds[position];
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            // TODO Auto-generated method stub
+//            return 0;
+//        }
+//
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            //定义一个ImageView,显示在GridView里
+//            ImageView imageView;
+//            if (convertView == null) {
+//                imageView = new ImageView(mContext);
+//                imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                imageView.setPadding(8, 8, 8, 8);
+//            } else {
+//                imageView = (ImageView) convertView;
+//            }
+//            imageView.setImageResource(mThumbIds[position]);
+//
+//            return imageView;
+//        }
+//
+//
+//    }
 
     //展示图片
-    private Integer[] mThumbIds = {
-            R.drawable.three, R.drawable.senven,
-            R.drawable.twenty_one, R.drawable.thirty,
-            R.drawable.ten, R.drawable.one_hundred,
-            R.drawable.hundred_day, R.drawable.fifty,
-            R.drawable.day200, R.drawable.wan200,
-            R.drawable.day365, R.drawable.wan500,
-            R.drawable.three, R.drawable.senven,
-            R.drawable.twenty_one, R.drawable.thirty,
-            R.drawable.ten, R.drawable.one_hundred,
-            R.drawable.hundred_day, R.drawable.fifty,
-            R.drawable.day200, R.drawable.wan200,
-            R.drawable.three, R.drawable.senven,
-            R.drawable.twenty_one, R.drawable.thirty,
-            R.drawable.ten, R.drawable.one_hundred,
-            R.drawable.hundred_day, R.drawable.fifty,
-            R.drawable.day200, R.drawable.wan200,
-            R.drawable.day365, R.drawable.wan500,
-            R.drawable.three, R.drawable.senven,
-            R.drawable.twenty_one, R.drawable.thirty,
-            R.drawable.ten, R.drawable.one_hundred,
-            R.drawable.hundred_day, R.drawable.fifty,
-            R.drawable.day200, R.drawable.wan200
-    };
+//    private Integer[] mThumbIds = {
+//            R.drawable.three, R.drawable.senven,
+//            R.drawable.twenty_one, R.drawable.thirty,
+//            R.drawable.ten, R.drawable.one_hundred,
+//            R.drawable.hundred_day, R.drawable.fifty,
+//            R.drawable.day200, R.drawable.wan200,
+//            R.drawable.day365, R.drawable.wan500,
+//            R.drawable.three, R.drawable.senven,
+//            R.drawable.twenty_one, R.drawable.thirty,
+//            R.drawable.ten, R.drawable.one_hundred,
+//            R.drawable.hundred_day, R.drawable.fifty,
+//            R.drawable.day200, R.drawable.wan200,
+//            R.drawable.three, R.drawable.senven,
+//            R.drawable.twenty_one, R.drawable.thirty,
+//            R.drawable.ten, R.drawable.one_hundred,
+//            R.drawable.hundred_day, R.drawable.fifty,
+//            R.drawable.day200, R.drawable.wan200,
+//            R.drawable.day365, R.drawable.wan500,
+//            R.drawable.three, R.drawable.senven,
+//            R.drawable.twenty_one, R.drawable.thirty,
+//            R.drawable.ten, R.drawable.one_hundred,
+//            R.drawable.hundred_day, R.drawable.fifty,
+//            R.drawable.day200, R.drawable.wan200
+//    };
 
 }
