@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
 import com.softtek.lai.premission.Role;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.file.SharedPreferenceService;
 
 /**
@@ -33,10 +31,9 @@ public class UserInfoModel {
     private String token=null;
     private ACache aCache;
     private Role role;
-    private Context context;
+    private boolean isVr=true;
 
     private UserInfoModel(Context context){
-        this.context=context;
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
         token=SharedPreferenceService.getInstance().get(Constants.TOKEN, "");
         //载入权限数据
@@ -86,6 +83,7 @@ public class UserInfoModel {
 //        set.setAlias("");
 //        set.setStyleBasic();
         MobclickAgent.onProfileSignOff();
+        isVr=true;
     }
     public long getUserId(){
         return SharedPreferenceService.getInstance().get(USER_ID,0L);
@@ -96,7 +94,7 @@ public class UserInfoModel {
      * @return
      */
     public void saveUserCache(UserModel user){
-        //存入内存
+        //存入文件
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
         setUser(user);
         setToken(user.getToken());
@@ -105,12 +103,14 @@ public class UserInfoModel {
         aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         MobclickAgent.onProfileSignIn(user.getUserid());
+        isVr=false;
     }
 
     /**
      * 游客登录
      */
     public void visitorLogin(){
+        isVr=true;
         setToken("");
         user=new UserModel();
         user.setUserrole(String.valueOf(Constants.VR));
@@ -128,6 +128,7 @@ public class UserInfoModel {
         //存储本地
         aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
+        SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
     }
 
     /**
@@ -216,5 +217,7 @@ public class UserInfoModel {
         return role;
     }
 
-
+    public boolean isVr() {
+        return isVr;
+    }
 }

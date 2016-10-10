@@ -16,7 +16,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -25,6 +27,8 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_mine_healthy)
-public class MineHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback,View.OnClickListener{
+public class MineHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -49,7 +53,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     ImageView img_mo_message;
 
     private CommunityManager community;
-    private HealthyCommunityAdapter adapter;
+    private HealthyCommunityFocusAdapter adapter;
     private List<HealthyCommunityModel> communityModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
@@ -58,7 +62,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     @Override
     protected void lazyLoad() {
         if(isLogin){
-            new Handler().post(new Runnable() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     if(ptrlv!=null) {
@@ -71,6 +75,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
@@ -84,14 +89,32 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 //        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
         endLabelsr.setRefreshingLabel("正在刷新数据中");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe
+    public void refreshList(DeleteFocusEvent event){
+        List<HealthyCommunityModel> models=new ArrayList<>();
+        for (int i=0,j=communityModels.size();i<j;i++){
+            HealthyCommunityModel item = communityModels.get(i);
+            if(item.getAccountId().equals(event.getAccountId())){
+                models.add(item);
+            }
+        }
+        communityModels.removeAll(models);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void initDatas() {
         community=new CommunityManager(this);
         //加载数据适配器
-        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels,false,1);
+        adapter=new HealthyCommunityFocusAdapter(this,getContext(),communityModels);
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
         //判断token是否为空
@@ -116,14 +139,14 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         //获取健康我的动态
         Log.i("加载健康圈我的动态");
         pageIndex=1;
-        community.getHealthyMine(1);
+        community.getHealthyFocus(1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if(pageIndex<=totalPage){
-            community.getHealthyMine(pageIndex);
+            community.getHealthyFocus(pageIndex);
         }else{
             pageIndex--;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -143,8 +166,8 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
-        ptrlv.onRefreshComplete();
         try {
+            ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;
                 return;
@@ -165,7 +188,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 
             this.communityModels.addAll(models);
             adapter.notifyDataSetChanged();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -180,19 +203,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
                 startActivity(toLoginIntent);
                 break;
         }
-    }
-
-    public  void updateList(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                    pageIndex=1;
-                    community.getHealthyMine(1);
-                }
-            }
-        }, 300);
     }
 
     @Override
@@ -220,4 +230,5 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
             }
         }
     }
+
 }

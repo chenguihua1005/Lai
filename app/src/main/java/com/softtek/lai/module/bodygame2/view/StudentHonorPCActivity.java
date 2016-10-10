@@ -24,6 +24,7 @@ import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
+import com.softtek.lai.widgets.CustomGridView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,16 +53,16 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
     TextView tv_title;
 
     @InjectView(R.id.historylist_star)
-    com.softtek.lai.module.mygrades.view.MyGridView historylist_star;
+    CustomGridView historylist_star;
 
     @InjectView(R.id.list_ygj)
-    com.softtek.lai.module.mygrades.view.MyGridView list_ygj;
+    CustomGridView list_ygj;
 
     @InjectView(R.id.list_jz)
-    com.softtek.lai.module.mygrades.view.MyGridView list_jz;
+    CustomGridView list_jz;
 
     @InjectView(R.id.list_fc)
-    com.softtek.lai.module.mygrades.view.MyGridView list_fc;
+    CustomGridView list_fc;
 
     @InjectView(R.id.view_jz)
     View view_jz;

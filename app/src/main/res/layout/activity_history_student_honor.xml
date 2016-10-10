@@ -34,7 +34,7 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.module.mygrades.view.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/list_jz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <com.softtek.lai.module.mygrades.view.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/list_fc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -89,7 +89,7 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.module.mygrades.view.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/list_ygj"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -119,7 +119,7 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.module.mygrades.view.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     android:id="@+id/historylist_star"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

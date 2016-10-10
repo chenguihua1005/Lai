@@ -38,7 +38,7 @@
                     android:layout_marginTop="23dp"
                     android:layout_marginBottom="16dp"/>
             </LinearLayout>
-        <com.softtek.lai.module.mygrades.view.MyGridView
+        <com.softtek.lai.widgets.CustomGridView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/grid_view1"
             android:layout_width="fill_parent"
@@ -50,10 +50,7 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:layout_marginBottom="10dp"
-            tools:listitem="@layout/listitem_my_xuzhang"
-            >
-
-        </com.softtek.lai.module.mygrades.view.MyGridView>
+            tools:listitem="@layout/listitem_my_xuzhang" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -79,7 +76,7 @@
                         android:layout_marginTop="23dp"
                         android:layout_marginBottom="16dp"/>
                 </LinearLayout>
-                <com.softtek.lai.module.mygrades.view.MyGridView
+                <com.softtek.lai.widgets.CustomGridView
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/grid_view2"
                     android:layout_width="fill_parent"
@@ -91,9 +88,7 @@
                     android:stretchMode="columnWidth"
                     android:gravity="center"
 
-                    >
-
-                </com.softtek.lai.module.mygrades.view.MyGridView>
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
