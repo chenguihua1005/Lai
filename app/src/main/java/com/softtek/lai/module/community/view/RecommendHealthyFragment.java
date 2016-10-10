@@ -154,7 +154,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
 
     @Override
     public void getRecommendDynamic(HealthyRecommendModel model) {
-        Log.i("推荐记录请求结束");
         try {
             ptrlv.onRefreshComplete();
             if(model==null){

@@ -190,31 +190,35 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
 
     @Override
     public void getMineDynamic(PersonalRecommendModel model) {
-        if(isLoading==true){
-            isLoading=false;
-            adapter.notifyItemRemoved(adapter.getItemCount());
-        }else {
-            refresh.setRefreshing(false);
+        try {
+            if(isLoading==true){
+                isLoading=false;
+                adapter.notifyItemRemoved(adapter.getItemCount());
+            }else {
+                refresh.setRefreshing(false);
+            }
+            //加载图片
+            String path = AddressManager.get("photoHost");
+            Picasso.with(this).load(path + model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(circleImageView);
+            tv_name.setText(model.getUserName());
+            totalPage=model.getTotalPage();
+            tv_dynamic_num.setText("共有");
+            tv_dynamic_num.append(String.valueOf(model.getHealthCount()));
+            tv_dynamic_num.append("条动态");
+            List<PersonalListModel> models=model.getHealthList();
+            if(models==null||models.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                dynamics.clear();
+            }
+            dynamics.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //加载图片
-        String path = AddressManager.get("photoHost");
-        Picasso.with(this).load(path + model.getPhoto()).fit()
-                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(circleImageView);
-        tv_name.setText(model.getUserName());
-        totalPage=model.getTotalPage();
-        tv_dynamic_num.setText("共有");
-        tv_dynamic_num.append(String.valueOf(model.getHealthCount()));
-        tv_dynamic_num.append("条动态");
-        List<PersonalListModel> models=model.getHealthList();
-        if(models==null||models.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            dynamics.clear();
-        }
-        dynamics.addAll(models);
-        adapter.notifyDataSetChanged();
 
     }
 }
