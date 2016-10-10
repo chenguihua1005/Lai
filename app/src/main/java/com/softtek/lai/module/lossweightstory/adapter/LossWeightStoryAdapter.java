@@ -49,12 +49,10 @@ public class LossWeightStoryAdapter extends BaseAdapter{
     private Context context;
     private List<LossWeightStoryModel> lossWeightStoryModels;
     private LossWeightLogService service;
-    private int px;
     public LossWeightStoryAdapter(Context context, List<LossWeightStoryModel> lossWeightStoryModels) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
-        px= DisplayUtil.dip2px(context,79);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item,parent,false);
+            convertView= LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item1,parent,false);
             holder=new ViewHolder(convertView);
             convertView.setTag(holder);
         }else{

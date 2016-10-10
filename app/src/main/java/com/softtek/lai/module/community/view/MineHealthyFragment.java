@@ -17,6 +17,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -25,6 +27,8 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +75,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
@@ -86,7 +91,24 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
 
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
 
+    @Subscribe
+    public void refreshList(DeleteFocusEvent event){
+        List<HealthyCommunityModel> models=new ArrayList<>();
+        for (int i=0,j=communityModels.size();i<j;i++){
+            HealthyCommunityModel item = communityModels.get(i);
+            if(item.getAccountId().equals(event.getAccountId())){
+                models.add(item);
+            }
+        }
+        communityModels.removeAll(models);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void initDatas() {

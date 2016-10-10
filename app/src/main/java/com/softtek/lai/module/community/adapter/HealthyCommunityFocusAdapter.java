@@ -51,7 +51,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/14.
@@ -145,11 +144,9 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                             models.add(item);
                         }
                     }
-                    for(HealthyCommunityModel item:models){
-                        lossWeightStoryModels.remove(item);
-                    }
+                    lossWeightStoryModels.removeAll(models);
                     notifyDataSetChanged();
-                    EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId()));
+                    EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId(),0));
                     service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                             UserInfoModel.getInstance().getUserId(),
                             Long.parseLong(model.getAccountId()),
@@ -262,7 +259,11 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, PersionalActivity.class));
+                Intent personal=new Intent(context, PersionalActivity.class);
+                personal.putExtra("isFocus",model.getIsFocus());
+                personal.putExtra("personalId",model.getAccountId());
+                personal.putExtra("personalName",model.getUserName());
+                context.startActivity(personal);
             }
         });
         String[] imgs = model.getImgCollection().split(",");

@@ -137,6 +137,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
+        registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);
         UserModel userModel=UserInfoModel.getInstance().getUser();
         if (userModel==null||String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
@@ -187,6 +189,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
+        homeInfoPresenter = new HomeInfoImpl(getContext());
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
@@ -243,19 +246,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-        homeInfoPresenter = new HomeInfoImpl(getContext());
-        registerMessageReceiver();
-    }
-
-    @Override
-    public void onDestroy() {
+    public void onDestroyView() {
+        super.onDestroyView();
         getContext().unregisterReceiver(mMessageReceiver);
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
+
 
     @Override
     protected void lazyLoad() {
@@ -382,15 +378,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         });
     }
 
-//    @Override
-//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//        if(verticalOffset>=0){
-//            pull.setEnabled(true);
-//        }else {
-//            pull.setEnabled(false);
-//        }
-//    }
-
     @Override
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
@@ -462,27 +449,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
-//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-//                    if (isLogin) {
-//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                        ChatUserModel chatUserModel = new ChatUserModel();
-//                        chatUserModel.setUserName(model.getNickname());
-//                        chatUserModel.setUserPhone(path + model.getPhoto());
-//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-//                                EMChatManager.getInstance().loadAllConversations();
-//                            }
-//                        }).start();
-//                        // 进入主页面
-//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        loginPresenter.getEMChatAccount(progressDialog);
-//                    }
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

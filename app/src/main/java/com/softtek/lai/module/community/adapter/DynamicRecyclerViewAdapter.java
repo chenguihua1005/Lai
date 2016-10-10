@@ -66,7 +66,6 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         return null;
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //绑定数据
@@ -74,19 +73,41 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             PersonalListModel model=infos.get(position);
             ((ViewHolder) holder).tv_content.setText(model.getContent());
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
-            Log.i("日期==="+dates[0]+":"+dates[1]+":"+dates[2]+":"+dates[3]+":"+dates[4]+":"+dates[5]+":"+dates[6]);
             if(position==0){//第一条
                 ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
                 ((ViewHolder) holder).tv_month.setText(getString(dates[2]+""+dates[1]+"月",18,11,2));
+                if(position+1<infos.size()){
+                    PersonalListModel next=infos.get(position+1);
+                    int[] ndates=DateUtil.getInstance().getDates(next.getCreateDate());
+                    if(dates[1]==ndates[1]&&dates[2]==ndates[2]){//下一条和当前是同一天
+                        ((ViewHolder) holder).tv_time.setVisibility(View.VISIBLE);
+                    }else{
+                        ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
+                    }
+                }else {
+                    ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
+                }
             }else {
                 PersonalListModel previous=infos.get(position-1);
                 int[] pdates=DateUtil.getInstance().getDates(previous.getCreateDate());
                 //判断两条数据是否是同一天
                 if(dates[1]==pdates[1]&&dates[2]==pdates[2]){//同一天
                     ((ViewHolder) holder).tv_month.setVisibility(View.GONE);
+                    ((ViewHolder) holder).tv_time.setVisibility(View.VISIBLE);
                 }else {
                     ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
-                    ((ViewHolder) holder).tv_month.setText(getString(dates[2]+""+dates[1]+"月",18,11,2));
+                    ((ViewHolder) holder).tv_month.setText(getString(dates[2]+" "+dates[1]+"月",18,11,2));
+                    if(position+1<infos.size()){
+                        PersonalListModel next=infos.get(position+1);
+                        int[] ndates=DateUtil.getInstance().getDates(next.getCreateDate());
+                        if(dates[1]==ndates[1]&&dates[2]==ndates[2]){//下一条和当前是同一天
+                            ((ViewHolder) holder).tv_time.setVisibility(View.VISIBLE);
+                        }else{
+                            ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
+                        }
+                    }else {
+                        ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
+                    }
                 }
             }
             ((ViewHolder) holder).tv_time.setText(dates[6]==0?"上午":"下午");

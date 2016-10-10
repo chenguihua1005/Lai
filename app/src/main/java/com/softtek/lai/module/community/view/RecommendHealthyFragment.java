@@ -107,7 +107,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
     public void refreshList(RefreshRecommedEvent event){
         for (HealthyCommunityModel model:communityModels){
             if(model.getAccountId().equals(event.getAccountId())){
-                model.setIsFocus(0);
+                model.setIsFocus(event.getFocusStatus());
             }
         }
         adapter.notifyDataSetChanged();

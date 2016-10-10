@@ -3,8 +3,6 @@ package com.softtek.lai.module.community.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -23,6 +21,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -43,6 +43,7 @@ import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/14.
@@ -136,9 +136,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             holder.cb_focus.setVisibility(View.VISIBLE);
             //看一下是否被关注了
             if (model.getIsFocus() == 0) {
-                holder.cb_focus.setChecked(false);
+                holder.cb_focus.setChecked(false);//未关注
             } else {
-                holder.cb_focus.setChecked(true);
+                holder.cb_focus.setChecked(true);//已关注
             }
             holder.cb_focus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,44 +147,28 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         holder.cb_focus.setChecked(false);
                     } else {
                         if (holder.cb_focus.isChecked()) {
+                            EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId(),1));
                             service.focusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                     Long.parseLong(model.getAccountId()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
-                                            if(responseData.getStatus()!=502){
-                                                model.setIsFocus(1);
-                                                for (int i=0,j=lossWeightStoryModels.size();i<j;i++){
-                                                    HealthyCommunityModel item = lossWeightStoryModels.get(i);
-                                                    if(item.getAccountId().equals(model.getAccountId())){
-                                                        item.setIsFocus(1);
-                                                    }
-                                                }
-                                                notifyDataSetChanged();
-                                            }
-                                            Util.toastMsg(responseData.getMsg());
                                         }
                                     });
                         } else {
+                            EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId(),0));
+                            EventBus.getDefault().post(new DeleteFocusEvent(model.getAccountId()));
                             service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                     Long.parseLong(model.getAccountId()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
-                                            if(responseData.getStatus()!=502){
-                                                for (int i=0,j=lossWeightStoryModels.size();i<j;i++){
-                                                    HealthyCommunityModel item = lossWeightStoryModels.get(i);
-                                                    if(item.getAccountId().equals(model.getAccountId())){
-                                                        item.setIsFocus(0);
-                                                    }
-                                                }
-                                                notifyDataSetChanged();
-                                            }
-                                            Util.toastMsg(responseData.getMsg());
                                         }
                                     });
+
+
                         }
                     }
                 }
@@ -322,6 +306,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 Intent personal=new Intent(context, PersionalActivity.class);
                 personal.putExtra("isFocus",model.getIsFocus());
                 personal.putExtra("personalId",model.getAccountId());
+                personal.putExtra("personalName",model.getUserName());
                 context.startActivity(personal);
             }
         });

@@ -199,7 +199,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
         }
-        Log.i("启动计步器");
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));

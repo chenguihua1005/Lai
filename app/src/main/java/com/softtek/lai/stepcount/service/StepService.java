@@ -22,10 +22,8 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -46,7 +44,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener,TimeTickListener.OnTimeTick {
 
@@ -185,12 +182,14 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                 .getSystemService(SENSOR_SERVICE);
         PackageManager pm=getPackageManager();
         if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+            Log.i("自带传感器");
             stepCounterListener();
         }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
+            Log.i("模拟计步");
             stepAccelerometerListener();
-        }/*else{
-            Util.toastMsg("此手机不支持计步功能");
-        }*/
+        }else{
+            Log.i("无法计步");
+        }
 
     }
     private Sensor countSensor;

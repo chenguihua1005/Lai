@@ -1,6 +1,9 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,17 +13,28 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.DynamicRecyclerViewAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
+import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.CommunityManager;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -83,11 +97,17 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 super.onScrollStateChanged(recyclerView, newState);
                 int count=adapter.getItemCount();
                 if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
-                    if(!isLoading){
-                        isLoading=true;
-                        //加载更多数据
+
+                    if(!isLoading&&pageIndex<=totalPage){
                         pageIndex++;
-                        manager.getHealthyMine(personalId,pageIndex);
+                        if(pageIndex<=totalPage){
+                            isLoading=true;
+                            //加载更多数据
+                            manager.getHealthyMine(personalId,pageIndex);
+                        }else {
+                            pageIndex--;
+                            adapter.notifyItemRemoved(adapter.getItemCount());
+                        }
                     }
                 }
             }
@@ -107,12 +127,62 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         manager=new CommunityManager(this);
         adapter=new DynamicRecyclerViewAdapter(this,dynamics);
         recyclerView.setAdapter(adapter);
+        String userName=getIntent().getStringExtra("personalName");
+        tv_title.setText(userName);
+        tv_title.append("的动态");
         int isFocus=getIntent().getIntExtra("isFocus",0);
         if(isFocus==0){
             cb_attention.setChecked(false);
         }else {
             cb_attention.setChecked(true);
         }
+        cb_attention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(UserInfoModel.getInstance().isVr()){
+                    new AlertDialog.Builder(PersionalActivity.this).setMessage("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(PersionalActivity.this, LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }else {
+                    UserInfoModel infoModel = UserInfoModel.getInstance();
+                    if (cb_attention.isChecked()) {
+                        EventBus.getDefault().post(new RefreshRecommedEvent(personalId + "", 1));
+                        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                                .focusAccount(infoModel.getToken(),
+                                        infoModel.getUserId(),
+                                        personalId,
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                            }
+                                        });
+
+                    } else {
+                        EventBus.getDefault().post(new RefreshRecommedEvent(personalId + "", 0));
+                        EventBus.getDefault().post(new DeleteFocusEvent(personalId+""));
+                        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                                .cancleFocusAccount(infoModel.getToken(),
+                                        infoModel.getUserId(),
+                                        personalId,
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                            }
+                                        });
+                    }
+                }
+            }
+        });
         personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
         refresh.setRefreshing(true);
         manager.getHealthyMine(personalId,1);
@@ -120,7 +190,12 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
 
     @Override
     public void getMineDynamic(PersonalRecommendModel model) {
-        refresh.setRefreshing(false);
+        if(isLoading==true){
+            isLoading=false;
+            adapter.notifyItemRemoved(adapter.getItemCount());
+        }else {
+            refresh.setRefreshing(false);
+        }
         //加载图片
         String path = AddressManager.get("photoHost");
         Picasso.with(this).load(path + model.getPhoto()).fit()
