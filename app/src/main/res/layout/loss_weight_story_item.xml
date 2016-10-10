@@ -21,7 +21,8 @@
         android:layout_alignLeft="@id/civ_header_image"
         android:layout_marginLeft="4dp"
         android:gravity="center"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        />
     <LinearLayout
         android:id="@+id/ll_content"
         android:layout_toRightOf="@id/civ_header_image"

@@ -123,6 +123,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
 
     @Override
     protected void initDatas() {
+
         dynamics=new ArrayList();
         manager=new CommunityManager(this);
         adapter=new DynamicRecyclerViewAdapter(this,dynamics);
@@ -140,6 +141,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             @Override
             public void onClick(View v) {
                 if(UserInfoModel.getInstance().isVr()){
+                    cb_attention.setChecked(false);
                     new AlertDialog.Builder(PersionalActivity.this).setMessage("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -184,6 +186,12 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             }
         });
         personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
+        if(personalId == UserInfoModel.getInstance().getUserId()){
+            cb_attention.setVisibility(View.GONE);
+        }else {
+            cb_attention.setVisibility(View.VISIBLE);
+        }
+
         refresh.setRefreshing(true);
         manager.getHealthyMine(personalId,1);
     }
