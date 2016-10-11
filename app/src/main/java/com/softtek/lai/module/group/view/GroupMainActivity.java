@@ -282,7 +282,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
-        //iv_left.setImageResource(R.drawable.back_home);
+        iv_left.setImageResource(R.drawable.back_home);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
