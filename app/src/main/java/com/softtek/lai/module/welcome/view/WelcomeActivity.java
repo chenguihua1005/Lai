@@ -4,6 +4,7 @@
  */
 package com.softtek.lai.module.welcome.view;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -64,8 +65,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initDatas() {
-
-        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+        if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
+            Log.i("武器 已经启动,关闭服务");
+            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+        }else {
+            Log.i("武器 没有启动");
+        }
         new Handler(Looper.getMainLooper()).postDelayed(this,1000);
 
     }
@@ -166,13 +171,35 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     }
 
     private void stepDeal(Context context, String userId, long step){
-        //获取当天的开始时间和结束时间
-        String dateStar=DateUtil.weeHours(0);
-        String dateEnd=DateUtil.weeHours(1);
-        List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        //List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        //StepUtil.getInstance().deleteOldDate(dateEnd);
+        //首先先关闭服务
+        //isServiceStarted(context.getApplicationContext(),StepService.class.getPackage().getName());
+        //LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+        //获取用户最新的步数
+        int currentStep=StepUtil.getInstance().getCurrentStep(userId);
         //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar);
-        if(!steps.isEmpty()){
+        StepUtil.getInstance().deleteDateByPersonal(userId);
+        if(step>currentStep){
+            //如果服务器上的步数大于本地
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            userStep.setStepCount(step);
+            StepUtil.getInstance().saveStep(userStep);
+        }else{
+            //如果本地大于服务器的
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            userStep.setStepCount(currentStep);
+            StepUtil.getInstance().saveStep(userStep);
+        }
+        //启动计步器服务
+        context.startService(new Intent(context.getApplicationContext(), StepService.class));
+        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
+
+        /*if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
             if(step>currentStep){
@@ -198,10 +225,24 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
-        }
-        //启动计步器服务
-        context.startService(new Intent(context.getApplicationContext(), StepService.class));
-        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
+        }*/
     }
-
+    public static  boolean isServiceStarted(Context context,String packageName){
+        boolean isStarted =false;
+        try{
+            ActivityManager mActivityManager =
+                    (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningServiceInfo> mRunningService =
+                    mActivityManager.getRunningServices(100);
+            for (ActivityManager.RunningServiceInfo amService : mRunningService){
+                if(amService.service.getClassName().toString().compareTo(packageName)==0){
+                    isStarted = true;
+                    break;
+                }
+            }
+        }catch(SecurityException e){
+            e.printStackTrace();
+        }
+        return isStarted;
+    }
 }

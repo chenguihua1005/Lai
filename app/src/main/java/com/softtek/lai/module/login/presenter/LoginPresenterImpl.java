@@ -40,7 +40,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import retrofit.Callback;
@@ -331,13 +330,31 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     private void stepDeal(Context context,String userId,long step){
-        String dateStar=DateUtil.weeHours(0);
-        String dateEnd=DateUtil.weeHours(1);
-        List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-
+        //List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        //StepUtil.getInstance().deleteOldDate(dateEnd);
+        //获取用户最新的步数
+        int currentStep=StepUtil.getInstance().getCurrentStep(userId);
         //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar);
-        if(!steps.isEmpty()){
+        StepUtil.getInstance().deleteDateByPersonal(userId);
+        if(step>currentStep){
+            //如果服务器上的步数大于本地
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            userStep.setStepCount(step);
+            StepUtil.getInstance().saveStep(userStep);
+        }else{
+            //如果本地大于服务器的
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            userStep.setStepCount(currentStep);
+            StepUtil.getInstance().saveStep(userStep);
+        }
+        //启动计步器服务
+        context.startService(new Intent(context.getApplicationContext(), StepService.class));
+        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
+        /*if(!steps.isEmpty()){
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount());
             if(step>currentStep){
@@ -348,13 +365,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
             }else{
-                //如果不大于则 不需要操作什么
+                //如果本地大于服务器的
                 UserStep userStep=new UserStep();
                 userStep.setAccountId(Long.parseLong(userId));
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(currentStep);
                 StepUtil.getInstance().saveStep(userStep);
             }
+            //如果不大于则 不需要操作什么
         }else{
             //本地没有数据则写入本地
             UserStep serverStep=new UserStep();
@@ -362,11 +380,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
             serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
-        }
-        //启动计步器服务
-        context.startService(new Intent(context.getApplicationContext(), StepService.class));
-        //启动守护服务
-        context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
+        }*/
     }
 
     @Override

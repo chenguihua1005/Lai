@@ -245,7 +245,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
@@ -271,7 +270,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
@@ -280,6 +278,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //如果firstStep为0表示第一次开启应用 或者隔天了。
         if(firstStep==0){
             firstStep=stepTemp-5;
+            firstStep=firstStep<0?0:firstStep;
             lastStep=0;
         }
         currentStep=stepTemp-firstStep;

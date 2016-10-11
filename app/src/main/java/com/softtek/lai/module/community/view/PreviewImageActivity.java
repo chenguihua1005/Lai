@@ -10,8 +10,11 @@ import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.DisplayUtil;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import uk.co.senab.photoview.PhotoView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_preview_image)
@@ -26,7 +29,7 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     FrameLayout fl_right;
 
     @InjectView(R.id.iv_image)
-    ImageView iv_image;
+    PhotoView iv_image;
     private int position;
 
     @Override
@@ -41,7 +44,10 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     protected void initDatas() {
         Uri uri=getIntent().getParcelableExtra("uri");
         position=getIntent().getIntExtra("position",0);
-        iv_image.setImageURI(uri);
+        Picasso.with(this).load(uri).resize(DisplayUtil.getMobileWidth(this),
+                DisplayUtil.getMobileHeight(this)+DisplayUtil.getStatusHeight(this)).centerInside()
+                .placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect)
+                .into(iv_image);
     }
 
     @Override

@@ -8,9 +8,7 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -258,7 +256,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     public void getNoticeMsg(String type, List<NoticeMsgModel> l) {
         dialogDissmiss();
         if ("true".equals(type)) {
-            noticeList = new ArrayList<SelectNoticeMsgModel>();
+            noticeList = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
                 SelectNoticeMsgModel m = new SelectNoticeMsgModel(false, l.get(i));
                 noticeList.add(m);
@@ -272,7 +270,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     public void getMeasureMsg(String type, List<NoticeMsgModel> l) {
         dialogDissmiss();
         if ("true".equals(type)) {
-            noticeList = new ArrayList<SelectNoticeMsgModel>();
+            noticeList = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
                 SelectNoticeMsgModel m = new SelectNoticeMsgModel(false, l.get(i));
                 noticeList.add(m);
@@ -287,7 +285,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         dialogDissmiss();
         if ("true".equals(type)) {
             operatList = l;
-            noticeList = new ArrayList<SelectNoticeMsgModel>();
+            noticeList = new ArrayList<>();
             for (int i = 0; i < operatList.size(); i++) {
                 OperateMsgModel op = l.get(i);
                 NoticeMsgModel m = new NoticeMsgModel(op.getMsgType(), op.getMsgId(), op.getContent(), op.getSendTime(), op.getIsRead());
@@ -307,9 +305,9 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     @Override
     public void deleteMsg(String type) {
         if ("true".equals(type)) {
-            List<SelectNoticeMsgModel> nList = new ArrayList<SelectNoticeMsgModel>();
+            List<SelectNoticeMsgModel> nList = new ArrayList<>();
             nList.addAll(noticeList);
-            List<OperateMsgModel> oList = new ArrayList<OperateMsgModel>();
+            List<OperateMsgModel> oList = new ArrayList<>();
             if ("xzs".equals(type)) {
                 oList.addAll(operatList);
             }

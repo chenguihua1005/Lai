@@ -383,7 +383,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 Intent inten=new Intent(this, HomeActviity.class);
                 startActivity(inten);
                 break;
-
             case R.id.fl_right:
             case R.id.iv_email:
                 startActivity(new Intent(this, MyInformationActivity.class));
