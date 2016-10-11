@@ -8,13 +8,15 @@
     android:orientation="vertical"
     tools:context="com.softtek.lai.module.community.view.PreviewImageActivity">
 
-    <include layout="@layout/toolbar" />
 
-    <ImageView
+    <uk.co.senab.photoview.PhotoView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerInside"/>
+        android:layout_centerInParent="true"
+        android:scaleType="centerInside"
+        />
 
+    <include layout="@layout/toolbar" />
 
 </RelativeLayout>

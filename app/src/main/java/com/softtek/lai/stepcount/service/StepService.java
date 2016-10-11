@@ -278,6 +278,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //如果firstStep为0表示第一次开启应用 或者隔天了。
         if(firstStep==0){
             firstStep=stepTemp-5;
+            firstStep=firstStep<0?0:firstStep;
             lastStep=0;
         }
         currentStep=stepTemp-firstStep;

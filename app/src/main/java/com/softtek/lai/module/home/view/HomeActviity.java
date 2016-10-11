@@ -1,6 +1,7 @@
 package com.softtek.lai.module.home.view;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -123,6 +124,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
         content.setCurrentItem(currentId, false);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void setChildProgress(int position, float progress) {

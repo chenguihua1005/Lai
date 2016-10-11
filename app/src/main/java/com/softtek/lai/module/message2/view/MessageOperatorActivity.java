@@ -16,14 +16,20 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
+import com.softtek.lai.module.message.view.JoinGameActivity;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -78,6 +84,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         ll_left.setOnClickListener(this);
         but_no.setOnClickListener(this);
@@ -185,10 +192,12 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     } else if ("2".equals(msg_type)) {
                         messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "1");
                     } else if ("3".equals(msg_type)) {
-                        Intent intent = new Intent(this, JoinGameDetailActivity.class);
-                        intent.putExtra("classId", model.getClassId());
-                        intent.putExtra("type", "1");
-                        startActivity(intent);
+                        dialogShow("加载中");
+                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
+//                        Intent intent = new Intent(this, JoinGameDetailActivity.class);
+//                        intent.putExtra("classId", model.getClassId());
+//                        intent.putExtra("type", "1");
+//                        startActivity(intent);
                     }
 
                 } else {
@@ -197,6 +206,21 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 break;
 
         }
+    }
+
+    @Subscribe
+    public void onEvent(CheckClassEvent event) {
+        dialogDissmiss();
+        Intent intent = new Intent(this, JoinGameDetailActivity.class);
+        intent.putExtra("classId", model.getClassId());
+        intent.putExtra("type", "1");
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

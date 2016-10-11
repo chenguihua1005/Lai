@@ -17,10 +17,13 @@ public class SoundHelper {
     private HashMap<String,Integer> soundMap;
     private SoundPool soundPool;
     private Context context;
+    private int index=0;
+    private int maxStream;
 
     //使用applicationContext
     public SoundHelper(Context context,int maxStreams) {
         this.context=context;
+        this.maxStream=maxStreams;
         soundMap=new HashMap<>();
         if(Build.VERSION.SDK_INT<21){
             soundPool=new SoundPool(maxStreams,AudioManager.STREAM_MUSIC,5);
@@ -43,8 +46,14 @@ public class SoundHelper {
 
     //添加音频
     public void addAudio(String name,int res){
+        index++;
+        if(index>maxStream){
+            throw new RuntimeException("超过了最大流数");
+        }
         if(soundPool!=null&&soundMap!=null){
             soundMap.put(name,soundPool.load(context,res,1));
+        }else {
+            index--;
         }
     }
 
