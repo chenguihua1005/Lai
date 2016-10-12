@@ -63,14 +63,14 @@
                 android:layout_toRightOf="@+id/img1"
                 android:text="@string/version_name"
                 android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize" />
+                android:textSize="@dimen/fragmentMineTextSize"
+                />
 
             <TextView
                 android:id="@+id/text_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_toLeftOf="@+id/img_3"
                 android:text="V1.0.0"
                 android:textSize="@dimen/fragmentMineTextSize" />
         </RelativeLayout>
