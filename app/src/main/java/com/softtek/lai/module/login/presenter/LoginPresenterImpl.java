@@ -10,11 +10,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -70,7 +73,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
         service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
             @Override
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
-                System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -257,8 +259,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
     @Override
     public void doLogin(final String userName, final String password, final ProgressDialog dialog,final TextView tv) {
-
-        service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
+        PackageManager pm= LaiApplication.getInstance().getPackageManager();
+        StringBuffer buffer=new StringBuffer();
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+            buffer.append("计步类型=SENSOR_STEP_COUNTER");
+        }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
+            buffer.append("计步类型=SENSOR_ACCELEROMETER");
+        }else{
+            buffer.append("计步类型=不支持");
+        }
+        service.doLogin(buffer.toString(),userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
                 if (dialog != null) dialog.dismiss();

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,7 +45,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.FileHelper;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
@@ -105,29 +103,34 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= getIntent().getParcelableExtra("log");
-        if(StringUtils.isNotEmpty(log.getPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default).into(civ_header_image);
-        }
-        tv_name.setText(log.getUserName());
-        tv_content.setText(log.getLogContent());
-        String date=log.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
-        tv_totle_lw.setText(log.getAfterWeight()+"斤");
-        cb_zan.setText(log.getPriase());
-        tv_zan_name.setText(log.getUsernameSet());
-        zanSet();
-        //拆分字符串图片列表,并添加到图片集合中
-        if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
-            String[] image=log.getImgCollection().split(",");
-            images.addAll(Arrays.asList(image));
+        if(log!=null){
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
+            }
+            tv_name.setText(log.getUserName());
+            tv_content.setText(log.getLogContent());
+            String date=log.getCreateDate();
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+            tv_totle_lw.setText(log.getAfterWeight()+"斤");
+            cb_zan.setText(log.getPriase());
+            tv_zan_name.setText(log.getUsernameSet());
+            zanSet();
+            //拆分字符串图片列表,并添加到图片集合中
+            if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
+                String[] image=log.getImgCollection().split(",");
+                images.addAll(Arrays.asList(image));
+            }
         }
         adapter=new LogDetailGridAdapter(this,images);
         cgv_list_image.setAdapter(adapter);
         dialogShow("加载中...");
-        manager.getLogDetail(Long.parseLong(log.getLossLogId()));
+        long logId=getIntent().getLongExtra("logId",0);
+        if(log!=null){
+            manager.getLogDetail(Long.parseLong(log.getLossLogId()));
+        }else {
+            manager.getLogDetail(logId);
+        }
     }
 
     @Override
@@ -135,7 +138,9 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         switch (v.getId()){
             case R.id.ll_left:
                 Intent i=getIntent();
-                i.putExtra("log",log);
+                if(log!=null){
+                    i.putExtra("log",log);
+                }
                 setResult(RESULT_OK,i);
                 finish();
                 break;
@@ -205,9 +210,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             tv_name.setText(log.getUserName());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();
-            tv_date.setText(DateUtil.getInstance().getYear(date)+
-                    "年"+DateUtil.getInstance().getMonth(date)+
-                    "月"+DateUtil.getInstance().getDay(date)+"日");
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
             tv_totle_lw.setText(log.getAfterWeight()+"斤");
             cb_zan.setText(log.getPriasenum());
             if(StringUtils.isNotEmpty(log.getUserNames())){
@@ -255,7 +258,9 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent i=getIntent();
-            i.putExtra("log",log);
+            if(log!=null){
+                i.putExtra("log",log);
+            }
             setResult(RESULT_OK,i);
             finish();
             return true;

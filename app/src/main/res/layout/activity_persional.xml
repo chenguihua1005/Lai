@@ -53,8 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:textColor="#333333"
-                    android:text="Lee"/>
+                    android:textColor="#333333" />
 
                 <TextView
                     android:id="@+id/tv_dynamic_num"
@@ -62,8 +61,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="9sp"
                     android:layout_marginTop="11dp"
-                    android:textColor="#999999"
-                    android:text="共有18条动态"/>
+                    android:textColor="#999999" />
             </LinearLayout>
 
         </RelativeLayout>

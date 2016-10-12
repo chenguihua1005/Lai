@@ -182,13 +182,10 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                 .getSystemService(SENSOR_SERVICE);
         PackageManager pm=getPackageManager();
         if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
-            Log.i("自带传感器");
             stepCounterListener();
         }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
-            Log.i("模拟计步");
             stepAccelerometerListener();
         }else{
-            Log.i("无法计步");
         }
 
     }
@@ -397,6 +394,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public void onTick(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes=calendar.get(Calendar.MINUTE);
+        Log.i("时间触发===="+hour+":"+minutes);
         if(hour==23&&minutes>=50&&minutes<=59){
             firstStep=0;
             lastStep=0;

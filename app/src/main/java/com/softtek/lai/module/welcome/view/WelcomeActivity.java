@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
@@ -93,7 +94,16 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 overridePendingTransition(R.anim.activity_enter,0);
             }else{
                 //登录
-                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(user, password, new Callback<ResponseData<UserModel>>() {
+                PackageManager pm= getPackageManager();
+                StringBuffer buffer=new StringBuffer();
+                if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+                    buffer.append("计步类型=SENSOR_STEP_COUNTER");
+                }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
+                    buffer.append("计步类型=SENSOR_ACCELEROMETER");
+                }else{
+                    buffer.append("计步类型=不支持");
+                }
+                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
                     @Override
                     public void success(ResponseData<UserModel> userModelResponseData, Response response) {
                         int status=userModelResponseData.getStatus();

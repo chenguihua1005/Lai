@@ -22,7 +22,12 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.module.community.model.HealthyCommunityModel;
+import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.PersonalListModel;
+import com.softtek.lai.module.community.view.HealthyDetailActivity;
+import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
+import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -70,7 +75,23 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //绑定数据
         if(holder instanceof ViewHolder){
-            PersonalListModel model=infos.get(position);
+            final PersonalListModel model=infos.get(position);
+            ((ViewHolder) holder).tv_content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if ("1".equals(model.getMinetype())) {//减重日志
+                        Intent logDetail = new Intent(context, LogStoryDetailActivity.class);
+                        logDetail.putExtra("type", "1");
+                        logDetail.putExtra("logId", Long.parseLong(model.getID()));
+                        context.startActivity(logDetail);
+                    } else if ("0".equals(model.getMinetype())) {//动态
+                        Intent logDetail = new Intent(context, HealthyDetailActivity.class);
+                        logDetail.putExtra("type", "1");
+                        logDetail.putExtra("logId", model.getID());
+                        context.startActivity(logDetail);
+                    }
+                }
+            });
             ((ViewHolder) holder).tv_content.setText(model.getContent());
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
             if(position==0){//第一条

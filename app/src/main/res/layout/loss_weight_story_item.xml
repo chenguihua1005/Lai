@@ -46,7 +46,7 @@
             android:textColor="#666666"
             android:ellipsize="end"
             android:gravity="center|left"
-            android:maxLines="2" />
+            android:maxLines="4" />
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/photos"
             android:layout_width="match_parent"

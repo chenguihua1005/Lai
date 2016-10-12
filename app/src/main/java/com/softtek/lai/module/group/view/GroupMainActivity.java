@@ -8,8 +8,10 @@ package com.softtek.lai.module.group.view;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,6 +19,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,6 +34,7 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -305,6 +309,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         lin_no_activity.setOnClickListener(this);
         userId = UserInfoModel.getInstance().getUserId()+"";
         bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
+        PackageManager pm= LaiApplication.getInstance().getPackageManager();
+        if(!(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)||pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER))){
+            new AlertDialog.Builder(this).setMessage("该手机不支持计步功能")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
+        }
     }
 
     @Override

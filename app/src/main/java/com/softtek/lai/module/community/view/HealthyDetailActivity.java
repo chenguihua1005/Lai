@@ -23,7 +23,6 @@ import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
@@ -94,34 +93,22 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         }
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
         model=getIntent().getParcelableExtra("dynamicModel");
-        if(StringUtils.isNotEmpty(model.getPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+model.getPhoto())
-                    .fit().error(R.drawable.img_default).into(header_image);
-        }
-        tv_name.setText(model.getUserName());
-        String date=model.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
-        tv_content.setText(model.getContent());
-        cb_zan.setText(model.getPraiseNum());
-        tv_zan_name.setText(model.getUsernameSet());
-//        if("".equals(UserInfoModel.getInstance().getToken())){
-//            cb_zan.setChecked(false);
-//            cb_zan.setEnabled(false);
-//        }else{
-//            if(Constants.HAS_ZAN.equals(model.getIsPraise())){
-//                cb_zan.setChecked(true);
-//                cb_zan.setEnabled(false);
-//            }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
-//                cb_zan.setChecked(false);
-//                cb_zan.setEnabled(true);
-//            }
-//        }
-        //拆分字符串图片列表,并添加到图片集合中
-        if(!"".equals(model.getImgCollection())&&null!=model.getImgCollection()){
-            String[] image=model.getImgCollection().split(",");
-            images.addAll(Arrays.asList(image));
+        if(model!=null){
+            if(StringUtils.isNotEmpty(model.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+model.getPhoto())
+                        .fit().error(R.drawable.img_default).into(header_image);
+            }
+            tv_name.setText(model.getUserName());
+            String date=model.getCreateDate();
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+            tv_content.setText(model.getContent());
+            cb_zan.setText(model.getPraiseNum());
+            tv_zan_name.setText(model.getUsernameSet());
+            //拆分字符串图片列表,并添加到图片集合中
+            if(!"".equals(model.getImgCollection())&&null!=model.getImgCollection()){
+                String[] image=model.getImgCollection().split(",");
+                images.addAll(Arrays.asList(image));
+            }
         }
         adapter=new LogDetailGridAdapter(this,images);
         list_image.setAdapter(adapter);
@@ -132,7 +119,13 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
-        service.getHealthyDynamciDetail(accountId, model.getHealtId(),
+        String healtId="";
+        if(model!=null){
+            healtId=model.getHealtId();
+        }else {
+            healtId=getIntent().getStringExtra("logId");
+        }
+        service.getHealthyDynamciDetail(accountId, healtId,
                 new RequestCallback<ResponseData<HealthyDynamicModel>>() {
                     @Override
                     public void success(ResponseData<HealthyDynamicModel> healthyDynamicModelResponseData, Response response) {
@@ -154,7 +147,9 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.ll_left:
                 Intent i=getIntent();
-                i.putExtra("dynamicModel",model);
+                if(model!=null){
+                    i.putExtra("dynamicModel",model);
+                }
                 setResult(RESULT_OK,i);
                 finish();
                 break;
@@ -216,9 +211,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         }
         cb_zan.setText(dynamicModel.getPraiseNum());
         String date=dynamicModel.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
+        tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
         if(StringUtils.isNotEmpty(dynamicModel.getUsernameSet())){
@@ -240,13 +233,21 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 cb_zan.setEnabled(true);
             }
         }
+        //拆分字符串图片列表,并添加到图片集合中
+        if(!"".equals(dynamicModel.getImgCollection())&&null!=dynamicModel.getImgCollection()){
+            String[] image=dynamicModel.getImgCollection().split(",");
+            images.addAll(Arrays.asList(image));
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent i=getIntent();
-            i.putExtra("dynamicModel",model);
+            if(model!=null){
+                i.putExtra("dynamicModel",model);
+            }
             setResult(RESULT_OK,i);
             finish();
             return true;

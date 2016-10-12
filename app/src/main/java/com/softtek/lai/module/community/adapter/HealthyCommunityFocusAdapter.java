@@ -124,9 +124,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
         String date = model.getCreateDate();
-        holder.tv_date.setText(DateUtil.getInstance().getYear(date) +
-                "年" + DateUtil.getInstance().getMonth(date) +
-                "月" + DateUtil.getInstance().getDay(date) + "日");
+        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
         holder.tv_zan_name.setText(model.getUsernameSet());
         //关注
         holder.cb_focus.setVisibility(View.VISIBLE);
