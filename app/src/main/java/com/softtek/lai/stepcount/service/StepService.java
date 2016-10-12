@@ -172,7 +172,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, START_STICKY, startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void startStepDetector() {
