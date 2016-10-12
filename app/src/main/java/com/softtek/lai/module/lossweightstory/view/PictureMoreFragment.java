@@ -219,7 +219,6 @@ public class PictureMoreFragment extends BaseFragment{
         if(cache!=null&&!cache.isRecycled()){
             cache.recycle();
         }
-        //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
                 .resize(DisplayUtil.getMobileWidth(getContext()),
                         DisplayUtil.getMobileHeight(getContext())+DisplayUtil.getStatusHeight(getActivity())).centerInside()

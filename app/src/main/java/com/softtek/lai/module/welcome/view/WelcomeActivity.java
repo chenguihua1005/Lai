@@ -66,10 +66,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     @Override
     protected void initDatas() {
         if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
-            Log.i("武器 已经启动,关闭服务");
             LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-        }else {
-            Log.i("武器 没有启动");
         }
         new Handler(Looper.getMainLooper()).postDelayed(this,1000);
 

@@ -1,11 +1,11 @@
 package com.softtek.lai.module.community.view;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
@@ -23,8 +23,6 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.iv_email)
-    ImageView iv_delete;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
@@ -32,12 +30,15 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     PhotoView iv_image;
     private int position;
 
+
     @Override
     protected void initViews() {
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        iv_delete.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.delete));
-
+        if(DisplayUtil.getSDKInt()>=Build.VERSION_CODES.KITKAT){//大于等于API19
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     @Override
