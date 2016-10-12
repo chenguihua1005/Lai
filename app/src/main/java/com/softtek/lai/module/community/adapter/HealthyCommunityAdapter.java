@@ -23,6 +23,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -239,6 +240,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                 model.setIsPraise(Constants.HAS_ZAN);
                                 model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
                                         infoModel.getUser().getMobile()));
+                                if(model.getIsFocus()!=0){
+                                    EventBus.getDefault().post(new ZanEvent(model.getID(),true,1));
+                                }
                                 //向服务器提交
                                 String token = infoModel.getToken();
                                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getID()),
@@ -268,6 +272,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                 model.setIsPraise(Constants.HAS_ZAN);
                                 model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
                                         infoModel.getUser().getMobile()));
+                                if(model.getIsFocus()!=0){
+                                    EventBus.getDefault().post(new ZanEvent(model.getID(),true,1));
+                                }
                                 //向服务器提交
                                 service1.clickLike(UserInfoModel.getInstance().getToken(),
                                         Long.parseLong(infoModel.getUser().getUserid()), Long.parseLong(model.getID()),

@@ -16,15 +16,17 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.CommunityManager;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
+import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -108,6 +110,23 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         }
         communityModels.removeAll(models);
         adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void refreshListZan(ZanEvent event){
+        if(event.getWhere()==1){
+            for (HealthyCommunityModel model:communityModels){
+                if(model.getID().equals(event.getDynamicId())){
+                    model.setIsPraise(Constants.HAS_ZAN);
+                    model.setPraiseNum(String.valueOf(Integer.parseInt(model.getPraiseNum()) + 1));
+                    UserInfoModel infoModel = UserInfoModel.getInstance();
+                    model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
+                            infoModel.getUser().getMobile()));
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
