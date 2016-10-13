@@ -13,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -79,9 +78,10 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     List<String> images=new ArrayList<>();
 
     private LossWeightLogService service;
-    private LossWeightStoryModel log;
     private LogDetailGridAdapter adapter;
     private LogStoryDetailManager manager;
+    private LossWeightStoryModel log;
+    private LogStoryDetailModel logDetail;
 
     @Override
     protected void initViews() {
@@ -145,7 +145,6 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.cb_zan:
-                Log.i("dfdsfsdf",UserInfoModel.getInstance().getUser().getUserid());
                 if (TextUtils.isEmpty(UserInfoModel.getInstance().getToken()))
                 {
                     cb_zan.setChecked(false);
@@ -165,36 +164,38 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                     }).create().show();
                 }
                 else {
-                    ll_zan.setVisibility(View.VISIBLE);
-                    final UserInfoModel infoModel = UserInfoModel.getInstance();
-                    log.setPriase(Integer.parseInt(log.getPriase()) + 1 + "");
-                    log.setIsClicked(Constants.HAS_ZAN);
-                    log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
-                    cb_zan.setText(log.getPriase());
-                    tv_zan_name.setText(log.getUsernameSet());
-                    zanSet();
-                    //向服务器提交
-                    UserModel info = UserInfoModel.getInstance().getUser();
-                    service.clickLike(UserInfoModel.getInstance().getToken(),
-                            Long.parseLong(info.getUserid()), Long.parseLong(log.getLossLogId()),
-                            new RequestCallback<ResponseData<Zan>>() {
-                                @Override
-                                public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                }
+                    if(logDetail!=null){
+                        ll_zan.setVisibility(View.VISIBLE);
+                        final UserInfoModel infoModel = UserInfoModel.getInstance();
+                        logDetail.setPriasenum(Integer.parseInt(logDetail.getPriasenum()) + 1 + "");
+                        logDetail.setIfpriasenum(Constants.HAS_ZAN);
+                        logDetail.setUserNames(StringUtil.appendDotAll(logDetail.getUserNames(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
+                        cb_zan.setText(logDetail.getPriasenum());
+                        tv_zan_name.setText(logDetail.getUserNames());
+                        zanSet();
+                        //向服务器提交
+                        UserModel info = UserInfoModel.getInstance().getUser();
+                        service.clickLike(UserInfoModel.getInstance().getToken(),
+                                Long.parseLong(info.getUserid()), Long.parseLong(logDetail.getLossLogId()),
+                                new RequestCallback<ResponseData<Zan>>() {
+                                    @Override
+                                    public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                    }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
-                                    int priase = Integer.parseInt(log.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(log.getPriase()) - 1;
-                                    log.setPriase(priase + "");
-                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                    log.setUsernameSet(del);
-                                    log.setIsClicked(Constants.NO_ZAN);
-                                    cb_zan.setText(priase + "");
-                                    tv_zan_name.setText(log.getUsernameSet());
-                                    zanSet();
-                                }
-                            });
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = Integer.parseInt(logDetail.getPriasenum()) - 1 < 0 ? 0 : Integer.parseInt(logDetail.getPriasenum()) - 1;
+                                        logDetail.setPriasenum(priase+"");
+                                        String del = StringUtils.removeEnd(StringUtils.removeEnd(logDetail.getUserNames(), infoModel.getUser().getNickname()), ",");
+                                        logDetail.setUserNames(del);
+                                        logDetail.setIfpriasenum(Constants.NO_ZAN);
+                                        cb_zan.setText(priase + "");
+                                        tv_zan_name.setText(logDetail.getUserNames());
+                                        zanSet();
+                                    }
+                                });
+                    }
                 }
                 break;
         }
@@ -207,6 +208,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             if(log==null){
                 return;
             }
+            this.logDetail=log;
             tv_name.setText(log.getUserName());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();
@@ -225,6 +227,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
                 cb_zan.setChecked(false);
                 cb_zan.setEnabled(true);
+            }
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
+            }else {
+                Picasso.with(this).load(R.drawable.img_default).into(civ_header_image);
             }
             //拆分字符串图片列表,并添加到图片集合中
             if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){

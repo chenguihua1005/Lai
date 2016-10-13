@@ -174,32 +174,35 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                     }).create().show();
                 }
                 else {
-                    ll_zan.setVisibility(View.VISIBLE);
-                    cb_zan.setChecked(true);
-                    cb_zan.setEnabled(false);
-                    model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                    model.setIsPraise(Constants.HAS_ZAN);
-                    model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
-                    setValue(model);
-                    //向服务器提交
-                    String token = infoModel.getToken();
-                    service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getHealtId()),
-                            new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-                                }
+                    if(model!=null){
+                        ll_zan.setVisibility(View.VISIBLE);
+                        cb_zan.setChecked(true);
+                        cb_zan.setEnabled(false);
+                        model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                        model.setIsPraise(Constants.HAS_ZAN);
+                        model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
+                        setValue(model);
+                        //向服务器提交
+                        String token = infoModel.getToken();
+                        service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getHealtId()),
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                    }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
-                                    int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                    model.setPraiseNum(priase + "");
-                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                    model.setUsernameSet(del);
-                                    model.setIsPraise(Constants.NO_ZAN);
-                                    setValue(model);
-                                }
-                            });
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                        model.setPraiseNum(priase + "");
+                                        String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
+                                        model.setUsernameSet(del);
+                                        model.setIsPraise(Constants.NO_ZAN);
+                                        setValue(model);
+                                    }
+                                });
+
+                    }
                 }
                 break;
         }
@@ -209,6 +212,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         if(dynamicModel==null){
             return;
         }
+        this.model=dynamicModel;
         cb_zan.setText(dynamicModel.getPraiseNum());
         String date=dynamicModel.getCreateDate();
         tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
@@ -233,9 +237,16 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 cb_zan.setEnabled(true);
             }
         }
+        if(StringUtils.isNotEmpty(model.getPhoto())){
+            Picasso.with(this).load(AddressManager.get("photoHost")+model.getPhoto())
+                    .fit().error(R.drawable.img_default).into(header_image);
+        }else {
+            Picasso.with(this).load(R.drawable.img_default).into(header_image);
+        }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(dynamicModel.getImgCollection())&&null!=dynamicModel.getImgCollection()){
             String[] image=dynamicModel.getImgCollection().split(",");
+            images.clear();
             images.addAll(Arrays.asList(image));
         }
         adapter.notifyDataSetChanged();

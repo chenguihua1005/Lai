@@ -819,7 +819,8 @@
         <activity
             android:name=".module.home.view.ArticalDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.PersionalActivity"></activity>
+        <activity android:name=".module.community.view.PersionalActivity" />
+        <activity android:name=".widgets.TestActivity"></activity>
     </application>
 
 </manifest>
