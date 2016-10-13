@@ -22,7 +22,6 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.JoinGameActivity;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
@@ -32,8 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -43,9 +40,6 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.activity_message_operator)
 public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener, MessageMainManager.OperatorCallBack {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -85,7 +79,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         ll_left.setOnClickListener(this);
         but_no.setOnClickListener(this);
         but_yes.setOnClickListener(this);
@@ -99,7 +92,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initDatas() {
         model = (OperateMsgModel) getIntent().getSerializableExtra("model");
-        System.out.println("model:" + model);
         assistantPresenter = new AssistantImpl(this);
         messagePresenter = new MessageImpl(this);
         text_value.setText(model.getContent());
@@ -194,10 +186,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     } else if ("3".equals(msg_type)) {
                         dialogShow("加载中");
                         messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
-//                        Intent intent = new Intent(this, JoinGameDetailActivity.class);
-//                        intent.putExtra("classId", model.getClassId());
-//                        intent.putExtra("type", "1");
-//                        startActivity(intent);
                     }
 
                 } else {

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.SystemBarTintManager;
@@ -71,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //有盟统计
         MobclickAgent.setDebugMode(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
-
+        Log.i("当前界面名称="+getClass().getSimpleName());
 
     }
 

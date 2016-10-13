@@ -255,7 +255,7 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         if ("1".equals(acceptType)) {
                             Intent intent = new Intent(context, BodyGameSRActivity.class);
-                            intent.putExtra("type", "0");
+                            intent.putExtra("type", 0);
                             context.startActivity(intent);
                         } else {
                             Intent intent = context.getIntent();
