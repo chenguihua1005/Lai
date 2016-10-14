@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_horizontal">
+
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_sport"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_home"
+            app:pitchBitmap="@drawable/bg_rehome"
+            app:wx_alpha="true"
+            app:text="运动"
+            />
+            <com.softtek.lai.widgets.SimpleButton
+                android:id="@+id/btn_activity"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/bg_chat"
+                app:pitchBitmap="@drawable/bg_rechat"
+                app:wx_alpha="true"
+                app:text="活动"/>
+
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_challenge"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_contact"
+            app:pitchBitmap="@drawable/bg_recontact"
+            app:wx_alpha="true"
+            app:text="挑战"/>
+
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_mine"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_fuce"
+            app:pitchBitmap="@drawable/bg_refuce"
+            app:wx_alpha="true"
+            app:text="我的"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#c0c0c0"
+        android:layout_alignTop="@id/ll"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll">
+
+    </android.support.v4.view.ViewPager>
+    
+</RelativeLayout>

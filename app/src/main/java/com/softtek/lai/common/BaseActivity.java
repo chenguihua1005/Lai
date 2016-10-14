@@ -72,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //有盟统计
         MobclickAgent.setDebugMode(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
-        Log.i("当前界面名称="+getClass().getSimpleName());
+        Log.i("当前界面名称="+getClass().getCanonicalName());
 
     }
 
