@@ -5,7 +5,9 @@
 
 package com.softtek.lai.module.act.adapter;
 
-import android.util.Log;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.act.model.ActlistModel;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -26,24 +26,18 @@ import java.util.List;
 
 import zilla.libcore.file.AddressManager;
 
-/**
- * Created by jarvis.liu on 3/22/2016.
- */
 public class GroupListItemAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
+
     private List<ActlistModel> list;
 
-    private BaseActivity context;
-    private IAssistantPresenter assistantPresenter;
+    private Context context;
 
     /**
      * 构造函数
      */
-    public GroupListItemAdapter(BaseActivity context, List<ActlistModel> list) {
-        this.mInflater = LayoutInflater.from(context);
+    public GroupListItemAdapter(Context context, List<ActlistModel> list) {
         this.context = context;
         this.list = list;
-        Log.e("jarvis", list.toString());
     }
 
     @Override
@@ -69,7 +63,7 @@ public class GroupListItemAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.activity_group_main_activity_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_group_main_activity_item, parent,false);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_title = (TextView) convertView.findViewById(R.id.text_title);
@@ -86,26 +80,26 @@ public class GroupListItemAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ActlistModel actlistModel = list.get(position);
 
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(actlistModel.getActimg()) || "null".equals(actlistModel.getActimg()) || actlistModel.getActimg() == null) {
-            Picasso.with(context).load("111").fit().error(R.drawable.default_icon_rect).into(holder.img);
+        String path = AddressManager.get("photoHost");
+        if (TextUtils.isEmpty(actlistModel.getActimg())) {
+            Picasso.with(context).load(R.drawable.default_icon_rect).into(holder.img);
         } else {
             Picasso.with(context).load(path + actlistModel.getActimg()).error(R.drawable.default_icon_rect).into(holder.img);
         }
-        holder.text_title.setText(actlistModel.getActTitle().toString());
+        holder.text_title.setText(actlistModel.getActTitle());
         String status=actlistModel.getAcStatus();
         if("1".equals(status)){
             holder.text_state.setText("进行中");
             holder.img_state.setImageResource(R.drawable.img_activity_1);
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.editorText));
+            holder.text_state.setTextColor(ContextCompat.getColor(context,R.color.editorText));
         }else if("0".equals(status)){
             holder.text_state.setText("已结束");
             holder.img_state.setImageResource(R.drawable.img_activity_3);
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.word16));
+            holder.text_state.setTextColor(ContextCompat.getColor(context,R.color.word16));
         }else {
             holder.text_state.setText("未开始");
             holder.img_state.setImageResource(R.drawable.img_activity_2);
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.word15));
+            holder.text_state.setTextColor(ContextCompat.getColor(context,R.color.word15));
 
         }
         String type=actlistModel.getActiveType();
@@ -130,7 +124,9 @@ public class GroupListItemAdapter extends BaseAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.text_time.setText(start_time + " - " + end_time);
+        holder.text_time.setText(start_time);
+        holder.text_time.append("-");
+        holder.text_time.append(end_time);
         return convertView;
     }
 

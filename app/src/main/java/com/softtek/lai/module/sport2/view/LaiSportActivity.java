@@ -42,7 +42,7 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
 
     private List<Fragment> fragments = new ArrayList<>();
     private int current = 0;
-
+    private boolean isClick = false;
     @Override
     protected void initViews() {
         MobclickAgent.openActivityDurationTrack(false);
@@ -57,6 +57,28 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new SportMineFragment());
         content.setOffscreenPageLimit(3);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
+        content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (!isClick) {
+                    setChildProgress(position, 1 - positionOffset);
+                    setChildProgress(position + 1, positionOffset);
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //页面切换了
+                isClick = false;
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                current = state;
+            }
+        });
         //设置第一个fragment
         int type = getIntent().getIntExtra("type", 0);
         current = type;
@@ -147,6 +169,23 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         }
         content.setCurrentItem(current, false);
 
+    }
+
+    private void setChildProgress(int position, float progress) {
+        switch (position) {
+            case 0:
+                btn_sport.setProgress(progress);
+                break;
+            case 1:
+                btn_activity.setProgress(progress);
+                break;
+            case 2:
+                btn_challenge.setProgress(progress);
+                break;
+            case 3:
+                btn_mine.setProgress(progress);
+                break;
+        }
     }
 
     private void restoreState() {

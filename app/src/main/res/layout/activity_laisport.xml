@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -10,7 +11,7 @@
         android:layout_height="53dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:background="#FAFAFA"
         android:gravity="center_horizontal">
 
         <com.softtek.lai.widgets.SimpleButton
@@ -55,11 +56,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#c0c0c0"
-        android:layout_alignTop="@id/ll"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/content"
         android:layout_width="match_parent"

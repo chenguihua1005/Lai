@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.group.view.GroupMainActivity;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 

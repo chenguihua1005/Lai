@@ -11,10 +11,10 @@ import com.softtek.lai.module.personalPK.model.PKObjRequest;
 import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.module.personalPK.net.PKService;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
-import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.personalPK.view.SearchActivity;
 import com.softtek.lai.module.personalPK.view.SelectOpponentActivity;
+import com.softtek.lai.module.sport2.view.PKListFragment;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class PKListManager {
         token= UserInfoModel.getInstance().getToken();
     }
 
-    public void getPKList(final PKListActivity activity, int pageIndex){
+    public void getPKList(final PKListFragment activity, int pageIndex){
         service.getPKList(
                 token,
                 pageIndex,

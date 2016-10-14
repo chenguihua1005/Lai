@@ -1,13 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.sport2.view.ActivityFragment">
+    android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <include layout="@layout/toolbar_laisport" />
+
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/act_list"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:text="活动" />
+        android:layout_below="@id/toolbar"
+        android:divider="#ececec"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrShowIndicator="false" />
 
-</FrameLayout>
+</RelativeLayout>

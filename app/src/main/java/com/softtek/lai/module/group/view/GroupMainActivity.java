@@ -53,7 +53,6 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
-import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.view.StartSportActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
@@ -418,7 +417,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.rel_my_pk://PK挑战列表
-                startActivity(new Intent(this, PKListActivity.class));
+                //startActivity(new Intent(this, PKListActivity.class));
                 break;
 
             case R.id.lin_pk://pk详情

@@ -1,13 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.sport2.view.PKListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f1f1f1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/toolbar_laisport"/>
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="PK" />
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:dividerHeight="0dp"
+        android:listSelector="@android:color/transparent"
+        app:ptrShowIndicator="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:id="@+id/ptrlv"
+        android:divider="#00f1f1f1"/>
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="50dp" />
+
+</RelativeLayout>

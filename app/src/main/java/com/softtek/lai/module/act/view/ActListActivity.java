@@ -127,7 +127,7 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
                     pageIndex--;
                 }
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

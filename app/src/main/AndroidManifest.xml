@@ -617,9 +617,6 @@
             android:name=".module.laisportmine.view.MyNewsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.personalPK.view.PKListActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.laisportmine.view.MyPublicwelfareActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -821,6 +818,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.community.view.PersionalActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.sport2.view.LaiSportActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -41,7 +41,6 @@ import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.net.StudentService;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -54,6 +53,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -440,7 +440,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
-                        startActivity(new Intent(getContext(), GroupMainActivity.class));
+                        //startActivity(new Intent(getContext(), GroupMainActivity.class));
+                        startActivity(new Intent(getContext(), LaiSportActivity.class));
                     }
                     MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;
