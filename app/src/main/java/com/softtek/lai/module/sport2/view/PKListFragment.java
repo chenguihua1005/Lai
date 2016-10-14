@@ -3,15 +3,10 @@ package com.softtek.lai.module.sport2.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,7 +24,6 @@ import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
-import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
