@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -30,6 +31,10 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.pull_sroll)
+    PullToRefreshScrollView pull_sroll;
+
 
     @Override
     protected void lazyLoad() {

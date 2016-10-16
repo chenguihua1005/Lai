@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/mytoolbar_green"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -113,7 +114,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="103dip"
+        android:layout_marginTop="90dip"
         android:text="0"
         android:textColor="@color/white"
         android:textSize="75sp" />
@@ -131,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_total_distance"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dip"
+        android:layout_marginTop="60dip"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -142,26 +143,13 @@
             android:layout_toLeftOf="@+id/view"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_total_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dip"
-                    android:text="小时"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                android:text="0小时"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -192,26 +180,13 @@
             android:layout_toRightOf="@+id/view"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_total_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_total_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dip"
-                    android:text="次"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                android:text="0次"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -225,45 +200,26 @@
                 android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rel_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.softtek.lai.widgets.RippleLayout
+        android:id="@+id/ripple"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dip">
-
-        <ImageView
-            android:id="@+id/img_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_start_sport_button" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rel_start1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dip">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_start_sport_button"
-            android:visibility="invisible" />
-
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/text_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:gravity="center"
             android:text="开始运动"
+            android:layout_gravity="center"
+            android:background="@drawable/img_start_sport_button"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize3" />
-    </RelativeLayout>
+            android:textSize="@dimen/textSize3"
+            android:visibility="visible"/>
+    </com.softtek.lai.widgets.RippleLayout>
+
 
     <RelativeLayout
         android:id="@+id/rel_djs"

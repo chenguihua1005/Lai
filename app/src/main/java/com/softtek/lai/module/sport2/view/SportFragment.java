@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.widgets.RippleLayout;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
@@ -85,16 +87,13 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     @InjectView(R.id.text_total_time)
     TextView text_total_time;
 
-    @InjectView(R.id.rel_start)
-    RelativeLayout rel_start;
-    @InjectView(R.id.rel_start1)
-    RelativeLayout rel_start1;
-
     @InjectView(R.id.rel_djs)
     RelativeLayout rel_djs;
 
     @InjectView(R.id.text_start)
     TextView text_start;
+    @InjectView(R.id.ripple)
+    RippleLayout ripple;
 
     @InjectView(R.id.text_djs)
     TextView text_djs;
@@ -140,12 +139,11 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     protected void initViews() {
         ll_left.setOnClickListener(this);
         text_total_distance.setOnClickListener(this);
-        rel_start.setOnClickListener(this);
-        rel_start1.setOnClickListener(this);
         ll_ll.setOnClickListener(this);
         tv_sport.setOnClickListener(this);
         ll_ll.setEnabled(false);
         tv_sport.setEnabled(false);
+        text_start.setOnClickListener(this);
         aMapLocationClient = new AMapLocationClient(getContext());
         aMapLocationClientOption = new AMapLocationClientOption();
         //初始化定位参数
@@ -186,6 +184,18 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
             //启动定位
             aMapLocationClient.startLocation();
         }
+        ripple.post(new Runnable() {
+            public void run() {
+                ripple.init(ripple.getWidth() / 2,//中心点x
+                        ripple.getHeight() / 2,//中心点y
+                        90,//波纹的初始半径
+                        Math.min(ripple.getWidth(), ripple.getHeight()) / 2 + 100,//波纹的结束半径
+                        900,//duration
+                        Color.GREEN,//颜色..
+                        9,//圆圈宽度
+                        new DecelerateInterpolator());//开始快,后来慢
+            }
+        });
     }
 
     SportManager manager;
@@ -327,7 +337,9 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                 }
                 getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
-            case R.id.rel_start1:
+            case R.id.text_start:
+                ripple.doRipple();
+                break;
             case R.id.rel_start:
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
@@ -468,7 +480,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
         sa.setDuration(400);
-        rel_start.startAnimation(sa);
+        //rel_start.startAnimation(sa);
         AlphaAnimation aa = new AlphaAnimation(1.0f, 0.0f);
         aa.setDuration(400);
         text_start.startAnimation(aa);
