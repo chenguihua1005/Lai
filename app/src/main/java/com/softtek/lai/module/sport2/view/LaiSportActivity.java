@@ -6,16 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPFragment;
-import com.softtek.lai.module.bodygame2.view.ChatFragment;
-import com.softtek.lai.module.bodygame2.view.ContactFragment;
-import com.softtek.lai.module.bodygame2.view.FuCeFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.widgets.NoSlidingViewPage;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
@@ -56,7 +50,7 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new ActivityFragment());
         fragments.add(new PKListFragment());
         fragments.add(new SportMineFragment());
-        content.setOffscreenPageLimit(2);
+        content.setOffscreenPageLimit(3);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

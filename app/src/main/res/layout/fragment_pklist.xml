@@ -20,20 +20,28 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never"
-        android:dividerHeight="0dp"
+        android:dividerHeight="5px"
         android:listSelector="@android:color/transparent"
         app:ptrShowIndicator="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:id="@+id/ptrlv"
-        android:divider="#00f1f1f1"/>
+        android:animateLayoutChanges="true"
+        android:divider="#f1f1f1"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/tv_sendpk"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="50dp" />
+        android:background="@drawable/floatingbtn"
+        android:text="发起PK"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="12sp"
+        />
 
 </RelativeLayout>

@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar_laisport" />
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:scaleType="fitXY"
@@ -146,7 +146,6 @@
                 android:id="@+id/text_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0小时"
                 android:textColor="@color/white"
                 android:textSize="40sp" />
 
@@ -183,7 +182,6 @@
                 android:id="@+id/text_total_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0次"
                 android:textColor="@color/white"
                 android:textSize="40sp" />
 

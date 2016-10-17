@@ -44,9 +44,9 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_step"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12,000"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -79,9 +79,9 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_calorie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="300大卡"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -97,6 +97,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/header_image"
@@ -115,11 +116,11 @@
 
 
             <TextView
+                android:id="@+id/tv_run_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:text="28次运动"
                 android:textColor="#FFA200"
                 android:textSize="15sp" />
 
@@ -333,7 +334,7 @@
                         android:layout_marginTop="5dp"
                         android:textSize="11sp"
                         android:textColor="#cccccc"
-                        android:text="您本周排名为第3名" />
+                        android:text="加油！挑战吧！" />
                 </RelativeLayout>
 
             </android.support.v7.widget.LinearLayoutCompat>
@@ -364,10 +365,9 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/text2"
+                    android:id="@+id/tv_juanzen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="您已向康宝莱公益基金会捐赠30元"
                     android:textColor="#424242"
                     android:textSize="15sp" />
 

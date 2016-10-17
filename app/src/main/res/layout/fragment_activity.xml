@@ -23,6 +23,7 @@
         android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
+        android:animateLayoutChanges="true"
         android:scrollbars="none"
         app:ptrShowIndicator="false" />
 

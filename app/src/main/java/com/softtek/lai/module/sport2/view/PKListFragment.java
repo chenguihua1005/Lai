@@ -1,17 +1,24 @@
 package com.softtek.lai.module.sport2.view;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -23,6 +30,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,15 +59,21 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
 
+    @InjectView(R.id.tv_sendpk)
+    TextView tv_sendpk;
+
     private PKListAdapter adapter;
     private List<PKListModel> models=new ArrayList<>();
     int pageIndex=1;
     int totalPage;
     private PKListManager manager;
-
+    AnimatorSet set=new AnimatorSet();
+    int lastVisibleItemPosition;//标记上次的显示位置
     @Override
     protected void initViews() {
         tv_title.setText("挑战");
+        set.setDuration(500);
+        tv_sendpk.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -71,10 +85,57 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         startLabelse.setReleaseLabel("松开立即刷新中");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-//        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
-        endLabelsr.setRefreshingLabel("正在刷新数据中");
-        endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        endLabelsr.setRefreshingLabel("正在加载数据中");
+        endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(lastVisibleItemPosition<firstVisibleItem){
+                    //上滑
+                    hiden();
+                }else if(lastVisibleItemPosition>firstVisibleItem){
+                    //下滑
+                    show();
+                }
+                lastVisibleItemPosition=firstVisibleItem;
+            }
+        });
+
+    }
+
+    private void hiden(){
+        if(!set.isRunning()&&tv_sendpk.getVisibility()==View.VISIBLE){
+            ObjectAnimator scaleX=ObjectAnimator.ofFloat(tv_sendpk,"scaleX",1.0f,0f);
+            ObjectAnimator scaleY=ObjectAnimator.ofFloat(tv_sendpk,"scaleY",1.0f,0f);
+            set.playTogether(scaleX,scaleY);
+            set.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    tv_sendpk.setVisibility(View.GONE);
+                }
+            });
+            set.start();
+        }
+    }
+    private void show(){
+        if(!set.isRunning()&&tv_sendpk.getVisibility()==View.GONE){
+            tv_sendpk.setVisibility(View.VISIBLE);
+            ObjectAnimator scaleX=ObjectAnimator.ofFloat(tv_sendpk,"scaleX",0f,1f);
+            ObjectAnimator scaleY=ObjectAnimator.ofFloat(tv_sendpk,"scaleY",0f,1f);
+            set.playTogether(scaleX,scaleY);
+            set.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    tv_sendpk.setVisibility(View.VISIBLE);
+                }
+            });
+            set.start();
+        }
     }
 
     @Override
@@ -100,7 +161,10 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
+                getActivity().startActivity(new Intent(getContext(), HomeActviity.class));
+                break;
+            case R.id.tv_sendpk:
+                startActivity(new Intent(getContext(), CreatePKActivity.class));
                 break;
         }
     }
