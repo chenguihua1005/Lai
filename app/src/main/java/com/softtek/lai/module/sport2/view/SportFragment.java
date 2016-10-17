@@ -12,25 +12,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Xml;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -59,8 +54,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -87,16 +80,11 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     @InjectView(R.id.text_total_time)
     TextView text_total_time;
 
-    @InjectView(R.id.rel_djs)
-    RelativeLayout rel_djs;
 
     @InjectView(R.id.text_start)
     TextView text_start;
     @InjectView(R.id.ripple)
     RippleLayout ripple;
-
-    @InjectView(R.id.text_djs)
-    TextView text_djs;
 
     //***********天气状况
     @InjectView(R.id.ll)
@@ -114,12 +102,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     TextView tv_air_quality1;
     @InjectView(R.id.iv_gps)
     ImageView iv_gps;
-    //***************
 
-    Timer timer;
-    int recLen;
-
-    TimerTask task;
 
     private AMapLocationClient aMapLocationClient;
     private AMapLocationClientOption aMapLocationClientOption;
@@ -188,14 +171,26 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
             public void run() {
                 ripple.init(ripple.getWidth() / 2,//中心点x
                         ripple.getHeight() / 2,//中心点y
-                        90,//波纹的初始半径
-                        Math.min(ripple.getWidth(), ripple.getHeight()) / 2 + 100,//波纹的结束半径
-                        900,//duration
-                        Color.GREEN,//颜色..
-                        9,//圆圈宽度
+                        text_start.getWidth()/2,//波纹的初始半径
+                        Math.min(ripple.getWidth(), ripple.getHeight()) / 2,//波纹的结束半径
+                        1500,//时常
+                        Color.parseColor("#D7F3BA"),//颜色
+                        10,//圆圈宽度
                         new DecelerateInterpolator());//开始快,后来慢
+
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     SportManager manager;
@@ -266,12 +261,6 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
 
     /**
      * 包裹字符串表示在字符串的某处用什么颜色替换
-     *
-     * @param sequence
-     * @param color
-     * @param start
-     * @param end
-     * @return
      */
     private SpannableString wrapperString(CharSequence sequence, int color, int start, int end) {
         SpannableString ss = new SpannableString(sequence);
@@ -332,15 +321,9 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                if (timer != null) {
-                    timer.cancel();
-                }
                 getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
             case R.id.text_start:
-                ripple.doRipple();
-                break;
-            case R.id.rel_start:
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
                     final ArrayList<SportModel> list = (ArrayList<SportModel>) SportUtil.getInstance().querySport(UserInfoModel.getInstance().getUserId() + "");
@@ -360,11 +343,11 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         SportUtil.getInstance().deleteSport();
-                                        startBigAnimal();
+                                        startActivity(new Intent(getContext(),CountDownActivity.class));
                                     }
                                 }).create().show();
                     } else {
-                        startBigAnimal();
+                        startActivity(new Intent(getContext(),CountDownActivity.class));
                     }
                 } else {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext())
@@ -475,110 +458,10 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    private void startBigAnimal() {
-        ScaleAnimation sa = new ScaleAnimation(1f, 10.0f, 1f, 10.0f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        sa.setDuration(400);
-        //rel_start.startAnimation(sa);
-        AlphaAnimation aa = new AlphaAnimation(1.0f, 0.0f);
-        aa.setDuration(400);
-        text_start.startAnimation(aa);
-        sa.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                startTimer();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
-    private void startTimer() {
-        rel_djs.setVisibility(View.VISIBLE);
-        timer = new Timer();
-        recLen = 3;
-        task = new TimerTask() {
-            @Override
-            public void run() {
-
-                getActivity().runOnUiThread(new Runnable() {      // UI thread
-                    @Override
-                    public void run() {
-                        if (recLen <= 0) {
-                            timer.cancel();
-                            startActivity(new Intent(getContext(), RunSportActivity.class));
-                            getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    rel_djs.setVisibility(View.GONE);
-                                }
-                            }, 500);
-                        } else {
-                            if (text_djs != null) {
-                                text_djs.setText(recLen + "");
-                            }
-                            startSacaleBigAnimation();
-                            recLen--;
-                        }
-                    }
-                });
-            }
-        };
-        timer.schedule(task, 0, 1000);
-    }
-
-    private void startSacaleBigAnimation() {
-        ScaleAnimation sa = new ScaleAnimation(0f, 1f, 0f, 1f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        sa.setDuration(300);
-        sa.setFillAfter(true);
-        text_djs.startAnimation(sa);
-        sa.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                ScaleAnimation sas = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
-                        ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                        ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-                sas.setDuration(700);
-                text_djs.startAnimation(sas);
-                AlphaAnimation aa = new AlphaAnimation(1.0f, 0.0f);
-                aa.setDuration(300);
-                AnimationSet set = new AnimationSet(true);
-                set.addAnimation(sas);
-                set.addAnimation(aa);
-                set.setFillAfter(true);
-                text_djs.startAnimation(set);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (timer != null) {
-            timer.cancel();
-        }
         aMapLocationClient.stopLocation();
     }
 
@@ -590,10 +473,18 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                 String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
                 if (text_total_distance != null)
                     text_total_distance.setText(km);
-                if (text_total_time != null)
+                if (text_total_time != null) {
                     text_total_time.setText(model.getTotalTime());
-                if (text_total_count != null)
+                    SpannableString ss=new SpannableString("小时");
+                    ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    text_total_time.append(ss);
+                }
+                if (text_total_count != null) {
                     text_total_count.setText(model.getCount());
+                    SpannableString ss=new SpannableString("次");
+                    ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    text_total_count.append(ss);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

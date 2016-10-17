@@ -394,7 +394,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public void onTick(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes=calendar.get(Calendar.MINUTE);
-        Log.i("时间触发===="+hour+":"+minutes);
         if(hour==23&&minutes>=50&&minutes<=59){
             firstStep=0;
             lastStep=0;

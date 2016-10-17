@@ -817,10 +817,13 @@
         <activity
             android:name=".module.home.view.ArticalDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.PersionalActivity"
+        <activity
+            android:name=".module.community.view.PersionalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.sport2.view.LaiSportActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.sport2.view.LaiSportActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.sport2.view.CountDownActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,7 +128,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         String date = model.getCreateDate();
         holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
         holder.tv_zan_name.setText(model.getUsernameSet());
-        boolean isMine=Long.parseLong(model.getAccountId()) == UserInfoModel.getInstance().getUserId();
+        boolean isMine=Long.parseLong(TextUtils.isEmpty(model.getAccountId())?"0":model.getAccountId()) == UserInfoModel.getInstance().getUserId();
         //如果是自己的则隐藏关注按钮
         if(isMine){
             holder.cb_focus.setVisibility(View.GONE);

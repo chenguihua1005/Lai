@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame2.view.BodyGameSPFragment;
@@ -55,7 +56,7 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new ActivityFragment());
         fragments.add(new PKListFragment());
         fragments.add(new SportMineFragment());
-        content.setOffscreenPageLimit(3);
+        content.setOffscreenPageLimit(2);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -71,12 +72,11 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
             public void onPageSelected(int position) {
                 //页面切换了
                 isClick = false;
-
+                current=position;
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                current = state;
             }
         });
         //设置第一个fragment
@@ -100,32 +100,6 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         }
         content.setCurrentItem(current, false);
 
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        int type = intent.getIntExtra("type", 0);
-        current = type;
-        if (content != null) {
-            restoreState();
-            switch (type) {
-                case 0:
-                    btn_sport.setProgress(1);
-                    break;
-                case 1:
-                    btn_activity.setProgress(1);
-                    break;
-                case 2:
-                    btn_challenge.setProgress(1);
-                    break;
-                case 3:
-                    btn_mine.setProgress(1);
-                    break;
-
-            }
-            content.setCurrentItem(current, false);
-        }
     }
 
 

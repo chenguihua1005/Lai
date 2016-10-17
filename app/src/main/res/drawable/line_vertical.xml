@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#F2F2F2" />
     <!--需要设置高度，否则不显示-->
-    <size android:width="1px" />
+    <size android:width="2px" />
 </shape>

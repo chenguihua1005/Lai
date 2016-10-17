@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
+import com.github.snowdream.android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -35,7 +37,7 @@ public class RippleLayout extends FrameLayout {
     private int mStrokeWidth;
     private Interpolator mInterpolator;
     private FrameLayout.LayoutParams childParams;
-    private boolean hasInit = false;
+    private boolean isStop=false;
 
 
     /*
@@ -67,8 +69,8 @@ public class RippleLayout extends FrameLayout {
         childParams = new FrameLayout.LayoutParams(toRadius * 2, toRadius * 2);
         childParams.topMargin = centerY - toRadius;
         childParams.leftMargin = centerX - toRadius;
-
-        hasInit = true;
+        isStop=false;
+        doRipple();
     }
 
     //让View复用的缓存list
@@ -78,9 +80,9 @@ public class RippleLayout extends FrameLayout {
      * 做波纹动画 , 要先init
      */
     public void doRipple() {
-        if (!hasInit)
+        if (isStop) {
             return;
-
+        }
         final OnceRippleView rView = cacheList.isEmpty() ? new OnceRippleView(getContext()) : cacheList.get(0);
         if (!cacheList.isEmpty())
             cacheList.remove(rView);
@@ -92,7 +94,13 @@ public class RippleLayout extends FrameLayout {
                 removeView(rView);
                 if (!cacheList.contains(rView))
                     cacheList.add(rView);
+                doRipple();
             }
         });
+    }
+
+    public void stopRipple(){
+        isStop=true;
+        cacheList.clear();
     }
 }

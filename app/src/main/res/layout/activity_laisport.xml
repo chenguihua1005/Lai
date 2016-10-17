@@ -19,8 +19,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_home"
-            app:pitchBitmap="@drawable/bg_rehome"
+            app:normalBitmap="@drawable/sport2_activity"
+            app:pitchBitmap="@drawable/sport2_activity_re"
             app:wx_alpha="true"
             app:text="运动"
             />
@@ -29,8 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                app:normalBitmap="@drawable/bg_chat"
-                app:pitchBitmap="@drawable/bg_rechat"
+                app:normalBitmap="@drawable/sport2_huodong"
+                app:pitchBitmap="@drawable/sport2_huodong_re"
                 app:wx_alpha="true"
                 app:text="活动"/>
 
@@ -39,8 +39,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_contact"
-            app:pitchBitmap="@drawable/bg_recontact"
+            app:normalBitmap="@drawable/sport2_navpk"
+            app:pitchBitmap="@drawable/sport2_navpk_re"
             app:wx_alpha="true"
             app:text="挑战"/>
 
@@ -49,8 +49,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_fuce"
-            app:pitchBitmap="@drawable/bg_refuce"
+            app:normalBitmap="@drawable/sport2_mine"
+            app:pitchBitmap="@drawable/sport2_mine_re"
             app:wx_alpha="true"
             app:text="我的"/>
 
