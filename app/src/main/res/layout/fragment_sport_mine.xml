@@ -223,6 +223,7 @@
                 app:showDividers="middle">
 
                 <RelativeLayout
+                    android:id="@+id/Re_xunzhang"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -250,6 +251,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/Re_myrunteam"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -284,6 +286,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/Re_news"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -311,6 +314,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/Re_personpk"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
