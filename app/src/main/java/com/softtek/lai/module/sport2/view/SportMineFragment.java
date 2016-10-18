@@ -22,6 +22,13 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.ranking.view.RankingActivity;
+import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
+import com.softtek.lai.module.laisportmine.view.MyNewsActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.message2.view.NoticeFC2Activity;
+import com.softtek.lai.module.mygrades.view.MyXuZhangActivity;
+import com.softtek.lai.module.personalPK.view.PKListMineActivity;
+import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
 import com.softtek.lai.utils.DateUtil;
@@ -75,6 +82,16 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     RelativeLayout rl_day_rank;
     @InjectView(R.id.rl_week_rank)
     RelativeLayout rl_week_rank;
+    @InjectView(R.id.Re_myrunteam)
+    RelativeLayout Re_myrunteam;
+    @InjectView(R.id.Re_xunzhang)
+    RelativeLayout Re_xunzhang;
+    @InjectView(R.id.Re_news)
+    RelativeLayout Re_news;
+    @InjectView(R.id.rl_dynamic)
+    RelativeLayout rl_dynamic;
+    @InjectView(R.id.Re_personpk)
+    RelativeLayout Re_personpk;
 
     SportManager manager;
 
@@ -91,6 +108,11 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        Re_myrunteam.setOnClickListener(this);
+        Re_xunzhang.setOnClickListener(this);
+        Re_news.setOnClickListener(this);
+        rl_dynamic.setOnClickListener(this);
+        Re_personpk.setOnClickListener(this);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ILoadingLayout startLabelse = pull_sroll.getLoadingLayoutProxy(true,false);
@@ -135,6 +157,25 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                 Intent weekRank=new Intent(getContext(), RankingActivity.class);
                 weekRank.putExtra("rank_type",RankingActivity.WEEK_RANKING);
                 startActivity(weekRank);
+            /*跳转跑团资料页*/
+            case R.id.Re_myrunteam:
+                getActivity().startActivity(new Intent(getActivity(), MyInformationActivity.class));
+                break;
+            /*跳转勋章页*/
+            case R.id.Re_xunzhang:
+                getActivity().startActivity(new Intent(getActivity(), MyXuZhangActivity.class));
+                break;
+            /*跳转消息页*/
+            case R.id.Re_news:
+                getActivity().startActivity(new Intent(getActivity(), Message2Activity.class));
+                break;
+            /*跳转运动历史页*/
+            case R.id.rl_dynamic:
+                getActivity().startActivity(new Intent(getActivity(), HistorySportListActivity.class));
+                break;
+            /*跳转我的pk列表页*/
+            case R.id.Re_personpk:
+                getActivity().startActivity(new Intent(getActivity(), PKListMineActivity.class));
                 break;
         }
     }

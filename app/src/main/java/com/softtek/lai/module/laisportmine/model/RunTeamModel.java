@@ -7,24 +7,22 @@ import java.io.Serializable;
  */
 public class RunTeamModel implements Serializable {
     private String RgName;
-    private String IsHasMsg;
-    private String IsHasAngelMsg;
-    private String IsHasActMsg;
-    private String IsHasChaMsg;
+    private String RgPhoto;
+    private String RgManager;
     private String RgNum;
-    private String IsHasSysMsg;
 
     @Override
     public String toString() {
         return "RunTeamModel{" +
                 "RgName='" + RgName + '\'' +
-                ", IsHasMsg='" + IsHasMsg + '\'' +
-                ", IsHasAngelMsg='" + IsHasAngelMsg + '\'' +
-                ", IsHasActMsg='" + IsHasActMsg + '\'' +
-                ", IsHasChaMsg='" + IsHasChaMsg + '\'' +
+                ", RgPhoto='" + RgPhoto + '\'' +
+                ", RgManager='" + RgManager + '\'' +
                 ", RgNum='" + RgNum + '\'' +
-                ", IsHasSysMsg='" + IsHasSysMsg + '\'' +
                 '}';
+    }
+
+    public RunTeamModel() {
+
     }
 
     public String getRgName() {
@@ -35,36 +33,20 @@ public class RunTeamModel implements Serializable {
         RgName = rgName;
     }
 
-    public String getIsHasMsg() {
-        return IsHasMsg;
+    public String getRgPhoto() {
+        return RgPhoto;
     }
 
-    public void setIsHasMsg(String isHasMsg) {
-        IsHasMsg = isHasMsg;
+    public void setRgPhoto(String rgPhoto) {
+        RgPhoto = rgPhoto;
     }
 
-    public String getIsHasAngelMsg() {
-        return IsHasAngelMsg;
+    public String getRgManager() {
+        return RgManager;
     }
 
-    public void setIsHasAngelMsg(String isHasAngelMsg) {
-        IsHasAngelMsg = isHasAngelMsg;
-    }
-
-    public String getIsHasActMsg() {
-        return IsHasActMsg;
-    }
-
-    public void setIsHasActMsg(String isHasActMsg) {
-        IsHasActMsg = isHasActMsg;
-    }
-
-    public String getIsHasChaMsg() {
-        return IsHasChaMsg;
-    }
-
-    public void setIsHasChaMsg(String isHasChaMsg) {
-        IsHasChaMsg = isHasChaMsg;
+    public void setRgManager(String rgManager) {
+        RgManager = rgManager;
     }
 
     public String getRgNum() {
@@ -74,17 +56,4 @@ public class RunTeamModel implements Serializable {
     public void setRgNum(String rgNum) {
         RgNum = rgNum;
     }
-
-    public String getIsHasSysMsg() {
-        return IsHasSysMsg;
-    }
-
-    public void setIsHasSysMsg(String isHasSysMsg) {
-        IsHasSysMsg = isHasSysMsg;
-    }
-
-    public RunTeamModel() {
-    }
-
-
 }
