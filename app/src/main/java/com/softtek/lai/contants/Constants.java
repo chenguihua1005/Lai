@@ -136,4 +136,5 @@ public class Constants {
     public static final int MESSAGE_PK=3;//PK通知
     public static final int GROUPMAIN_PK=4;//PK
 
+
 }

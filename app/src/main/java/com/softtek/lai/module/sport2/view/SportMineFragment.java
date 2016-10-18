@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
 import com.softtek.lai.utils.DateUtil;
@@ -69,6 +71,11 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.tv_juanzen)
     TextView tv_juanzen;
 
+    @InjectView(R.id.rl_day_rank)
+    RelativeLayout rl_day_rank;
+    @InjectView(R.id.rl_week_rank)
+    RelativeLayout rl_week_rank;
+
     SportManager manager;
 
     @Override
@@ -78,7 +85,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             public void run() {
                 pull_sroll.setRefreshing();
             }
-        }, 500);
+        }, 300);
     }
 
     @Override
@@ -94,6 +101,9 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据中");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+        rl_day_rank.setOnClickListener(this);
+        rl_week_rank.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +123,18 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         switch (v.getId()){
             case R.id.ll_left:
                 getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
+                break;
+            case R.id.rl_day_rank:
+                //日排名
+                Intent dayRank=new Intent(getContext(), RankingActivity.class);
+                dayRank.putExtra("rank_type",RankingActivity.DAY_RANKING);
+                startActivity(dayRank);
+                break;
+            case R.id.rl_week_rank:
+                //周排名
+                Intent weekRank=new Intent(getContext(), RankingActivity.class);
+                weekRank.putExtra("rank_type",RankingActivity.WEEK_RANKING);
+                startActivity(weekRank);
                 break;
         }
     }

@@ -824,7 +824,8 @@
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.sport2.view.CountDownActivity" />
-        <activity android:name=".module.sport2.view.TestActivity"></activity>
+        <activity android:name=".module.sport2.view.TestActivity" />
+        <activity android:name=".module.ranking.view.RankingActivity"></activity>
     </application>
 
 </manifest>
