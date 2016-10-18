@@ -1,9 +1,17 @@
 package com.softtek.lai.module.sport2.view;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -31,6 +39,7 @@ import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -41,7 +50,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_sport_mine)
 public class SportMineFragment extends LazyBaseFragment implements View.OnClickListener,
-        PullToRefreshScrollView.OnRefreshListener<ScrollView>,SportManager.SportManagerCallback{
+        PullToRefreshScrollView.OnRefreshListener<ScrollView>,SportManager.SportManagerCallback,Handler.Callback{
 
 
     public SportMineFragment() {
@@ -95,8 +104,84 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
 
     SportManager manager;
 
+    private static int currentStep;
+    private static int serverStep;
+    private static final int REQUEST_DELAY=3;
+    private Handler delayHandler=new Handler(this);
+    private static int deviation=0;
+    private Messenger clientMessenger;
+    //用来接收服务端发送过来的信息使用
+    private Messenger getReplyMessage=new Messenger(delayHandler);
+    @Override
+    public boolean handleMessage(Message msg) {
+        //在这里获取服务端发来的信息
+        switch (msg.what){
+            case StepService.MSG_FROM_SERVER:
+                //获取数据
+                Bundle data=msg.getData();
+                currentStep=data.getInt("todayStep",0);
+                serverStep=data.getInt("serverStep",0);
+                //更新显示
+                try {
+                    if (currentStep == 0) {
+                        tv_step.setText("0");
+                    } else {
+                        tv_step.setText(String.valueOf(currentStep));
+                        int kaluli = currentStep / 35;
+                        tv_calorie.setText(String.valueOf(kaluli));
+                        tv_calorie.append("大卡");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //延迟在一次向服务端请求
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                break;
+            case REQUEST_DELAY:
+                //继续向服务端发送请求获取数据
+                Message message = Message.obtain(null, StepService.MSG_FROM_CLIENT);
+                //携带服务器上的步数
+                if (deviation>0){
+                    int deviationTemp=deviation;
+                    Bundle surplusStep = new Bundle();
+                    surplusStep.putInt("surplusStep",deviationTemp);
+                    message.setData(surplusStep);
+                }
+                deviation=0;
+                message.replyTo = getReplyMessage;
+                try {
+                    clientMessenger.send(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        return false;
+    }
+
+    //用于绑定服务使用
+    private ServiceConnection connection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            //当连接开始时向服务端发起一个信使，然后服务端会拿到这个信使并返回一个数据
+            clientMessenger=new Messenger(service);
+            Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
+            message.replyTo=getReplyMessage;
+            try {
+                clientMessenger.send(message);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
+
     @Override
     protected void lazyLoad() {
+        getActivity().bindService(new Intent(getContext(),StepService.class),connection, Context.BIND_AUTO_CREATE);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +217,21 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     protected void initDatas() {
         tv_title.setText("我的");
         manager=new SportManager(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().bindService(new Intent(getContext(),StepService.class),connection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //解绑服务
+        deviation=0;
+        delayHandler.removeCallbacksAndMessages(null);
+        getActivity().unbindService(connection);
     }
 
     @Override
@@ -183,9 +283,15 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     public void getResult(SportMineModel result) {
+        deviation=0;
         pull_sroll.onRefreshComplete();
-        Log.i("加载完成////////////////////////////////////////////");
         if(result!=null){
+            int todayStepCnt = result.getTodayStepCnt();
+            int currentTemp=currentStep;
+            if(todayStepCnt-currentTemp>0){
+                //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
+                deviation=todayStepCnt-serverStep;
+            }
             tv_name.setText(result.getUsername());
             tv_step.setText(String.valueOf(result.getTodayStepCnt()));
             tv_calorie.setText(String.valueOf(result.getTodayKaluliCnt()));
@@ -224,7 +330,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
         Log.i("正在加载");
-        String str = DateUtil.getInstance().getCurrentDate() + "," +5000;
+        String str = DateUtil.getInstance().getCurrentDate() + "," +currentStep;
         manager.getMineData(UserInfoModel.getInstance().getUserId(),str);
     }
 }

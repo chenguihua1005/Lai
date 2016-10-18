@@ -404,10 +404,6 @@
             android:name=".module.group.view.GroupSearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.group.view.GroupMainActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.act.view.ActListActivity"
             android:screenOrientation="portrait" />
         <activity

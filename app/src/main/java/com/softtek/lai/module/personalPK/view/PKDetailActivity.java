@@ -19,10 +19,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -163,7 +163,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                             //列表进来的返回列表，创建进来的返回运动首页
                                             if (type == Constants.CREATE_PK) {
                                                 //返回PK首页
-                                                startActivity(new Intent(PKDetailActivity.this, GroupMainActivity.class));
+                                                startActivity(new Intent(PKDetailActivity.this, LaiSportActivity.class));
                                             } else if (type == Constants.LIST_PK) {
                                                 Intent intent = getIntent();
                                                 intent.putExtra("isCancel", true);
@@ -542,7 +542,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     private void doBack() {
         System.out.println("type:"+type);
         if (type == Constants.CREATE_PK) {//创建新PK跳转过来,按下返回按钮直接返回PK首页
-            Intent intent = new Intent(this, GroupMainActivity.class);
+            Intent intent = new Intent(this, LaiSportActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (type == Constants.MESSAGE_PK) {

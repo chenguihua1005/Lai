@@ -20,8 +20,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -108,7 +108,7 @@ public class GroupAdapter extends BaseAdapter {
                             UserInfoModel.getInstance().saveUserCache(model);
                             context.startService(new Intent(context.getApplicationContext(), StepService.class));
                             context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
-                            context.startActivity(new Intent(context, GroupMainActivity.class));
+                            context.startActivity(new Intent(context, LaiSportActivity.class));
                         }
                     }
                 });
