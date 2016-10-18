@@ -46,19 +46,12 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     TextView tv_runteamname;
     @InjectView(R.id.btn_signout)
     Button btn_signout;
-    //消息点击进入
-    @InjectView(R.id.Re_mynews)
-    RelativeLayout Re_mynews;
-    //我的运动点击
-    @InjectView(R.id.re_pk_mysport)
-    RelativeLayout re_pk_mysport;
     @InjectView(R.id.tv_runteamnum)
     TextView tv_runteamnum;
     @InjectView(R.id.tv_administ_name)
     TextView tv_administ_name;
     @InjectView(R.id.circle_teamhead)
     CircleImageView circle_teamhead;
-    @InjectView(R.id.rl_dynamic)
 
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -72,8 +65,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         tv_title.setText("我的跑团");
         ll_left.setOnClickListener(this);
         btn_signout.setOnClickListener(this);
-        Re_mynews.setOnClickListener(this);
-        re_pk_mysport.setOnClickListener(this);
     }
 
     @Override
@@ -108,15 +99,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).create().show();
-                break;
-            case R.id.Re_mynews:
-                Intent intent = new Intent(this, Message2Activity.class);
-//                Log.i("retestWrite="+runTeamModels.toString());
-//                intent.putExtra("runTeamModels", runTeamModels);
-                startActivity(intent);
-                break;
-            case R.id.re_pk_mysport:
-                startActivity(new Intent(this, HistorySportListActivity.class));
                 break;
         }
     }

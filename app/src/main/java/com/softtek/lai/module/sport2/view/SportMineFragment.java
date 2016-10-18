@@ -157,6 +157,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                 Intent weekRank=new Intent(getContext(), RankingActivity.class);
                 weekRank.putExtra("rank_type",RankingActivity.WEEK_RANKING);
                 startActivity(weekRank);
+                break;
             /*跳转跑团资料页*/
             case R.id.Re_myrunteam:
                 getActivity().startActivity(new Intent(getActivity(), MyInformationActivity.class));
