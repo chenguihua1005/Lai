@@ -58,7 +58,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     TextView tv_administ_name;
     @InjectView(R.id.circle_teamhead)
     CircleImageView circle_teamhead;
-    @InjectView(R.id.rl_dynamic)
 
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();

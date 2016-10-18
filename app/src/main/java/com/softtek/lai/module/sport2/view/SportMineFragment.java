@@ -1,12 +1,14 @@
 package com.softtek.lai.module.sport2.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,13 +23,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
-import com.softtek.lai.module.laisportmine.view.MyNewsActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.message2.view.NoticeFC2Activity;
 import com.softtek.lai.module.mygrades.view.MyXuZhangActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
+import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
@@ -207,7 +207,9 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             tv_message.append(String.valueOf(result.getUnreadmsg()));
             tv_message.append("条未读消息");
             tv_juanzen.setText("您已向康宝莱公益基金会捐赠");
-            tv_juanzen.append(String.valueOf(result.getDonatenNum()));
+            SpannableString sc=new SpannableString(String.valueOf(result.getDonatenNum()));
+            sc.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA200")),0,sc.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_juanzen.append(sc);
             tv_juanzen.append("元");
             if(TextUtils.isEmpty(result.getPhoto())){
                 Picasso.with(getContext()).load(R.drawable.img_default).into(header_image);
