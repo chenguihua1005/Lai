@@ -165,8 +165,7 @@
             android:id="@+id/view"
             android:layout_width="2dip"
             android:layout_height="50dip"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:background="#b0e478" />
 

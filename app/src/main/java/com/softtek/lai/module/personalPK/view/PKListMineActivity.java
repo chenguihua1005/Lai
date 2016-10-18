@@ -2,6 +2,7 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -75,7 +76,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         manager=new PKListManager();
         adapter=new PKListAdapter(this,models);
         ptrlv.setAdapter(adapter);
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 ptrlv.setRefreshing();

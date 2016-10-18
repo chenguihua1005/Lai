@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -20,26 +23,27 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.file.AddressManager;
 
-/**
- * Created by jerry.guan on 5/5/2016.
- */
 public class PKListAdapter extends BaseAdapter{
 
-    public static final int NAIXI=0;
-    public static final int NAIXICAO=1;
-    public static final int CUSTOM=2;
-    public static final int NOSTART=1;
-    public static final int PROCESSING=0;
-    public static final int Completed=2;
+    private static final int NAIXI=0;
+    private static final int NAIXICAO=1;
+    private static final int CUSTOM=2;
+    private static final int NOSTART=1;
+    private static final int PROCESSING=0;
+    private static final int Completed=2;
 
     private Context context;
     private List<PKListModel> datas;
+    private PKListManager manager;
 
     public PKListAdapter(Context context, List<PKListModel> datas) {
         this.context = context;
         this.datas = datas;
+        manager = new PKListManager();
     }
 
     @Override
@@ -59,7 +63,7 @@ public class PKListAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PKListHolder holder;
+        final PKListHolder holder;
         if(convertView==null){
             convertView= LayoutInflater.from(context).inflate(R.layout.pklist_item,parent,false);
             holder=new PKListHolder(convertView);
@@ -69,8 +73,69 @@ public class PKListAdapter extends BaseAdapter{
         }
         //绑定数据
         PKListModel model=datas.get(position);
-        holder.cb_zan_left.setText(model.getChP()+"");
-        holder.cb_zan_right.setText(model.getBChp()+"");
+        final long pkId=model.getPKId();
+        //发起者点赞
+        if("0".equals(model.isPrise)){
+            holder.cb_zan_left.setEnabled(false);//禁止点赞
+            holder.cb_zan_left.setChecked(true);
+        }else{
+            holder.cb_zan_left.setEnabled(true);//允许点赞
+            holder.cb_zan_left.setChecked(false);
+            holder.cb_zan_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.cb_zan_left.setEnabled(false);
+                    holder.cb_zan_left.setChecked(true);
+                    final int left_zan = Integer.parseInt(holder.cb_zan_left.getText().toString()) + 1;
+                    holder.cb_zan_left.setText(String.valueOf(left_zan));
+                    manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            holder.cb_zan_left.setText(left_zan - 1 + "");
+                            holder.cb_zan_left.setEnabled(true);
+                            holder.cb_zan_left.setChecked(false);
+                            super.failure(error);
+                        }
+                    });
+                }
+            });
+        }
+        //接受者点赞
+        if("0".equals(model.bPrise)){
+            holder.cb_zan_right.setEnabled(false);//禁止点赞
+            holder.cb_zan_right.setChecked(true);
+        }else{
+            holder.cb_zan_right.setEnabled(true);//允许点赞
+            holder.cb_zan_right.setChecked(false);
+            holder.cb_zan_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.cb_zan_right.setChecked(true);
+                    holder.cb_zan_right.setEnabled(false);
+                    final int right_zan = Integer.parseInt(holder.cb_zan_right.getText().toString()) + 1;
+                    holder.cb_zan_right.setText(String.valueOf(right_zan));
+                    manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            holder.cb_zan_right.setText(right_zan - 1 + "");
+                            holder.cb_zan_right.setChecked(false);
+                            holder.cb_zan_right.setEnabled(true);
+                            super.failure(error);
+                        }
+                    });
+                }
+            });
+        }
+        holder.cb_zan_left.setText(String.valueOf(model.getChP()));
+        holder.cb_zan_right.setText(String.valueOf(model.getBChp()));
         holder.pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
         holder.pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
         holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+" — "+
@@ -132,10 +197,10 @@ public class PKListAdapter extends BaseAdapter{
     }
 
     static class PKListHolder{
-        public TextView tv_status,tv_time,pk_name1,pk_name2;
-        public CheckBox cb_zan_right,cb_zan_left;
-        public ImageView iv_jiangli,sender1,iv_winner1,iv_winner2;
-        public CircleImageView sender1_header,sender2_header;
+        private TextView tv_status,tv_time,pk_name1,pk_name2;
+        private CheckBox cb_zan_right,cb_zan_left;
+        private ImageView iv_jiangli,sender1,iv_winner1,iv_winner2;
+        private CircleImageView sender1_header,sender2_header;
 
         public PKListHolder(View view){
             tv_status= (TextView) view.findViewById(R.id.tv_status);

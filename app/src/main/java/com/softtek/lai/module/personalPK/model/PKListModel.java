@@ -28,6 +28,9 @@ public class PKListModel implements Parcelable{
     private String End;
     private String WinnerId;
 
+    public String isPrise;
+    public String bPrise;
+
     public String getWinnerId() {
         return WinnerId;
     }

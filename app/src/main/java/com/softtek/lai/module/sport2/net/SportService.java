@@ -1,4 +1,4 @@
-package com.softtek.lai.module.sport2;
+package com.softtek.lai.module.sport2.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.group.model.SportMainModel;

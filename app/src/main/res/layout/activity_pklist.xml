@@ -29,6 +29,7 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:id="@+id/ptrlv"
+        android:animateLayoutChanges="true"
         android:divider="#00f1f1f1"/>
 
 </RelativeLayout>

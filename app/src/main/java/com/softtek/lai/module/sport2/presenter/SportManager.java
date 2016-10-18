@@ -2,7 +2,7 @@ package com.softtek.lai.module.sport2.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.sport2.SportService;
+import com.softtek.lai.module.sport2.net.SportService;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.utils.RequestCallback;
 
