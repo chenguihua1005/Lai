@@ -57,6 +57,7 @@ import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
 import com.softtek.lai.module.sport.util.SportUtil;
+import com.softtek.lai.sound.SoundHelper;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
@@ -119,7 +120,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     PolylineOptions polylineOptions;
 
     private OnLocationChangedListener listener;
-    //private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
+    private SoundHelper sounder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,8 +153,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
     private long oldStep=0;
+
     @Override
     protected void initViews() {
+
+        sounder=new SoundHelper(this,10);
+        sounder.addAudio("pause",R.raw.pause);
+        sounder.addAudio("end",R.raw.end);
+        sounder.addAudio("resume",R.raw.resume);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -415,6 +422,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         super.onDestroy();
         /*screenListener.unregisterListener();
         homeListener.stopWatch();*/
+        sounder.release();
     }
 
     @Override
@@ -484,15 +492,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
+                        sounder.play("resume");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
+                        sounder.play("pause");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
                 break;
             case R.id.iv_stop:
+                sounder.play("end");
                 if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
@@ -791,4 +802,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
         }
     }
+
+
 }

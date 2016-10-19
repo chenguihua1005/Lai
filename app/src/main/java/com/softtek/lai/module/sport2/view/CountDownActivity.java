@@ -1,6 +1,7 @@
 package com.softtek.lai.module.sport2.view;
 
 import android.content.Intent;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.animation.AlphaAnimation;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
+import com.softtek.lai.sound.SoundHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,20 +31,35 @@ public class CountDownActivity extends BaseActivity {
     int recLen;
 
     TimerTask task;
+    private SoundHelper sounder;
 
     @Override
     protected void initViews() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        sounder=new SoundHelper(this,5);
+        sounder.addAudio("countDown",R.raw.countdown);
+        sounder.addAudio("startSport",R.raw.start_sport);
+        sounder.addAudio("count_dwon3",R.raw.count_down_3);
+        sounder.addAudio("count_dwon2",R.raw.count_down_2);
+        sounder.addAudio("count_dwon1",R.raw.count_down_1);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sounder.play("countDown");
+            }
+        }, 1000);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 startTimer();
             }
-        },1000);
+        },2000);
     }
 
     @Override
     protected void initDatas() {
+
 
     }
 
@@ -58,6 +75,7 @@ public class CountDownActivity extends BaseActivity {
                     public void run() {
                         if (recLen <= 0) {
                             timer.cancel();
+                            sounder.play("startSport");
                             startActivity(new Intent(CountDownActivity.this, RunSportActivity.class));
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                             finish();
@@ -65,6 +83,7 @@ public class CountDownActivity extends BaseActivity {
                             if (text_djs != null) {
                                 text_djs.setText(recLen + "");
                             }
+                            sounder.play("count_dwon"+recLen);
                             startSacaleBigAnimation();
                             recLen--;
                         }
@@ -117,5 +136,6 @@ public class CountDownActivity extends BaseActivity {
         if (timer != null) {
             timer.cancel();
         }
+        sounder.release();
     }
 }

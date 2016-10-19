@@ -8,12 +8,12 @@
     tools:context="com.softtek.lai.module.sport2.view.SportMineFragment">
 
     <include layout="@layout/toolbar_laisport" />
-<!--    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/pull_sroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:overScrollMode="never">-->
+        android:overScrollMode="never">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -388,5 +388,5 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-    <!--</com.handmark.pulltorefresh.library.PullToRefreshScrollView>-->
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 </LinearLayout>
