@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.sport.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 
 import java.text.ParseException;
@@ -26,20 +25,16 @@ import java.util.List;
  * Created by jarvis.liu on 3/22/2016.
  */
 public class HistorySportAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<HistorySportModel> list;
 
-    private BaseActivity context;
-    private IAssistantPresenter assistantPresenter;
+    private Context context;
 
     /**
      * 构造函数
      */
-    public HistorySportAdapter(BaseActivity context, List<HistorySportModel> list) {
-        this.mInflater = LayoutInflater.from(context);
+    public HistorySportAdapter(Context context, List<HistorySportModel> list) {
         this.context = context;
         this.list = list;
-        Log.e("jarvis", list.toString());
     }
 
     @Override
@@ -65,7 +60,7 @@ public class HistorySportAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.activity_history_sport_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_history_sport_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_type = (TextView) convertView.findViewById(R.id.text_type);

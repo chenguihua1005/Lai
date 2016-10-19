@@ -11,8 +11,7 @@
         android:textColor="#333333"
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:text="11"/>
+        android:layout_marginLeft="15dp" />
 
     <com.softtek.lai.widgets.CircleImageView
         android:id="@+id/header_image"
@@ -20,14 +19,16 @@
         android:layout_height="40dp"
         android:layout_toRightOf="@id/tv_num"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="23dp"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/img_default"/>
     <CheckBox
         android:id="@+id/cb_zan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@null"
-        android:text="1"
+        android:text="0"
+        android:enabled="false"
+        android:checked="true"
         android:background="@null"
         android:textColor="#f67169"
         android:layout_marginRight="15dp"
@@ -48,15 +49,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffa200"
+            android:layout_gravity="center"
             android:textSize="18sp"
-            android:text="623422步"/>
+            android:text="0步"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
             android:layout_height="5dp"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_marginTop="9dp"
+            android:layout_gravity="center"
             android:max="100"
             android:progress="50"
             android:progressDrawable="@drawable/progressbar"
@@ -72,6 +75,5 @@
         android:layout_toRightOf="@id/header_image"
         android:layout_centerInParent="true"
         android:textColor="#333333"
-        android:textSize="15sp"
-        android:text="Lee"/>
+        android:textSize="15sp" />
 </RelativeLayout>

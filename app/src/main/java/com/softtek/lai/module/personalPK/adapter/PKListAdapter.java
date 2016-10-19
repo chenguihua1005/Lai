@@ -29,12 +29,12 @@ import zilla.libcore.file.AddressManager;
 
 public class PKListAdapter extends BaseAdapter{
 
-    private static final int NAIXI=0;
-    private static final int NAIXICAO=1;
-    private static final int CUSTOM=2;
-    private static final int NOSTART=1;
-    private static final int PROCESSING=0;
-    private static final int Completed=2;
+    public static final int NAIXI=0;
+    public static final int NAIXICAO=1;
+    public static final int CUSTOM=2;
+    public static final int NOSTART=1;
+    public static final int PROCESSING=0;
+    public static final int Completed=2;
 
     private Context context;
     private List<PKListModel> datas;
@@ -72,10 +72,10 @@ public class PKListAdapter extends BaseAdapter{
             holder= (PKListHolder) convertView.getTag();
         }
         //绑定数据
-        PKListModel model=datas.get(position);
+        final PKListModel model=datas.get(position);
         final long pkId=model.getPKId();
         //发起者点赞
-        if("0".equals(model.isPrise)){
+        if(model.getPraiseStatus()==1){
             holder.cb_zan_left.setEnabled(false);//禁止点赞
             holder.cb_zan_left.setChecked(true);
         }else{
@@ -88,6 +88,7 @@ public class PKListAdapter extends BaseAdapter{
                     holder.cb_zan_left.setChecked(true);
                     final int left_zan = Integer.parseInt(holder.cb_zan_left.getText().toString()) + 1;
                     holder.cb_zan_left.setText(String.valueOf(left_zan));
+                    model.setPraiseStatus(1);
                     manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {
@@ -98,6 +99,7 @@ public class PKListAdapter extends BaseAdapter{
                             holder.cb_zan_left.setText(left_zan - 1 + "");
                             holder.cb_zan_left.setEnabled(true);
                             holder.cb_zan_left.setChecked(false);
+                            model.setPraiseStatus(0);
                             super.failure(error);
                         }
                     });
@@ -105,7 +107,7 @@ public class PKListAdapter extends BaseAdapter{
             });
         }
         //接受者点赞
-        if("0".equals(model.bPrise)){
+        if(1==model.getBPraiseStatus()){
             holder.cb_zan_right.setEnabled(false);//禁止点赞
             holder.cb_zan_right.setChecked(true);
         }else{
@@ -118,6 +120,7 @@ public class PKListAdapter extends BaseAdapter{
                     holder.cb_zan_right.setEnabled(false);
                     final int right_zan = Integer.parseInt(holder.cb_zan_right.getText().toString()) + 1;
                     holder.cb_zan_right.setText(String.valueOf(right_zan));
+                    model.setBPraiseStatus(1);
                     manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {
@@ -128,6 +131,7 @@ public class PKListAdapter extends BaseAdapter{
                             holder.cb_zan_right.setText(right_zan - 1 + "");
                             holder.cb_zan_right.setChecked(false);
                             holder.cb_zan_right.setEnabled(true);
+                            model.setBPraiseStatus(0);
                             super.failure(error);
                         }
                     });

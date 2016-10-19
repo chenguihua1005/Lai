@@ -28,7 +28,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_history_sport_list)
-public class HistorySportListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportManager.GetMovementListCallBack , PullToRefreshBase.OnRefreshListener2<ListView> {
+public class HistorySportListActivity extends BaseActivity implements View.OnClickListener, SportManager.GetMovementListCallBack , PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -87,11 +87,6 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
                 finish();
                 break;
         }
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
     }
 
