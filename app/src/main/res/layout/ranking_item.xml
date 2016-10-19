@@ -26,7 +26,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@null"
-        android:text="1"
+        android:text="0"
+        android:enabled="false"
+        android:checked="true"
         android:background="@null"
         android:textColor="#f67169"
         android:layout_marginRight="15dp"
@@ -73,6 +75,5 @@
         android:layout_toRightOf="@id/header_image"
         android:layout_centerInParent="true"
         android:textColor="#333333"
-        android:textSize="15sp"
-        android:text="Lee"/>
+        android:textSize="15sp" />
 </RelativeLayout>

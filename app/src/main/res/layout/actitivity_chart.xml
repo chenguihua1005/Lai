@@ -1,212 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
     <com.softtek.lai.widgets.ObservableScrollView
         android:id="@+id/StuScrollv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="220dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <FrameLayout
-                android:id="@+id/fl"
-                android:layout_width="match_parent"
-                android:layout_height="252dp"
-                >
 
-                        <ImageView
-                            android:id="@+id/iv_banner"
-                            android:layout_width="match_parent"
-                            android:layout_height="220dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/default_icon_rect" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_gravity="bottom|right"
-                    android:gravity="center"
-                    >
-                    <com.softtek.lai.widgets.CircleImageView
-                        android:id="@+id/im_headimg"
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
-                        android:src="@drawable/img_default"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_centerVertical="true"/>
-
-                </RelativeLayout>
-
-            </FrameLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="运动步数"
-                android:layout_marginLeft="15dp"
-                android:textColor="#333333"
-                android:textSize="14sp"/>
-            <com.github.mikephil.charting.charts.LineChart
-                android:background="#f1f1f1"
-                android:id="@+id/chart"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-            </com.github.mikephil.charting.charts.LineChart>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                >
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <LinearLayout
-                        android:id="@+id/Line_step"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fl"
+                    android:layout_width="match_parent"
+                    android:layout_height="252dp">
+
+                    <ImageView
+                        android:id="@+id/iv_banner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="220dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_icon_rect" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:layout_gravity="bottom|right"
                         android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12360"
-                            android:textColor="#73B929"
-                            android:layout_gravity="bottom"
-                            android:textSize="16sp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="步"
-                            android:textSize="10sp"
-                            android:layout_gravity="bottom"
-                            android:textColor="#73B929"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_below="@+id/Line_step"
-                        android:layout_marginTop="5dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="总步数"
-                            android:textColor="#6B6B6B"
-                            android:layout_gravity="bottom"
-                            android:textSize="12sp"
-                            />
 
-                    </LinearLayout>
+                        <com.softtek.lai.widgets.CircleImageView
+                            android:id="@+id/im_headimg"
+                            android:layout_width="58dp"
+                            android:layout_height="58dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:src="@drawable/img_default" />
 
-                </RelativeLayout>
-                <View
-                    android:layout_width="1dp"
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#e5e5e5"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"/>
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <LinearLayout
-                        android:id="@+id/Line_gongli"
-                        android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12360"
-                            android:textColor="#73B929"
-                            android:layout_gravity="bottom"
-                            android:textSize="16sp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="公里"
-                            android:textSize="10sp"
-                            android:layout_gravity="bottom"
-                            android:textColor="#73B929"
-                            />
+                        android:layout_marginLeft="15dp"
+                        android:text="运动步数"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#f1f1f1"></com.github.mikephil.charting.charts.LineChart>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:id="@+id/Line_step"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="12360"
+                                    android:textColor="#73B929"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="步"
+                                    android:textColor="#73B929"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/Line_step"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="总步数"
+                                    android:textColor="#6B6B6B"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="15dp"
+                            android:background="#e5e5e5" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:id="@+id/Line_gongli"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="12360"
+                                    android:textColor="#73B929"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="公里"
+                                    android:textColor="#73B929"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/Line_gongli"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="总公里数"
+                                    android:textColor="#6B6B6B"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:layout_below="@+id/Line_gongli"
-                        android:layout_marginTop="5dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="总公里数"
-                            android:textColor="#6B6B6B"
-                            android:layout_gravity="bottom"
-                            android:textSize="12sp"
-                            />
+                        android:padding="5dp">
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/bg_add_btn"
+                            android:text="添加关注"
+                            android:textColor="#FFA302"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:padding="5dp"
-                >
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:text="添加关注"
-                    android:background="@drawable/bg_add_btn"
-                    android:textSize="14sp"
-                    android:textColor="#FFA302"/>
 
+                </LinearLayout>
             </LinearLayout>
-
-        </LinearLayout>
-        </LinearLayout>
         </ScrollView>
     </com.softtek.lai.widgets.ObservableScrollView>
+
     <RelativeLayout
         android:id="@+id/rel_sy"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:background="@drawable/img_sy"
         android:orientation="horizontal"></RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <RelativeLayout
             android:id="@+id/rl_color"
-            android:background="@color/colorPrimaryDark"
-            android:alpha="0"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@color/colorPrimaryDark" />
+
         <LinearLayout
             android:id="@+id/ll_left"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/iv_left"
@@ -214,6 +233,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/back" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/fl_right"
             android:layout_width="50dp"
@@ -221,8 +241,7 @@
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:visibility="invisible"
-            >
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/iv_email"
@@ -232,29 +251,31 @@
                 android:src="@drawable/img_bg_title_more" />
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/ll_left"
             android:layout_toLeftOf="@id/fl_right"
-            >
+            android:layout_toRightOf="@id/ll_left">
+
             <TextView
                 android:id="@+id/tv_stuclassname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#ffffff"
+                android:layout_centerHorizontal="true"
                 android:text="Tom的主页"
-                android:layout_centerHorizontal="true"/>
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_studate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:textSize="10sp"
+                android:layout_below="@+id/tv_stuclassname"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/tv_stuclassname"/>
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
