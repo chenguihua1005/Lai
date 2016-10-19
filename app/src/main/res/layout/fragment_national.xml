@@ -68,16 +68,18 @@
                         android:id="@+id/tv_step"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1623422步"
+                        android:text="0步"
+                        android:layout_gravity="center"
                         android:textColor="#ffa200"
                         android:textSize="18sp" />
 
                     <ProgressBar
                         android:id="@+id/progress_bar"
                         style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="70dp"
                         android:layout_height="5dp"
                         android:layout_marginTop="9dp"
+                        android:layout_gravity="center"
                         android:max="100"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -94,7 +96,6 @@
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lee"
                         android:textColor="#333333"
                         android:textSize="15sp" />
 
@@ -103,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="跑团排名第6名"
+                        android:text="跑团排名第0名"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>

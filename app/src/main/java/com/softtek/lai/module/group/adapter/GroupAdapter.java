@@ -6,7 +6,6 @@
 package com.softtek.lai.module.group.adapter;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.login.model.UserModel;
@@ -32,19 +30,16 @@ import java.util.List;
  *
  */
 public class GroupAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
+
     private List<GroupModel> list;
     private BaseActivity context;
-    private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
     public GroupAdapter(BaseActivity context, List<GroupModel> list) {
-        this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        Log.e("jarvis", list.toString());
     }
 
     @Override
@@ -70,7 +65,7 @@ public class GroupAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.group_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.group_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_id = (TextView) convertView.findViewById(R.id.text_id);
