@@ -162,6 +162,22 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         sounder.addAudio("end",R.raw.end);
         sounder.addAudio("resume",R.raw.resume);
         sounder.addAudio("gps_low",R.raw.gps_low);
+        sounder.addAudio("one",R.raw.one);
+        sounder.addAudio("two",R.raw.two);
+        sounder.addAudio("three",R.raw.three);
+        sounder.addAudio("four",R.raw.four);
+        sounder.addAudio("five",R.raw.five);
+        sounder.addAudio("six",R.raw.six);
+        sounder.addAudio("seven",R.raw.seven);
+        sounder.addAudio("eight",R.raw.eight);
+        sounder.addAudio("nine",R.raw.nine);
+        sounder.addAudio("ten",R.raw.ten);
+        sounder.addAudio("time",R.raw.time);
+        sounder.addAudio("minutes",R.raw.minute);
+        sounder.addAudio("seconds",R.raw.seconds);
+        sounder.addAudio("useTime",R.raw.use_time);
+        sounder.addAudio("has_sport",R.raw.has_sport);
+        sounder.addAudio("kilometre",R.raw.kilometre);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -504,6 +520,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 }
                 break;
             case R.id.iv_stop:
+                sounder.play("end");
                 if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
@@ -526,7 +543,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    sounder.play("end");
                                     SportData data = new SportData();
                                     data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
                                     data.setCalories(tv_calorie.getText().toString());

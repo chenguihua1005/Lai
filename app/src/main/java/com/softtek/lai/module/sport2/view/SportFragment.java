@@ -42,10 +42,10 @@ import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
 import com.softtek.lai.module.sport.net.WeatherServer;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.SpeedUtil;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
-import com.softtek.lai.sound.SoundHelper;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.RippleLayout;
 
@@ -110,7 +110,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     private AMapLocationClientOption aMapLocationClientOption;
     private static final int LOCATION_PREMISSION = 100;
 
-    private SoundHelper sounder;
+    private SpeedUtil speed;
 
     public SportFragment() {
 
@@ -124,8 +124,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void initViews() {
-        sounder=new SoundHelper(getContext(),1);
-        sounder.addAudio("ready",R.raw.sport_ready);
+        speed=new SpeedUtil(getContext());
         ll_left.setOnClickListener(this);
         text_total_distance.setOnClickListener(this);
         ll_ll.setOnClickListener(this);
@@ -345,7 +344,8 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                 getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
             case R.id.text_start:
-                sounder.play("ready");
+                //sounder.play("ready");
+                speed.sayGt10K(80);
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
                     final ArrayList<SportModel> list = (ArrayList<SportModel>) SportUtil.getInstance().querySport(UserInfoModel.getInstance().getUserId() + "");
@@ -485,7 +485,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void onDestroyView() {
         super.onDestroyView();
         aMapLocationClient.stopLocation();
-        sounder.release();
+        speed.release();
     }
 
 
