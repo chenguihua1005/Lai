@@ -161,6 +161,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         sounder.addAudio("pause",R.raw.pause);
         sounder.addAudio("end",R.raw.end);
         sounder.addAudio("resume",R.raw.resume);
+        sounder.addAudio("gps_low",R.raw.gps_low);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -503,7 +504,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 }
                 break;
             case R.id.iv_stop:
-                sounder.play("end");
                 if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
@@ -512,6 +512,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    sounder.play("end");
                                     finish();
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -525,6 +526,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    sounder.play("end");
                                     SportData data = new SportData();
                                     data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
                                     data.setCalories(tv_calorie.getText().toString());
@@ -798,6 +800,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }else if(accuracy<60){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
             }else{
+                sounder.play("gps_low");
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
             }
         }

@@ -93,7 +93,6 @@ public class ActManager {
         service.activityList(token, pageIndex, accountid, new RequestCallback<ResponseData<ActivityModel>>() {
             @Override
             public void success(ResponseData<ActivityModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 if (getactivityListCallBack != null) {
                     switch (status) {
@@ -161,7 +160,6 @@ public class ActManager {
         service.getActDetails(token, activityid, new RequestCallback<ResponseData<ActDetailModel>>() {
             @Override
             public void success(ResponseData<ActDetailModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 if (getActDetailsCallBack != null) {
                     switch (status) {

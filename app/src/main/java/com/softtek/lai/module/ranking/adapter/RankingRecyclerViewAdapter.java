@@ -129,7 +129,6 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 ((ViewHolder) holder).cb_zan.setEnabled(false);
                 ((ViewHolder) holder).cb_zan.setChecked(true);
             }
-            com.github.snowdream.android.util.Log.i("此人的。。。。"+data.getAcStepGuid());
             ((ViewHolder) holder).cb_zan.setText(data.getPrasieNum());
             OrderData firstDate=infos.get(0);
             float step = Float.parseFloat(firstDate.getStepCount());

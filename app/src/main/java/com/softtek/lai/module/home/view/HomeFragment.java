@@ -48,7 +48,6 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
@@ -191,25 +190,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         gv_model.setOnItemClickListener(this);
     }
 
-    @Subscribe
-    public void onEvent(EMChatAccountModel model) {
-//        if (model != null) {
-//            String state = model.getState();
-//            if ("0".equals(state)) {
-//                Util.toastMsg("您的会话权限开通中，请稍候再试");
-//            } else if ("-1".equals(state)) {
-//                Util.toastMsg("开通会话功能需要身份认证");
-//            } else {
-//                Util.toastMsg("会话异常，请稍候再试");
-//                UserModel userModel = UserInfoModel.getInstance().getUser();
-//                userModel.setHasEmchat("1");
-//                userModel.setHXAccountId(model.getHXAccountId());
-//                UserInfoModel.getInstance().saveUserCache(userModel);
-//            }
-//        } else {
-//            Util.toastMsg("会话异常，请稍候再试");
-//        }
-    }
 
     @Subscribe
     public void onEventRefresh(HomeEvent event) {

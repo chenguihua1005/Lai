@@ -1,5 +1,6 @@
 package com.softtek.lai.module.community.presenter;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -37,6 +38,7 @@ public class CommunityManager{
         service.getHealthyMine(token,accountId,selectorUserId,pageIndex, new RequestCallback<ResponseData<PersonalRecommendModel>>() {
             @Override
             public void success(ResponseData<PersonalRecommendModel> listResponseData, Response response) {
+
                 if(cb!=null)cb.getMineDynamic(listResponseData.getData());
             }
 

@@ -101,6 +101,10 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     RelativeLayout rl_dynamic;
     @InjectView(R.id.Re_personpk)
     RelativeLayout Re_personpk;
+    @InjectView(R.id.ll_step)
+    LinearLayout ll_step;
+    @InjectView(R.id.ll_calorie)
+    LinearLayout ll_calorie;
 
     SportManager manager;
 
@@ -198,6 +202,8 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         Re_news.setOnClickListener(this);
         rl_dynamic.setOnClickListener(this);
         Re_personpk.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        ll_calorie.setOnClickListener(this);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ILoadingLayout startLabelse = pull_sroll.getLoadingLayoutProxy(true,false);
@@ -215,7 +221,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        tv_title.setText("我的");
+        tv_title.setText("步数");
         manager=new SportManager(this);
     }
 
@@ -278,6 +284,10 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             case R.id.Re_personpk:
                 getActivity().startActivity(new Intent(getActivity(), PKListMineActivity.class));
                 break;
+            case R.id.ll_step:
+            case R.id.ll_calorie:
+
+                break;
         }
     }
 
@@ -313,7 +323,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             tv_message.setText("您有");
             tv_message.append(String.valueOf(result.getUnreadmsg()));
             tv_message.append("条未读消息");
-            tv_juanzen.setText("您已向康宝莱公益基金会捐赠");
+            tv_juanzen.setText("您已向\"康宝莱公益基金会\"捐赠");
             SpannableString sc=new SpannableString(String.valueOf(result.getDonatenNum()));
             sc.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA200")),0,sc.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_juanzen.append(sc);

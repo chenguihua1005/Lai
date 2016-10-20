@@ -131,11 +131,11 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                             isLoading=true;
                             //加载更多数据
                             if(isDayRank(rankType)){
-                                //跑团日排名
-                                manager.getDayRank(1,pageIndex);
+                                //全国日排名
+                                manager.getDayRank(0,pageIndex);
                             }else {
-                                //跑团周排名
-                                manager.getWeekRank(1,pageIndex);
+                                //全国周排名
+                                manager.getWeekRank(0,pageIndex);
                             }
                         }else {
                             pageIndex--;
@@ -166,7 +166,7 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
             }
         });
         cb_zan.setEnabled(false);
-        cb_zan.setChecked(false);
+        cb_zan.setChecked(true);
         cb_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,7 +229,12 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
 
     @Override
     public void getResult(RankModel result) {
-        pull.setRefreshing(false);
+        if(isLoading==true){
+            isLoading=false;
+            adapter.notifyItemRemoved(adapter.getItemCount());
+        }else {
+            pull.setRefreshing(false);
+        }
         if(result==null){
             return;
         }
@@ -265,6 +270,11 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
         if(TextUtils.isEmpty(result.getAcStepGuid())){
             cb_zan.setEnabled(false);
             cb_zan.setChecked(false);
+        }
+        //不是日排名就不可以点赞
+        if(!isDayRank(rankType)){
+            cb_zan.setEnabled(false);
+            cb_zan.setChecked(true);
         }
         cb_zan.setText(result.getPrasieNum());
         //计算进度条

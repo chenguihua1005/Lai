@@ -232,7 +232,12 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
 
     @Override
     public void getResult(RankModel result) {
-        pull.setRefreshing(false);
+        if(isLoading==true){
+            isLoading=false;
+            adapter.notifyItemRemoved(adapter.getItemCount());
+        }else {
+            pull.setRefreshing(false);
+        }
         if(result==null){
             return;
         }
@@ -268,6 +273,10 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         if(TextUtils.isEmpty(result.getAcStepGuid())){
             cb_zan.setEnabled(false);
             cb_zan.setChecked(false);
+        }
+        if(!isDayRank(rankType)){
+            cb_zan.setEnabled(false);
+            cb_zan.setChecked(true);
         }
         cb_zan.setText(result.getPrasieNum());
         //计算进度条

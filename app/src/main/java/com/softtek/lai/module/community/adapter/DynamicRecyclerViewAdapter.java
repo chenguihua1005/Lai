@@ -20,13 +20,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
-import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
-import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
@@ -106,7 +102,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                         ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
                     }
                 }else {
-                    ((ViewHolder) holder).tv_time.setVisibility(View.GONE);
+                    ((ViewHolder) holder).tv_time.setVisibility(View.VISIBLE);
                 }
             }else {
                 PersonalListModel previous=infos.get(position-1);
