@@ -161,6 +161,23 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         sounder.addAudio("pause",R.raw.pause);
         sounder.addAudio("end",R.raw.end);
         sounder.addAudio("resume",R.raw.resume);
+        sounder.addAudio("gps_low",R.raw.gps_low);
+        sounder.addAudio("one",R.raw.one);
+        sounder.addAudio("two",R.raw.two);
+        sounder.addAudio("three",R.raw.three);
+        sounder.addAudio("four",R.raw.four);
+        sounder.addAudio("five",R.raw.five);
+        sounder.addAudio("six",R.raw.six);
+        sounder.addAudio("seven",R.raw.seven);
+        sounder.addAudio("eight",R.raw.eight);
+        sounder.addAudio("nine",R.raw.nine);
+        sounder.addAudio("ten",R.raw.ten);
+        sounder.addAudio("time",R.raw.time);
+        sounder.addAudio("minutes",R.raw.minute);
+        sounder.addAudio("seconds",R.raw.seconds);
+        sounder.addAudio("useTime",R.raw.use_time);
+        sounder.addAudio("has_sport",R.raw.has_sport);
+        sounder.addAudio("kilometre",R.raw.kilometre);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -512,6 +529,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    sounder.play("end");
                                     finish();
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -798,6 +816,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }else if(accuracy<60){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
             }else{
+                sounder.play("gps_low");
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
             }
         }

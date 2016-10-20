@@ -49,12 +49,17 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/sport2_mine"
-            app:pitchBitmap="@drawable/sport2_mine_re"
+            app:normalBitmap="@drawable/sport2_mine_step"
+            app:pitchBitmap="@drawable/sport2_mine_step_re"
             app:wx_alpha="true"
-            app:text="我的"/>
+            app:text="步数"/>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#c0c0c0"
+        android:layout_alignTop="@id/ll"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/content"

@@ -44,7 +44,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
-                android:id="@+id/ll"
+                android:id="@+id/ll_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
@@ -77,10 +77,11 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/ll"
+                android:layout_toRightOf="@id/ll_step"
                 android:background="#84CD37" />
 
             <LinearLayout
+                android:id="@+id/ll_calorie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"

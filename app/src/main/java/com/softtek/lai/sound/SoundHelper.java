@@ -6,6 +6,8 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
 
 import java.util.HashMap;
 
@@ -49,18 +51,29 @@ public class SoundHelper {
         if(soundPool!=null&&soundMap!=null){
             soundMap.put(name,soundPool.load(context,res,1));
         }
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-
-            }
-        });
     }
 
     //播放
     public void play(String name){
         if(soundPool!=null&&soundMap!=null){
             soundPool.play(soundMap.get(name),1,1,0,0,1);
+        }
+    }
+
+    public void play(String name,int delay){
+        if(soundPool!=null&&soundMap!=null){
+            soundPool.play(soundMap.get(name),1,1,0,0,1);
+            SystemClock.sleep(delay);
+        }
+    }
+
+    //按顺序播放
+    public void playSequence(String[] name,long[] delay){
+        if(soundPool!=null&&soundMap!=null){
+            for (int i=0;i<name.length;i++){
+                soundPool.play(soundMap.get(name[i]),1,1,0,0,1);
+                SystemClock.sleep(delay[i]);
+            }
         }
     }
 

@@ -59,4 +59,16 @@ public class PersonalListModel {
     public void setImgCollection(String imgCollection) {
         this.imgCollection = imgCollection;
     }
+
+    @Override
+    public String toString() {
+        return "PersonalListModel{" +
+                "ID='" + ID + '\'' +
+                ", Title='" + Title + '\'' +
+                ", Content='" + Content + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
+                ", minetype='" + minetype + '\'' +
+                ", imgCollection='" + imgCollection + '\'' +
+                '}';
+    }
 }

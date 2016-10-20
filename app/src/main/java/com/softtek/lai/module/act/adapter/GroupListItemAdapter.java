@@ -115,7 +115,7 @@ public class GroupListItemAdapter extends BaseAdapter {
         String end_time = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat format = new SimpleDateFormat("MM月dd号 HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
         try {
             Date start_date = sdf.parse(start);
             Date end_date = sdf.parse(end);
