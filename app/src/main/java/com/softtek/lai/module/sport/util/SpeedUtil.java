@@ -13,7 +13,7 @@ public class SpeedUtil {
 
     private SoundHelper sounder;
     public SpeedUtil(Context context){
-        sounder=new SoundHelper(context,20);
+        sounder=new SoundHelper(context,37);
         sounder.addAudio("one",R.raw.one);
         sounder.addAudio("two",R.raw.two);
         sounder.addAudio("three",R.raw.three);
@@ -24,6 +24,7 @@ public class SpeedUtil {
         sounder.addAudio("eight",R.raw.eight);
         sounder.addAudio("nine",R.raw.nine);
         sounder.addAudio("ten",R.raw.ten);
+
         sounder.addAudio("twenty",R.raw.twenty);
         sounder.addAudio("thirty",R.raw.thirty);
         sounder.addAudio("forty",R.raw.forty);
@@ -34,6 +35,25 @@ public class SpeedUtil {
         sounder.addAudio("ninety",R.raw.ninety);
         sounder.addAudio("has_sport",R.raw.has_sport);
         sounder.addAudio("kilometre",R.raw.kilometre);
+
+        sounder.addAudio("has_sport1k",R.raw.has_onek);
+        sounder.addAudio("has_sport2k",R.raw.has_twok);
+        sounder.addAudio("has_sport3k",R.raw.has_threek);
+        sounder.addAudio("has_sport4k",R.raw.has_fourk);
+        sounder.addAudio("has_sport5k",R.raw.has_fivek);
+        sounder.addAudio("has_sport6k",R.raw.has_sixk);
+        sounder.addAudio("has_sport7k",R.raw.has_sevenk);
+        sounder.addAudio("has_sport8k",R.raw.has_eightk);
+        sounder.addAudio("has_sport9k",R.raw.has_ninek);
+        sounder.addAudio("has_sport10k",R.raw.has_tenk);
+
+        sounder.addAudio("jiayou",R.raw.jiayou);
+        sounder.addAudio("haobang",R.raw.haobang);
+        sounder.addAudio("jianchi",R.raw.jianchi);
+        sounder.addAudio("taibang",R.raw.taibang);
+        sounder.addAudio("zhenlihai",R.raw.zhenlihai);
+        sounder.addAudio("onek_useTime",R.raw.late_use_time_onek);
+        sounder.addAudio("gps_low",R.raw.gps_low);
     }
 
     //您已运动10公里以上的拼接
@@ -57,6 +77,46 @@ public class SpeedUtil {
                 }
             }
         }).start();
+    }
+
+    /**
+     *  说出1到10公里的语言
+     *  您已经运动1-10公里
+     */
+    public void sayLt10K(int num){
+        if(num>0&&num<=10){
+            final int number=num;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(number==1){
+                        String[] name = {"has_sport"+number+"k", "jiayou",};
+                        long[] delay = {2000, 0};
+                        sounder.playSequence(name, delay);
+                    }else if(number>1&&number<4){
+                        String[] name = {"has_sport"+number+"k", "jianchi",};
+                        long[] delay = {2000, 0};
+                        sounder.playSequence(name, delay);
+                    }else if(number>=4&&number<6){
+                        String[] name = {"has_sport"+number+"k", "jianchi",};
+                        long[] delay = {2000, 0};
+                        sounder.playSequence(name, delay);
+                    }else if(number>=6&&number<8){
+                        String[] name = {"has_sport"+number+"k", "haobang",};
+                        long[] delay = {2000, 0};
+                        sounder.playSequence(name, delay);
+                    }else if(number>=8&&number<=10){
+                        String[] name = {"has_sport"+number+"k", "taibang","zhenlihai"};
+                        long[] delay = {2000, 1000,0};
+                        sounder.playSequence(name, delay);
+                    }
+                }
+            }).start();
+        }
+    }
+
+    public void sayNormal(String name){
+        sounder.play(name);
     }
 
     public void release(){
