@@ -33,20 +33,24 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.mygrades.view.MyXuZhangActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.Chart;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_sport_mine)
 public class SportMineFragment extends LazyBaseFragment implements View.OnClickListener,
@@ -101,7 +105,10 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     RelativeLayout rl_dynamic;
     @InjectView(R.id.Re_personpk)
     RelativeLayout Re_personpk;
-
+    @InjectView(R.id.le_Calorie)
+    LinearLayout le_Calorie;
+    @InjectView(R.id.ll)
+    LinearLayout ll;
     SportManager manager;
 
     private static int currentStep;
@@ -198,6 +205,8 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         Re_news.setOnClickListener(this);
         rl_dynamic.setOnClickListener(this);
         Re_personpk.setOnClickListener(this);
+        le_Calorie.setOnClickListener(this);
+        ll.setOnClickListener(this);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
         ILoadingLayout startLabelse = pull_sroll.getLoadingLayoutProxy(true,false);
@@ -277,6 +286,18 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             /*跳转我的pk列表页*/
             case R.id.Re_personpk:
                 getActivity().startActivity(new Intent(getActivity(), PKListMineActivity.class));
+//                getActivity().startActivity(new Intent(getActivity(), ChartActivity.class));
+//                getActivity().startActivity(new Intent(getActivity(), MyGradesActivity.class));
+                break;
+            case R.id.le_Calorie:
+                Intent intent=new Intent(getActivity(),ChartActivity.class);
+                intent.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent);
+                break;
+            case R.id.ll:
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent1);
                 break;
         }
     }

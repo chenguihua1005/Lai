@@ -106,13 +106,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         leftAxis.setDrawZeroLine(true);//不启用0轴的线
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
-        radio_group.setOnCheckedChangeListener(this);
-        bt_left.setOnClickListener(this);
-        bt_right.setOnClickListener(this);
-        week.setOnClickListener(this);
-        month.setOnClickListener(this);
-        quarter.setOnClickListener(this);
-        year.setOnClickListener(this);
+
     }
 
 
@@ -125,7 +119,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         healthRecordManager=new HealthRecordManager(this);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
-        Log.i(""+date+datetime[0]+datetime[1]);
         String nowdate7=getPeriodDate(type,0)+"";
         String nowdate6=getPeriodDate(type,1)+"";
         String nowdate5=getPeriodDate(type,2)+"";
@@ -247,7 +240,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     public void onClick(View v) {
         switch (v.getId())
         {
-
             case R.id.bt_left: {
                 switch (flag)
                 {

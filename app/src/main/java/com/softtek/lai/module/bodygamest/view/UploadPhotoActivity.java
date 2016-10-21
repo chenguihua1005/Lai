@@ -212,7 +212,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     protected void initDatas() {
-
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
         downloadManager = new DownloadManager(this);
         downPhotoModel = new DownPhotoModel();
@@ -228,20 +227,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
         }, 500);
     }
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            startActivity(new Intent(UploadPhotoActivity.this, com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity.class));
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
-                //startActivity(new Intent(UploadPhotoActivity.this, com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity.class));
                 break;
             case R.id.iv_email:
             case R.id.fl_right:
