@@ -185,6 +185,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         bt_sport_left.setOnClickListener(this);
         bt_sport_right.setOnClickListener(this);
         fl_pers_right.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
     }
 
     @Override
