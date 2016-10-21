@@ -48,6 +48,8 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
+import static java.security.AccessController.getContext;
+
 @InjectLayout(R.layout.fragment_sport_mine)
 public class SportMineFragment extends LazyBaseFragment implements View.OnClickListener,
         PullToRefreshScrollView.OnRefreshListener<ScrollView>,SportManager.SportManagerCallback,Handler.Callback{
