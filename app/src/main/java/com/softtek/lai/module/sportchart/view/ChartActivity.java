@@ -169,6 +169,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         leftAxis.setDrawZeroLine(true);//不启用0轴的线
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
+        chart.setBackgroundColor(this.getResources().getColor(R.color.white));
         btn_add.setOnClickListener(this);
         iv_perpage_banner.setOnClickListener(this);
         bt_sport_left.setOnClickListener(this);
@@ -204,7 +205,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         progressDialog.show();
         Intent intent=getIntent();
         isFocusid=intent.getStringExtra("isFocusid");
-        Util.toastMsg(isFocusid);
         chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
 //        iGradesPresenter.getStepCount(dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
     }
@@ -671,7 +671,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             }
             else {
                 tv_perpagename.setText(result.getUsername()+"的主页");
-                iv_perpage_banner.setFocusable(false);
+                iv_perpage_banner.setClickable(false);
                 fl_pers_right.setVisibility(View.GONE);
             }
             if (TextUtils.isEmpty(result.getTotalStep())) {
