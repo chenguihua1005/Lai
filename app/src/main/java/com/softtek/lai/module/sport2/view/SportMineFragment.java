@@ -206,6 +206,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         rl_dynamic.setOnClickListener(this);
         Re_personpk.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        ll_step.setOnClickListener(this);
         ll_calorie.setOnClickListener(this);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
