@@ -821,7 +821,8 @@
     <RelativeLayout
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        >
         <RelativeLayout
             android:id="@+id/rl_color"
             android:background="@color/colorPrimaryDark"

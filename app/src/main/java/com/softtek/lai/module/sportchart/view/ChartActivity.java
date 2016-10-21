@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -101,6 +102,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     LinearLayout fl_pers_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.toolbar1)
+    RelativeLayout toolbar1;
     DateForm dateForm;
     private LineChartUtil chartUtil;
     List<Integer> dates = new ArrayList<Integer>();
@@ -131,6 +134,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     }
     @Override
     protected void initViews() {
+        if(DisplayUtil.getSDKInt()>18){
+            tintManager.setStatusBarAlpha(0);
+            int status= DisplayUtil.getStatusHeight(this);
+            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
+            params1.topMargin=status;
+            toolbar1.setLayoutParams(params1);
+        }
         Userid=UserInfoModel.getInstance().getUser().getUserid();
         photoManager=new PhotoManager(this);
         imageFileCropSelector = new ImageFileCropSelector(ChartActivity.this);
@@ -321,7 +331,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 day.add(dateForm.getDateform(nowdate6));
                 day.add(dateForm.getDateform(nowdate7));
                 progressDialog.show();
-                chartManager.doGetStepCount(UserInfoModel.getInstance().getUser().getUserid(), dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
+                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
                 n = n + 4;
                 bt_sport_right.setVisibility(View.VISIBLE);
                 break;
@@ -350,7 +360,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     day.add(dateForm.getDateform(nowdat6));
                     day.add(dateForm.getDateform(nowdat7));
                     progressDialog.show();
-                    chartManager.doGetStepCount(UserInfoModel.getInstance().getUser().getUserid(), dateForm.getDateform(nowdat4),dateForm.getDateform(nowdat7));
+                    chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdat4),dateForm.getDateform(nowdat7));
                     state=false;
                     if (nowdat7.equals(getPeriodDate(type,0)+""))
                         bt_sport_right.setVisibility(View.GONE);
@@ -483,7 +493,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                         break;
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 dialogDissmiss();
@@ -618,12 +627,12 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         service.doFocusAccount(UserInfoModel.getInstance().getToken(), accoutid, focusaccid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                Util.toastMsg(responseData.getMsg());
                 if (responseData.getStatus()==200)
                 {
-                    btn_add.setText("取消关注");
-                    btn_add.setTextColor(ChartActivity.this.getResources().getColor(R.color.grey));
                     btn_add.setChecked(false);
+                }
+                else {
+                    Util.toastMsg(responseData.getMsg());
                 }
             }
         });
@@ -638,12 +647,12 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         service.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), accoutid, focusaccid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                Util.toastMsg(responseData.getMsg());
                 if (responseData.getStatus()==200)
                 {
-                    btn_add.setText("添加关注");
-                    btn_add.setTextColor(ChartActivity.this.getResources().getColor(R.color.orange));
                     btn_add.setChecked(true);
+                }
+                else {
+                    Util.toastMsg(responseData.getMsg());
                 }
             }
         });
@@ -686,8 +695,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 btn_add.setChecked(true);
             } else {
                 btn_add.setChecked(false);
-                btn_add.setText("取消关注");
-                btn_add.setTextColor(this.getResources().getColor(R.color.grey));
             }
             if (result.getStepList().size()<days.size()) {
                 dates.add(0);

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:fitsSystemWindows="true">
+    >
 
 
 
@@ -210,7 +210,6 @@
                     android:id="@+id/btn_add"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
-                    android:text="添加关注"
                     android:background="@drawable/bg_add_check"
                     android:textSize="14sp"
                     android:gravity="center"
