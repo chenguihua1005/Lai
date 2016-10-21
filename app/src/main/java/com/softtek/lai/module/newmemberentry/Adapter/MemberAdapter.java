@@ -21,16 +21,12 @@ import java.util.List;
  */
 public class MemberAdapter extends ArrayAdapter<PargradeModel> {
 
-    private int resourceId;
     private Context context;
     private List<PargradeModel> pargradeModelList;
-    private LayoutInflater inflater;
 
     public MemberAdapter(Context context, int textViewResourceId, List<PargradeModel> pargradeModelList) {
         super(context, textViewResourceId, pargradeModelList);
-        resourceId = textViewResourceId;
         this.context = context;
-        inflater = LayoutInflater.from(context);
         this.pargradeModelList = pargradeModelList;
     }
 

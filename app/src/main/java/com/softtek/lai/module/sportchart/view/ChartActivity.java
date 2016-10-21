@@ -26,12 +26,10 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
@@ -39,9 +37,6 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.mygrades.model.ScoreModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
-import com.softtek.lai.module.mygrades.presenter.GradesImpl;
-import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
-import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.sportchart.model.PhotModel;
 import com.softtek.lai.module.sportchart.model.StepCountModel;
 import com.softtek.lai.module.sportchart.net.ChartService;
@@ -60,7 +55,6 @@ import com.umeng.socialize.media.UMImage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -75,12 +69,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.module.ZillaURL;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
-import static com.softtek.lai.module.mygrades.view.MyGradesActivity.getViewBitmap;
-import static com.softtek.lai.module.mygrades.view.MyGradesActivity.savePic;
 
 /**
  * Created by lareina.qiao on 10/19/2016.
@@ -134,7 +124,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     String title_value;
     String isFocusid="0";
     SelectPicPopupWindow menuWindow;
-    private IGradesPresenter iGradesPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +179,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
     @Override
     protected void initDatas() {
-        iGradesPresenter = new GradesImpl();
         iGetProinfopresenter = new GetProinfoImpl(this);
         chartManager = new ChartManager(this);
         iGetProinfopresenter = new GetProinfoImpl(this);
