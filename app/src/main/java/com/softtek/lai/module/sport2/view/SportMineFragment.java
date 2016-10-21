@@ -39,6 +39,7 @@ import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -47,6 +48,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+
+import static java.security.AccessController.getContext;
 
 @InjectLayout(R.layout.fragment_sport_mine)
 public class SportMineFragment extends LazyBaseFragment implements View.OnClickListener,
@@ -203,6 +206,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         rl_dynamic.setOnClickListener(this);
         Re_personpk.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        ll_step.setOnClickListener(this);
         ll_calorie.setOnClickListener(this);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
@@ -286,7 +290,9 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                 break;
             case R.id.ll_step:
             case R.id.ll_calorie:
-
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent1);
                 break;
         }
     }
