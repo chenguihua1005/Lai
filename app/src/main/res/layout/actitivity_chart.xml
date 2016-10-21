@@ -12,17 +12,17 @@
     <com.softtek.lai.widgets.ObservableScrollView
         android:id="@+id/StuScrollv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:overScrollMode="never"
         android:scrollbars="none"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="220dp">
+            android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <FrameLayout
                 android:id="@+id/fl"
@@ -57,7 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,8 +73,8 @@
                 android:background="#f1f1f1"
                 android:id="@+id/chart_sport"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
             </com.github.mikephil.charting.charts.LineChart>
@@ -93,6 +94,12 @@
                     android:visibility="gone"
                     />
             </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -210,6 +217,7 @@
                     android:textColor="#FFA302"/>
 
             </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
         </LinearLayout>
@@ -276,6 +284,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#ffffff"
+                android:textStyle="bold"
                 android:layout_centerHorizontal="true"/>
             <TextView
                 android:id="@+id/tv_studate"
