@@ -672,7 +672,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             else {
                 tv_perpagename.setText(result.getUsername()+"的主页");
                 iv_perpage_banner.setClickable(false);
-                fl_pers_right.setVisibility(View.GONE);
+                fl_pers_right.setVisibility(View.INVISIBLE);
             }
             if (TextUtils.isEmpty(result.getTotalStep())) {
                 tv_step.setText("--");
