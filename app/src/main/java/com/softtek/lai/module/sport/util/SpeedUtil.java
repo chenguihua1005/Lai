@@ -1,10 +1,13 @@
 package com.softtek.lai.module.sport.util;
 
 import android.content.Context;
+import android.os.SystemClock;
 
 import com.softtek.lai.R;
 import com.softtek.lai.sound.SoundHelper;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -14,57 +17,100 @@ import java.util.Random;
 public class SpeedUtil {
 
     private SoundHelper sounder;
+    private Map<String,Integer> resource;
+
     public SpeedUtil(Context context){
-        sounder=new SoundHelper(context,41);
+        sounder=new SoundHelper(context,37);
         sounder.addAudio("resume",R.raw.resume);
         sounder.addAudio("pause",R.raw.pause);
         sounder.addAudio("end",R.raw.end);
-
-        sounder.addAudio("one",R.raw.one);
-        sounder.addAudio("two",R.raw.two);
-        sounder.addAudio("three",R.raw.three);
-        sounder.addAudio("four",R.raw.four);
-        sounder.addAudio("five",R.raw.five);
-        sounder.addAudio("six",R.raw.six);
-        sounder.addAudio("seven",R.raw.seven);
-        sounder.addAudio("eight",R.raw.eight);
-        sounder.addAudio("nine",R.raw.nine);
-        sounder.addAudio("ten",R.raw.ten);
-
-        sounder.addAudio("twenty",R.raw.twenty);
-        sounder.addAudio("thirty",R.raw.thirty);
-        sounder.addAudio("forty",R.raw.forty);
-        sounder.addAudio("fifty",R.raw.fifty);
-        sounder.addAudio("sixty",R.raw.sixty);
-        sounder.addAudio("seventy",R.raw.seventy);
-        sounder.addAudio("eighty",R.raw.eighty);
-        sounder.addAudio("ninety",R.raw.ninety);
-        sounder.addAudio("has_sport",R.raw.has_sport);
-        sounder.addAudio("kilometre",R.raw.kilometre);
-
-        sounder.addAudio("has_sport1k",R.raw.has_onek);
-        sounder.addAudio("has_sport2k",R.raw.has_twok);
-        sounder.addAudio("has_sport3k",R.raw.has_threek);
-        sounder.addAudio("has_sport4k",R.raw.has_fourk);
-        sounder.addAudio("has_sport5k",R.raw.has_fivek);
-        sounder.addAudio("has_sport6k",R.raw.has_sixk);
-        sounder.addAudio("has_sport7k",R.raw.has_sevenk);
-        sounder.addAudio("has_sport8k",R.raw.has_eightk);
-        sounder.addAudio("has_sport9k",R.raw.has_ninek);
-        sounder.addAudio("has_sport10k",R.raw.has_tenk);
-
-        sounder.addAudio("jiayou",R.raw.jiayou);
-        sounder.addAudio("haobang",R.raw.haobang);
-        sounder.addAudio("jianchi",R.raw.jianchi);
-        sounder.addAudio("taibang",R.raw.taibang);
-        sounder.addAudio("zhenlihai",R.raw.zhenlihai);
         sounder.addAudio("onek_useTime",R.raw.late_use_time_onek);
         sounder.addAudio("useTime",R.raw.use_time);
-        sounder.addAudio("gps_low",R.raw.gps_low);
 
         sounder.addAudio("time",R.raw.time);
         sounder.addAudio("minutes",R.raw.minute);
         sounder.addAudio("seconds",R.raw.seconds);
+        sounder.addAudio("has_sport",R.raw.has_sport);
+        sounder.addAudio("kilometre",R.raw.kilometre);
+
+        resource=new HashMap<>();
+        resource.put("one",R.raw.one);
+        resource.put("two",R.raw.two);
+        resource.put("three",R.raw.three);
+        resource.put("four",R.raw.four);
+        resource.put("five",R.raw.five);
+        resource.put("six",R.raw.six);
+        resource.put("seven",R.raw.seven);
+        resource.put("eight",R.raw.eight);
+        resource.put("nine",R.raw.nine);
+        resource.put("ten",R.raw.ten);
+
+        resource.put("twenty",R.raw.twenty);
+        resource.put("thirty",R.raw.thirty);
+        resource.put("forty",R.raw.forty);
+        resource.put("fifty",R.raw.fifty);
+        resource.put("sixty",R.raw.sixty);
+        resource.put("seventy",R.raw.seventy);
+        resource.put("eighty",R.raw.eighty);
+        resource.put("ninety",R.raw.ninety);
+        resource.put("has_sport",R.raw.has_sport);
+
+        resource.put("has_sport1k",R.raw.has_onek);
+        resource.put("has_sport2k",R.raw.has_twok);
+        resource.put("has_sport3k",R.raw.has_threek);
+        resource.put("has_sport4k",R.raw.has_fourk);
+        resource.put("has_sport5k",R.raw.has_fivek);
+        resource.put("has_sport6k",R.raw.has_sixk);
+        resource.put("has_sport7k",R.raw.has_sevenk);
+        resource.put("has_sport8k",R.raw.has_eightk);
+        resource.put("has_sport9k",R.raw.has_ninek);
+        resource.put("has_sport10k",R.raw.has_tenk);
+
+        resource.put("jiayou",R.raw.jiayou);
+        resource.put("haobang",R.raw.haobang);
+        resource.put("jianchi",R.raw.jianchi);
+        resource.put("taibang",R.raw.taibang);
+        resource.put("zhenlihai",R.raw.zhenlihai);
+
+//-================================================
+
+//        sounder.addAudio("one",R.raw.one);
+//        sounder.addAudio("two",R.raw.two);
+//        sounder.addAudio("three",R.raw.three);
+//        sounder.addAudio("four",R.raw.four);
+//        sounder.addAudio("five",R.raw.five);
+//        sounder.addAudio("six",R.raw.six);
+//        sounder.addAudio("seven",R.raw.seven);
+//        sounder.addAudio("eight",R.raw.eight);
+//        sounder.addAudio("nine",R.raw.nine);
+//        sounder.addAudio("ten",R.raw.ten);
+//
+//        sounder.addAudio("twenty",R.raw.twenty);
+//        sounder.addAudio("thirty",R.raw.thirty);
+//        sounder.addAudio("forty",R.raw.forty);
+//        sounder.addAudio("fifty",R.raw.fifty);
+//        sounder.addAudio("sixty",R.raw.sixty);
+//        sounder.addAudio("seventy",R.raw.seventy);
+//        sounder.addAudio("eighty",R.raw.eighty);
+//        sounder.addAudio("ninety",R.raw.ninety);
+
+//        sounder.addAudio("has_sport1k",R.raw.has_onek);
+//        sounder.addAudio("has_sport2k",R.raw.has_twok);
+//        sounder.addAudio("has_sport3k",R.raw.has_threek);
+//        sounder.addAudio("has_sport4k",R.raw.has_fourk);
+//        sounder.addAudio("has_sport5k",R.raw.has_fivek);
+//        sounder.addAudio("has_sport6k",R.raw.has_sixk);
+//        sounder.addAudio("has_sport7k",R.raw.has_sevenk);
+//        sounder.addAudio("has_sport8k",R.raw.has_eightk);
+//        sounder.addAudio("has_sport9k",R.raw.has_ninek);
+//        sounder.addAudio("has_sport10k",R.raw.has_tenk);
+
+//        sounder.addAudio("jiayou",R.raw.jiayou);
+//        sounder.addAudio("haobang",R.raw.haobang);
+//        sounder.addAudio("jianchi",R.raw.jianchi);
+//        sounder.addAudio("taibang",R.raw.taibang);
+//        sounder.addAudio("zhenlihai",R.raw.zhenlihai);
+
     }
 
     //您已运动10公里以上的拼接
@@ -80,18 +126,21 @@ public class SpeedUtil {
                     int remain=num%10;
                     if(remain==0){
                         //整十数
-                        String[] name = {"has_sport", shi[0], "kilometre"};
-                        int[] delay = {900, Integer.parseInt(shi[1]), 800};
-                        sounder.playSequence(name, delay);
+                        sounder.play("has_sport",900);
+
+                        sounder.lazyPlayAndDelay(shi[0],resource.get(shi[0]),Integer.parseInt(shi[1]));
+
+                        sounder.play("kilometre",800);
                     }else {
                         String[] ge = aBitParts(remain);
-                        String[] name = {"has_sport", shi[0], ge[0], "kilometre"};
-                        int[] delay = {900, Integer.parseInt(shi[1]), Integer.parseInt(ge[1]), 800};
-                        sounder.playSequence(name, delay);
+                        sounder.play("has_sport",900);
+                        sounder.lazyPlayAndDelay(shi[0],resource.get(shi[0]),Integer.parseInt(shi[1]));
+                        sounder.lazyPlayAndDelay(ge[0],resource.get(ge[0]),Integer.parseInt(ge[1]));
+                        sounder.play("kilometre",800);
                     }
                     sounder.play("onek_useTime",1400);
                     sayTime(hour,minutes,second);
-                    sounder.play("jianchi");
+                    sounder.lazyPlay("jianchi",resource.get("jianchi"));
                 }
             }).start();
 
@@ -110,14 +159,13 @@ public class SpeedUtil {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String[] name = {"has_sport"+num+"k"};
-                    int[] delay = {2000};
-                    sounder.playSequence(name, delay);
+                    sounder.lazyPlay("has_sport"+num+"k",resource.get("has_sport"+num+"k"));
+                    SystemClock.sleep(3000);
                     //用时
                     String encourage=sayEncourage();//鼓励语
                     sounder.play("useTime",576);
                     sayTime(hour,minutes,second);
-                    sounder.play(encourage);
+                    sounder.lazyPlay(encourage,resource.get(encourage));
                 }
             }).start();
         }
@@ -148,7 +196,9 @@ public class SpeedUtil {
     }
 
     public void sayNormal(String name){
-        sounder.play(name);
+        if(!resource.containsKey(name)){
+            sounder.play(name);
+        }
     }
 
     public void release(){
@@ -269,29 +319,38 @@ public class SpeedUtil {
         String[] saySeconds=getNumberSpeed(seconds);
         if(sayHour!=null){
             if(sayHour.length==2){
-                sounder.play(sayHour[0],Integer.parseInt(sayHour[1]));
+                sounder.lazyPlayAndDelay(sayHour[0],resource.get(sayHour[0]),Integer.parseInt(sayHour[1]));
+                //sounder.play(sayHour[0],Integer.parseInt(sayHour[1]));
             }else if(sayHour.length==4){
-                sounder.play(sayHour[0],Integer.parseInt(sayHour[1]));
-                sounder.play(sayHour[2],Integer.parseInt(sayHour[3]));
+                sounder.lazyPlayAndDelay(sayHour[0],resource.get(sayHour[0]),Integer.parseInt(sayHour[1]));
+                //sounder.play(sayHour[0],Integer.parseInt(sayHour[1]));
+                sounder.lazyPlayAndDelay(sayHour[2],resource.get(sayHour[2]),Integer.parseInt(sayHour[3]));
+                //sounder.play(sayHour[2],Integer.parseInt(sayHour[3]));
             }
             sounder.play("time",688);
         }
         if(sayMinutes!=null){
             if(sayMinutes.length==2){
-                sounder.play(sayMinutes[0],Integer.parseInt(sayMinutes[1]));
+                sounder.lazyPlayAndDelay(sayMinutes[0],resource.get(sayMinutes[0]),Integer.parseInt(sayMinutes[1]));
+                //sounder.play(sayMinutes[0],Integer.parseInt(sayMinutes[1]));
             }else if(sayMinutes.length==4){
-                sounder.play(sayMinutes[0],Integer.parseInt(sayMinutes[1]));
-                sounder.play(sayMinutes[2],Integer.parseInt(sayMinutes[3]));
+                sounder.lazyPlayAndDelay(sayMinutes[0],resource.get(sayMinutes[0]),Integer.parseInt(sayMinutes[1]));
+                sounder.lazyPlayAndDelay(sayMinutes[2],resource.get(sayMinutes[2]),Integer.parseInt(sayMinutes[3]));
+//                sounder.play(sayMinutes[0],Integer.parseInt(sayMinutes[1]));
+//                sounder.play(sayMinutes[2],Integer.parseInt(sayMinutes[3]));
             }
             sounder.play("minutes",590);
         }
 
         if(saySeconds!=null){
             if(saySeconds.length==2){
-                sounder.play(saySeconds[0],Integer.parseInt(saySeconds[1]));
+                sounder.lazyPlayAndDelay(saySeconds[0],resource.get(saySeconds[0]),Integer.parseInt(saySeconds[1]));
+                //sounder.play(saySeconds[0],Integer.parseInt(saySeconds[1]));
             }else if(saySeconds.length==4){
-                sounder.play(saySeconds[0],Integer.parseInt(saySeconds[1]));
-                sounder.play(saySeconds[2],Integer.parseInt(saySeconds[3]));
+                sounder.lazyPlayAndDelay(saySeconds[0],resource.get(saySeconds[0]),Integer.parseInt(saySeconds[1]));
+                sounder.lazyPlayAndDelay(saySeconds[2],resource.get(saySeconds[2]),Integer.parseInt(saySeconds[3]));
+                //sounder.play(saySeconds[0],Integer.parseInt(saySeconds[1]));
+                //sounder.play(saySeconds[2],Integer.parseInt(saySeconds[3]));
             }
             sounder.play("seconds",500);
         }

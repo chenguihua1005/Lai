@@ -107,8 +107,6 @@
     <string name="studentHonorYGJ">月冠军</string>
     <string name="studentHonorsTAR">全国减重明星奖章</string>
 
-    <string name="activity">活动推荐</string>
-    <string name="healthyDisport">健康娱乐</string>
     <string name="CounselorA">体管赛</string>
     <string name="CounselorB">往期回顾</string>
     <string name="CounselorC">新学员录入</string>
@@ -141,7 +139,6 @@
     <string name="joinGame">参赛邀请</string>
     <string name="review">往期回顾</string>
     <string name="message1">体管赛小助手</string>
-    <string name="message2">助教申请</string>
     <string name="message3">参赛邀请</string>
     <string name="fcRemind">复测提醒</string>
     <string name="joinGameP">本人已仔细阅读</string>

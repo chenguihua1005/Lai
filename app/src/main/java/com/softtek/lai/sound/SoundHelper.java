@@ -8,6 +8,8 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.SystemClock;
 
+import com.github.snowdream.android.util.Log;
+
 import java.util.HashMap;
 
 /**
@@ -70,6 +72,39 @@ public class SoundHelper {
         }
     }
 
+    //播放声音如果找不到则先加载在播放
+    public void lazyPlayAndDelay(String name,int raw,int delay){
+        if(soundPool!=null&&soundMap!=null){
+            if(soundMap.containsKey(name)){
+                soundPool.play(soundMap.get(name),1,1,0,0,1);
+                SystemClock.sleep(delay);
+            }else {
+                //没有这个音频
+                addAudio(name,raw);
+                SystemClock.sleep(delay);
+                play(name,delay);
+            }
+        }
+    }
+
+    //播放声音如果找不到则先加载在播放
+    public void lazyPlay(final String name, int raw){
+        if(soundPool!=null&&soundMap!=null){
+            if(soundMap.containsKey(name)){
+                soundPool.play(soundMap.get(name),1,1,0,0,1);
+            }else {
+                //没有这个音频
+                addAudio(name,raw);
+                soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                    @Override
+                    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                        play(name);
+                    }
+                });
+            }
+        }
+    }
+
     //按顺序播放
     public void playSequence(String[] name,int[] delay){
         if(soundPool!=null&&soundMap!=null){
@@ -117,5 +152,11 @@ public class SoundHelper {
         }
     }
 
+    /**
+     * 检查资源是否存在
+     */
+    public boolean isExist(String name){
+        return soundMap.containsKey(name);
+    }
 
 }
