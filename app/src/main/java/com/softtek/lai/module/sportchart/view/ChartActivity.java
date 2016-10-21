@@ -695,7 +695,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 btn_add.setChecked(true);
             } else {
                 btn_add.setChecked(false);
-                btn_add.setTextColor(this.getResources().getColor(R.color.grey));
             }
             if (result.getStepList().size()<days.size()) {
                 dates.add(0);
