@@ -88,17 +88,21 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                if(AbsListView.OnScrollListener.SCROLL_STATE_IDLE==scrollState){
+                    //show();
+                }else {
+                    //hiden();
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(lastVisibleItemPosition<firstVisibleItem){
                     //上滑
-                    hiden();
+                    //hiden();
                 }else if(lastVisibleItemPosition>firstVisibleItem){
                     //下滑
-                    show();
+                    //show();
                 }
                 lastVisibleItemPosition=firstVisibleItem;
             }
@@ -194,6 +198,10 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
                         PKListModel model = models.get(position);
                         String chp=data.getStringExtra("ChP");
                         String bchp=data.getStringExtra("BChP");
+                        boolean isPraise=data.getBooleanExtra("isPraise",false);
+                        boolean isBPraise=data.getBooleanExtra("isBPraise",false);
+                        model.setPraiseStatus(isPraise?1:0);
+                        model.setBPraiseStatus(isBPraise?1:0);
                         model.setChP(Integer.parseInt(StringUtils.isEmpty(chp)?"0":chp));
                         model.setBChp(Integer.parseInt(StringUtils.isEmpty(bchp)?"0":bchp));
                     }

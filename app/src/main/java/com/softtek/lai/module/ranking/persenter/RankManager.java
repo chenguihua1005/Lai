@@ -25,7 +25,6 @@ public class RankManager {
     }
     //获取日排名
     public void getDayRank(int RGIdType,int pageIndex){
-        Log.i("token///////"+UserInfoModel.getInstance().getToken());
         service.getCurrentDateOrder(UserInfoModel.getInstance().getToken(), RGIdType, pageIndex,
                 new RequestCallback<ResponseData<RankModel>>() {
                     @Override

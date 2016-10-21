@@ -54,7 +54,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tv_title.setText("我的PK挑战列表");
+        tv_title.setText("我的PK列表");
         ll_left.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);

@@ -56,6 +56,7 @@ import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.SpeedUtil;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
@@ -119,7 +120,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     PolylineOptions polylineOptions;
 
     private OnLocationChangedListener listener;
-    //private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
+    private SpeedUtil sounder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,8 +153,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
     private long oldStep=0;
+
     @Override
     protected void initViews() {
+
+        sounder=new SpeedUtil(this);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -415,6 +419,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         super.onDestroy();
         /*screenListener.unregisterListener();
         homeListener.stopWatch();*/
+        sounder.release();
     }
 
     @Override
@@ -450,7 +455,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         outState.putDouble("previousDistance",previousDistance);//保存距离
         outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
         outState.putBoolean("isLocation",isLocation);//记录了是否定位到了
-        //outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
 
     }
 
@@ -484,15 +488,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
+                        sounder.sayNormal("resume");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
+                        sounder.sayNormal("pause");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
                 break;
             case R.id.iv_stop:
+                sounder.sayNormal("end");
                 if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
@@ -744,6 +751,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             //辨别问题坐标每公里耗费时间2分10秒约130秒
                             model.setHasProblem(tempTime<=130?"1":"0");
                             kilometerTime=time;
+                            if(kilometre>0&&kilometre<=10){
+                                sounder.sayLt10K(kilometre);
+                            }else if(kilometre>10){
+                                sounder.sayGt10K(kilometre);
+                            }
                         }else if(kilometre-index>1){
                             //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
                             //所以标注为问题坐标
@@ -787,8 +799,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }else if(accuracy<60){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
             }else{
+                sounder.sayNormal("gps_low");
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
             }
         }
     }
+
+
 }

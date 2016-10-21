@@ -6,11 +6,7 @@
 package com.softtek.lai.module.ranking.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -20,27 +16,25 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.community.model.PersonalListModel;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
-import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.ranking.model.OrderData;
-import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.module.ranking.net.RankingService;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 /**
@@ -79,10 +73,10 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         //绑定数据
         if(holder instanceof ViewHolder){
-            OrderData data=infos.get(position);
+            final OrderData data=infos.get(position);
             if(TextUtils.isEmpty(data.getPhoto())){
                 Picasso.with(context).load(R.drawable.img_default).into(((ViewHolder) holder).header_image);
             }else {
@@ -100,6 +94,37 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 //未点赞
                 ((ViewHolder) holder).cb_zan.setEnabled(true);
                 ((ViewHolder) holder).cb_zan.setChecked(false);
+                ((ViewHolder) holder).cb_zan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((ViewHolder) holder).cb_zan.setEnabled(false);
+                        ((ViewHolder) holder).cb_zan.setChecked(true);
+                        String prasieNum=String.valueOf(Integer.parseInt(data.getPrasieNum())+1);
+                        ((ViewHolder) holder).cb_zan.setText(prasieNum);
+                        data.setPrasieNum(prasieNum);
+                        ZillaApi.NormalRestAdapter.create(RankingService.class)
+                                .dayRankZan(UserInfoModel.getInstance().getToken(),
+                                        UserInfoModel.getInstance().getUserId(),
+                                        data.getAcStepGuid(),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData o, Response response) {
+
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                ((ViewHolder) holder).cb_zan.setEnabled(true);
+                                                ((ViewHolder) holder).cb_zan.setChecked(false);
+                                                String prasieNum=String.valueOf(Integer.parseInt(data.getPrasieNum())-1);
+                                                ((ViewHolder) holder).cb_zan.setText(prasieNum);
+                                                data.setPrasieNum(prasieNum);
+                                                super.failure(error);
+                                            }
+                                        });
+
+                    }
+                });
             }else {
                 ((ViewHolder) holder).cb_zan.setEnabled(false);
                 ((ViewHolder) holder).cb_zan.setChecked(true);
@@ -114,13 +139,6 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             /*holder.itemView.setTag(position);*/
         }
 
-    }
-
-    private SpannableString getString(String value, int size1, int size2,int position) {
-        SpannableString spannableString = new SpannableString(value);
-        spannableString.setSpan(new AbsoluteSizeSpan(size1,true), 0, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(size2,true), position, value.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return spannableString;
     }
 
     @Override

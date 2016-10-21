@@ -32,6 +32,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -41,9 +42,11 @@ import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
 import com.softtek.lai.module.sport.net.WeatherServer;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.SpeedUtil;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
+import com.softtek.lai.sound.SoundHelper;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.RippleLayout;
 
@@ -108,6 +111,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     private AMapLocationClientOption aMapLocationClientOption;
     private static final int LOCATION_PREMISSION = 100;
 
+    private SoundHelper speed;
 
     public SportFragment() {
 
@@ -115,11 +119,14 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void lazyLoad() {
-        manager.getHistoryTotalMovement();
+
     }
+
 
     @Override
     protected void initViews() {
+        speed=new SoundHelper(getContext(),1);
+        speed.addAudio("ready",R.raw.sport_ready);
         ll_left.setOnClickListener(this);
         text_total_distance.setOnClickListener(this);
         ll_ll.setOnClickListener(this);
@@ -151,9 +158,9 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
          * PackageManager.PERMISSION_GRANTED:允许使用权限
          * PackageManager.PERMISSION_DENIED:不允许使用权限
          */
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 //允许弹出提示
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PREMISSION);
@@ -182,16 +189,6 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     SportManager manager;
 
@@ -199,6 +196,31 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     protected void initDatas() {
         tv_title.setText("运动");
         manager = new SportManager(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i("运动onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("运动onResume");
+        manager.getHistoryTotalMovement();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("运动onPause");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i("运动onStop");
     }
 
     @Override
@@ -324,6 +346,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
                 getActivity().startActivity(new Intent(getActivity(), HomeActviity.class));
                 break;
             case R.id.text_start:
+                speed.play("ready");
                 if (isGpsEnable()) {
                     //先检查是否有异常记录
                     final ArrayList<SportModel> list = (ArrayList<SportModel>) SportUtil.getInstance().querySport(UserInfoModel.getInstance().getUserId() + "");
@@ -463,6 +486,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void onDestroyView() {
         super.onDestroyView();
         aMapLocationClient.stopLocation();
+        speed.release();
     }
 
 

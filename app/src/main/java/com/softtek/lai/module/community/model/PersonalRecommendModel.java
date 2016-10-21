@@ -62,4 +62,16 @@ public class PersonalRecommendModel {
     public void setHealthList(List<PersonalListModel> healthList) {
         HealthList = healthList;
     }
+
+    @Override
+    public String toString() {
+        return "PersonalRecommendModel{" +
+                "TotalPage=" + TotalPage +
+                ", UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", IsFocus=" + IsFocus +
+                ", HealthCount=" + HealthCount +
+                ", HealthList=" + HealthList +
+                '}';
+    }
 }

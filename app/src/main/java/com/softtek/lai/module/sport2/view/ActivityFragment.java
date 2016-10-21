@@ -86,9 +86,7 @@ public class ActivityFragment extends LazyBaseFragment implements View.OnClickLi
         userId = UserInfoModel.getInstance().getUser().getUserid();
         adapter = new GroupListItemAdapter(getContext(), list);
         act_list.setAdapter(adapter);
-
         actManager = new ActManager(this);
-        actManager.activityList(pageIndex + "", userId);
 
     }
 

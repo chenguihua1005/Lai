@@ -33,14 +33,24 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/img_default" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header_image"
+                android:gravity="center"
+                android:layout_marginTop="11dp"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <LinearLayout
-                android:id="@+id/ll"
+                android:id="@+id/ll_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/header_image"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -67,16 +77,17 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/ll"
+                android:layout_toRightOf="@id/ll_step"
                 android:background="#84CD37" />
 
             <LinearLayout
-                android:id="@+id/le_Calorie"
+                android:id="@+id/ll_calorie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/v"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -97,16 +108,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/header_image"
-                android:layout_below="@id/header_image"
-                android:text="会飞的猫"
-                android:layout_marginTop="11dp"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout

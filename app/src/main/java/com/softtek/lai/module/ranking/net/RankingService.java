@@ -4,8 +4,11 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.ranking.model.RankModel;
 import com.softtek.lai.utils.RequestCallback;
 
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -26,4 +29,12 @@ public interface RankingService {
                              @Query("RGIdType") int RGIdType,
                              @Query("PageIndex")int pageIndex,
                              RequestCallback<ResponseData<RankModel>> callback);
+
+    //日排名点赞
+    @FormUrlEncoded
+    @POST("/StepCount/InsertStepPrasie")
+    void dayRankZan(@Header("token")String token,
+                    @Field("AccountId")long accountId,
+                    @Field("HealthId")String id,
+                    RequestCallback<ResponseData> callback);
 }
