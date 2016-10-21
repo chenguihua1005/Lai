@@ -6,7 +6,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
-import android.os.Handler;
 import android.os.SystemClock;
 
 import java.util.HashMap;
@@ -56,23 +55,30 @@ public class SoundHelper {
     //播放
     public void play(String name){
         if(soundPool!=null&&soundMap!=null){
-            soundPool.play(soundMap.get(name),1,1,0,0,1);
+            if(soundMap.containsKey(name)) {
+                soundPool.play(soundMap.get(name), 1, 1, 0, 0, 1);
+            }
         }
     }
 
     public void play(String name,int delay){
         if(soundPool!=null&&soundMap!=null){
-            soundPool.play(soundMap.get(name),1,1,0,0,1);
-            SystemClock.sleep(delay);
+            if(soundMap.containsKey(name)){
+                soundPool.play(soundMap.get(name),1,1,0,0,1);
+                SystemClock.sleep(delay);
+            }
         }
     }
 
     //按顺序播放
-    public void playSequence(String[] name,long[] delay){
+    public void playSequence(String[] name,int[] delay){
         if(soundPool!=null&&soundMap!=null){
             for (int i=0;i<name.length;i++){
-                soundPool.play(soundMap.get(name[i]),1,1,0,0,1);
-                SystemClock.sleep(delay[i]);
+                String key=name[i];
+                if(soundMap.containsKey(key)){
+                    soundPool.play(soundMap.get(key),1,1,0,0,1);
+                    SystemClock.sleep(delay[i]);
+                }
             }
         }
     }
@@ -80,20 +86,26 @@ public class SoundHelper {
     //停止
     public void stop(String name){
         if(soundPool!=null&&soundMap!=null){
-            soundPool.stop(soundMap.get(name));
+            if(soundMap.containsKey(name)) {
+                soundPool.stop(soundMap.get(name));
+            }
         }
     }
 
     //暂停
     public void pause(String name){
         if(soundPool!=null&&soundMap!=null){
-            soundPool.pause(soundMap.get(name));
+            if(soundMap.containsKey(name)) {
+                soundPool.pause(soundMap.get(name));
+            }
         }
     }
     //继续
     public void resume(String name){
         if(soundPool!=null&&soundMap!=null){
-            soundPool.resume(soundMap.get(name));
+            if(soundMap.containsKey(name)) {
+                soundPool.resume(soundMap.get(name));
+            }
         }
     }
 
@@ -101,6 +113,7 @@ public class SoundHelper {
     public void release(){
         if(soundPool!=null){
             soundPool.release();
+            soundMap.clear();
         }
     }
 

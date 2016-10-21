@@ -488,12 +488,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
-                        sounder.sayNormal("resume");
+                        //sounder.sayNormal("resume");
+                        sounder.sayGt10K(48,3670);
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
-                        sounder.sayNormal("pause");
+                        //sounder.sayNormal("pause");
+                        sounder.sayLt10K(4,1000);
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
@@ -752,9 +754,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             model.setHasProblem(tempTime<=130?"1":"0");
                             kilometerTime=time;
                             if(kilometre>0&&kilometre<=10){
-                                sounder.sayLt10K(kilometre);
+                                sounder.sayLt10K(kilometre,time);
                             }else if(kilometre>10){
-                                sounder.sayGt10K(kilometre);
+                                sounder.sayGt10K(kilometre,tempTime);
                             }
                         }else if(kilometre-index>1){
                             //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
@@ -799,8 +801,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }else if(accuracy<60){
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
             }else{
-                sounder.sayNormal("gps_low");
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
+                //sounder.sayNormal("gps_low");
             }
         }
     }
