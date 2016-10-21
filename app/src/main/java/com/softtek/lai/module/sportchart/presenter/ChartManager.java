@@ -2,8 +2,6 @@ package com.softtek.lai.module.sportchart.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.sport2.model.SportMineModel;
-import com.softtek.lai.module.sport2.net.SportService;
 import com.softtek.lai.module.sportchart.model.StepCountModel;
 import com.softtek.lai.module.sportchart.net.ChartService;
 import com.softtek.lai.utils.RequestCallback;

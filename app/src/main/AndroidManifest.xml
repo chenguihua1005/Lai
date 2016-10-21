@@ -591,9 +591,6 @@
             android:name=".module.sport.view.HistorySportListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.mygrades.view.MyGradesActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.lossweightstory.view.PictureActivity"
             android:process=":picture"
             android:screenOrientation="portrait" />
@@ -642,10 +639,8 @@
         <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
-        <activity
-            android:name=".module.mygrades.view.RankingDetailsActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygamest.view.PhotoViewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.tips.view.AskDetailActivity"
             android:screenOrientation="portrait" />
@@ -819,9 +814,10 @@
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.sport2.view.CountDownActivity" />
-        <activity android:name=".module.sport2.view.TestActivity" />
-        <activity android:name=".module.ranking.view.RankingActivity"></activity>
+        <activity android:name=".module.sport2.view.CountDownActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.ranking.view.RankingActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

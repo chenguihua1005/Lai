@@ -488,14 +488,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
-                        //sounder.sayNormal("resume");
-                        sounder.sayGt10K(48,3670);
+                        sounder.sayNormal("resume");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
-                        //sounder.sayNormal("pause");
-                        sounder.sayLt10K(4,1000);
+                        sounder.sayNormal("pause");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
