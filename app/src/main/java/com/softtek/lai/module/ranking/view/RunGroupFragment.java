@@ -1,6 +1,7 @@
 package com.softtek.lai.module.ranking.view;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -28,6 +29,7 @@ import com.softtek.lai.module.ranking.model.OrderData;
 import com.softtek.lai.module.ranking.model.RankModel;
 import com.softtek.lai.module.ranking.net.RankingService;
 import com.softtek.lai.module.ranking.persenter.RankManager;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
@@ -119,6 +121,14 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                 }else{
                     pull.setEnabled(false);
                 }
+            }
+        });
+        header_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent1);
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -9,7 +9,6 @@ public class OrderData {
     private String AccountId;
     private String Photo;
     private String _order;
-    private String accoutid;
     private String mobile;
     private String stepCount;
     private String userName;
@@ -46,14 +45,6 @@ public class OrderData {
 
     public void set_order(String _order) {
         this._order = _order;
-    }
-
-    public String getAccoutid() {
-        return accoutid;
-    }
-
-    public void setAccoutid(String accoutid) {
-        this.accoutid = accoutid;
     }
 
     public String getMobile() {
