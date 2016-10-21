@@ -6,6 +6,7 @@
 package com.softtek.lai.module.ranking.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -26,6 +27,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.ranking.model.OrderData;
 import com.softtek.lai.module.ranking.net.RankingService;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -83,6 +85,14 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 Picasso.with(context).load(AddressManager.get("photoHost")+data.getPhoto())
                         .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(((ViewHolder) holder).header_image);
             }
+            ((ViewHolder) holder).header_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent1=new Intent(context,ChartActivity.class);
+                    intent1.putExtra("isFocusid",data.getAccountId());
+                    context.startActivity(intent1);
+                }
+            });
             ((ViewHolder) holder).tv_num.setText(data.get_order());
             ((ViewHolder) holder).tv_name.setText(data.getUserName());
             ((ViewHolder) holder).tv_step.setText(data.getStepCount());
