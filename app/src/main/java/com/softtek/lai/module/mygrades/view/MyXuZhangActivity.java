@@ -80,6 +80,14 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     @Override
     public void getXunZhangList(XunZhangModel xunZhangModel) {
         try {
+            //爱心天使勋章是否获得
+            if (xunZhangModel.getAngle().equals("0")) {
+                images.add(R.drawable.jijinno);//爱心天使勋章图片
+                content.add("康宝莱公益基金会");
+            } else {
+                images1.add(R.drawable.jijin);//爱心天使勋章图片
+                content1.add("康宝莱公益基金会");
+            }
             if (xunZhangModel!=null) {
                 //images是存放未获得勋章，content存放未获得勋章文字内容
                 //images1是存放获得勋章，content1存放获得勋章文字内容
@@ -143,14 +151,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                     images1.add(R.drawable.img_day365_have);//365天勋章图片
                     content1.add("连续3天步数1万");
                 }
-                //爱心天使勋章是否获得
-                if (xunZhangModel.getAngle().equals("0")) {
-                    images.add(R.drawable.jijinno);//爱心天使勋章图片
-                    content.add("康宝莱公益基金会");
-                } else {
-                    images1.add(R.drawable.jijin);//爱心天使勋章图片
-                    content1.add("康宝莱公益基金会");
-                }
+
 
                 Map<Integer, String> map_pk = new HashMap<>();
                 List<String> pk_list = xunZhangModel.getPK();
