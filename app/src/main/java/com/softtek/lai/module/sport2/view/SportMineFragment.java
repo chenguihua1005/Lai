@@ -39,6 +39,7 @@ import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
 import com.softtek.lai.module.sport2.presenter.SportManager;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -288,7 +289,9 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                 break;
             case R.id.ll_step:
             case R.id.ll_calorie:
-
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent1);
                 break;
         }
     }
