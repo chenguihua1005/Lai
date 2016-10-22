@@ -128,6 +128,14 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                 getActivity().startActivity(intent1);
             }
         });
+        adapter.setOnItemClickListener(new RankingRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",infos.get(position).getAccountId());
+                getActivity().startActivity(intent1);
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

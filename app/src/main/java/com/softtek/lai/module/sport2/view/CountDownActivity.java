@@ -1,8 +1,13 @@
 package com.softtek.lai.module.sport2.view;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -43,11 +48,14 @@ public class CountDownActivity extends BaseActivity {
         sounder.addAudio("count_dwon2",R.raw.count_down_2);
         sounder.addAudio("count_dwon1",R.raw.count_down_1);
 
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 sounder.play("countDown");
-                text_djs.setText("Ready");
+                SpannableString ss=new SpannableString("Ready");
+                ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                text_djs.setText(ss);
                 bigToNormalAnimation();
             }
         }, 1000);
@@ -56,7 +64,7 @@ public class CountDownActivity extends BaseActivity {
             public void run() {
                 startTimer();
             }
-        },2000);
+        },2200);
     }
 
     @Override
@@ -78,10 +86,17 @@ public class CountDownActivity extends BaseActivity {
                         if (recLen <= 0) {
                             timer.cancel();
                             sounder.play("startSport");
-                            text_djs.setText("Go!");
+                            SpannableString ss=new SpannableString("Go!");
+                            ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            ss.setSpan(new AbsoluteSizeSpan(190,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            if (text_djs != null) {
+                                text_djs.setText(ss);
+                            }
                             show();
                         } else {
                             if (text_djs != null) {
+                                SpannableString ss=new SpannableString(String.valueOf(recLen));
+                                ss.setSpan(new AbsoluteSizeSpan(170,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 text_djs.setText(recLen + "");
                             }
                             sounder.play("count_dwon"+recLen);
@@ -101,7 +116,9 @@ public class CountDownActivity extends BaseActivity {
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
         sa.setDuration(300);
         sa.setFillAfter(true);
-        text_djs.startAnimation(sa);
+        if (text_djs != null) {
+            text_djs.startAnimation(sa);
+        }
         sa.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -114,14 +131,18 @@ public class CountDownActivity extends BaseActivity {
                         ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
                         ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
                 sas.setDuration(700);
-                text_djs.startAnimation(sas);
+                if (text_djs != null) {
+                    text_djs.startAnimation(sas);
+                }
                 AlphaAnimation aa = new AlphaAnimation(1.0f, 0.0f);
                 aa.setDuration(300);
                 AnimationSet set = new AnimationSet(true);
                 set.addAnimation(sas);
                 set.addAnimation(aa);
                 set.setFillAfter(true);
-                text_djs.startAnimation(set);
+                if (text_djs != null) {
+                    text_djs.startAnimation(set);
+                }
             }
 
             @Override

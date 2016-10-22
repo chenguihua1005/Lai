@@ -489,8 +489,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
-                        //sounder.sayNormal("resume");
-                        sounder.sayLt10K(9,2400,7299);
+                        sounder.sayNormal("resume");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
@@ -502,7 +501,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 break;
             case R.id.iv_stop:
 
-                if (countDown != null) countDown.cancel();
+
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
                 if (modes.isEmpty()) {
@@ -510,6 +509,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.cancel();
                                     sounder.sayNormal("end");
                                     new Handler(Looper.myLooper()).postDelayed(
                                             new Runnable() {
@@ -522,7 +522,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startCountDown();
+                                    //startCountDown();
                                 }
                             }).setCancelable(false).create().show();
                 } else {
@@ -530,6 +530,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.cancel();
                                     SportData data = new SportData();
                                     data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
                                     data.setCalories(tv_calorie.getText().toString());
@@ -566,7 +567,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startCountDown();
+                                    //startCountDown();
                                 }
                             }).setCancelable(false).create().show();
                 }

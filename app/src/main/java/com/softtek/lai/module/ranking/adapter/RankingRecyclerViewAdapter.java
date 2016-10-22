@@ -19,9 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -145,8 +145,9 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             float stepPer=90/step;
             int currentStep=Integer.parseInt(data.getStepCount());
             ((ViewHolder) holder).progressBar.setProgress((int) (currentStep*stepPer));
+            ((ViewHolder) holder).content.setOnClickListener(this);
             //将数据保存在itemView的Tag中，以便点击时进行获取
-            /*holder.itemView.setTag(position);*/
+            holder.itemView.setTag(position);
         }
 
     }
@@ -160,7 +161,7 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public int getItemViewType(int position) {
         int type;
         if(position+1==getItemCount()){
-            type=getItemCount()<6?EMPTY:FOOTER;
+            type=getItemCount()<10?EMPTY:FOOTER;
         }else{
             type=ITEM;
         }
@@ -180,6 +181,7 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public CircleImageView header_image;
         public ProgressBar progressBar;
         public CheckBox cb_zan;
+        public RelativeLayout content;
 
 
         public ViewHolder(View view) {
@@ -190,6 +192,7 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             header_image= (CircleImageView) view.findViewById(R.id.header_image);
             progressBar= (ProgressBar) view.findViewById(R.id.progress_bar);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
+            content= (RelativeLayout) view.findViewById(R.id.content);
         }
     }
 
