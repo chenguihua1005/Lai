@@ -58,7 +58,7 @@ public class CountDownActivity extends BaseActivity {
                 text_djs.setText(ss);
                 bigToNormalAnimation();
             }
-        }, 1200);
+        }, 1000);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
