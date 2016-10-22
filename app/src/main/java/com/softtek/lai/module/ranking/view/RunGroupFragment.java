@@ -25,6 +25,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.ranking.adapter.RankingRecyclerViewAdapter;
 import com.softtek.lai.module.ranking.model.OrderData;
+import com.softtek.lai.module.ranking.model.OrderInfo;
 import com.softtek.lai.module.ranking.model.RankModel;
 import com.softtek.lai.module.ranking.net.RankingService;
 import com.softtek.lai.module.ranking.persenter.RankManager;
@@ -130,14 +131,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                 getActivity().startActivity(intent1);
             }
         });
-        adapter.setOnItemClickListener(new RankingRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",infos.get(position).getAccountId());
-                getActivity().startActivity(intent1);
-            }
-        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -234,10 +227,48 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         infos=new ArrayList<>();
         manager=new RankManager(this);
         adapter=new RankingRecyclerViewAdapter(getContext(),infos);
+        adapter.setOnItemClickListener(new RankingRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",infos.get(position).getAccountId());
+                getActivity().startActivity(intent1);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
+        if(isDayRank(rankType)){
+            //跑团日排名
+            manager.getDayOrder(1, new RequestCallback<ResponseData<OrderInfo>>() {
+                @Override
+                public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
+                    try {
+                        tv_rank.setText("跑团排名第");
+                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                        tv_rank.append("名");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else {
+            //跑团周排名
+            manager.getWeekOrder(1, new RequestCallback<ResponseData<OrderInfo>>() {
+                @Override
+                public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
+                    try {
+                        tv_rank.setText("跑团排名第");
+                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                        tv_rank.append("名");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
     }
 
     @Override
@@ -270,9 +301,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                     .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(header_image);
         }
         tv_name.setText(result.getOrderName());
-        tv_rank.setText("跑团排名第");
-        tv_rank.append(result.getOrderInfo());
-        tv_rank.append("名");
         tv_step.setText(result.getOrderSteps());
         SpannableString ss=new SpannableString("步");
         ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

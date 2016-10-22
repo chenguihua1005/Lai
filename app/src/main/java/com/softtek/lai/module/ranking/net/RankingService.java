@@ -1,6 +1,7 @@
 package com.softtek.lai.module.ranking.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.ranking.model.OrderInfo;
 import com.softtek.lai.module.ranking.model.RankModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -37,4 +38,15 @@ public interface RankingService {
                     @Field("AccountId")long accountId,
                     @Field("HealthId")String id,
                     RequestCallback<ResponseData> callback);
+
+    //当日排名
+    @GET("/StepCount/GetCurrentDateOnwOrder")
+    void getDayOrder(@Header("token")String token,
+                     @Query("RGIdType")int rdIdType,
+                     RequestCallback<ResponseData<OrderInfo>> callback);
+    //当周排名
+    @GET("/StepCount/GetCurrentWeekOrderOwn")
+    void getWeekOrder(@Header("token")String token,
+                      @Query("RGIdType")int rdIdType,
+                      RequestCallback<ResponseData<OrderInfo>> callback);
 }

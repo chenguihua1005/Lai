@@ -29,6 +29,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
@@ -38,18 +39,21 @@ import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport2.model.SportMineModel;
+import com.softtek.lai.module.sport2.model.Unread;
+import com.softtek.lai.module.sport2.net.SportService;
 import com.softtek.lai.module.sport2.presenter.SportManager;
 import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-
-import static java.security.AccessController.getContext;
 
 @InjectLayout(R.layout.fragment_sport_mine)
 public class SportMineFragment extends LazyBaseFragment implements View.OnClickListener,
@@ -233,6 +237,33 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     public void onStart() {
         super.onStart();
         getActivity().bindService(new Intent(getContext(),StepService.class),connection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ZillaApi.NormalRestAdapter.create(SportService.class)
+                .getNewMsgRemind(UserInfoModel.getInstance().getToken(),
+                        String.valueOf(UserInfoModel.getInstance().getUserId()),
+                        new RequestCallback<ResponseData<Unread>>() {
+                            @Override
+                            public void success(ResponseData<Unread> responseData, Response response) {
+                                try {
+                                    if(responseData.getStatus()==200){
+                                        String unread=responseData.getData().getUnreadCount();
+                                        try {
+                                            tv_message.setText("您有");
+                                            tv_message.append(unread);
+                                            tv_message.append("条未读消息");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
     }
 
     @Override

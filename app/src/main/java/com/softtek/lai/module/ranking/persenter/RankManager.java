@@ -3,6 +3,7 @@ package com.softtek.lai.module.ranking.persenter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.ranking.model.OrderInfo;
 import com.softtek.lai.module.ranking.model.RankModel;
 import com.softtek.lai.module.ranking.net.RankingService;
 import com.softtek.lai.utils.RequestCallback;
@@ -71,6 +72,18 @@ public class RankManager {
                         }
                     }
                 });
+    }
+
+    //获取日排名
+    public void getDayOrder(int rgIdType, RequestCallback<ResponseData<OrderInfo>> responseDataRequestCallback){
+        service.getDayOrder(UserInfoModel.getInstance().getToken(),rgIdType,responseDataRequestCallback);
+
+    }
+
+    //获取周排名
+    public void getWeekOrder(int rgIdType, RequestCallback<ResponseData<OrderInfo>> responseDataRequestCallback){
+        service.getWeekOrder(UserInfoModel.getInstance().getToken(),rgIdType,responseDataRequestCallback);
+
     }
 
 

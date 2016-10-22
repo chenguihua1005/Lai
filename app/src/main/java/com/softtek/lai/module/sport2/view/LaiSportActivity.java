@@ -3,13 +3,20 @@ package com.softtek.lai.module.sport2.view;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.sport2.model.Unread;
+import com.softtek.lai.module.sport2.net.SportService;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
@@ -17,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laisport)
@@ -33,6 +42,9 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
 
     @InjectView(R.id.content)
     ViewPager content;
+
+    @InjectView(R.id.iv_unread)
+    ImageView iv_unread;
 
 
     private List<Fragment> fragments = new ArrayList<>();
@@ -178,4 +190,30 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ZillaApi.NormalRestAdapter.create(SportService.class)
+        .getNewMsgRemind(UserInfoModel.getInstance().getToken(),
+                String.valueOf(UserInfoModel.getInstance().getUserId()),
+                new RequestCallback<ResponseData<Unread>>() {
+                    @Override
+                    public void success(ResponseData<Unread> responseData, Response response) {
+                        try {
+                            if(responseData.getStatus()==200){
+                                String unread=responseData.getData().getUnreadCount();
+                                if(!TextUtils.isEmpty(unread)&&Integer.parseInt(unread)>0){
+                                    iv_unread.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_unread.setVisibility(View.GONE);
+                                }
+                            }else {
+                                iv_unread.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 }

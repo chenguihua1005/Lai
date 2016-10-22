@@ -44,15 +44,28 @@
             app:wx_alpha="true"
             app:text="挑战"/>
 
-        <com.softtek.lai.widgets.SimpleButton
-            android:id="@+id/btn_mine"
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/sport2_mine_step"
-            app:pitchBitmap="@drawable/sport2_mine_step_re"
-            app:wx_alpha="true"
-            app:text="步数"/>
+            android:layout_weight="1">
+            <com.softtek.lai.widgets.SimpleButton
+                android:id="@+id/btn_mine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/sport2_mine_step"
+                app:pitchBitmap="@drawable/sport2_mine_step_re"
+                app:wx_alpha="true"
+                app:text="步数"/>
+            <ImageView
+                android:id="@+id/iv_unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:background="@drawable/red_circle" />
+        </FrameLayout>
 
     </LinearLayout>
     <View

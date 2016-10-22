@@ -52,11 +52,11 @@ public class CountDownActivity extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                sounder.play("countDown");
                 SpannableString ss=new SpannableString("Ready");
                 ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 text_djs.setText(ss);
                 bigToNormalAnimation();
+                sounder.play("countDown");
             }
         }, 1000);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -86,9 +86,8 @@ public class CountDownActivity extends BaseActivity {
                         if (recLen <= 0) {
                             timer.cancel();
                             sounder.play("startSport");
-                            SpannableString ss=new SpannableString("Go!");
+                            SpannableString ss=new SpannableString("GO!");
                             ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            ss.setSpan(new AbsoluteSizeSpan(190,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             if (text_djs != null) {
                                 text_djs.setText(ss);
                             }
@@ -96,8 +95,10 @@ public class CountDownActivity extends BaseActivity {
                         } else {
                             if (text_djs != null) {
                                 SpannableString ss=new SpannableString(String.valueOf(recLen));
-                                ss.setSpan(new AbsoluteSizeSpan(170,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                text_djs.setText(recLen + "");
+                                ss.setSpan(new AbsoluteSizeSpan(200,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                if (text_djs != null) {
+                                    text_djs.setText(ss);
+                                }
                             }
                             sounder.play("count_dwon"+recLen);
                             startSacaleBigAnimation();
