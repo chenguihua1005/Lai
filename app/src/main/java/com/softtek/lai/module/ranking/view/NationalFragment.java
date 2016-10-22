@@ -261,7 +261,7 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                     .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(header_image);
         }
         tv_name.setText(result.getOrderName());
-        tv_rank.setText("跑团排名第");
+        tv_rank.setText("全国排名第");
         tv_rank.append(result.getOrderInfo());
         tv_rank.append("名");
         tv_step.setText(result.getOrderSteps());
