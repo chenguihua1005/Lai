@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -488,20 +489,19 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
-                        sounder.sayNormal("resume");
-                        //sounder.sayGt10K(43,3700);
+                        //sounder.sayNormal("resume");
+                        sounder.sayLt10K(9,2400,7299);
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
                         sounder.sayNormal("pause");
-                        //sounder.sayLt10K(7,4600);
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
                 break;
             case R.id.iv_stop:
-                sounder.sayNormal("end");
+
                 if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
@@ -510,7 +510,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    finish();
+                                    sounder.sayNormal("end");
+                                    new Handler(Looper.myLooper()).postDelayed(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    finish();
+                                                }
+                                            }, 1400);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -672,8 +679,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     public void doSubmitResult(int resultCode) {
         dialogDissmiss();
+        sounder.sayNormal("end");
         if (resultCode == 200) {
-            finish();
+            new Handler(Looper.myLooper()).postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 1400);
         }
     }
 
@@ -709,100 +723,104 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 listener.onLocationChanged(location);
             }
             float accuracy=location.getAccuracy();
-            if (accuracy <= 25 && accuracy > 0) {
-                //当坐标改变之后开始添加标记 画线
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
-                if (isFirst) {
-                    isFirst = false;
-                    aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                            BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                }
+            try {
+                if (accuracy <= 25 && accuracy > 0) {
+                    //当坐标改变之后开始添加标记 画线
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+                    if (isFirst) {
+                        isFirst = false;
+                        aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                                BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                    }
 
-                //计算平均速度
-                DecimalFormat format = new DecimalFormat("#0.00");
-                //计算距离单位米
-                double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
+                    //计算平均速度
+                    DecimalFormat format = new DecimalFormat("#0.00");
+                    //计算距离单位米
+                    double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
 
-                if (lastLatLon != null) {
-                    if (distance >= 8) {
-                        previousDistance += distance;
-                        double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
-                        avgSpeed=format.format(speed);
+                    if (lastLatLon != null) {
+                        if (distance >= 8) {
+                            previousDistance += distance;
+                            double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
+                            avgSpeed=format.format(speed);
 
+                            polylineOptions.add(latLng);
+                            aMap.addPolyline(polylineOptions);
+                            SportModel model=new SportModel();
+                            model.setLatitude(latLng.latitude);
+                            model.setLongitude(latLng.longitude);
+                            model.setSpeed(avgSpeed);
+                            model.setConsumingTime(time);
+                            model.setStep((int) step);
+                            model.setIndex(count+"");
+                            model.setUser(UserInfoModel.getInstance().getUserId()+"");
+                            model.setCurrentKM(previousDistance);
+                            //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
+                            long tempTime=time-kilometerTime;
+                            model.setKilometreTime(tempTime);
+                            //辨别是否是一公里了
+                            //量化距离（公里）
+                            int kilometre= (int) (previousDistance/1000);
+                            if(kilometre-index==1){
+                                index=kilometre;
+                                model.setIskilometre("1");
+                                //辨别问题坐标每公里耗费时间2分10秒约130秒
+                                model.setHasProblem(tempTime<=130?"1":"0");
+                                kilometerTime=time;
+                                if(kilometre>0&&kilometre<=10){
+                                    sounder.sayLt10K(kilometre,time,tempTime);
+                                }else if(kilometre>10){
+                                    sounder.sayGt10K(kilometre,time,tempTime);
+                                }
+                            }else if(kilometre-index>1){
+                                //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
+                                //所以标注为问题坐标
+                                index=kilometre;
+                                model.setHasProblem("1");
+                                model.setIskilometre("0");
+                            }else {
+                                model.setIskilometre("0");
+                            }
+                            SportUtil.getInstance().addSport(model);
+                            lastLatLon = latLng;//暂存上一次坐标
+                            count++;
+                        }
+
+                    } else {
+                        //如果是第一次定位到
+                        isLocation=true;
                         polylineOptions.add(latLng);
                         aMap.addPolyline(polylineOptions);
                         SportModel model=new SportModel();
                         model.setLatitude(latLng.latitude);
                         model.setLongitude(latLng.longitude);
-                        model.setSpeed(avgSpeed);
+                        model.setSpeed("0.00");
                         model.setConsumingTime(time);
                         model.setStep((int) step);
                         model.setIndex(count+"");
                         model.setUser(UserInfoModel.getInstance().getUserId()+"");
-                        model.setCurrentKM(previousDistance);
-                        //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
-                        long tempTime=time-kilometerTime;
-                        model.setKilometreTime(tempTime);
-                        //辨别是否是一公里了
-                        //量化距离（公里）
-                        int kilometre= (int) (previousDistance/1000);
-                        if(kilometre-index==1){
-                            index=kilometre;
-                            model.setIskilometre("1");
-                            //辨别问题坐标每公里耗费时间2分10秒约130秒
-                            model.setHasProblem(tempTime<=130?"1":"0");
-                            kilometerTime=time;
-                            if(kilometre>0&&kilometre<=10){
-                                sounder.sayLt10K(kilometre,time);
-                            }else if(kilometre>10){
-                                sounder.sayGt10K(kilometre,tempTime);
-                            }
-                        }else if(kilometre-index>1){
-                            //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
-                            //所以标注为问题坐标
-                            index=kilometre;
-                            model.setHasProblem("1");
-                            model.setIskilometre("0");
-                        }else {
-                            model.setIskilometre("0");
-                        }
+                        model.setIskilometre("0");
                         SportUtil.getInstance().addSport(model);
                         lastLatLon = latLng;//暂存上一次坐标
                         count++;
                     }
+                    tv_avg_speed.setText( avgSpeed+ "km/h");
+                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
 
-                } else {
-                    //如果是第一次定位到
-                    isLocation=true;
-                    polylineOptions.add(latLng);
-                    aMap.addPolyline(polylineOptions);
-                    SportModel model=new SportModel();
-                    model.setLatitude(latLng.latitude);
-                    model.setLongitude(latLng.longitude);
-                    model.setSpeed("0.00");
-                    model.setConsumingTime(time);
-                    model.setStep((int) step);
-                    model.setIndex(count+"");
-                    model.setUser(UserInfoModel.getInstance().getUserId()+"");
-                    model.setIskilometre("0");
-                    SportUtil.getInstance().addSport(model);
-                    lastLatLon = latLng;//暂存上一次坐标
-                    count++;
                 }
-                tv_avg_speed.setText( avgSpeed+ "km/h");
-                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
-
-            }
-            if(accuracy<=0||accuracy>1000){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
-            }else if(accuracy<=25){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
-            }else if(accuracy<60){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
-            }else{
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
-                //sounder.sayNormal("gps_low");
+                if(accuracy<=0||accuracy>1000){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
+                }else if(accuracy<=25){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
+                }else if(accuracy<60){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
+                }else{
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
+                    //sounder.sayNormal("gps_low");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
