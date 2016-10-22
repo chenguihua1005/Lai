@@ -102,6 +102,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     LinearLayout fl_pers_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.rel_sy)
+    RelativeLayout rel_sy;
     @InjectView(R.id.toolbar1)
     RelativeLayout toolbar1;
     DateForm dateForm;
@@ -134,12 +136,17 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     }
     @Override
     protected void initViews() {
+        /*状态栏透明，标题栏高度适应*/
         if(DisplayUtil.getSDKInt()>18){
             tintManager.setStatusBarAlpha(0);
-//            int status= DisplayUtil.getStatusHeight(this);
-//            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
-//            params1.topMargin=status;
-//            toolbar1.setLayoutParams(params1);
+            int status= DisplayUtil.getStatusHeight(this);
+            /*标题栏适配状态栏高度*/
+            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
+            params1.topMargin=status;
+            toolbar1.setLayoutParams(params1);
+//            RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
+//            params2.topMargin=status;
+//            rel_sy.setLayoutParams(params2);
         }
         Userid=UserInfoModel.getInstance().getUser().getUserid();
         photoManager=new PhotoManager(this);
