@@ -95,12 +95,8 @@ public class SoundHelper {
             }else {
                 //没有这个音频
                 addAudio(name,raw);
-                soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-                    @Override
-                    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                        play(name);
-                    }
-                });
+                SystemClock.sleep(500);
+                play(name);
             }
         }
     }

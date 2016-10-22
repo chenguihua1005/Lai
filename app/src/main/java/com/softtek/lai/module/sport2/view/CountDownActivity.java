@@ -1,12 +1,12 @@
 package com.softtek.lai.module.sport2.view;
 
 import android.content.Intent;
-import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
@@ -47,6 +47,8 @@ public class CountDownActivity extends BaseActivity {
             @Override
             public void run() {
                 sounder.play("countDown");
+                text_djs.setText("Ready");
+                bigToNormalAnimation();
             }
         }, 1000);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -76,9 +78,8 @@ public class CountDownActivity extends BaseActivity {
                         if (recLen <= 0) {
                             timer.cancel();
                             sounder.play("startSport");
-                            startActivity(new Intent(CountDownActivity.this, RunSportActivity.class));
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                            finish();
+                            text_djs.setText("Go!");
+                            show();
                         } else {
                             if (text_djs != null) {
                                 text_djs.setText(recLen + "");
@@ -129,6 +130,44 @@ public class CountDownActivity extends BaseActivity {
             }
         });
     }
+
+    //从大到正常
+    private void bigToNormalAnimation() {
+        ScaleAnimation sa = new ScaleAnimation(1.5f, 1f, 1.5f, 1f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+        sa.setDuration(500);
+        sa.setInterpolator(new OvershootInterpolator());
+        text_djs.startAnimation(sa);
+    }
+    //从无到正常
+    private void show() {
+        ScaleAnimation sa = new ScaleAnimation(0f, 1f, 0f, 1f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+        sa.setDuration(200);
+        sa.setFillAfter(true);
+        text_djs.startAnimation(sa);
+        sa.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                startActivity(new Intent(CountDownActivity.this, RunSportActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
 
     @Override
     protected void onDestroy() {

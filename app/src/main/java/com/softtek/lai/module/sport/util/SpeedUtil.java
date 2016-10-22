@@ -114,11 +114,14 @@ public class SpeedUtil {
     }
 
     //您已运动10公里以上的拼接
-    public void sayGt10K(final int num, long time){
+    public void sayGt10K(final int num, long time,long kTime){
         if(num>10){
             final int hour = (int) (time / 3600);
             final int minutes = (int) (time % 3600 / 60);
             final int second = (int) (time % 3600 % 60);
+            final int khour = (int) (kTime / 3600);
+            final int kminutes = (int) (kTime % 3600 / 60);
+            final int ksecond = (int) (kTime % 3600 % 60);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -138,8 +141,10 @@ public class SpeedUtil {
                         sounder.lazyPlayAndDelay(ge[0],resource.get(ge[0]),Integer.parseInt(ge[1]));
                         sounder.play("kilometre",800);
                     }
-                    sounder.play("onek_useTime",1400);
+                    sounder.play("useTime",576);
                     sayTime(hour,minutes,second);
+                    sounder.play("onek_useTime",1400);
+                    sayTime(khour,kminutes,ksecond);
                     sounder.lazyPlay("jianchi",resource.get("jianchi"));
                 }
             }).start();
@@ -151,20 +156,28 @@ public class SpeedUtil {
      *  说出1到10公里的语言
      *  您已经运动1-10公里 用时xxx，随机鼓励语
      */
-    public void sayLt10K(final int num, final long time){
+    public void sayLt10K(final int num, final long time,final long kTime){
         if(num>0&&num<=10){
             final int hour = (int) (time / 3600);
             final int minutes = (int) (time % 3600 / 60);
             final int second = (int) (time % 3600 % 60);
+
+            final int khour = (int) (kTime / 3600);
+            final int kminutes = (int) (kTime % 3600 / 60);
+            final int ksecond = (int) (kTime % 3600 % 60);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     sounder.lazyPlay("has_sport"+num+"k",resource.get("has_sport"+num+"k"));
-                    SystemClock.sleep(3000);
+                    SystemClock.sleep(2000);
                     //用时
                     String encourage=sayEncourage();//鼓励语
                     sounder.play("useTime",576);
                     sayTime(hour,minutes,second);
+                    if(num>=2){
+                        sounder.play("onek_useTime",1400);
+                        sayTime(khour,kminutes,ksecond);
+                    }
                     sounder.lazyPlay(encourage,resource.get(encourage));
                 }
             }).start();
@@ -176,6 +189,9 @@ public class SpeedUtil {
         Random random=new Random();
         int ran=random.nextInt(6);
         switch (ran){
+            case 0:
+                say="jiayou";
+                break;
             case 1:
                 say="jiayou";
                 break;
