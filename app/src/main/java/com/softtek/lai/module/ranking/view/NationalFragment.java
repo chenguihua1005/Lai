@@ -244,12 +244,15 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
             manager.getDayOrder(0, new RequestCallback<ResponseData<OrderInfo>>() {
                 @Override
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
-                    try {
-                        tv_rank.setText("全国排名第");
-                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
-                        tv_rank.append("名");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(orderInfoResponseData.getStatus()==200){
+                        try {
+                            tv_rank.setText("全国排名第");
+                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append("名");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             });
@@ -258,12 +261,15 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
             manager.getWeekOrder(0, new RequestCallback<ResponseData<OrderInfo>>() {
                 @Override
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
-                    try {
-                        tv_rank.setText("全国排名第");
-                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
-                        tv_rank.append("名");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(orderInfoResponseData.getStatus()==200){
+                        try {
+                            tv_rank.setText("全国排名第");
+                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append("名");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             });

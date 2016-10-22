@@ -244,12 +244,14 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
             manager.getDayOrder(1, new RequestCallback<ResponseData<OrderInfo>>() {
                 @Override
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
-                    try {
-                        tv_rank.setText("跑团排名第");
-                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
-                        tv_rank.append("名");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(orderInfoResponseData.getStatus()==200){
+                        try {
+                            tv_rank.setText("跑团排名第");
+                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append("名");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -258,12 +260,14 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
             manager.getWeekOrder(1, new RequestCallback<ResponseData<OrderInfo>>() {
                 @Override
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
-                    try {
-                        tv_rank.setText("跑团排名第");
-                        tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
-                        tv_rank.append("名");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(orderInfoResponseData.getStatus()==200){
+                        try {
+                            tv_rank.setText("跑团排名第");
+                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append("名");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
