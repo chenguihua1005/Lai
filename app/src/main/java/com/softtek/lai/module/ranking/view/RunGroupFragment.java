@@ -177,7 +177,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                 }
             }
         });
-
         cb_zan.setEnabled(false);
         cb_zan.setChecked(false);
         cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +240,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
 
     @Override
     public void getResult(RankModel result) {
-        if(isLoading==true){
+        if(isLoading){
             isLoading=false;
             adapter.notifyItemRemoved(adapter.getItemCount());
         }else {
