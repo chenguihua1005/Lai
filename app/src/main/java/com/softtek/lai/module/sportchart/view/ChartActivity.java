@@ -136,10 +136,10 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     protected void initViews() {
         if(DisplayUtil.getSDKInt()>18){
             tintManager.setStatusBarAlpha(0);
-            int status= DisplayUtil.getStatusHeight(this);
-            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
-            params1.topMargin=status;
-            toolbar1.setLayoutParams(params1);
+//            int status= DisplayUtil.getStatusHeight(this);
+//            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
+//            params1.topMargin=status;
+//            toolbar1.setLayoutParams(params1);
         }
         Userid=UserInfoModel.getInstance().getUser().getUserid();
         photoManager=new PhotoManager(this);
