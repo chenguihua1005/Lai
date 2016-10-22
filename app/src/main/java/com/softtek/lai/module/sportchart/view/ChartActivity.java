@@ -694,9 +694,16 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 tv_step.setText("--");
                 tv_kilometre.setText("--");
             } else {
+
                 tv_step.setText(result.getTotalStep());
-                DecimalFormat df = new DecimalFormat(".0");
-                tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep())/1428)+"");
+                if (Float.parseFloat(result.getTotalStep())/1428<0.04)
+                {
+                    tv_kilometre.setText("0");
+                }
+                else {
+                    DecimalFormat df = new DecimalFormat("0.0");
+                    tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep()) / 1428) + "");
+                }
             }
             if (result.getIsFocus().equals("0")) {
                 btn_add.setChecked(true);
