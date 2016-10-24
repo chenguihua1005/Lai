@@ -75,6 +75,11 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+
+    @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         //绑定数据
         if(holder instanceof ViewHolder){
