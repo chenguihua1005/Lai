@@ -485,7 +485,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     public void run() {
                         iv_pause.setEnabled(true);
                     }
-                }, 500);
+                }, 800);
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
@@ -500,8 +500,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 }
                 break;
             case R.id.iv_stop:
-
-
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
                 if (modes.isEmpty()) {
