@@ -58,7 +58,7 @@ public class CountDownActivity extends BaseActivity {
                 bigToNormalAnimation();
                 sounder.play("countDown");
             }
-        }, 1000);
+        }, 900);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
