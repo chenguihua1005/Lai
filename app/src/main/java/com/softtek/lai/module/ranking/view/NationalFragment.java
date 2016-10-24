@@ -17,6 +17,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -66,6 +67,8 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
     CheckBox cb_zan;
     @InjectView(R.id.recycleView)
     RecyclerView recyclerView;
+    @InjectView(R.id.rl_mine)
+    RelativeLayout rl_mine;
 
     private RankingRecyclerViewAdapter adapter;
     private List<OrderData> infos;
@@ -218,6 +221,15 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                                         }
                                     });
                 }
+            }
+        });
+
+        rl_mine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
+                getActivity().startActivity(intent1);
             }
         });
     }

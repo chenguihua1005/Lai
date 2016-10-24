@@ -216,4 +216,9 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
                     }
                 });
     }
+
+    public void updateUnread(){
+        iv_unread.setVisibility(View.GONE);
+
+    }
 }

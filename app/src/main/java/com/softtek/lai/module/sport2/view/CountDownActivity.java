@@ -88,6 +88,7 @@ public class CountDownActivity extends BaseActivity {
                             sounder.play("startSport");
                             SpannableString ss=new SpannableString("GO!");
                             ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            ss.setSpan(new AbsoluteSizeSpan(150,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             if (text_djs != null) {
                                 text_djs.setText(ss);
                             }
@@ -95,7 +96,7 @@ public class CountDownActivity extends BaseActivity {
                         } else {
                             if (text_djs != null) {
                                 SpannableString ss=new SpannableString(String.valueOf(recLen));
-                                ss.setSpan(new AbsoluteSizeSpan(200,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                ss.setSpan(new AbsoluteSizeSpan(170,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 if (text_djs != null) {
                                     text_djs.setText(ss);
                                 }

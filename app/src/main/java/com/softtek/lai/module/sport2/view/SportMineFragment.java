@@ -253,7 +253,11 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                                         String unread=responseData.getData().getUnreadCount();
                                         try {
                                             tv_message.setText("您有");
-                                            tv_message.append(unread);
+                                            if(TextUtils.isEmpty(unread)){
+                                                tv_message.append("0");
+                                            }else {
+                                                tv_message.append(unread);
+                                            }
                                             tv_message.append("条未读消息");
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -264,6 +268,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                                 }
                             }
                         });
+
     }
 
     @Override
@@ -310,6 +315,10 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             /*跳转消息页*/
             case R.id.Re_news:
                 getActivity().startActivity(new Intent(getActivity(), Message2Activity.class));
+                if (getContext() instanceof LaiSportActivity) {
+                    LaiSportActivity activity = (LaiSportActivity) getContext();
+                    activity.updateUnread();
+                }
                 break;
             /*跳转运动历史页*/
             case R.id.rl_dynamic:

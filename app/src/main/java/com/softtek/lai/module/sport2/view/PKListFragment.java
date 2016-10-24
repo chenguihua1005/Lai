@@ -30,8 +30,11 @@ import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
+import com.softtek.lai.module.sport2.eventmodel.PkZanEvent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,7 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
     int lastVisibleItemPosition;//标记上次的显示位置
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         tv_title.setText("挑战");
         set.setDuration(500);
         tv_sendpk.setOnClickListener(this);
@@ -146,6 +150,29 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         adapter=new PKListAdapter(getContext(),models);
         ptrlv.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe
+    public void onUpdateZan(PkZanEvent event){
+        for (PKListModel model:models){
+            if(model.getPKId()==event.getPkId()){
+                if(event.isLeft()){
+                    model.setChP(model.getChP()+1);
+                    model.setPraiseStatus(1);
+                }else {
+                    model.setBChp(model.getBChp()+1);
+                    model.setBPraiseStatus(1);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.module.sport2.eventmodel.PkZanEvent;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -20,6 +21,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -89,6 +91,7 @@ public class PKListAdapter extends BaseAdapter{
                     final int left_zan = Integer.parseInt(holder.cb_zan_left.getText().toString()) + 1;
                     holder.cb_zan_left.setText(String.valueOf(left_zan));
                     model.setPraiseStatus(1);
+                    EventBus.getDefault().post(new PkZanEvent(true,model.getPKId()));
                     manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {
@@ -121,6 +124,7 @@ public class PKListAdapter extends BaseAdapter{
                     final int right_zan = Integer.parseInt(holder.cb_zan_right.getText().toString()) + 1;
                     holder.cb_zan_right.setText(String.valueOf(right_zan));
                     model.setBPraiseStatus(1);
+                    EventBus.getDefault().post(new PkZanEvent(false,model.getPKId()));
                     manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {

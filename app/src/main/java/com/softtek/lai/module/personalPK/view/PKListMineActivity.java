@@ -121,6 +121,10 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
                         PKListModel model = models.get(position);
                         String chp=data.getStringExtra("ChP");
                         String bchp=data.getStringExtra("BChP");
+                        boolean isPraise=data.getBooleanExtra("isPraise",false);
+                        boolean isBPraise=data.getBooleanExtra("isBPraise",false);
+                        model.setPraiseStatus(isPraise?1:0);
+                        model.setBPraiseStatus(isBPraise?1:0);
                         model.setChP(Integer.parseInt(StringUtils.isEmpty(chp)?"0":chp));
                         model.setBChp(Integer.parseInt(StringUtils.isEmpty(bchp)?"0":bchp));
                     }

@@ -144,6 +144,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                SportModel lastModel=models.get(models.size()-1);
+                time=lastModel.getConsumingTime();
             }
             aMap.addPolyline(polylineOptions);
         }
