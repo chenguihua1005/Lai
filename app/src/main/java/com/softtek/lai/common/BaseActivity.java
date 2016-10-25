@@ -9,13 +9,21 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
@@ -51,6 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ProgressDialog progressDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -65,6 +74,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+//        try {
+//            getWindow().addFlags(WindowManager.LayoutParams.class.getField("FLAG_NEEDS_MENU_KEY").getInt(null));
+//        } catch (NoSuchFieldException e) {
+//            // Ignore since this field won't exist in most versions of Android
+//        } catch (IllegalAccessException e) {
+//            Log.w("feelyou.info", "Could not access FLAG_NEEDS_MENU_KEY in addLegacyOverflowButton()", e);
+//        }
         ButterKnife.inject(this);
         LogManager.getManager(getApplicationContext()).registerActivity(this);
         initViews();
@@ -72,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //有盟统计
         MobclickAgent.setDebugMode(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
-        Log.i("当前界面名称="+getClass().getCanonicalName());
+        Log.i("当前界面名称=" + getClass().getCanonicalName());
 
     }
 
@@ -95,9 +111,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
-        Configuration config=new Configuration();
+        Configuration config = new Configuration();
         config.setToDefaults();
-        res.updateConfiguration(config,res.getDisplayMetrics() );
+        res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
     }
 
@@ -173,4 +189,45 @@ public abstract class BaseActivity extends AppCompatActivity {
         //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return super.onCreateOptionsMenu(menu);
     }*/
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            //showPopupWindow();
+            //do something
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void showPopupWindow() {
+
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(this).inflate(
+                R.layout.menu_pop, null);
+        // 设置按钮的点击事件
+        Button button = (Button) contentView.findViewById(R.id.btn);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BaseActivity.this, "button is pressed",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,true);
+
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+
+        // 实例化一个ColorDrawable颜色为半透明
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x47000000));
+        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+        popupWindow.showAtLocation(this.findViewById(android.R.id.content),
+                Gravity.BOTTOM, 0, 0);
+
+    }
+
 }

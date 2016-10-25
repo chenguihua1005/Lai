@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Xml;
@@ -42,7 +43,6 @@ import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
 import com.softtek.lai.module.sport.net.WeatherServer;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.module.sport.util.SpeedUtil;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
@@ -496,17 +496,17 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
         try {
             if ("true".equals(type)) {
-                String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
+                String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "--" : model.getTotalKilometer();
                 if (text_total_distance != null)
                     text_total_distance.setText(km);
                 if (text_total_time != null) {
-                    text_total_time.setText(model.getTotalTime());
+                    text_total_time.setText(TextUtils.isEmpty(model.getTotalTime())||Float.parseFloat(model.getTotalTime())==0?"--":model.getTotalTime());
                     SpannableString ss=new SpannableString("小时");
                     ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     text_total_time.append(ss);
                 }
                 if (text_total_count != null) {
-                    text_total_count.setText(model.getCount());
+                    text_total_count.setText(TextUtils.isEmpty(model.getCount())||"0".equals(model.getCount())?"--":model.getCount());
                     SpannableString ss=new SpannableString("次");
                     ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     text_total_count.append(ss);

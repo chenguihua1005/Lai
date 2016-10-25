@@ -243,6 +243,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
             firstStep=0;
+            currentStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -268,6 +269,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
             firstStep=0;
+            currentStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -320,7 +322,11 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             step.setAccountId(UserInfoModel.getInstance().getUserId());
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(todayStep);
-            StepUtil.getInstance().saveStep(step);
+            try {
+                StepUtil.getInstance().saveStep(step);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -403,6 +409,8 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             index=4;
             serverStep=0;
             todayStep=0;
+            firstStep=0;
+            lastStep=0;
             SharedPreferenceService.getInstance().put("currentStep",0);
             updateNotification(0+"");
         }else {

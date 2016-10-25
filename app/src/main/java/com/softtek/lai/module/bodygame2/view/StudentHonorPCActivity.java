@@ -6,16 +6,12 @@
 package com.softtek.lai.module.bodygame2.view;
 
 
-import android.net.Uri;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame2.adapter.HonorPCFCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.HonorPCJZAdapter;
 import com.softtek.lai.module.bodygame2.adapter.HonorPCStarAdapter;
@@ -33,18 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class StudentHonorPCActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class StudentHonorPCActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -114,26 +105,6 @@ public class StudentHonorPCActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     @Subscribe
     public void onEvent(HonorModel honorModel) {

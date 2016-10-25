@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
@@ -25,8 +23,6 @@ import com.softtek.lai.module.grade.view.GradeHomeActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -34,10 +30,7 @@ import zilla.libcore.ui.InjectLayout;
  * 体管赛，班级列表
  */
 @InjectLayout(R.layout.activity_counselor_classlist)
-public class CounselorClassListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class CounselorClassListActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -109,20 +102,5 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
 
 }

@@ -41,10 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  * 荣誉榜
  */
 @InjectLayout(R.layout.activity_remind_list)
-public class MessageSrRemindActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class MessageSrRemindActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -120,26 +117,5 @@ public class MessageSrRemindActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
 }

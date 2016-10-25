@@ -241,7 +241,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
 
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
     }
 

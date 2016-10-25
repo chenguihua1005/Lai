@@ -241,11 +241,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onValidationSucceeded() {
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
