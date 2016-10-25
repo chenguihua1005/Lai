@@ -35,47 +35,6 @@
             />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fragmentMineMargin"
-        android:background="@color/white"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fragmentMineMargin">
-
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_sfrz"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/img1"
-                android:text="@string/version_name"
-                android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize"
-                />
-
-            <TextView
-                android:id="@+id/text_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="V1.0.0"
-                android:textSize="@dimen/fragmentMineTextSize" />
-        </RelativeLayout>
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/lin_about"
         android:layout_width="wrap_content"
