@@ -56,14 +56,18 @@
                 app:pitchBitmap="@drawable/sport2_mine_step_re"
                 app:wx_alpha="true"
                 app:text="步数"/>
-            <ImageView
+            <TextView
                 android:id="@+id/iv_unread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
                 android:visibility="gone"
+                android:gravity="center"
+                android:text="9+"
+                android:textSize="10sp"
+                android:textColor="@color/white"
                 android:background="@drawable/red_circle" />
         </FrameLayout>
 
