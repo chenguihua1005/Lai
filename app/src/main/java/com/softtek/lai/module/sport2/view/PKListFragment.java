@@ -84,10 +84,10 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
-        startLabelse.setReleaseLabel("松开立即刷新中");// 下来达到一定距离时，显示的提示
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-        endLabelsr.setRefreshingLabel("正在加载数据中");
+        endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

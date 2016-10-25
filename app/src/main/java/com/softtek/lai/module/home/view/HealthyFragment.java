@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -143,9 +144,10 @@ public class HealthyFragment extends LazyBaseFragment{
         imageFileSelector.onActivityResult(requestCode,resultCode,data);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
+                Log.i("dsadasd");
                 tab_content.setCurrentItem(0);
                 int size=fragments.size();
-                if(size==1){
+                if(size>=1){
                     ((RecommendHealthyFragment)fragments.get(0)).updateList();
                 }
 

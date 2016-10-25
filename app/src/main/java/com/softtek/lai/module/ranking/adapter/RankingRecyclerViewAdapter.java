@@ -19,18 +19,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.ranking.event.RankZan;
 import com.softtek.lai.module.ranking.model.OrderData;
 import com.softtek.lai.module.ranking.net.RankingService;
 import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -52,10 +54,12 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private List<OrderData> infos;
     private Context context;
+    private boolean isRunGroup;
 
-    public RankingRecyclerViewAdapter(Context mContext, List<OrderData> infos) {
+    public RankingRecyclerViewAdapter(Context mContext,boolean isRunGroup, List<OrderData> infos) {
         this.context=mContext;
         this.infos = infos;
+        this.isRunGroup=isRunGroup;
     }
 
     @Override
@@ -117,6 +121,7 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                         String prasieNum=String.valueOf(Integer.parseInt(data.getPrasieNum())+1);
                         ((ViewHolder) holder).cb_zan.setText(prasieNum);
                         data.setPrasieNum(prasieNum);
+                        EventBus.getDefault().post(new RankZan(data.getAcStepGuid(),isRunGroup,false));
                         ZillaApi.NormalRestAdapter.create(RankingService.class)
                                 .dayRankZan(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
