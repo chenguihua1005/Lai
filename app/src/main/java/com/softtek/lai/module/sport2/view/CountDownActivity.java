@@ -48,14 +48,19 @@ public class CountDownActivity extends BaseActivity {
         sounder.addAudio("count_dwon2",R.raw.count_down_2);
         sounder.addAudio("count_dwon1",R.raw.count_down_1);
 
-
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 SpannableString ss=new SpannableString("Ready");
                 ss.setSpan(new StyleSpan(Typeface.ITALIC),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                text_djs.setText(ss);
+                if(text_djs!=null)
+                    text_djs.setText(ss);
                 bigToNormalAnimation();
+            }
+        }, 200);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 sounder.play("countDown");
             }
         }, 900);
@@ -161,7 +166,8 @@ public class CountDownActivity extends BaseActivity {
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
         sa.setDuration(500);
         sa.setInterpolator(new OvershootInterpolator());
-        text_djs.startAnimation(sa);
+        if(text_djs!=null)
+            text_djs.startAnimation(sa);
     }
     //从无到正常
     private void show() {
@@ -170,7 +176,8 @@ public class CountDownActivity extends BaseActivity {
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
         sa.setDuration(200);
         sa.setFillAfter(true);
-        text_djs.startAnimation(sa);
+        if(text_djs!=null)
+            text_djs.startAnimation(sa);
         sa.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

@@ -174,19 +174,7 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
             //启动定位
             aMapLocationClient.startLocation();
         }
-        ripple.post(new Runnable() {
-            public void run() {
-                ripple.init(ripple.getWidth() / 2,//中心点x
-                        ripple.getHeight() / 2,//中心点y
-                        text_start.getWidth()/2,//波纹的初始半径
-                        Math.min(ripple.getWidth(), ripple.getHeight()) / 2,//波纹的结束半径
-                        1500,//时常
-                        Color.parseColor("#D7F3BA"),//颜色
-                        10,//圆圈宽度
-                        new DecelerateInterpolator());//开始快,后来慢
 
-            }
-        });
     }
 
 
@@ -208,12 +196,26 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         Log.i("运动onResume");
+        ripple.post(new Runnable() {
+            public void run() {
+                ripple.init(ripple.getWidth() / 2,//中心点x
+                        ripple.getHeight() / 2,//中心点y
+                        text_start.getWidth()/2,//波纹的初始半径
+                        Math.min(ripple.getWidth(), ripple.getHeight()) / 2,//波纹的结束半径
+                        1500,//时常
+                        Color.parseColor("#D7F3BA"),//颜色
+                        10,//圆圈宽度
+                        new DecelerateInterpolator());//开始快,后来慢
+
+            }
+        });
         manager.getHistoryTotalMovement();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        ripple.stopRipple();
         Log.i("运动onPause");
     }
 
