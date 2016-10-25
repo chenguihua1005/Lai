@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -51,8 +51,8 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     LinearLayout lin_is_vr;
     @InjectView(R.id.but_login)
     Button but_login;
-    @InjectView(R.id.img_mo_message)
-    ImageView img_mo_message;
+    @InjectView(R.id.empty)
+    FrameLayout empty;
 
     private CommunityManager community;
     private HealthyCommunityFocusAdapter adapter;
@@ -81,7 +81,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
-        ptrlv.setEmptyView(img_mo_message);
+        ptrlv.setEmptyView(empty);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时

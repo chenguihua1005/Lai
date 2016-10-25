@@ -3,7 +3,7 @@ package com.softtek.lai.module.community.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.github.snowdream.android.util.Log;
@@ -45,8 +45,8 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @InjectView(R.id.img_mo_message)
-    ImageView img_mo_message;
+    @InjectView(R.id.empty)
+    FrameLayout empty;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -73,7 +73,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-        ptrlv.setEmptyView(img_mo_message);
+        ptrlv.setEmptyView(empty);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
