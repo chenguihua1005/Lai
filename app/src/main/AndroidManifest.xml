@@ -4,8 +4,8 @@
     package="com.softtek.lai">
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="21" />
+        android:minSdkVersion="17"
+        android:targetSdkVersion="23" />
 
     <permission
         android:name="com.softtek.lai.permission.JPUSH_MESSAGE"

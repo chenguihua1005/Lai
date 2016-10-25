@@ -212,6 +212,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             time=lastModel.getConsumingTime();
             oldStep=lastModel.getStep();
             tv_step.setText(oldStep+"");
+            isLocation=true;
             //辨别是否是一公里了
             //量化距离（公里）
             int kilometre= (int) (previousDistance/1000);
@@ -367,6 +368,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     };
     long step;
     boolean isLocation=false;
+    long lastStep;
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what){
@@ -376,16 +378,20 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     Bundle bundle=msg.getData();
                     int tempStep = bundle.getInt("todayStep",0);
                     if (startStep == 0) startStep = tempStep;
-                    step = ((tempStep - startStep) <= 0 ? 0+oldStep : (tempStep - startStep))+oldStep;
+                    long currentStep=(tempStep - startStep) <= 0 ? 0: (tempStep - startStep);
+                    step = currentStep+oldStep;
                     int calori = (int) (step / 35);
                     tv_step.setText(step + "");
                     tv_calorie.setText(calori + "");
                     if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
-                        DecimalFormat format = new DecimalFormat("#0.00");
-                        previousDistance = step * 1000 / 1428f;
-                        double speed = (previousDistance / 1000) / (time * 1f / 3600);
-                        tv_avg_speed.setText(format.format(speed) + "km/h");
-                        tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                        if(currentStep!=lastStep){
+                            lastStep=currentStep;
+                            DecimalFormat format = new DecimalFormat("#0.00");
+                            previousDistance += currentStep * 1000 / 1428f;
+                            double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                            tv_avg_speed.setText(format.format(speed) + "km/h");
+                            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

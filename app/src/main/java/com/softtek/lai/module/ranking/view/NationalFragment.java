@@ -258,9 +258,24 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
                     if(orderInfoResponseData.getStatus()==200){
                         try {
+                            OrderInfo info=orderInfoResponseData.getData();
                             tv_rank.setText("全国排名第");
-                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append(info.getOrderInfo());
                             tv_rank.append("名");
+                            tv_step.setText(info.getSteps());
+                            SpannableString ss=new SpannableString("步");
+                            ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            tv_step.append(ss);
+                            if("0".equals(info.getIsPrasie())){
+                                //未点赞
+                                cb_zan.setEnabled(true);
+                                cb_zan.setChecked(false);
+                            }else {
+                                cb_zan.setEnabled(false);
+                                cb_zan.setChecked(true);
+                            }
+                            cb_zan.setText(info.getPrasieNum());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -275,9 +290,24 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
                     if(orderInfoResponseData.getStatus()==200){
                         try {
+                            OrderInfo info=orderInfoResponseData.getData();
                             tv_rank.setText("全国排名第");
-                            tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
+                            tv_rank.append(info.getOrderInfo());
                             tv_rank.append("名");
+                            tv_step.setText(info.getSteps());
+                            SpannableString ss=new SpannableString("步");
+                            ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            tv_step.append(ss);
+                            if("0".equals(info.getIsPrasie())){
+                                //未点赞
+                                cb_zan.setEnabled(true);
+                                cb_zan.setChecked(false);
+                            }else {
+                                cb_zan.setEnabled(false);
+                                cb_zan.setChecked(true);
+                            }
+                            cb_zan.setText(info.getPrasieNum());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -319,19 +349,19 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
         }
         tv_name.setText(result.getOrderName());
 
-        tv_step.setText(result.getOrderSteps());
-        SpannableString ss=new SpannableString("步");
-        ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_step.append(ss);
-        if("0".equals(result.getIsPrasie())){
-            //未点赞
-            cb_zan.setEnabled(true);
-            cb_zan.setChecked(false);
-        }else {
-            cb_zan.setEnabled(false);
-            cb_zan.setChecked(true);
-        }
+//        tv_step.setText(result.getOrderSteps());
+//        SpannableString ss=new SpannableString("步");
+//        ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        tv_step.append(ss);
+//        if("0".equals(result.getIsPrasie())){
+//            //未点赞
+//            cb_zan.setEnabled(true);
+//            cb_zan.setChecked(false);
+//        }else {
+//            cb_zan.setEnabled(false);
+//            cb_zan.setChecked(true);
+//        }
         if(TextUtils.isEmpty(result.getAcStepGuid())){
             cb_zan.setEnabled(false);
             cb_zan.setChecked(false);
@@ -341,7 +371,7 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
             cb_zan.setEnabled(false);
             cb_zan.setChecked(true);
         }
-        cb_zan.setText(result.getPrasieNum());
+//        cb_zan.setText(result.getPrasieNum());
         //计算进度条
         List<OrderData> orderDatas=result.getOrderData();
         if(orderDatas==null||orderDatas.isEmpty()){

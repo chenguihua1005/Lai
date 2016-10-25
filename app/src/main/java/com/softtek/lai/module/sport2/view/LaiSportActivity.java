@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -44,7 +44,7 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
     ViewPager content;
 
     @InjectView(R.id.iv_unread)
-    ImageView iv_unread;
+    TextView iv_unread;
 
 
     private List<Fragment> fragments = new ArrayList<>();
@@ -203,6 +203,11 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
                             if(responseData.getStatus()==200){
                                 String unread=responseData.getData().getUnreadCount();
                                 if(!TextUtils.isEmpty(unread)&&Integer.parseInt(unread)>0){
+                                    if(Integer.parseInt(unread)>9){
+                                        iv_unread.setText("9+");
+                                    }else {
+                                        iv_unread.setText(unread);
+                                    }
                                     iv_unread.setVisibility(View.VISIBLE);
                                 }else {
                                     iv_unread.setVisibility(View.GONE);

@@ -112,7 +112,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     List<String>days=new ArrayList<String>();
     List<String>day=new ArrayList<String>();
     char type='6';
-    int n=4;
+    int n=7;
     boolean state=true;
     private ProgressDialog progressDialog;
     private ChartService service;
@@ -211,10 +211,19 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         String nowdate6=getPeriodDate(type,1)+"";
         String nowdate5=getPeriodDate(type,2)+"";
         String nowdate4=getPeriodDate(type,3)+"";
+        String nowdate3=getPeriodDate(type,4)+"";
+        String nowdate2=getPeriodDate(type,5)+"";
+        String nowdate1=getPeriodDate(type,6)+"";
+        days.add(formdate(nowdate1));
+        days.add(formdate(nowdate2));
+        days.add(formdate(nowdate3));
         days.add(formdate(nowdate4));
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
+        day.add(dateForm.getDateform(nowdate1));
+        day.add(dateForm.getDateform(nowdate2));
+        day.add(dateForm.getDateform(nowdate3));
         day.add(dateForm.getDateform(nowdate4));
         day.add(dateForm.getDateform(nowdate5));
         day.add(dateForm.getDateform(nowdate6));
@@ -222,7 +231,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         progressDialog.show();
         Intent intent=getIntent();
         isFocusid=intent.getStringExtra("isFocusid");
-        chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
+        chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7));
 //        iGradesPresenter.getStepCount(dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
     }
 
@@ -319,7 +328,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             case R.id.bt_sport_left:
                 if (!state)
                 {
-                    n=n+4;
+                    n=n+7;
                 }
                 state=true;
                 days.clear();
@@ -329,26 +338,35 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 String nowdate6 = getPeriodDate(type, n + 1) + "";
                 String nowdate5 = getPeriodDate(type, n + 2) + "";
                 String nowdate4 = getPeriodDate(type, n + 3) + "";
+                String nowdate3 = getPeriodDate(type, n + 4) + "";
+                String nowdate2 = getPeriodDate(type, n + 5) + "";
+                String nowdate1 = getPeriodDate(type, n + 6) + "";
+                days.add(formdate(nowdate1));
+                days.add(formdate(nowdate2));
+                days.add(formdate(nowdate3));
                 days.add(formdate(nowdate4));
                 days.add(formdate(nowdate5));
                 days.add(formdate(nowdate6));
                 days.add(formdate(nowdate7));
+                day.add(dateForm.getDateform(nowdate1));
+                day.add(dateForm.getDateform(nowdate2));
+                day.add(dateForm.getDateform(nowdate3));
                 day.add(dateForm.getDateform(nowdate4));
                 day.add(dateForm.getDateform(nowdate5));
                 day.add(dateForm.getDateform(nowdate6));
                 day.add(dateForm.getDateform(nowdate7));
                 progressDialog.show();
-                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
-                n = n + 4;
+                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7));
+                n = n + 7;
                 bt_sport_right.setVisibility(View.VISIBLE);
                 break;
                 case R.id.bt_sport_right:
                     if (state)
                     {
-                        n = n - 8;
+                        n = n - 14;
                     }
                     else {
-                        n=n-4;
+                        n=n-7;
                     }
                     dates.clear();
                     day.clear();
@@ -357,17 +375,26 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     String nowdat6 = getPeriodDate(type, n + 1) + "";
                     String nowdat5 = getPeriodDate(type, n + 2) + "";
                     String nowdat4 = getPeriodDate(type, n + 3) + "";
+                    String nowdat3 = getPeriodDate(type, n + 4) + "";
+                    String nowdat2 = getPeriodDate(type, n + 5) + "";
+                    String nowdat1 = getPeriodDate(type, n + 6) + "";
 
+                    days.add(formdate(nowdat1));
+                    days.add(formdate(nowdat2));
+                    days.add(formdate(nowdat3));
                     days.add(formdate(nowdat4));
                     days.add(formdate(nowdat5));
                     days.add(formdate(nowdat6));
                     days.add(formdate(nowdat7));
+                    day.add(dateForm.getDateform(nowdat1));
+                    day.add(dateForm.getDateform(nowdat2));
+                    day.add(dateForm.getDateform(nowdat3));
                     day.add(dateForm.getDateform(nowdat4));
                     day.add(dateForm.getDateform(nowdat5));
                     day.add(dateForm.getDateform(nowdat6));
                     day.add(dateForm.getDateform(nowdat7));
                     progressDialog.show();
-                    chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdat4),dateForm.getDateform(nowdat7));
+                    chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdat1),dateForm.getDateform(nowdat7));
                     state=false;
                     if (nowdat7.equals(getPeriodDate(type,0)+""))
                         bt_sport_right.setVisibility(View.GONE);
@@ -710,7 +737,11 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             } else {
                 btn_add.setChecked(false);
             }
+            dates.clear();
             if (result.getStepList().size()<days.size()) {
+                dates.add(0);
+                dates.add(0);
+                dates.add(0);
                 dates.add(0);
                 dates.add(0);
                 dates.add(0);
@@ -725,8 +756,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 }
             }
             else {
-                for (int i = 0; i <= 3; i++) {
-                    dates.add(Integer.parseInt(result.getStepList().get(3-i).getTotalCnt()));
+                for (int i = 0; i <= 7; i++) {
+                    dates.add(Integer.parseInt(result.getStepList().get(7-i).getTotalCnt()));
                 }
             }
 

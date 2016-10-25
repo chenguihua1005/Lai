@@ -253,10 +253,12 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                                         String unread=responseData.getData().getUnreadCount();
                                         try {
                                             tv_message.setText("您有");
-                                            if(TextUtils.isEmpty(unread)){
+                                            if(TextUtils.isEmpty(unread)||Integer.parseInt(unread)==0){
                                                 tv_message.append("0");
                                             }else {
-                                                tv_message.append(unread);
+                                                SpannableString scolor=new SpannableString(unread);
+                                                scolor.setSpan(new ForegroundColorSpan(Color.RED),0,scolor.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                                tv_message.append(scolor);
                                             }
                                             tv_message.append("条未读消息");
                                         } catch (Exception e) {
@@ -367,7 +369,13 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             tv_medal.append("枚勋章");
             tv_run_group.setText(result.getRGName());
             tv_message.setText("您有");
-            tv_message.append(String.valueOf(result.getUnreadmsg()));
+            if(result.getUnreadmsg()!=0){
+                SpannableString scolor=new SpannableString(String.valueOf(result.getUnreadmsg()));
+                scolor.setSpan(new ForegroundColorSpan(Color.RED),0,scolor.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tv_message.append(scolor);
+            }else {
+                tv_message.append(String.valueOf(result.getUnreadmsg()));
+            }
             tv_message.append("条未读消息");
             tv_juanzen.setText("您已向\"康宝莱公益基金会\"捐赠");
             SpannableString sc=new SpannableString(String.valueOf(result.getDonatenNum()));
