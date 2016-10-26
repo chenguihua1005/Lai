@@ -420,7 +420,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         unbindService(connection);
-        delayHandler.removeMessages(REQUEST_DELAY);
+        //delayHandler.removeMessages(REQUEST_DELAY);
+        delayHandler.removeCallbacksAndMessages(null);
         if (intent != null) stopService(intent);
         if (locationReceiver != null)
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
@@ -731,7 +732,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
             float accuracy=location.getAccuracy();
             try {
-                if (accuracy <= 25 && accuracy > 0) {
+                if (accuracy <= 20 && accuracy > 0) {
                     //当坐标改变之后开始添加标记 画线
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
