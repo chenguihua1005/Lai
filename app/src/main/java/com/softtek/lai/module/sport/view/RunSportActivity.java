@@ -772,7 +772,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             if(kilometre-index==1){
                                 index=kilometre;
                                 model.setIskilometre("1");
-                                //辨别问题坐标每公里耗费时间2分10秒约130秒
+                                //辨别问题坐标,每公里耗费时间2分10秒约130秒
                                 model.setHasProblem(tempTime<=130?"1":"0");
                                 kilometerTime=time;
                                 if(kilometre>0&&kilometre<=10){
