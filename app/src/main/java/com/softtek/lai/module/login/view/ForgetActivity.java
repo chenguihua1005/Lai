@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
@@ -29,11 +29,11 @@ import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
-import zilla.libcore.file.SharedPreferenceService;
+
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget)
 public class ForgetActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, RegistPresenterImpl.IdentifyCallBack {
@@ -120,7 +120,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         if (countDown != null && countDown.isRunning()) {
             countDown.reStart();
@@ -128,7 +128,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         if (countDown != null && countDown.isRunning()) {
             countDown.pause();
         }

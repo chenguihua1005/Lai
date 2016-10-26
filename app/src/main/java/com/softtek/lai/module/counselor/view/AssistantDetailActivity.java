@@ -41,10 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  * 助教详细页面
  */
 @InjectLayout(R.layout.activity_assistant_detail)
-public class AssistantDetailActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class AssistantDetailActivity extends BaseActivity implements View.OnClickListener {
 
 
     @InjectView(R.id.ll_left)
@@ -179,21 +176,6 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
 
 
 }

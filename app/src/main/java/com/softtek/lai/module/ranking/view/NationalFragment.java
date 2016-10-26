@@ -25,6 +25,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.ranking.adapter.RankingRecyclerViewAdapter;
+import com.softtek.lai.module.ranking.event.RankZan;
 import com.softtek.lai.module.ranking.model.OrderData;
 import com.softtek.lai.module.ranking.model.OrderInfo;
 import com.softtek.lai.module.ranking.model.RankModel;
@@ -35,6 +36,9 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,160 +101,6 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
     protected void lazyLoad() {
         pull.setRefreshing(true);
         pageIndex=1;
-        if(isDayRank(rankType)){
-            //全国日排名
-            manager.getDayRank(0,pageIndex);
-        }else {
-            //全国周排名
-            manager.getWeekRank(0,pageIndex);
-        }
-    }
-
-    @Override
-    protected void initViews() {
-        Bundle data=getArguments();
-        rankType=data.getInt("rankType",RankingActivity.DAY_RANKING);//默认是日排名
-        pull.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if(verticalOffset>=0){
-                    pull.setEnabled(true);
-                }else{
-                    pull.setEnabled(false);
-                }
-            }
-        });
-        header_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
-                getActivity().startActivity(intent1);
-            }
-        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int count=adapter.getItemCount();
-                if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
-
-                    if(!isLoading&&pageIndex<=totalPage){
-                        pageIndex++;
-                        if(pageIndex<=totalPage){
-                            isLoading=true;
-                            //加载更多数据
-                            if(isDayRank(rankType)){
-                                //全国日排名
-                                manager.getDayRank(0,pageIndex);
-                            }else {
-                                //全国周排名
-                                manager.getWeekRank(0,pageIndex);
-                            }
-                        }else {
-                            pageIndex--;
-                            adapter.notifyItemRemoved(adapter.getItemCount());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager llm= (LinearLayoutManager) recyclerView.getLayoutManager();
-                lastVisitableItem=llm.findLastVisibleItemPosition();
-            }
-        });
-        pull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                pageIndex=1;
-                if(isDayRank(rankType)){
-                    //全国日排名
-                    manager.getDayRank(0,pageIndex);
-                }else {
-                    //全国周排名
-                    manager.getWeekRank(0,pageIndex);
-                }
-            }
-        });
-        cb_zan.setEnabled(false);
-        cb_zan.setChecked(true);
-        cb_zan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(result!=null){
-                    cb_zan.setEnabled(false);
-                    cb_zan.setChecked(true);
-                    String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())+1);
-                    cb_zan.setText(prasieNum);
-                    result.setPrasieNum(prasieNum);
-                    for(int i=0,j=infos.size();i<j;i++){
-                        OrderData orderData=infos.get(i);
-                        if(orderData.getAcStepGuid().equals(result.getAcStepGuid())){
-                            orderData.setIsPrasie("1");
-                            orderData.setPrasieNum(prasieNum);
-                            adapter.notifyItemChanged(i);
-                            break;
-                        }
-                    }
-                    ZillaApi.NormalRestAdapter.create(RankingService.class)
-                            .dayRankZan(UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    result.getAcStepGuid(),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData o, Response response) {
-
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            cb_zan.setEnabled(true);
-                                            cb_zan.setChecked(false);
-                                            String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())-1);
-                                            cb_zan.setText(prasieNum);
-                                            result.setPrasieNum(prasieNum);
-                                            super.failure(error);
-                                        }
-                                    });
-                }
-            }
-        });
-
-        rl_mine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
-                getActivity().startActivity(intent1);
-            }
-        });
-    }
-
-    @Override
-    protected void initDatas() {
-        infos=new ArrayList<>();
-        manager=new RankManager(this);
-        adapter=new RankingRecyclerViewAdapter(getContext(),infos);
-        adapter.setOnItemClickListener(new RankingRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",infos.get(position).getAccountId());
-                getActivity().startActivity(intent1);
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
-        recyclerView.setAdapter(adapter);
         if(isDayRank(rankType)){
             //跑团日排名
             manager.getDayOrder(0, new RequestCallback<ResponseData<OrderInfo>>() {
@@ -316,12 +166,258 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
                 }
             });
         }
+        if(isDayRank(rankType)){
+            //全国日排名
+            manager.getDayRank(0,pageIndex);
+        }else {
+            //全国周排名
+            manager.getWeekRank(0,pageIndex);
+        }
+    }
+
+    @Override
+    protected void initViews() {
+        EventBus.getDefault().register(this);
+        Bundle data=getArguments();
+        rankType=data.getInt("rankType",RankingActivity.DAY_RANKING);//默认是日排名
+        pull.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(verticalOffset>=0){
+                    pull.setEnabled(true);
+                }else{
+                    pull.setEnabled(false);
+                }
+            }
+        });
+        header_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                getActivity().startActivity(intent1);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int count=adapter.getItemCount();
+                if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
+
+                    if(!isLoading&&pageIndex<=totalPage){
+                        pageIndex++;
+                        if(pageIndex<=totalPage){
+                            isLoading=true;
+                            //加载更多数据
+                            if(isDayRank(rankType)){
+                                //全国日排名
+                                manager.getDayRank(0,pageIndex);
+                            }else {
+                                //全国周排名
+                                manager.getWeekRank(0,pageIndex);
+                            }
+                        }else {
+                            pageIndex--;
+                            adapter.notifyItemRemoved(adapter.getItemCount());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager llm= (LinearLayoutManager) recyclerView.getLayoutManager();
+                lastVisitableItem=llm.findLastVisibleItemPosition();
+            }
+        });
+        pull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageIndex=1;
+                if(isDayRank(rankType)){
+                    //跑团日排名
+                    manager.getDayOrder(0, new RequestCallback<ResponseData<OrderInfo>>() {
+                        @Override
+                        public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
+                            if(orderInfoResponseData.getStatus()==200){
+                                try {
+                                    OrderInfo info=orderInfoResponseData.getData();
+                                    tv_rank.setText("全国排名第");
+                                    tv_rank.append(info.getOrderInfo());
+                                    tv_rank.append("名");
+                                    tv_step.setText(info.getSteps());
+                                    SpannableString ss=new SpannableString("步");
+                                    ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    tv_step.append(ss);
+                                    if("0".equals(info.getIsPrasie())){
+                                        //未点赞
+                                        cb_zan.setEnabled(true);
+                                        cb_zan.setChecked(false);
+                                    }else {
+                                        cb_zan.setEnabled(false);
+                                        cb_zan.setChecked(true);
+                                    }
+                                    cb_zan.setText(info.getPrasieNum());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    });
+                }else {
+                    //跑团周排名
+                    manager.getWeekOrder(0, new RequestCallback<ResponseData<OrderInfo>>() {
+                        @Override
+                        public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
+                            if(orderInfoResponseData.getStatus()==200){
+                                try {
+                                    OrderInfo info=orderInfoResponseData.getData();
+                                    tv_rank.setText("全国排名第");
+                                    tv_rank.append(info.getOrderInfo());
+                                    tv_rank.append("名");
+                                    tv_step.setText(info.getSteps());
+                                    SpannableString ss=new SpannableString("步");
+                                    ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    tv_step.append(ss);
+                                    if("0".equals(info.getIsPrasie())){
+                                        //未点赞
+                                        cb_zan.setEnabled(true);
+                                        cb_zan.setChecked(false);
+                                    }else {
+                                        cb_zan.setEnabled(false);
+                                        cb_zan.setChecked(true);
+                                    }
+                                    cb_zan.setText(info.getPrasieNum());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    });
+                }
+                if(isDayRank(rankType)){
+                    //全国日排名
+                    manager.getDayRank(0,pageIndex);
+                }else {
+                    //全国周排名
+                    manager.getWeekRank(0,pageIndex);
+                }
+            }
+        });
+        cb_zan.setEnabled(false);
+        cb_zan.setChecked(true);
+        cb_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(result!=null){
+                    cb_zan.setEnabled(false);
+                    cb_zan.setChecked(true);
+                    String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())+1);
+                    cb_zan.setText(prasieNum);
+                    result.setPrasieNum(prasieNum);
+                    for(int i=0,j=infos.size();i<j;i++){
+                        OrderData orderData=infos.get(i);
+                        if(orderData.getAcStepGuid().equals(result.getAcStepGuid())){
+                            orderData.setIsPrasie("1");
+                            orderData.setPrasieNum(prasieNum);
+                            adapter.notifyItemChanged(i);
+                            break;
+                        }
+                    }
+                    EventBus.getDefault().post(new RankZan(result.getAcStepGuid(),false,true));
+                    ZillaApi.NormalRestAdapter.create(RankingService.class)
+                            .dayRankZan(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    result.getAcStepGuid(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData o, Response response) {
+
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            cb_zan.setEnabled(true);
+                                            cb_zan.setChecked(false);
+                                            String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())-1);
+                                            cb_zan.setText(prasieNum);
+                                            result.setPrasieNum(prasieNum);
+                                            super.failure(error);
+                                        }
+                                    });
+                }
+            }
+        });
+
+        rl_mine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
+                getActivity().startActivity(intent1);
+            }
+        });
+    }
+
+    @Override
+    protected void initDatas() {
+        infos=new ArrayList<>();
+        manager=new RankManager(this);
+        adapter=new RankingRecyclerViewAdapter(getContext(),false,infos);
+        adapter.setOnItemClickListener(new RankingRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                intent1.putExtra("isFocusid",infos.get(position).getAccountId());
+                getActivity().startActivity(intent1);
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
     public void onDestroyView() {
         manager.setCallback(null);
+        EventBus.getDefault().unregister(this);
         super.onDestroyView();
+    }
+
+    @Subscribe
+    public void onRefreshZan(RankZan zan){
+        if(zan.isRunGroup()&&result!=null){//表示是跑团那边发送过来的通知并且当前界面已经请求过了，就可以做处理
+            if(zan.isMine()){//如果是自己给自己点咱
+                cb_zan.setEnabled(false);
+                cb_zan.setChecked(true);
+                String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())+1);
+                cb_zan.setText(prasieNum);
+            }
+            //更新当前界面列表
+            for(int i=0,j=infos.size();i<j;i++){
+                OrderData orderData=infos.get(i);
+                if(orderData.getAcStepGuid().equals(zan.getGuid())){
+                    orderData.setIsPrasie("1");
+                    String prasieNum=String.valueOf(Integer.parseInt(orderData.getPrasieNum())+1);
+                    orderData.setPrasieNum(prasieNum);
+                    adapter.notifyItemChanged(i);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -364,7 +460,7 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
 //        }
         if(TextUtils.isEmpty(result.getAcStepGuid())){
             cb_zan.setEnabled(false);
-            cb_zan.setChecked(false);
+            cb_zan.setChecked(true);
         }
         //不是日排名就不可以点赞
         if(!isDayRank(rankType)){

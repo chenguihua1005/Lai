@@ -125,12 +125,6 @@ public class GroupFouthActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 

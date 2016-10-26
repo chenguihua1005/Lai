@@ -387,7 +387,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                         if(currentStep!=lastStep){
                             lastStep=currentStep;
                             DecimalFormat format = new DecimalFormat("#0.00");
-                            previousDistance += currentStep * 1000 / 1428f;
+                            previousDistance = currentStep * 1.428f;
                             double speed = (previousDistance / 1000) / (time * 1f / 3600);
                             tv_avg_speed.setText(format.format(speed) + "km/h");
                             tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
@@ -420,7 +420,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         unbindService(connection);
-        delayHandler.removeMessages(REQUEST_DELAY);
+        //delayHandler.removeMessages(REQUEST_DELAY);
+        delayHandler.removeCallbacksAndMessages(null);
         if (intent != null) stopService(intent);
         if (locationReceiver != null)
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
@@ -731,7 +732,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
             float accuracy=location.getAccuracy();
             try {
-                if (accuracy <= 25 && accuracy > 0) {
+                if (accuracy <= 20 && accuracy > 0) {
                     //当坐标改变之后开始添加标记 画线
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
@@ -772,7 +773,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             if(kilometre-index==1){
                                 index=kilometre;
                                 model.setIskilometre("1");
-                                //辨别问题坐标每公里耗费时间2分10秒约130秒
+                                //辨别问题坐标,每公里耗费时间2分10秒约130秒
                                 model.setHasProblem(tempTime<=130?"1":"0");
                                 kilometerTime=time;
                                 if(kilometre>0&&kilometre<=10){

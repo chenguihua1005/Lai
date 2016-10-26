@@ -7,7 +7,6 @@ package com.softtek.lai.module.bodygamest.view;
 
 
 import android.annotation.TargetApi;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,19 +14,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.HorizontalListView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,11 +40,7 @@ import zilla.libcore.ui.InjectLayout;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_student_honor)
-public class StudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class StudentHonorActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -87,8 +77,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
 
 
     private IStudentPresenter studentHonorPresenter;
-    private ACache aCache;
-    int widthPosition;
 
     private List<StudentHonorInfo> jz_list = new ArrayList<StudentHonorInfo>();
     private List<StudentHonorInfo> fc_list = new ArrayList<StudentHonorInfo>();
@@ -199,7 +187,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         studentHonorPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         studentHonorPresenter.getStudentHonor();
     }
 
@@ -218,36 +205,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
                 list_ygj.scrollTo(list_ygj.getScrollX()+100);
                 break;
         }
-    }
-
-    public int getScrollY() {
-        View c = list_ygj.getChildAt(0);
-        if (c == null) {
-            return 0;
-        }
-        int firstVisiblePosition = list_ygj.getFirstVisiblePosition();
-        int top = c.getTop();
-        return -top + firstVisiblePosition * c.getHeight();
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }
