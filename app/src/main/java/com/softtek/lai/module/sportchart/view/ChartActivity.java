@@ -61,6 +61,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -129,6 +130,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     String title_value;
     String isFocusid="0";
     SelectPicPopupWindow menuWindow;
+    List<Integer>list= Arrays.asList(0,0,0,0,0,0,0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -696,72 +698,76 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @Override
     public void getResu(StepCountModel result) {
         try {
-            if (progressDialog!=null)
-                progressDialog.dismiss();
-            if(result==null){
-                return;
-            }
-            if (!TextUtils.isEmpty(result.getAcBanner())) {
-                Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
-            }
-            if (!TextUtils.isEmpty(result.getPhoto())) {
-                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
-            }
-            if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname()))
-            {
-                tv_perpagename.setText("我的主页");
-                btn_add.setVisibility(View.GONE);
-            }
-            else {
-                tv_perpagename.setText(result.getUsername()+"的主页");
-                iv_perpage_banner.setClickable(false);
-                fl_pers_right.setVisibility(View.INVISIBLE);
-            }
-            if (TextUtils.isEmpty(result.getTotalStep())) {
-                tv_step.setText("--");
-                tv_kilometre.setText("--");
-            } else {
-
-                tv_step.setText(result.getTotalStep());
-                if (Float.parseFloat(result.getTotalStep())/1428<0.04)
+                if (progressDialog!=null)
+                    progressDialog.dismiss();
+                if(result==null){
+                    return;
+                }
+                if (!TextUtils.isEmpty(result.getAcBanner())) {
+                    Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
+                }
+                if (!TextUtils.isEmpty(result.getPhoto())) {
+                    Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
+                }
+                if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname()))
                 {
-                    tv_kilometre.setText("0");
+                    tv_perpagename.setText("我的主页");
+                    btn_add.setVisibility(View.GONE);
                 }
                 else {
-                    DecimalFormat df = new DecimalFormat("0.0");
-                    tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep()) / 1428) + "");
+                    tv_perpagename.setText(result.getUsername()+"的主页");
+                    iv_perpage_banner.setClickable(false);
+                    fl_pers_right.setVisibility(View.INVISIBLE);
                 }
-            }
-            if (result.getIsFocus().equals("0")) {
-                btn_add.setChecked(true);
-            } else {
-                btn_add.setChecked(false);
-            }
-            dates.clear();
-            if (result.getStepList().size()<days.size()) {
-                dates.add(0);
-                dates.add(0);
-                dates.add(0);
-                dates.add(0);
-                dates.add(0);
-                dates.add(0);
-                dates.add(0);
-                for (int j = days.size() - 1; j >= 0; j--) {
-                    for (int i = 0; i <= result.getStepList().size() - 1; i++) {
-                        if (day.get(j).equals(result.getStepList().get(i).getDate())) {
-                            dates.set(j,Integer.parseInt(result.getStepList().get(i).getTotalCnt()));
-                            break;
+                if (TextUtils.isEmpty(result.getTotalStep())) {
+                    tv_step.setText("--");
+                    tv_kilometre.setText("--");
+                } else {
+
+                    tv_step.setText(result.getTotalStep());
+                    if (Float.parseFloat(result.getTotalStep())/1428<0.04)
+                    {
+                        tv_kilometre.setText("0");
+                    }
+                    else {
+                        DecimalFormat df = new DecimalFormat("0.0");
+                        tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep()) / 1428) + "");
+                    }
+                }
+                if (result.getIsFocus().equals("0"))
+                {
+                    btn_add.setChecked(true);
+                } else {
+                    btn_add.setChecked(false);
+                }
+                dates.clear();
+                if (result.getStepList().size()<days.size()) {
+
+                    dates.addAll(list);
+                    for (int j = days.size() - 1; j >= 0; j--) {
+                        for (int i = 0; i <= result.getStepList().size() - 1; i++) {
+                            if (day.get(j).equals(result.getStepList().get(i).getDate())) {
+                                dates.set(j,Integer.parseInt(result.getStepList().get(i).getTotalCnt()));
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            else {
-                for (int i = 0; i <= 7; i++) {
-                    dates.add(Integer.parseInt(result.getStepList().get(7-i).getTotalCnt()));
+                else {
+                    for (int i = 0; i <= 7; i++) {
+                        dates.add(Integer.parseInt(result.getStepList().get(7-i).getTotalCnt()));
+                    }
                 }
-            }
-
-            chartUtil.addDataf(dates,days.size(),days);
+                if (Userid.equals(isFocusid))
+                {
+                    if (dateForm.getDateform(getPeriodDate(type,0) + "").equals(day.get(6)))
+                    {
+                        Intent intent=getIntent();
+                        int step=intent.getIntExtra("step",0);
+                        dates.set(6,step);
+                    }
+                }
+                chartUtil.addDataf(dates,days.size(),days);
         } catch (Exception e) {
             e.printStackTrace();
         }
