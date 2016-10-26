@@ -128,7 +128,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 }
             }
             ((ViewHolder) holder).tv_time.setText(dates[6]==0?"上午":"下午");
-            ((ViewHolder) holder).tv_time.append(dates[3]+":"+dates[4]);
+            ((ViewHolder) holder).tv_time.append(dates[3]+":"+(dates[4]<10?"0"+dates[4]:dates[4]));
             final String[] imgs = model.getImgCollection().split(",");
             ((ViewHolder) holder).photos.setAdapter(new PhotosAdapter(Arrays.asList(imgs), context));
             final ArrayList<String> list = new ArrayList<>();
