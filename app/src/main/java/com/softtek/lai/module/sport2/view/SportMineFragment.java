@@ -334,6 +334,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             case R.id.ll_calorie:
                 Intent intent1=new Intent(getActivity(),ChartActivity.class);
                 intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                intent1.putExtra("step",Integer.parseInt(tv_step.getText()+""));
                 getActivity().startActivity(intent1);
                 break;
         }
