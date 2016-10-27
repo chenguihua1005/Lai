@@ -31,7 +31,6 @@ import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.sport2.eventmodel.PkZanEvent;
-import com.softtek.lai.widgets.DragTextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -62,7 +61,7 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
     PullToRefreshListView ptrlv;
 
     @InjectView(R.id.tv_sendpk)
-    DragTextView tv_sendpk;
+    TextView tv_sendpk;
 
     private PKListAdapter adapter;
     private List<PKListModel> models=new ArrayList<>();

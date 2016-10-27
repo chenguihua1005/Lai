@@ -29,7 +29,7 @@
         android:animateLayoutChanges="true"
         android:divider="#f1f1f1"/>
 
-    <com.softtek.lai.widgets.DragTextView
+    <TextView
         android:id="@+id/tv_sendpk"
         android:layout_width="70dp"
         android:layout_height="70dp"
