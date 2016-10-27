@@ -28,6 +28,7 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -84,7 +85,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 finish();
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
         refresh.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
