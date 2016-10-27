@@ -215,7 +215,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         this.model=dynamicModel;
         cb_zan.setText(dynamicModel.getPraiseNum());
         String date=dynamicModel.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+        tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日 HH:mm"));
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
         if(StringUtils.isNotEmpty(dynamicModel.getUsernameSet())){

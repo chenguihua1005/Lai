@@ -123,6 +123,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     private Messenger clientMessenger;
     //用来接收服务端发送过来的信息使用
     private Messenger getReplyMessage=new Messenger(delayHandler);
+
     @Override
     public boolean handleMessage(Message msg) {
         //在这里获取服务端发来的信息
@@ -140,13 +141,15 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                         tv_step.setText(String.valueOf(currentStep));
                         int kaluli = currentStep / 35;
                         tv_calorie.setText(String.valueOf(kaluli));
-                        tv_calorie.append("大卡");
+                        SpannableString ss=new SpannableString("大卡");
+                        ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        tv_calorie.append(ss);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 //延迟在一次向服务端请求
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,800);
                 break;
             case REQUEST_DELAY:
                 //继续向服务端发送请求获取数据
@@ -334,6 +337,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             case R.id.ll_calorie:
                 Intent intent1=new Intent(getActivity(),ChartActivity.class);
                 intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
+                intent1.putExtra("step",Integer.parseInt(tv_step.getText()+""));
                 getActivity().startActivity(intent1);
                 break;
         }

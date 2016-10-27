@@ -64,6 +64,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     private static int serverStep;//记录服务器上的步数
     private static int firstStep=0;//启动应用服务的时候的第一次步数
     private static int todayStep;//用于显示今日步数使用
+    private static long originalStep;//用于其他使用
 
     private Messenger messenger = new Messenger(new MessengerHandler());
 
@@ -86,6 +87,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                     //将今日步数传递过去
                     data.putInt("todayStep",todayStep);
                     data.putInt("serverStep",serverStep);
+                    data.putLong("originalStep",originalStep);
                     message.setData(data);
                     try {
                         server.send(message);
@@ -235,6 +237,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     private void calTodayStep(int stepTemp){
         //检查日期
+        originalStep=stepTemp;
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -260,6 +263,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     }
     //模拟计步传感器所使用的计算方法
     private void calTodayStepByCustome(int stepTemp){
+        originalStep=stepTemp;
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());

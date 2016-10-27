@@ -23,6 +23,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
@@ -126,7 +127,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
         String date = model.getCreateDate();
-        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日 HH:mm"));
         holder.tv_zan_name.setText(model.getUsernameSet());
         boolean isMine=Long.parseLong(TextUtils.isEmpty(model.getAccountId())?"0":model.getAccountId()) == UserInfoModel.getInstance().getUserId();
         //如果是自己的则隐藏关注按钮
@@ -154,6 +155,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+                                            if(responseData.getStatus()==200){
+                                                EventBus.getDefault().post(new FocusReload());
+                                            }
                                         }
                                     });
                         } else {
@@ -165,6 +169,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+
                                         }
                                     });
 

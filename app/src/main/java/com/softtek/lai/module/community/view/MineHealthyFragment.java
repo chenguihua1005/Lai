@@ -19,6 +19,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -60,6 +61,15 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     int pageIndex=1;
     int totalPage=0;
     boolean isLogin=false;
+    boolean hasFocus=false;
+
+    @Override
+    protected void onVisible() {
+        if(hasFocus){
+            isPrepared=false;
+        }
+        super.onVisible();
+    }
 
     @Override
     protected void lazyLoad() {
@@ -129,6 +139,11 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         }
     }
 
+    @Subscribe
+    public void onReload(FocusReload reload){
+        hasFocus=true;
+    }
+
     @Override
     protected void initDatas() {
         community=new CommunityManager(this);
@@ -149,8 +164,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
             ptrlv.setVisibility(View.VISIBLE);
         }
         //自动加载
-
-
     }
 
     @Override
@@ -186,6 +199,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
         try {
+            hasFocus=false;
             ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;
