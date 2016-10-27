@@ -174,7 +174,7 @@
     </style>
     <style name="MyCustomTabTextAppearance3" parent="TextAppearance.Design.Tab"> <!--TAB文字样式-->
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">#dad9d9</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="textAllCaps">false</item>
         <!--英文大写,默认true-->
     </style>

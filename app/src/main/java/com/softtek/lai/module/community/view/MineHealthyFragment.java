@@ -19,6 +19,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -127,6 +128,18 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
             }
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Subscribe
+    public void onReload(FocusReload reload){
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrlv!=null) {
+                    ptrlv.setRefreshing();
+                }
+            }
+        });
     }
 
     @Override

@@ -445,41 +445,29 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
         }
         tv_name.setText(result.getOrderName());
 
-//        tv_step.setText(result.getOrderSteps());
-//        SpannableString ss=new SpannableString("步");
-//        ss.setSpan(new AbsoluteSizeSpan(9,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        ss.setSpan(new ForegroundColorSpan(Color.parseColor("#424242")),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        tv_step.append(ss);
-//        if("0".equals(result.getIsPrasie())){
-//            //未点赞
-//            cb_zan.setEnabled(true);
-//            cb_zan.setChecked(false);
-//        }else {
+//        if(TextUtils.isEmpty(result.getAcStepGuid())){
 //            cb_zan.setEnabled(false);
 //            cb_zan.setChecked(true);
 //        }
-        if(TextUtils.isEmpty(result.getAcStepGuid())){
-            cb_zan.setEnabled(false);
-            cb_zan.setChecked(true);
-        }
         //不是日排名就不可以点赞
         if(!isDayRank(rankType)){
             cb_zan.setEnabled(false);
             cb_zan.setChecked(true);
         }
-//        cb_zan.setText(result.getPrasieNum());
         //计算进度条
         List<OrderData> orderDatas=result.getOrderData();
         if(orderDatas==null||orderDatas.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
-        float stepPer;
-        OrderData firstDate=orderDatas.get(0);
-        float step = Float.parseFloat(firstDate.getStepCount());
-        stepPer=90/step;
-        int mineStep=Integer.parseInt(result.getOrderSteps());
-        progressBar.setProgress((int) (stepPer*mineStep));
+        if(pageIndex==1){
+            float stepPer;
+            OrderData firstDate=orderDatas.get(0);
+            float step = Float.parseFloat(firstDate.getStepCount());
+            stepPer=90/step;
+            int mineStep=Integer.parseInt(result.getOrderSteps());
+            progressBar.setProgress((int) (stepPer*mineStep));
+        }
         if(pageIndex==1){
             infos.clear();
         }

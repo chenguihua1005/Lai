@@ -77,6 +77,8 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     private static final int LOADCOUNT=5;
     private int lastVisitableItem;
     private boolean isLoading=false;
+
+    private int total;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +153,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         tv_title.append("的动态");
         dynamics=new ArrayList();
         manager=new CommunityManager(this);
-        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine);
+        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine,tv_dynamic_num,total);
         recyclerView.setAdapter(adapter);
 
         int isFocus=getIntent().getIntExtra("isFocus",0);
@@ -228,6 +230,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                     .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(circleImageView);
             tv_name.setText(model.getUserName());
             totalPage=model.getTotalPage();
+            total=model.getHealthCount();
             tv_dynamic_num.setText("共有");
             tv_dynamic_num.append(String.valueOf(model.getHealthCount()));
             tv_dynamic_num.append("条动态");

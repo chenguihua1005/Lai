@@ -58,11 +58,15 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private List<PersonalListModel> infos;
     private Context context;
     private boolean isMine;
+    private TextView dynamic;
+    private int total;
 
-    public DynamicRecyclerViewAdapter(Context mContext, List infos,boolean isMine) {
+    public DynamicRecyclerViewAdapter(Context mContext, List infos,boolean isMine,TextView dynamic,int total) {
         this.context=mContext;
         this.infos = infos;
         this.isMine=isMine;
+        this.dynamic=dynamic;
+        this.total=total;
     }
 
     @Override
@@ -177,6 +181,11 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                                                             EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
                                                             infos.remove(model);
                                                             notifyItemRemoved(position);
+                                                            if(dynamic!=null){
+                                                                dynamic.setText("共有");
+                                                                dynamic.append(String.valueOf((total-1)<0?0:(total-1)));
+                                                                dynamic.append("条动态");
+                                                            }
                                                         }
                                                     }
                                                 });
