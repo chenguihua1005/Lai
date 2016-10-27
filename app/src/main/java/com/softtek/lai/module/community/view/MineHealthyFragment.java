@@ -149,8 +149,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
             ptrlv.setVisibility(View.VISIBLE);
         }
         //自动加载
-
-
     }
 
     @Override

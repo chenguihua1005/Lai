@@ -496,17 +496,17 @@ public class SportFragment extends LazyBaseFragment implements View.OnClickListe
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
         try {
             if ("true".equals(type)) {
-                String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "--" : model.getTotalKilometer();
+                String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
                 if (text_total_distance != null)
                     text_total_distance.setText(km);
                 if (text_total_time != null) {
-                    text_total_time.setText(TextUtils.isEmpty(model.getTotalTime())||Float.parseFloat(model.getTotalTime())==0?"--":model.getTotalTime());
+                    text_total_time.setText(TextUtils.isEmpty(model.getTotalTime())?"0":model.getTotalTime());
                     SpannableString ss=new SpannableString("小时");
                     ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     text_total_time.append(ss);
                 }
                 if (text_total_count != null) {
-                    text_total_count.setText(TextUtils.isEmpty(model.getCount())||"0".equals(model.getCount())?"--":model.getCount());
+                    text_total_count.setText(TextUtils.isEmpty(model.getCount())?"0":model.getCount());
                     SpannableString ss=new SpannableString("次");
                     ss.setSpan(new AbsoluteSizeSpan(24,true),0,ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     text_total_count.append(ss);

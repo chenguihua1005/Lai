@@ -126,13 +126,9 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         });
     }
 
+    boolean isMine=false;
     @Override
     protected void initDatas() {
-
-        dynamics=new ArrayList();
-        manager=new CommunityManager(this);
-        adapter=new DynamicRecyclerViewAdapter(this,dynamics);
-        recyclerView.setAdapter(adapter);
         personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
         if(personalId == UserInfoModel.getInstance().getUserId()){
             cb_attention.setVisibility(View.GONE);
@@ -143,13 +139,20 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             }else {
                 tv_name.setText("我");
             }
+            isMine=true;
         }else {
             String userName=getIntent().getStringExtra("personalName");
             tv_title.setText(userName);
             tv_name.setText(userName);
             cb_attention.setVisibility(View.VISIBLE);
+            isMine=false;
         }
         tv_title.append("的动态");
+        dynamics=new ArrayList();
+        manager=new CommunityManager(this);
+        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine);
+        recyclerView.setAdapter(adapter);
+
         int isFocus=getIntent().getIntExtra("isFocus",0);
         if(isFocus==0){
             cb_attention.setChecked(false);

@@ -6,9 +6,11 @@
 package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -21,16 +23,26 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.model.PersonalListModel;
+import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 
 /**
  * Created by John on 2016/3/27.
@@ -45,10 +57,12 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private List<PersonalListModel> infos;
     private Context context;
+    private boolean isMine;
 
-    public DynamicRecyclerViewAdapter(Context mContext, List infos) {
+    public DynamicRecyclerViewAdapter(Context mContext, List infos,boolean isMine) {
         this.context=mContext;
         this.infos = infos;
+        this.isMine=isMine;
     }
 
     @Override
@@ -68,7 +82,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         //绑定数据
         if(holder instanceof ViewHolder){
             final PersonalListModel model=infos.get(position);
@@ -92,7 +106,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
             if(position==0){//第一条
                 ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
-                ((ViewHolder) holder).tv_month.setText(getString(dates[2]+""+dates[1]+"月",18,11,2));
+                ((ViewHolder) holder).tv_month.setText(getString(dates[2]+" "+dates[1]+"月",18,11,2));
                 if(position+1<infos.size()){
                     PersonalListModel next=infos.get(position+1);
                     int[] ndates=DateUtil.getInstance().getDates(next.getCreateDate());
@@ -145,6 +159,38 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
                 }
             });
+            if(isMine&&"0".equals(model.getMinetype())){
+                ((ViewHolder) holder).tv_delete.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).tv_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                                                .deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
+                                                new RequestCallback<ResponseData>() {
+                                                    @Override
+                                                    public void success(ResponseData responseData, Response response) {
+                                                        if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
+                                                            infos.remove(model);
+                                                            notifyItemRemoved(position);
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).create().show();
+                    }
+                });
+            }else {
+                ((ViewHolder) holder).tv_delete.setVisibility(View.GONE);
+            }
             //将数据保存在itemView的Tag中，以便点击时进行获取
             /*holder.itemView.setTag(position);*/
         }

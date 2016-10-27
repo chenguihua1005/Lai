@@ -15,6 +15,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
@@ -116,6 +117,23 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event){
+        int position=-1;
+        for (int i=0,j=communityModels.size();i<j;i++){
+            HealthyCommunityModel model=communityModels.get(i);
+            if(model.getID().equals(event.getDynamicId())){
+                position=i;
+                break;
+            }
+        }
+        if(position>=0){
+            communityModels.remove(position);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     @Subscribe
     public void refreshListZan(ZanEvent event){
         if(event.getWhere()==0){

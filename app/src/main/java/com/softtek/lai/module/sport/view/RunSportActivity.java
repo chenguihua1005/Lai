@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -129,7 +130,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
             time=savedInstanceState.getLong("time",0);
-            startStep=savedInstanceState.getInt("startStep",startStep);
+            startStep=savedInstanceState.getLong("startStep",startStep);
             isFirst=savedInstanceState.getBoolean("isFirst",true);
             previousDistance=savedInstanceState.getDouble("previousDistance",0);
             lastLatLon=savedInstanceState.getParcelable("lastLatLon");
@@ -149,6 +150,50 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
             aMap.addPolyline(polylineOptions);
         }
+        ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
+        if(models!=null&&!models.isEmpty()){
+            //表示有数据传过来
+            isFirst = false;
+            SportModel sportModel=models.get(0);
+            LatLng latLng=new LatLng(sportModel.getLatitude(),sportModel.getLongitude());
+
+            aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+            int stepTemp=0;
+            for (SportModel model:models){
+                polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
+                if(model.getStep()>stepTemp){
+                    stepTemp=model.getStep();
+                }
+            }
+            SportModel lastModel=models.get(models.size()-1);
+            lastLatLon=new LatLng(lastModel.getLatitude(),lastModel.getLongitude());
+            DecimalFormat format = new DecimalFormat("#0.00");
+            //只有在异常的时候才会去获取缓存的步数
+            long cacheStep=SharedPreferenceService.getInstance().get("cacheStep",0l);
+            long cacheTime=SharedPreferenceService.getInstance().get("cacheTime",0l);
+            oldStep=stepTemp<cacheStep?cacheStep:stepTemp;
+            tv_step.setText(oldStep+"");
+            time=lastModel.getConsumingTime()<cacheTime?cacheTime:lastModel.getConsumingTime();
+            String distanceTemp=SharedPreferenceService.getInstance().get("cacheKM","0");
+            if(Double.parseDouble(distanceTemp)>lastModel.getCurrentKM()){
+                previousDistance=Double.parseDouble(distanceTemp);
+            }else {
+                previousDistance=lastModel.getCurrentKM();
+            }
+            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+            isLocation=true;
+            //辨别是否是一公里了
+            //量化距离（公里）
+            int kilometre= (int) (previousDistance/1000);
+            if(kilometre-index==1){
+                index=kilometre;
+            }else if(kilometre-index>1){
+                index=kilometre;
+            }
+        }
+        //绑定步数服务
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
         startCountDown();
     }
 
@@ -192,36 +237,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         polylineOptions.useGradient(true);//使用渐变色
         polylineOptions.color(0xFF74BB2A);
         polylineOptions.zIndex(3);
-        ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
-        if(models!=null&&!models.isEmpty()){
-            //表示有数据传过来
-            isFirst = false;
-            SportModel sportModel=models.get(0);
-            LatLng latLng=new LatLng(sportModel.getLatitude(),sportModel.getLongitude());
 
-            aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                    BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-            for (SportModel model:models){
-                polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
-            }
-            SportModel lastModel=models.get(models.size()-1);
-            lastLatLon=new LatLng(lastModel.getLatitude(),lastModel.getLongitude());
-            DecimalFormat format = new DecimalFormat("#0.00");
-            previousDistance=lastModel.getCurrentKM();
-            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
-            time=lastModel.getConsumingTime();
-            oldStep=lastModel.getStep();
-            tv_step.setText(oldStep+"");
-            isLocation=true;
-            //辨别是否是一公里了
-            //量化距离（公里）
-            int kilometre= (int) (previousDistance/1000);
-            if(kilometre-index==1){
-                index=kilometre;
-            }else if(kilometre-index>1){
-                index=kilometre;
-            }
-        }
 
 
         /**
@@ -271,8 +287,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     protected void initDatas() {
         manager = new SportManager();
-        //绑定步数服务
-        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
         locationReceiver = new LocationReceiver();
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
@@ -339,7 +353,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     }
 
     LocationReceiver locationReceiver;
-    int startStep = 0;
+    long startStep = 0;
     long aDay = 3600 * 24000;
 
     private static final int REQUEST_DELAY=-1;
@@ -376,13 +390,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 //处理接收到的数据
                 try {
                     Bundle bundle=msg.getData();
-                    int tempStep = bundle.getInt("todayStep",0);
+                    long tempStep = bundle.getLong("originalStep",0);
                     if (startStep == 0) startStep = tempStep;
                     long currentStep=(tempStep - startStep) <= 0 ? 0: (tempStep - startStep);
                     step = currentStep+oldStep;
                     int calori = (int) (step / 35);
                     tv_step.setText(step + "");
                     tv_calorie.setText(calori + "");
+                    SharedPreferenceService.getInstance().put("cacheStep",step);
+                    SharedPreferenceService.getInstance().put("cacheTime",time);
                     if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
                         if(currentStep!=lastStep){
                             lastStep=currentStep;
@@ -393,11 +409,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
                         }
                     }
+                    SharedPreferenceService.getInstance().put("cacheKM",previousDistance+"");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 //延迟
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,800);
                 break;
             case REQUEST_DELAY:
                 //继续请求服务端
@@ -460,11 +477,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.onSaveInstanceState(outState);
         //在这里保存一些数据
         outState.putLong("time",time);//保存当前计时
-        outState.putInt("startStep",startStep);//保存开始计时的时候步数
+        outState.putLong("startStep",startStep);//保存开始计时的时候步数
         outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
         outState.putDouble("previousDistance",previousDistance);//保存距离
         outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
         outState.putBoolean("isLocation",isLocation);//记录了是否定位到了
+//        outState.putLong("step",step);//记录当前步数
 
     }
 
