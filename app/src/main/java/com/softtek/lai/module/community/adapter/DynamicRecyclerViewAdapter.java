@@ -29,6 +29,7 @@ import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
+import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
@@ -58,15 +59,11 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private List<PersonalListModel> infos;
     private Context context;
     private boolean isMine;
-    private TextView dynamic;
-    private int total;
 
-    public DynamicRecyclerViewAdapter(Context mContext, List infos,boolean isMine,TextView dynamic,int total) {
+    public DynamicRecyclerViewAdapter(Context mContext, List infos,boolean isMine) {
         this.context=mContext;
         this.infos = infos;
         this.isMine=isMine;
-        this.dynamic=dynamic;
-        this.total=total;
     }
 
     @Override
@@ -181,10 +178,9 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                                                             EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
                                                             infos.remove(model);
                                                             notifyItemRemoved(position);
-                                                            if(dynamic!=null){
-                                                                dynamic.setText("共有");
-                                                                dynamic.append(String.valueOf((total-1)<0?0:(total-1)));
-                                                                dynamic.append("条动态");
+                                                            if(context instanceof PersionalActivity){
+                                                                PersionalActivity activity= (PersionalActivity) context;
+                                                                activity.updateNum();
                                                             }
                                                         }
                                                     }

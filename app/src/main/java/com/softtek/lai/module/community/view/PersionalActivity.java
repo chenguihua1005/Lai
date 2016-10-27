@@ -153,7 +153,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         tv_title.append("的动态");
         dynamics=new ArrayList();
         manager=new CommunityManager(this);
-        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine,tv_dynamic_num,total);
+        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine);
         recyclerView.setAdapter(adapter);
 
         int isFocus=getIntent().getIntExtra("isFocus",0);
@@ -253,5 +253,15 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             e.printStackTrace();
         }
 
+    }
+
+    public void updateNum(){
+        try {
+            tv_dynamic_num.setText("共有");
+            tv_dynamic_num.append(String.valueOf((total-1)<0?0:(total-1)));
+            tv_dynamic_num.append("条动态");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

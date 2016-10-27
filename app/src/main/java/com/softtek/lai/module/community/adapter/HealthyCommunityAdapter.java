@@ -155,6 +155,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+                                            if(responseData.getStatus()==200){
+                                                EventBus.getDefault().post(new FocusReload());
+                                            }
                                         }
                                     });
                         } else {
@@ -166,9 +169,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
-                                            if(responseData.getStatus()==200){
-                                                EventBus.getDefault().post(new FocusReload());
-                                            }
+
                                         }
                                     });
 

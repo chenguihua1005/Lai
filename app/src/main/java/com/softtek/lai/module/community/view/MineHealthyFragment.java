@@ -61,6 +61,15 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     int pageIndex=1;
     int totalPage=0;
     boolean isLogin=false;
+    boolean hasFocus=false;
+
+    @Override
+    protected void onVisible() {
+        if(hasFocus){
+            isPrepared=false;
+        }
+        super.onVisible();
+    }
 
     @Override
     protected void lazyLoad() {
@@ -132,14 +141,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
 
     @Subscribe
     public void onReload(FocusReload reload){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null) {
-                    ptrlv.setRefreshing();
-                }
-            }
-        });
+        hasFocus=true;
     }
 
     @Override
@@ -197,6 +199,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
         try {
+            hasFocus=false;
             ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;
