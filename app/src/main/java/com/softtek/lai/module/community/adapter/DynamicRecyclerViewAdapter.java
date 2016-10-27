@@ -177,7 +177,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                                                         if (responseData.getStatus() == 200) {
                                                             EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
                                                             infos.remove(model);
-                                                            notifyItemRemoved(position);
+                                                            notifyDataSetChanged();
                                                             if(context instanceof PersionalActivity){
                                                                 PersionalActivity activity= (PersionalActivity) context;
                                                                 activity.updateNum();

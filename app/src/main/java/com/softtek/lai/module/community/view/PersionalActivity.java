@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -256,9 +257,11 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     }
 
     public void updateNum(){
+        Log.i("更新了");
         try {
             tv_dynamic_num.setText("共有");
-            tv_dynamic_num.append(String.valueOf((total-1)<0?0:(total-1)));
+            total=(total-1)<0?0:(total-1);
+            tv_dynamic_num.append(String.valueOf(total));
             tv_dynamic_num.append("条动态");
         } catch (Exception e) {
             e.printStackTrace();
