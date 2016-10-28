@@ -22,7 +22,7 @@ import retrofit.mime.TypedFile;
  */
 public interface ChartService {
     /*运动个人主页接口*/
-    @GET("/StepCount/GetStepCount")
+    @GET("/StepCount/NewGetStepCount")
     void doGetStepCount(
             @Header("token")String token,
             @Query("accountid") String accountid,

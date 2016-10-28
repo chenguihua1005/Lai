@@ -18,14 +18,14 @@ import retrofit.http.Query;
 public interface RankingService {
 
     //日排名
-    @GET("/StepCount/GetCurrentDateOrder")
+    @GET("/StepCount/NewGetCurrentDateOrder")
     void getCurrentDateOrder(@Header("token") String token,
                              @Query("RGIdType") int RGIdType,
                              @Query("PageIndex")int pageIndex,
                              RequestCallback<ResponseData<RankModel>> callback);
 
     //当周排名
-    @GET("/StepCount/GetCurrentWeekOrder")
+    @GET("/StepCount/NewGetCurrentWeekOrder")
     void getCurrentWeekOrder(@Header("token") String token,
                              @Query("RGIdType") int RGIdType,
                              @Query("PageIndex")int pageIndex,

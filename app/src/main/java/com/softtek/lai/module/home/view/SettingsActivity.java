@@ -103,7 +103,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private void show(Version version){
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){
-            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n新版本以发布快去应用市场更新吧！\n更新于："+version.getUpdateTime();
+            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n新版本已发布快去应用市场更新吧！\n更新于："+version.getUpdateTime();
             new AlertDialog.Builder(this)
                     .setTitle("版本有更新")
                     .setMessage(str)
@@ -115,7 +115,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             }).create().show();
         }else {
             new AlertDialog.Builder(this)
-                    .setMessage("当前版本以最新")
+                    .setMessage("当前已是最新版本！")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

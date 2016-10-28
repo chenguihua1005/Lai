@@ -26,13 +26,13 @@ import retrofit.mime.TypedFile;
 public interface CommunityService {
 
     //获取推荐健康圈内容
-    @GET("/HealthyCircle/HealthRecommend")
+    @GET("/HealthyCircle/NewHealthRecommend")
     void getrecommendHealthyContent(@Query("accountid")long accountId,
                                     @Query("pageIndex")int pageIndex,
                                     RequestCallback<ResponseData<HealthyRecommendModel>> callback);
 
-    //获取健康圈我的内容
-    @GET("/HealthyCircle/HealthMine")
+    //获取健康圈关注内容
+    @GET("/HealthyCircle/NewHealthMine")
     void getHealthyMine(@Header("token")String token,
                         @Query("loginaccid")long loginaccid,
                         @Query("accountid")long accountId,

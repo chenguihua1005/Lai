@@ -20,7 +20,7 @@ public interface SportService {
 
     //莱运动-首页
     @FormUrlEncoded
-    @POST("/HerbSports/GetSportIndex")
+    @POST("/HerbSports/NewGetSportIndex")
     void getSportIndex(@Header("token") String token,
                        @Field("AccountId") long accountid,
                        @Field("DateTimeTotalStep") String todaystep,
