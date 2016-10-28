@@ -99,6 +99,7 @@ public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 public void onClick(View v) {
                     Intent intent1=new Intent(context,ChartActivity.class);
                     intent1.putExtra("isFocusid",data.getAccountId());
+                    intent1.putExtra("step",Integer.parseInt(data.getStepCount()));
                     context.startActivity(intent1);
                 }
             });

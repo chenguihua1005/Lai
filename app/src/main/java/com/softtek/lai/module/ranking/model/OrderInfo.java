@@ -11,6 +11,15 @@ public class OrderInfo {
     private String steps;
     private String IsPrasie;
     private String PrasieNum;
+    private String AcStepGuid;
+
+    public String getAcStepGuid() {
+        return AcStepGuid;
+    }
+
+    public void setAcStepGuid(String acStepGuid) {
+        AcStepGuid = acStepGuid;
+    }
 
     public String getOrderInfo() {
         return orderInfo;

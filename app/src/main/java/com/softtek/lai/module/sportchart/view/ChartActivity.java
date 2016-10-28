@@ -754,8 +754,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     }
                 }
                 else {
-                    for (int i = 0; i <= 7; i++) {
-                        dates.add(Integer.parseInt(result.getStepList().get(7-i).getTotalCnt()));
+                    for (int i = 0; i < 7; i++) {
+                        dates.add(Integer.parseInt(result.getStepList().get(6-i).getTotalCnt()));
                     }
                 }
                 if (Userid.equals(isFocusid))

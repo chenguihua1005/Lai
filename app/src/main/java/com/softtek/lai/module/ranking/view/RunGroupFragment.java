@@ -85,7 +85,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
     private boolean isLoading=false;
     private int totalPage=0;
 
-    private RankModel result;
+    private OrderInfo info;
 
     public RunGroupFragment() {
 
@@ -110,7 +110,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                 public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
                     if(orderInfoResponseData.getStatus()==200){
                         try {
-                            OrderInfo info=orderInfoResponseData.getData();
+                            info=orderInfoResponseData.getData();
                             tv_rank.setText("跑团排名第");
                             tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
                             tv_rank.append("名");
@@ -205,9 +205,12 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         header_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUser().getUserid());
-                getActivity().startActivity(intent1);
+                if(info!=null){
+                    Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                    intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
+                    intent1.putExtra("step",Integer.parseInt(info.getSteps()));
+                    getActivity().startActivity(intent1);
+                }
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -255,7 +258,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                         public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
                             if(orderInfoResponseData.getStatus()==200){
                                 try {
-                                    OrderInfo info=orderInfoResponseData.getData();
+                                    info=orderInfoResponseData.getData();
                                     tv_rank.setText("跑团排名第");
                                     tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
                                     tv_rank.append("名");
@@ -290,7 +293,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                         public void success(ResponseData<OrderInfo> orderInfoResponseData, Response response) {
                             if(orderInfoResponseData.getStatus()==200){
                                 try {
-                                    OrderInfo info=orderInfoResponseData.getData();
+                                    info=orderInfoResponseData.getData();
                                     tv_rank.setText("跑团排名第");
                                     tv_rank.append(orderInfoResponseData.getData().getOrderInfo());
                                     tv_rank.append("名");
@@ -333,26 +336,26 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         cb_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(result!=null){
+                if(info!=null){
                     cb_zan.setEnabled(false);
                     cb_zan.setChecked(true);
-                    String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())+1);
+                    String prasieNum=String.valueOf(Integer.parseInt(info.getPrasieNum())+1);
                     cb_zan.setText(prasieNum);
-                    result.setPrasieNum(prasieNum);
+                    info.setPrasieNum(prasieNum);
                     for(int i=0,j=infos.size();i<j;i++){
                         OrderData orderData=infos.get(i);
-                        if(orderData.getAcStepGuid().equals(result.getAcStepGuid())){
+                        if(orderData.getAcStepGuid().equals(info.getAcStepGuid())){
                             orderData.setIsPrasie("1");
                             orderData.setPrasieNum(prasieNum);
                             adapter.notifyItemChanged(i);
                             break;
                         }
                     }
-                    EventBus.getDefault().post(new RankZan(result.getAcStepGuid(),true,true));
+                    EventBus.getDefault().post(new RankZan(info.getAcStepGuid(),true,true));
                     ZillaApi.NormalRestAdapter.create(RankingService.class)
                             .dayRankZan(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    result.getAcStepGuid(),
+                                    info.getAcStepGuid(),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData o, Response response) {
@@ -362,9 +365,9 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                                         public void failure(RetrofitError error) {
                                             cb_zan.setEnabled(true);
                                             cb_zan.setChecked(false);
-                                            String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())-1);
+                                            String prasieNum=String.valueOf(Integer.parseInt(info.getPrasieNum())-1);
                                             cb_zan.setText(prasieNum);
-                                            result.setPrasieNum(prasieNum);
+                                            info.setPrasieNum(prasieNum);
                                             super.failure(error);
                                         }
                                     });
@@ -374,9 +377,12 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         rl_mine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1=new Intent(getActivity(),ChartActivity.class);
-                intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
-                getActivity().startActivity(intent1);
+                if(info!=null){
+                    Intent intent1=new Intent(getActivity(),ChartActivity.class);
+                    intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
+                    intent1.putExtra("step",Integer.parseInt(info.getSteps()));
+                    getActivity().startActivity(intent1);
+                }
             }
         });
     }
@@ -391,6 +397,7 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
             public void onItemClick(View view, int position) {
                 Intent intent1=new Intent(getActivity(),ChartActivity.class);
                 intent1.putExtra("isFocusid",infos.get(position).getAccountId());
+                intent1.putExtra("step",Integer.parseInt(infos.get(position).getStepCount()));
                 getActivity().startActivity(intent1);
             }
         });
@@ -411,11 +418,11 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
 
     @Subscribe
     public void onRefreshZan(RankZan zan){
-        if(!zan.isRunGroup()&&result!=null){//表示是跑团那边发送过来的通知并且当前界面已经请求过了，就可以做处理
-            if(zan.isMine()||zan.getGuid().equals(result.getAcStepGuid())){//如果是自己给自己点咱
+        if(!zan.isRunGroup()&&info!=null){//表示是跑团那边发送过来的通知并且当前界面已经请求过了，就可以做处理
+            if(zan.isMine()||zan.getGuid().equals(info.getAcStepGuid())){//如果是自己给自己点咱
                 cb_zan.setEnabled(false);
                 cb_zan.setChecked(true);
-                String prasieNum=String.valueOf(Integer.parseInt(result.getPrasieNum())+1);
+                String prasieNum=String.valueOf(Integer.parseInt(info.getPrasieNum())+1);
                 cb_zan.setText(prasieNum);
             }
             //更新当前界面列表
@@ -443,7 +450,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         if(result==null){
             return;
         }
-        this.result=result;
         if(TextUtils.isEmpty(result.getPageCount())){
             totalPage=0;
         }else{
