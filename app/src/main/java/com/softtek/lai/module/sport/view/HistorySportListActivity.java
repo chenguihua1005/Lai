@@ -1,7 +1,6 @@
 package com.softtek.lai.module.sport.view;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,10 +14,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
-import com.softtek.lai.module.sport.model.HSModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
 
