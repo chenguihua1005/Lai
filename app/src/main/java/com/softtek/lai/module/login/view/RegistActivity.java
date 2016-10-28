@@ -91,10 +91,10 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        if (!isTaskRoot()) {
-            finish();
-            return;
-        }
+//        if (!isTaskRoot()) {
+//            finish();
+//            return;
+//        }
     }
 
     @Override
@@ -137,8 +137,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, TermActivity.class));
                 break;
             case R.id.ll_left:
-                finish();
                 startActivity(new Intent(this,LoginActivity.class));
+                finish();
                 break;
         }
     }
