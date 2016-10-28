@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -46,7 +44,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.FileHelper;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
@@ -81,9 +78,10 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     List<String> images=new ArrayList<>();
 
     private LossWeightLogService service;
-    private LossWeightStoryModel log;
     private LogDetailGridAdapter adapter;
     private LogStoryDetailManager manager;
+    private LossWeightStoryModel log;
+    private LogStoryDetailModel logDetail;
 
     @Override
     protected void initViews() {
@@ -105,29 +103,34 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= getIntent().getParcelableExtra("log");
-        if(StringUtils.isNotEmpty(log.getPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default).into(civ_header_image);
-        }
-        tv_name.setText(log.getUserName());
-        tv_content.setText(log.getLogContent());
-        String date=log.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
-        tv_totle_lw.setText(log.getAfterWeight()+"斤");
-        cb_zan.setText(log.getPriase());
-        tv_zan_name.setText(log.getUsernameSet());
-        zanSet();
-        //拆分字符串图片列表,并添加到图片集合中
-        if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
-            String[] image=log.getImgCollection().split(",");
-            images.addAll(Arrays.asList(image));
+        if(log!=null){
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
+            }
+            tv_name.setText(log.getUserName());
+            tv_content.setText(log.getLogContent());
+            String date=log.getCreateDate();
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+            tv_totle_lw.setText(log.getAfterWeight()+"斤");
+            cb_zan.setText(log.getPriase());
+            tv_zan_name.setText(log.getUsernameSet());
+            zanSet();
+            //拆分字符串图片列表,并添加到图片集合中
+            if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
+                String[] image=log.getImgCollection().split(",");
+                images.addAll(Arrays.asList(image));
+            }
         }
         adapter=new LogDetailGridAdapter(this,images);
         cgv_list_image.setAdapter(adapter);
         dialogShow("加载中...");
-        manager.getLogDetail(Long.parseLong(log.getLossLogId()));
+        long logId=getIntent().getLongExtra("logId",0);
+        if(log!=null){
+            manager.getLogDetail(Long.parseLong(log.getLossLogId()));
+        }else {
+            manager.getLogDetail(logId);
+        }
     }
 
     @Override
@@ -135,12 +138,13 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         switch (v.getId()){
             case R.id.ll_left:
                 Intent i=getIntent();
-                i.putExtra("log",log);
+                if(log!=null){
+                    i.putExtra("log",log);
+                }
                 setResult(RESULT_OK,i);
                 finish();
                 break;
             case R.id.cb_zan:
-                Log.i("dfdsfsdf",UserInfoModel.getInstance().getUser().getUserid());
                 if (TextUtils.isEmpty(UserInfoModel.getInstance().getToken()))
                 {
                     cb_zan.setChecked(false);
@@ -160,36 +164,38 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                     }).create().show();
                 }
                 else {
-                    ll_zan.setVisibility(View.VISIBLE);
-                    final UserInfoModel infoModel = UserInfoModel.getInstance();
-                    log.setPriase(Integer.parseInt(log.getPriase()) + 1 + "");
-                    log.setIsClicked(Constants.HAS_ZAN);
-                    log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
-                    cb_zan.setText(log.getPriase());
-                    tv_zan_name.setText(log.getUsernameSet());
-                    zanSet();
-                    //向服务器提交
-                    UserModel info = UserInfoModel.getInstance().getUser();
-                    service.clickLike(UserInfoModel.getInstance().getToken(),
-                            Long.parseLong(info.getUserid()), Long.parseLong(log.getLossLogId()),
-                            new RequestCallback<ResponseData<Zan>>() {
-                                @Override
-                                public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                }
+                    if(logDetail!=null){
+                        ll_zan.setVisibility(View.VISIBLE);
+                        final UserInfoModel infoModel = UserInfoModel.getInstance();
+                        logDetail.setPriasenum(Integer.parseInt(logDetail.getPriasenum()) + 1 + "");
+                        logDetail.setIfpriasenum(Constants.HAS_ZAN);
+                        logDetail.setUserNames(StringUtil.appendDotAll(logDetail.getUserNames(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
+                        cb_zan.setText(logDetail.getPriasenum());
+                        tv_zan_name.setText(logDetail.getUserNames());
+                        zanSet();
+                        //向服务器提交
+                        UserModel info = UserInfoModel.getInstance().getUser();
+                        service.clickLike(UserInfoModel.getInstance().getToken(),
+                                Long.parseLong(info.getUserid()), Long.parseLong(logDetail.getLossLogId()),
+                                new RequestCallback<ResponseData<Zan>>() {
+                                    @Override
+                                    public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                    }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
-                                    int priase = Integer.parseInt(log.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(log.getPriase()) - 1;
-                                    log.setPriase(priase + "");
-                                    String del = StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                    log.setUsernameSet(del);
-                                    log.setIsClicked(Constants.NO_ZAN);
-                                    cb_zan.setText(priase + "");
-                                    tv_zan_name.setText(log.getUsernameSet());
-                                    zanSet();
-                                }
-                            });
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = Integer.parseInt(logDetail.getPriasenum()) - 1 < 0 ? 0 : Integer.parseInt(logDetail.getPriasenum()) - 1;
+                                        logDetail.setPriasenum(priase+"");
+                                        String del = StringUtils.removeEnd(StringUtils.removeEnd(logDetail.getUserNames(), infoModel.getUser().getNickname()), ",");
+                                        logDetail.setUserNames(del);
+                                        logDetail.setIfpriasenum(Constants.NO_ZAN);
+                                        cb_zan.setText(priase + "");
+                                        tv_zan_name.setText(logDetail.getUserNames());
+                                        zanSet();
+                                    }
+                                });
+                    }
                 }
                 break;
         }
@@ -202,12 +208,11 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             if(log==null){
                 return;
             }
+            this.logDetail=log;
             tv_name.setText(log.getUserName());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();
-            tv_date.setText(DateUtil.getInstance().getYear(date)+
-                    "年"+DateUtil.getInstance().getMonth(date)+
-                    "月"+DateUtil.getInstance().getDay(date)+"日");
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
             tv_totle_lw.setText(log.getAfterWeight()+"斤");
             cb_zan.setText(log.getPriasenum());
             if(StringUtils.isNotEmpty(log.getUserNames())){
@@ -222,6 +227,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
                 cb_zan.setChecked(false);
                 cb_zan.setEnabled(true);
+            }
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
+            }else {
+                Picasso.with(this).load(R.drawable.img_default).into(civ_header_image);
             }
             //拆分字符串图片列表,并添加到图片集合中
             if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
@@ -255,7 +266,9 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent i=getIntent();
-            i.putExtra("log",log);
+            if(log!=null){
+                i.putExtra("log",log);
+            }
             setResult(RESULT_OK,i);
             finish();
             return true;

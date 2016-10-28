@@ -63,7 +63,6 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
 
-
     <!-- 使用时把com.easemob.chatuidemo替换成自己的包名 -->
     <permission
         android:name="com.softtek.lai.permission.C2D_MESSAGE"
@@ -87,7 +86,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <!--============================设置各个开发者平台的key====================-->
+
+        <!-- ============================设置各个开发者平台的key==================== -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
@@ -99,32 +99,38 @@
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
 
-        <!--正式-->
-        <meta-data
+        <!-- 正式 -->
+        <!--
+            <meta-data
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
-        <!--测试-->
-        <!--<meta-data
-            android:name="UMENG_APPKEY"
-            android:value="57d60ab167e58ec4f60000cb" />-->
-
-        <!--正式-->
+        -->
+        <!-- 测试 -->
         <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57d60ab167e58ec4f60000cb" />
+
+        <!-- 正式 -->
+        <!--
+            <meta-data
             android:name="JPUSH_APPKEY"
             android:value="1a3bbb691bfbfca0d0676e9f" />
-        <!--测试54-->
-        <!--<meta-data
+        -->
+        <!-- 测试54 -->
+        <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />-->
+            android:value="b004a008690a103f8b6ebbf7" />
 
         <!-- uat设置环信应用的appkey -->
-        <!--正式-->
-        <meta-data
+        <!-- 正式 -->
+        <!--
+            <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalife#laiju" />
-        <!--<meta-data
+        -->
+        <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="herbalifeuat#laiapp" />-->
+            android:value="herbalifeuat#laiapp" />
         <!-- ============================================================================== -->
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -132,11 +138,11 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.welcome.view.GuidePageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.welcome.view.WelcomeActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -571,6 +577,7 @@
                 <category android:name="com.softtek.lai" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".module.historydate.view.HistoryDataActivity"
             android:screenOrientation="portrait" />
@@ -678,7 +685,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
-
 
         <!-- 声明sdk所需的service -->
         <service
@@ -808,9 +814,13 @@
 
         <service
             android:name=".stepcount.service.UploadLogService"
-            android:exported="false"/>
-        <activity android:name=".module.home.view.ArticalDetailActivity" android:screenOrientation="portrait"/>
+            android:exported="false" />
 
+        <activity
+            android:name=".module.home.view.ArticalDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.community.view.PersionalActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

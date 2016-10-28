@@ -62,11 +62,9 @@ public class RetestclassImp implements RetestPre{
                switch (status){
                    case 200:{
                        EventBus.getDefault().post(new BanJiEvent(banjiResponseData.getData()));
-                       Log.i("全部班级加载成功");
                    }
                    break;
                    case 201:{
-                       Log.i("未分配班级");
                    }
                    break;
                    default:
@@ -78,7 +76,6 @@ public class RetestclassImp implements RetestPre{
            @Override
            public void failure(RetrofitError error) {
                ZillaApi.dealNetError(error);
-               error.printStackTrace();
 
            }
        });
@@ -115,7 +112,6 @@ public class RetestclassImp implements RetestPre{
             public void failure(RetrofitError error) {
                 dialog.dismiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }

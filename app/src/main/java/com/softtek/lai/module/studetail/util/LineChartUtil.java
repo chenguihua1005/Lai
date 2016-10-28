@@ -179,7 +179,6 @@ public class LineChartUtil {
         if(data.getXValCount()==0){
             //添加x 轴数值
             for (int i = 0; i <n; i++) {
-
                 data.getXVals().add(dates.get(i));
             }
 
@@ -202,7 +201,7 @@ public class LineChartUtil {
                     max = val;
                 }
         }
-        chart.getAxisLeft().setAxisMaxValue(max+100);
+        chart.getAxisLeft().setAxisMaxValue(max+900);
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals,null);
         // set the line to be drawn like this "- - - - - -"

@@ -2,8 +2,7 @@ package com.softtek.lai.module.community.view;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.view.View;
-import android.widget.AdapterView;
+import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -14,16 +13,21 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
-import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
+import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
-public class RecommendHealthyFragment extends LazyBaseFragment implements AdapterView.OnItemClickListener
-        ,PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
+public class RecommendHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -53,7 +56,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
 
     @Override
     protected void lazyLoad() {
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){
@@ -67,9 +70,9 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-        ptrlv.setOnItemClickListener(this);
         ptrlv.setEmptyView(img_mo_message);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
@@ -92,29 +95,45 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
         }else{
             accountId=Long.parseLong(user.getUserid());
         }
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,accountId==-1?true:false,2);
+        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels);
         ptrlv.setAdapter(adapter);
 
     }
-    private static final int LIST_JUMP=1;
-    private static final int LIST_JUMP_2=2;
+
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HealthyCommunityModel model=communityModels.get(position-1);
-        if("1".equals(model.getMinetype())){//减重日志
-            Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
-            logDetail.putExtra("log",copyModel(model));
-            logDetail.putExtra("position",position-1);
-            logDetail.putExtra("type","1");
-            startActivityForResult(logDetail,LIST_JUMP_2);
-        }else if("0".equals(model.getMinetype())){//动态
-            Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
-            logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
-            logDetail.putExtra("position",position-1);
-            logDetail.putExtra("type","1");
-            startActivityForResult(logDetail,LIST_JUMP);
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void refreshList(RefreshRecommedEvent event){
+        for (HealthyCommunityModel model:communityModels){
+            if(model.getAccountId().equals(event.getAccountId())){
+                model.setIsFocus(event.getFocusStatus());
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+    @Subscribe
+    public void refreshListZan(ZanEvent event){
+        if(event.getWhere()==0){
+            for (HealthyCommunityModel model:communityModels){
+                if(model.getID().equals(event.getDynamicId())){
+                    model.setIsPraise(Constants.HAS_ZAN);
+                    model.setPraiseNum(String.valueOf(Integer.parseInt(model.getPraiseNum()) + 1));
+                    UserInfoModel infoModel = UserInfoModel.getInstance();
+                    model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
+                            infoModel.getUser().getMobile()));
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
         }
     }
+
+    private static final int LIST_JUMP=1;
+    private static final int LIST_JUMP_2=2;
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -132,7 +151,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
             community.getRecommendDynamic(accountId,pageIndex);
         }else{
             pageIndex--;
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ptrlv.onRefreshComplete();
@@ -142,21 +161,20 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
         }
     }
     public  void updateList(){
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
                 }
             }
-        }, 300);
+        }, 400);
     }
 
     @Override
     public void getRecommendDynamic(HealthyRecommendModel model) {
-        Log.i("推荐记录请求结束");
-        ptrlv.onRefreshComplete();
         try {
+            ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;
                 return;
@@ -176,40 +194,9 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements Adapte
             }
             this.communityModels.addAll(models);
             adapter.notifyDataSetChanged();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private LossWeightStoryModel copyModel(HealthyCommunityModel model){
-        LossWeightStoryModel storyModel=new LossWeightStoryModel();
-        storyModel.setPriase(model.getPraiseNum());
-        storyModel.setLogContent(model.getContent());
-        storyModel.setLogTitle(model.getTitle());
-        storyModel.setAfterWeight("0");
-        storyModel.setCreateDate(model.getCreateDate());
-        storyModel.setImgCollection(model.getImgCollection());
-        storyModel.setIsClicked(model.getIsPraise());
-        storyModel.setLossLogId(model.getID());
-        storyModel.setPhoto(model.getPhoto());
-        storyModel.setUserName(model.getUserName());
-        storyModel.setUsernameSet(model.getUsernameSet());
-
-        return storyModel;
-    }
-
-    private HealthyDynamicModel copyModeltoDynamci(HealthyCommunityModel model){
-        HealthyDynamicModel dynamicModel=new HealthyDynamicModel();
-        dynamicModel.setPraiseNum(model.getPraiseNum());
-        dynamicModel.setUsernameSet(model.getUsernameSet());
-        dynamicModel.setContent(model.getContent());
-        dynamicModel.setUserName(model.getUserName());
-        dynamicModel.setHealtId(model.getID());
-        dynamicModel.setIsPraise(model.getIsPraise());
-        dynamicModel.setCreateDate(model.getCreateDate());
-        dynamicModel.setImgCollection(model.getImgCollection());
-        dynamicModel.setPhoto(model.getPhoto());
-        return dynamicModel;
     }
 
     @Override

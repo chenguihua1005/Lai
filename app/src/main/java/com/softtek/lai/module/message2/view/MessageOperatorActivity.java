@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
@@ -25,9 +27,10 @@ import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -37,9 +40,6 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.activity_message_operator)
 public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener, MessageMainManager.OperatorCallBack {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -78,7 +78,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         but_no.setOnClickListener(this);
         but_yes.setOnClickListener(this);
@@ -92,7 +92,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initDatas() {
         model = (OperateMsgModel) getIntent().getSerializableExtra("model");
-        System.out.println("model:" + model);
         assistantPresenter = new AssistantImpl(this);
         messagePresenter = new MessageImpl(this);
         text_value.setText(model.getContent());
@@ -185,10 +184,8 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     } else if ("2".equals(msg_type)) {
                         messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "1");
                     } else if ("3".equals(msg_type)) {
-                        Intent intent = new Intent(this, JoinGameDetailActivity.class);
-                        intent.putExtra("classId", model.getClassId());
-                        intent.putExtra("type", "1");
-                        startActivity(intent);
+                        dialogShow("加载中");
+                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
                     }
 
                 } else {
@@ -197,6 +194,21 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 break;
 
         }
+    }
+
+    @Subscribe
+    public void onEvent(CheckClassEvent event) {
+        dialogDissmiss();
+        Intent intent = new Intent(this, JoinGameDetailActivity.class);
+        intent.putExtra("classId", model.getClassId());
+        intent.putExtra("type", "1");
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

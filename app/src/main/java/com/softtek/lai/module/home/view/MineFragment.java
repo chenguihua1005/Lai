@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
@@ -49,20 +51,23 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     @InjectView(R.id.but_login_out)
     Button but_login_out;
 
-    @InjectView(R.id.lin_validate_certification)
-    LinearLayout lin_validate_certification;
+    @InjectView(R.id.rl_validate_certification)
+    RelativeLayout rl_validate_certification;
 
     @InjectView(R.id.rel_nodify_person)
     RelativeLayout rel_nodify_person;
 
-    @InjectView(R.id.lin_setting)
-    LinearLayout lin_setting;
+    @InjectView(R.id.rl_setting)
+    RelativeLayout rl_setting;
 
-    @InjectView(R.id.lin_reset_password)
-    LinearLayout lin_reset_password;
+    @InjectView(R.id.rl_reset_password)
+    RelativeLayout rl_reset_password;
 
-    @InjectView(R.id.lin_zx)
-    LinearLayout lin_zx;
+    @InjectView(R.id.rl_dynamic)
+    RelativeLayout rl_dynamic;
+
+    @InjectView(R.id.rl_zx)
+    RelativeLayout rl_zx;
 
     @InjectView(R.id.lin_not_vr)
     LinearLayout lin_not_vr;
@@ -92,13 +97,14 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         but_login_out.setOnClickListener(this);
-        lin_validate_certification.setOnClickListener(this);
-        lin_setting.setOnClickListener(this);
-        lin_reset_password.setOnClickListener(this);
+        rl_validate_certification.setOnClickListener(this);
+        rl_setting.setOnClickListener(this);
+        rl_reset_password.setOnClickListener(this);
         lin_not_vr.setOnClickListener(this);
         lin_is_vr.setOnClickListener(this);
         but_login.setOnClickListener(this);
         rel_nodify_person.setOnClickListener(this);
+        rl_dynamic.setOnClickListener(this);
 
     }
 
@@ -119,7 +125,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         }
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(photo) || "null".equals(photo) || photo == null) {
+        if (TextUtils.isEmpty(photo)) {
             Picasso.with(getContext()).load(R.drawable.img_default).into(img);
         } else {
             Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
@@ -146,12 +152,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initDatas() {
         title.setText("我的");
-
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
 
     }
 
@@ -184,7 +184,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
                 break;
 
-            case R.id.lin_reset_password:
+            case R.id.rl_reset_password:
                 Intent intent = new Intent(getContext(), ModifyPasswordActivity.class);
                 intent.putExtra("type", "2");
                 intent.putExtra("token", UserInfoModel.getInstance().getToken());
@@ -207,13 +207,20 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
                 break;
 
-            case R.id.lin_zx:
+            case R.id.rl_zx:
                 break;
-            case R.id.lin_validate_certification:
+            case R.id.rl_validate_certification:
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
-            case R.id.lin_setting:
+            case R.id.rl_setting:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
+                break;
+            case R.id.rl_dynamic:
+                Intent personal=new Intent(getContext(), PersionalActivity.class);
+                personal.putExtra("isFocus",1);
+                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
+                personal.putExtra("personalName",text_name.getText().toString());
+                startActivity(personal);
                 break;
         }
     }

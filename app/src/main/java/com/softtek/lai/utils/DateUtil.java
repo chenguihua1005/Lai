@@ -1,5 +1,7 @@
 package com.softtek.lai.utils;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -131,6 +133,28 @@ public class DateUtil {
     public int getDay(Date date){
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int[] getDates(String dateValue){
+        int[] datas=new int[]{0,0,0,0,0,0,0};
+        if(TextUtils.isEmpty(dateValue)){
+            return datas;
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date date=sdf.parse(dateValue);
+            calendar.setTime(date);
+            datas[0]=calendar.get(Calendar.YEAR);
+            datas[1]=calendar.get(Calendar.MONTH)+1;
+            datas[2]=calendar.get(Calendar.DAY_OF_MONTH);
+            datas[3]=calendar.get(Calendar.HOUR_OF_DAY);
+            datas[4]=calendar.get(Calendar.MINUTE);
+            datas[5]=calendar.get(Calendar.SECOND);
+            datas[6]=calendar.get(Calendar.AM_PM);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return datas;
     }
 
     /**

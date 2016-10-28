@@ -13,7 +13,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -282,7 +281,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
         //3.3.2	成绩勋章信息
         getGradeHonor();
-
         dates.add(0);
         dates.add(0);
         dates.add(0);

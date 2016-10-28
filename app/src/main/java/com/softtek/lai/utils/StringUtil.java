@@ -45,7 +45,6 @@ public class StringUtil {
             res.append("等"+(peoples.length-10)+"人也觉得很赞");
             return res.toString();
         }
-        Log.i("拼接后的字符="+buffer.toString());
         return buffer.toString();
     }
 

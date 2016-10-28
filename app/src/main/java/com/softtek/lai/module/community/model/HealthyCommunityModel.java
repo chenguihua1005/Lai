@@ -13,14 +13,32 @@ public class HealthyCommunityModel {
     private String Title;
     private String Content;
     private String CreateDate;
-    private String UserName;
-    private String Photo;
     private String minetype;
     private String imgCollection;
+    private String UserName;
+    private String Photo;
     private String IsPraise;
     private String PraiseNum;
     private String usernameSet;
+    private int IsFocus;
+    private String AccountId;
 
+
+    public int getIsFocus() {
+        return IsFocus;
+    }
+
+    public void setIsFocus(int isFocus) {
+        IsFocus = isFocus;
+    }
+
+    public String getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(String accountId) {
+        AccountId = accountId;
+    }
 
     public String getImgCollection() {
         return imgCollection;
@@ -124,6 +142,8 @@ public class HealthyCommunityModel {
                 ", IsPraise='" + IsPraise + '\'' +
                 ", PraiseNum='" + PraiseNum + '\'' +
                 ", usernameSet='" + usernameSet + '\'' +
+                ", IsFocus=" + IsFocus +
+                ", AccountId='" + AccountId + '\'' +
                 '}';
     }
 }

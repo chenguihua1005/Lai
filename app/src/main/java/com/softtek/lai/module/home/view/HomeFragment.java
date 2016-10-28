@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -59,6 +57,7 @@ import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -94,7 +93,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     CustomGridView gv_model;
 
     @InjectView(R.id.pull)
-    SwipeRefreshLayout pull;
+    MySwipRefreshView pull;
 
     @InjectView(R.id.page)
     ViewPager page;
@@ -134,9 +133,11 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
+        registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);
-        String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-        if (String.valueOf(Constants.VR).equals(userroles)) {
+        UserModel userModel=UserInfoModel.getInstance().getUser();
+        if (userModel==null||String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);
@@ -184,6 +185,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
+        homeInfoPresenter = new HomeInfoImpl(getContext());
         modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
@@ -240,19 +242,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-        homeInfoPresenter = new HomeInfoImpl(getContext());
-        registerMessageReceiver();
-    }
-
-    @Override
-    public void onDestroy() {
+    public void onDestroyView() {
+        super.onDestroyView();
         getContext().unregisterReceiver(mMessageReceiver);
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
+
 
     @Override
     protected void lazyLoad() {
@@ -379,15 +374,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         });
     }
 
-//    @Override
-//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//        if(verticalOffset>=0){
-//            pull.setEnabled(true);
-//        }else {
-//            pull.setEnabled(false);
-//        }
-//    }
-
     @Override
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
@@ -459,27 +445,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
-//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-//                    if (isLogin) {
-//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                        ChatUserModel chatUserModel = new ChatUserModel();
-//                        chatUserModel.setUserName(model.getNickname());
-//                        chatUserModel.setUserPhone(path + model.getPhoto());
-//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-//                                EMChatManager.getInstance().loadAllConversations();
-//                            }
-//                        }).start();
-//                        // 进入主页面
-//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        loginPresenter.getEMChatAccount(progressDialog);
-//                    }
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

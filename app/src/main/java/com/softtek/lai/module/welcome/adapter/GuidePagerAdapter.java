@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -120,8 +122,17 @@ public class GuidePagerAdapter extends android.support.v4.view.PagerAdapter {
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivity(intent);
         }else{
+            PackageManager pm= LaiApplication.getInstance().getPackageManager();
+            StringBuffer buffer=new StringBuffer();
+            if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+                buffer.append("计步类型=SENSOR_STEP_COUNTER");
+            }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
+                buffer.append("计步类型=SENSOR_ACCELEROMETER");
+            }else{
+                buffer.append("计步类型=不支持");
+            }
             //登录
-            ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(user, password, new Callback<ResponseData<UserModel>>() {
+            ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
                 @Override
                 public void success(ResponseData<UserModel> userModelResponseData, Response response) {
                     int status=userModelResponseData.getStatus();

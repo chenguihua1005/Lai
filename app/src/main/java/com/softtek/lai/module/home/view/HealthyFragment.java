@@ -18,11 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -46,12 +42,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_healthy)
 public class HealthyFragment extends LazyBaseFragment{
 
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
@@ -80,9 +70,6 @@ public class HealthyFragment extends LazyBaseFragment{
 
     @Override
     protected void initViews() {
-        ll_left.setVisibility(View.INVISIBLE);
-        tv_title.setText("健康圈");
-        iv_email.setBackgroundResource(R.drawable.camera);
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,12 +102,6 @@ public class HealthyFragment extends LazyBaseFragment{
             }
         });
 
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         String token= UserInfoModel.getInstance().getToken();
         if(StringUtils.isEmpty(token)){
             fl_right.setVisibility(View.GONE);
@@ -132,7 +113,6 @@ public class HealthyFragment extends LazyBaseFragment{
     @Override
     protected void initDatas() {
         int px=DisplayUtil.dip2px(getContext(),300);
-        Log.i("图片尺寸"+px);
         //*************************
         imageFileSelector=new ImageFileSelector(getContext());
         imageFileSelector.setOutPutImageSize(px,px);
@@ -164,18 +144,12 @@ public class HealthyFragment extends LazyBaseFragment{
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
                 tab_content.setCurrentItem(0);
-                tab_content.setCurrentItem(1);
                 int size=fragments.size();
-                if(size>0){
-                    if(size==1){
-                        ((RecommendHealthyFragment)fragments.get(0)).updateList();
-                    }
-                    if(size>1){
-                        ((MineHealthyFragment)fragments.get(1)).updateList();
-                    }
+                if(size==1){
+                    ((RecommendHealthyFragment)fragments.get(0)).updateList();
                 }
-            }
 
+            }
         }
     }
 

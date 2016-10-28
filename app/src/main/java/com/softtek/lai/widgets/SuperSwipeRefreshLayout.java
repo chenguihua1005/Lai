@@ -729,8 +729,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
         if (isChildScrollToBottom()) {// 上拉加载更多
             return handlerPushTouchEvent(ev, action);
         } else {// 下拉刷新
-            //return handlerPullTouchEvent(ev, action);
-            return false;
+            return handlerPullTouchEvent(ev, action);
         }
     }
 

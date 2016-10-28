@@ -7,7 +7,6 @@ package com.softtek.lai.module.message.view;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,11 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -37,19 +33,13 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
- * 荣誉榜
  */
 @InjectLayout(R.layout.activity_remind_list)
-public class MessageFcRemindActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class MessageFcRemindActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -132,26 +122,5 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
 }

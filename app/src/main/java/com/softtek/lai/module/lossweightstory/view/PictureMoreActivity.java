@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -54,6 +55,8 @@ public class PictureMoreActivity extends BaseActivity implements BaseFragment.On
         decorView.setSystemUiVisibility(option);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 

@@ -34,6 +34,7 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("/HerbUser/UserLogIn")
     void doLogin(
+            @Header("step_sensor_type")String sensorType,
             @Field("user") String userName,
             @Field("psd") String password,
             Callback<ResponseData<UserModel>> callback);

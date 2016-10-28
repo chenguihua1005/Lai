@@ -22,10 +22,8 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -46,7 +44,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener,TimeTickListener.OnTimeTick {
 
@@ -175,7 +172,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, START_STICKY, startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void startStepDetector() {
@@ -188,9 +185,8 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             stepCounterListener();
         }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
             stepAccelerometerListener();
-        }/*else{
-            Util.toastMsg("此手机不支持计步功能");
-        }*/
+        }else{
+        }
 
     }
     private Sensor countSensor;
@@ -246,7 +242,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
@@ -272,7 +267,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //每晚的23点50分到24点之间
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
-            //serverStep=0;
             firstStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
@@ -281,6 +275,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         //如果firstStep为0表示第一次开启应用 或者隔天了。
         if(firstStep==0){
             firstStep=stepTemp-5;
+            firstStep=firstStep<0?0:firstStep;
             lastStep=0;
         }
         currentStep=stepTemp-firstStep;
@@ -336,8 +331,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public void onDestroy() {
         save();
         super.onDestroy();
-        //如果不是退出且跑团也没退出
-        if(!isLoginOut/*&&UserInfoModel.getInstance().getUser()!=null*/){
+        if(!isLoginOut){
             sendBroadcast(new Intent(STEP_CLOSE));
         }else {
             Log.i("清楚数据");
@@ -360,7 +354,11 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             sensorManager.unregisterListener(this, countSensor);
         }
         sensorManager=null;
-
+        if (mWakeLock != null) {
+            if (mWakeLock.isHeld())
+                mWakeLock.release();
+            mWakeLock = null;
+        }
     }
 
     synchronized private WakeLock getLock(Context context) {
@@ -371,12 +369,12 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         }
 
         if (mWakeLock == null) {
-            PowerManager mgr = (PowerManager) context
+            PowerManager pm = (PowerManager) context
                     .getSystemService(Context.POWER_SERVICE);
-            mWakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     getClass().getCanonicalName());
-            mWakeLock.setReferenceCounted(true);
-            mWakeLock.acquire();
+            mWakeLock.setReferenceCounted(false);//不计数锁
+            mWakeLock.acquire();//获得锁
         }
         return mWakeLock;
     }
@@ -396,6 +394,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public void onTick(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes=calendar.get(Calendar.MINUTE);
+        Log.i("时间触发===="+hour+":"+minutes);
         if(hour==23&&minutes>=50&&minutes<=59){
             firstStep=0;
             lastStep=0;
