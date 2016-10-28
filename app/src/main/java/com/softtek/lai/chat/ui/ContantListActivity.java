@@ -241,7 +241,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
 
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
     }
 

@@ -43,7 +43,7 @@ public class StepUtil {
     public List<UserStep> getCurrentData(String accountId,String dateStar,String dateEnd){
         String sql="select id,stepCount,recordTime,accountId from user_step where accountId=? and recordTime between ? and ? order by stepCount asc";
         String[] condition={accountId,dateStar,dateEnd};
-        SQLiteDatabase db= dbHelper.getWritableDatabase();
+        SQLiteDatabase db= dbHelper.getReadableDatabase();
         Cursor cursor=db.rawQuery(sql,condition);
         List<UserStep> result=new ArrayList<>();
         try {
@@ -101,7 +101,7 @@ public class StepUtil {
     public void deleteDateByPersonal(String userId){
         String cause="accountId=?";
         String[] hasOldCon={userId};
-        SQLiteDatabase db= dbHelper.getWritableDatabase();
+        SQLiteDatabase db= dbHelper.getReadableDatabase();
         Cursor cursor=db.query("user_step",null,cause,hasOldCon,null,null,null);
         try {
             if (cursor.moveToFirst()) {
@@ -115,8 +115,10 @@ public class StepUtil {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            cursor.close();
-            db.close();
+            if(cursor!=null)
+                cursor.close();
+            if(db!=null)
+                db.close();
         }
 
     }
@@ -125,15 +127,25 @@ public class StepUtil {
      * 保存步数
      */
     public  long saveStep(UserStep step){
-        SQLiteDatabase db= dbHelper.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put("id", UUID.randomUUID().toString().replaceAll("-",""));
-        values.put("accountId",step.getAccountId()+"");
-        values.put("recordTime",step.getRecordTime());
-        values.put("stepCount",step.getStepCount());
-        long i = db.insertWithOnConflict("user_step", "", values,
-                SQLiteDatabase.CONFLICT_NONE);//主键冲突策略，替换掉以往的数据
-        db.close();
+
+        long i = 0;
+        SQLiteDatabase db = null;
+        try {
+            db= dbHelper.getWritableDatabase();
+            ContentValues values=new ContentValues();
+            values.put("id", UUID.randomUUID().toString().replaceAll("-",""));
+            values.put("accountId",step.getAccountId()+"");
+            values.put("recordTime",step.getRecordTime());
+            values.put("stepCount",step.getStepCount());
+            i = db.insertWithOnConflict("user_step", "", values,
+                    SQLiteDatabase.CONFLICT_NONE);//主键冲突策略，替换掉以往的数据
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
         return i;
     }
 
@@ -142,8 +154,8 @@ public class StepUtil {
     }
 
     public static StepUtil getInstance(){
-        if(util==null){
-            util=new StepUtil();
+        if(util==null) {
+            util = new StepUtil();
         }
         return util;
     }

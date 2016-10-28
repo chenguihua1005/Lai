@@ -19,10 +19,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -163,7 +163,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                             //列表进来的返回列表，创建进来的返回运动首页
                                             if (type == Constants.CREATE_PK) {
                                                 //返回PK首页
-                                                startActivity(new Intent(PKDetailActivity.this, GroupMainActivity.class));
+                                                startActivity(new Intent(PKDetailActivity.this, LaiSportActivity.class));
                                             } else if (type == Constants.LIST_PK) {
                                                 Intent intent = getIntent();
                                                 intent.putExtra("isCancel", true);
@@ -402,7 +402,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 tv_target.setText("在PK期限内，达成更多步数的人即为赢家");
                 tv_unit1.setText("步");
                 tv_unit2.setText("步");
-                zongbushu.setText("当前步数");
+                zongbushu.setText("当前总步数");
                 tv_bushu1.setText(model.getChaTotal() + "");
                 tv_bushu2.setText(model.getBchaTotal() + "");
             }
@@ -520,7 +520,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         switch (pkStatus) {
             case NOSTART://未开始
                 tip_pk.setVisibility(View.VISIBLE);
-                tip_pk.setText("PK还没开始，预知详情，敬请围观！");
+                tip_pk.setText("PK还没开始，欲知详情，敬请围观！");
                 break;
             case PROCESSING://进行中
                 tip_pk.setVisibility(View.VISIBLE);
@@ -540,9 +540,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     }
 
     private void doBack() {
-        System.out.println("type:"+type);
         if (type == Constants.CREATE_PK) {//创建新PK跳转过来,按下返回按钮直接返回PK首页
-            Intent intent = new Intent(this, GroupMainActivity.class);
+            Intent intent = new Intent(this, LaiSportActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (type == Constants.MESSAGE_PK) {
@@ -557,17 +556,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             //需要改变一些状态
             intent.putExtra("ChP", cb_zan_left.getText().toString());
             intent.putExtra("BChP", cb_zan_right.getText().toString());
+            intent.putExtra("isPraise",cb_zan_left.isChecked());
+            intent.putExtra("isBPraise",cb_zan_right.isChecked());
             setResult(RESULT_OK, intent);
             finish();
-        } else if (type == Constants.GROUPMAIN_PK) {
-            Intent intent = getIntent();
-            intent.putExtra("isCancel", false);
-            //需要改变一些状态
-            intent.putExtra("ChP", cb_zan_left.getText().toString());
-            intent.putExtra("BChP", cb_zan_right.getText().toString());
-            setResult(RESULT_OK, intent);
-            finish();
-        } else {
+        }else {
             finish();
         }
     }

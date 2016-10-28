@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
@@ -125,9 +127,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
         String date = model.getCreateDate();
-        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日 HH:mm"));
         holder.tv_zan_name.setText(model.getUsernameSet());
-        boolean isMine=Long.parseLong(model.getAccountId()) == UserInfoModel.getInstance().getUserId();
+        boolean isMine=Long.parseLong(TextUtils.isEmpty(model.getAccountId())?"0":model.getAccountId()) == UserInfoModel.getInstance().getUserId();
         //如果是自己的则隐藏关注按钮
         if(isMine){
             holder.cb_focus.setVisibility(View.GONE);
@@ -153,6 +155,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+                                            if(responseData.getStatus()==200){
+                                                EventBus.getDefault().post(new FocusReload());
+                                            }
                                         }
                                     });
                         } else {
@@ -164,6 +169,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+
                                         }
                                     });
 

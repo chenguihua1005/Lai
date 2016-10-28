@@ -4,12 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <ImageView
-            android:id="@+id/img_mo_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/no_message"
-            android:layout_gravity="center"
+        <include layout="@layout/empty_message"
             android:visibility="gone"/>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView

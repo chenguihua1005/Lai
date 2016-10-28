@@ -2,6 +2,7 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tv_title.setText("我的PK挑战列表");
+        tv_title.setText("我的PK列表");
         ll_left.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -75,7 +76,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         manager=new PKListManager();
         adapter=new PKListAdapter(this,models);
         ptrlv.setAdapter(adapter);
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 ptrlv.setRefreshing();
@@ -120,6 +121,10 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
                         PKListModel model = models.get(position);
                         String chp=data.getStringExtra("ChP");
                         String bchp=data.getStringExtra("BChP");
+                        boolean isPraise=data.getBooleanExtra("isPraise",false);
+                        boolean isBPraise=data.getBooleanExtra("isBPraise",false);
+                        model.setPraiseStatus(isPraise?1:0);
+                        model.setBPraiseStatus(isBPraise?1:0);
                         model.setChP(Integer.parseInt(StringUtils.isEmpty(chp)?"0":chp));
                         model.setBChp(Integer.parseInt(StringUtils.isEmpty(bchp)?"0":bchp));
                     }

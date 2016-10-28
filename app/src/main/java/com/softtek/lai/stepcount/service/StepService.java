@@ -64,6 +64,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     private static int serverStep;//记录服务器上的步数
     private static int firstStep=0;//启动应用服务的时候的第一次步数
     private static int todayStep;//用于显示今日步数使用
+    private static long originalStep;//用于其他使用
 
     private Messenger messenger = new Messenger(new MessengerHandler());
 
@@ -86,6 +87,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                     //将今日步数传递过去
                     data.putInt("todayStep",todayStep);
                     data.putInt("serverStep",serverStep);
+                    data.putLong("originalStep",originalStep);
                     message.setData(data);
                     try {
                         server.send(message);
@@ -235,6 +237,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     private void calTodayStep(int stepTemp){
         //检查日期
+        originalStep=stepTemp;
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -243,6 +246,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
             firstStep=0;
+            currentStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -259,6 +263,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     }
     //模拟计步传感器所使用的计算方法
     private void calTodayStepByCustome(int stepTemp){
+        originalStep=stepTemp;
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
@@ -268,6 +273,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(hour==23&&minutes>=50&&minutes<=59){
             //清空当天的临时步数
             firstStep=0;
+            currentStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -320,7 +326,11 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             step.setAccountId(UserInfoModel.getInstance().getUserId());
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(todayStep);
-            StepUtil.getInstance().saveStep(step);
+            try {
+                StepUtil.getInstance().saveStep(step);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -394,7 +404,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public void onTick(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes=calendar.get(Calendar.MINUTE);
-        Log.i("时间触发===="+hour+":"+minutes);
         if(hour==23&&minutes>=50&&minutes<=59){
             firstStep=0;
             lastStep=0;
@@ -404,6 +413,8 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             index=4;
             serverStep=0;
             todayStep=0;
+            firstStep=0;
+            lastStep=0;
             SharedPreferenceService.getInstance().put("currentStep",0);
             updateNotification(0+"");
         }else {

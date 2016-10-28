@@ -41,7 +41,6 @@ import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.net.StudentService;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -49,11 +48,11 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -191,25 +190,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         gv_model.setOnItemClickListener(this);
     }
 
-    @Subscribe
-    public void onEvent(EMChatAccountModel model) {
-//        if (model != null) {
-//            String state = model.getState();
-//            if ("0".equals(state)) {
-//                Util.toastMsg("您的会话权限开通中，请稍候再试");
-//            } else if ("-1".equals(state)) {
-//                Util.toastMsg("开通会话功能需要身份认证");
-//            } else {
-//                Util.toastMsg("会话异常，请稍候再试");
-//                UserModel userModel = UserInfoModel.getInstance().getUser();
-//                userModel.setHasEmchat("1");
-//                userModel.setHXAccountId(model.getHXAccountId());
-//                UserInfoModel.getInstance().saveUserCache(userModel);
-//            }
-//        } else {
-//            Util.toastMsg("会话异常，请稍候再试");
-//        }
-    }
 
     @Subscribe
     public void onEventRefresh(HomeEvent event) {
@@ -440,7 +420,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
-                        startActivity(new Intent(getContext(), GroupMainActivity.class));
+                        //startActivity(new Intent(getContext(), GroupMainActivity.class));
+                        startActivity(new Intent(getContext(), LaiSportActivity.class));
                     }
                     MobclickAgent.onEvent(getContext(),"LaiSportEvent");
                     break;

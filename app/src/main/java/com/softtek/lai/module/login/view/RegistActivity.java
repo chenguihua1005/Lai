@@ -144,7 +144,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         if (countDown != null && countDown.isRunning()) {
             countDown.reStart();
@@ -153,7 +153,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
 
         if (countDown != null && countDown.isRunning()) {
             countDown.pause();
@@ -225,8 +225,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            finish();
             startActivity(new Intent(this,LoginActivity.class));
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

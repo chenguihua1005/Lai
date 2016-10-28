@@ -20,7 +20,7 @@ import retrofit.http.Query;
  */
 public interface SportService {
 
-    public static final String TOKEN = "token";
+    String TOKEN = "token";
 
     //运动列表
     @GET("/StepCount/GetMovementList")

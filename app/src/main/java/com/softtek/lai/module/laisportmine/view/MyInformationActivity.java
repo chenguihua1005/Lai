@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,12 +25,15 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_information)
@@ -42,17 +46,13 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     TextView tv_runteamname;
     @InjectView(R.id.btn_signout)
     Button btn_signout;
-    //消息提醒标志
-    @InjectView(R.id.im_news_flag)
-    ImageView im_news_flag;
-    //消息点击进入
-    @InjectView(R.id.Re_mynews)
-    RelativeLayout Re_mynews;
-    //我的运动点击
-    @InjectView(R.id.re_pk_mysport)
-    RelativeLayout re_pk_mysport;
     @InjectView(R.id.tv_runteamnum)
     TextView tv_runteamnum;
+    @InjectView(R.id.tv_administ_name)
+    TextView tv_administ_name;
+    @InjectView(R.id.circle_teamhead)
+    CircleImageView circle_teamhead;
+
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
     long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
@@ -62,11 +62,9 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        tv_title.setText("我的资料");
+        tv_title.setText("我的跑团");
         ll_left.setOnClickListener(this);
         btn_signout.setOnClickListener(this);
-        Re_mynews.setOnClickListener(this);
-        re_pk_mysport.setOnClickListener(this);
     }
 
     @Override
@@ -102,15 +100,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                     }
                 }).create().show();
                 break;
-            case R.id.Re_mynews:
-                Intent intent = new Intent(this, Message2Activity.class);
-//                Log.i("retestWrite="+runTeamModels.toString());
-//                intent.putExtra("runTeamModels", runTeamModels);
-                startActivity(intent);
-                break;
-            case R.id.re_pk_mysport:
-                startActivity(new Intent(this, HistorySportListActivity.class));
-                break;
         }
     }
 
@@ -122,14 +111,13 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 if (!runTeamModel.getRgName().isEmpty()) {
                     tv_runteamname.setText(runTeamModels.getRgName());
                     tv_runteamnum.setText(runTeamModel.getRgNum());
-                }
-                if (!runTeamModels.getIsHasMsg().isEmpty()) {
-                    if (runTeamModel.getIsHasMsg().equals("True")) {
-                        im_news_flag.setVisibility(View.VISIBLE);
-                    } else {
-                        im_news_flag.setVisibility(View.GONE);
+                    tv_administ_name.setText(runTeamModel.getRgManager());
+                    if (!TextUtils.isEmpty(runTeamModel.getRgPhoto()))
+                    {
+                        Picasso.with(this).load(AddressManager.get("photoHost")+runTeamModel.getRgPhoto()).fit().error(R.drawable.img_default).into(circle_teamhead);
                     }
                 }
+
             }
 
         } catch (Exception e) {

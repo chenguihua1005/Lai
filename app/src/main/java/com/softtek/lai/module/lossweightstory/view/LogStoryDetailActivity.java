@@ -212,7 +212,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             tv_name.setText(log.getUserName());
             tv_content.setText(log.getLogContent());
             String date=log.getCreateDate();
-            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日"));
+            tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日 HH:mm"));
             tv_totle_lw.setText(log.getAfterWeight()+"斤");
             cb_zan.setText(log.getPriasenum());
             if(StringUtils.isNotEmpty(log.getUserNames())){

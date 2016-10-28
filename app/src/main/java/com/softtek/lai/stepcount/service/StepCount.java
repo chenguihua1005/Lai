@@ -20,7 +20,7 @@ public class StepCount implements StepCountListener {
         }
         timeOfThisPeak = System.currentTimeMillis();
         long time=timeOfThisPeak - timeOfLastPeak;
-        if(time<3000&&time>=200){
+        if(time<3000&&time>500){
             count++;
             if (count == 5) {
                 mCount += count;

@@ -1,0 +1,133 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pull"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="21dp"
+                android:background="#f1f1f1"
+                android:gravity="center|left"
+                android:paddingLeft="15dp"
+                android:text="我的排名"
+                android:textColor="#9d9d9d"
+                android:textSize="11sp"
+                app:layout_scrollFlags="scroll|snap" />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/white"
+                android:id="@+id/rl_mine"
+                app:layout_scrollFlags="scroll|snap">
+
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/header_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="38dp"
+                    android:src="@drawable/img_default" />
+
+                <CheckBox
+                    android:id="@+id/cb_zan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableTop="@drawable/zan_selector"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#f67169" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="16dp"
+                    android:layout_toLeftOf="@id/cb_zan"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_step"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0步"
+                        android:layout_gravity="center"
+                        android:textColor="#ffa200"
+                        android:textSize="18sp" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="70dp"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_gravity="center"
+                        android:max="100"
+                        android:progressDrawable="@drawable/progressbar" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@id/header_image"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="跑团排名第0名"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:background="#f1f1f1"
+                android:gravity="center|left"
+                android:paddingLeft="15dp"
+                android:text="实况排名"
+                android:textColor="#9d9d9d"
+                android:textSize="11sp"
+                app:layout_scrollFlags="scroll|snap" />
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -7,12 +7,10 @@ package com.softtek.lai.module.bodygamest.view;
 
 
 import android.annotation.TargetApi;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -23,11 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
@@ -40,7 +35,6 @@ import com.softtek.lai.module.bodygamest.model.StudentHonorTypeInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -64,10 +58,7 @@ import zilla.libcore.util.Util;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_student_honor_grid)
-public class StudentHonorGridActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class StudentHonorGridActivity extends BaseActivity implements View.OnClickListener{
 
 
     @InjectView(R.id.ll_left)
@@ -457,35 +448,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
         }
     }
 
-    public int getScrollY() {
-        View c = list_ygj.getChildAt(0);
-        if (c == null) {
-            return 0;
-        }
-        int firstVisiblePosition = list_ygj.getFirstVisiblePosition();
-        int top = c.getTop();
-        return -top + firstVisiblePosition * c.getHeight();
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
 }

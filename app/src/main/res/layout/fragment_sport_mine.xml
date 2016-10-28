@@ -1,13 +1,393 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.sport2.view.SportMineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/toolbar_laisport" />
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/pull_sroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="我的" />
+        android:background="#FAFAFA"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="#75BA2B">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/header_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/img_default" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header_image"
+                android:gravity="center"
+                android:layout_marginTop="11dp"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/header_image"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日步数"
+                    android:layout_marginTop="11dp"
+                    android:textColor="@color/white"
+                    android:drawableRight="@drawable/sport2_step"
+                    android:drawablePadding="6dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/v"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/ll_step"
+                android:background="#84CD37" />
+
+            <LinearLayout
+                android:id="@+id/ll_calorie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/v"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_calorie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消耗热量"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="11dp"
+                    android:drawableRight="@drawable/sport2_reliang"
+                    android:drawablePadding="6dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/ll_selector_grey">
+
+
+            <TextView
+                android:id="@+id/tv_run_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:textColor="#FFA200"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/mine_more" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@id/iv_arrow"
+                android:layout_marginRight="7dp"
+                android:src="@drawable/sport2_run" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:divider="@drawable/line_horizontal"
+            app:showDividers="middle">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                app:divider="@drawable/line_vertical"
+                app:dividerPadding="15dp"
+                app:showDividers="middle">
+
+                <RelativeLayout
+                    android:id="@+id/rl_day_rank"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center">
+
+                    <TextView
+                        android:id="@+id/day_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_day_rank"
+                        android:drawablePadding="15sp"
+                        android:text="日排名" />
+
+                    <TextView
+                        android:id="@+id/tv_day_ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/day_rank"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        android:text="您今日排名为第3名" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_week_rank"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center">
+
+                    <TextView
+                        android:id="@+id/week_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_week_rank"
+                        android:drawablePadding="15dp"
+                        android:text="周排名" />
+
+                    <TextView
+                        android:id="@+id/tv_week_ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/week_rank"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        android:text="您本周排名为第3名" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                app:divider="@drawable/line_vertical"
+                app:dividerPadding="15dp"
+                app:showDividers="middle">
+
+                <RelativeLayout
+                    android:id="@+id/Re_xunzhang"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center">
+
+                    <TextView
+                        android:id="@+id/medal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_media"
+                        android:drawablePadding="15dp"
+                        android:text="我的勋章" />
+
+                    <TextView
+                        android:id="@+id/tv_medal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/medal"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        android:text="您已获得5枚勋章" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/Re_myrunteam"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/run_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_run_group"
+                        android:drawablePadding="15dp"
+                        android:text="我的跑团" />
+
+                    <TextView
+                        android:id="@+id/tv_run_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/run_group"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        android:text="健康加油小跑团" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/Re_news"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center">
+
+                    <TextView
+                        android:id="@+id/message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_msg"
+                        android:drawablePadding="15dp"
+                        android:text="消息" />
+
+                    <TextView
+                        android:id="@+id/tv_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/message"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/Re_personpk"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center">
+
+                    <TextView
+                        android:id="@+id/pk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:drawableLeft="@drawable/sport2_pk"
+                        android:drawablePadding="15dp"
+                        android:text="挑战赛" />
+
+                    <TextView
+                        android:id="@+id/tv_px"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pk"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:textColor="#cccccc"
+                        android:text="加油！挑战吧！" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
+        <!--慈善基金-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="59dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="30dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/jijin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/sport2_jijin" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="13dp"
+                android:layout_toRightOf="@id/jijin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_juanzen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每天，康宝莱将为日排名前100名的用户，向“康宝莱公益基金会”项目捐献一元爱心善款。"
+                    android:textColor="#b9b9b9"
+                    android:layout_marginTop="5dp"
+                    android:textSize="9sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+</LinearLayout>

@@ -8,9 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -22,9 +24,12 @@ import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.CommunityManager;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +65,8 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     RecyclerView recyclerView;
     @InjectView(R.id.refresh)
     SwipeRefreshLayout refresh;
+    @InjectView(R.id.empty_view)
+    ImageView empty_view;
 
     private List<PersonalListModel> dynamics;
     private DynamicRecyclerViewAdapter adapter;
@@ -71,6 +78,8 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     private static final int LOADCOUNT=5;
     private int lastVisitableItem;
     private boolean isLoading=false;
+
+    private int total;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +88,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 finish();
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
         refresh.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -121,16 +130,33 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         });
     }
 
+    boolean isMine=false;
     @Override
     protected void initDatas() {
-
+        personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
+        if(personalId == UserInfoModel.getInstance().getUserId()){
+            cb_attention.setVisibility(View.GONE);
+            tv_title.setText("我");
+            UserModel user=UserInfoModel.getInstance().getUser();
+            if(user!=null){
+                tv_name.setText(StringUtil.showName(user.getNickname(),user.getMobile()));
+            }else {
+                tv_name.setText("我");
+            }
+            isMine=true;
+        }else {
+            String userName=getIntent().getStringExtra("personalName");
+            tv_title.setText(userName);
+            tv_name.setText(userName);
+            cb_attention.setVisibility(View.VISIBLE);
+            isMine=false;
+        }
+        tv_title.append("的动态");
         dynamics=new ArrayList();
         manager=new CommunityManager(this);
-        adapter=new DynamicRecyclerViewAdapter(this,dynamics);
+        adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine);
         recyclerView.setAdapter(adapter);
-        String userName=getIntent().getStringExtra("personalName");
-        tv_title.setText(userName);
-        tv_title.append("的动态");
+
         int isFocus=getIntent().getIntExtra("isFocus",0);
         if(isFocus==0){
             cb_attention.setChecked(false);
@@ -185,12 +211,6 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 }
             }
         });
-        personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
-        if(personalId == UserInfoModel.getInstance().getUserId()){
-            cb_attention.setVisibility(View.GONE);
-        }else {
-            cb_attention.setVisibility(View.VISIBLE);
-        }
 
         refresh.setRefreshing(true);
         manager.getHealthyMine(personalId,1);
@@ -211,6 +231,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                     .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(circleImageView);
             tv_name.setText(model.getUserName());
             totalPage=model.getTotalPage();
+            total=model.getHealthCount();
             tv_dynamic_num.setText("共有");
             tv_dynamic_num.append(String.valueOf(model.getHealthCount()));
             tv_dynamic_num.append("条动态");
@@ -224,9 +245,26 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             }
             dynamics.addAll(models);
             adapter.notifyDataSetChanged();
+            if(dynamics.isEmpty()){
+                empty_view.setVisibility(View.VISIBLE);
+            }else{
+                empty_view.setVisibility(View.GONE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void updateNum(){
+        Log.i("更新了");
+        try {
+            tv_dynamic_num.setText("共有");
+            total=(total-1)<0?0:(total-1);
+            tv_dynamic_num.append(String.valueOf(total));
+            tv_dynamic_num.append("条动态");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -19,6 +19,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
@@ -51,8 +52,8 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     LinearLayout lin_is_vr;
     @InjectView(R.id.but_login)
     Button but_login;
-    @InjectView(R.id.img_mo_message)
-    ImageView img_mo_message;
+    @InjectView(R.id.empty)
+    FrameLayout empty;
 
     private CommunityManager community;
     private HealthyCommunityFocusAdapter adapter;
@@ -60,6 +61,15 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     int pageIndex=1;
     int totalPage=0;
     boolean isLogin=false;
+    boolean hasFocus=false;
+
+    @Override
+    protected void onVisible() {
+        if(hasFocus){
+            isPrepared=false;
+        }
+        super.onVisible();
+    }
 
     @Override
     protected void lazyLoad() {
@@ -81,15 +91,15 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
-        ptrlv.setEmptyView(img_mo_message);
+        ptrlv.setEmptyView(empty);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
-        startLabelse.setReleaseLabel("松开立即刷新中");// 下来达到一定距离时，显示的提示
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
 //        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
-        endLabelsr.setRefreshingLabel("正在刷新数据中");
+        endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
 
     }
@@ -129,6 +139,11 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
         }
     }
 
+    @Subscribe
+    public void onReload(FocusReload reload){
+        hasFocus=true;
+    }
+
     @Override
     protected void initDatas() {
         community=new CommunityManager(this);
@@ -149,8 +164,6 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
             ptrlv.setVisibility(View.VISIBLE);
         }
         //自动加载
-
-
     }
 
     @Override
@@ -186,6 +199,7 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
         try {
+            hasFocus=false;
             ptrlv.onRefreshComplete();
             if(model==null){
                 pageIndex=--pageIndex<1?1:pageIndex;

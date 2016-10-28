@@ -362,7 +362,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         EMChatManager.getInstance().unregisterEventListener(this);
         EaseUI.getInstance().popActivity(this);
         super.onStop();

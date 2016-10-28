@@ -420,32 +420,6 @@ public class SportGroupManager {
         });
     }
 
-    public void getNewMsgRemind(String accountid) {
-        service.getNewMsgRemind(token, accountid, new RequestCallback<ResponseData>() {
-            @Override
-            public void success(ResponseData listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        if (getSportIndexCallBack != null) {
-                            getSportIndexCallBack.getNewMsgRemind("success");
-                        }
-                        break;
-                    case 201:
-                        if (getSportIndexCallBack != null) {
-                            getSportIndexCallBack.getNewMsgRemind("fail");
-                        }
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
-
     public void joinRunGroup(String rGId, String rGAccId, final JoinRunGroupCallBack joinRunGroupCallBack) {
         service.joinRunGroup(token, rGId, rGAccId, new RequestCallback<ResponseData>() {
             @Override

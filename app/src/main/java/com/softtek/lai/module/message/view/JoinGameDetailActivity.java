@@ -773,10 +773,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         dialog.setCanceledOnTouchOutside(false);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     private void upload() {
         if ("1".equals(type)) {

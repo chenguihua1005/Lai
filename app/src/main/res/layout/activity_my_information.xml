@@ -17,45 +17,45 @@
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
         <RelativeLayout
+            android:id="@+id/Re_mynews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff">
 
-            <ImageView
-                android:id="@+id/im_la"
+            <FrameLayout
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
+                android:id="@+id/im_tab1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="20dip"
-                android:layout_marginTop="20dip"
-                android:src="@drawable/laisportid" />
+                android:layout_marginLeft="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/team_head_icon" />
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
-                android:layout_toRightOf="@+id/im_la"
-                android:text="跑团编号"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_tab1"
+                android:text="跑团头像"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <TextView
-                android:layout_toRightOf="@+id/text"
-                android:id="@+id/tv_runteamnum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/circle_teamhead"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dip"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:gravity="right"
-                android:textColor="#999999"
-                android:textSize="16sp" />
-
+                android:src="@drawable/img_default"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/im_lab"
-                android:text="我的跑团"
+                android:text="跑团名称"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
@@ -102,65 +102,58 @@
                 android:textSize="16sp" />
 
         </RelativeLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#dddddd" />
-
         <RelativeLayout
-            android:id="@+id/Re_mynews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff">
 
-            <FrameLayout
-                android:layout_marginTop="20dip"
-                android:layout_marginBottom="20dip"
-                android:id="@+id/im_tab1"
+            <ImageView
+                android:id="@+id/im_la"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/yellow_email" />
-
-                <ImageView
-                    android:id="@+id/im_news_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:src="@drawable/red_circle"
-                    android:visibility="gone" />
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/im_tab1"
-                android:text="我的消息"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="20dip"
+                android:src="@drawable/laisportid" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:layout_toRightOf="@+id/im_la"
+                android:text="跑团ID"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <ImageView
+            <TextView
+                android:layout_toRightOf="@+id/text"
+                android:id="@+id/tv_runteamnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dip"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/myinfo_right" />
+                android:gravity="right"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#dddddd" />
+
+
 
         <RelativeLayout
             android:id="@+id/re_pk_mysport"
@@ -177,7 +170,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dip"
                 android:layout_marginBottom="20dip"
-                android:src="@drawable/mysporthistory" />
+                android:src="@drawable/administ_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -185,17 +178,21 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/im_lab2"
-                android:text="我的运动"
+                android:text="跑团管理员"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/tv_administ_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="张三"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/myinfo_right" />
+                android:textColor="#999999"
+                android:textSize="16sp"
+                />
 
         </RelativeLayout>
 

@@ -21,12 +21,10 @@ public class XuZhangAdapter extends BaseAdapter{
     private Context context;
     List<Integer> images1=new ArrayList<Integer>();
     List<String> content1=new ArrayList<String>();
-//    List<String> imgagecontent1=new ArrayList<String>();
-    private int account=0;
+
     public XuZhangAdapter(Context context, List<Integer> images1,List<String> content1) {
         this.context = context;
         this.images1=images1;
-//        this.imgagecontent1=imgagecontent1;
         this.content1=content1;
 
     }
@@ -34,7 +32,6 @@ public class XuZhangAdapter extends BaseAdapter{
     public void updateData(List<Integer> images1,List<String> content1) {
 
         this.images1=images1;
-//        this.imgagecontent1=imgagecontent1;
         this.content1=content1;
         notifyDataSetChanged();
     }
@@ -64,13 +61,8 @@ public class XuZhangAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-//        XunZhangModel xunZhangModel = xunZhangModelList1.get(position);
         viewHolder.tab_bushu.setText(content1.get(position));
         viewHolder.lab2.setImageResource(images1.get(position));
-//        if (position==(images1.size()-imgagecontent1.size()+account))
-//        {
-//            viewHolder.tv_content.setText(imgagecontent1.get(account++));
-//        }
         return convertView;
     }
 

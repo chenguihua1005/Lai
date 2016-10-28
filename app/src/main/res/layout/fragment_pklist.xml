@@ -1,13 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.sport2.view.PKListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/toolbar_laisport"/>
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="PK" />
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:dividerHeight="5px"
+        android:listSelector="@android:color/transparent"
+        app:ptrShowIndicator="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:id="@+id/ptrlv"
+        android:animateLayoutChanges="true"
+        android:divider="#f1f1f1"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_sendpk"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/floatingbtn"
+        android:text="发起PK"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="12sp"
+        />
+
+</RelativeLayout>

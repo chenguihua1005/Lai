@@ -15,18 +15,21 @@ public class PKListModel implements Parcelable{
     private String Mobile;
     private String UserName;
     private String Photo;
+    private int PraiseStatus;
     //接受挑战者
     private long BeChallenged;
     private String BUserName;
     private String BMobile;
     private String BPhoto;
     private int BChp;
+    private int BPraiseStatus;
 
     private int ChipType;
     private int TStatus;
     private String Start;
     private String End;
     private String WinnerId;
+
 
     public String getWinnerId() {
         return WinnerId;
@@ -56,6 +59,8 @@ public class PKListModel implements Parcelable{
         Start = in.readString();
         End = in.readString();
         WinnerId = in.readString();
+        BPraiseStatus=in.readInt();
+        PraiseStatus=in.readInt();
     }
 
     public static final Creator<PKListModel> CREATOR = new Creator<PKListModel>() {
@@ -190,25 +195,20 @@ public class PKListModel implements Parcelable{
         End = end;
     }
 
-    @Override
-    public String toString() {
-        return "PKListModel{" +
-                "PKId=" + PKId +
-                ", ChP=" + ChP +
-                ", Challenged=" + Challenged +
-                ", Mobile='" + Mobile + '\'' +
-                ", UserName='" + UserName + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", BeChallenged=" + BeChallenged +
-                ", BUserName='" + BUserName + '\'' +
-                ", BMobile='" + BMobile + '\'' +
-                ", BPhoto='" + BPhoto + '\'' +
-                ", BChp=" + BChp +
-                ", ChipType=" + ChipType +
-                ", TStatus=" + TStatus +
-                ", Start='" + Start + '\'' +
-                ", End='" + End + '\'' +
-                '}';
+    public int getPraiseStatus() {
+        return PraiseStatus;
+    }
+
+    public void setPraiseStatus(int praiseStatus) {
+        PraiseStatus = praiseStatus;
+    }
+
+    public int getBPraiseStatus() {
+        return BPraiseStatus;
+    }
+
+    public void setBPraiseStatus(int BPraiseStatus) {
+        this.BPraiseStatus = BPraiseStatus;
     }
 
     @Override
@@ -234,5 +234,7 @@ public class PKListModel implements Parcelable{
         dest.writeString(Start);
         dest.writeString(End);
         dest.writeString(WinnerId);
+        dest.writeInt(BPraiseStatus);
+        dest.writeInt(PraiseStatus);
     }
 }

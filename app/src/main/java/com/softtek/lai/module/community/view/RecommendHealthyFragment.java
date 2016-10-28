@@ -3,7 +3,7 @@ package com.softtek.lai.module.community.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.github.snowdream.android.util.Log;
@@ -15,6 +15,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
@@ -45,8 +46,8 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @InjectView(R.id.img_mo_message)
-    ImageView img_mo_message;
+    @InjectView(R.id.empty)
+    FrameLayout empty;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -61,6 +62,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
+                    //ptrlv.setRefreshing(true);
                 }
             }
         }, 400);
@@ -73,15 +75,15 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-        ptrlv.setEmptyView(img_mo_message);
+        ptrlv.setEmptyView(empty);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
-        startLabelse.setReleaseLabel("松开立即刷新中");// 下来达到一定距离时，显示的提示
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
 //        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
-        endLabelsr.setRefreshingLabel("正在刷新数据中");
+        endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
     }
     long accountId=0;
@@ -115,6 +117,23 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event){
+        int position=-1;
+        for (int i=0,j=communityModels.size();i<j;i++){
+            HealthyCommunityModel model=communityModels.get(i);
+            if(model.getID().equals(event.getDynamicId())){
+                position=i;
+                break;
+            }
+        }
+        if(position>=0){
+            communityModels.remove(position);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     @Subscribe
     public void refreshListZan(ZanEvent event){
         if(event.getWhere()==0){
@@ -161,7 +180,7 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         }
     }
     public  void updateList(){
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){

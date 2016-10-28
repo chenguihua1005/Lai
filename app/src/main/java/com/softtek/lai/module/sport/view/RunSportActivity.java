@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -56,6 +57,7 @@ import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.SportModel;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.module.sport.util.SpeedUtil;
 import com.softtek.lai.module.sport.util.SportUtil;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
@@ -66,6 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -119,7 +122,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     PolylineOptions polylineOptions;
 
     private OnLocationChangedListener listener;
-    //private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
+    private SpeedUtil sounder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +130,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
             time=savedInstanceState.getLong("time",0);
-            startStep=savedInstanceState.getInt("startStep",startStep);
+            startStep=savedInstanceState.getLong("startStep",startStep);
             isFirst=savedInstanceState.getBoolean("isFirst",true);
             previousDistance=savedInstanceState.getDouble("previousDistance",0);
             lastLatLon=savedInstanceState.getParcelable("lastLatLon");
@@ -142,9 +145,55 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                SportModel lastModel=models.get(models.size()-1);
+                time=lastModel.getConsumingTime();
             }
             aMap.addPolyline(polylineOptions);
         }
+        ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
+        if(models!=null&&!models.isEmpty()){
+            //表示有数据传过来
+            isFirst = false;
+            SportModel sportModel=models.get(0);
+            LatLng latLng=new LatLng(sportModel.getLatitude(),sportModel.getLongitude());
+
+            aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+            int stepTemp=0;
+            for (SportModel model:models){
+                polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
+                if(model.getStep()>stepTemp){
+                    stepTemp=model.getStep();
+                }
+            }
+            SportModel lastModel=models.get(models.size()-1);
+            lastLatLon=new LatLng(lastModel.getLatitude(),lastModel.getLongitude());
+            DecimalFormat format = new DecimalFormat("#0.00");
+            //只有在异常的时候才会去获取缓存的步数
+            long cacheStep=SharedPreferenceService.getInstance().get("cacheStep",0l);
+            long cacheTime=SharedPreferenceService.getInstance().get("cacheTime",0l);
+            oldStep=stepTemp<cacheStep?cacheStep:stepTemp;
+            tv_step.setText(oldStep+"");
+            time=lastModel.getConsumingTime()<cacheTime?cacheTime:lastModel.getConsumingTime();
+            String distanceTemp=SharedPreferenceService.getInstance().get("cacheKM","0");
+            if(Double.parseDouble(distanceTemp)>lastModel.getCurrentKM()){
+                previousDistance=Double.parseDouble(distanceTemp);
+            }else {
+                previousDistance=lastModel.getCurrentKM();
+            }
+            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+            isLocation=true;
+            //辨别是否是一公里了
+            //量化距离（公里）
+            int kilometre= (int) (previousDistance/1000);
+            if(kilometre-index==1){
+                index=kilometre;
+            }else if(kilometre-index>1){
+                index=kilometre;
+            }
+        }
+        //绑定步数服务
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
         startCountDown();
     }
 
@@ -152,8 +201,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
     private long oldStep=0;
+
     @Override
     protected void initViews() {
+
+        sounder=new SpeedUtil(this);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
@@ -185,35 +237,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         polylineOptions.useGradient(true);//使用渐变色
         polylineOptions.color(0xFF74BB2A);
         polylineOptions.zIndex(3);
-        ArrayList<SportModel> models=getIntent().getParcelableArrayListExtra("sportList");
-        if(models!=null&&!models.isEmpty()){
-            //表示有数据传过来
-            isFirst = false;
-            SportModel sportModel=models.get(0);
-            LatLng latLng=new LatLng(sportModel.getLatitude(),sportModel.getLongitude());
 
-            aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                    BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-            for (SportModel model:models){
-                polylineOptions.add(new LatLng(model.getLatitude(),model.getLongitude()));
-            }
-            SportModel lastModel=models.get(models.size()-1);
-            lastLatLon=new LatLng(lastModel.getLatitude(),lastModel.getLongitude());
-            DecimalFormat format = new DecimalFormat("#0.00");
-            previousDistance=lastModel.getCurrentKM();
-            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
-            time=lastModel.getConsumingTime();
-            oldStep=lastModel.getStep();
-            tv_step.setText(oldStep+"");
-            //辨别是否是一公里了
-            //量化距离（公里）
-            int kilometre= (int) (previousDistance/1000);
-            if(kilometre-index==1){
-                index=kilometre;
-            }else if(kilometre-index>1){
-                index=kilometre;
-            }
-        }
 
 
         /**
@@ -263,8 +287,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     protected void initDatas() {
         manager = new SportManager();
-        //绑定步数服务
-        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
         locationReceiver = new LocationReceiver();
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
@@ -331,7 +353,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     }
 
     LocationReceiver locationReceiver;
-    int startStep = 0;
+    long startStep = 0;
     long aDay = 3600 * 24000;
 
     private static final int REQUEST_DELAY=-1;
@@ -360,6 +382,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     };
     long step;
     boolean isLocation=false;
+    long lastStep;
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what){
@@ -367,24 +390,31 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 //处理接收到的数据
                 try {
                     Bundle bundle=msg.getData();
-                    int tempStep = bundle.getInt("todayStep",0);
+                    long tempStep = bundle.getLong("originalStep",0);
                     if (startStep == 0) startStep = tempStep;
-                    step = ((tempStep - startStep) <= 0 ? 0+oldStep : (tempStep - startStep))+oldStep;
+                    long currentStep=(tempStep - startStep) <= 0 ? 0: (tempStep - startStep);
+                    step = currentStep+oldStep;
                     int calori = (int) (step / 35);
                     tv_step.setText(step + "");
                     tv_calorie.setText(calori + "");
+                    SharedPreferenceService.getInstance().put("cacheStep",step);
+                    SharedPreferenceService.getInstance().put("cacheTime",time);
                     if (!isLocation) {//如果还没有定位到则使用步数来计算公里数
-                        DecimalFormat format = new DecimalFormat("#0.00");
-                        previousDistance = step * 1000 / 1428f;
-                        double speed = (previousDistance / 1000) / (time * 1f / 3600);
-                        tv_avg_speed.setText(format.format(speed) + "km/h");
-                        tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                        if(currentStep!=lastStep){
+                            lastStep=currentStep;
+                            DecimalFormat format = new DecimalFormat("#0.00");
+                            previousDistance = currentStep * 1.428f;
+                            double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                            tv_avg_speed.setText(format.format(speed) + "km/h");
+                            tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                        }
                     }
+                    SharedPreferenceService.getInstance().put("cacheKM",previousDistance+"");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 //延迟
-                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,800);
                 break;
             case REQUEST_DELAY:
                 //继续请求服务端
@@ -407,7 +437,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         unbindService(connection);
-        delayHandler.removeMessages(REQUEST_DELAY);
+        //delayHandler.removeMessages(REQUEST_DELAY);
+        delayHandler.removeCallbacksAndMessages(null);
         if (intent != null) stopService(intent);
         if (locationReceiver != null)
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
@@ -415,6 +446,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         super.onDestroy();
         /*screenListener.unregisterListener();
         homeListener.stopWatch();*/
+        sounder.release();
     }
 
     @Override
@@ -445,12 +477,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.onSaveInstanceState(outState);
         //在这里保存一些数据
         outState.putLong("time",time);//保存当前计时
-        outState.putInt("startStep",startStep);//保存开始计时的时候步数
+        outState.putLong("startStep",startStep);//保存开始计时的时候步数
         outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
         outState.putDouble("previousDistance",previousDistance);//保存距离
         outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
         outState.putBoolean("isLocation",isLocation);//记录了是否定位到了
-        //outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
+//        outState.putLong("step",step);//记录当前步数
 
     }
 
@@ -480,20 +512,21 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     public void run() {
                         iv_pause.setEnabled(true);
                     }
-                }, 500);
+                }, 800);
                 if (countDown != null) {
                     if (countDown.isPaused()) {
                         countDown.reStart();
+                        sounder.sayNormal("resume");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
                     } else if (countDown.isRunning()) {
                         countDown.pause();
+                        sounder.sayNormal("pause");
                         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
                     }
                 }
                 break;
             case R.id.iv_stop:
-                if (countDown != null) countDown.cancel();
                 final List<SportModel> modes=SportUtil.getInstance().
                         querySport(UserInfoModel.getInstance().getUserId()+"");
                 if (modes.isEmpty()) {
@@ -501,12 +534,20 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    finish();
+                                    if (countDown != null) countDown.cancel();
+                                    sounder.sayNormal("end");
+                                    new Handler(Looper.myLooper()).postDelayed(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    finish();
+                                                }
+                                            }, 1400);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startCountDown();
+                                    //startCountDown();
                                 }
                             }).setCancelable(false).create().show();
                 } else {
@@ -514,6 +555,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.cancel();
                                     SportData data = new SportData();
                                     data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
                                     data.setCalories(tv_calorie.getText().toString());
@@ -550,7 +592,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                             .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startCountDown();
+                                    //startCountDown();
                                 }
                             }).setCancelable(false).create().show();
                 }
@@ -663,8 +705,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     public void doSubmitResult(int resultCode) {
         dialogDissmiss();
+        sounder.sayNormal("end");
         if (resultCode == 200) {
-            finish();
+            new Handler(Looper.myLooper()).postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 1400);
         }
     }
 
@@ -700,95 +749,107 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 listener.onLocationChanged(location);
             }
             float accuracy=location.getAccuracy();
-            if (accuracy <= 25 && accuracy > 0) {
-                //当坐标改变之后开始添加标记 画线
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
-                if (isFirst) {
-                    isFirst = false;
-                    aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                            BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                }
+            try {
+                if (accuracy <= 20 && accuracy > 0) {
+                    //当坐标改变之后开始添加标记 画线
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+                    if (isFirst) {
+                        isFirst = false;
+                        aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                                BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                    }
 
-                //计算平均速度
-                DecimalFormat format = new DecimalFormat("#0.00");
-                //计算距离单位米
-                double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
+                    //计算平均速度
+                    DecimalFormat format = new DecimalFormat("#0.00");
+                    //计算距离单位米
+                    double distance = AMapUtils.calculateLineDistance(lastLatLon==null?latLng:lastLatLon, latLng);
 
-                if (lastLatLon != null) {
-                    if (distance >= 8) {
-                        previousDistance += distance;
-                        double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
-                        avgSpeed=format.format(speed);
+                    if (lastLatLon != null) {
+                        if (distance >= 8) {
+                            previousDistance += distance;
+                            double speed = (previousDistance / 1000) / (time * 1f / 3600);//千米每小时
+                            avgSpeed=format.format(speed);
 
+                            polylineOptions.add(latLng);
+                            aMap.addPolyline(polylineOptions);
+                            SportModel model=new SportModel();
+                            model.setLatitude(latLng.latitude);
+                            model.setLongitude(latLng.longitude);
+                            model.setSpeed(avgSpeed);
+                            model.setConsumingTime(time);
+                            model.setStep((int) step);
+                            model.setIndex(count+"");
+                            model.setUser(UserInfoModel.getInstance().getUserId()+"");
+                            model.setCurrentKM(previousDistance);
+                            //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
+                            long tempTime=time-kilometerTime;
+                            model.setKilometreTime(tempTime);
+                            //辨别是否是一公里了
+                            //量化距离（公里）
+                            int kilometre= (int) (previousDistance/1000);
+                            if(kilometre-index==1){
+                                index=kilometre;
+                                model.setIskilometre("1");
+                                //辨别问题坐标,每公里耗费时间2分10秒约130秒
+                                model.setHasProblem(tempTime<=130?"1":"0");
+                                kilometerTime=time;
+                                if(kilometre>0&&kilometre<=10){
+                                    sounder.sayLt10K(kilometre,time,tempTime);
+                                }else if(kilometre>10){
+                                    sounder.sayGt10K(kilometre,time,tempTime);
+                                }
+                            }else if(kilometre-index>1){
+                                //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
+                                //所以标注为问题坐标
+                                index=kilometre;
+                                model.setHasProblem("1");
+                                model.setIskilometre("0");
+                            }else {
+                                model.setIskilometre("0");
+                            }
+                            SportUtil.getInstance().addSport(model);
+                            lastLatLon = latLng;//暂存上一次坐标
+                            count++;
+                        }
+
+                    } else {
+                        //如果是第一次定位到
+                        isLocation=true;
                         polylineOptions.add(latLng);
                         aMap.addPolyline(polylineOptions);
                         SportModel model=new SportModel();
                         model.setLatitude(latLng.latitude);
                         model.setLongitude(latLng.longitude);
-                        model.setSpeed(avgSpeed);
+                        model.setSpeed("0.00");
                         model.setConsumingTime(time);
                         model.setStep((int) step);
                         model.setIndex(count+"");
                         model.setUser(UserInfoModel.getInstance().getUserId()+"");
-                        model.setCurrentKM(previousDistance);
-                        //计算没个坐标的公里耗时，即每个坐标在当前这一公里内的耗时
-                        long tempTime=time-kilometerTime;
-                        model.setKilometreTime(tempTime);
-                        //辨别是否是一公里了
-                        //量化距离（公里）
-                        int kilometre= (int) (previousDistance/1000);
-                        if(kilometre-index==1){
-                            index=kilometre;
-                            model.setIskilometre("1");
-                            //辨别问题坐标每公里耗费时间2分10秒约130秒
-                            model.setHasProblem(tempTime<=130?"1":"0");
-                            kilometerTime=time;
-                        }else if(kilometre-index>1){
-                            //当当前公里的插值大于1了以后证明已经行驶了几公里中间可能由于GPS定位不到造成的
-                            //所以标注为问题坐标
-                            index=kilometre;
-                            model.setHasProblem("1");
-                            model.setIskilometre("0");
-                        }else {
-                            model.setIskilometre("0");
-                        }
+                        model.setIskilometre("0");
                         SportUtil.getInstance().addSport(model);
                         lastLatLon = latLng;//暂存上一次坐标
                         count++;
                     }
+                    tv_avg_speed.setText( avgSpeed+ "km/h");
+                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
 
-                } else {
-                    //如果是第一次定位到
-                    isLocation=true;
-                    polylineOptions.add(latLng);
-                    aMap.addPolyline(polylineOptions);
-                    SportModel model=new SportModel();
-                    model.setLatitude(latLng.latitude);
-                    model.setLongitude(latLng.longitude);
-                    model.setSpeed("0.00");
-                    model.setConsumingTime(time);
-                    model.setStep((int) step);
-                    model.setIndex(count+"");
-                    model.setUser(UserInfoModel.getInstance().getUserId()+"");
-                    model.setIskilometre("0");
-                    SportUtil.getInstance().addSport(model);
-                    lastLatLon = latLng;//暂存上一次坐标
-                    count++;
                 }
-                tv_avg_speed.setText( avgSpeed+ "km/h");
-                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
-
-            }
-            if(accuracy<=0||accuracy>1000){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
-            }else if(accuracy<=25){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
-            }else if(accuracy<60){
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
-            }else{
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
+                if(accuracy<=0||accuracy>1000){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
+                }else if(accuracy<=25){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
+                }else if(accuracy<60){
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
+                }else{
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
+                    //sounder.sayNormal("gps_low");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
+
+
 }
