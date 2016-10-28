@@ -1,5 +1,7 @@
 package com.softtek.lai.stepcount.service;
 
+import com.github.snowdream.android.util.Log;
+
 /**
  * Created by John on 2016/7/10.
  */
@@ -20,7 +22,7 @@ public class StepCount implements StepCountListener {
         }
         timeOfThisPeak = System.currentTimeMillis();
         long time=timeOfThisPeak - timeOfLastPeak;
-        if(time<3000&&time>500){
+        if(time>200&&time<3000){
             count++;
             if (count == 5) {
                 mCount += count;

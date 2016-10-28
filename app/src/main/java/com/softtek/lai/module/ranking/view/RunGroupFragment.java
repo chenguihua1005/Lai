@@ -127,6 +127,10 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                                 cb_zan.setEnabled(false);
                                 cb_zan.setChecked(true);
                             }
+                            if("0".equals(info.getSteps())){
+                                cb_zan.setEnabled(false);
+                                cb_zan.setChecked(true);
+                            }
                             cb_zan.setText(info.getPrasieNum());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -155,6 +159,10 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                                 cb_zan.setEnabled(true);
                                 cb_zan.setChecked(false);
                             }else {
+                                cb_zan.setEnabled(false);
+                                cb_zan.setChecked(true);
+                            }
+                            if("0".equals(info.getSteps())){
                                 cb_zan.setEnabled(false);
                                 cb_zan.setChecked(true);
                             }
@@ -264,6 +272,10 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                                         cb_zan.setEnabled(false);
                                         cb_zan.setChecked(true);
                                     }
+                                    if("0".equals(info.getSteps())){
+                                        cb_zan.setEnabled(false);
+                                        cb_zan.setChecked(true);
+                                    }
                                     cb_zan.setText(info.getPrasieNum());
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -292,6 +304,10 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                                         cb_zan.setEnabled(true);
                                         cb_zan.setChecked(false);
                                     }else {
+                                        cb_zan.setEnabled(false);
+                                        cb_zan.setChecked(true);
+                                    }
+                                    if("0".equals(info.getSteps())){
                                         cb_zan.setEnabled(false);
                                         cb_zan.setChecked(true);
                                     }

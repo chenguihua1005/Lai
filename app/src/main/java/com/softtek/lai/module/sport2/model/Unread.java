@@ -16,4 +16,11 @@ public class Unread {
     public void setUnreadCount(String unreadCount) {
         this.unreadCount = unreadCount;
     }
+
+    @Override
+    public String toString() {
+        return "Unread{" +
+                "unreadCount='" + unreadCount + '\'' +
+                '}';
+    }
 }

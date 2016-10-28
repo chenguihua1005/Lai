@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import com.github.snowdream.android.util.Log;
+
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;

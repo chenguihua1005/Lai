@@ -18,6 +18,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
@@ -33,6 +34,7 @@ import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,6 +184,8 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                         model.setIsPraise(Constants.HAS_ZAN);
                         model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(), infoModel.getUser().getNickname(), infoModel.getUser().getMobile()));
                         setValue(model);
+                        EventBus.getDefault().post(new ZanEvent(model.getHealtId(),true,1));
+                        EventBus.getDefault().post(new ZanEvent(model.getHealtId(),true,0));
                         //向服务器提交
                         String token = infoModel.getToken();
                         service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getHealtId()),

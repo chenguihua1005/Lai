@@ -251,8 +251,9 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
                         new RequestCallback<ResponseData<Unread>>() {
                             @Override
                             public void success(ResponseData<Unread> responseData, Response response) {
+                                Log.i("步数界面消息加载啦........."+responseData.toString());
                                 try {
-                                    if(responseData.getStatus()==200){
+                                    if(responseData.getStatus()==200||responseData.getStatus()==201){
                                         String unread=responseData.getData().getUnreadCount();
                                         try {
                                             tv_message.setText("您有");
