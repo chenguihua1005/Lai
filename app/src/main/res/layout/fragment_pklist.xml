@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffff">
 
@@ -29,14 +30,11 @@
         android:animateLayoutChanges="true"
         android:divider="#f1f1f1"/>
 
-    <TextView
+    <com.softtek.lai.widgets.DragTextView
         android:id="@+id/tv_sendpk"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginTop="200dp"
         android:background="@drawable/floatingbtn"
         android:text="发起PK"
         android:textColor="@color/white"

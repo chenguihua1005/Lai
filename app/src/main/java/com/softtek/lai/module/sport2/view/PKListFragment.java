@@ -1,20 +1,16 @@
 package com.softtek.lai.module.sport2.view;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -31,6 +27,7 @@ import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.sport2.eventmodel.PkZanEvent;
+import com.softtek.lai.widgets.DragTextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +40,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_pklist)
-public class PKListFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
+public class PKListFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
 
 
     public PKListFragment() {
@@ -61,21 +58,27 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
     PullToRefreshListView ptrlv;
 
     @InjectView(R.id.tv_sendpk)
-    TextView tv_sendpk;
+    DragTextView tv_sendpk;
+    @InjectView(R.id.root)
+    RelativeLayout root;
 
     private PKListAdapter adapter;
     private List<PKListModel> models=new ArrayList<>();
     int pageIndex=1;
     int totalPage;
     private PKListManager manager;
-    AnimatorSet set=new AnimatorSet();
     int lastVisibleItemPosition;//标记上次的显示位置
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
         tv_title.setText("挑战");
-        set.setDuration(500);
-        tv_sendpk.setOnClickListener(this);
+        //tv_sendpk.setOnClickListener(this);
+        tv_sendpk.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), CreatePKActivity.class));
+            }
+        });
         ll_left.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -89,60 +92,9 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
-        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(AbsListView.OnScrollListener.SCROLL_STATE_IDLE==scrollState){
-                    //show();
-                }else {
-                    //hiden();
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(lastVisibleItemPosition<firstVisibleItem){
-                    //上滑
-                    //hiden();
-                }else if(lastVisibleItemPosition>firstVisibleItem){
-                    //下滑
-                    //show();
-                }
-                lastVisibleItemPosition=firstVisibleItem;
-            }
-        });
 
     }
 
-    private void hiden(){
-        if(!set.isRunning()&&tv_sendpk.getVisibility()==View.VISIBLE){
-            ObjectAnimator scaleX=ObjectAnimator.ofFloat(tv_sendpk,"scaleX",1.0f,0f);
-            ObjectAnimator scaleY=ObjectAnimator.ofFloat(tv_sendpk,"scaleY",1.0f,0f);
-            set.playTogether(scaleX,scaleY);
-            set.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    tv_sendpk.setVisibility(View.GONE);
-                }
-            });
-            set.start();
-        }
-    }
-    private void show(){
-        if(!set.isRunning()&&tv_sendpk.getVisibility()==View.GONE){
-            tv_sendpk.setVisibility(View.VISIBLE);
-            ObjectAnimator scaleX=ObjectAnimator.ofFloat(tv_sendpk,"scaleX",0f,1f);
-            ObjectAnimator scaleY=ObjectAnimator.ofFloat(tv_sendpk,"scaleY",0f,1f);
-            set.playTogether(scaleX,scaleY);
-            set.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    tv_sendpk.setVisibility(View.VISIBLE);
-                }
-            });
-            set.start();
-        }
-    }
 
     @Override
     protected void initDatas() {
@@ -193,7 +145,7 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
                 getActivity().startActivity(new Intent(getContext(), HomeActviity.class));
                 break;
             case R.id.tv_sendpk:
-                startActivity(new Intent(getContext(), CreatePKActivity.class));
+
                 break;
         }
     }
