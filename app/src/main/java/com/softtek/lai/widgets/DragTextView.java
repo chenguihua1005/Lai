@@ -74,7 +74,6 @@ public class DragTextView extends TextView{
                 }else if(offsetX>maxX){
                     offsetX=maxX;
                 }
-
                 if(rawY<minY+getHeight()/2){
                     offsetY=0;
                 }else if(rawY>maxY){
