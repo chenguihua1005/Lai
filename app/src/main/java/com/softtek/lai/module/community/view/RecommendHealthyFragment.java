@@ -62,7 +62,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
-                    //ptrlv.setRefreshing(true);
                 }
             }
         }, 400);
@@ -82,7 +81,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-//        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
     }
@@ -157,14 +155,12 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         //获取健康推荐动态
-        Log.i("推荐记录开始刷新拉");
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        Log.i("推荐记录开始加载更多");
         pageIndex++;
         if(pageIndex<=totalPage){
             community.getRecommendDynamic(accountId,pageIndex);
@@ -180,14 +176,19 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
         }
     }
     public  void updateList(){
-        new Handler().postDelayed(new Runnable() {
+        if(ptrlv!=null){
+            ptrlv.getRefreshableView().setSelection(0);
+            pageIndex=1;
+            community.getRecommendDynamic(accountId,1);
+        }
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(ptrlv!=null){
                     ptrlv.setRefreshing();
                 }
             }
-        }, 400);
+        }, 400);*/
     }
 
     @Override

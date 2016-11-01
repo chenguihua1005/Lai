@@ -622,6 +622,25 @@ public class DateUtil {
         return between_days;
     }
     /**
+     * 获取某日期和现在一共有多少天
+     */
+    public long[] getDaysForNow(String date){
+        long[] res=new long[]{0,0,0,0};
+        calendar.setTime(convert2Date(date));
+        long time1=calendar.getTimeInMillis();
+        long time2=new Date().getTime();
+        /**
+         * time2-time1计算出相差多少毫秒
+         * 3600×24是一天的秒数在×1000就是一天的毫秒数
+         */
+        res[0]=(time2-time1)/(1000*3600*24);//计算多少天
+        res[1]=(time2-time1)/(1000*3600);//计算多少小时
+        res[2]=(time2-time1)/(1000*60);//计算多少分钟
+        res[3]=(time2-time1)/(1000);//计算多少秒
+        return res;
+    }
+
+    /**
      * 获取当日凌晨
      *
      * @flag 0 返回yyyy-MM-dd 00:00:00日期<br>

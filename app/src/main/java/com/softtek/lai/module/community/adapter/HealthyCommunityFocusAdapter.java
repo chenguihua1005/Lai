@@ -123,8 +123,22 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         });
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
-        String date = model.getCreateDate();
-        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(date,"yyyy年MM月dd日 HH:mm"));
+        long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
+        String time="";
+        if(days[0]==0){//今天
+            if (days[3]<60){//小于1分钟
+                time="刚刚";
+            }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
+                time=days[2]+"分钟前";
+            }else {//大于一小时
+                time=days[1]+"小时前";
+            }
+        }else if(days[0]==1) {//昨天
+            time="昨天";
+        }else {
+            time=days[0]+"天前";
+        }
+        holder.tv_date.setText(time);
         holder.tv_zan_name.setText(model.getUsernameSet());
         //关注
         holder.cb_focus.setVisibility(View.VISIBLE);
