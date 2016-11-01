@@ -95,6 +95,7 @@ public class UserInfoModel {
      */
     public void saveUserCache(UserModel user){
         //存入文件
+        isVr=false;
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
         setUser(user);
         setToken(user.getToken());
@@ -103,7 +104,6 @@ public class UserInfoModel {
         aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         MobclickAgent.onProfileSignIn(user.getUserid());
-        isVr=false;
     }
 
     /**
@@ -218,6 +218,6 @@ public class UserInfoModel {
     }
 
     public boolean isVr() {
-        return isVr;
+        return this.user==null&&isVr;
     }
 }

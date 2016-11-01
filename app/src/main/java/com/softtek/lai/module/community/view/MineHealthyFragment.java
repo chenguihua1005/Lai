@@ -74,14 +74,11 @@ public class MineHealthyFragment extends LazyBaseFragment implements PullToRefre
     @Override
     protected void lazyLoad() {
         if(isLogin){
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    if(ptrlv!=null) {
-                        ptrlv.setRefreshing();
-                    }
-                }
-            });
+            pageIndex=1;
+            community.getHealthyFocus(1);
+//            if(ptrlv!=null) {
+//                ptrlv.setRefreshing();
+//            }
         }
     }
 
