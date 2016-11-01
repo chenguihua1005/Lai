@@ -2,6 +2,7 @@ package com.softtek.lai.common;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
@@ -218,6 +219,6 @@ public class UserInfoModel {
     }
 
     public boolean isVr() {
-        return this.user==null&&isVr;
+        return TextUtils.isEmpty(getToken())&&isVr;
     }
 }
