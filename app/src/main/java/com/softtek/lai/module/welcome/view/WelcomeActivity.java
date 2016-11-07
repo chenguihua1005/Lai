@@ -155,7 +155,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-                                UserInfoModel.getInstance().visitorLogin();
+                                UserInfoModel.getInstance().visit
+
+                                orLogin();
                                 finish();
                                 Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                                 startActivity(intent);
