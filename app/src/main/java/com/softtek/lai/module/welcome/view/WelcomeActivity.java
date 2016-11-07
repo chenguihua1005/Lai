@@ -155,7 +155,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-//                                UserInfoModel.getInstance().visitorLogin();
+                                UserInfoModel.getInstance().visitorLogin();
                                 finish();
                                 Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                                 startActivity(intent);
@@ -166,7 +166,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
                     @Override
                     public void failure(RetrofitError error) {
-                        UserInfoModel.getInstance().visitorLogin();
+//                        UserInfoModel.getInstance().visitorLogin();
                         finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);
