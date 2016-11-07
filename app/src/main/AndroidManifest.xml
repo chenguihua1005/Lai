@@ -764,10 +764,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.bodygame2vr.BodyGameVRActivity"
-            android:screenOrientation="portrait" />
-
         <receiver android:name=".stepcount.service.NotificationReceive">
             <intent-filter>
                 <action android:name="com.soffteck.lai.step_notify" />
@@ -791,10 +787,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity"
-            android:screenOrientation="portrait" />
-
         <service
             android:name=".stepcount.service.UploadLogService"
             android:exported="false" />
@@ -812,6 +804,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".module.ranking.view.RankingActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.home.view.BodyGameActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

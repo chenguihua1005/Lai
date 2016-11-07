@@ -23,9 +23,9 @@
             app:normalBitmap="@drawable/bg_home"
             app:pitchBitmap="@drawable/bg_rehome"
             app:wx_alpha="true"
-            app:text="体管赛"
+            app:text="首页"
             />
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -39,18 +39,19 @@
                 app:text="会话"/>
             <TextView
                 android:id="@+id/tv_unread_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:background="@drawable/circle_bg"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="35dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:textSize="12sp"
+                android:visibility="gone"
                 android:gravity="center"
-                android:visibility="gone"/>
+                android:text="9+"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:background="@drawable/red_circle"/>
 
-        </RelativeLayout>
+        </FrameLayout>
 
         <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_contact"
@@ -62,6 +63,25 @@
             app:wx_alpha="true"
             app:text="通讯录"/>
 
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_activity"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_fuce"
+            app:pitchBitmap="@drawable/bg_refuce"
+            app:wx_alpha="true"
+            app:text="活动"/>
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_more"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_class"
+            app:pitchBitmap="@drawable/bg_reclass"
+            app:wx_alpha="true"
+            app:text="更多"/>
+
     </LinearLayout>
 
     <View
@@ -69,10 +89,11 @@
         android:layout_height="0.5dp"
         android:background="#c0c0c0"
         android:layout_alignTop="@id/ll"/>
-    <com.softtek.lai.widgets.NoSlidingViewPage
+    <android.support.v4.view.ViewPager
         android:id="@+id/nsvp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:layout_above="@id/ll"/>
     
 </RelativeLayout>

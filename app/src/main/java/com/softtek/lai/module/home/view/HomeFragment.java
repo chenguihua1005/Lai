@@ -34,13 +34,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity;
-import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
-import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
-import com.softtek.lai.module.bodygamest.model.HasClass;
-import com.softtek.lai.module.bodygamest.net.StudentService;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -54,7 +48,6 @@ import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
@@ -412,7 +405,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-                    intoBodyGamePage(role);
+                    startActivity(new Intent(getContext(), BodyGameActivity.class));
                     MobclickAgent.onEvent(getContext(),"BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
@@ -464,86 +457,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     }
 
-    /**
-     * 根据角色进入相应的体管赛页面
-     *
-     * @param role
-     * @return
-     */
-    private void intoBodyGamePage(int role) {
-        //受邀未认证成功就是普通用户，认证成功就是高级用户
-        AlertDialog.Builder information_dialog = null;
-        if (role == Constants.VR) {
-            //提示用户让他注册或者直接进入2个功能的踢馆赛模块
-            information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent login = new Intent(getContext(), LoginActivity.class);
-                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(login);
-                }
-            }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-                }
-            }).create().show();
-        } else if (role == Constants.NC) {
-            //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
-            information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您还没有认证身份，如果您想更多了解莱聚+，请先认证身份").setPositiveButton("先去认证", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                }
-            }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent nc=new Intent(getContext(), BodyGameVRActivity.class);
-                    nc.putExtra("isNc",true);
-                    startActivity(nc);
-                }
-            }).create().show();
-        } else if (role == Constants.PC||role == Constants.INC) {
-            //直接进入踢馆赛学员版
-            progressDialog.show();
-            ZillaApi.NormalRestAdapter.create(StudentService.class).hasClass2(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HasClass>>() {
-                @Override
-                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    HasClass hasClass = hasClassResponseData.getData();
-                    if ("0".equals(hasClass.getIsHave()) || "4".equals(hasClass.getIsHave())
-                            || "1".equals(hasClass.getIsHave()) || "5".equals(hasClass.getIsHave())) {
-                        //从未加入过班级或者旧班级已经结束还没有加入新班级
-                        Intent noClass = new Intent(getContext(), BodyGamePCNoClassActivity.class);
-                        noClass.putExtra("class_status", Integer.parseInt(hasClass.getIsHave()));
-                        startActivity(noClass);
-                    } else if ("2".equals(hasClass.getIsHave()) || "3".equals(hasClass.getIsHave())) {
-                        //只要班级进行中就可以
-                        startActivity(new Intent(getContext(), BodyGamePCActivity.class));
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    super.failure(error);
-                }
-            });
-        } else if (role == Constants.SR) {
-            //进入踢馆赛助教版
-            startActivity(new Intent(getContext(), BodyGameSRActivity.class));
-        } else if (role == Constants.SP) {
-            //进入踢馆赛顾问版
-            startActivity(new Intent(getContext(), BodyGameSPActivity.class));
-        }
-    }
 
 
     @Override

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame3.home.view;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -40,6 +40,7 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.home.view.HomeFragment;
@@ -135,13 +136,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        if (DisplayUtil.getSDKInt() > 18) {
-            int status = DisplayUtil.getStatusHeight(getActivity());
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin = status;
-            toolbar.setLayoutParams(params);
-        }
-
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;

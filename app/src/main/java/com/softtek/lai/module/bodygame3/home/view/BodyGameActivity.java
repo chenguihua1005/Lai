@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2pcnoclass.view;
+package com.softtek.lai.module.bodygame3.home.view;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,21 +23,18 @@ import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.softtek.lai.widgets.SimpleButton;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame2.view.ChatFragment;
-import com.softtek.lai.module.bodygame2.view.ContactFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
-import com.softtek.lai.widgets.NoSlidingViewPage;
+import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -47,8 +45,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_bodygame_pc_noclass)
-public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+@InjectLayout(R.layout.activity_bodygame3)
+public class BodyGameActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -56,18 +54,19 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
     SimpleButton btn_chat;
     @InjectView(R.id.btn_contact)
     SimpleButton btn_contact;
-
+    @InjectView(R.id.btn_activity)
+    SimpleButton btn_activity;
+    @InjectView(R.id.btn_more)
+    SimpleButton btn_more;
     @InjectView(R.id.nsvp)
-    NoSlidingViewPage content;
-
+    ViewPager content;
     @InjectView(R.id.tv_unread_num)
     TextView tv_umread;
-    private int current=0;
-    private List<Fragment> fragments = new ArrayList<>();
-
-    public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
-
+    private List<Fragment> fragments = new ArrayList<>();
+    public AlertDialog.Builder builder = null;
+    private int current = 0;
+    private boolean isClick = false;
 
     private Handler handler = new Handler() {
 
@@ -78,7 +77,7 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
                 if (builder != null) {
                     return;
                 }
-                builder = new AlertDialog.Builder(BodyGamePCNoClassActivity.this)
+                builder = new AlertDialog.Builder(BodyGameActivity.this)
                         .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                         .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                             @Override
@@ -86,7 +85,7 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
                                 builder = null;
                                 UserInfoModel.getInstance().loginOut();
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                Intent intent = new Intent(BodyGamePCNoClassActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(BodyGameActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -104,56 +103,49 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
     };
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        int type=intent.getIntExtra("type",0);
-        current=type;
-        Log.i("消息中心发来通知");
-        if(content!=null){
-            restoreState();
-            switch (type){
-                case 0:
-                    btn_bodygame.setProgress(1);
-                    break;
-                case 1:
-                    btn_chat.setProgress(1);
-                    break;
-                case 2:
-                    btn_contact.setProgress(1);
-                    break;
-
-            }
-            content.setCurrentItem(current, false);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            updateMessage(unreadNum);
-        }
-    }
-
-    @Override
     protected void initViews() {
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
         btn_contact.setOnClickListener(this);
-        int class_status=getIntent().getIntExtra("class_status",0);
-        fragments.add(BodyGamePCNoClassFragment.getInstance(class_status));
+        btn_activity.setOnClickListener(this);
+        btn_more.setOnClickListener(this);
+
+        fragments.add(new BodyGameFragment());
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
-
-        content.setOffscreenPageLimit(2);
+        fragments.add(new ActivityFragment());
+        fragments.add(new MoreFragment());
+        content.setOffscreenPageLimit(4);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
+        content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (!isClick) {
+                    setChildProgress(position, 1 - positionOffset);
+                    setChildProgress(position + 1, positionOffset);
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //页面切换了
+                isClick = false;
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                current = state;
+            }
+        });
+
         //设置第一个fragment
-        int type=getIntent().getIntExtra("type",0);
-        current=type;
+        int type = getIntent().getIntExtra("type", 0);
+        current = type;
         restoreState();
-        switch (type){
+        switch (type) {
             case 0:
                 btn_bodygame.setProgress(1);
                 break;
@@ -162,6 +154,12 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
                 break;
             case 2:
                 btn_contact.setProgress(1);
+                break;
+            case 3:
+                btn_activity.setProgress(1);
+                break;
+            case 4:
+                btn_more.setProgress(1);
                 break;
 
         }
@@ -216,63 +214,143 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
         chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
-
     }
+
+    private void setChildProgress(int position, float progress) {
+        switch (position) {
+            case 0:
+                btn_bodygame.setProgress(progress);
+                break;
+            case 1:
+                btn_chat.setProgress(progress);
+                break;
+            case 2:
+                btn_contact.setProgress(progress);
+                break;
+            case 3:
+                btn_activity.setProgress(progress);
+                break;
+            case 4:
+                btn_more.setProgress(progress);
+                break;
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int type = intent.getIntExtra("type", 0);
+        current = type;
+        Log.i("消息中心发来通知");
+        if (content != null) {
+            restoreState();
+            switch (type) {
+                case 0:
+                    btn_bodygame.setProgress(1);
+                    break;
+                case 1:
+                    btn_chat.setProgress(1);
+                    break;
+                case 2:
+                    btn_contact.setProgress(1);
+                    break;
+                case 3:
+                    btn_activity.setProgress(1);
+                    break;
+                case 4:
+                    btn_more.setProgress(1);
+                    break;
+
+            }
+            content.setCurrentItem(current, false);
+        }
+    }
+
     private MessageReceiver mMessageReceiver;
+
     @Override
     protected void initDatas() {
         registerMessageReceiver();
     }
 
-    public void updateMessage(int num){
-        //显示
-        if(num<=0){
-            tv_umread.setVisibility(View.GONE);
-        }else {
-            String read=num >= 100 ? "99+" : num + "";
-            tv_umread.setText(read);
-            tv_umread.setVisibility(View.VISIBLE);
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            updateMessage(unreadNum);
         }
     }
-  @Override
+
+    @Override
     public void onClick(View v) {
         restoreState();
-      switch (v.getId()) {
-          case R.id.btn_bodygame:
-              btn_bodygame.setProgress(1);
-              if (current == 0) {
-                  return;
-              }
-              current = 0;
-              break;
-          case R.id.btn_chat:
-              btn_chat.setProgress(1);
-              if (current == 1) {
-                  return;
-              }
-              current = 1;
-              break;
-          case R.id.btn_contact:
-              btn_contact.setProgress(1);
-              if (current == 2) {
-                  return;
-              }
-              current = 2;
-              break;
-      }
-      content.setCurrentItem(current, false);
+        switch (v.getId()) {
+            case R.id.btn_bodygame:
+                btn_bodygame.setProgress(1);
+                if (current == 0) {
+                    return;
+                }
+                current = 0;
+                break;
+            case R.id.btn_chat:
+                btn_chat.setProgress(1);
+                if (current == 1) {
+                    return;
+                }
+                current = 1;
+                break;
+            case R.id.btn_contact:
+                btn_contact.setProgress(1);
+                if (current == 2) {
+                    return;
+                }
+                current = 2;
+                break;
+            case R.id.btn_activity:
+                btn_activity.setProgress(1);
+                if (current == 3) {
+                    return;
+                }
+                current = 3;
+                break;
+            case R.id.btn_more:
+                btn_more.setProgress(1);
+                if (current == 4) {
+                    return;
+                }
+                current = 4;
+                break;
+        }
+        content.setCurrentItem(current, false);
+
     }
+
     private void restoreState() {
         btn_bodygame.setProgress(0);
         btn_chat.setProgress(0);
         btn_contact.setProgress(0);
+        btn_activity.setProgress(0);
+        btn_more.setProgress(0);
 
     }
 
-    public void setAlpha(float alpha){
+    public void setAlpha(float alpha) {
         tintManager.setStatusBarAlpha(alpha);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
     }
+
+    public void updateMessage(int num) {
+        //显示
+        if (num <= 0) {
+            tv_umread.setVisibility(View.GONE);
+        } else {
+            String read = num >= 100 ? "99+" : num + "";
+            tv_umread.setText(read);
+            tv_umread.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
@@ -281,12 +359,12 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
         registerReceiver(mMessageReceiver, filter);
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mMessageReceiver);
     }
-
 
     public class MessageReceiver extends BroadcastReceiver {
 
@@ -299,9 +377,19 @@ public class BodyGamePCNoClassActivity extends BaseActivity implements View.OnCl
             }
         }
     }
-
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(this, HomeActviity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
+    public void switchTab(){
+        restoreState();
+        btn_more.setProgress(1);
+        current =4;
+        content.setCurrentItem(current, false);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame3.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +30,7 @@ import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.login.net.LoginService;
@@ -113,12 +114,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("通讯录");
-        if(DisplayUtil.getSDKInt()>18){
-            int status= DisplayUtil.getStatusHeight(getActivity());
-            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin=status;
-            toolbar.setLayoutParams(params);
-        }
     }
     private void setData() {
         dialogShow("加载中");
@@ -176,7 +171,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         fl.setOnClickListener(this);
         et_search.setOnClickListener(this);
 
-        list = new ArrayList<ChatContactInfoModel>();
+        list = new ArrayList<>();
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
