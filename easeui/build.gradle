@@ -10,7 +10,7 @@ android {
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
         // Enabling multidex support.
-        multiDexEnabled true
+        //multiDexEnabled true
     }
 
     lintOptions {
