@@ -10,6 +10,7 @@ public class DataLine {
 
     private List<String> xAxis;
     private List<Entry> entries;
+    private int maxYAxis;
 
     public List<String> getxAxis() {
         return xAxis;
@@ -25,5 +26,13 @@ public class DataLine {
 
     public void setEntries(List<Entry> entries) {
         this.entries = entries;
+    }
+
+    public int getMaxYAxis() {
+        return maxYAxis;
+    }
+
+    public void setMaxYAxis(int maxYAxis) {
+        this.maxYAxis = maxYAxis;
     }
 }

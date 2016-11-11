@@ -3,7 +3,6 @@ package com.softtek.lai.widgets.chart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -25,7 +24,7 @@ public class BrokenLine extends View{
 
     private DataLine dataLine;
 
-    private int maxYAxis=8000;//y轴的最大值
+    private int maxYAxis;//y轴的最大值
     int[] xPoint;//x轴点的坐标数组
 
     private Paint textPaint;//折线图字体画笔
@@ -69,7 +68,7 @@ public class BrokenLine extends View{
         linePaint.setAntiAlias(true);
         linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.parseColor("#4CFFFFFF"));
+        linePaint.setColor(0x4CFFFFFF);
 
         bgPaint=new Paint();
         bgPaint.setAntiAlias(true);
@@ -114,6 +113,7 @@ public class BrokenLine extends View{
             }
             List<Entry> yAxis=dataLine.getEntries();
             if(yAxis!=null&&!yAxis.isEmpty()){
+                maxYAxis=dataLine.getMaxYAxis();
                 double per=chartHeight*1d/maxYAxis;
 
                 Point[] broken=new Point[yAxis.size()];
@@ -134,7 +134,7 @@ public class BrokenLine extends View{
                     //标数字
                     canvas.drawText((int)entry.getVal()+"",x,y-10,aTextPaint);
                 }
-                //path.lineTo(width,chartHeight);
+
                 bgPaint.setShader(new LinearGradient(width/2,0,width/2,chartHeight,0x8CFFFFFF,
                         0X19FFFFFF, Shader.TileMode.REPEAT));
                 path.close();
@@ -154,12 +154,15 @@ public class BrokenLine extends View{
                 linePaint.setAntiAlias(true);
                 linePaint.setStyle(Paint.Style.STROKE);
                 linePaint.setStrokeWidth(1);
-                linePaint.setPathEffect(new DashPathEffect(new float[]{5,5,5,5},1));
                 float y=(float) (chartHeight-maxYAxis/2*per);
-                Path dash=new Path();
-                dash.moveTo(0+offset,y);
-                dash.lineTo(width,y);
-                canvas.drawPath(dash,linePaint);
+                int num= (width-offset)/10;
+                int start=0+offset;
+                for (int i=0;i<num;i++){
+                    if(i%2==0){
+                        canvas.drawLine(start,y,start+10,y,linePaint);
+                    }
+                    start+=10;
+                }
 
                 String avg=String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2);
                 canvas.drawText(avg,width+aTextPaint.measureText(avg)/2,y,aTextPaint);
