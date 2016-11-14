@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.view.View;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.widgets.chart.Chart;
@@ -50,6 +52,10 @@ public class BodyGameFragment extends LazyBaseFragment {
 
     @Override
     protected void initDatas() {
+
+    }
+
+    public void show(View view){
 
     }
 
