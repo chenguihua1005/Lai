@@ -111,8 +111,8 @@
 
         <!-- 正式 -->
             <!--<meta-data
-            android:name="JPUSH_APPKEY"-->
-            android:value="1a3bbb691bfbfca0d0676e9f" />
+            android:name="JPUSH_APPKEY"
+            android:value="1a3bbb691bfbfca0d0676e9f" />-->
         <!-- 测试54 -->
         <meta-data
             android:name="JPUSH_APPKEY"
