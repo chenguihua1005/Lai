@@ -2,17 +2,11 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 
 import android.os.AsyncTask;
-import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CalendarView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -31,7 +25,7 @@ import zilla.libcore.ui.InjectLayout;
 import static android.graphics.Color.parseColor;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener {
+public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelectedListener{
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -41,10 +35,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         // Required empty public constructor
     }
 
-
     @Override
     protected void lazyLoad() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContentEmpty(false);
+                setContentShown(true);
+            }
+        }, 3000);
     }
 
     @Override

@@ -29,7 +29,7 @@
         <attr name="unitSize" format="dimension"/>
         <attr name="tipSize" format="dimension"/>
     </declare-styleable>
-
+    
 
     <!--日历-->
     <declare-styleable name="MaterialCalendarView">
@@ -79,5 +79,11 @@
 
     <declare-styleable name="day">
         <attr name="state_current" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="Simple_Chart">
+        <attr name="avgLine" format="boolean"/>
+        <attr name="chartTitle1" format="string"/>
+        <attr name="chartTitle2" format="string"/>
+
     </declare-styleable>
 </resources>

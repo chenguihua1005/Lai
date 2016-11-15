@@ -3,7 +3,6 @@ package com.softtek.lai.widgets.chart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -13,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,10 +22,9 @@ public class BrokenLine extends View{
 
     private static int offset;
 
-    private List<String> xAxis=new ArrayList<>();//x轴数据
-    private List<Entry> yAxis=new ArrayList<>();//轴数据
+    private DataLine dataLine;
 
-    private int maxYAxis=8000;//y轴的最大值
+    private int maxYAxis;//y轴的最大值
     int[] xPoint;//x轴点的坐标数组
 
     private Paint textPaint;//折线图字体画笔
@@ -71,28 +68,12 @@ public class BrokenLine extends View{
         linePaint.setAntiAlias(true);
         linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.parseColor("#4CFFFFFF"));
+        linePaint.setColor(0x4CFFFFFF);
 
         bgPaint=new Paint();
         bgPaint.setAntiAlias(true);
         bgPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-
-        xAxis.add("10月18");
-        xAxis.add("19");
-        xAxis.add("20");
-        xAxis.add("21");
-        xAxis.add("22");
-        xAxis.add("23");
-        xAxis.add("24");
-
-        yAxis.add(new Entry(0,3000));
-        //yAxis.add(new Entry(1,8000));
-        yAxis.add(new Entry(2,3000));
-        yAxis.add(new Entry(3,1000));
-        yAxis.add(new Entry(4,3000));
-        yAxis.add(new Entry(5,6000));
-        yAxis.add(new Entry(6,8000));
 
 
     }
@@ -107,70 +88,86 @@ public class BrokenLine extends View{
         //画x轴的线
         linePaint.setStrokeWidth(1);
         canvas.drawLine(0+offset,chartHeight,width,chartHeight,linePaint);
+
         //画x轴数据
-        if(!xAxis.isEmpty()){
-            xPoint=new int[xAxis.size()];
-            int x=0+offset;
-            for (int i=0,j=xAxis.size();i<j;i++){
-                String str=xAxis.get(i);
-                int textWitdh= width/(xAxis.size()-1);
-                if(i==j-1){
-                    xPoint[i]=x-offset;
-                    canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length()),height,textPaint);
-                }else if(i==0){
-                    xPoint[i]=x;
-                    canvas.drawText(str,x,height,textPaint);
-                }else {
-                    xPoint[i]=x;
-                    canvas.drawText(str,x-textPaint.measureText(str,0,str.length())/2,height,textPaint);
+        if(dataLine!=null){
+            List<String> xAxis=dataLine.getxAxis();
+            if(xAxis!=null&&!xAxis.isEmpty()){
+                xPoint=new int[xAxis.size()];
+                int x=0+offset;
+                for (int i=0,j=xAxis.size();i<j;i++){
+                    String str=xAxis.get(i);
+                    int textWitdh= width/(xAxis.size()-1);
+                    if(i==j-1){
+                        xPoint[i]=x-offset;
+                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length()),height,textPaint);
+                    }else if(i==0){
+                        xPoint[i]=x;
+                        canvas.drawText(str,x,height,textPaint);
+                    }else {
+                        xPoint[i]=x;
+                        canvas.drawText(str,x-textPaint.measureText(str,0,str.length())/2,height,textPaint);
+                    }
+                    x+=textWitdh;
                 }
-                x+=textWitdh;
             }
-        }
+            List<Entry> yAxis=dataLine.getEntries();
+            if(yAxis!=null&&!yAxis.isEmpty()){
+                maxYAxis=dataLine.getMaxYAxis();
+                double per=chartHeight*1d/maxYAxis;
 
-        if(!yAxis.isEmpty()){
-            double per=chartHeight*1d/maxYAxis;
-            Point[] broken=new Point[yAxis.size()];
-            //有数据，就画一个路径框
-            Path path=new Path();
-            //从右下角开始画一个路径框
-            path.moveTo(width,chartHeight);
-            path.lineTo(0+offset,chartHeight);
-            bgPaint.setColor(0x99FFFFFF);
-            for (int i=0,j=yAxis.size();i<j;i++){
-                Entry entry=yAxis.get(i);
-                int x=xPoint[entry.getIndex()];
-                float y= (float) ((chartHeight-per*entry.getVal())+getPaddingTop());
-                path.lineTo(x, y);
-                broken[i]=new Point(x, (int) y);
-                //描边
-                //画圆点
-                canvas.drawCircle(x, y,5,bgPaint);
-                //标数字
-                canvas.drawText((int)entry.getVal()+"",x,y-10,aTextPaint);
-            }
-            //path.lineTo(width,chartHeight);
-            bgPaint.setShader(new LinearGradient(width/2,0,width/2,chartHeight,0x8CFFFFFF,
-                    0X19FFFFFF, Shader.TileMode.REPEAT));
-            path.close();
-            canvas.drawPath(path,bgPaint);
-            //画折线
-            linePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    1.5f,getContext().getResources().getDisplayMetrics()));
-            for (int i=1,j=broken.length;i<j;i++){
-                Point spoint=broken[i-1];
-                Point epoint=broken[i];
-                canvas.drawLine(spoint.x,spoint.y,epoint.x,epoint.y,linePaint);
+                Point[] broken=new Point[yAxis.size()];
+                //有数据，就画一个路径框
+                Path path=new Path();
+                //从右下角开始画一个路径框
+                path.moveTo(width,chartHeight);
+                path.lineTo(0+offset,chartHeight);
+                bgPaint.setColor(0x99FFFFFF);
+                for (int i=0,j=yAxis.size();i<j;i++){
+                    Entry entry=yAxis.get(i);
+                    int x=xPoint[entry.getIndex()];
+                    float y= (float) ((chartHeight-per*entry.getVal())+getPaddingTop());
+                    path.lineTo(x, y);
+                    broken[i]=new Point(x, (int) y);
+                    //画圆点
+                    canvas.drawCircle(x, y,5,bgPaint);
+                    //标数字
+                    canvas.drawText((int)entry.getVal()+"",x,y-10,aTextPaint);
+                }
+
+                bgPaint.setShader(new LinearGradient(width/2,0,width/2,chartHeight,0x8CFFFFFF,
+                        0X19FFFFFF, Shader.TileMode.REPEAT));
+                path.close();
+                canvas.drawPath(path,bgPaint);
+                //画折线
+                linePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                        1.5f,getContext().getResources().getDisplayMetrics()));
+                for (int i=1,j=broken.length;i<j;i++){
+                    Point spoint=broken[i-1];
+                    Point epoint=broken[i];
+                    canvas.drawLine(spoint.x,spoint.y,epoint.x,epoint.y,linePaint);
+                }
+                //画平均线(虚线)
+                linePaint.reset();
+                linePaint.setColor(0x4CFFFFFF);
+                linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+                linePaint.setAntiAlias(true);
+                linePaint.setStyle(Paint.Style.STROKE);
+                linePaint.setStrokeWidth(1);
+                float y=(float) (chartHeight-maxYAxis/2*per);
+                int num= (width-offset)/10;
+                int start=0+offset;
+                for (int i=0;i<num;i++){
+                    if(i%2==0){
+                        canvas.drawLine(start,y,start+10,y,linePaint);
+                    }
+                    start+=10;
+                }
+
+                String avg=String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2);
+                canvas.drawText(avg,width+aTextPaint.measureText(avg)/2,y,aTextPaint);
             }
 
-            //画平均线(虚线)
-            linePaint.reset();
-            linePaint.setColor(0x4CFFFFFF);
-            linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            linePaint.setStrokeWidth(1);
-            linePaint.setPathEffect(new DashPathEffect(new float[]{8,8,8, 8},1));
-            canvas.drawLine(0+offset,(float) (chartHeight-maxYAxis/2*per),width,(float) (chartHeight-maxYAxis/2*per),linePaint);
-            canvas.drawText(String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2),width,(float) (chartHeight-maxYAxis/2*per),aTextPaint);
         }
 
     }
@@ -189,4 +186,11 @@ public class BrokenLine extends View{
         }
         return "";
     }
+
+    public void setData(DataLine dataLine){
+        this.dataLine=dataLine;
+        postInvalidate();
+    }
+
+
 }
