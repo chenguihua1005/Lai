@@ -1,30 +1,30 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Handler;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.LazyBaseFragment2;
 
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment {
+public class ActivityFragment extends LazyBaseFragment2 {
 
 
     public ActivityFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     protected void lazyLoad() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContentEmpty(false);
+                setContentShown(true);
+            }
+        }, 3000);
     }
 
     @Override
