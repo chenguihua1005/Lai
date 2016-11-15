@@ -1,7 +1,5 @@
 package com.softtek.lai.common;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -25,8 +23,6 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
     private boolean isCreatedView=false;//是否加载完成试图
 
     protected View contentView;
-    protected ProgressDialog progressDialogs;
-    protected Dialog dialog;
 
     @Nullable
     @Override
@@ -34,6 +30,7 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
         contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
         LifeCircle.onCreate(this);
         ButterKnife.inject(this, contentView);
+
         isPrepared=false;
         initViews();
         return inflater.inflate(R.layout.fragment_progress, container, false);
