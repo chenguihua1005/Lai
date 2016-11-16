@@ -1,4 +1,4 @@
-package com.ggx.jerryguan.widgets;
+package com.ggx.widgets;
 
 import org.junit.Test;
 

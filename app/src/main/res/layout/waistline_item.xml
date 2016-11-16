@@ -140,7 +140,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
 
-                android:src="@drawable/arrow" />
+                android:src="@drawable/drop_arrow" />
         </LinearLayout>
 
         <LinearLayout
@@ -173,7 +173,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/drop_arrow" />
 
         </LinearLayout>
     </FrameLayout>

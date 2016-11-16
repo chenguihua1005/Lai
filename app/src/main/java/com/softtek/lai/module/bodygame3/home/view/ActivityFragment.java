@@ -2,10 +2,11 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 
 import android.os.Handler;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.LazyBaseFragment2;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -21,7 +22,7 @@ import zilla.libcore.ui.InjectLayout;
 import static android.graphics.Color.parseColor;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelectedListener, OnDatePageChangeListener {
+public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener{
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -33,13 +34,7 @@ public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelecte
 
     @Override
     protected void lazyLoad() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setContentEmpty(false);
-                setContentShown(true);
-            }
-        }, 3000);
+
     }
 
     @Override
