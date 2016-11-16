@@ -101,18 +101,22 @@
             android:value="developer-default" />
 
         <!-- 正式 -->
-            <!--<meta-data
+        <!--
+            <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5728545a67e58ea7cf001701" />-->
+            android:value="5728545a67e58ea7cf001701" />
+        -->
         <!-- 测试 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57d60ab167e58ec4f60000cb" />
 
         <!-- 正式 -->
-            <!--<meta-data
+        <!--
+            <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="1a3bbb691bfbfca0d0676e9f" />-->
+            android:value="1a3bbb691bfbfca0d0676e9f" />
+        -->
         <!-- 测试54 -->
         <meta-data
             android:name="JPUSH_APPKEY"
@@ -120,9 +124,11 @@
 
         <!-- uat设置环信应用的appkey -->
         <!-- 正式 -->
-           <!-- <meta-data
+        <!--
+            <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="herbalife#laiju" />-->
+            android:value="herbalife#laiju" />
+        -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalifeuat#laiapp" />
@@ -633,8 +639,9 @@
         <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygamest.view.PhotoViewActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.bodygamest.view.PhotoViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.tips.view.AskDetailActivity"
             android:screenOrientation="portrait" />
@@ -764,6 +771,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
         <receiver android:name=".stepcount.service.NotificationReceive">
             <intent-filter>
                 <action android:name="com.soffteck.lai.step_notify" />
@@ -800,13 +808,18 @@
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.sport2.view.CountDownActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.ranking.view.RankingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.home.view.BodyGameActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".module.sport2.view.CountDownActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.ranking.view.RankingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.home.view.BodyGameActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
+        <activity android:name=".module.bodygame3.more.view.EditorTextActivity"></activity>
     </application>
 
 </manifest>
