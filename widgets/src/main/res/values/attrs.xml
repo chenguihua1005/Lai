@@ -7,6 +7,13 @@
         <attr name="textTint" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="ArrowSpinner2">
+        <attr name="arrowTint2" format="color" />
+        <attr name="hideArrow2" format="boolean" />
+        <attr name="textTint2" format="color"/>
+        <attr name="textSize2" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="ArrowRectangleView">
         <attr name="arrow_width" format="dimension" />
         <attr name="arrow_height" format="dimension" />

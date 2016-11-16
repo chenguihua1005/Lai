@@ -285,7 +285,7 @@
                             <ImageView
                                 android:layout_width="10dp"
                                 android:layout_height="15dp"
-                                android:background="@drawable/arrow"
+                                android:background="@drawable/drop_arrow"
                                 android:layout_marginLeft="5dp"
                                 android:layout_gravity="center|right"
                                 android:id="@+id/imageView2"/>

@@ -1,13 +1,14 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.ggx.widgets.drop.PopupMenu;
+import com.ggx.widgets.adapter.ViewHolder;
+import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import zilla.libcore.ui.InjectLayout;
 public class MoreFragment extends LazyBaseFragment {
 
     @InjectView(R.id.tv_title)
-    TextView tv_title;
+    ArrowSpinner2 tv_title;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -32,21 +33,29 @@ public class MoreFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-        List<String> data=new ArrayList<>();
+        final List<String> data=new ArrayList<>();
         data.add("测试数据1测试数据1");
         data.add("测试数据2");
         data.add("测试数据3");
         data.add("测试数据4");
-        final PopupMenu pop=new PopupMenu(getContext(), DisplayUtil.dip2px(getContext(),130));
-        pop.setAdapter(new ArrayAdapter(getContext(),R.layout.spinner_list_item,data));
-        tv_title.setOnClickListener(new View.OnClickListener() {
+        tv_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(),data,R.layout.selector_class_item) {
+
+
             @Override
-            public void onClick(View view) {
-                if(pop.isShowing()){
-                    pop.dismiss();
-                }else
-                    pop.show(view, (int) (view.getWidth() - 0 ), (int) 0);
-                    //pop.show(view);
+            public void convert(ViewHolder holder, String data, int position) {
+                TextView tv_class_name=holder.getView(R.id.tv_class_name);
+                tv_class_name.setText(data);
+            }
+
+            @Override
+            public String getText(int position) {
+                return data.get(position);
+            }
+        });
+        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
             }
         });
     }

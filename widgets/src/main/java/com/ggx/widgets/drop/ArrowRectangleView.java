@@ -140,8 +140,8 @@ public class ArrowRectangleView extends ViewGroup{
 
         // draw arrow
         Path path = new Path();
-        int startPoint = getMeasuredWidth() - mArrowOffset;
-//        int startPoint = getMeasuredWidth()/2 - mArrowWidth/2;
+//        int startPoint = getMeasuredWidth() - mArrowOffset;
+        int startPoint = getMeasuredWidth()/2 - mArrowWidth/2;
         path.moveTo(startPoint, mArrowHeight);
         path.lineTo(startPoint + mArrowWidth, mArrowHeight);
         path.lineTo(startPoint + mArrowWidth / 2, 0);
@@ -162,5 +162,7 @@ public class ArrowRectangleView extends ViewGroup{
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
     }
+
+
 
 }

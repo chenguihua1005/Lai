@@ -12,11 +12,11 @@
         app:arrow_width="16dp"
         app:arrow_height="8dp"
         app:radius="2dp"
-        app:background_color="#ffb1df83"
+        app:background_color="#7eca2c"
         app:shadow_color="#66000000"
         app:shadow_thickness="5dp">
     <ListView
         android:id="@+id/lv"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"></ListView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </com.ggx.widgets.drop.ArrowRectangleView>

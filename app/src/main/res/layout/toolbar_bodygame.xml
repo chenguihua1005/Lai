@@ -5,7 +5,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/mytoolbar_green"
+    android:background="@color/colorPrimaryDark"
     android:minHeight="?attr/actionBarSize"
     android:fitsSystemWindows="true"
     app:layout_scrollFlags="scroll|snap">
@@ -34,20 +34,27 @@
             android:textSize="10sp" />
     </LinearLayout>
 
-    <TextView
+    <!--<com.ggx.widgets.nicespinner.ArrowSpinner
+        android:id="@+id/tv_title"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:textColor="#FFFFFF"
+        android:ellipsize="middle"
+        android:gravity="center"
+        android:maxLines="1"
+        android:maxEms="10"
+        android:text="测试数据1测试数据1"
+        android:textSize="20sp" />-->
+    <com.ggx.widgets.nicespinner.ArrowSpinner2
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="#FFFFFF"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:maxEms="5"
-        android:text="健康班级健康班级健康班级"
-        android:drawableRight="@drawable/back_home"
-        android:textSize="20sp" />
+        app:textSize2="20px"
+        app:textTint2="@color/white"
+        />
     <!--<FrameLayout
         android:id="@+id/fl_right"
         android:layout_width="80dp"
