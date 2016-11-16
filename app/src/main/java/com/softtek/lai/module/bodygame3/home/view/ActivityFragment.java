@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -10,14 +9,11 @@ import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
+import com.softtek.lai.widgets.materialcalendarview.OnDatePageChangeListener;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
-import com.softtek.lai.widgets.materialcalendarview.decorators.TodayEventDecorator;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.Executors;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -25,7 +21,7 @@ import zilla.libcore.ui.InjectLayout;
 import static android.graphics.Color.parseColor;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelectedListener{
+public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelectedListener, OnDatePageChangeListener {
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -49,6 +45,7 @@ public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelecte
     @Override
     protected void initViews() {
         material_calendar.setOnDateChangedListener(this);
+        material_calendar.setDatepageChangeListener(this);
         material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 
         Calendar instance = Calendar.getInstance();
@@ -68,7 +65,7 @@ public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelecte
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 
-        new ApiSimulatorToday().executeOnExecutor(Executors.newSingleThreadExecutor());//标注今天
+//        new ApiSimulatorToday().executeOnExecutor(Executors.newSingleThreadExecutor());//标注今天
 //设置日历的长和宽间距
         material_calendar.setTileWidthDp(50);
         material_calendar.setTileHeightDp(38);
@@ -99,35 +96,8 @@ public class ActivityFragment extends LazyBaseFragment2 implements OnDateSelecte
 
     }
 
+    @Override
+    public void onDatePageSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
 
-    private class ApiSimulatorToday extends AsyncTask<Void, Void, List<CalendarDay>> {
-
-        @Override
-        protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, 0);
-            ArrayList<CalendarDay> dates = new ArrayList<>();
-
-            dates.add(CalendarDay.today());
-            return dates;
-        }
-
-        @Override
-        protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
-            super.onPostExecute(calendarDays);
-
-            if (getActivity() == null || getActivity().isFinishing()) {
-                return;
-            }
-            if (material_calendar != null) {
-                material_calendar.addDecorator(new TodayEventDecorator(calendarDays, getActivity()));
-            }
-        }
     }
-
 }
