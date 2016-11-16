@@ -8,19 +8,19 @@
 
     <item android:state_pressed="true">
         <shape>
-            <corners android:radius="6dp"/>
+            <corners android:radius="4dp"/>
             <solid android:color="#B2FFA300"/>
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape>
-            <corners android:radius="6dp"/>
+            <corners android:radius="4dp"/>
             <solid android:color="#B2FFA300"/>
         </shape>
     </item>
     <item>
         <shape>
-            <corners android:radius="6dp"/>
+            <corners android:radius="4dp"/>
             <solid android:color="#FFA300"/>
 
         </shape>
