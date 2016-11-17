@@ -1,8 +1,6 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.os.Handler;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.softtek.lai.R;
