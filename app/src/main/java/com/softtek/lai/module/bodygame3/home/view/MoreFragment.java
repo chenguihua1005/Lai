@@ -2,7 +2,7 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -10,6 +10,11 @@ import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame3.more.view.AssistantFragment;
+import com.softtek.lai.module.bodygame3.more.view.CoachFragment;
+import com.softtek.lai.module.bodygame3.more.view.HeadCoachFragment;
+import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
+import com.softtek.lai.widgets.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +28,15 @@ public class MoreFragment extends LazyBaseFragment {
     @InjectView(R.id.tv_title)
     ArrowSpinner2 tv_title;
 
-    @InjectView(R.id.btn)
-    Button button;
+    @InjectView(R.id.container)
+    FrameLayout container;
+    @InjectView(R.id.head_image)
+    CircleImageView head_image;
+    @InjectView(R.id.tv_name)
+    TextView tv_name;
 
     public MoreFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -59,6 +68,16 @@ public class MoreFragment extends LazyBaseFragment {
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==0){
+                    getChildFragmentManager().beginTransaction().replace(R.id.container,new StudentFragment()).commit();
+                }else if(i==1){
+                    getChildFragmentManager().beginTransaction().replace(R.id.container,new HeadCoachFragment()).commit();
+                }else if(i==2){
+                    getChildFragmentManager().beginTransaction().replace(R.id.container,new CoachFragment()).commit();
+                }else if(i==3){
+                    getChildFragmentManager().beginTransaction().replace(R.id.container,new AssistantFragment()).commit();
+                }
+
 
             }
         });

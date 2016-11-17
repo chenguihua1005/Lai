@@ -76,8 +76,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_class"
-            app:pitchBitmap="@drawable/bg_reclass"
             app:wx_alpha="true"
             app:text="班级"/>
 

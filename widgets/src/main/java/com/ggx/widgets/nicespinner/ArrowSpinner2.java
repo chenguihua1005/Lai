@@ -97,6 +97,7 @@ public class ArrowSpinner2 extends LinearLayout{
         LinearLayout.LayoutParams params= (LayoutParams) textView.getLayoutParams();
         params.height=LayoutParams.WRAP_CONTENT;
         params.width=LayoutParams.WRAP_CONTENT;
+        params.rightMargin=8;
         textView.setLayoutParams(params);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner2);
         setClickable(true);
@@ -136,7 +137,7 @@ public class ArrowSpinner2 extends LinearLayout{
         });
         popupWindow = new PopupWindow(context);
         //popupWindow.setAnimationStyle(R.style.mypopupwindow);
-        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,200,getContext().getResources().getDisplayMetrics()));
+        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,170,getContext().getResources().getDisplayMetrics()));
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
