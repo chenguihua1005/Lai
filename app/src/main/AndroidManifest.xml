@@ -819,6 +819,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.activity.CreateActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
+        <activity android:name=".module.bodygame3.more.view.EditorTextActivity"></activity>
     </application>
 
 </manifest>
