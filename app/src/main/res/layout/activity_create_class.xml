@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -52,7 +53,6 @@
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/iv_arrow"
-                    android:text="未莱痴狂"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
@@ -61,7 +61,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#c0c0c0" />
+                android:background="#e1e1e1" />
 
             <RelativeLayout
                 android:id="@+id/rl_date"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:text="开班时间"
+                    android:text="首次复测时间"
                     android:textColor="#666666"
                     android:textSize="15sp" />
 
@@ -95,7 +95,6 @@
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/iv_arrow1"
-                    android:text="2016年11月2日"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
@@ -104,49 +103,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#c0c0c0" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/ll_selector_grey"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="复测日"
-                    android:textColor="#666666"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:id="@+id/iv_arrow2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/bodygame3_arrow" />
-
-                <TextView
-                    android:id="@+id/tv_fuce_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@id/iv_arrow2"
-                    android:text="每周三"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#c0c0c0" />
+                android:background="#e1e1e1" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -187,7 +144,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="大上海"
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -210,7 +166,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="上海市"
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -224,6 +179,10 @@
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e1e1e1" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -239,13 +198,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#c0c0c0" />
+                android:background="#e1e1e1" />
 
             <ListView
                 android:id="@+id/lv_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#c0c0c0"
+                android:divider="#e1e1e1"
+                android:listSelector="@android:color/transparent"
                 android:dividerHeight="0.5dp" />
 
             <TextView

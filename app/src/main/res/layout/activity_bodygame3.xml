@@ -68,8 +68,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_fuce"
-            app:pitchBitmap="@drawable/bg_refuce"
+            app:normalBitmap="@drawable/sport2_huodong"
+            app:pitchBitmap="@drawable/sport2_huodong_re"
             app:wx_alpha="true"
             app:text="活动"/>
         <com.softtek.lai.widgets.SimpleButton
@@ -77,8 +77,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/bg_class"
-            app:pitchBitmap="@drawable/bg_reclass"
+            app:normalBitmap="@drawable/bg_more"
+            app:pitchBitmap="@drawable/bg_remore"
             app:wx_alpha="true"
             app:text="更多"/>
 

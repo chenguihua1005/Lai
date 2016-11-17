@@ -5,35 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="#f2f2f2"
     android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hintAnimationEnabled="true">
+        android:layout_marginRight="15dp"
+        android:background="@drawable/et_border2"
+        android:layout_marginTop="23dp">
+
             <EditText
                 android:id="@+id/et_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:singleLine="true"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
                 android:textCursorDrawable="@drawable/color_cursor"
+                android:background="@drawable/border_none"
                 android:textColor="#333333"
                 android:maxEms="12"
                 android:textColorHint="#c0c0c0"
-                android:textSize="16sp"
-                android:hint="小组名称"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <!--<View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#75BA2B"
-            android:layout_gravity="bottom" />-->
+                android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:src="@drawable/bodygame3_delete"
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
 
 
