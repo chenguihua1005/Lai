@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -21,6 +22,9 @@ public class MoreFragment extends LazyBaseFragment {
 
     @InjectView(R.id.tv_title)
     ArrowSpinner2 tv_title;
+
+    @InjectView(R.id.btn)
+    Button button;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -58,6 +62,7 @@ public class MoreFragment extends LazyBaseFragment {
 
             }
         });
+
     }
 
     @Override
