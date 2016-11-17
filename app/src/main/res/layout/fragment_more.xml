@@ -4,10 +4,10 @@
 
     <include layout="@layout/toolbar_bodygame"/>
 
-    <TextView
+    <Button
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
-        android:text=""/>
+        android:text="点我"/>
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -9,6 +11,7 @@ import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,9 @@ public class MoreFragment extends LazyBaseFragment {
 
     @InjectView(R.id.tv_title)
     ArrowSpinner2 tv_title;
+
+    @InjectView(R.id.tv)
+    Button btn;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -56,6 +62,12 @@ public class MoreFragment extends LazyBaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), CreateClassActivity.class));
             }
         });
     }
