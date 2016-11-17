@@ -1,10 +1,16 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame3.activity.CreateActivity;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -20,7 +26,11 @@ import zilla.libcore.ui.InjectLayout;
 import static android.graphics.Color.parseColor;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener{
+public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener,View.OnClickListener {
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.iv_right)
+    ImageView iv_right;
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -37,6 +47,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
+        iv_right.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg2_add));
+        fl_right.setOnClickListener(this);
         material_calendar.setOnDateChangedListener(this);
         material_calendar.setDatepageChangeListener(this);
         material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
@@ -92,5 +104,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     public void onDatePageSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fl_right:
+                Intent intent=new Intent(getContext(), CreateActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

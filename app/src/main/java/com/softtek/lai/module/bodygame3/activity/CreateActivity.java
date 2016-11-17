@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity;
 
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -15,6 +16,8 @@ public class CreateActivity extends BaseActivity {
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.ll_left)
+    FrameLayout ll_left;
 
     @Override
     protected void initViews() {
