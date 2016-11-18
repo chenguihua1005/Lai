@@ -21,6 +21,9 @@ public abstract class EasyAdapter<T> extends BaseAdapter{
     private int resource;//布局资源文件
 
     public EasyAdapter(Context context,List<T> datas,int resource) {
+        if(datas==null){
+            datas=new ArrayList<>(0);
+        }
         this.datas = datas;
         this.context=context;
         this.resource=resource;

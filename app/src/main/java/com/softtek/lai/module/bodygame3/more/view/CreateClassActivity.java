@@ -24,9 +24,15 @@ import com.ggx.widgets.model.FilterType;
 import com.ggx.widgets.view.CheckTextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.more.model.City;
+import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
+import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -34,6 +40,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_create_class)
@@ -77,8 +87,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private List<String> groups;
     private EasyAdapter<String> adapter;
 
-    private List<FilterType> left=new ArrayList<>();
-    private List<String> right=new ArrayList<>();
+    private List<SmallRegion> left=new ArrayList<>();
+
+    private MoreService service;
 
     @Override
     protected void initViews() {
@@ -94,6 +105,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        service= ZillaApi.NormalRestAdapter.create(MoreService.class);
         groups = new ArrayList<>();
         groups.add("未命名小组");
         adapter = new EasyAdapter<String>(this, groups, R.layout.item_add_group) {
@@ -184,32 +196,12 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         int afterDay = currentDay + 1;
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
-
-
-        //第一项
-        FilterType filterType = new FilterType();
-        filterType.desc = "10";
-        left.add(filterType);
-
-        //第二项
-        filterType = new FilterType();
-        filterType.desc = "11";
-        List<String> childList = new ArrayList<>();
-        for (int i = 0; i < 13; ++i) {
-            childList.add("11" + i);
-        }
-        filterType.child = childList;
-        left.add(filterType);
-
-        //第三项
-        filterType = new FilterType();
-        filterType.desc = "12";
-        childList = new ArrayList<>();
-        for (int i = 0; i < 3; ++i) {
-            childList.add("12" + i);
-        }
-        filterType.child = childList;
-        left.add(filterType);
+        service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
+            @Override
+            public void success(ResponseData<List<SmallRegion>> data, Response response) {
+                left=data.getData();
+            }
+        });
     }
 
     @Override
@@ -289,38 +281,40 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     BottomSheetDialog dialog;
     private void showBottomSheet(){
         View view= LayoutInflater.from(this).inflate(R.layout.city_village,null);
-        DoubleListView<FilterType,String> dlv= (DoubleListView<FilterType, String>) view.findViewById(R.id.dlv);
-        dlv.leftAdapter(new SimpleTextAdapter<FilterType>(this,left) {
+        DoubleListView<SmallRegion,City> dlv= (DoubleListView<SmallRegion, City>) view.findViewById(R.id.dlv);
+        dlv.leftAdapter(new SimpleTextAdapter<SmallRegion>(this,left) {
             @Override
-            public String getText(FilterType data) {
-                return data.desc;
+            public String getText(SmallRegion data) {
+                return data.getRegionalName();
             }
-        }).rightAdapter(new SimpleTextAdapter<String>(this,right) {
+        }).rightAdapter(new SimpleTextAdapter<City>(this,null) {
             @Override
-            public String getText(String data) {
-                return data;
+            public String getText(City data) {
+                return data.getCityName();
             }
 
             @Override
             protected void initView(CheckTextView textView) {
                 textView.setBackgroundResource(android.R.color.white);
             }
-        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<FilterType, String>() {
+        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<SmallRegion, City>() {
             @Override
-            public List<String> provideRightList(FilterType leftAdapter, int position) {
-                return leftAdapter.child;
+            public List<City> provideRightList(SmallRegion leftAdapter, int position) {
+                return leftAdapter.getRegionalCityList();
             }
-        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<FilterType, String>() {
+        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<SmallRegion, City>() {
             @Override
-            public void onRightItemClick(FilterType item, String childItem) {
-                tv_xiaoqu.setText(item.desc);
-                tv_city.setText(childItem);
+            public void onRightItemClick(SmallRegion item, City childItem) {
+                tv_xiaoqu.setText(item.getRegionalName());
+                tv_city.setText(childItem.getCityName());
                 dialog.dismiss();
             }
         });
         //初始化选中.
-        dlv.setLeftList(left, 1);
-        dlv.setRightList(left.get(1).child, -1);
+        if(left!=null&&!left.isEmpty()){
+            dlv.setLeftList(left, 1);
+            dlv.setRightList(left.get(1).getRegionalCityList(), -1);
+        }
         dialog=new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
