@@ -2,6 +2,7 @@ package com.ggx.widgets.drop;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -44,6 +45,40 @@ public class DoubleListView<LEFT,RIGHT> extends LinearLayout implements AdapterV
 
         lv_left = (ListView) findViewById(R.id.lv_left);
         lv_right = (ListView) findViewById(R.id.lv_right);
+        lv_left.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(lv_left.getFirstVisiblePosition()!=0){
+                            lv_left.getParent().requestDisallowInterceptTouchEvent(true);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
+            }
+        });
+        lv_right.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(lv_right.getFirstVisiblePosition()!=0){
+                            lv_right.getParent().requestDisallowInterceptTouchEvent(true);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
+            }
+        });
         lv_left.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         lv_right.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
