@@ -2,12 +2,11 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Handler;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -18,7 +17,8 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
+import com.ggx.widgets.drop.DoubleListView;
+import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.DateUtil;
@@ -49,7 +49,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.tv_class_name)
     TextView tv_class_name;
 
-
+    @InjectView(R.id.rl_area)
+    RelativeLayout rl_area;
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
@@ -77,16 +78,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         rl_class_name.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        lv_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent updateGroupIntent=new Intent(CreateClassActivity.this, EditorTextActivity.class);
-                updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
-                updateGroupIntent.putExtra("position",i);
-                updateGroupIntent.putExtra("name",groups.get(i));
-                startActivityForResult(updateGroupIntent, 102);
-            }
-        });
+        rl_area.setOnClickListener(this);
     }
 
     @Override
@@ -95,32 +87,60 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         groups.add("未命名小组");
         adapter = new EasyAdapter<String>(this, groups, R.layout.item_add_group) {
             @Override
-            public void convert(ViewHolder holder, String data, int position) {
+            public void convert(ViewHolder holder, String data, final int position) {
                 TextView groupName = holder.getView(R.id.tv_group_name);
                 groupName.setText(data);
-                final TextView tv_editor=holder.getView(R.id.tv_editor);
-                final TextView tv_delete=holder.getView(R.id.tv_delete);
+                //侧滑操作
+                final HorizontalScrollView hsv=holder.getView(R.id.hsv);
+                TextView tv_editor=holder.getView(R.id.tv_editor);
+                tv_editor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //关闭
+                        hsv.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                hsv.smoothScrollTo(0,0);
+                            }
+                        });
+                        Intent updateGroupIntent=new Intent(CreateClassActivity.this, EditorTextActivity.class);
+                        updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
+                        updateGroupIntent.putExtra("position",position);
+                        updateGroupIntent.putExtra("name",groups.get(position));
+                        startActivityForResult(updateGroupIntent, 102);
+                    }
+                });
+                TextView tv_delete=holder.getView(R.id.tv_delete);
+                tv_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        groups.remove(position);
+                        adapter.notifyDataSetChanged();
+                        ListViewUtil.setListViewHeightBasedOnChildren(lv_group);
+                    }
+                });
                 RelativeLayout container=holder.getView(R.id.rl_container);
                 ViewGroup.LayoutParams params= container.getLayoutParams();
                 params.width= DisplayUtil.getMobileWidth(CreateClassActivity.this);
                 container.setLayoutParams(params);
-                final HorizontalScrollView hsv=holder.getView(R.id.hsv);
+                final LinearLayout ll_operation=holder.getView(R.id.ll_operation);
                 hsv.setOnTouchListener(new View.OnTouchListener() {
                     int dx;
+                    int lastX;
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         switch (motionEvent.getAction()){
                             case MotionEvent.ACTION_DOWN:
-                                Log.i("MaxScrollAmount()===="+hsv.getMaxScrollAmount());
+                                lastX= (int) motionEvent.getX();
                                 break;
                             case MotionEvent.ACTION_MOVE:
-                                dx=hsv.getMaxScrollAmount()-hsv.getScrollX();
-                                Log.i("dx============"+dx);
+                                dx= (int)motionEvent.getX()-lastX;
                                 break;
                             case MotionEvent.ACTION_UP:
-                                if(dx<=hsv.getMaxScrollAmount()/2){
-                                    Log.i("dsa="+dx);
-                                    new Handler().post(new Runnable() {
+                                int width=ll_operation.getWidth()/2;
+                                boolean show=dx<0?dx<=-width:!(dx>=width);
+                                if(show){
+                                    hsv.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             hsv.smoothScrollTo(hsv.getMaxScrollAmount(),0);
@@ -128,12 +148,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                                     });
 
                                 }else {
-                                    new Handler().post(new Runnable() {
+                                    hsv.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            hsv.smoothScrollTo(0, 0);
+                                            hsv.smoothScrollTo(0,0);
                                         }
                                     });
+
                                 }
                                 break;
                         }
@@ -176,6 +197,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.rl_area:
+                showBottomSheet();
                 break;
 
         }
@@ -223,6 +247,32 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1).show();
+
+    }
+
+    private void showBottomSheet(){
+        DoubleListView<String,String> dlv=new DoubleListView<String, String>(this);
+        final List<String> left=new ArrayList<>();
+        left.add("测试数据1");
+        left.add("测试数据2");
+        left.add("测试数据3");
+        left.add("测试数据4");
+        final List<String> left=new ArrayList<>();
+        left.add("测试数据1");
+        left.add("测试数据2");
+        left.add("测试数据3");
+        left.add("测试数据4");
+        dlv.leftAdapter(new SimpleTextAdapter<String>(this,left) {
+            @Override
+            public String getText(int position) {
+                return left.get(position);
+            }
+        }).rightAdapter(new SimpleTextAdapter<String>(this,) {
+            @Override
+            public String getText(int position) {
+                return null;
+            }
+        });
 
     }
 }

@@ -106,6 +106,7 @@
                 android:background="#e1e1e1" />
 
             <RelativeLayout
+                android:id="@+id/rl_area"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/ll_selector_grey"

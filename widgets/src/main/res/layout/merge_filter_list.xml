@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:divider="@null"
             android:dividerHeight="0px"
+            android:background="#fafafa"
             android:scrollbars="none" />
 
         <ListView

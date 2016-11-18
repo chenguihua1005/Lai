@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -28,8 +27,6 @@ public class MoreFragment extends LazyBaseFragment {
     @InjectView(R.id.tv_title)
     ArrowSpinner2 tv_title;
 
-    @InjectView(R.id.container)
-    FrameLayout container;
     @InjectView(R.id.head_image)
     CircleImageView head_image;
     @InjectView(R.id.tv_name)
