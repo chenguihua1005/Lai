@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.view.MotionEvent;
 import android.view.View;
@@ -257,20 +256,20 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         left.add("测试数据2");
         left.add("测试数据3");
         left.add("测试数据4");
-        final List<String> left=new ArrayList<>();
-        left.add("测试数据1");
-        left.add("测试数据2");
-        left.add("测试数据3");
-        left.add("测试数据4");
-        dlv.leftAdapter(new SimpleTextAdapter<String>(this,left) {
+        final List<String> right=new ArrayList<>();
+        right.add("测试数据5");
+        right.add("测试数据6");
+        right.add("测试数据7");
+        right.add("测试数据8");
+        dlv.leftAdapter(new SimpleTextAdapter<String>(this,null) {
             @Override
             public String getText(int position) {
                 return left.get(position);
             }
-        }).rightAdapter(new SimpleTextAdapter<String>(this,) {
+        }).rightAdapter(new SimpleTextAdapter<String>(this,null) {
             @Override
             public String getText(int position) {
-                return null;
+                return right.get(position);
             }
         });
 
