@@ -1,8 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Selection;
 import android.view.View;
@@ -11,19 +11,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.StringUtil;
 
 import butterknife.InjectView;
-import retrofit.http.PUT;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_editor_text)
-public class EditorTextActivity extends BaseActivity {
+public class EditorTextActivity extends BaseActivity implements Validator.ValidationListener{
 
     public static final int UPDATE_CLASS_NAME=1;
     public static final int UPDATE_GROUP_NAME=2;
     public static final int ADD_GROUP_NAME=3;
+
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -32,21 +40,25 @@ public class EditorTextActivity extends BaseActivity {
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @Required(order=1)
     @InjectView(R.id.et_value)
     EditText et_value;
 
     @InjectView(R.id.iv_delete)
     ImageView iv_delete;
 
+    private int flag;
+
     @Override
     protected void initViews() {
         Intent intent=getIntent();
-        int flag=intent.getIntExtra("flag",0);
+        flag=intent.getIntExtra("flag",0);
         switch (flag){
             case UPDATE_CLASS_NAME:
                 tv_title.setText("编辑班级名称");
                 et_value.setHint("班级名称");
                 et_value.setText(intent.getStringExtra("name"));
+                et_value.setMaxEms(10);
                 Editable etext=et_value.getText();
                 Selection.setSelection(etext,etext.length());
                 break;
@@ -72,10 +84,8 @@ public class EditorTextActivity extends BaseActivity {
         tv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back=getIntent();
-                back.putExtra("value",et_value.getText().toString());
-                setResult(RESULT_OK,back);
-                finish();
+                validateLife.validate();
+
             }
         });
         iv_delete.setOnClickListener(new View.OnClickListener() {
@@ -89,5 +99,44 @@ public class EditorTextActivity extends BaseActivity {
     @Override
     protected void initDatas() {
 
+    }
+
+    private void showTip(String msg){
+        new AlertDialog.Builder(this).setMessage(msg)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+    }
+
+
+    @Override
+    public void onValidationSucceeded() {
+        if (StringUtil.length(et_value.getText().toString())>12){
+            showTip("填写内容必须小于12个字");
+        }else {
+            Intent back=getIntent();
+            back.putExtra("value",et_value.getText().toString());
+            setResult(RESULT_OK,back);
+            finish();
+        }
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+//        switch (flag){
+//            case UPDATE_CLASS_NAME:
+//                showTip("请填写班级名");
+//                break;
+//            case UPDATE_GROUP_NAME:
+//                showTip("请填写组名");
+//                break;
+//            case ADD_GROUP_NAME:
+//                showTip("请填写组名");
+//                break;
+//        }
+        showTip("请填写内容");
     }
 }

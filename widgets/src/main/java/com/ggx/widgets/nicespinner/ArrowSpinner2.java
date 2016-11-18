@@ -194,7 +194,8 @@ public class ArrowSpinner2 extends LinearLayout{
         this.adapter=adapter;
         selectedIndex = 0;
         listView.setAdapter(adapter);
-        textView.setText(adapter.getText(selectedIndex));
+        textView.setText("dsadasd");
+        //textView.setText(adapter.getText(selectedIndex));
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

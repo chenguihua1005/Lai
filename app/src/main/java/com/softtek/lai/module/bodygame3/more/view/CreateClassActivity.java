@@ -20,13 +20,14 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
-import com.ggx.widgets.model.FilterType;
 import com.ggx.widgets.view.CheckTextView;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.model.City;
+import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
@@ -40,11 +41,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_create_class)
 public class CreateClassActivity extends BaseActivity implements View.OnClickListener {
@@ -90,6 +91,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private List<SmallRegion> left=new ArrayList<>();
 
     private MoreService service;
+    LaiClass clazz;
 
     @Override
     protected void initViews() {
@@ -105,6 +107,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        clazz=new LaiClass();
+        clazz.setClassMasterId(UserInfoModel.getInstance().getUserId());
         service= ZillaApi.NormalRestAdapter.create(MoreService.class);
         groups = new ArrayList<>();
         groups.add("未命名小组");
@@ -134,14 +138,20 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
                 TextView tv_delete=holder.getView(R.id.tv_delete);
-                tv_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        groups.remove(position);
-                        adapter.notifyDataSetChanged();
-                        ListViewUtil.setListViewHeightBasedOnChildren(lv_group);
-                    }
-                });
+                if(groups.size()!=1){
+                    tv_delete.setVisibility(View.VISIBLE);
+                    tv_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            groups.remove(position);
+                            adapter.notifyDataSetChanged();
+                            ListViewUtil.setListViewHeightBasedOnChildren(lv_group);
+                        }
+                    });
+                }else {
+                    tv_delete.setVisibility(View.GONE);
+                }
+
                 RelativeLayout container=holder.getView(R.id.rl_container);
                 ViewGroup.LayoutParams params= container.getLayoutParams();
                 params.width= DisplayUtil.getMobileWidth(CreateClassActivity.this);
@@ -196,6 +206,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         int afterDay = currentDay + 1;
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
+        clazz.setStartDate(currentDate);
         service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
             @Override
             public void success(ResponseData<List<SmallRegion>> data, Response response) {
@@ -222,6 +233,38 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 showDateDialog();
                 break;
             case R.id.fl_right:
+                StringBuilder builder=new StringBuilder();
+                for (int i=0;i<groups.size();i++){
+                    builder.append(groups.get(i));
+                    if(i!=groups.size()-1){
+                        builder.append(",");
+                    }
+                }
+                if (clazz!=null){
+                    clazz.setClassGroup(builder.toString());
+                    dialogShow("正在创建班级...");
+                    service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
+                        @Override
+                        public void success(ResponseData<LaiClass> data, Response response) {
+                            dialogDissmiss();
+                            if(data.getStatus()==200){
+
+                            }
+                            Util.toastMsg(data.getMsg());
+                            if(data.getData()!=null){
+                                Log.i(";"+data.getData().getClassId()+":"+data.getData().getClassCode());
+
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialogDissmiss();
+                            super.failure(error);
+                        }
+                    });
+                }
+
                 //提交
                 break;
             case R.id.ll_left:
@@ -246,6 +289,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             }else if(requestCode==101){
                 String value = data.getStringExtra("value");
                 tv_class_name.setText(value);
+                if (clazz!=null){
+                    clazz.setClassName(value);
+                }
             }else if(requestCode==102){
                 String value = data.getStringExtra("value");
                 int position=data.getIntExtra("position",-1);
@@ -271,7 +317,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     //输出当前日期
                     tv_class_time.setText(date);
-
+                    if (clazz!=null){
+                        clazz.setClassName(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,DateUtil.yyyy_MM_dd));
+                    }
 
                 }
             }
@@ -305,6 +353,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<SmallRegion, City>() {
             @Override
             public void onRightItemClick(SmallRegion item, City childItem) {
+                if(clazz!=null){
+                    clazz.setCityId(childItem.getCityId());
+                }
                 tv_xiaoqu.setText(item.getRegionalName());
                 tv_city.setText(childItem.getCityName());
                 dialog.dismiss();
@@ -312,8 +363,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         });
         //初始化选中.
         if(left!=null&&!left.isEmpty()){
-            dlv.setLeftList(left, 1);
-            dlv.setRightList(left.get(1).getRegionalCityList(), -1);
+            dlv.setLeftList(left, 0);
+            dlv.setRightList(left.get(0).getRegionalCityList(), -1);
         }
         dialog=new BottomSheetDialog(this);
         dialog.setContentView(view);

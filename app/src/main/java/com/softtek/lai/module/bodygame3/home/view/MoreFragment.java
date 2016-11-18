@@ -24,8 +24,10 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_more)
 public class MoreFragment extends LazyBaseFragment {
 
+    @InjectView(R.id.arrow_spinner)
+    ArrowSpinner2 arrow;
     @InjectView(R.id.tv_title)
-    ArrowSpinner2 tv_title;
+    TextView tv_title;
 
     @InjectView(R.id.head_image)
     CircleImageView head_image;
@@ -43,12 +45,13 @@ public class MoreFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
+        tv_title.setText("更多");
         final List<String> data=new ArrayList<>();
         data.add("测试数据1测试数据1");
         data.add("测试数据2");
         data.add("测试数据3");
         data.add("测试数据4");
-        tv_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(),data,R.layout.selector_class_item) {
+        arrow.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(),data,R.layout.selector_class_item) {
 
 
             @Override
@@ -62,7 +65,7 @@ public class MoreFragment extends LazyBaseFragment {
                 return data.get(position);
             }
         });
-        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+        arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==0){
