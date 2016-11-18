@@ -1,55 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.bodygame3.activity.CreateActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="11dp"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentStart="true">
+        android:background="#fafafa"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_activity_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ll_selector_grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="活动标题"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bodygame3_arrow" />
+
+            <TextView
+                android:id="@+id/tv_activity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/iv_arrow"
+                android:background="@null"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#e1e1e1" />
+
+        <RelativeLayout
+            android:id="@+id/rl_activity_type"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/ll_selector_grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="活动类型"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrowtype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bodygame3_arrow" />
+
+            <TextView
+                android:id="@+id/tv_activity_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:text=""
+                android:layout_toLeftOf="@id/iv_arrowtype"
+                android:background="@null"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
 
 
         <RelativeLayout
+            android:id="@+id/rl_activity_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ll_selector_grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
             <TextView
-                android:text="TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Name"
-                android:background="@null"
-                android:id="@+id/editText"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="15dp" />
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="集合时间"
+                android:textColor="#666666"
+                android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/iv_arrowtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/arrow"
-                android:layout_toRightOf="@id/editText"
-                android:id="@+id/imageView5" />
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bodygame3_arrow" />
+
+            <TextView
+                android:id="@+id/tv_activity_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/iv_arrowtime"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_activity_mark"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ll_selector_grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="活动说明"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrowmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bodygame3_arrow" />
+
+            <TextView
+                android:id="@+id/tv_activity_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:text=""
+                android:layout_toLeftOf="@id/iv_arrowmark"
+                android:background="@null"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

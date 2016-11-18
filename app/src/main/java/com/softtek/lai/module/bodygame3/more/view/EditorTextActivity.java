@@ -24,6 +24,8 @@ public class EditorTextActivity extends BaseActivity {
     public static final int UPDATE_CLASS_NAME=1;
     public static final int UPDATE_GROUP_NAME=2;
     public static final int ADD_GROUP_NAME=3;
+    public static final int ADD_ACTIVITY_NAME=4;
+    public static final int ADD_MARK=5;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -60,6 +62,14 @@ public class EditorTextActivity extends BaseActivity {
             case ADD_GROUP_NAME:
                 tv_title.setText("添加小组");
                 et_value.setHint("小组名称");
+                break;
+            case ADD_ACTIVITY_NAME:
+                tv_title.setText("编辑活动名称");
+                et_value.setHint("活动名称");
+                break;
+            case ADD_MARK:
+                tv_title.setText("编辑活动说明");
+                et_value.setHint("活动说明");
                 break;
         }
         tv_right.setText("确定");

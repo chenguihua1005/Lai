@@ -1,13 +1,17 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.ggx.widgets.adapter.ViewHolder;
+import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.bodygame3.activity.CreateActivity;
@@ -18,7 +22,9 @@ import com.softtek.lai.widgets.materialcalendarview.OnDatePageChangeListener;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -26,11 +32,14 @@ import zilla.libcore.ui.InjectLayout;
 import static android.graphics.Color.parseColor;
 
 @InjectLayout(R.layout.fragment_activity2)
-public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener,View.OnClickListener {
+public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener, View.OnClickListener {
+
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
+    @InjectView(R.id.tv_title)
+    ArrowSpinner2 tv_title;
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -47,7 +56,42 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
-        iv_right.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg2_add));
+        final List<String> data = new ArrayList<>();
+        data.add("超级减重11月班");
+        data.add("跑步12月班");
+        data.add("测试数据3");
+        data.add("测试数据4");
+        tv_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), data, R.layout.class_title) {
+            @Override
+            public void convert(ViewHolder holder, String data, int position) {
+                TextView tv_class_name = holder.getView(R.id.tv_title);
+                tv_class_name.setText(data);
+            }
+
+            @Override
+            public String getText(int position) {
+                return data.get(position);
+            }
+        });
+
+        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+//                    getChildFragmentManager().beginTransaction().replace(R.id.container,new StudentFragment()).commit();
+                    //选择一个班级，刷新一次页面。
+                } else if (i == 1) {
+//                    getChildFragmentManager().beginTransaction().replace(R.id.container,new HeadCoachFragment()).commit();
+                } else if (i == 2) {
+//                    getChildFragmentManager().beginTransaction().replace(R.id.container,new CoachFragment()).commit();
+                } else if (i == 3) {
+//                    getChildFragmentManager().beginTransaction().replace(R.id.container,new AssistantFragment()).commit();
+                }
+
+
+            }
+        });
+        iv_right.setImageResource(R.drawable.bg2_add);
         fl_right.setOnClickListener(this);
         material_calendar.setOnDateChangedListener(this);
         material_calendar.setDatepageChangeListener(this);
@@ -108,11 +152,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fl_right:
-                Intent intent=new Intent(getContext(), CreateActivity.class);
+                Intent intent = new Intent(getContext(), CreateActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
+
 }
