@@ -24,8 +24,10 @@ public abstract class SimpleTextAdapter<T> extends EasyAdapter<T>{
     @Override
     public void convert(ViewHolder holder, T data, int position) {
         CheckTextView tv=holder.getView(R.id.tv_item_filter);
-        tv.setText(getText(position));
+        tv.setText(getText(data));
+        initView(tv);
     }
 
-    public abstract String getText(int position);
+    public abstract String getText(T data);
+    protected void initView(CheckTextView textView){}
 }

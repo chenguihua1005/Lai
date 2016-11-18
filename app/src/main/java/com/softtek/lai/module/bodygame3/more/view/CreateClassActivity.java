@@ -1,8 +1,10 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,14 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
+import com.ggx.widgets.model.FilterType;
+import com.ggx.widgets.view.CheckTextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
+import com.softtek.lai.widgets.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,6 +55,10 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_area)
     RelativeLayout rl_area;
+    @InjectView(R.id.tv_xiaoqu)
+    TextView tv_xiaoqu;
+    @InjectView(R.id.tv_city)
+    TextView tv_city;
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
@@ -67,6 +76,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     private List<String> groups;
     private EasyAdapter<String> adapter;
+
+    private List<FilterType> left=new ArrayList<>();
+    private List<String> right=new ArrayList<>();
 
     @Override
     protected void initViews() {
@@ -172,6 +184,32 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         int afterDay = currentDay + 1;
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
+
+
+        //第一项
+        FilterType filterType = new FilterType();
+        filterType.desc = "10";
+        left.add(filterType);
+
+        //第二项
+        filterType = new FilterType();
+        filterType.desc = "11";
+        List<String> childList = new ArrayList<>();
+        for (int i = 0; i < 13; ++i) {
+            childList.add("11" + i);
+        }
+        filterType.child = childList;
+        left.add(filterType);
+
+        //第三项
+        filterType = new FilterType();
+        filterType.desc = "12";
+        childList = new ArrayList<>();
+        for (int i = 0; i < 3; ++i) {
+            childList.add("12" + i);
+        }
+        filterType.child = childList;
+        left.add(filterType);
     }
 
     @Override
@@ -248,30 +286,49 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1).show();
 
     }
-
+    BottomSheetDialog dialog;
     private void showBottomSheet(){
-        DoubleListView<String,String> dlv=new DoubleListView<String, String>(this);
-        final List<String> left=new ArrayList<>();
-        left.add("测试数据1");
-        left.add("测试数据2");
-        left.add("测试数据3");
-        left.add("测试数据4");
-        final List<String> right=new ArrayList<>();
-        right.add("测试数据5");
-        right.add("测试数据6");
-        right.add("测试数据7");
-        right.add("测试数据8");
-        dlv.leftAdapter(new SimpleTextAdapter<String>(this,null) {
+        View view= LayoutInflater.from(this).inflate(R.layout.city_village,null);
+        DoubleListView<FilterType,String> dlv= (DoubleListView<FilterType, String>) view.findViewById(R.id.dlv);
+        dlv.leftAdapter(new SimpleTextAdapter<FilterType>(this,left) {
             @Override
-            public String getText(int position) {
-                return left.get(position);
+            public String getText(FilterType data) {
+                return data.desc;
             }
-        }).rightAdapter(new SimpleTextAdapter<String>(this,null) {
+        }).rightAdapter(new SimpleTextAdapter<String>(this,right) {
             @Override
-            public String getText(int position) {
-                return right.get(position);
+            public String getText(String data) {
+                return data;
+            }
+
+            @Override
+            protected void initView(CheckTextView textView) {
+                textView.setBackgroundResource(android.R.color.white);
+            }
+        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<FilterType, String>() {
+            @Override
+            public List<String> provideRightList(FilterType leftAdapter, int position) {
+                return leftAdapter.child;
+            }
+        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<FilterType, String>() {
+            @Override
+            public void onRightItemClick(FilterType item, String childItem) {
+                tv_xiaoqu.setText(item.desc);
+                tv_city.setText(childItem);
+                dialog.dismiss();
             }
         });
-
+        //初始化选中.
+        dlv.setLeftList(left, 1);
+        dlv.setRightList(left.get(1).child, -1);
+        dialog=new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                dialog=null;
+            }
+        });
     }
 }

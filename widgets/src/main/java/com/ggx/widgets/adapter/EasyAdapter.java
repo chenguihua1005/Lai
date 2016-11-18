@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,4 +49,16 @@ public abstract class EasyAdapter<T> extends BaseAdapter{
     }
 
     public abstract void convert(ViewHolder holder,T data,int position);
+
+    public List<T> getDatas() {
+        return datas;
+    }
+
+    public void setList(List<T> datas) {
+        if(datas==null){
+            datas=new ArrayList<>(0);
+        }
+        this.datas = datas;
+        notifyDataSetChanged();
+    }
 }

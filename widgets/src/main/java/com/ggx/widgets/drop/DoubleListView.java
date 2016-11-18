@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ggx.widgets.R;
-import com.ggx.widgets.adapter.EasyAdapter;
+
+import java.util.List;
 
 /**
  * @author jerry.Guan
@@ -18,21 +18,24 @@ import com.ggx.widgets.adapter.EasyAdapter;
 
 public class DoubleListView<LEFT,RIGHT> extends LinearLayout implements AdapterView.OnItemClickListener{
 
-    private EasyAdapter<LEFT> left_adapter;
-    private EasyAdapter<RIGHT> right_adapter;
+    private SimpleTextAdapter<LEFT> left_adapter;
+    private SimpleTextAdapter<RIGHT> right_adapter;
     private ListView lv_left;
     private ListView lv_right;
 
     public DoubleListView(Context context) {
         super(context);
+        init(context);
     }
 
     public DoubleListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public DoubleListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     private void init(Context context) {
@@ -59,6 +62,47 @@ public class DoubleListView<LEFT,RIGHT> extends LinearLayout implements AdapterV
         return this;
     }
 
+    public void setLeftList(List<LEFT> list, int checkedPosition) {
+        left_adapter.setList(list);
+        if (checkedPosition != -1) {
+//            lv_left.performItemClick(mLeftAdapter.getView(checkedPositoin, null, null), checkedPositoin, mLeftAdapter.getItemId(checkedPositoin));//调用此方法相当于点击.第一次进来时会触发重复加载.
+            lv_left.setItemChecked(checkedPosition, true);
+        }
+    }
+
+    public void setRightList(List<RIGHT> list, int checkedPosition) {
+        right_adapter.setList(list);
+        if (checkedPosition != -1) {
+            lv_right.setItemChecked(checkedPosition, true);
+        }
+    }
+
+    private OnLeftItemClickListener<LEFT, RIGHT> mOnLeftItemClickListener;
+    private OnRightItemClickListener<LEFT, RIGHT> mOnRightItemClickListener;
+
+    public interface OnLeftItemClickListener<LEFT, RIGHT> {
+        List<RIGHT> provideRightList(LEFT leftAdapter, int position);
+    }
+
+    public interface OnRightItemClickListener<LEFT, RIGHT> {
+        void onRightItemClick(LEFT item, RIGHT childItem);
+    }
+
+    public DoubleListView<LEFT, RIGHT> onLeftItemClickListener(OnLeftItemClickListener<LEFT, RIGHT> onLeftItemClickListener) {
+        this.mOnLeftItemClickListener = onLeftItemClickListener;
+        return this;
+    }
+
+    public DoubleListView<LEFT, RIGHT> onRightItemClickListener(OnRightItemClickListener<LEFT, RIGHT> onRightItemClickListener) {
+        this.mOnRightItemClickListener = onRightItemClickListener;
+        return this;
+    }
+
+    //========================点击事件===================================
+    private int mRightLastChecked;
+    private int mLeftLastPosition;
+    private int mLeftLastCheckedPosition;
+
     public static long mLastClickTime;
 
     public static boolean isFastDoubleClick() {
@@ -72,10 +116,37 @@ public class DoubleListView<LEFT,RIGHT> extends LinearLayout implements AdapterV
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
         if(isFastDoubleClick()){
             return;
         }
+        if (left_adapter == null || right_adapter == null) {
+            return;
+        }
 
+        if (parent == lv_left) {
+            mLeftLastPosition = position;
+
+            if (mOnLeftItemClickListener != null) {
+                LEFT item = left_adapter.getItem(position);
+
+                List<RIGHT> rightds = mOnLeftItemClickListener.provideRightList(item, position);
+                right_adapter.setList(rightds);
+
+                if (rightds==null||rightds.isEmpty()) {
+                    //当前点的就是这个条目
+                    mLeftLastCheckedPosition = -1;
+                }
+            }
+
+            lv_right.setItemChecked(mRightLastChecked, mLeftLastCheckedPosition == position);
+        } else {
+            mLeftLastCheckedPosition = mLeftLastPosition;
+            mRightLastChecked = position;
+
+            if (mOnRightItemClickListener != null) {
+                mOnRightItemClickListener.onRightItemClick(left_adapter.getItem(mLeftLastCheckedPosition), right_adapter.getItem(mRightLastChecked));
+            }
+        }
     }
 }
