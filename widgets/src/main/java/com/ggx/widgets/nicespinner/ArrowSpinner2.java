@@ -16,6 +16,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -120,17 +121,16 @@ public class ArrowSpinner2 extends LinearLayout{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 selectedIndex = position;
-
+                String text=adapter.getText(selectedIndex);
+                if(!TextUtils.isEmpty(text)){
+                    textView.setText(text);
+                }
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(parent, view, position, id);
                 }
 
                 if (onItemSelectedListener != null) {
                     onItemSelectedListener.onItemSelected(parent, view, position, id);
-                }
-                String text=adapter.getText(selectedIndex);
-                if(!TextUtils.isEmpty(text)){
-                    textView.setText(text);
                 }
                 dismissDropDown();
             }
@@ -194,8 +194,7 @@ public class ArrowSpinner2 extends LinearLayout{
         this.adapter=adapter;
         selectedIndex = 0;
         listView.setAdapter(adapter);
-        textView.setText("dsadasd");
-        //textView.setText(adapter.getText(selectedIndex));
+        textView.setText(adapter.getText(selectedIndex));
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
