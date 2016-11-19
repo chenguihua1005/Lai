@@ -192,7 +192,7 @@ public class MaterialCalendarView extends ViewGroup {
         }
     };
 
-    private final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {//翻页滑动
         @Override
         public void onPageSelected(int position) {
             titleChanger.setPreviousMonth(currentMonth);
@@ -351,7 +351,7 @@ public class MaterialCalendarView extends ViewGroup {
             setArrowColor(a.getColor(
                     R.styleable.MaterialCalendarView_mcv_arrowColor,
 //                    Color.BLUE
-                    parseColor("#1E90FF")
+                    parseColor("#FFA200")
             ));
             Drawable leftMask = a.getDrawable(
                     R.styleable.MaterialCalendarView_mcv_leftArrowMask
