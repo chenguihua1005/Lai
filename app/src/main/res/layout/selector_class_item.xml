@@ -8,25 +8,23 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/class_zongjiaolian"
         android:layout_marginLeft="15dp"/>
     <TextView
-        android:id="@+id/tv_role"
+        android:id="@+id/tv_role_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:layout_toRightOf="@id/iv_icon"
         android:layout_centerInParent="true"
         android:textSize="11sp"
-        android:layout_marginLeft="8dp"
-        android:text="总教练"/>
+        android:layout_marginLeft="8dp" />
 
     <View
         android:id="@+id/line"
         android:layout_width="0.5px"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:layout_toRightOf="@id/tv_role"
+        android:layout_toRightOf="@id/tv_role_name"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="5dp"/>
@@ -45,14 +43,13 @@
             android:textSize="12sp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:maxEms="8"
-            android:text="超级减重班"/>
+            android:maxEms="8" />
         <TextView
+            android:id="@+id/tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="9sp"
-            android:text="2016254565"/>
+            android:textSize="9sp" />
     </LinearLayout>
 
 </RelativeLayout>
