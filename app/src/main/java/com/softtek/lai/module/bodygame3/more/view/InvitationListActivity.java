@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyTypeAdaper;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 
