@@ -821,7 +821,8 @@
         <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
         <activity android:name=".module.bodygame3.activity.CreateActivity" />
         <activity android:name=".module.bodygame3.more.view.EditorTextActivity" />
-        <activity android:name=".module.bodygame3.more.view.InvitationListActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
+        <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity"></activity>
     </application>
 
 </manifest>
