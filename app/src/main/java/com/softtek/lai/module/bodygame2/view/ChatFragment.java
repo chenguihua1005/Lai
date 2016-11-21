@@ -252,7 +252,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 }
 
             }
-        }else {
+        } else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
 
@@ -487,7 +487,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
 
     private android.app.AlertDialog.Builder conflictBuilder;
-//    private android.app.AlertDialog.Builder accountRemovedBuilder;
+    //    private android.app.AlertDialog.Builder accountRemovedBuilder;
 //    private boolean isConflictDialogShow;
 //    private boolean isAccountRemovedDialogShow;
 //    private BroadcastReceiver internalDebugReceiver;
