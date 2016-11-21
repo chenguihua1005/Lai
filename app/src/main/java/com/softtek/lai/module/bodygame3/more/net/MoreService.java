@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.more.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
+import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 
@@ -37,5 +38,14 @@ public interface MoreService {
     void getMoreInfo(@Header("token")String token,
                      @Query("AccountId")long accountId,
                      Callback<ResponseData<List<ClassModel>>> callback);
+
+    @GET("/V1/MoreFunction/GetInvitedContactList")
+    void getInvitatedContactList(@Header("token")String token,
+                                 @Query("AccountId")long accountId,
+                                 @Query("ClassId")String classId,
+                                 @Query("PageSize")int pageSize,
+                                 @Query("PageIndex")int pageIndex,
+                                 Callback<ResponseData<List<InvitatedContact>>> callback);
+
 
 }

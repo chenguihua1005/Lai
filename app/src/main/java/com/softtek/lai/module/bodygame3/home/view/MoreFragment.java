@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,6 +48,7 @@ public class MoreFragment extends LazyBaseFragment {
     TextView tv_number;
 
     private List<ClassModel> classModels;
+    private ClassModel model;
 
     public MoreFragment() {
 
@@ -95,7 +97,7 @@ public class MoreFragment extends LazyBaseFragment {
                             }
                         });
                         if(classModels!=null&&!classModels.isEmpty()){
-                            ClassModel model=classModels.get(0);
+                            model=classModels.get(0);
                             int role=model.getClassRole();
                             tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
                             tv_number.setText(model.getClassCode());
@@ -113,7 +115,7 @@ public class MoreFragment extends LazyBaseFragment {
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ClassModel model=classModels.get(i);
+                model=classModels.get(i);
                 int role=model.getClassRole();
                 tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
                 tv_number.setText(model.getClassCode());
@@ -129,18 +131,26 @@ public class MoreFragment extends LazyBaseFragment {
     }
 
     private void choosePanel(int role){
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("class",model);
         switch (role) {
             case 1://总教练
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new HeadCoachFragment()).commit();
+                HeadCoachFragment headCoachFragment=new HeadCoachFragment();
+                headCoachFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commit();
                 break;
             case 2://教练
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new CoachFragment()).commit();
+                CoachFragment coachFragment=new CoachFragment();
+                coachFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commit();
                 break;
             case 3://助教
                 getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commit();
                 break;
             case 4://学员
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new StudentFragment()).commit();
+                StudentFragment studentFragment=new StudentFragment();
+                studentFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commit();
                 break;
         }
     }
