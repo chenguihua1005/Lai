@@ -11,7 +11,7 @@ import android.widget.ExpandableListAdapter;
 
 public class MyExpandableAdapter implements ExpandableListAdapter{
 
-    
+
     @Override
     public void registerDataSetObserver(DataSetObserver dataSetObserver) {
 
