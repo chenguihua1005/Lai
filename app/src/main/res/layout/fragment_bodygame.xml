@@ -261,11 +261,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
+                       android:layout_marginTop="10dp"
                         android:background="@color/white"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
 
                         <TextView
                             android:id="@+id/benzhou_tv"
@@ -292,13 +292,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@color/white"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_imagevideo1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
 
                         </LinearLayout>
@@ -306,16 +315,22 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1"></LinearLayout>
-                    </LinearLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
+                            <ImageView
+                                android:id="@+id/iv_imagevideo2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                    </LinearLayout>
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -323,6 +338,7 @@
                             android:background="@color/white"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
+                            android:layout_marginTop="10dp"
                             android:paddingRight="10dp">
 
                             <TextView
@@ -330,27 +346,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBottom="@+id/spinner_title"
-                                android:text="班级赛况"
-                                />
+                                android:text="班级赛况" />
 
                             <!--<ImageView-->
-                                <!--android:id="@+id/iv_banjigame"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_alignParentRight="true"-->
-                                <!--android:layout_centerInParent="true"-->
-                                <!--app:srcCompat="@drawable/bodygame3_arrow" />-->
+                            <!--android:id="@+id/iv_banjigame"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignParentRight="true"-->
+                            <!--android:layout_centerInParent="true"-->
+                            <!--app:srcCompat="@drawable/bodygame3_arrow" />-->
 
                             <com.ggx.widgets.nicespinner.ArrowSpinner2
                                 android:id="@+id/spinner_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
                                 android:gravity="right"
                                 app:textSize2="20px"
-                                android:layout_alignParentRight="true"
-                                app:textTint2="@color/black"
-                                android:layout_marginRight="10dp"
-                                android:layout_centerVertical="true" />
+                                app:textTint2="@color/black" />
 
                         </RelativeLayout>
 
@@ -360,46 +375,39 @@
                 </LinearLayout>
 
 
-
-
-
-
-
-
-
             </LinearLayout>
 
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<android.support.design.widget.CoordinatorLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-        </android.support.design.widget.CoordinatorLayout>
+        <!--</android.support.design.widget.CoordinatorLayout>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="首页界面"
-            android:textSize="40sp"
-            android:visibility="gone" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="首页界面"-->
+            <!--android:textSize="40sp"-->
+            <!--android:visibility="gone" />-->
 
-        <com.softtek.lai.widgets.chart.Chart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/bg"
-            android:visibility="gone"
-            app:chartTitle1="哈哈哈"
-            app:chartTitle2="laall">
+        <!--<com.softtek.lai.widgets.chart.Chart-->
+            <!--android:id="@+id/chart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="300dp"-->
+            <!--android:background="@drawable/bg"-->
+            <!--android:visibility="gone"-->
+            <!--app:chartTitle1="哈哈哈"-->
+            <!--app:chartTitle2="laall">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/bodygame3_arrow" />
-        </com.softtek.lai.widgets.chart.Chart>
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/bodygame3_arrow" />-->
+        <!--</com.softtek.lai.widgets.chart.Chart>-->
 
     </android.support.design.widget.CoordinatorLayout>
 </com.softtek.lai.widgets.MySwipRefreshView>

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.home.gamehome.model;
+package com.softtek.lai.module.bodygame3.gamehome.model;
 
 /**
  * Created by lareina.qiao on 2016/11/16.
