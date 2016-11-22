@@ -1,15 +1,27 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.common.LazyBaseFragment2;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.head.adapter.PartnerAdapter;
+import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
+import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
+import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
+import com.softtek.lai.module.bodygame3.more.net.MoreService;
+import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
@@ -17,19 +29,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_bodygame)
 public class BodyGameFragment extends LazyBaseFragment {
-    //toolbar标题
-    @InjectView(R.id.tv_title)
-    ArrowSpinner2 tv_title;
-    @InjectView(R.id.spinner_title)
-    ArrowSpinner2 spinner_title;
+
     @InjectView(R.id.chart)
     Chart chart;
     private List<String> xAxis = new ArrayList<>();//x轴数据
     private List<Entry> yAxis = new ArrayList<>();//轴数据
+
 
     public BodyGameFragment() {
         // Required empty public constructor
@@ -49,45 +62,10 @@ public class BodyGameFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-        //配置列表数据
-        final List<String> data = new ArrayList<>();
-        data.add("测试数据1测试数据1");
-        data.add("测试数据2");
-        data.add("测试数据3");
-        data.add("测试数据4");
-        final List<String> datas=new ArrayList<>();
-        datas.add("体重比");
-        datas.add("体脂");
-        datas.add("减重比");
-        tv_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), data, R.layout.selector_class_item) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                tv_class_name.setText(data);
-            }
+//        if(UserInfoModel.getInstance().getUser().getUserrole().equals("0")){
+            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment()).commit();
+//        }
 
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return data.get(position);
-            }
-
-        });
-
-        spinner_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_title);
-                tv_class_name.setText(data);
-            }
-
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return datas.get(position);
-            }
-
-        });
 
         xAxis.add("10月18");
         xAxis.add("19");
