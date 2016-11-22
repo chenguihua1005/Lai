@@ -38,8 +38,9 @@ public class PartnerAdapter extends BaseAdapter {
         LayoutInflater.from(context);
 
     }
-    public void update(List<PartnersModel> partnersModels){
-        this.partnersModels=partnersModels;
+
+    public void update(List<PartnersModel> partnersModels) {
+        this.partnersModels = partnersModels;
         notifyDataSetChanged();
     }
 
@@ -68,12 +69,12 @@ public class PartnerAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        PartnersModel model=partnersModels.get(position);
+        PartnersModel model = partnersModels.get(position);
         viewHolder.paiming.setText(model.getRanking());
         viewHolder.name_tv.setText(model.getStuName());
-        viewHolder.weight_first.setText(model.getWeight());
-        viewHolder.jianzhong_tv.setText(model.getLoss());
-      viewHolder.group_tv.setText(model.getGroupName());
+        viewHolder.weight_first.setText("初始体重" + model.getWeight() + "斤");
+        viewHolder.jianzhong_tv.setText(model.getLoss() + "%");
+        viewHolder.group_tv.setText(model.getGroupName());
 //        viewHolder.head_img.setImageResource();
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(model.getStuImg())) {
@@ -92,6 +93,7 @@ public class PartnerAdapter extends BaseAdapter {
         TextView jianzhong_tv;
         TextView tv_bi;
         ImageView head_img;
+
         public ViewHolder(View view) {
             paiming = (TextView) view.findViewById(R.id.paiming);
             fale = (ImageView) view.findViewById(R.id.fale);
@@ -100,7 +102,7 @@ public class PartnerAdapter extends BaseAdapter {
             weight_first = (TextView) view.findViewById(R.id.weight_first);
             jianzhong_tv = (TextView) view.findViewById(R.id.jianzhong_tv);
             tv_bi = (TextView) view.findViewById(R.id.tv_bi);
-            head_img=(ImageView)view.findViewById(R.id.head_img);
+            head_img = (ImageView) view.findViewById(R.id.head_img);
 
         }
     }

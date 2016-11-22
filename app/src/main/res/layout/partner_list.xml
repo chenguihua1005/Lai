@@ -16,7 +16,7 @@
             android:id="@+id/paiming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -55,7 +55,7 @@
                         android:id="@+id/name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="joy"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -64,14 +64,14 @@
                         android:id="@+id/group_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(1组)" />
+                        android:text="" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/weight_first"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="初始体重120斤" />
+                    android:text="" />
             </LinearLayout>
 
             <ImageView
@@ -92,14 +92,14 @@
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="20%" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/tv_bi"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="减重比" />
+                android:text="" />
         </LinearLayout>
 
         <ImageView

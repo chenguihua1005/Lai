@@ -2,9 +2,11 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +29,8 @@ import com.softtek.lai.module.bodygame3.head.model.TuijianModel;
 import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
@@ -102,6 +106,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private List<PartnersModel> partnersModels = new ArrayList<PartnersModel>();
     private List<TuijianModel> tuijianModels = new ArrayList<TuijianModel>();
     private int typecode;
+    private List<ClassModel> classModels = new ArrayList<ClassModel>();
+    private String classid;
 
     @Override
     protected void lazyLoad() {
@@ -112,16 +118,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     protected void initViews() {
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         searchContent.setOnClickListener(this);
         partnerAdapter = new PartnerAdapter((BaseActivity) getActivity(), partnersModels);
         list_partner.setAdapter(partnerAdapter);
-        //配置列表数据
-        final List<String> data = new ArrayList<>();
-        data.add("测试数据1测试数据1");
-        data.add("测试数据2");
-        data.add("测试数据3");
-        data.add("测试数据4");
+    }
+
+
+    @Override
+    protected void initDatas() {
         final List<TypeModel> datas = new ArrayList<TypeModel>();
         TypeModel model1 = new TypeModel(1, "体重比");
         datas.add(model1);
@@ -129,20 +133,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         datas.add(model2);
         TypeModel model3 = new TypeModel(3, "减重比");
         datas.add(model3);
-        tv_title.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), data, R.layout.selector_class_item) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                tv_class_name.setText(data);
-            }
-
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return data.get(position);
-            }
-
-        });
+        //类型（体重比，体脂，减重比）
         spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
             @Override
             public void convert(ViewHolder holder, TypeModel data, int position) {
@@ -153,25 +144,68 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public String getText(int position) {
                 //根据position返回当前值给标题
-                typecode = datas.get(position).getTypecode();
+
                 Log.e("typecode", typecode + "");
                 return datas.get(position).getTypename();
             }
 
+
+        });
+        spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                typecode = datas.get(i).getTypecode();
+                updatepartner(typecode, 10, 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
         Log.e("ddddd", UserInfoModel.getInstance().getToken() + "," + UserInfoModel.getInstance().getUser().getUserid());
 
+        getallfirst();
+        service = ZillaApi.NormalRestAdapter.create(HeadService.class);
+
     }
 
-    @Override
-    protected void initDatas() {
-        service = ZillaApi.NormalRestAdapter.create(HeadService.class);
+
+    //初始加载数据接口
+    private void getallfirst() {
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 Util.toastMsg(classinfoModelResponseData.getMsg());
                 if (classinfoModelResponseData.getData() != null) {
                     ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
+                    //班级加载
+                    classModels.addAll(classinfoModel.getClassInfoList());
+                    tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
+                        @Override
+                        public void convert(ViewHolder holder, ClassModel data, int position) {
+                            TextView tv_class_name = holder.getView(R.id.tv_title);
+                            tv_class_name.setText(data.getClassName());
+
+                        }
+
+                        @Override
+                        public String getText(int position) {
+                            return classModels.get(position).getClassName();
+                        }
+                    });
+                    tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            classid = classModels.get(i).getClassId();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+
                     //荣誉榜
                     RongyuModel rongyuModel = classinfoModel.getHonor();
                     group_name.setText(rongyuModel.getGroupName());
@@ -183,6 +217,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     }
                     student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
                     student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
+                    //班级赛况
                     if (classinfoModel.getPartnersList() != null) {
                         partnersModels.addAll(classinfoModel.getPartnersList());
                         partnerAdapter.update(partnersModels);
@@ -224,6 +259,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         gengxin.setText("最后更新" + time);
                     }
 
+
                 }
 
             }
@@ -235,6 +271,19 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         });
     }
 
+
+    //按类型分页加载小伙伴
+    private void updatepartner(int sorttype, int pagesize, int pageindex) {
+        service.getpartnertype(UserInfoModel.getInstance().getToken(), classid, sorttype, pagesize, pageindex, new RequestCallback<ResponseData<List<PartnersModel>>>() {
+            @Override
+            public void success(ResponseData<List<PartnersModel>> partnersModelResponseData, Response response) {
+                partnersModels.clear();
+                Util.toastMsg(partnersModelResponseData.getMsg());
+                partnersModels.addAll(partnersModelResponseData.getData());
+                partnerAdapter.update(partnersModels);
+            }
+        });
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
