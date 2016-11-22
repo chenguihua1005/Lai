@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.more.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +9,30 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.more.model.Contact;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jerry.guan on 11/19/2016.
+ *
  */
 
-public class MyExpandableAdapter extends BaseExpandableListAdapter {
+public class ContactExpandableAdapter extends BaseExpandableListAdapter {
 
-    private Map<String,List<String>> datas;
-    private String[] parentList;
+    private Map<String,List<Contact>> datas;
+    private List<String> groups;
     private Context context;
 
-    public MyExpandableAdapter(Context context,Map<String, List<String>> datas, String[] parentList) {
+    public ContactExpandableAdapter(Context context, Map<String, List<Contact>> datas, List<String> groups) {
         this.context=context;
         this.datas = datas;
-        this.parentList = parentList;
+        this.groups = groups;
     }
 
     //父项的数量
@@ -37,19 +44,19 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     //子项的数量
     @Override
     public int getChildrenCount(int i) {
-        return datas.get(parentList[i]).size();
+        return datas.get(groups.get(i)).size();
     }
 
     //获取某个父项
     @Override
     public Object getGroup(int i) {
-        return datas.get(parentList[i]);
+        return datas.get(groups.get(i));
     }
 
     //获取父项的某个子项
     @Override
     public Object getChild(int i, int i1) {
-        return datas.get(parentList[i]).get(i1);
+        return datas.get(groups.get(i)).get(i1);
     }
 
     //获取某个父项的ID
@@ -76,8 +83,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
         if (view == null){
             view=LayoutInflater.from(context).inflate(R.layout.expandable_parent_item,viewGroup,false);
         }
-        TextView textView= (TextView) view.findViewById(R.id.parent_title);
-        textView.setText(parentList[parentPos]);
+        TextView textView= (TextView) view.findViewById(R.id.group_name);
+        textView.setText(groups.get(parentPos));
         return view;
     }
 
@@ -85,11 +92,18 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
         if (view == null){
-            view=LayoutInflater.from(context).inflate(R.layout.expandable_child_item,viewGroup,false);
+            view=LayoutInflater.from(context).inflate(R.layout.expandable_child_contact_item,viewGroup,false);
         }
-        TextView textView= (TextView) view.findViewById(R.id.parent_title);
-        textView.setText(datas.get(parentList[parentPos]).get(childPos));
-
+        Contact contact=datas.get(groups.get(parentPos)).get(childPos);
+        TextView name= (TextView) view.findViewById(R.id.tv_name);
+        name.setText(contact.getUserName());
+        CircleImageView head_image= (CircleImageView) view.findViewById(R.id.head_image);
+        if(!TextUtils.isEmpty(contact.getPhoto())){
+            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getPhoto())
+                    .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
+        }else {
+            Picasso.with(context).load(R.drawable.img_default).into(head_image);
+        }
         return view;
     }
 
