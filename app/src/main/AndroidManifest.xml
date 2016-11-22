@@ -231,6 +231,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".module.bodygame3.activity.view.WriteFCActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".module.laisportmine.view.MySystemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -819,7 +823,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
-        <activity android:name=".module.bodygame3.activity.CreateActivity" />
         <activity android:name=".module.bodygame3.more.view.EditorTextActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity" />
