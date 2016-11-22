@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,37 +69,21 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 return true;
             }
         });
+        elv.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                Contact contact=datas.get(groups.get(i)).get(i1);
+                Intent intent=new Intent(ContactsActivity.this,InvitationSettingActivity.class);
+                intent.putExtra("classId",getIntent().getStringExtra("classId"));
+                intent.putExtra("inviterId",contact.getAccountId());
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
-        chooseView.buildCharaset("A");
-        chooseView.buildCharaset("B");
-        chooseView.buildCharaset("C");
-        chooseView.buildCharaset("D");
-        chooseView.buildCharaset("E");
-        chooseView.buildCharaset("F");
-        chooseView.buildCharaset("G");
-        chooseView.buildCharaset("H");
-        chooseView.buildCharaset("I");
-        chooseView.buildCharaset("J");
-        chooseView.buildCharaset("K");
-        chooseView.buildCharaset("L");
-        chooseView.buildCharaset("M");
-        chooseView.buildCharaset("N");
-        chooseView.buildCharaset("O");
-        chooseView.buildCharaset("P");
-        chooseView.buildCharaset("Q");
-        chooseView.buildCharaset("R");
-        chooseView.buildCharaset("S");
-        chooseView.buildCharaset("T");
-        chooseView.buildCharaset("U");
-        chooseView.buildCharaset("V");
-        chooseView.buildCharaset("W");
-        chooseView.buildCharaset("X");
-        chooseView.buildCharaset("Y");
-        chooseView.buildCharaset("Z");
-        chooseView.buildCharaset("#");
         chooseView.setChooseListener(new ChooseView.OnChooseListener() {
 
             @Override
@@ -107,8 +92,18 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
 
             @Override
-            public void chooseView(String text) {
-                tv_perview.setText(text);
+            public void chooseView(String text,int index) {
+                tv_perview.setText(text.trim());
+                if(index==-10){
+                    elv.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            elv.getRefreshableView().smoothScrollByOffset(0);
+                        }
+                    });
+                }else {
+                    elv.getRefreshableView().setSelectedGroup(index);
+                }
             }
 
             @Override
@@ -116,7 +111,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 tv_perview.setVisibility(View.GONE);
             }
         });
-
+        dialogShow();
         ZillaApi.NormalRestAdapter.create(MoreService.class)
                 .getContactsList(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
@@ -124,9 +119,16 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                         new RequestCallback<ResponseData<List<Contact>>>() {
                             @Override
                             public void success(ResponseData<List<Contact>> data, Response response) {
+                                dialogDissmiss();
                                 if(data.getStatus()==200){
                                     onResult(data.getData());
                                 }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
                             }
                         });
     }
@@ -140,7 +142,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             if(TextUtils.isEmpty(contact.getUserEn())){
                 groupName="#";
             }else {
-                groupName=contact.getUserEn().substring(0,1);
+                groupName=contact.getUserEn().substring(0,1).toUpperCase();
 
             }
             if(!groups.contains(groupName)){
@@ -157,6 +159,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         adapter.notifyDataSetChanged();
         for (int i = 0; i < groups.size(); i++) {
             elv.getRefreshableView().expandGroup(i);
+            chooseView.buildCharaset(groups.get(i));
         }
     }
 

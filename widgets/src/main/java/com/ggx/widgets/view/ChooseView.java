@@ -60,7 +60,10 @@ public class ChooseView extends LinearLayout{
                 float rawY=event.getRawY();
                 TextView view= (TextView) getChooseView(rawX,rawY);
                 if(listener!=null&&view!=null){
-                    listener.chooseView(view.getText().toString());
+                    if(view.getText().toString().equals("↑ ")){
+                        index=-10;
+                    }
+                    listener.chooseView(view.getText().toString(),index);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -108,14 +111,16 @@ public class ChooseView extends LinearLayout{
 
     public interface OnChooseListener{
         void onDown();
-        void chooseView(String text);
+        void chooseView(String text,int index);
         void onUp();
     }
 
+    int index=0;
     private View getChooseView(float rawX, float rawY){
         for (int i=0;i<rectFs.size();i++){
             RectF rectF=rectFs.get(i);
             if(rectF.contains(rawX,rawY)){
+                index=i;
                 return getChildAt(i);
             }
         }

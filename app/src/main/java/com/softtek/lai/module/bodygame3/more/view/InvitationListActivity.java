@@ -108,34 +108,6 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     Map<String,List<InvitatedContact>> datas=new HashMap<>();
     private List<String> groups=new ArrayList<>();
     private void onResult(List<InvitatedContact> models){
-//        InvitatedContact aa=new InvitatedContact();
-//        aa.setJoinGroupName("aa");
-//        aa.setInviterUserName("关谷奥匈");
-//        models.add(aa);
-//        InvitatedContact gg=new InvitatedContact();
-//        gg.setJoinGroupName("gg");
-//        gg.setInviterUserName("dsaa");
-//        models.add(gg);
-//        InvitatedContact bb=new InvitatedContact();
-//        bb.setJoinGroupName("bb");
-//        bb.setInviterUserName("asda");
-//        models.add(bb);
-//        InvitatedContact cc=new InvitatedContact();
-//        cc.setJoinGroupName("cc");
-//        cc.setInviterUserName("rffds");
-//        models.add(cc);
-//        InvitatedContact dd=new InvitatedContact();
-//        dd.setJoinGroupName("cc");
-//        dd.setInviterUserName("gfd");
-//        models.add(dd);
-//        InvitatedContact ee=new InvitatedContact();
-//        ee.setJoinGroupName("dd");
-//        ee.setInviterUserName("aa");
-//        models.add(ee);
-//        InvitatedContact ff=new InvitatedContact();
-//        ff.setJoinGroupName("aa");
-//        ff.setInviterUserName("dad");
-//        models.add(ff);
         for (InvitatedContact contact:models){
             String groupName=contact.getJoinGroupName();
             if(!groups.contains(groupName)){
@@ -160,7 +132,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.fl_right:{
                 //跳转邀请小伙伴
-                startActivity(new Intent(this,ContactsActivity.class));
+                Intent intent=new Intent(this,ContactsActivity.class);
+                intent.putExtra("classId",model.getClassId());
+                startActivity(intent);
             }
                 break;
         }
