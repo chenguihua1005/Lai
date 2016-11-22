@@ -1,23 +1,22 @@
-<com.softtek.lai.widgets.MySwipRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pull"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:addStatesFromChildren="true">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
         <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
 
         <!--<include layout="@layout/toolbar_bodygame" />-->
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F2F2F2"
-            android:fitsSystemWindows="true"
-            android:orientation="vertical">
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#F2F2F2"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--android:orientation="vertical">-->
 
             <FrameLayout
                 android:id="@+id/contain_frg"
@@ -53,6 +52,6 @@
                     android:layout_weight="1"
                     android:src="@drawable/bodygame3_arrow" />
             </com.softtek.lai.widgets.chart.Chart>
-        </android.support.design.widget.AppBarLayout>
-    </android.support.design.widget.CoordinatorLayout>
-</com.softtek.lai.widgets.MySwipRefreshView>
+        <!--</android.support.design.widget.AppBarLayout>-->
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+</FrameLayout>

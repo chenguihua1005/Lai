@@ -27,6 +27,7 @@ public interface HeadService {
 //首页版本2
     @GET("/V1/HerbalifeClass/GetTotalPCandLoss")
     void getsecond(
+            @Header("token") String token,
             Callback<ResponseData<HeadModel2>> callback
     );
 

@@ -19,6 +19,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
 import com.softtek.lai.utils.RequestCallback;
