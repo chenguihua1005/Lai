@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
@@ -50,11 +52,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView tv_total_loss;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
+    @InjectView(R.id.searchContent)
+    EditText searchContent;
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
     @InjectView(R.id.ivhead2_refresh)
     ImageView ivhead2_refresh;
     Animation roate;
+    HeadService service;
 
     @Override
     protected void lazyLoad() {
@@ -70,14 +75,15 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     @Override
     protected void initViews() {
         pull.setOnRefreshListener(this);
+        service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         ivhead2_refresh.setOnClickListener(this);
-
+        searchContent.setOnClickListener(this);
 
     }
 
     private void secondhead2() {
         pull.setRefreshing(false);
-        HeadService service = ZillaApi.NormalRestAdapter.create(HeadService.class);
+
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
@@ -104,7 +110,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void initDatas() {
-        roate= AnimationUtils.loadAnimation(getContext(),R.anim.rotate);
+        roate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
         secondhead2();
     }
 
@@ -172,6 +178,20 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
                     }
                 });
+                break;
+            case R.id.searchContent:
+                String content=searchContent.getText().toString().trim();
+//                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new Callback<ResponseData<PartnersModel>>() {
+//                    @Override
+//                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//
+//                    }
+//                });
                 break;
         }
     }

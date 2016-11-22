@@ -15,7 +15,11 @@ import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 import static com.softtek.lai.R.id.imageView;
 
@@ -71,7 +75,11 @@ public class PartnerAdapter extends BaseAdapter {
         viewHolder.jianzhong_tv.setText(model.getLoss());
       viewHolder.group_tv.setText(model.getGroupName());
 //        viewHolder.head_img.setImageResource();
-        Picasso.with(context).load(model.getStuImg()).into(viewHolder.head_img);
+        String basePath = AddressManager.get("photoHost");
+        if (StringUtils.isNotEmpty(model.getStuImg())) {
+            Picasso.with(context).load(basePath + model.getStuImg()).into(viewHolder.head_img);
+        }
+//        Picasso.with(context).load(model.getStuImg()).into(viewHolder.head_img);
         return convertView;
     }
 
