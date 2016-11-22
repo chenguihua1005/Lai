@@ -826,7 +826,8 @@
         <activity android:name=".module.bodygame3.more.view.EditorTextActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity" />
-        <activity android:name=".module.bodygame3.more.view.ContactsActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.ContactsActivity" />
+        <activity android:name=".module.bodygame3.more.view.SearchContactActivity"></activity>
     </application>
 
 </manifest>
