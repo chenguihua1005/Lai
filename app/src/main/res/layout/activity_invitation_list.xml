@@ -3,13 +3,14 @@
     android:id="@+id/activity_invitation_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
     <include layout="@layout/toolbar"/>
-    <ExpandableListView
+    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="0.5dp"
+        android:groupIndicator="@null"
         android:divider="#e1e1e1"/>
-
 </LinearLayout>

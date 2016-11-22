@@ -11,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseFragment;
 
 public class HeadCoachFragment extends Fragment implements View.OnClickListener{
 
     private RelativeLayout rl_create_class;
+    private RelativeLayout rl_invitation;
+
 
     public HeadCoachFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -33,7 +34,9 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rl_create_class= (RelativeLayout) view.findViewById(R.id.rl_create_class);
+        rl_invitation= (RelativeLayout) view.findViewById(R.id.rl_invitation);
         rl_create_class.setOnClickListener(this);
+        rl_invitation.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +44,11 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.rl_create_class:
                 startActivity(new Intent(getContext(),CreateClassActivity.class));
+                break;
+            case R.id.rl_invitation:
+                Intent intent=new Intent(getContext(),InvitationListActivity.class);
+                intent.putExtra("class",getArguments());
+                startActivity(intent);
                 break;
         }
     }

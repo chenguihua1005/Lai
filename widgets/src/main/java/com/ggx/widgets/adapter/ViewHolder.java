@@ -1,6 +1,7 @@
 package com.ggx.widgets.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -168,6 +168,7 @@
                     android:textSize="15sp"
                     android:text="班级编号"/>
                 <TextView
+                    android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -194,14 +195,14 @@
                     android:textSize="15sp"
                     android:text="我的角色"/>
                 <TextView
+                    android:id="@+id/tv_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"
                     android:textColor="#333333"
                     android:textSize="15sp"
-                    android:layout_marginRight="15dp"
-                    android:text="助教"/>
+                    android:layout_marginRight="15dp" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

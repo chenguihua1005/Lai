@@ -22,6 +22,9 @@ import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.ggx.widgets.view.CheckTextView;
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -44,11 +47,16 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_create_class)
-public class CreateClassActivity extends BaseActivity implements View.OnClickListener {
+public class CreateClassActivity extends BaseActivity implements View.OnClickListener ,Validator.ValidationListener{
+
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -61,11 +69,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_class_name)
     RelativeLayout rl_class_name;
+    @Required(order = 1,message = "请填写班级名称")
     @InjectView(R.id.tv_class_name)
     TextView tv_class_name;
 
     @InjectView(R.id.rl_area)
     RelativeLayout rl_area;
+    @Required(order = 2,message = "请选择小区和城市")
     @InjectView(R.id.tv_xiaoqu)
     TextView tv_xiaoqu;
     @InjectView(R.id.tv_city)
@@ -73,6 +83,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
+    @Required(order =3,message = "请选择复测日期")
     @InjectView(R.id.tv_class_time)
     TextView tv_class_time;
 
@@ -233,39 +244,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 showDateDialog();
                 break;
             case R.id.fl_right:
-                StringBuilder builder=new StringBuilder();
-                for (int i=0;i<groups.size();i++){
-                    builder.append(groups.get(i));
-                    if(i!=groups.size()-1){
-                        builder.append(",");
-                    }
-                }
-                if (clazz!=null){
-                    clazz.setClassGroup(builder.toString());
-                    dialogShow("正在创建班级...");
-                    service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
-                        @Override
-                        public void success(ResponseData<LaiClass> data, Response response) {
-                            dialogDissmiss();
-                            if(data.getStatus()==200){
-
-                            }
-                            Util.toastMsg(data.getMsg());
-                            if(data.getData()!=null){
-                                Log.i(";"+data.getData().getClassId()+":"+data.getData().getClassCode());
-
-                            }
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-                            dialogDissmiss();
-                            super.failure(error);
-                        }
-                    });
-                }
-
-                //提交
+                validateLife.validate();
                 break;
             case R.id.ll_left:
                 finish();
@@ -375,5 +354,46 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 dialog=null;
             }
         });
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        StringBuilder builder=new StringBuilder();
+        for (int i=0;i<groups.size();i++){
+            builder.append(groups.get(i));
+            if(i!=groups.size()-1){
+                builder.append(",");
+            }
+        }
+        if (clazz!=null){
+            clazz.setClassGroup(builder.toString());
+            dialogShow("正在创建班级...");
+            service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
+                @Override
+                public void success(ResponseData<LaiClass> data, Response response) {
+                    dialogDissmiss();
+                    if(data.getStatus()==200){
+
+                    }
+                    Util.toastMsg(data.getMsg());
+                    if(data.getData()!=null){
+                        Log.i(";"+data.getData().getClassId()+":"+data.getData().getClassCode());
+
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    dialogDissmiss();
+                    super.failure(error);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        String msg=failedRule.getFailureMessage();
+        Snackbar.make(tv_title,msg,Snackbar.LENGTH_SHORT).setDuration(2000).show();
     }
 }
