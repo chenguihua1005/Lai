@@ -1,4 +1,4 @@
-package com.softtek.lai.module.retest;
+package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -58,8 +58,8 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_write)
-public class WriteActivity extends BaseActivity implements View.OnClickListener,
+@InjectLayout(R.layout.activity_initwrite)
+public class WriteFCActivity extends BaseActivity implements View.OnClickListener,
         Validator.ValidationListener/*,ImageFileSelector.Callback*/{
     //标题栏
     @InjectView(R.id.tv_title)
@@ -141,10 +141,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.tv_write_endd)
     TextView tv_write_endd;
 
-    private RetestPre retestPre;
-    RetestWriteModel retestWrite;
-    MeasureModel measureModel;
-    RetestAuditModel retestAuditModel;
     String gender="1";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -158,7 +154,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -170,11 +165,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         im_delete.setOnClickListener(this);
         tv_retestWrite_nowweight.setEnabled(false);
 
-    }
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     @Override
@@ -189,8 +179,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     protected void initDatas() {
         title.setText("复测录入");
         tv_right.setText("保存");
-        retestPre=new RetestclassImp();
-        measureModel=new MeasureModel();
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -201,8 +189,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             public void onSuccess(String file) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(WriteActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                retestPre.goGetPicture(file);
+                Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+//                retestPre.goGetPicture(file);
             }
 
             @Override
@@ -210,67 +198,19 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
             }
         });
-        retestAuditModel=new RetestAuditModel();
+
         iv_email.setVisibility(View.INVISIBLE);
-//        Intent intent=getIntent();
-//        String accountId=intent.getStringExtra("accountId");
-//        String classId=intent.getStringExtra("classId");
-//        acountid=accountId;
-//        classid=classId;
-//        retestWrite=new RetestWriteModel();
-//        retestPre.doGetAudit(Integer.parseInt("0"),Integer.parseInt("0"),"");
-
 
 
     }
 
 
-
-    @Subscribe
-    public void event(LaichModel laichModel){
-        Log.i("username"+laichModel.getCircum());
-        tv_retestWrite_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":((Float.parseFloat(laichModel.getWeight())+"").equals("0.0")?"":Float.parseFloat(laichModel.getWeight())+""));
-        tv_retestWrite_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
-        tv_retestWrite_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
-        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
-        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline())?"":Float.parseFloat(laichModel.getWaistline())+"");
-        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie())?"":Float.parseFloat(laichModel.getHiplie())+"");
-        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth())?"":Float.parseFloat(laichModel.getUpArmGirth())+"");
-        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth())?"":Float.parseFloat(laichModel.getUpLegGirth())+"");
-        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth())?"":Float.parseFloat(laichModel.getDoLegGirth())+"");
-    }
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
-        retestWrite.setImage(photModel.getImg());
+//        retestWrite.setImage(photModel.getImg());
     }
-    @Subscribe
-    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
-        Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_write_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
-        tv_write_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
-        tv_write_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
-        gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
-        String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
-        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
-        String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
-        String[] mon=StartDate.split("-");
-        String[] currStart=CurrStart.split("-");
-        String[] currEnd=CurrEnd.split("-");
-        tv_write_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
-        tv_write_starm.setText(currStart[1]);
-        tv_write_stard.setText(currStart[2]);
-        tv_write_endm.setText(currEnd[1]);
-        tv_write_endd.setText(currEnd[2]);
-        tv_retest_write_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
-            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
-        }
-        else {
-            Picasso.with(this).load(R.drawable.img_default).into(iv_write_head);
-        }
-        retestPre.GetUserMeasuredInfo(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
-    }
+
     private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
@@ -280,7 +220,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
-                retestWrite.setImage("");
+//                retestWrite.setImage("");
                 break;
             //标题栏左返回
             case R.id.ll_left:
@@ -310,23 +250,23 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(WriteActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                if(ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
                                     //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(WriteActivity.this,Manifest.permission.CAMERA)){
+                                    if(ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this,Manifest.permission.CAMERA)){
                                         //允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteActivity.this,
+                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
                                                 new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
 
                                     }else{
                                         //不允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteActivity.this,
+                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
                                                 new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                     }
                                 }else {
-                                    imageFileCropSelector.takePhoto(WriteActivity.this);
+                                    imageFileCropSelector.takePhoto(WriteFCActivity.this);
                                 }
                             } else if (which == 1) {
-                                imageFileCropSelector.selectImage(WriteActivity.this);
+                                imageFileCropSelector.selectImage(WriteFCActivity.this);
                             }
                         }
                     }).create().show();
@@ -337,10 +277,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
-                Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
-                intent.putExtra("retestWrite",retestWrite);
-                intent.putExtra("isState",isState);
-                startActivityForResult(intent,GET_BODY);
+//                Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
+//                intent.putExtra("retestWrite",retestWrite);
+//                intent.putExtra("isState",isState);
+//                startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
@@ -360,7 +300,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             case R.id.im_retestwrite_showphoto:
                 Intent intent1=new Intent(this,PictureActivity.class);
                 ArrayList<String> imags=new ArrayList<>();
-                imags.add(retestWrite.getImage());
+//                imags.add(retestWrite.getImage());
                 intent1.putExtra("images",imags);
                 intent1.putExtra("position",0);
                 startActivity(intent1);
@@ -378,7 +318,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(WriteActivity.this);
+                imageFileCropSelector.takePhoto(WriteFCActivity.this);
 
             } else {
 
@@ -395,8 +335,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
-            retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
-            Log.i("新学员录入围度:retestWrite"+retestWrite);
+//            retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
+//            Log.i("新学员录入围度:retestWrite"+retestWrite);
         }
         if (requestCode==BODY&&resultCode==RESULT_OK){
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -404,10 +344,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(WriteActivity.this);
+                        imageFileCropSelector.takePhoto(WriteFCActivity.this);
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(WriteActivity.this);
+                        imageFileCropSelector.selectImage(WriteFCActivity.this);
                     }
                 }
             }).create().show();
@@ -464,22 +404,22 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-        if (TextUtils.isEmpty(retestWrite.getImage()))
-        {
-            Util.toastMsg("请上传照片");
-        }
-        else {
-            retestWrite.setInitWeight(tv_write_chu_weight.getText() + "");
-            retestWrite.setWeight(tv_retestWrite_nowweight.getText() + "");
-            retestWrite.setPysical(tv_retestWrite_tizhi.getText() + "");
-            retestWrite.setFat(tv_retestWrite_neizhi.getText() + "");
-            retestWrite.setClassId(classid);
-            retestWrite.setAccountId(acountid);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setMessage("数据刷新中...");
-            progressDialog.show();
-            retestPre.doPostWrite(Long.parseLong(acountid), loginid, retestWrite, this, progressDialog);
-        }
+//        if (TextUtils.isEmpty(retestWrite.getImage()))
+//        {
+//            Util.toastMsg("请上传照片");
+//        }
+//        else {
+//            retestWrite.setInitWeight(tv_write_chu_weight.getText() + "");
+//            retestWrite.setWeight(tv_retestWrite_nowweight.getText() + "");
+//            retestWrite.setPysical(tv_retestWrite_tizhi.getText() + "");
+//            retestWrite.setFat(tv_retestWrite_neizhi.getText() + "");
+//            retestWrite.setClassId(classid);
+//            retestWrite.setAccountId(acountid);
+//            progressDialog.setCanceledOnTouchOutside(false);
+//            progressDialog.setMessage("数据刷新中...");
+//            progressDialog.show();
+//            retestPre.doPostWrite(Long.parseLong(acountid), loginid, retestWrite, this, progressDialog);
+//        }
     }
 
     @Override

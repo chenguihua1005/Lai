@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.activity;
+package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,9 +17,7 @@ import android.widget.TimePicker;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.more.view.EditorTextActivity;
-import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.widgets.CustomDialog;
-import com.softtek.lai.widgets.ViewArea;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -29,7 +27,7 @@ import zilla.libcore.ui.InjectLayout;
 
 //创建活动
 @InjectLayout(R.layout.activity_create)
-public class CreateActivity extends BaseActivity implements View.OnClickListener {
+public class CreateActActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.tv_right)

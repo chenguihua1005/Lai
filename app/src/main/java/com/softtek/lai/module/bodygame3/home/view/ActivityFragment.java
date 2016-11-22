@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -14,7 +15,9 @@ import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.module.bodygame3.activity.CreateActivity;
+import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
+import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
+import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -42,6 +45,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     ArrowSpinner2 tv_title;
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
+    @InjectView(R.id.ll_chuDate)
+    LinearLayout ll_chuDate;//初始数据录入、审核
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
 
@@ -56,6 +61,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
+        ll_chuDate.setOnClickListener(this);
         final List<String> data = new ArrayList<>();
         data.add("超级减重11月班");
         data.add("跑步12月班");
@@ -154,8 +160,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_right:
-                Intent intent = new Intent(getContext(), CreateActivity.class);
+                Intent intent = new Intent(getContext(), CreateActActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ll_chuDate:
+//                Intent intent1 = new Intent(getContext(), CreateActivity.class);
+//                startActivity(intent1);
+                startActivity(new Intent(getContext(), WriteFCActivity.class));
                 break;
         }
     }
