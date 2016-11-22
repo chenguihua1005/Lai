@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+    <include layout="@layout/toolbar"/>
+    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
+        android:id="@+id/elv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@null"
+        android:overScrollMode="never"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false"
+        android:scrollbars="none"
+        android:divider="#e1e1e1"/>
+
+    <TextView
+        android:id="@+id/tv_perview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#B2898787"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="70sp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <com.ggx.widgets.view.ChooseView
+        android:id="@+id/choose"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
