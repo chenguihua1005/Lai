@@ -208,7 +208,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
                 if(info!=null){
                     Intent intent1=new Intent(getActivity(),ChartActivity.class);
                     intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
-                    intent1.putExtra("step",Integer.parseInt(info.getSteps()));
                     getActivity().startActivity(intent1);
                 }
             }
@@ -377,12 +376,11 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
         rl_mine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(info!=null){
+//                if(info!=null){
                     Intent intent1=new Intent(getActivity(),ChartActivity.class);
                     intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
-                    intent1.putExtra("step",Integer.parseInt(info.getSteps()));
                     getActivity().startActivity(intent1);
-                }
+//                }
             }
         });
     }

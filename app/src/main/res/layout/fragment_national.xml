@@ -110,7 +110,10 @@
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="29dp"
@@ -121,6 +124,16 @@
                 android:textColor="#9d9d9d"
                 android:textSize="11sp"
                 app:layout_scrollFlags="scroll|snap" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:text="刷新存在延时"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"
+            android:gravity="center|left"
+            android:textSize="11sp"
+            />
+</RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
