@@ -127,7 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="29dp"
-                    android:text="刷新存在延时"
+                    android:text="当前数据存在延时"
                     android:layout_alignParentRight="true"
                     android:paddingRight="15dp"
                     android:gravity="center|left"

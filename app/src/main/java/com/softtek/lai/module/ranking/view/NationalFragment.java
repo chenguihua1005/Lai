@@ -206,12 +206,11 @@ public class NationalFragment extends LazyBaseFragment implements RankManager.Ra
         header_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(info!=null){
+//                if(info!=null){
                     Intent intent1=new Intent(getActivity(),ChartActivity.class);
                     intent1.putExtra("isFocusid",UserInfoModel.getInstance().getUserId()+"");
-                    intent1.putExtra("step",Integer.parseInt(info.getSteps()));
                     getActivity().startActivity(intent1);
-                }
+//                }
             }
         });
 
