@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+    <include layout="@layout/toolbar"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#e6e6e6">
+
+        <RelativeLayout
+            android:layout_width="345dp"
+            android:layout_height="35dp"
+            android:background="@drawable/border"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/contact_search" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@id/iv"
+
+                android:background="@null"
+                android:hint="通过姓名,手机号或康宝莱资格证号邀请"
+                android:textColor="#57000000"
+                android:textSize="10sp" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#e1e1e1"
+        android:dividerHeight="0.5dp"
+        android:overScrollMode="never"/>
+</LinearLayout>

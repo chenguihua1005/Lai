@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="60dp"
+    android:background="#FFFFFF">
     
     <com.softtek.lai.widgets.CircleImageView
         android:id="@+id/head_image"
@@ -19,7 +20,6 @@
         android:layout_marginLeft="10dp"
         android:layout_centerInParent="true"
         android:layout_toRightOf="@id/head_image"
-        android:text="Joy"
         android:textColor="#333333"
         android:textSize="15sp" />
     <TextView
@@ -30,15 +30,7 @@
         android:layout_toRightOf="@id/tv_name"
         android:text="(教练)"
         android:textColor="#999999"
-        android:textSize="12sp" />
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true"
-        android:text="已邀请"
-        android:textColor="#999999"
-        android:layout_marginRight="15dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
 </RelativeLayout>
