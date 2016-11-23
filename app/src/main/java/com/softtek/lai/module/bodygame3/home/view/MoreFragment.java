@@ -93,7 +93,11 @@ public class MoreFragment extends LazyBaseFragment {
 
                             @Override
                             public String getText(int position) {
-                                return classModels.get(position).getClassName();
+                                if(classModels!=null&&!classModels.isEmpty()){
+                                    return classModels.get(position).getClassName();
+                                }else {
+                                    return "尚未开班";
+                                }
                             }
                         });
                         if(classModels!=null&&!classModels.isEmpty()){

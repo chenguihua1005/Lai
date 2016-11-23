@@ -57,6 +57,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     @InjectView(R.id.rl_role)
     RelativeLayout rl_role;
 
+    @InjectView(R.id.tv_invitation)
+    TextView tv_invitation;
+
     SendInvitation invitation;
     @Override
     protected void initViews() {
@@ -85,7 +88,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                 if(data.getStatus()==200){
                                     onResult(data.getData());
                                 }else if(data.getStatus()==201){//改用户已经加入班级
-
+                                    tv_invitation.setVisibility(View.GONE);
                                 }
                             }
 
