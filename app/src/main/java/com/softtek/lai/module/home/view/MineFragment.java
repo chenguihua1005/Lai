@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -233,7 +233,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (!hxid.equals("-1")) {
             SharedPreferenceService.getInstance().put("HXID", "-1");
-            EMChatManager.getInstance().logout(true, new EMCallBack() {
+            EMClient.getInstance().logout(true, new EMCallBack() {
                 @Override
                 public void onSuccess() {
                     // TODO Auto-generated method stub

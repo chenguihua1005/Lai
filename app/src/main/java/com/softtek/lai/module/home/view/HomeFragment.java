@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -25,10 +26,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
+import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -234,6 +236,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         super.onResume();
         rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
+        Log.i("+++++","model = "+ new Gson().toJson(model));
+
         if (model == null) {
             return;
         }
@@ -262,6 +266,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
+
+            Log.i("+++++",new Gson().toJson(model));
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
@@ -290,8 +296,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                    EMChatManager.getInstance().loadAllConversations();
+                                    EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                                    EMClient.getInstance().chatManager().loadAllConversations();
                                 }
                             }).start();
                         } else {
@@ -326,7 +332,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     private void HXLoginOut() {
-        EMChatManager.getInstance().logout(true, new EMCallBack() {
+        EMClient.getInstance().logout(true, new EMCallBack() {
 
             @Override
             public void onSuccess() {
@@ -354,7 +360,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
         Constants.IS_LOGINIMG="1";
-        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
+        EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
@@ -367,8 +373,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                EMChatManager.getInstance().loadAllConversations();
+                EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                EMClient.getInstance().chatManager().loadAllConversations();
 
                 if (timer != null) {
                     timer.cancel();

@@ -16,15 +16,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.softtek.lai.widgets.SimpleButton;
 import com.github.snowdream.android.util.Log;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -39,6 +37,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.widgets.NoSlidingViewPage;
+import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -148,8 +147,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+        if (EMClient.getInstance().isLoggedInBefore()) {
+            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
             updateMessage(unreadNum);
         }
     }
@@ -197,11 +196,11 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
+                if (error == EMError.USER_ALREADY_LOGIN) {
                     System.out.println("cccccccccc");
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
+                        EMClient.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
@@ -230,7 +229,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
             }
         };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        EMClient.getInstance().addConnectionListener(connectionListener);
 
         UserModel model = UserInfoModel.getInstance().getUser();
         if (model == null) {
