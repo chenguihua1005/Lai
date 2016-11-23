@@ -19,7 +19,6 @@ import com.hyphenate.easeui.R;
 
 
 /**
- * Created by lzan13 on 2015/4/30.
  * customized ImageView，Rounded Rectangle and border is implemented, and change color when you press
  */
 public class EaseImageView extends ImageView {

@@ -39,6 +39,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:appcompat-v7:25.0.0'
     //    compile 'com.android.support:appcompat-v7:24.3.0'
-//    compile files('libs/hyphenatechat_3.2.1.jar')
+    //    compile files('libs/hyphenatechat_3.2.1.jar')
     //compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/MiPush_SDK_Client_2_2_19.jar')
 }

@@ -147,6 +147,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         };
         EMClient.getInstance().addConnectionListener(connectionListener);
 
+        //设置参数（"name"  "photo"）
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
     }

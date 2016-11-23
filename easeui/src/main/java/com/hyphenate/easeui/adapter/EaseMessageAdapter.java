@@ -39,9 +39,6 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRowVoice;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 
 public class EaseMessageAdapter extends BaseAdapter {
-
-	private final static String TAG = "msg";
-
 	private Context context;
 	
 	private static final int HANDLER_MESSAGE_REFRESH_LIST = 0;
@@ -82,10 +79,18 @@ public class EaseMessageAdapter extends BaseAdapter {
 
     private ListView listView;
 
-	public EaseMessageAdapter(Context context, String username, int chatType, ListView listView) {
+	//jessica
+	private String nameF;
+	private String photoF;
+
+	public EaseMessageAdapter(Context context, String username, int chatType, ListView listView,String name,String photo) {
 		this.context = context;
 		this.listView = listView;
 		toChatUsername = username;
+        //jessica
+		this.nameF=name;
+		this.photoF=photo;
+
 		this.conversation = EMClient.getInstance().chatManager().getConversation(username, EaseCommonUtils.getConversationType(chatType), true);
 	}
 	
@@ -262,8 +267,8 @@ public class EaseMessageAdapter extends BaseAdapter {
 		}
 
 		//refresh ui with messages
-		((EaseChatRow)convertView).setUpView(message, position, itemClickListener);
-		
+		((EaseChatRow)convertView).setUpView(message, position, itemClickListener,nameF,photoF);
+
 		return convertView;
 	}
 
