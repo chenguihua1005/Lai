@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.AssistantFragment;
 import com.softtek.lai.module.bodygame3.more.view.CoachFragment;
+import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.bodygame3.more.view.HeadCoachFragment;
 import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
 import com.softtek.lai.utils.RequestCallback;
@@ -37,6 +40,10 @@ public class MoreFragment extends LazyBaseFragment {
     ArrowSpinner2 arrow;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.head_image)
     CircleImageView head_image;
@@ -115,7 +122,7 @@ public class MoreFragment extends LazyBaseFragment {
     @Override
     protected void initViews() {
         tv_title.setText("更多");
-
+        tv_right.setText("开班");
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -124,6 +131,12 @@ public class MoreFragment extends LazyBaseFragment {
                 tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
                 tv_number.setText(model.getClassCode());
                 choosePanel(role);
+            }
+        });
+        fl_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),CreateClassActivity.class));
             }
         });
 

@@ -5,42 +5,6 @@
     android:background="#fafafa"
     android:orientation="vertical">
 
-    <!--开班-->
-    <RelativeLayout
-        android:id="@+id/rl_create_class"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingLeft="15dp"
-        android:background="@drawable/ll_selector_grey">
-        <ImageView
-            android:id="@+id/iv_kaiban"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/more_kaiban"
-            android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/iv_kaiban"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textColor="#333333"
-            android:text="开班"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bodygame3_arrow"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e1e1e1"/>
     <!--邀请小伙伴-->
     <RelativeLayout
         android:id="@+id/rl_invitation"

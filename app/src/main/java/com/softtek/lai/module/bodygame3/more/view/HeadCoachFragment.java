@@ -11,11 +11,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 
 public class HeadCoachFragment extends Fragment implements View.OnClickListener{
 
-    private RelativeLayout rl_create_class;
     private RelativeLayout rl_invitation;
+    private RelativeLayout rl_class_manager;
 
 
     public HeadCoachFragment() {
@@ -33,22 +34,28 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rl_create_class= (RelativeLayout) view.findViewById(R.id.rl_create_class);
         rl_invitation= (RelativeLayout) view.findViewById(R.id.rl_invitation);
-        rl_create_class.setOnClickListener(this);
+        rl_class_manager= (RelativeLayout) view.findViewById(R.id.rl_class_manager);
         rl_invitation.setOnClickListener(this);
+        rl_class_manager.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.rl_create_class:
-                startActivity(new Intent(getContext(),CreateClassActivity.class));
-                break;
-            case R.id.rl_invitation:
-                Intent intent=new Intent(getContext(),InvitationListActivity.class);
-                intent.putExtra("class",getArguments());
+            case R.id.rl_invitation: {
+                Intent intent = new Intent(getContext(), InvitationListActivity.class);
+                intent.putExtra("class", getArguments());
                 startActivity(intent);
+            }
+                break;
+            case R.id.rl_class_manager: {
+                Intent intent = new Intent(getContext(), ClassManagerActivity.class);
+                ClassModel model=getArguments().getParcelable("class");
+                intent.putExtra("classId", model.getClassId());
+                intent.putExtra("className",model.getClassName());
+                startActivity(intent);
+            }
                 break;
         }
     }

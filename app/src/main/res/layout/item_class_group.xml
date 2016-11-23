@@ -15,37 +15,43 @@
         <RelativeLayout
             android:id="@+id/rl_container"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white">
+            android:layout_height="match_parent"
+            android:background="@drawable/ll_selector_grey"
+            android:paddingLeft="15dp">
 
             <TextView
-                android:id="@+id/tv_group_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:gravity="center|left"
+                android:id="@+id/tv_serial"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/more_serial"
+                android:gravity="center"
+                android:paddingLeft="4dp"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_serial"
+                android:text="修改小组名称"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
-            <!-- <ImageView
-                 android:id="@+id/iv_arrow"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
-                 android:layout_centerInParent="true"
-                 android:layout_marginRight="15dp"
-                 android:src="@drawable/bodygame3_arrow" />
-
-             <ImageView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerInParent="true"
-                 android:layout_marginRight="10dp"
-                 android:layout_toLeftOf="@id/iv_arrow"
-                 android:src="@drawable/bodygame3_editor" />-->
-
+            <TextView
+                android:id="@+id/tv_group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="30dp"
+                android:text="A组"
+                android:textColor="#999999"
+                android:textSize="15sp" />
         </RelativeLayout>
-
         <LinearLayout
             android:id="@+id/ll_operation"
             android:layout_width="wrap_content"
@@ -63,7 +69,7 @@
 
             <TextView
                 android:id="@+id/tv_delete"
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:background="#ff4400"
                 android:gravity="center"

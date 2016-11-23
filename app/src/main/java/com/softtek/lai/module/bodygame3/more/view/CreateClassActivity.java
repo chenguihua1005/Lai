@@ -21,7 +21,6 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.ggx.widgets.view.CheckTextView;
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
