@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -20,14 +21,20 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.snowdream.android.util.BuildConfig;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
+import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.model.PhotModel;
@@ -40,6 +47,7 @@ import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -53,6 +61,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.MultipartTypedOutput;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -97,7 +111,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @LifeCircleInject
     ValidateLife validateLife;
 
-    //信息保存
+    //初始体重
+    @Required(order = 1,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_write_chu_weight)
     EditText tv_write_chu_weight;
 
@@ -140,6 +155,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     //结束日期
     @InjectView(R.id.tv_write_endd)
     TextView tv_write_endd;
+    @InjectView(R.id.rootlayout)
+    RelativeLayout rootlayout;
 
     String gender="1";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
@@ -150,8 +167,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
+    FuceSevice service;
     private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
+    InitComitModel initComitModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,8 +196,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        title.setText("复测录入");
+        title.setText("初始数据录入");
         tv_right.setText("保存");
+        service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+
+        ll_retestWrite_nowweight.setVisibility(View.GONE);
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -190,6 +212,63 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+                MultipartTypedOutput multipartTypedOutput=new MultipartTypedOutput();
+                multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+                String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+                multipartTypedOutput.addPart("classId",new TypedString(classID));
+                if(BuildConfig.DEBUG) {
+//                        Util.toastMsg();
+//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
+                }
+                else {
+//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
+//                    multipartTypedOutput.addPart("classId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+                }
+                multipartTypedOutput.addPart("pysical",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+                multipartTypedOutput.addPart("Fat",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+//                multipartTypedOutput.addPart("Image",new TypedFile("image/png", new File(file)));
+//                service.getInitData(UserInfoModel.getInstance().getToken(), Long.parseLong("121"), "C4E8E179-FD99-4955-8BF9-CF470898788B", 1.0, 1.0, 1.0,123.0, 1.0, 1.0, 1.0,1.0,1.0, new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData>() {
+//                    @Override
+//                    public void success(ResponseData responseData, Response response) {
+//                        Util.toastMsg(responseData.getMsg());
+//
+//                    }
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        super.failure(error);
+//                    }
+//                });
+                initComitModel=new InitComitModel();
+                initComitModel.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                initComitModel.setClassId( "C4E8E179-FD99-4955-8BF9-CF470898788B");
+                initComitModel.setChuWeight(143.0);
+                initComitModel.setCircum(132.2);
+                initComitModel.setFat(142);
+                initComitModel.setImage(new TypedFile("image/png", new File(file)));
+                service.getInitData(UserInfoModel.getInstance().getToken(),initComitModel , new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        Util.toastMsg(responseData.getMsg());
+
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
+//                service.getInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+//                    @Override
+//                    public void success(ResponseData responseData, Response response) {
+//                        Util.toastMsg(responseData.getMsg());
+//
+//                    }
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        super.failure(error);
+//                    }
+//                });
 //                retestPre.goGetPicture(file);
             }
 
@@ -404,6 +483,15 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onValidationSucceeded() {
+        Snackbar.make(rootlayout,"暂不能提交",Snackbar.LENGTH_SHORT)
+//                .setAction("Undo", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                    }
+//                })
+                .setActionTextColor(getResources().getColor(R.color.red))
+                .show();
 //        if (TextUtils.isEmpty(retestWrite.getImage()))
 //        {
 //            Util.toastMsg("请上传照片");
