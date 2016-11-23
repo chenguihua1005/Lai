@@ -26,15 +26,17 @@
                 android:src="@drawable/contact_search" />
 
             <EditText
+                android:id="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/iv"
-
                 android:background="@null"
                 android:hint="通过姓名,手机号或康宝莱资格证号邀请"
                 android:textColor="#57000000"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"/>
         </RelativeLayout>
     </FrameLayout>
 

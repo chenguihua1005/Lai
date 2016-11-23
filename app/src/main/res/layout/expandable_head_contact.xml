@@ -10,6 +10,7 @@
         android:background="#e6e6e6">
 
         <LinearLayout
+            android:id="@+id/ll_search"
             android:layout_width="345dp"
             android:layout_height="28dp"
             android:layout_centerInParent="true"

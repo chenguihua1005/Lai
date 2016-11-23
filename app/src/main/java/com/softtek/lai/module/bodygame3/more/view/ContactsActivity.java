@@ -45,6 +45,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_perview)
     TextView tv_perview;
 
+    LinearLayout ll_search;
+
     @InjectView(R.id.elv)
     PullToRefreshExpandableListView elv;
     private ContactExpandableAdapter adapter;
@@ -58,6 +60,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         elv.setOnRefreshListener(this);
         elv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         View head= LayoutInflater.from(this).inflate(R.layout.expandable_head_contact,null);
+        ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
+        ll_search.setOnClickListener(this);
         elv.getRefreshableView().addHeaderView(head);
         adapter=new ContactExpandableAdapter(this,datas,groups);
         elv.getRefreshableView().setAdapter(adapter);
@@ -168,6 +172,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.ll_search:
+                startActivity(new Intent(this, SearchContactActivity.class));
                 break;
         }
     }
