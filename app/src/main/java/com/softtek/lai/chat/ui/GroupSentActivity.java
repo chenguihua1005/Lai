@@ -30,21 +30,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.easeui.domain.EaseEmojicon;
-import com.easemob.easeui.utils.EaseCommonUtils;
-import com.easemob.easeui.widget.EaseChatExtendMenu;
-import com.easemob.easeui.widget.EaseChatInputMenu;
-import com.easemob.easeui.widget.EaseVoiceRecorderView;
-import com.easemob.util.PathUtil;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.widget.EaseChatExtendMenu;
+import com.hyphenate.easeui.widget.EaseChatInputMenu;
+import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
+import com.hyphenate.util.PathUtil;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.model.ChatContactInfoModel;
@@ -95,9 +95,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
 
-    protected int[] itemStrings = {com.easemob.easeui.R.string.attach_take_pic, com.easemob.easeui.R.string.attach_picture, com.easemob.easeui.R.string.attach_location};
-    protected int[] itemdrawables = {com.easemob.easeui.R.drawable.ease_chat_takepic_selector, com.easemob.easeui.R.drawable.ease_chat_image_selector,
-            com.easemob.easeui.R.drawable.ease_chat_location_selector};
+    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location};
+    protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
+            R.drawable.ease_chat_location_selector};
     protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION};
 
     protected MyItemClickListener extendMenuItemClickListener;
@@ -162,10 +162,10 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
+                if (error == EMError.USER_ALREADY_LOGIN) {
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
+                        EMClient.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
@@ -197,7 +197,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
             }
         };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        EMClient.getInstance().addConnectionListener(connectionListener);
 
 
         inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
@@ -317,12 +317,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
      * 照相获取图片
      */
     protected void selectPicFromCamera() {
-        if (!EaseCommonUtils.isExitsSdcard()) {
-            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
+        if (!EaseCommonUtils.isSdcardExist()) {
+            Toast.makeText(this, R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMChatManager.getInstance().getCurrentUser()
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
                 + System.currentTimeMillis() + ".jpg");
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(
@@ -401,25 +401,25 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     //==========================================================================
     protected void sendTextMessage(String content, ChatContactInfoModel model) {
         EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendBigExpressionMessage(String name, String identityCode, ChatContactInfoModel model) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId().toLowerCase(), name, identityCode);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendVoiceMessage(String filePath, int length, ChatContactInfoModel model) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendImageMessage(String imagePath, ChatContactInfoModel model) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
@@ -430,7 +430,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
 
         //发送消息
-        EMChatManager.getInstance().sendMessage(message, null);
+//        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
+        EMClient.getInstance().chatManager().sendMessage(message);
+
         setProfile(conversation, model);
         Intent intent = new Intent(this, ConversationListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -461,7 +463,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             cursor = null;
 
             if (picturePath == null || picturePath.equals("null")) {
-                Toast toast = Toast.makeText(this, com.easemob.easeui.R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return;
@@ -479,7 +481,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         } else {
             final File file = new File(selectedImage.getPath());
             if (!file.exists()) {
-                Toast toast = Toast.makeText(this, com.easemob.easeui.R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return;

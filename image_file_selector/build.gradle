@@ -4,22 +4,31 @@ android {
     compileSdkVersion COMPILE_SDK_VERSION as int
     buildToolsVersion BUILD_TOOLS_VERSION
 
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         minSdkVersion MINI_SDK_VERSION as int
         targetSdkVersion COMPILE_SDK_VERSION as int
-        versionCode 1
-        versionName "1.0"
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
     buildTypes {
         release {
             minifyEnabled false
+            //shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    android {
-        lintOptions {
-            abortOnError false
         }
     }
 }

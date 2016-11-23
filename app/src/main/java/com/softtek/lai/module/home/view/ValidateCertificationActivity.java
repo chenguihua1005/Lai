@@ -13,9 +13,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -109,7 +109,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                     // 调用sdk注册方法
                     String phone = model.getMobile();
                     final String account = MD5.md5WithEncoder(phone).toLowerCase();
-                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+//                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+                    EMClient.getInstance().createAccount(account, "HBL_SOFTTEK#321");
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -123,7 +125,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                             finish();
                         }
                     });
-                } catch (final EaseMobException e) {
+                } catch (final HyphenateException e) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -134,7 +136,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                                 }
                             }
                             int errorCode = e.getErrorCode();
-                            if (errorCode == EMError.USER_ALREADY_EXISTS) {
+                            if (errorCode == EMError.USER_ALREADY_EXIST) {
                                 String phone = model.getMobile();
                                 final String account = MD5.md5WithEncoder(phone).toLowerCase();
                                 loginPresenter.updateHXState(model.getMobile(), account, "1", progressDialog, null,"noInBack");

@@ -16,22 +16,18 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.controller.EaseUI;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.util.NetUtils;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.util.NetUtils;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
@@ -40,8 +36,6 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
@@ -49,10 +43,11 @@ import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
-import com.softtek.lai.utils.DisplayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -61,7 +56,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_chat)
-public class ChatFragment extends LazyBaseFragment implements View.OnClickListener, EMEventListener {
+public class ChatFragment extends LazyBaseFragment implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
@@ -76,6 +71,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
+    public AlertDialog.Builder builder = null;
     // 账号在别处登录
     public boolean isConflict = false;
     // 账号被移除
@@ -87,10 +83,15 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     private ProgressDialog progressDialog;
     UserModel model;
 
-    public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
 
+    //    private android.app.AlertDialog.Builder accountRemovedBuilder;
+//    private boolean isConflictDialogShow;
+//    private boolean isAccountRemovedDialogShow;
+//    private BroadcastReceiver internalDebugReceiver;
+
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
@@ -132,15 +133,16 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     };
 
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        if (DisplayUtil.getSDKInt() > 18) {
-            int status = DisplayUtil.getStatusHeight(getActivity());
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin = status;
-            toolbar.setLayoutParams(params);
-        }
+//        if (DisplayUtil.getSDKInt() > 18) {
+//            int status = DisplayUtil.getStatusHeight(getActivity());
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin = status;
+//            toolbar.setLayoutParams(params);
+//        }
 
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
@@ -152,10 +154,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
+                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!getActivity().isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
+                        EMClient.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
@@ -186,8 +188,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         };
         //EMChatManager.getInstance().addConnectionListener(connectionListener);
         registerBroadcastReceiver();
-    }
 
+    }
     @Override
     protected void initDatas() {
         loginPresenter = new LoginPresenterImpl(getContext());
@@ -199,17 +201,17 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void onVisible() {
         isPrepared = false;
-        if (getContext() instanceof BodyGameSPActivity) {
-            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
-            activity.setAlpha(1);
-        } else if (getContext() instanceof BodyGamePCActivity) {
-            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
-            activity.setAlpha(1);
-        } else if (getContext() instanceof BodyGameSRActivity) {
-            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
-            activity.setAlpha(1);
-        }
-        super.onVisible();
+//        if (getContext() instanceof BodyGameSPActivity) {
+//            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
+//            activity.setAlpha(1);
+//        } else if (getContext() instanceof BodyGamePCActivity) {
+//            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
+//            activity.setAlpha(1);
+//        } else if (getContext() instanceof BodyGameSRActivity) {
+//            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
+//            activity.setAlpha(1);
+//        }
+//        super.onVisible();
     }
 
     @Override
@@ -229,8 +231,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                        EMChatManager.getInstance().loadAllConversations();
+                        EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                        EMClient.getInstance().chatManager().loadAllConversations();
                     }
                 }).start();
                 img_mo_message.setVisibility(View.GONE);
@@ -252,7 +254,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 }
 
             }
-        } else {
+        }else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
 
@@ -260,7 +262,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     }
 
     private void HXLoginOut() {
-        EMChatManager.getInstance().logout(true, new EMCallBack() {
+        EMClient.getInstance().logout(true, new EMCallBack() {
 
             @Override
             public void onSuccess() {
@@ -286,53 +288,53 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     /**
      * 监听事件
      */
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewMessage: // 普通消息
-                EMMessage message = (EMMessage) event.getData();
-                // 提示新消息
-                ChatHelper.getInstance().getNotifier().onNewMsg(message);
-
-                refreshUIWithMessage();
-                break;
-            case EventOfflineMessage: {
-                refreshUIWithMessage();
-                break;
-            }
-
-            case EventConversationListChanged: {
-                refreshUIWithMessage();
-                break;
-            }
-            case EventNewCMDMessage:
-
-                break;
-            case EventReadAck:
-                // TODO 这里当此消息未加载到内存中时，ackMessage会为null，消息的删除会失败
-                EMMessage ackMessage = (EMMessage) event.getData();
-                EMConversation conversation = EMChatManager.getInstance().getConversation(ackMessage.getTo());
-                // 判断接收到ack的这条消息是不是阅后即焚的消息，如果是，则说明对方看过消息了，对方会销毁，这边也删除(现在只有txt iamge file三种消息支持 )
-                if (ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
-                        && (ackMessage.getType() == EMMessage.Type.TXT
-                        || ackMessage.getType() == EMMessage.Type.VOICE
-                        || ackMessage.getType() == EMMessage.Type.IMAGE)) {
-                    // 判断当前会话是不是只有一条消息，如果只有一条消息，并且这条消息也是阅后即焚类型，当对方阅读后，这边要删除，会话会被过滤掉，因此要加载上一条消息
-                    if (conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())) {
-                        if (ackMessage.getChatType() == EMMessage.ChatType.Chat) {
-                            conversation.loadMoreMsgFromDB(ackMessage.getMsgId(), 1);
-                        } else {
-                            conversation.loadMoreGroupMsgFromDB(ackMessage.getMsgId(), 1);
-                        }
-                    }
-                    conversation.removeMessage(ackMessage.getMsgId());
-                }
-                refreshUIWithMessage();
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void onEvent(EMNotifierEvent event) {
+//        switch (event.getEvent()) {
+//            case EventNewMessage: // 普通消息
+//                EMMessage message = (EMMessage) event.getData();
+//                // 提示新消息
+//                ChatHelper.getInstance().getNotifier().onNewMsg(message);
+//
+//                refreshUIWithMessage();
+//                break;
+//            case EventOfflineMessage: {
+//                refreshUIWithMessage();
+//                break;
+//            }
+//
+//            case EventConversationListChanged: {
+//                refreshUIWithMessage();
+//                break;
+//            }
+//            case EventNewCMDMessage:
+//
+//                break;
+//            case EventReadAck:
+//                // TODO 这里当此消息未加载到内存中时，ackMessage会为null，消息的删除会失败
+//                EMMessage ackMessage = (EMMessage) event.getData();
+//                EMConversation conversation = EMChatManager.getInstance().getConversation(ackMessage.getTo());
+//                // 判断接收到ack的这条消息是不是阅后即焚的消息，如果是，则说明对方看过消息了，对方会销毁，这边也删除(现在只有txt iamge file三种消息支持 )
+//                if (ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
+//                        && (ackMessage.getType() == EMMessage.Type.TXT
+//                        || ackMessage.getType() == EMMessage.Type.VOICE
+//                        || ackMessage.getType() == EMMessage.Type.IMAGE)) {
+//                    // 判断当前会话是不是只有一条消息，如果只有一条消息，并且这条消息也是阅后即焚类型，当对方阅读后，这边要删除，会话会被过滤掉，因此要加载上一条消息
+//                    if (conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())) {
+//                        if (ackMessage.getChatType() == EMMessage.ChatType.Chat) {
+//                            conversation.loadMoreMsgFromDB(ackMessage.getMsgId(), 1);
+//                        } else {
+//                            conversation.loadMoreGroupMsgFromDB(ackMessage.getMsgId(), 1);
+//                        }
+//                    }
+//                    conversation.removeMessage(ackMessage.getMsgId());
+//                }
+//                refreshUIWithMessage();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     private void refreshUIWithMessage() {
         new Thread() {
@@ -393,7 +395,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
         Constants.IS_LOGINIMG = "1";
-        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
+        EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
@@ -405,14 +407,14 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                EMClient.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 //更新小红点
-                int unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+                int unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
                 Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
-                EMChatManager.getInstance().loadAllConversations();
+                EMClient.getInstance().chatManager().loadAllConversations();
                 handler.sendEmptyMessage(2);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
@@ -454,26 +456,28 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         // register the event listener when enter the foreground
-        EMChatManager.getInstance().registerEventListener(this,
-                new EMNotifierEvent.Event[]{
-                        EMNotifierEvent.Event.EventNewMessage,
-                        EMNotifierEvent.Event.EventOfflineMessage,
-                        EMNotifierEvent.Event.EventConversationListChanged,
-                        EMNotifierEvent.Event.EventNewCMDMessage,
-                        EMNotifierEvent.Event.EventReadAck
-                });
+//        EMChatManager.getInstance().registerEventListener(this,
+//                new EMNotifierEvent.Event[]{
+//                        EMNotifierEvent.Event.EventNewMessage,
+//                        EMNotifierEvent.Event.EventOfflineMessage,
+//                        EMNotifierEvent.Event.EventConversationListChanged,
+//                        EMNotifierEvent.Event.EventNewCMDMessage,
+//                        EMNotifierEvent.Event.EventReadAck
+//                });
+        //3.0
+        EMClient.getInstance().chatManager().addMessageListener(messageListener);
         EaseUI.getInstance().pushActivity(getActivity());
         EaseUI.getInstance().getNotifier().reset();
         // if push service available, connect will be disconnected after app in background
         // after activity restore to foreground, reconnect
-        if (!EMChatManager.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {
-            EMChatManager.getInstance().reconnect();
+        if (!EMClient.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {//？？？？？？？？？？？？？？？
+//            EMChatManager.getInstance().reconnect();
         }
     }
 
     @Override
     public void onStop() {
-        EMChatManager.getInstance().unregisterEventListener(this);
+        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
         EaseUI.getInstance().popActivity(getActivity());
         super.onStop();
     }
@@ -512,4 +516,47 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
         }
     }
+
+    EMMessageListener messageListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            // notify new message
+//            for (EMMessage message : messages) {
+//                DemoHelper.getInstance().getNotifier().onNewMsg(message);
+//            }
+//            refreshUIWithMessage();
+
+            EMMessage message = (EMMessage) messages;
+            // 提示新消息
+            ChatHelper.getInstance().getNotifier().onNewMsg(message);
+
+            refreshUIWithMessage();
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //red packet code : 处理红包回执透传消息
+//            for (EMMessage message : messages) {
+//                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
+//                final String action = cmdMsgBody.action();//获取自定义action
+//                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
+//                    RedPacketUtil.receiveRedPacketAckMessage(message);
+//                }
+//            }
+            //end of red packet code
+//            refreshUIWithMessage();
+        }
+
+        @Override
+        public void onMessageReadAckReceived(List<EMMessage> messages) {
+        }
+
+        @Override
+        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {}
+    };
 }
