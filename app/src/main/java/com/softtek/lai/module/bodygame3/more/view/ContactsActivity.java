@@ -53,7 +53,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private ContactExpandableAdapter adapter;
 
     private int pageIndex=1;
-
+    public static Map<String,List<Contact>> datas=new HashMap<>();
+    private List<String> groups=new ArrayList<>();
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
@@ -138,8 +139,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                         });
     }
 
-    public static Map<String,List<Contact>> datas=new HashMap<>();
-    private List<String> groups=new ArrayList<>();
+
     private void onResult(List<Contact> models){
 
         for (Contact contact:models){
