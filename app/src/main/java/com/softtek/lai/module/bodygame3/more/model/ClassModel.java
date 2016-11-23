@@ -1,5 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -7,7 +10,7 @@ import java.util.List;
  * 班级模型
  */
 
-public class ClassModel {
+public class ClassModel implements Parcelable{
 
     private String ClassId;
     private String ClassCode;
@@ -15,6 +18,27 @@ public class ClassModel {
     private int ClassRole;//班级角色1:总教练,2:教练,3:助教,4:学员
     private String ClassMasterName;
     private List<String> ClassMeasureDateList;
+
+    protected ClassModel(Parcel in) {
+        ClassId = in.readString();
+        ClassCode = in.readString();
+        ClassName = in.readString();
+        ClassRole = in.readInt();
+        ClassMasterName = in.readString();
+        ClassMeasureDateList = in.createStringArrayList();
+    }
+
+    public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
+        @Override
+        public ClassModel createFromParcel(Parcel in) {
+            return new ClassModel(in);
+        }
+
+        @Override
+        public ClassModel[] newArray(int size) {
+            return new ClassModel[size];
+        }
+    };
 
     public String getClassId() {
         return ClassId;
@@ -74,5 +98,20 @@ public class ClassModel {
                 ", ClassMasterName='" + ClassMasterName + '\'' +
                 ", ClassMeasureDateList=" + ClassMeasureDateList +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(ClassId);
+        parcel.writeString(ClassCode);
+        parcel.writeString(ClassName);
+        parcel.writeInt(ClassRole);
+        parcel.writeString(ClassMasterName);
+        parcel.writeStringList(ClassMeasureDateList);
     }
 }

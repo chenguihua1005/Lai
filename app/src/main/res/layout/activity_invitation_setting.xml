@@ -3,7 +3,8 @@
     android:id="@+id/activity_invitation_setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/toolbar" />
 
@@ -36,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="会飞的猫"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp" />
 
@@ -45,14 +45,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="奶昔天使 小王"
+                    android:text="奶昔天使"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,7 +72,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="15dp"
-                    android:text="超级减重班"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -83,7 +83,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,7 +103,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="15dp"
-                    android:text="1123233"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -114,7 +114,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,7 +134,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="15dp"
-                    android:text="1218年22月2日"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>

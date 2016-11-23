@@ -1,8 +1,12 @@
 package com.softtek.lai.module.bodygame3.more.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.more.model.ClassInvitater;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
+import com.softtek.lai.module.bodygame3.more.model.Contact;
+import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
+import com.softtek.lai.module.bodygame3.more.model.SendInvitation;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 
 import java.util.List;
@@ -37,5 +41,35 @@ public interface MoreService {
     void getMoreInfo(@Header("token")String token,
                      @Query("AccountId")long accountId,
                      Callback<ResponseData<List<ClassModel>>> callback);
+
+    //获取邀请人列表
+    @GET("/V1/MoreFunction/GetInvitedContactList")
+    void getInvitatedContactList(@Header("token")String token,
+                                 @Query("AccountId")long accountId,
+                                 @Query("ClassId")String classId,
+                                 @Query("PageSize")int pageSize,
+                                 @Query("PageIndex")int pageIndex,
+                                 Callback<ResponseData<List<InvitatedContact>>> callback);
+    //获取联系人列表
+    @GET("/V1/MoreFunction/GetHerbalifeContact")
+    void getContactsList(@Header("token")String token,
+                         @Query("AccountId")long accountId,
+                         @Query("PageSize")int pageSize,
+                         @Query("PageIndex")int pageIndex,
+                         Callback<ResponseData<List<Contact>>> callback);
+
+    //邀请设置
+    @GET("/V1/MoreFunction/GetClassInfoForInvite")
+    void getClassInfoForInvite(@Header("token")String token,
+                               @Query("ClassId")String classId,
+                               @Query("SenderId")long senderId,
+                               @Query("InviterId")long inviterId,
+                               Callback<ResponseData<ClassInvitater>> callback);
+
+    //发送邀请
+    @POST("/V1/MoreFunction/SendInviter")
+    void sendInviter(@Header("token")String token,
+                     @Body SendInvitation invitation,
+                     Callback<ResponseData> callback);
 
 }

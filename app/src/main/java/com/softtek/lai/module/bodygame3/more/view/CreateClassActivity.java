@@ -373,13 +373,11 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 public void success(ResponseData<LaiClass> data, Response response) {
                     dialogDissmiss();
                     if(data.getStatus()==200){
-
+                        Intent intent=new Intent(CreateClassActivity.this,ContactsActivity.class);
+                        intent.putExtra("classId",data.getData().getClassId());
+                        startActivity(intent);
                     }
                     Util.toastMsg(data.getMsg());
-                    if(data.getData()!=null){
-                        Log.i(";"+data.getData().getClassId()+":"+data.getData().getClassCode());
-
-                    }
                 }
 
                 @Override

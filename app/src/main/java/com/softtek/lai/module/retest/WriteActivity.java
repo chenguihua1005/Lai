@@ -212,14 +212,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         });
         retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
-        Intent intent=getIntent();
-        String accountId=intent.getStringExtra("accountId");
-        String classId=intent.getStringExtra("classId");
-        acountid=accountId;
-        classid=classId;
-        acountid=accountId;
-        retestWrite=new RetestWriteModel();
-        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),"");
+//        Intent intent=getIntent();
+//        String accountId=intent.getStringExtra("accountId");
+//        String classId=intent.getStringExtra("classId");
+//        acountid=accountId;
+//        classid=classId;
+//        retestWrite=new RetestWriteModel();
+//        retestPre.doGetAudit(Integer.parseInt("0"),Integer.parseInt("0"),"");
 
 
 

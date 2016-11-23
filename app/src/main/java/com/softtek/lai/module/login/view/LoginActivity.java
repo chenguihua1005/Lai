@@ -7,7 +7,6 @@ package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +27,6 @@ import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
