@@ -754,19 +754,19 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     }
                 }
                 else {
-                    for (int i = 0; i < 7; i++) {
+                    for (int i = 6; i >= 0; i--) {
                         dates.add(Integer.parseInt(result.getStepList().get(6-i).getTotalCnt()));
                     }
                 }
-                if (Userid.equals(isFocusid))
-                {
-                    if (dateForm.getDateform(getPeriodDate(type,0) + "").equals(day.get(6)))
-                    {
-                        Intent intent=getIntent();
-                        int step=intent.getIntExtra("step",0);
-                        dates.set(6,step);
-                    }
-                }
+//                if (Userid.equals(isFocusid))
+//                {
+//                    if (dateForm.getDateform(getPeriodDate(type,0) + "").equals(day.get(6)))
+//                    {
+//                        Intent intent=getIntent();
+//                        int step=intent.getIntExtra("step",0);
+//                        dates.set(6,step);
+//                    }
+//                }
                 chartUtil.addDataf(dates,days.size(),days);
         } catch (Exception e) {
             e.printStackTrace();

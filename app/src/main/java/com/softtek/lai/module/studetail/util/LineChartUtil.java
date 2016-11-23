@@ -163,7 +163,7 @@ public class LineChartUtil {
         chart.notifyDataSetChanged();
         chart.invalidate();
     }
-    public  void addDat(List<Integer> dat,int n,List<String> dates)
+    public  void addDat(List<String> dat,int n,List<String> dates)
     {
         if(dat.size()==0)
         {
@@ -192,7 +192,7 @@ public class LineChartUtil {
         //添加具体数据
         float max=0;
         for (int i = 0; i <data.getXValCount()&&i<dat.size(); i++) {
-            int val = dat.get(i);
+            int val = Integer.parseInt(dat.get(i));
             //获取数值
             yVals.add(new Entry(val, i));
             if (val > max) {

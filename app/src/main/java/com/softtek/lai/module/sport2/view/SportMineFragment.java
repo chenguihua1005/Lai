@@ -43,6 +43,7 @@ import com.softtek.lai.module.sport2.model.Unread;
 import com.softtek.lai.module.sport2.net.SportService;
 import com.softtek.lai.module.sport2.presenter.SportManager;
 import com.softtek.lai.module.sportchart.view.ChartActivity;
+import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -284,12 +285,32 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         deviation=0;
         delayHandler.removeCallbacksAndMessages(null);
         getActivity().unbindService(connection);
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(">>>>>>>>>>>>>>>>>>>>>>"+tv_step.getText().toString());
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(DateUtil.getInstance().getCurrentDate());
+        buffer.append(",");
+        buffer.append(tv_step.getText().toString());
+        StepNetService stepNetService=ZillaApi.NormalRestAdapter.create(StepNetService.class);
+        stepNetService.synStepCount(UserInfoModel.getInstance().getToken(), Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), buffer+"", new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Log.d("请求成功"+responseData.getMsg());
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         manager.setCallback(null);
         super.onDestroyView();
+
     }
 
     @Override
