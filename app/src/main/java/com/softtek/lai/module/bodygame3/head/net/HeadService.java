@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
+import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 
 import java.util.List;
@@ -55,13 +56,14 @@ public interface HeadService {
 //    pageindex	Int
 
     @GET("/V1/HerbalifeClass/GetClassPartner")
+//    请求路径:Api/V1/ HerbalifeClass / GetClassPartner
     void getpartnertype(
             @Header("token") String token,
             @Query("classid")  String classid,
             @Query("sorttype") int sorttype,
             @Query("pagesize") int pagesize,
             @Query("pageindex") int pageindex,
-            Callback<ResponseData<List<PartnersModel>>> callback
+            Callback<ResponseData<PartnertotalModel>> callback
     );
 
 }

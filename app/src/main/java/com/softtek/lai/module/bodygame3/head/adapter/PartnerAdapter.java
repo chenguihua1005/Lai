@@ -21,7 +21,9 @@ import java.util.List;
 
 import zilla.libcore.file.AddressManager;
 
+import static com.softtek.lai.R.id.fale;
 import static com.softtek.lai.R.id.imageView;
+import static com.softtek.lai.R.id.view;
 
 /**
  * Created by shelly.xu on 11/21/2016.
@@ -73,13 +75,19 @@ public class PartnerAdapter extends BaseAdapter {
         viewHolder.paiming.setText(model.getRanking());
         viewHolder.name_tv.setText(model.getStuName());
         viewHolder.weight_first.setText("初始体重" + model.getWeight() + "斤");
-        viewHolder.jianzhong_tv.setText(model.getLoss() + "%");
+        viewHolder.jianzhong_tv.setText(model.getLoss());
         viewHolder.group_tv.setText(model.getGroupName());
 //        viewHolder.head_img.setImageResource();
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(model.getStuImg())) {
             Picasso.with(context).load(basePath + model.getStuImg()).into(viewHolder.head_img);
         }
+        if(model.getStuGender().equals("1")){
+            viewHolder.fale.setImageResource(R.drawable.female_iv);
+        }else {
+            viewHolder.fale.setImageResource(R.drawable.male_iv);
+        }
+
 //        Picasso.with(context).load(model.getStuImg()).into(viewHolder.head_img);
         return convertView;
     }

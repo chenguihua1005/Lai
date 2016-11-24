@@ -18,21 +18,41 @@ public class PartnersModel {
     private String AccountId;
     private String Ranking;
     private String StuImg;
+    private String StuThImg;
     private String StuName;
+    private String StuGender;
     private String GroupName;
     private String GroupId;
     private String Weight;
     private String Loss;
 
-    public PartnersModel(String accountId, String ranking, String stuImg, String stuName, String groupName, String groupId, String weight, String loss) {
+    public PartnersModel(String accountId, String ranking, String stuImg, String stuThImg, String stuName, String stuGender, String groupName, String groupId, String weight, String loss) {
         AccountId = accountId;
         Ranking = ranking;
         StuImg = stuImg;
+        StuThImg = stuThImg;
         StuName = stuName;
+        StuGender = stuGender;
         GroupName = groupName;
         GroupId = groupId;
         Weight = weight;
         Loss = loss;
+    }
+
+    public String getStuThImg() {
+        return StuThImg;
+    }
+
+    public void setStuThImg(String stuThImg) {
+        StuThImg = stuThImg;
+    }
+
+    public String getStuGender() {
+        return StuGender;
+    }
+
+    public void setStuGender(String stuGender) {
+        StuGender = stuGender;
     }
 
     public String getAccountId() {

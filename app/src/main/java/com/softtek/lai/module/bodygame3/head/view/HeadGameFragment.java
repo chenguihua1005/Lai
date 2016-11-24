@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.more.view.SearchContactActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -180,7 +182,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 });
                 break;
             case R.id.searchContent:
-                String content=searchContent.getText().toString().trim();
+                Intent intent=new Intent(getContext(), SearchContactActivity.class);
+                startActivity(intent);
+//                String content=searchContent.getText().toString().trim();
 //                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new Callback<ResponseData<PartnersModel>>() {
 //                    @Override
 //                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
