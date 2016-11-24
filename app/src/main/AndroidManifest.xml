@@ -816,6 +816,9 @@
             android:name=".module.sport2.view.CountDownActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.bodygame3.head.view.HonorActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.ranking.view.RankingActivity"
             android:screenOrientation="portrait" />
         <activity

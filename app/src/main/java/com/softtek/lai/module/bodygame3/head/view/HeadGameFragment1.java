@@ -106,6 +106,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     TextView gengxin;
     @InjectView(R.id.pinglun)
     TextView pinglun;
+    @InjectView(R.id.re_honor)
+    RelativeLayout re_honor;//荣誉榜
     HeadService service;
     PartnerAdapter partnerAdapter;
     private List<PartnersModel> partnersModels = new ArrayList<PartnersModel>();
@@ -122,6 +124,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initViews() {
+        re_honor.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -331,6 +334,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 //                        super.failure(error);
 //                    }
 //                });
+                break;
+            case R.id.re_honor:
+                startActivity(new Intent(getContext(),HonorActivity.class));
                 break;
         }
     }

@@ -201,7 +201,17 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         tv_right.setText("保存");
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         doGetInfo();
-
+        if(BuildConfig.DEBUG) {
+            Util.toastMsg("C4E8E179-FD99-4955-8BF9-CF470898788B");
+//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
+        }
+        else {
+            Util.toastMsg("不是debug");
+//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
+//                    multipartTypedOutput.addPart("classId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+        }
         ll_retestWrite_nowweight.setVisibility(View.GONE);
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
@@ -218,22 +228,13 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
                 multipartTypedOutput.addPart("classId",new TypedString(classID));
-                if(BuildConfig.DEBUG) {
-//                        Util.toastMsg();
-//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
-//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
-                }
-                else {
-//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
-//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
-//                    multipartTypedOutput.addPart("classId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
-                }
+
                 multipartTypedOutput.addPart("pysical",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("Fat",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("ChuWeight",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("Circum",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("image",new TypedFile("image/png", new File(file)));
-                service.doPostInitData(UserInfoModel.getInstance().getToken(), Long.parseLong("121"), "C4E8E179-FD99-4955-8BF9-CF470898788B", 1.0, 1.0, 1.0,123.0, 1.0, 1.0, 1.0,1.0,1.0, new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData>() {
+                service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
@@ -244,36 +245,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         super.failure(error);
                     }
                 });
-                initComitModel=new InitComitModel();
-                initComitModel.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-                initComitModel.setClassId( "C4E8E179-FD99-4955-8BF9-CF470898788B");
-                initComitModel.setChuWeight(143.0);
-                initComitModel.setCircum(132.2);
-                initComitModel.setFat(142);
-                initComitModel.setPysical(123.2);
-                initComitModel.setImage(new TypedFile("image/png", new File(file)));
-//                service.doPostInitData(UserInfoModel.getInstance().getToken(),initComitModel , new RequestCallback<ResponseData>() {
-//                    @Override
-//                    public void success(ResponseData responseData, Response response) {
-//                        Util.toastMsg(responseData.getMsg());
-//
-//                    }
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        super.failure(error);
-//                    }
-//                });
-//                service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
-//                    @Override
-//                    public void success(ResponseData responseData, Response response) {
-//                        Util.toastMsg(responseData.getMsg());
-//
-//                    }
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        super.failure(error);
-//                    }
-//                });
 //                retestPre.goGetPicture(file);
             }
 

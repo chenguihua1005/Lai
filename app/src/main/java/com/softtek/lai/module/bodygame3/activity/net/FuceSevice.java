@@ -35,23 +35,23 @@ public interface FuceSevice {
 
     //    提交初始数据接口
     @POST("/v1/MeasuredRecordLog/PostInitData")
-    @Multipart
+//    @Multipart
     void doPostInitData(
             @Header("token") String token,
-            @Part("accountId") Long accountId,
-            @Part("classId") String classId,
-            @Part("pysical") double pysical,
-            @Part("ChuWeight") double ChuWeight,
-            @Part("Fat") double fat,
-            @Part("Circum") double circum,
-            @Part("Waistline") double waistline,
-            @Part("Hipline") double hipline,
-            @Part("UpArmGirth") double upArmGirth,
-            @Part("UpLegGirth") double upLegGirth,
-            @Part("DoLegGirth") double doLegGirth,
-            @Part("image") TypedFile image,
+//            @Part("accountId") Long accountId,
+//            @Part("classId") String classId,
+//            @Part("pysical") double pysical,
+//            @Part("ChuWeight") double ChuWeight,
+//            @Part("Fat") double fat,
+//            @Part("Circum") double circum,
+//            @Part("Waistline") double waistline,
+//            @Part("Hipline") double hipline,
+//            @Part("UpArmGirth") double upArmGirth,
+//            @Part("UpLegGirth") double upLegGirth,
+//            @Part("DoLegGirth") double doLegGirth,
+//            @Part("image") TypedFile image,
 //            @Body InitComitModel initComitModel,
-//            @Body MultipartTypedOutput multipartTypedOutput,
+            @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData> callback
     );
 

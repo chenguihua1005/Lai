@@ -19,10 +19,11 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_ranking)
+@InjectLayout(R.layout.activity_honorranking)
 public class HonorActivity extends BaseActivity {
-    public static final int DAY_RANKING=0;
-    public static final int WEEK_RANKING=1;
+    public static final int WEEK_RANKING=0;//周排名
+    public static final int MONTH_RANKING=1;//月排名
+    public static final int TOAL_RANKING=2;//总排名
 
     @InjectView(R.id.tab)
     TabLayout tab;
@@ -38,14 +39,15 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        int rankType=getIntent().getIntExtra("rank_type",DAY_RANKING);
-        tv_title.setText(rankType==DAY_RANKING?"日排名":"周排名");
+        //接收当前排名类型（0周排名，1月排名，2总排名）
+        tv_title.setText("荣誉榜");
         fragments=new ArrayList<>();
-        fragments.add(RunGroupFragment.getInstance(rankType));
-        fragments.add(NationalFragment.getInstance(rankType));
-        content.setAdapter(new RankPageAdapter(getSupportFragmentManager(),fragments));
-        tab.setupWithViewPager(content);
-        tab.setTabMode(TabLayout.MODE_FIXED);
+//        fragments.add(WeekHonorFragment);
+//        fragments.add(NationalFragment.getInstance(rankType));
+//        fragments.add(NationalFragment.getInstance(rankType));
+//        content.setAdapter(new RankPageAdapter(getSupportFragmentManager(),fragments));
+//        tab.setupWithViewPager(content);
+//        tab.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
