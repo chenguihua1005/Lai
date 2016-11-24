@@ -39,5 +39,5 @@
     <color name="editorText">#75ba2b</color>
     <color name="text_light">#ababab</color>
     <color name="text_normal">#626262</color>
-
+<color name="text_dd">#424242</color>
 </resources>

@@ -7,11 +7,20 @@ import java.util.List;
  */
 
 public class ClassinfoModel {
+    private String TotalPage;
     private List<ClassModel> ClassInfoList;
     private RongyuModel Honor;
     private List<TuijianModel> ListRec;
     private ZhaopianModel PhotoWall;
     private List<PartnersModel> PartnersList;
+
+    public String getTotalPage() {
+        return TotalPage;
+    }
+
+    public void setTotalPage(String totalPage) {
+        TotalPage = totalPage;
+    }
 
     public List<ClassModel> getClassInfoList() {
         return ClassInfoList;

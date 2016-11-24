@@ -20,6 +20,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
+import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.RequestCallback;
@@ -56,7 +58,6 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
 
     List<Contact> contacts=new ArrayList<>();
     EasyAdapter<Contact> adapter;
-
     @Override
     protected void initViews() {
         overridePendingTransition(0,0);

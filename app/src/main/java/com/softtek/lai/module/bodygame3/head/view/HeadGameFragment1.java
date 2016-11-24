@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -25,6 +27,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.PartnerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
+import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.head.model.RongyuModel;
 import com.softtek.lai.module.bodygame3.head.model.TuijianModel;
 import com.softtek.lai.module.bodygame3.head.model.TypeModel;
@@ -33,6 +36,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -109,6 +113,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private int typecode;
     private List<ClassModel> classModels = new ArrayList<ClassModel>();
     private String classid;
+    private String classId_first;
     String path = AddressManager.getHost();
     @Override
     protected void lazyLoad() {
@@ -123,17 +128,18 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         searchContent.setOnClickListener(this);
         partnerAdapter = new PartnerAdapter((BaseActivity) getActivity(), partnersModels);
         list_partner.setAdapter(partnerAdapter);
+
     }
 
 
     @Override
     protected void initDatas() {
         final List<TypeModel> datas = new ArrayList<TypeModel>();
-        TypeModel model1 = new TypeModel(1, "体重比");
+        TypeModel model1 = new TypeModel(0, "体重比");
         datas.add(model1);
         TypeModel model2 = new TypeModel(2, "体脂");
         datas.add(model2);
-        TypeModel model3 = new TypeModel(3, "减重比");
+        TypeModel model3 = new TypeModel(1, "减重比");
         datas.add(model3);
         //类型（体重比，体脂，减重比）
         spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
@@ -194,6 +200,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                             @Override
                             public String getText(int position) {
+                                classId_first=classModels.get(position).getClassId();
+
                                 return classModels.get(position).getClassName();
                             }
                         });
@@ -229,6 +237,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         partnersModels.addAll(classinfoModel.getPartnersList());
                         partnerAdapter.update(partnersModels);
                     }
+
                     //本周推荐
                     if(classinfoModel.getListRec()!=null){
                         tuijianModels.addAll(classinfoModel.getListRec());
@@ -291,12 +300,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
-        service.getpartnertype(UserInfoModel.getInstance().getToken(), classid, sorttype, pagesize, pageindex, new RequestCallback<ResponseData<List<PartnersModel>>>() {
+//        Log.e("124",classId_first);
+        service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize, pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
             @Override
-            public void success(ResponseData<List<PartnersModel>> partnersModelResponseData, Response response) {
+            public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
                 partnersModels.clear();
                 Util.toastMsg(partnersModelResponseData.getMsg());
-                partnersModels.addAll(partnersModelResponseData.getData());
+                PartnertotalModel partnertotalModel=partnersModelResponseData.getData();
+                partnersModels.addAll(partnertotalModel.getPartnersList());
                 partnerAdapter.update(partnersModels);
             }
         });
@@ -306,19 +317,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.searchContent:
-                String content = searchContent.getText().toString().trim();
-                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new RequestCallback<ResponseData<PartnersModel>>() {
-                    @Override
-                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
-                        Util.toastMsg(partnersModelResponseData.getMsg());
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
+//                Intent intent=new Intent(getContext(),)
+//                String content = searchContent.getText().toString().trim();
+//                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new RequestCallback<ResponseData<PartnersModel>>() {
+//                    @Override
+//                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
+//                        Util.toastMsg(partnersModelResponseData.getMsg());
+//
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        super.failure(error);
+//                    }
+//                });
                 break;
         }
     }
