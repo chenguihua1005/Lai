@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
+import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
@@ -36,15 +37,28 @@ public interface HeadService {
             Callback<ResponseData<HeadModel2>> callback
     );
 
-    //检索班级
-    @GET("")
-    void getclass();
+    //检索班级请求路径:Api/V1/HerbalifeClass/GetSearchClass
+    @GET("/V1/HerbalifeClass/GetSearchClass")
+    void getclass(
+            @Header("token") String token,
+            @Query("keyword") String keyword,
+            Callback<ResponseData<List<ClasslistModel>>> callback
+    );
 
+//    classid
+//            sorttype
+//    pagesize
+//            pageindex
+//    keyword
+
+//    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
     //检索小伙伴
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(
             @Header("token") String token,
             @Query("classid") String classid,
+            @Query("pagesize") int pagesize,
+            @Query("pageindex") int pageindex,
             @Query("keyword") String keyword,
             Callback<ResponseData<PartnersModel>> callback
     );

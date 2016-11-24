@@ -138,7 +138,7 @@
                         android:layout_height="20dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/lignt" />
+                        android:background="@drawable/light" />
 
                     <EditText
                         android:id="@+id/searchContent"
