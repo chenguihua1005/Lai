@@ -2,7 +2,10 @@ package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
+import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -31,5 +34,12 @@ public interface ActivityService {
             @Query("ClassId") String ClassId,
             @Query("CurrentDate") String CurrentDate,
             Callback<ResponseData<TodaysModel>> callback
+    );
+
+    //活动类型请求路径:Api/V1/ ClassActivity / GetClassActivitys
+    @GET("/V1/ClassActivity/GetClassActivitys")
+    void getacttype(
+            @Header("token") String token,
+            Callback<ResponseData<List<ActtypeModel>>> callback
     );
 }
