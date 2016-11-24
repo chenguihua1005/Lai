@@ -33,6 +33,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
@@ -199,6 +200,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         title.setText("初始数据录入");
         tv_right.setText("保存");
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        doGetInfo();
 
         ll_retestWrite_nowweight.setVisibility(View.GONE);
         imageFileCropSelector=new ImageFileCropSelector(this);
@@ -228,26 +230,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 }
                 multipartTypedOutput.addPart("pysical",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("Fat",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
-//                multipartTypedOutput.addPart("Image",new TypedFile("image/png", new File(file)));
-//                service.getInitData(UserInfoModel.getInstance().getToken(), Long.parseLong("121"), "C4E8E179-FD99-4955-8BF9-CF470898788B", 1.0, 1.0, 1.0,123.0, 1.0, 1.0, 1.0,1.0,1.0, new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData>() {
-//                    @Override
-//                    public void success(ResponseData responseData, Response response) {
-//                        Util.toastMsg(responseData.getMsg());
-//
-//                    }
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        super.failure(error);
-//                    }
-//                });
-                initComitModel=new InitComitModel();
-                initComitModel.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-                initComitModel.setClassId( "C4E8E179-FD99-4955-8BF9-CF470898788B");
-                initComitModel.setChuWeight(143.0);
-                initComitModel.setCircum(132.2);
-                initComitModel.setFat(142);
-                initComitModel.setImage(new TypedFile("image/png", new File(file)));
-                service.getInitData(UserInfoModel.getInstance().getToken(),initComitModel , new RequestCallback<ResponseData>() {
+                multipartTypedOutput.addPart("ChuWeight",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+                multipartTypedOutput.addPart("Circum",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+                multipartTypedOutput.addPart("image",new TypedFile("image/png", new File(file)));
+                service.doPostInitData(UserInfoModel.getInstance().getToken(), Long.parseLong("121"), "C4E8E179-FD99-4955-8BF9-CF470898788B", 1.0, 1.0, 1.0,123.0, 1.0, 1.0, 1.0,1.0,1.0, new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
@@ -258,7 +244,26 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         super.failure(error);
                     }
                 });
-//                service.getInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+                initComitModel=new InitComitModel();
+                initComitModel.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                initComitModel.setClassId( "C4E8E179-FD99-4955-8BF9-CF470898788B");
+                initComitModel.setChuWeight(143.0);
+                initComitModel.setCircum(132.2);
+                initComitModel.setFat(142);
+                initComitModel.setPysical(123.2);
+                initComitModel.setImage(new TypedFile("image/png", new File(file)));
+//                service.doPostInitData(UserInfoModel.getInstance().getToken(),initComitModel , new RequestCallback<ResponseData>() {
+//                    @Override
+//                    public void success(ResponseData responseData, Response response) {
+//                        Util.toastMsg(responseData.getMsg());
+//
+//                    }
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        super.failure(error);
+//                    }
+//                });
+//                service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
 //                    @Override
 //                    public void success(ResponseData responseData, Response response) {
 //                        Util.toastMsg(responseData.getMsg());
@@ -281,6 +286,30 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         iv_email.setVisibility(View.INVISIBLE);
 
 
+    }
+    /*
+    * 获取初始基本数据
+    * */
+    private void doGetInfo() {
+        service.dogetInitData(UserInfoModel.getInstance().getToken(),Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), "7", new RequestCallback<ResponseData<InitDataModel>>() {
+            @Override
+            public void success(ResponseData<InitDataModel> initDataModelResponseData, Response response) {
+                int status=initDataModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        break;
+                    default:
+                        Util.toastMsg(initDataModelResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
     }
 
 
