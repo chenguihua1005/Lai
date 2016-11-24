@@ -118,13 +118,14 @@ public class EaseNotifier {
      * @param message
      */
     public synchronized void onNewMsg(EMMessage message) {
-        if(EMClient.getInstance().chatManager().isSilentMessage(message)){
-            return;
-        }
-        EaseSettingsProvider settingsProvider = EaseUI.getInstance().getSettingsProvider();
-        if(!settingsProvider.isMsgNotifyAllowed(message)){
-            return;
-        }
+//        jessica
+//        if(EMClient.getInstance().chatManager().isSilentMessage(message)){
+//            return;
+//        }
+//        EaseSettingsProvider settingsProvider = EaseUI.getInstance().getSettingsProvider();
+//        if(!settingsProvider.isMsgNotifyAllowed(message)){
+//            return;
+//        }
         
         // check if app running background
         if (!EasyUtils.isAppRunningForeground(appContext)) {

@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,10 +24,12 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -84,8 +87,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     UserModel model;
 
     private EMConnectionListener connectionListener;
+    private static final String TAG = "ChatFragment";
 
-    //    private android.app.AlertDialog.Builder accountRemovedBuilder;
+//    private android.app.AlertDialog.Builder accountRemovedBuilder;
 //    private boolean isConflictDialogShow;
 //    private boolean isAccountRemovedDialogShow;
 //    private BroadcastReceiver internalDebugReceiver;
@@ -190,6 +194,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         registerBroadcastReceiver();
 
     }
+
     @Override
     protected void initDatas() {
         loginPresenter = new LoginPresenterImpl(getContext());
@@ -211,7 +216,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
 //            activity.setAlpha(1);
 //        }
-//        super.onVisible();
+        super.onVisible();
     }
 
     @Override
@@ -221,7 +226,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             if (HomeFragment.timer != null) {
                 HomeFragment.timer.cancel();
             }
+
+            Log.i(TAG,"hxid = "+ hxid +"  model.getHXAccountId() = " + model.getHXAccountId());
             if (hxid.equals(model.getHXAccountId())) {
+
+                Log.i(TAG," 环信帐号验证通过....加载会话列表....");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
@@ -240,6 +249,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                         .commit();
             } else {
+                Log.i(TAG," 环信帐号验证failed ....加载会话列表....");
                 if ("-1".equals(hxid)) {
                     loginPresenter.getEMChatAccount(progressDialog);
                 } else {
@@ -254,7 +264,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 }
 
             }
-        }else {
+        } else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
 
@@ -335,7 +345,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //                break;
 //        }
 //    }
-
     private void refreshUIWithMessage() {
         new Thread() {
             @Override
@@ -472,6 +481,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         // after activity restore to foreground, reconnect
         if (!EMClient.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {//？？？？？？？？？？？？？？？
 //            EMChatManager.getInstance().reconnect();
+//            EMClient.getInstance().
+            Log.i(TAG,"环信服务器重连......");
         }
     }
 
@@ -521,15 +532,15 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
-            // notify new message
-//            for (EMMessage message : messages) {
-//                DemoHelper.getInstance().getNotifier().onNewMsg(message);
-//            }
-//            refreshUIWithMessage();
+            for (EMMessage message : messages) {
+                EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
 
-            EMMessage message = (EMMessage) messages;
+                // in background, do not refresh UI, notify it in notification bar
+                if(!easeUI.hasForegroundActivies()){
+                    ChatHelper.getInstance().getNotifier().onNewMsg(message);
+                }
+            }
             // 提示新消息
-            ChatHelper.getInstance().getNotifier().onNewMsg(message);
 
             refreshUIWithMessage();
         }
@@ -540,12 +551,37 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //            for (EMMessage message : messages) {
 //                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
 //                final String action = cmdMsgBody.action();//获取自定义action
-//                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
-//                    RedPacketUtil.receiveRedPacketAckMessage(message);
-//                }
+////                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
+////                    RedPacketUtil.receiveRedPacketAckMessage(message);
+////                }
 //            }
             //end of red packet code
-//            refreshUIWithMessage();
+
+            for (EMMessage message : messages) {
+                EMLog.d(TAG, "receive command message");
+                //get message body
+                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
+                final String action = cmdMsgBody.action();//获取自定义action
+                //red packet code : 处理红包回执透传消息
+//                if(!easeUI.hasForegroundActivies()){
+//                    if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)){
+//                        RedPacketUtil.receiveRedPacketAckMessage(message);
+//                        broadcastManager.sendBroadcast(new Intent(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION));
+//                    }
+//                }
+
+//                if (action.equals("__Call_ReqP2P_ConferencePattern")) {
+//                    String title = message.getStringAttribute("em_apns_ext", "conference call");
+//                    Toast.makeText(appContext, title, Toast.LENGTH_LONG).show();
+//                }
+                //end of red packet code
+                //获取扩展属性 此处省略
+                //maybe you need get extension of your message
+                //message.getStringAttribute("");
+                EMLog.d(TAG, String.format("Command：action:%s,message:%s", action,message.toString()));
+            }
+
+            refreshUIWithMessage();
         }
 
         @Override
@@ -557,6 +593,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
 
         @Override
-        public void onMessageChanged(EMMessage message, Object change) {}
+        public void onMessageChanged(EMMessage message, Object change) {
+        }
     };
+
+
 }

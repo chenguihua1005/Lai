@@ -2,6 +2,7 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -37,7 +38,7 @@ public abstract class EaseChatRow extends LinearLayout {
     protected int position;
 
     protected TextView timeStampView;
-//    protected ImageView userAvatarView;
+    //    protected EaseImageView userAvatarView;
     private ImageView userAvatarView;
     protected View bubbleLayout;
     protected TextView usernickView;
@@ -128,11 +129,13 @@ public abstract class EaseChatRow extends LinearLayout {
         if (message.direct() == Direct.SEND) {
 //            EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
             ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-            String p=chatUserModel.getUserPhone();
+            String p = chatUserModel.getUserPhone();
             Picasso.with(getContext()).load(p).fit().error(R.drawable.img_default).into(userAvatarView);
 
         } else {
-
+            if (TextUtils.isEmpty(photoF)) {
+                photoF = "111";
+            }
             Picasso.with(getContext()).load(photoF).fit().error(R.drawable.img_default).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
             usernickView.setText(nameF);
