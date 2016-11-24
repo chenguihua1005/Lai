@@ -19,12 +19,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.ui.EaseChatFragment;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -107,10 +107,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
+                if (error == EMError.USER_ALREADY_LOGIN) {
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
+                        EMClient.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
@@ -145,8 +145,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
             }
         };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        EMClient.getInstance().addConnectionListener(connectionListener);
 
+        //设置参数（"name"  "photo"）
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
     }

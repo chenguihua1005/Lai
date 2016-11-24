@@ -45,6 +45,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_perview)
     TextView tv_perview;
 
+
     LinearLayout ll_search;
 
     @InjectView(R.id.elv)
@@ -52,7 +53,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private ContactExpandableAdapter adapter;
 
     private int pageIndex=1;
-
+    public static Map<String,List<Contact>> datas=new HashMap<>();
+    private List<String> groups=new ArrayList<>();
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
@@ -137,8 +139,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                         });
     }
 
-    private Map<String,List<Contact>> datas=new HashMap<>();
-    private List<String> groups=new ArrayList<>();
+
     private void onResult(List<Contact> models){
 
         for (Contact contact:models){
@@ -174,7 +175,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.ll_search:
-                startActivity(new Intent(this, SearchContactActivity.class));
+                Intent intent=new Intent(this, SearchContactActivity.class);
+                intent.putExtra("classId",getIntent().getStringExtra("classId"));
+                startActivity(intent);
                 break;
         }
     }

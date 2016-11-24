@@ -8,10 +8,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -99,8 +98,8 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     HomeFragment.timer.cancel();
                                 }
                                 SharedPreferenceService.getInstance().put("HXID", "-1");
-                                if (EMChat.getInstance().isLoggedIn()) {
-                                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                                if (EMClient.getInstance().isLoggedInBefore()) {
+                                    EMClient.getInstance().logout(true,new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {

@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -25,17 +26,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
+import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
-import com.softtek.lai.module.bodygame3.more.view.SearchContactActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -78,7 +79,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
-
+    private static final String TAG = "HomeFragment";
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
 
@@ -129,8 +130,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         EventBus.getDefault().register(this);
         registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);
-        UserModel userModel=UserInfoModel.getInstance().getUser();
-        if (userModel==null||String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
+        UserModel userModel = UserInfoModel.getInstance().getUser();
+        if (userModel == null || String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);
@@ -160,9 +161,9 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if(verticalOffset>=0){
+                if (verticalOffset >= 0) {
                     pull.setEnabled(true);
-                }else {
+                } else {
                     pull.setEnabled(false);
                 }
             }
@@ -235,6 +236,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         super.onResume();
         rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
+        Log.i(TAG, "model = " + new Gson().toJson(model));
+
         if (model == null) {
             return;
         }
@@ -263,6 +266,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
+
+            Log.i(TAG, new Gson().toJson(model));
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
@@ -278,6 +283,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     public void run() {
                         // 需要做的事:发送消息
                         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+                        Log.i(TAG, "hxid = " + hxid);
+                        Log.i(TAG, "model.getHXAccountId() = " + model.getHXAccountId());
+
+
                         if (hxid.equals(model.getHXAccountId())) {
                             if (timer != null) {
                                 timer.cancel();
@@ -291,13 +300,14 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                    EMChatManager.getInstance().loadAllConversations();
+                                    EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                                    EMClient.getInstance().chatManager().loadAllConversations();
                                 }
                             }).start();
                         } else {
                             if ("-1".equals(hxid)) {
-                                if("0".equals(Constants.IS_LOGINIMG)){
+                                Log.i(TAG, "Constants.IS_LOGINIMG = " + Constants.IS_LOGINIMG);
+                                if ("0".equals(Constants.IS_LOGINIMG)) {
                                     loginChat(progressDialog, model.getHXAccountId());
                                 }
                             } else {
@@ -327,7 +337,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     private void HXLoginOut() {
-        EMChatManager.getInstance().logout(true, new EMCallBack() {
+        EMClient.getInstance().logout(true, new EMCallBack() {
 
             @Override
             public void onSuccess() {
@@ -354,13 +364,16 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
-        Constants.IS_LOGINIMG="1";
-        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
+        Log.i(TAG,"account = " + account +"  HBL_SOFTTEK#321");
+        Constants.IS_LOGINIMG = "1";
+        EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
+                Log.i(TAG, "登录成功............");
+
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                Constants.IS_LOGINIMG="0";
+                Constants.IS_LOGINIMG = "0";
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
@@ -368,8 +381,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                EMChatManager.getInstance().loadAllConversations();
+                EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                EMClient.getInstance().chatManager().loadAllConversations();
 
                 if (timer != null) {
                     timer.cancel();
@@ -381,12 +394,13 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
             @Override
             public void onProgress(int progress, String status) {
-                System.out.println("progress:"+progress+"     status:"+status);
+                System.out.println("progress:" + progress + "     status:" + status);
             }
 
             @Override
             public void onError(final int code, final String message) {
-                Constants.IS_LOGINIMG="0";
+                Log.i(TAG, "登录error............" + message);
+                Constants.IS_LOGINIMG = "0";
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
@@ -407,7 +421,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             switch (position) {
                 case Constants.BODY_GAME:
                     startActivity(new Intent(getContext(), BodyGameActivity.class));
-                    MobclickAgent.onEvent(getContext(),"BodyGameEvent");
+                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
@@ -416,7 +430,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     } else {
                         startActivity(new Intent(getContext(), LaiSportActivity.class));
                     }
-                    MobclickAgent.onEvent(getContext(),"LaiSportEvent");
+                    MobclickAgent.onEvent(getContext(), "LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
                 case Constants.LAI_EXCLE:
@@ -456,7 +470,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         }
 
     }
-
 
 
     @Override

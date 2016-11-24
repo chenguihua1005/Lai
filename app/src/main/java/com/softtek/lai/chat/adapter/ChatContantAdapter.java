@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.chat.model.ChatContactInfoModel;
-import com.softtek.lai.common.BaseActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -77,9 +76,9 @@ public class ChatContantAdapter extends BaseAdapter {
         String photo = contactListInfo.getPhoto();
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
-            Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+photo).fit().error(com.easemob.easeui.R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+photo).fit().error(R.drawable.img_default).into(holder.img);
         }
         holder.text_name.setText(contactListInfo.getUserName());
         return convertView;

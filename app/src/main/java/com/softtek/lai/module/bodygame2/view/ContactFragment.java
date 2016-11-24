@@ -14,12 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.Constant;
@@ -180,10 +179,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
+                if (error == EMError.USER_ALREADY_LOGIN) {
                     SharedPreferenceService.getInstance().put("HXID", "-1");
                     if (!getActivity().isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
+                        EMClient.getInstance().logout(true, new EMCallBack() {
 
                             @Override
                             public void onSuccess() {
@@ -219,7 +218,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                boolean isLogin = EMClient.getInstance().isLoggedInBefore();
                 if (isLogin) {
                     ChatContactInfoModel model = list.get(position);
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
@@ -250,7 +249,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
 
             case R.id.lin_group_send:
-                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                boolean isLogin = EMClient.getInstance().isLoggedInBefore();
                 if (isLogin) {
                     Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                     intent.putExtra("list", (Serializable) list);

@@ -84,7 +84,11 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
             view=LayoutInflater.from(context).inflate(R.layout.expandable_parent_contact_item,viewGroup,false);
         }
         TextView textView= (TextView) view.findViewById(R.id.group_name);
-        textView.setText(groups.get(parentPos));
+        if(parentPos<groups.size()){
+            textView.setText(groups.get(parentPos));
+        }else {
+            textView.setText("");
+        }
         return view;
     }
 

@@ -177,7 +177,7 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <!-- 显示下载大图页面 -->
         <activity
-            android:name="com.easemob.easeui.ui.EaseShowBigImageActivity"
+            android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
         <activity
@@ -671,7 +671,7 @@
             android:screenOrientation="portrait" />
 
         <!-- 开机自启动服务 -->
-        <receiver android:name="com.easemob.chat.StartServiceReceiver">
+        <receiver android:name=".module.bodygame3.conversation.StartServiceReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -682,10 +682,10 @@
 
         <!-- 声明sdk所需的service -->
         <service
-            android:name="com.easemob.chat.EMChatService"
+            android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
         <!-- 声明sdk所需的receiver -->
-        <receiver android:name="com.easemob.chat.EMMonitorReceiver">
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
@@ -707,7 +707,7 @@
             android:enabled="true" />
 
         <receiver
-            android:name="com.easemob.chat.EMMipushReceiver"
+            android:name="com.hyphenate.chat.EMMipushReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
@@ -827,7 +827,10 @@
         <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity" />
         <activity android:name=".module.bodygame3.more.view.ContactsActivity" />
-        <activity android:name=".module.bodygame3.more.view.SearchContactActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.SearchContactActivity" />
+        <activity android:name=".module.bodygame3.more.view.ClassManagerActivity" />
+        <activity android:name=".module.bodygame3.more.view.EditorTextOlineActivity" />
+        <activity android:name=".module.bodygame3.more.view.UpdateFuceTimeActivity"></activity>
     </application>
 
 </manifest>

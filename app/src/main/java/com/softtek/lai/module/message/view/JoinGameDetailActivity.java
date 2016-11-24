@@ -27,10 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 import com.github.snowdream.android.util.Log;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
@@ -357,17 +357,18 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     // 调用sdk注册方法
                     String phone=model.getMobile();
                     final String account=MD5.md5WithEncoder(phone).toLowerCase();
-                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+//                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+                    EMClient.getInstance().createAccount(account, "HBL_SOFTTEK#321");
                     runOnUiThread(new Runnable() {
                         public void run() {
                             loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
                         }
                     });
-                } catch (final EaseMobException e) {
+                } catch (final HyphenateException e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             int errorCode=e.getErrorCode();
-                            if (errorCode == EMError.USER_ALREADY_EXISTS) {
+                            if (errorCode == EMError.USER_ALREADY_EXIST) {
                                 String phone=model.getMobile();
                                 final String account=MD5.md5WithEncoder(phone).toLowerCase();
                                 loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
