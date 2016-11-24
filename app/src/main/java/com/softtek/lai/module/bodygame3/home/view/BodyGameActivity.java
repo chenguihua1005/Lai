@@ -46,6 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame3)
 public class BodyGameActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "BodyGameActivity";
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -106,6 +107,8 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
+
+        Log.i(TAG, "initViews   ......");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -273,16 +276,26 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
+        Log.i(TAG, "注册监听......");
         registerMessageReceiver();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume is running...");
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+
+            Log.i(TAG, "已登录,未读消息数是： " + unreadNum);
             updateMessage(unreadNum);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
     }
 
     private MessageReceiver mMessageReceiver;
@@ -302,6 +315,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
                 int unreadNum = intent.getIntExtra("count", 0);
+                Log.i(TAG, "收到未读消息数= " + unreadNum);
                 //更新小红点
                 updateMessage(unreadNum);
             }
@@ -377,11 +391,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mMessageReceiver);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

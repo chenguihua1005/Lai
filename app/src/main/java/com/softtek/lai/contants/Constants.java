@@ -142,4 +142,10 @@ public class Constants {
     public static final int RESET = 3;
     public static final int FREE = 4;
 
+    //班级角色1：开班教练Head coach	2：组别教练	3：组别助教assistant	4：学员
+    public static final int HEADCOACH=1;
+    public static final int COACH=2;
+    public static final int ASSISTANT=3;
+    public static final int STUDENT=4;
+
 }

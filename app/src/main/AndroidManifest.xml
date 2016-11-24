@@ -826,6 +826,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
+        <activity android:name=".module.bodygame3.activity.view.CreateActActivity"></activity>
         <activity android:name=".module.bodygame3.more.view.EditorTextActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
         <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity" />

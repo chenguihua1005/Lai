@@ -10,8 +10,10 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
@@ -23,12 +25,14 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActCalendarModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
+import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
+import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
@@ -40,6 +44,7 @@ import com.softtek.lai.widgets.materialcalendarview.decorators.EventDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchedulEventDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,24 +56,34 @@ import java.util.concurrent.Executors;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.R.attr.data;
 import static android.graphics.Color.parseColor;
+import static com.softtek.lai.R.id.context;
+import static com.softtek.lai.R.id.lv_class;
+import static com.softtek.lai.R.id.reset_name;
 
 @InjectLayout(R.layout.fragment_activity2)
 public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener, View.OnClickListener {
-
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
     @InjectView(R.id.tv_title)
     ArrowSpinner2 tv_title;
+    @InjectView(R.id.list_activity)
+    ListView list_activity;
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     @InjectView(R.id.ll_chuDate)
     LinearLayout ll_chuDate;//初始数据录入、审核
+    @InjectView(R.id.reset_name)
+    TextView reset_name;//复测录入/复测审核
+    @InjectView(R.id.reset_time)
+    TextView reset_time;//未复测、已复测
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
@@ -76,7 +91,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String classid;
     private String classId_first;
     private List<ClassModel> classModels = new ArrayList<ClassModel>();
+    private List<TodayactModel> todayactModels = new ArrayList<TodayactModel>();
     private String dateStr;
+    EasyAdapter<TodayactModel> adapter;
 
     public ActivityFragment() {
         // Required empty public constructor
@@ -165,7 +182,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     protected void initDatas() {
         //获取初始数据
         getalldatafirst();
+        adapter = new EasyAdapter<TodayactModel>(getContext(), todayactModels, R.layout.activity_list) {
+            @Override
+            public void convert(ViewHolder holder, TodayactModel data, int position) {
+                TextView activity_name = holder.getView(R.id.activity_name);
+                activity_name.setText(data.getActivityName() + "(" + data.getCount() + ")");
+                TextView activity_time = holder.getView(R.id.activity_time);
+                activity_time.setText("集合时间 " + data.getActivityStartDate());
+                ImageView activityicon = holder.getView(R.id.activityicon);
+                String path = AddressManager.getHost();
+                Picasso.with(getContext()).load(path + data.getActivityIcon()).into(activityicon);
+            }
 
+        };
+        list_activity.setAdapter(adapter);
     }
 
 
@@ -182,7 +212,21 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                     }
 
-
+                    if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                        reset_name.setText("复测审核");
+                        if (!activitydataModel.getRetest()) {
+                            reset_time.setText("未审核");
+                        } else {
+                            reset_time.setText("已审核");
+                        }
+                    } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                        reset_name.setText("复测录入");
+                        if (!activitydataModel.getRetest()) {
+                            reset_time.setText("未复测");
+                        } else {
+                            reset_time.setText("已复测");
+                        }
+                    }
                     //加载班级
                     if (activitydataModel.getList_Class() != null) {
                         classModels.addAll(activitydataModel.getList_Class());
@@ -203,23 +247,88 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
 
                     }
+                    //获取今天的活动
+                    if (activitydataModel.getList_Activity() != null) {
+                        todayactModels.addAll(activitydataModel.getList_Activity());
+                        adapter.notifyDataSetChanged();
+                    }
+
+
                 }
 
             }
         });
 
-//        tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                classid = classModels.get(i).getClassId();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
+        tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                classid = classModels.get(i).getClassId();
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
+                    @Override
+                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
+                        Util.toastMsg(activitydataModelResponseData.getMsg() + "++++++++++++++++");
+                        System.out.println("++++++++++++++++");
+                        if (activitydataModelResponseData.getData() != null) {
+                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
+                            if (activitydataModel.getList_ActCalendar() != null) {
+                                calendarModels.addAll(activitydataModel.getList_ActCalendar());
+                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                            }
+
+                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                reset_name.setText("复测审核");
+                                if (!activitydataModel.getRetest()) {
+                                    reset_time.setText("未审核");
+                                } else {
+                                    reset_time.setText("已审核");
+                                }
+                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                reset_name.setText("复测录入");
+                                if (!activitydataModel.getRetest()) {
+                                    reset_time.setText("未复测");
+                                } else {
+                                    reset_time.setText("已复测");
+                                }
+                            }
+                            //加载班级
+                            if (activitydataModel.getList_Class() != null) {
+                                classModels.addAll(activitydataModel.getList_Class());
+                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
+                                    @Override
+                                    public void convert(ViewHolder holder, ClassModel data, int position) {
+                                        TextView tv_class_name = holder.getView(R.id.tv_title);
+                                        tv_class_name.setText(data.getClassName());
+                                    }
+
+                                    @Override
+                                    public String getText(int position) {
+                                        classId_first = classModels.get(position).getClassId();
+
+                                        return classModels.get(position).getClassName();
+                                    }
+                                });
+
+
+                            }
+                            //获取今天的活动
+                            if (activitydataModel.getList_Activity() != null) {
+                                todayactModels.addAll(activitydataModel.getList_Activity());
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -238,14 +347,23 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     private void gettodaydata() {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "", dateStr, new RequestCallback<ResponseData<TodaysModel>>() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "C4E8E179-FD99-4955-8BF9-CF470898788B", dateStr, new RequestCallback<ResponseData<TodaysModel>>() {
             @Override
             public void success(ResponseData<TodaysModel> todaysModelResponseData, Response response) {
-            Util.toastMsg(todaysModelResponseData.getMsg());
+                Util.toastMsg(todaysModelResponseData.getMsg());
+                todayactModels.clear();
+                if (todaysModelResponseData.getData() != null) {
+                    TodaysModel model = todaysModelResponseData.getData();
+                    if (model.getList_Activity() != null) {
+                        todayactModels.addAll(model.getList_Activity());
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             }
         });
     }
 
+    //}
     @Override
     public void onDatePageSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
 

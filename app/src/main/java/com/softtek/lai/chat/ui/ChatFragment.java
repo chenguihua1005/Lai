@@ -89,6 +89,12 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                     conversation.removeMessage(contextMenuMessage.getMsgId());
                     refreshUI();
                     break;
+                case ContextMenuActivity.RESULT_CODE_FORWARD: // forward
+//                    Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
+//                    intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
+//                    startActivity(intent);
+
+//                    break;
                 default:
                     break;
             }
