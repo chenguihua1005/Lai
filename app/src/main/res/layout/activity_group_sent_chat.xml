@@ -5,7 +5,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/grey"
     android:orientation="vertical">
-11.34
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
@@ -38,13 +38,13 @@
             />
     </LinearLayout>
 
-    <com.easemob.easeui.widget.EaseVoiceRecorderView
+    <com.hyphenate.easeui.widget.EaseVoiceRecorderView
         android:id="@+id/voice_recorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="invisible" />
-    <com.easemob.easeui.widget.EaseChatInputMenu
+    <com.hyphenate.easeui.widget.EaseChatInputMenu
         android:id="@+id/input_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

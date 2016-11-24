@@ -423,6 +423,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
+                Log.i(TAG,"发送未读消息数 = " + unreadMsgCountTotal);
+
                 EMClient.getInstance().chatManager().loadAllConversations();
                 handler.sendEmptyMessage(2);
                 if (progressDialog != null) {

@@ -7,8 +7,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#c9c8ce"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
@@ -50,14 +50,17 @@
     <LinearLayout
         android:id="@+id/lin_group_send"
         android:layout_width="fill_parent"
+        android:layout_height="60dip"
         android:background="@color/grey"
-        android:layout_height="60dip">
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="15dip"
-            android:src="@drawable/img_group"/>
+            android:src="@drawable/img_group" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,9 +71,28 @@
             android:textSize="15sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/grid_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:background="@color/grey"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <com.softtek.lai.widgets.CustomGridView
+            android:id="@+id/menu_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:numColumns="3">
+        </com.softtek.lai.widgets.CustomGridView>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/list_contant"
         android:layout_width="fill_parent"
-        android:layout_marginTop="10dip"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dip" />
 </LinearLayout>

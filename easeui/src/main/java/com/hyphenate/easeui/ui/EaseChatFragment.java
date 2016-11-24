@@ -39,6 +39,8 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
@@ -753,6 +755,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (message == null) {
             return;
         }
+        ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+        message.setAttribute("nickname", chatUserModel.getUserName());
+        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+
         if (chatFragmentHelper != null) {
             //set extension
             chatFragmentHelper.onSetMessageAttributes(message);

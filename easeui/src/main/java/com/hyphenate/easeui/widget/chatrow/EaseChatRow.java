@@ -23,6 +23,7 @@ import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -125,6 +126,19 @@ public abstract class EaseChatRow extends LinearLayout {
                 }
             }
         }
+
+        String name = null;
+        String avatar = null;
+        try {
+            name=message.getStringAttribute("nickname");
+            avatar=message.getStringAttribute("avatarURL");
+            if(TextUtils.isEmpty(avatar)){
+                avatar="111";
+            }
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+
         //set nickname and avatar
         if (message.direct() == Direct.SEND) {
 //            EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);

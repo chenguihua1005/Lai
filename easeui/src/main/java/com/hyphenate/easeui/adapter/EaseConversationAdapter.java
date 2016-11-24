@@ -2,13 +2,11 @@ package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
@@ -20,13 +18,18 @@ import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
+import com.hyphenate.easeui.widget.EaseImageView;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DateUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +91,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.message = (TextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            holder.avatar = (EaseImageView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.list_itease_layout = (RelativeLayout) convertView.findViewById(R.id.list_itease_layout);
             holder.motioned = (TextView) convertView.findViewById(R.id.mentioned);
@@ -100,6 +103,8 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMConversation conversation = getItem(position);
         // get username or group id
         String username = conversation.getUserName();
+
+        EMMessage lastMessage1 = conversation.getLastMessage();
         
         if (conversation.getType() == EMConversationType.GroupChat) {
             String groupId = conversation.getUserName();
@@ -117,10 +122,53 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(username);
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
             holder.motioned.setVisibility(View.GONE);
-        }else {
-            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
-            EaseUserUtils.setUserNick(username, holder.name);
+        }else {//单聊
+//            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
+//            EaseUserUtils.setUserNick(username, holder.name);
             holder.motioned.setVisibility(View.GONE);
+
+            String name="";
+            String photo="";
+            ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+            String userId=chatUserModel.getUserId().toLowerCase();
+            String f=lastMessage1.getFrom().toLowerCase();
+            try {
+                name=lastMessage1.getStringAttribute("nickname");
+                photo=lastMessage1.getStringAttribute("avatarURL");
+            } catch (HyphenateException e) {
+                e.printStackTrace();
+            }
+            System.out.println("userId:"+userId+"    f:"+f);
+            if(f.equals(userId)){
+                String str=conversation.getExtField();
+                if(!TextUtils.isEmpty(str)){
+                    String[] field=str.split(",");
+                    if(field.length>=2){
+                        name=field[0];
+                        photo=field[1];
+                    }
+                }
+            }
+//			if(!TextUtils.isEmpty(conversation.getExtField())){
+//				String[] field=conversation.getExtField().split(",");
+//				name=field[0];
+//				photo=field[1];
+//			}else {
+//				EMMessage msg=conversation.getAllMessages().get(0);
+//				try {
+//					name=msg.getStringAttribute("nickname");
+//					photo=msg.getStringAttribute("avatarURL");
+//				} catch (EaseMobException e) {
+//					e.printStackTrace();
+//				}
+//			}
+            holder.name.setText(name);
+            if(TextUtils.isEmpty(photo)){
+                Picasso.with(getContext()).load(R.drawable.img_default).into(holder.avatar);
+            }else {
+                Picasso.with(getContext()).load(photo).fit().error(R.drawable.img_default).into(holder.avatar);
+            }
+            holder.avatar.setShapeType(1);
         }
 
         if (conversation.getUnreadMsgCount() > 0) {
@@ -133,7 +181,10 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
         if (conversation.getAllMsgCount() != 0) {
         	// show the content of latest message
+//            jessica
             EMMessage lastMessage = conversation.getLastMessage();
+//             lastMessage = conversation.getLastMessage();
+
             String content = null;
             if(cvsListHelper != null){
                 content = cvsListHelper.onSetItemSecondaryText(lastMessage);
@@ -150,17 +201,19 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 holder.msgState.setVisibility(View.GONE);
             }
         }
-        
+
+
+
         //set property
-        holder.name.setTextColor(primaryColor);
-        holder.message.setTextColor(secondaryColor);
-        holder.time.setTextColor(timeColor);
-        if(primarySize != 0)
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_PX, primarySize);
-        if(secondarySize != 0)
-            holder.message.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondarySize);
-        if(timeSize != 0)
-            holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
+//        holder.name.setTextColor(primaryColor);
+//        holder.message.setTextColor(secondaryColor);
+//        holder.time.setTextColor(timeColor);
+//        if(primarySize != 0)
+//            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_PX, primarySize);
+//        if(secondarySize != 0)
+//            holder.message.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondarySize);
+//        if(timeSize != 0)
+//            holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
 
         return convertView;
     }
@@ -299,7 +352,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         /** time of last message */
         TextView time;
         /** avatar */
-        ImageView avatar;
+        EaseImageView avatar;
         /** status of last message */
         View msgState;
         /** layout */
