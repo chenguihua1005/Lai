@@ -830,7 +830,8 @@
         <activity android:name=".module.bodygame3.more.view.SearchContactActivity" />
         <activity android:name=".module.bodygame3.more.view.ClassManagerActivity" />
         <activity android:name=".module.bodygame3.more.view.EditorTextOlineActivity" />
-        <activity android:name=".module.bodygame3.more.view.UpdateFuceTimeActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.UpdateFuceTimeActivity" />
+        <activity android:name=".module.bodygame3.head.view.SearchClassActivity"></activity>
     </application>
 
 </manifest>

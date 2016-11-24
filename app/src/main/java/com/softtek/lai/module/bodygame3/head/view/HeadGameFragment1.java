@@ -135,11 +135,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @Override
     protected void initDatas() {
         final List<TypeModel> datas = new ArrayList<TypeModel>();
-        TypeModel model1 = new TypeModel(1, "体重比");
+        TypeModel model1 = new TypeModel(0, "体重比");
         datas.add(model1);
         TypeModel model2 = new TypeModel(2, "体脂");
         datas.add(model2);
-        TypeModel model3 = new TypeModel(3, "减重比");
+        TypeModel model3 = new TypeModel(1, "减重比");
         datas.add(model3);
         //类型（体重比，体脂，减重比）
         spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
@@ -237,6 +237,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         partnersModels.addAll(classinfoModel.getPartnersList());
                         partnerAdapter.update(partnersModels);
                     }
+
                     //本周推荐
                     if(classinfoModel.getListRec()!=null){
                         tuijianModels.addAll(classinfoModel.getListRec());

@@ -182,7 +182,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 });
                 break;
             case R.id.searchContent:
-                Intent intent=new Intent(getContext(), SearchContactActivity.class);
+                Intent intent=new Intent(getContext(), SearchClassActivity.class);
+                intent.putExtra("content",searchContent.getText().toString().trim());
                 startActivity(intent);
 //                String content=searchContent.getText().toString().trim();
 //                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new Callback<ResponseData<PartnersModel>>() {

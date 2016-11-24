@@ -2,6 +2,8 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,23 +16,43 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.model.ActCalendarModel;
+import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
+import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
+import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
+import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.retest.WriteActivity;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDatePageChangeListener;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
+import com.softtek.lai.widgets.materialcalendarview.decorators.EventDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
+import com.softtek.lai.widgets.materialcalendarview.decorators.SchedulEventDecorator;
+import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static android.graphics.Color.parseColor;
 
@@ -49,6 +71,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     LinearLayout ll_chuDate;//初始数据录入、审核
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+    private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
+    private int datetype;
+    private String classid;
+    private String classId_first;
+    private List<ClassModel> classModels = new ArrayList<ClassModel>();
+    private String dateStr;
 
     public ActivityFragment() {
         // Required empty public constructor
@@ -135,7 +163,63 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initDatas() {
+        //获取初始数据
+        getalldatafirst();
 
+    }
+
+
+    private void getalldatafirst() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "C4E8E179-FD99-4955-8BF9-CF470898788B", new RequestCallback<ResponseData<ActivitydataModel>>() {
+            @Override
+            public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
+                Util.toastMsg(activitydataModelResponseData.getMsg() + "++++++++++++++++");
+                System.out.println("++++++++++++++++");
+                if (activitydataModelResponseData.getData() != null) {
+                    ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
+                    if (activitydataModel.getList_ActCalendar() != null) {
+                        calendarModels.addAll(activitydataModel.getList_ActCalendar());
+                        new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                    }
+
+
+                    //加载班级
+                    if (activitydataModel.getList_Class() != null) {
+                        classModels.addAll(activitydataModel.getList_Class());
+                        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
+                            @Override
+                            public void convert(ViewHolder holder, ClassModel data, int position) {
+                                TextView tv_class_name = holder.getView(R.id.tv_title);
+                                tv_class_name.setText(data.getClassName());
+                            }
+
+                            @Override
+                            public String getText(int position) {
+                                classId_first = classModels.get(position).getClassId();
+
+                                return classModels.get(position).getClassName();
+                            }
+                        });
+
+
+                    }
+                }
+
+            }
+        });
+
+//        tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                classid = classModels.get(i).getClassId();
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -147,8 +231,19 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         int MM = date.getCalendar().get(Calendar.MONTH) + 1;
         int DD = date.getCalendar().get(Calendar.DATE);
 
-        String dateStr = YY + "/" + MM + "/" + DD;
+        dateStr = YY + "-" + MM + "-" + DD;
+        gettodaydata();
 
+
+    }
+
+    private void gettodaydata() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "", dateStr, new RequestCallback<ResponseData<TodaysModel>>() {
+            @Override
+            public void success(ResponseData<TodaysModel> todaysModelResponseData, Response response) {
+            Util.toastMsg(todaysModelResponseData.getMsg());
+            }
+        });
     }
 
     @Override
@@ -171,5 +266,45 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         }
     }
 
+    private class ApiSimulator extends AsyncTask<Void, Void, List<CalendarDay>> {
+
+        @Override
+        protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, 0);
+            ArrayList<CalendarDay> dates = new ArrayList<>();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+
+            for (int i = 0; i < calendarModels.size(); i++) {
+                datetype = calendarModels.get(i).getDateType();
+                String dateString = calendarModels.get(i).getMonthDate();
+                try {
+                    Date date = df.parse(dateString);
+                    calendar.setTime(date);
+                    CalendarDay day = CalendarDay.from(calendar);
+                    dates.add(day);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            return dates;
+        }
+
+        @Override
+        protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
+            super.onPostExecute(calendarDays);
+            if (getActivity() == null || getActivity().isFinishing()) {
+                return;
+            }
+            if (material_calendar != null) {
+                material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarDays, getActivity()));
+            }
+        }
+    }
 
 }
