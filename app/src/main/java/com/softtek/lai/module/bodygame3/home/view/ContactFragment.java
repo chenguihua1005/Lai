@@ -20,7 +20,9 @@ import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,11 +56,16 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
+    @InjectView(R.id.menu_gridview)
+    CustomGridView menu_gridview;
+
 
     //通讯录联系人列表
     List<ChatContactInfoModel> list;
     //通讯录联系人列表适配器
     ChatContantAdapter adapter;
+
+    ContactMenuAdapter menuAdapter;
 
 
     @Override
@@ -70,6 +77,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        //顶上几个菜单列表
+        menuAdapter = new ContactMenuAdapter(getActivity());
+        menu_gridview.setAdapter(menuAdapter);
+
         lin_group_send.setOnClickListener(this);
 
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
