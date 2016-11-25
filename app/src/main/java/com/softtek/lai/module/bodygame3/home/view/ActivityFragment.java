@@ -239,9 +239,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
                             @Override
                             public String getText(int position) {
-                                classId_first = classModels.get(position).getClassId();
-
-                                return classModels.get(position).getClassName();
+                                String result = "";
+                                if (classModels.size() > 0) {
+                                    classId_first = classModels.get(position).getClassId();
+                                    result = classModels.get(position).getClassName();
+                                }
+                                return result;
                             }
                         });
 
