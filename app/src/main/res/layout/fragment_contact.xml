@@ -4,12 +4,12 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#c9c8ce"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -75,24 +75,70 @@
         android:id="@+id/grid_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
         android:background="@color/grey"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:padding="3dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="30dp">
 
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/menu_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:numColumns="3">
-        </com.softtek.lai.widgets.CustomGridView>
+            android:numColumns="3"></com.softtek.lai.widgets.CustomGridView>
+
 
     </LinearLayout>
 
-    <ListView
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+    <!--android:id="@+id/list_contant"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:divider="#ececec"-->
+    <!--android:dividerHeight="1dp"-->
+    <!--android:listSelector="@android:color/transparent"-->
+    <!--android:overScrollMode="never"-->
+    <!--android:scrollbars="none"-->
+    <!--android:layout_marginTop="10dip">-->
+
+    <!--</com.handmark.pulltorefresh.library.PullToRefreshListView>-->
+    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
         android:id="@+id/list_contant"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="10dip" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:divider="#e1e1e1"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@null"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false" />
+
+    <TextView
+        android:id="@+id/tv_perview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#B2898787"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="70sp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <com.ggx.widgets.view.ChooseView
+        android:id="@+id/choose"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/toolbar"
+        android:gravity="center" />
+
+    <!--<ListView-->
+
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_marginTop="10dip" />-->
 </LinearLayout>
