@@ -1,42 +1,37 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame.model.TotolModel;
-import com.softtek.lai.module.bodygame.net.BodyGameService;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
-import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.bodygame3.more.view.SearchContactActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
-
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,10 +49,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView tv_total_loss;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
+    @InjectView(R.id.toolbar)
+    RelativeLayout relativeLayout;
     @InjectView(R.id.searchContent)
     EditText searchContent;
     @InjectView(R.id.pull)
     SwipeRefreshLayout pull;
+    @InjectView(R.id.search_btn)
+    Button search_btn;
     @InjectView(R.id.ivhead2_refresh)
     ImageView ivhead2_refresh;
     Animation roate;
@@ -76,7 +75,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void initViews() {
+//        if (DisplayUtil.getSDKInt() > 18) {
+//            int status = DisplayUtil.getStatusHeight(getActivity());
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
+//            params.topMargin = status;
+//            relativeLayout.setLayoutParams(params);
+//        }
         pull.setOnRefreshListener(this);
+        search_btn.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
@@ -181,10 +187,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                     }
                 });
                 break;
-            case R.id.searchContent:
-                Intent intent=new Intent(getContext(), SearchClassActivity.class);
-                intent.putExtra("content",searchContent.getText().toString().trim());
-                startActivity(intent);
+            case R.id.search_btn:
+                String text=searchContent.getText().toString().trim();
+                if(StringUtils.isNotEmpty(text)){
+                    Intent intent = new Intent(getContext(), SearchClassActivity.class);
+                    intent.putExtra("content", text.replaceAll("%","").replaceAll("_",""));
+                    startActivity(intent);
+                }
+
 //                String content=searchContent.getText().toString().trim();
 //                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new Callback<ResponseData<PartnersModel>>() {
 //                    @Override

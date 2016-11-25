@@ -39,7 +39,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_search_class)
-public class SearchClassActivity extends BaseActivity implements View.OnClickListener{
+public class SearchClassActivity extends BaseActivity implements View.OnClickListener {
     private String content_et;
     @InjectView(R.id.lv_class)
     ListView lv_class;
@@ -70,8 +70,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         if (data.getStatus() == 200) {
                             classlistModels.clear();
                             classlistModels.addAll(data.getData());
-                            adapter.notifyDataSetChanged();
-                            if (classlistModels == null || data.getData().isEmpty()) {
+                            if (classlistModels != null || classlistModels.isEmpty()) {
                                 try {
                                     new AlertDialog.Builder(SearchClassActivity.this).setMessage("查询失败，无此班级").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
@@ -82,10 +81,9 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                            } else {
+                                adapter.notifyDataSetChanged();
                             }
-//                            else{
-//
-//                            }
 
                         }
                     }
@@ -107,7 +105,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_left:
                 finish();
                 break;

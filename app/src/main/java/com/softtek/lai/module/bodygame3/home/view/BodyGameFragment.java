@@ -64,7 +64,7 @@ public class BodyGameFragment extends LazyBaseFragment {
     @Override
     protected void initViews() {
 //        if(UserInfoModel.getInstance().getUser().getUserrole().equals("0")){
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment1()).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment()).commit();
 //        }
 
 
