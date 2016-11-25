@@ -141,7 +141,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
 
     private void onResult(List<Contact> models){
-
+        if(models==null||models.isEmpty()){
+            return;
+        }
         for (Contact contact:models){
             String groupName;
             if(TextUtils.isEmpty(contact.getUserEn())){

@@ -825,17 +825,29 @@
             android:name=".module.bodygame3.home.view.BodyGameActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.CreateClassActivity" />
-        <activity android:name=".module.bodygame3.activity.view.CreateActActivity"></activity>
-        <activity android:name=".module.bodygame3.more.view.EditorTextActivity" />
-        <activity android:name=".module.bodygame3.more.view.InvitationListActivity" />
-        <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity" />
-        <activity android:name=".module.bodygame3.more.view.ContactsActivity" />
-        <activity android:name=".module.bodygame3.more.view.SearchContactActivity" />
-        <activity android:name=".module.bodygame3.more.view.ClassManagerActivity" />
-        <activity android:name=".module.bodygame3.more.view.EditorTextOlineActivity" />
-        <activity android:name=".module.bodygame3.more.view.UpdateFuceTimeActivity" />
-        <activity android:name=".module.bodygame3.head.view.SearchClassActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.CreateClassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.activity.view.CreateActActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.EditorTextActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.InvitationListActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <activity android:name=".module.bodygame3.more.view.InvitationSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.ContactsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.SearchContactActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.ClassManagerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.EditorTextOlineActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.UpdateFuceTimeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.head.view.SearchClassActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

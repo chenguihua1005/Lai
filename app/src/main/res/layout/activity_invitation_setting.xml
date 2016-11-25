@@ -224,6 +224,7 @@
                 android:gravity="center"
                 android:text="给小伙伴发送邀请吧"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

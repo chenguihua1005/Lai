@@ -52,4 +52,5 @@ public class SendInvitation {
     public void setClassRole(int classRole) {
         ClassRole = classRole;
     }
+
 }

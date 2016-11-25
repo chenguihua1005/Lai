@@ -99,7 +99,7 @@ public class InvitatedExpandableAdapter extends BaseExpandableListAdapter {
         name.setText(contact.getInviterUserName());
         CircleImageView head_image= (CircleImageView) view.findViewById(R.id.head_image);
         if(!TextUtils.isEmpty(contact.getInviterPhoto())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getInviterPhoto())
+            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getInviterPhoto()).fit()
                     .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
         }else {
             Picasso.with(context).load(R.drawable.img_default).into(head_image);

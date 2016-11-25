@@ -1,26 +1,16 @@
 package com.softtek.lai.module.bodygame3.more.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 邀请人列表模型
  * @author jerry.Guan
  *         created by 2016/11/21
  */
 
-public class InvitatedContact {
+public class InvitatedContact implements Parcelable{
 
-
-    /**
-     * MessageId : fd2bebec-2587-471b-a8f9-40a68b661a6e
-     * InviterId : 77215
-     * InviterPhoto : 201610282026390465458463.jpg
-     * InviterUserName : Willian
-     * InviterMobile : 18961765466
-     * InviterCertification : CN1765466
-     * JoinGroupName : 小组1
-     * JoinGroupId : c3757697-25bb-4340-b040-f76e9a21ab90
-     * ClassRole : 2
-     * InviterStatus : 0
-     */
 
     private String MessageId;
     private int InviterId;
@@ -32,6 +22,34 @@ public class InvitatedContact {
     private String JoinGroupId;
     private int ClassRole;
     private int InviterStatus;
+
+    public InvitatedContact() {
+    }
+
+    protected InvitatedContact(Parcel in) {
+        MessageId = in.readString();
+        InviterId = in.readInt();
+        InviterPhoto = in.readString();
+        InviterUserName = in.readString();
+        InviterMobile = in.readString();
+        InviterCertification = in.readString();
+        JoinGroupName = in.readString();
+        JoinGroupId = in.readString();
+        ClassRole = in.readInt();
+        InviterStatus = in.readInt();
+    }
+
+    public static final Creator<InvitatedContact> CREATOR = new Creator<InvitatedContact>() {
+        @Override
+        public InvitatedContact createFromParcel(Parcel in) {
+            return new InvitatedContact(in);
+        }
+
+        @Override
+        public InvitatedContact[] newArray(int size) {
+            return new InvitatedContact[size];
+        }
+    };
 
     public String getMessageId() {
         return MessageId;
@@ -111,5 +129,24 @@ public class InvitatedContact {
 
     public void setInviterStatus(int InviterStatus) {
         this.InviterStatus = InviterStatus;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(MessageId);
+        parcel.writeInt(InviterId);
+        parcel.writeString(InviterPhoto);
+        parcel.writeString(InviterUserName);
+        parcel.writeString(InviterMobile);
+        parcel.writeString(InviterCertification);
+        parcel.writeString(JoinGroupName);
+        parcel.writeString(JoinGroupId);
+        parcel.writeInt(ClassRole);
+        parcel.writeInt(InviterStatus);
     }
 }
