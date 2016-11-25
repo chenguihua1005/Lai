@@ -19,6 +19,8 @@ import com.softtek.lai.utils.DisplayUtil;
 
 public class DragTextView extends TextView{
 
+    private static int minDistance;
+
     private int touchSlop;
     private int screenWidth;
     private int screenHeight;
@@ -45,10 +47,13 @@ public class DragTextView extends TextView{
         screenWidth= DisplayUtil.getMobileWidth(getContext());
         screenWidthHalf=screenWidth>>1;
         screenHeight=DisplayUtil.getMobileHeight(getContext());
+        minDistance=DisplayUtil.dip2px(getContext(),15);
     }
 
     private int dx;
     private int dy;
+    private int firstOffsetX;
+    private int firstOffsetY;
     private boolean isDrag;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -56,15 +61,20 @@ public class DragTextView extends TextView{
         int rawY = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
+                isDrag=false;
                 getParent().requestDisallowInterceptTouchEvent(true);
                 RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)getLayoutParams();
-                dx = rawX - lParams.leftMargin;
-                dy = rawY - lParams.topMargin;
+                dx=rawX;
+                dy=rawY;
+                firstOffsetX = rawX- lParams.leftMargin;
+                firstOffsetY = rawY- lParams.topMargin;
                 break;
-
             case MotionEvent.ACTION_MOVE:
-                int offsetX=rawX-dx;
-                int offsetY=rawY-dy;
+                int moveX=rawX-dx;
+                int moveY=rawY-dy;
+                int distance= (int) Math.sqrt(moveX*moveX+moveY*moveY);
+                int offsetX=rawX-firstOffsetX;
+                int offsetY=rawY-firstOffsetY;
                 int maxX=screenWidth-getWidth();
                 int minX=getWidth();
                 int minY=DisplayUtil.getStatusHeight2((Activity) getContext());
@@ -79,15 +89,14 @@ public class DragTextView extends TextView{
                 }else if(rawY>maxY){
                     offsetY=maxY;
                 }
-                int distance= (int) Math.sqrt(Math.pow(offsetX,2)+Math.pow(offsetY,2));
-                if(distance>touchSlop+10){
+                if(distance>touchSlop+minDistance){
                     isDrag=true;
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)getLayoutParams();
                     layoutParams.leftMargin = offsetX;
                     layoutParams.topMargin = offsetY;
                     setLayoutParams(layoutParams);
-
-
+                }else {
+                    isDrag=false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
