@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.softtek.lai.R;
@@ -143,6 +144,23 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
 
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i("有数据返回回来啦");
+        InvitatedContact contact=intent.getParcelableExtra("invitater");
+        String groupName=contact.getJoinGroupName();
+        if(datas.containsKey(groupName)){
+            datas.get(groupName).add(contact);
+        }else {
+            List<InvitatedContact> data=new ArrayList<>();
+            data.add(contact);
+            datas.put(groupName,data);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

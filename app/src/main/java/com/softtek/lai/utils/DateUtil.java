@@ -249,7 +249,7 @@ public class DateUtil {
         try {
             Date d1=new SimpleDateFormat(PATTERN).parse(date);
             return new SimpleDateFormat(pattern).format(d1);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
