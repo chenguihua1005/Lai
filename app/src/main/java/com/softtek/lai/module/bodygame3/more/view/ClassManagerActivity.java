@@ -20,7 +20,6 @@ import com.softtek.lai.module.bodygame3.more.model.ClassGroup;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup2;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -200,7 +199,11 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(intent,100);
             }
                 break;
-            case R.id.rl_person_manager:
+            case R.id.rl_person_manager:{
+                Intent intent=new Intent(this,ClassMemberActivity.class);
+                intent.putExtra("classId",classId);
+                startActivity(intent);
+            }
                 break;
             case R.id.rl_update_class:
             {
@@ -211,7 +214,11 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(intent,101);
             }
                 break;
-            case R.id.rl_update_fuce:
+            case R.id.rl_update_fuce:{
+                Intent intent=new Intent(this,UpdateFuceTimeActivity.class);
+                intent.putExtra("classId",classId);
+                startActivity(intent);
+            }
                 break;
         }
     }

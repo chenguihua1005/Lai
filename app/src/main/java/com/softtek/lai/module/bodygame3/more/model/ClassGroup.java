@@ -13,6 +13,9 @@ public class ClassGroup implements Parcelable{
     private String CGId;
     private String CGName;
 
+    public ClassGroup() {
+    }
+
     protected ClassGroup(Parcel in) {
         CGId = in.readString();
         CGName = in.readString();

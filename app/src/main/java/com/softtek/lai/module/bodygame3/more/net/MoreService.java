@@ -4,10 +4,13 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup2;
 import com.softtek.lai.module.bodygame3.more.model.ClassInvitater;
+import com.softtek.lai.module.bodygame3.more.model.ClassMember;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
+import com.softtek.lai.module.bodygame3.more.model.FuceDate;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
+import com.softtek.lai.module.bodygame3.more.model.LossWeightAndFat;
 import com.softtek.lai.module.bodygame3.more.model.SendInvitation;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 
@@ -111,5 +114,45 @@ public interface MoreService {
                   @Field("GroupName")String groupName,
                   @Field("AccountId")long accountId,
                   Callback<ResponseData<ClassGroup>> callback);
+
+    //获取班级复测日
+    @GET("/v1/MeasuredRecordLog/GetMeasureDateListByClassId")
+    void getMeasureDateList(@Header("token")String token,
+                            @Query("classId")String classId,
+                            Callback<ResponseData<List<FuceDate>>> callback);
+    //修改复测日期
+    @GET("/V1/MoreFunction/UpdateMeasureDate")
+    void updateMeasureDate(@Header("token")String token,
+                           @Query("ClassId")String classId,
+                           @Query("WeekNum")int weekNum,
+                           @Query("MeasureDate")String date,
+                           Callback<ResponseData> callback);
+
+    //获取班级人员管理
+    @GET("/V1/MoreFunction/GetClassesMembers")
+    void getClassesMembers(@Header("token")String token,
+                           @Query("ClassId")String classId,
+                           Callback<ResponseData<ClassMember>> callback);
+
+    //转租
+    @GET("/V1/MoreFunction/TurnToAnotherGroup")
+    void turnToAnotherGroup(@Header("token")String token,
+                            @Query("TAccountId")long tAccountId,
+                            @Query("ClassId")String classId,
+                            @Query("CGId")String groupId,
+                            Callback<ResponseData> callback);
+    //移除
+    @GET("/V1/MoreFunction/RemoveGroup")
+    void removeFromGroup(@Header("token")String token,
+                     @Query("RAccountId")long rAccountId,
+                     @Query("ClassId")String classId,
+                     @Query("CGId")String groupId,
+                     Callback<ResponseData> callback);
+
+    //减重减脂等级
+    @GET("/V1/MoreFunction/GetLossLevel")
+    void getLossLevel(@Header("token")String token,
+                      @Query("AccountId")long accountId,
+                      Callback<ResponseData<LossWeightAndFat>> callback);
 
 }
