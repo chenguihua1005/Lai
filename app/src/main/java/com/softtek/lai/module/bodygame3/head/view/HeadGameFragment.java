@@ -61,6 +61,12 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     ImageView ivhead2_refresh;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+    @InjectView(R.id.button)
+    Button button;
+    @InjectView(R.id.pc_tv)
+    TextView pc_tv;
+    @InjectView(R.id.sp_tv)
+    TextView sp_tv;
     Animation roate;
     HeadService service;
 
@@ -86,8 +92,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 //            relativeLayout.setLayoutParams(params);
 //        }
 
-        if(UserInfoModel.getInstance().getRole().getSp().equals( String.valueOf(Constants.SP))){
-
+        if (UserInfoModel.getInstance().getRole().getSp().equals(String.valueOf(Constants.SP))) {
+           sp_tv.setVisibility(View.GONE);
+            pc_tv.setVisibility(View.VISIBLE);
+            button.setVisibility(View.VISIBLE);
+        }else{
+            sp_tv.setVisibility(View.VISIBLE);
+            pc_tv.setVisibility(View.GONE);
+            button.setVisibility(View.GONE);
         }
         pull.setOnRefreshListener(this);
         search_btn.setOnClickListener(this);
@@ -132,19 +144,19 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     }
 
     private void hasemail() {
-         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData>() {
-             @Override
-             public void success(ResponseData responseData, Response response) {
-               if(responseData.getData()!=null){
-                    double has= (double) responseData.getData();
-                   if (has==0) {
-                       iv_email.setImageResource(R.drawable.email);
-                   }else {
-                       iv_email.setImageResource(R.drawable.has_email);
-                   }
-               }
-             }
-         });
+        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                if (responseData.getData() != null) {
+                    double has = (double) responseData.getData();
+                    if (has == 0) {
+                        iv_email.setImageResource(R.drawable.email);
+                    } else {
+                        iv_email.setImageResource(R.drawable.has_email);
+                    }
+                }
+            }
+        });
     }
 
 

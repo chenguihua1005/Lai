@@ -108,6 +108,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initViews() {
+
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);

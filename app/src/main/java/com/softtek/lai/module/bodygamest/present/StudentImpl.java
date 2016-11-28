@@ -145,7 +145,6 @@ public class StudentImpl implements IStudentPresenter {
         studentService.getStudentHonor(token, new Callback<ResponseData<HonorModel>>() {
             @Override
             public void success(ResponseData<HonorModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 base.dialogDissmiss();
                 switch (status) {
