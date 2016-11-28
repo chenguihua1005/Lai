@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame3.head.adapter.HonorRankAdapter;
 import com.softtek.lai.module.ranking.adapter.RankPageAdapter;
 import com.softtek.lai.module.ranking.view.NationalFragment;
 import com.softtek.lai.module.ranking.view.RunGroupFragment;
@@ -42,12 +43,13 @@ public class HonorActivity extends BaseActivity {
         //接收当前排名类型（0周排名，1月排名，2总排名）
         tv_title.setText("荣誉榜");
         fragments=new ArrayList<>();
-//        fragments.add(WeekHonorFragment);
-//        fragments.add(NationalFragment.getInstance(rankType));
-//        fragments.add(NationalFragment.getInstance(rankType));
-//        content.setAdapter(new RankPageAdapter(getSupportFragmentManager(),fragments));
-//        tab.setupWithViewPager(content);
-//        tab.setTabMode(TabLayout.MODE_FIXED);
+        fragments.add(WeekHonorFragment.getInstance());
+//        fragments.add(MonthHonorFragment.getInstance());
+        fragments.add(WeekHonorFragment.getInstance());
+        fragments.add(WeekHonorFragment.getInstance());
+        content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(),fragments));
+        tab.setupWithViewPager(content);
+        tab.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

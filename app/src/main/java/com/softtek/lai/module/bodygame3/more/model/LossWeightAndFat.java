@@ -1,0 +1,108 @@
+package com.softtek.lai.module.bodygame3.more.model;
+
+import java.util.List;
+
+/**
+ * @author jerry.Guan
+ *         created by 2016/11/27
+ */
+
+public class LossWeightAndFat {
+
+
+    /**
+     * WeightLevel : 1
+     * FatLevel : 0
+     * LossFatLevelList : [{"FatReachCount":0,"Level":1},{"FatReachCount":0,"Level":2},{"FatReachCount":0,"Level":3},{"FatReachCount":0,"Level":4},{"FatReachCount":0,"Level":5},{"FatReachCount":0,"Level":6},{"FatReachCount":0,"Level":7},{"FatReachCount":0,"Level":8},{"FatReachCount":0,"Level":9},{"FatReachCount":0,"Level":10}]
+     * LossWeightLevelList : [{"WeightReachCount":1,"Level":1},{"WeightReachCount":0,"Level":2},{"WeightReachCount":0,"Level":3},{"WeightReachCount":0,"Level":4},{"WeightReachCount":0,"Level":5},{"WeightReachCount":0,"Level":6},{"WeightReachCount":0,"Level":7},{"WeightReachCount":0,"Level":8},{"WeightReachCount":0,"Level":9},{"WeightReachCount":0,"Level":10}]
+     */
+
+    private int WeightLevel;
+    private int FatLevel;
+    private List<LossFatLevel> LossFatLevelList;
+    private List<LossWeightLevel> LossWeightLevelList;
+
+    public int getWeightLevel() {
+        return WeightLevel;
+    }
+
+    public void setWeightLevel(int WeightLevel) {
+        this.WeightLevel = WeightLevel;
+    }
+
+    public int getFatLevel() {
+        return FatLevel;
+    }
+
+    public void setFatLevel(int FatLevel) {
+        this.FatLevel = FatLevel;
+    }
+
+    public List<LossFatLevel> getLossFatLevelList() {
+        return LossFatLevelList;
+    }
+
+    public void setLossFatLevelList(List<LossFatLevel> LossFatLevelList) {
+        this.LossFatLevelList = LossFatLevelList;
+    }
+
+    public List<LossWeightLevel> getLossWeightLevelList() {
+        return LossWeightLevelList;
+    }
+
+    public void setLossWeightLevelList(List<LossWeightLevel> LossWeightLevelList) {
+        this.LossWeightLevelList = LossWeightLevelList;
+    }
+
+    public static class LossFatLevel {
+        /**
+         * FatReachCount : 0
+         * Level : 1
+         */
+
+        private int FatReachCount;
+        private int Level;
+
+        public int getFatReachCount() {
+            return FatReachCount;
+        }
+
+        public void setFatReachCount(int FatReachCount) {
+            this.FatReachCount = FatReachCount;
+        }
+
+        public int getLevel() {
+            return Level;
+        }
+
+        public void setLevel(int Level) {
+            this.Level = Level;
+        }
+    }
+
+    public static class LossWeightLevel {
+        /**
+         * WeightReachCount : 1
+         * Level : 1
+         */
+
+        private int WeightReachCount;
+        private int Level;
+
+        public int getWeightReachCount() {
+            return WeightReachCount;
+        }
+
+        public void setWeightReachCount(int WeightReachCount) {
+            this.WeightReachCount = WeightReachCount;
+        }
+
+        public int getLevel() {
+            return Level;
+        }
+
+        public void setLevel(int Level) {
+            this.Level = Level;
+        }
+    }
+}

@@ -18,6 +18,7 @@ public class HonorRankAdapter extends FragementAdapter {
 
     public HonorRankAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm, fragments);
+        this.fragments=fragments;
     }
     @Override
     public Fragment getItem(int position) {
