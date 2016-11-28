@@ -26,9 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_class_manager)
 public class ClassManagerActivity extends BaseActivity implements View.OnClickListener{
@@ -60,6 +63,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         tv_title.setText("班级管理");
+        ll_left.setOnClickListener(this);
         rl_add_group.setOnClickListener(this);
         rl_person_manager.setOnClickListener(this);
         rl_update_class.setOnClickListener(this);
@@ -106,10 +110,25 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                     tv_delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            groups.remove(position);
-                            adapter.notifyDataSetChanged();
-                            int count=adapter.getCount();
-                            setListViewHeight(count);
+                        ClassGroup2 group2=groups.get(position);
+                        ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                .deleteGroup(UserInfoModel.getInstance().getToken(),
+                                        group2.getClassGoupId(),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                if(responseData.getStatus()==200){
+                                                    groups.remove(position);
+                                                    adapter.notifyDataSetChanged();
+                                                    int count=adapter.getCount();
+                                                    setListViewHeight(count);
+                                                }else {
+                                                    Util.toastMsg(responseData.getMsg());
+                                                }
+                                            }
+
+                                        });
+
                         }
                     });
                 }else {
