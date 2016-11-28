@@ -251,10 +251,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.newmemberentry.view.EntryActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".module.retest.view.QueryActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -301,9 +297,7 @@
         <activity
             android:name=".module.counselor.view.ApplyAssistantActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.newmemberentry.view.DimensioninputActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
             android:screenOrientation="portrait"
@@ -323,9 +317,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.message.view.MessagePcRemindActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.JoinGameDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.message.view.JoinGameDimensionRecordActivity"
@@ -668,9 +659,6 @@
 
         <activity
             android:name=".module.pastreview.view.PcPastBaseDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.ClassListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.pastreview.view.PassPhotoActivity"
