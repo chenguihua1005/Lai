@@ -52,8 +52,9 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
             case R.id.rl_class_manager: {
                 Intent intent = new Intent(getContext(), ClassManagerActivity.class);
                 ClassModel model=getArguments().getParcelable("class");
-                intent.putExtra("classId", model.getClassId());
-                intent.putExtra("className",model.getClassName());
+                intent.putExtra("class",model);
+//                intent.putExtra("classId", model.getClassId());
+//                intent.putExtra("className",model.getClassName());
                 startActivity(intent);
             }
                 break;

@@ -16,18 +16,20 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup2;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -59,7 +61,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
 
     String classId;
     String className;
-
+    ClassModel classModel;
     @Override
     protected void initViews() {
         tv_title.setText("班级管理");
@@ -68,8 +70,11 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
         rl_person_manager.setOnClickListener(this);
         rl_update_class.setOnClickListener(this);
         rl_update_fuce.setOnClickListener(this);
-        className=getIntent().getStringExtra("className");
-        classId=getIntent().getStringExtra("classId");
+        classModel=getIntent().getParcelableExtra("class");
+//        className=getIntent().getStringExtra("className");
+//        classId=getIntent().getStringExtra("classId");
+        className=classModel.getClassName();
+        classId=classModel.getClassId();
 
     }
 
@@ -258,6 +263,8 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
             }else if(requestCode==101){
                 String value = data.getStringExtra("value");
                 tv_class_name.setText(value);
+                classModel.setClassName(value);
+                EventBus.getDefault().post(new UpdateClass(0,classModel));
             }else if(requestCode==102){
                 String value = data.getStringExtra("value");
                 int position=data.getIntExtra("position",-1);

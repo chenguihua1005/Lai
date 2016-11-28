@@ -73,6 +73,11 @@ public class ArrowSpinner2 extends LinearLayout{
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
+
+    public ArrowSpinnerAdapter getAdapter() {
+        return adapter;
+    }
+
     @Override
     public Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
@@ -257,5 +262,9 @@ public class ArrowSpinner2 extends LinearLayout{
         if (drawable != null && !isArrowHide) {
             DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), resId));
         }
+    }
+
+    public void setText(String str){
+        textView.setText(str);
     }
 }

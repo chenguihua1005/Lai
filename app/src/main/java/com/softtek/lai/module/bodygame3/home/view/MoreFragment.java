@@ -17,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.AssistantFragment;
@@ -27,8 +28,10 @@ import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -158,11 +161,19 @@ public class MoreFragment extends LazyBaseFragment {
             }
         });
 
+
+
     }
 
     @Override
     protected void initDatas() {
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void choosePanel(int role){
@@ -189,4 +200,20 @@ public class MoreFragment extends LazyBaseFragment {
                 break;
         }
     }
+
+    @Subscribe
+    public void updateClass(UpdateClass clazz){
+        if(clazz.getStatus()==0){
+            //更新班级姓名
+            ClassModel model=clazz.getModel();
+            arrow.setText(model.getClassName());
+            this.model.setClassName(model.getClassName());
+            arrow.getAdapter().notifyDataSetChanged();
+        }else {
+            //添加新班级
+            this.classModels.add(clazz.getModel());
+            arrow.getAdapter().notifyDataSetChanged();
+        }
+    }
+
 }

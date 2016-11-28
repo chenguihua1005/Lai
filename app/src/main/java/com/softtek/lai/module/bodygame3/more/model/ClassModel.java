@@ -20,6 +20,9 @@ public class ClassModel implements Parcelable{
     private String HXGroupId;
     private List<String> ClassMeasureDateList;
 
+    public ClassModel() {
+    }
+
     protected ClassModel(Parcel in) {
         ClassId = in.readString();
         ClassCode = in.readString();
