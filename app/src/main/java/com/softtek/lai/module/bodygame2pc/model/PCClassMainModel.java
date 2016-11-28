@@ -1,7 +1,5 @@
 package com.softtek.lai.module.bodygame2pc.model;
 
-import com.softtek.lai.module.bodygame2.model.ClassDetailModel;
-import com.softtek.lai.module.bodygame2.model.ClassListModel;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
 import com.softtek.lai.module.bodygame2.model.DySysModel;
