@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +29,6 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
-import com.softtek.lai.module.lossweightstory.model.Zan;
-import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
-import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -54,6 +49,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 /**
+ * 健康圈关注adapter
  * Created by John on 2016/4/14.
  */
 public class HealthyCommunityFocusAdapter extends BaseAdapter {
@@ -62,9 +58,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
     private Fragment fragment;
     private List<HealthyCommunityModel> lossWeightStoryModels;
     private CommunityService service;
-    private LossWeightLogService service1;
     private static final int LIST_JUMP = 1;
-    private static final int LIST_JUMP_2 = 2;
 
 
     public HealthyCommunityFocusAdapter(Fragment fragment, Context context, List<HealthyCommunityModel> lossWeightStoryModels) {
@@ -72,7 +66,6 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-        service1 = ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
     }
 
     @Override
@@ -106,13 +99,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.ll_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("1".equals(model.getMinetype())) {//减重日志
-                    Intent logDetail = new Intent(context, LogStoryDetailActivity.class);
-                    logDetail.putExtra("log", copyModel(model));
-                    logDetail.putExtra("position", pos);
-                    logDetail.putExtra("type", "1");
-                    fragment.startActivityForResult(logDetail, LIST_JUMP_2);
-                } else if ("0".equals(model.getMinetype())) {//动态
+                if ("0".equals(model.getMinetype())) {//动态
                     Intent logDetail = new Intent(context, HealthyDetailActivity.class);
                     logDetail.putExtra("dynamicModel", copyModeltoDynamci(model));
                     logDetail.putExtra("position", pos);
@@ -228,36 +215,6 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                                         });
                             }
 
-                        } else {
-                            if (holder.cb_zan.isChecked()) {
-                                final UserInfoModel infoModel = UserInfoModel.getInstance();
-                                model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                                model.setIsPraise(Constants.HAS_ZAN);
-                                model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
-                                        infoModel.getUser().getMobile()));
-                                EventBus.getDefault().post(new ZanEvent(model.getID(),true,0));
-                                //向服务器提交
-                                service1.clickLike(UserInfoModel.getInstance().getToken(),
-                                        Long.parseLong(infoModel.getUser().getUserid()), Long.parseLong(model.getID()),
-                                        new RequestCallback<ResponseData<Zan>>() {
-                                            @Override
-                                            public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                                holder.ll_dianzan.setVisibility(View.VISIBLE);
-                                            }
-
-                                            @Override
-                                            public void failure(RetrofitError error) {
-                                                super.failure(error);
-                                                int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                                model.setPraiseNum(priase + "");
-                                                String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                                model.setUsernameSet(del);
-                                                model.setIsPraise(Constants.NO_ZAN);
-                                                notifyDataSetChanged();
-                                            }
-                                        });
-                            }
-
                         }
                         notifyDataSetChanged();
                     }
@@ -294,7 +251,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                 in.putStringArrayListExtra("images", list);
                 in.putExtra("position", position);
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
+                ActivityCompat.startActivity( context, in, optionsCompat.toBundle());
             }
         });
         return convertView;
@@ -322,23 +279,6 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
             tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             cb_focus = (CheckBox) view.findViewById(R.id.cb_focus);
         }
-    }
-
-    private LossWeightStoryModel copyModel(HealthyCommunityModel model) {
-        LossWeightStoryModel storyModel = new LossWeightStoryModel();
-        storyModel.setPriase(model.getPraiseNum());
-        storyModel.setLogContent(model.getContent());
-        storyModel.setLogTitle(model.getTitle());
-        storyModel.setAfterWeight("0");
-        storyModel.setCreateDate(model.getCreateDate());
-        storyModel.setImgCollection(model.getImgCollection());
-        storyModel.setIsClicked(model.getIsPraise());
-        storyModel.setLossLogId(model.getID());
-        storyModel.setPhoto(model.getPhoto());
-        storyModel.setUserName(model.getUserName());
-        storyModel.setUsernameSet(model.getUsernameSet());
-
-        return storyModel;
     }
 
     private HealthyDynamicModel copyModeltoDynamci(HealthyCommunityModel model) {

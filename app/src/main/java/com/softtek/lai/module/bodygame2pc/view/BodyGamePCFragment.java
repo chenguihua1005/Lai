@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame2pc.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -33,10 +32,6 @@ import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
-import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
-import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.pastreview.view.ClassListActivity;
@@ -497,17 +492,11 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
             case R.id.tv_send_story:
                 //发布减重故事
                 //如果是正在进行中的班级才可以发布故事
-                if(info!=null&&("2".equals(info.getClassStatus())||"3".equals(info.getClassStatus()))){
-                    startActivityForResult(new Intent(getContext(),NewStoryActivity.class),SEND_NEW_STORY);
-                }
+
                 break;
             case R.id.tv_story_more:
                 //减重故事更多
-                UserModel model=UserInfoModel.getInstance().getUser();
-                if (model!=null){
-                    Intent intent=new Intent(getContext(),LossWeightStoryActivity.class);
-                    startActivity(intent);
-                }
+
                 break;
             case R.id.ll_story:
                 //点击减重故事查看详情
@@ -560,26 +549,7 @@ public class BodyGamePCFragment extends LazyBaseFragment implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK&&requestCode==SEND_NEW_STORY){
-            tv_no_story.setVisibility(View.GONE);
-            ll_story.setVisibility(View.VISIBLE);
-            LogStoryModel model= (LogStoryModel) data.getSerializableExtra("story");
-            String logId=data.getStringExtra("storyId");
-            info.setPCStoryId(logId);
-            if(model!=null){
-                int day=DateUtil.getInstance().getCurrentDay();
-                int month=DateUtil.getInstance().getCurrentMonth();
-                tv_day.setText(day+"");
-                tv_month.setText(ChMonth.toText(month));
-                tv_content.setText(model.getLogContent());
-                info.setPCStoryContent(model.getLogContent());
-                String photo=model.getPhotoes().split(",")[0];
-                info.setPCStoryImg(photo);
-                if(StringUtils.isNotEmpty(photo)){
-                    Picasso.with(getContext()).load(AddressManager.get("photoHost")+photo).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
-                }
-            }
-        }
+
     }
 
     @Override

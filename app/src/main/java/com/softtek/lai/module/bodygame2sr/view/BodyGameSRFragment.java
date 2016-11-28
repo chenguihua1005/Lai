@@ -546,15 +546,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 //荣誉榜
                 startActivity(new Intent(getContext(), SRHonorActivity.class));
                 break;
-            case R.id.fl_search:
-                String text=et_person.getText().toString();
-                if(StringUtils.isNotEmpty(text)){
-                    et_person.setText("");
-                    Intent search=new Intent(getContext(),SearchSRPcActivity.class);
-                    search.putExtra("value",text.replaceAll("%","").replaceAll("_",""));
-                    startActivity(search);
-                }
-                break;
+
         }
     }
 

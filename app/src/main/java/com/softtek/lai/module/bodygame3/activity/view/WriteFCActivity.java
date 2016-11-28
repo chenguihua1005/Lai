@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.BuildConfig;
 import com.github.snowdream.android.util.Log;
@@ -35,18 +33,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.model.PhotModel;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
-import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.model.MeasureModel;
-import com.softtek.lai.module.retest.model.RetestAuditModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
-import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -54,12 +42,9 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
-import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -380,12 +365,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 show_information("内脂",30,2,1,9,0,0,3);
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this,PictureActivity.class);
+                /*Intent intent1=new Intent(this,PictureActivity.class);
                 ArrayList<String> imags=new ArrayList<>();
-//                imags.add(retestWrite.getImage());
                 intent1.putExtra("images",imags);
                 intent1.putExtra("position",0);
-                startActivity(intent1);
+                startActivity(intent1);*/
                 break;
 
 
