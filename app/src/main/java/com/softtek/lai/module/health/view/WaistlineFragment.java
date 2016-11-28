@@ -146,17 +146,7 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId){
-            case R.id.radio_loss_weight:
 
-                break;
-            case R.id.radio_body_fat:
-
-                break;
-            case R.id.radio_fat:
-
-                break;
-        }
     }
     /**
      * 获取阶段日期
