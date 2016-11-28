@@ -25,7 +25,7 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-
+//查找班级
 @InjectLayout(R.layout.activity_search_class)
 public class SearchClassActivity extends BaseActivity implements View.OnClickListener {
     private String content_et;
@@ -58,7 +58,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         if (data.getStatus() == 200) {
                             classlistModels.clear();
                             classlistModels.addAll(data.getData());
-                            if (classlistModels != null || classlistModels.isEmpty()) {
+                            if (classlistModels == null || classlistModels.isEmpty()) {
                                 try {
                                     new AlertDialog.Builder(SearchClassActivity.this).setMessage("查询失败，无此班级").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
@@ -89,6 +89,9 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
         };
         lv_class.setAdapter(adapter);
+
+
+
     }
 
     @Override

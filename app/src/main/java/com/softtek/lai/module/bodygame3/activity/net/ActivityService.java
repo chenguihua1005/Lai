@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
@@ -8,8 +9,11 @@ import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -21,7 +25,7 @@ public interface ActivityService {
     @GET("/V1/ClassActivity/GetClassActivitys")
     void getactivity(
             @Header("token") String token,
-            @Query("AccountId") String AccountId,
+            @Query("AccountId") long AccountId,
             @Query("ClassId") String ClassId,
             Callback<ResponseData<ActivitydataModel>> callback
     );
@@ -30,7 +34,7 @@ public interface ActivityService {
     @GET("/V1/ClassActivity/GetActivityCurrDayInfo")
     void gettoday(
             @Header("token") String token,
-            @Query("AccountId") String AccountId,
+            @Query("AccountId") long AccountId,
             @Query("ClassId") String ClassId,
             @Query("CurrentDate") String CurrentDate,
             Callback<ResponseData<TodaysModel>> callback
@@ -41,5 +45,24 @@ public interface ActivityService {
     void getacttype(
             @Header("token") String token,
             Callback<ResponseData<List<ActtypeModel>>> callback
+    );
+
+    //活动详情接口请求路径:Api/V1/ ClassActivity / GetActivityDetial
+    @POST("/V1/ClassActivity/GetActivityDetial")
+    void getactdetail(
+            @Header("token") String token,
+            @Query("UID") long UID,
+            @Query("activityID") String activityID,
+            Callback<ResponseData<ActdetailModel>> callback
+    );
+
+    //报名活动接口请求路径:Api/V1/ ClassActivity / JoinActivity
+    @FormUrlEncoded
+    @POST("/V1/ClassActivity/JoinActivity")
+    void signup(
+            @Header("token") String token,
+            @Field("UID") long UID,
+            @Field("activityID") String activityID,
+            Callback<ResponseData> callback
     );
 }

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -20,7 +20,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +58,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     Button search_btn;
     @InjectView(R.id.ivhead2_refresh)
     ImageView ivhead2_refresh;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
     Animation roate;
     HeadService service;
 
@@ -75,6 +76,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void initViews() {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 //        if (DisplayUtil.getSDKInt() > 18) {
 //            int status = DisplayUtil.getStatusHeight(getActivity());
 //            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
@@ -119,7 +122,24 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     @Override
     protected void initDatas() {
         roate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        hasemail();
         secondhead2();
+    }
+
+    private void hasemail() {
+         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData>() {
+             @Override
+             public void success(ResponseData responseData, Response response) {
+               if(responseData.getData()!=null){
+                    double has= (double) responseData.getData();
+                   if (has==0) {
+                       iv_email.setImageResource(R.drawable.email);
+                   }else {
+                       iv_email.setImageResource(R.drawable.has_email);
+                   }
+               }
+             }
+         });
     }
 
 
@@ -188,10 +208,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 });
                 break;
             case R.id.search_btn:
-                String text=searchContent.getText().toString().trim();
-                if(StringUtils.isNotEmpty(text)){
+                String text = searchContent.getText().toString().trim();
+                if (StringUtils.isNotEmpty(text)) {
                     Intent intent = new Intent(getContext(), SearchClassActivity.class);
-                    intent.putExtra("content", text.replaceAll("%","").replaceAll("_",""));
+                    intent.putExtra("content", text.replaceAll("%", "").replaceAll("_", ""));
                     startActivity(intent);
                 }
 
