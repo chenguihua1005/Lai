@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.model;
 
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 
 import java.util.List;
 
