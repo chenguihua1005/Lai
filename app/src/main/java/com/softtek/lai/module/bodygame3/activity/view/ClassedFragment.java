@@ -33,6 +33,7 @@ import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.home.view.ActivityFragment;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
@@ -89,6 +90,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     TextView reset_time;//未复测、已复测
     @InjectView(R.id.reseticon)
     ImageView reseticon;
+    @InjectView(R.id.ll_fuce)
+    LinearLayout ll_fuce;
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
@@ -110,6 +113,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initViews() {
+        ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         material_calendar.setOnDateChangedListener(this);
@@ -354,6 +358,9 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 break;
             case R.id.ll_chuDate:
                 startActivity(new Intent(getContext(), WriteFCActivity.class));
+                break;
+            case R.id.ll_fuce:
+                startActivity(new Intent(getContext(), HonorActivity.class));
                 break;
         }
     }

@@ -175,11 +175,11 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </LinearLayout>
+            </com.handmark.pulltorefresh.library.PullToRefreshListView>
         </LinearLayout>
     </ScrollView>
 
