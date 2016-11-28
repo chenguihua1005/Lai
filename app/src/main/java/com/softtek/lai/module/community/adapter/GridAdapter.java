@@ -1,4 +1,4 @@
-package com.softtek.lai.module.studetail.adapter;
+package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,13 +20,13 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by John on 2016/4/3.
  */
-public class LogDetailGridAdapter extends BaseAdapter{
+public class GridAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
     private List<String> images;
     private Context context;
 
-    public LogDetailGridAdapter(Context context, List<String> images){
+    public GridAdapter(Context context, List<String> images){
         this.context=context;
         inflater=LayoutInflater.from(context);
         this.images =images;
