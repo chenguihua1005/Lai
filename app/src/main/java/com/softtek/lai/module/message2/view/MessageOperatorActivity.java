@@ -22,7 +22,6 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
@@ -199,10 +198,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     @Subscribe
     public void onEvent(CheckClassEvent event) {
         dialogDissmiss();
-        Intent intent = new Intent(this, JoinGameDetailActivity.class);
-        intent.putExtra("classId", model.getClassId());
-        intent.putExtra("type", "1");
-        startActivity(intent);
     }
 
     @Override

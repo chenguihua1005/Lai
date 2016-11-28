@@ -37,7 +37,6 @@ import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -498,10 +497,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 //申请助教
                 startActivity(new Intent(getContext(), ApplyAssistantActivity.class));
                 break;
-            case R.id.ll_sp_review:
-                //往期回顾
-                startActivity(new Intent(getContext(), ReviewActivity.class));
-                break;
+
             case R.id.ll_honor:
                 //荣誉榜
                 startActivity(new Intent(getContext(), SRHonorActivity.class));

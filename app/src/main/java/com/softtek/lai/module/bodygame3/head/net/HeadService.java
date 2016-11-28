@@ -25,7 +25,7 @@ public interface HeadService {
     @GET("/V1/HerbalifeClass/GetClassInfoDefaultHome")
     void getfirst(
             @Header("token") String token,
-            @Query("accountid") String accountid,
+            @Query("accountid") long accountid,
             @Query("pagesize") int pagesize,
             Callback<ResponseData<ClassinfoModel>> callback
     );
@@ -79,5 +79,13 @@ public interface HeadService {
             @Query("pageindex") int pageindex,
             Callback<ResponseData<PartnertotalModel>> callback
     );
+//    请求路径:Api/V1/MsgCenter/UnReadTiMsgCnt
+    @GET("/V1/MsgCenter/UnReadTiMsgCnt")
+    void hasemail(
+            @Header("token") String token,
+            @Query("accountid") long accountid,
+            Callback<ResponseData> callback
+    );
+
 
 }
