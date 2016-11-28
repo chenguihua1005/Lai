@@ -318,9 +318,7 @@
         <activity
             android:name=".module.message.view.MessagePcRemindActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.message.view.JoinGameDimensionRecordActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.message.view.ZQSActivity"
             android:screenOrientation="portrait" />
@@ -776,7 +774,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
         <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity" />
-        <activity android:name=".module.bodygame3.activity.view.NoClassFragment" />
         <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"></activity>
     </application>
 
