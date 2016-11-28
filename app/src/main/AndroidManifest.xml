@@ -257,7 +257,7 @@
             android:name=".module.bodygamest.view.StudentHonorActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.StudentHonorGridActivity"
+            android:name=".module.bodygame3.more.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 
 /**
  * A simple {@link Fragment} subclass.
