@@ -172,6 +172,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
     InitComitModel initComitModel;
+    Long accountId;
+    String Classid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,13 +202,14 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         title.setText("初始数据录入");
         tv_right.setText("保存");
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        doGetInfo();
         if(BuildConfig.DEBUG) {
+            doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
             Util.toastMsg("C4E8E179-FD99-4955-8BF9-CF470898788B");
 //                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
 //                    multipartTypedOutput.addPart("classId",new TypedString(classID));
         }
         else {
+            doGetInfo(accountId,classid);
             Util.toastMsg("不是debug");
 //                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
 //                    multipartTypedOutput.addPart("classId",new TypedString(classID));
@@ -261,8 +264,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     /*
     * 获取初始基本数据
     * */
-    private void doGetInfo() {
-        service.dogetInitData(UserInfoModel.getInstance().getToken(),Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), "7", new RequestCallback<ResponseData<InitDataModel>>() {
+    private void doGetInfo(Long accountId,String classId) {
+        service.dogetInitData(UserInfoModel.getInstance().getToken(),accountId, classId, new RequestCallback<ResponseData<InitDataModel>>() {
             @Override
             public void success(ResponseData<InitDataModel> initDataModelResponseData, Response response) {
                 int status=initDataModelResponseData.getStatus();
