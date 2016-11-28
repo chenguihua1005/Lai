@@ -391,9 +391,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".module.review.view.ReviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.health.view.HealthyRecordActivity"
             android:screenOrientation="portrait" />
 
