@@ -29,14 +29,12 @@ import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.review.view.ReviewActivity;
@@ -198,17 +196,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
         rl_student_more.setEnabled(false);
         tv_stu_more.setVisibility(View.INVISIBLE);
         mlv.setEmptyView(rl_no_students);
-        //学员点击item
-        mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SPPCMoldel model=pcModels.get(position);
-                Intent jumpStudent=new Intent(getContext(),PersonalDataActivity.class);
-                jumpStudent.putExtra("userId",(long)model.getAccountId());
-                jumpStudent.putExtra("classId",(long)model.getClassId());
-                startActivity(jumpStudent);
-            }
-        });
+
         mgv.setEmptyView(rl_no_saikuang);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -537,10 +525,6 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
             case R.id.ll_sp_review:
                 //往期回顾
                 startActivity(new Intent(getContext(), ReviewActivity.class));
-                break;
-            case R.id.ll_jindu:
-                //当期进度
-                startActivity(new Intent(getContext(), ZhuJiaoJingduActivity.class));
                 break;
             case R.id.ll_honor:
                 //荣誉榜

@@ -15,9 +15,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
-import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
-import com.softtek.lai.module.studetail.view.DimensionChartFragment;
-import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -74,12 +71,7 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId+"");
         params.put("classId",classId+"");
-        LossWeightChartFragment lwcf= LossWeightChartFragment.newInstance(params);
-        DimensionChartFragment dcf=DimensionChartFragment.newInstance(params);
-        fragments.add(lwcf);
-        fragments.add(dcf);
-        tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragments));
-        tabLayout.setupWithViewPager(tabcontent);
+                tabLayout.setupWithViewPager(tabcontent);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
     }
