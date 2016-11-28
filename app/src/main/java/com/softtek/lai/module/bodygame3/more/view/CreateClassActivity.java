@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,11 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.ggx.widgets.view.CheckTextView;
+import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMGroupManager;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -52,7 +58,8 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_create_class)
-public class CreateClassActivity extends BaseActivity implements View.OnClickListener ,Validator.ValidationListener{
+public class CreateClassActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+    private static final String TAG = "CreateClassActivity";
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -68,13 +75,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_class_name)
     RelativeLayout rl_class_name;
-    @Required(order = 1,message = "请填写班级名称")
+    @Required(order = 1, message = "请填写班级名称")
     @InjectView(R.id.tv_class_name)
     TextView tv_class_name;
 
     @InjectView(R.id.rl_area)
     RelativeLayout rl_area;
-    @Required(order = 2,message = "请选择小区和城市")
+    @Required(order = 2, message = "请选择小区和城市")
     @InjectView(R.id.tv_xiaoqu)
     TextView tv_xiaoqu;
     @InjectView(R.id.tv_city)
@@ -82,7 +89,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
-    @Required(order =3,message = "请选择复测日期")
+    @Required(order = 3, message = "请选择复测日期")
     @InjectView(R.id.tv_class_time)
     TextView tv_class_time;
 
@@ -98,7 +105,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private List<String> groups;
     private EasyAdapter<String> adapter;
 
-    private List<SmallRegion> left=new ArrayList<>();
+    private List<SmallRegion> left = new ArrayList<>();
 
     private MoreService service;
     LaiClass clazz;
@@ -113,13 +120,14 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rl_area.setOnClickListener(this);
+//        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
-        clazz=new LaiClass();
+        clazz = new LaiClass();
         clazz.setClassMasterId(UserInfoModel.getInstance().getUserId());
-        service= ZillaApi.NormalRestAdapter.create(MoreService.class);
+        service = ZillaApi.NormalRestAdapter.create(MoreService.class);
         groups = new ArrayList<>();
         groups.add("未命名小组");
         adapter = new EasyAdapter<String>(this, groups, R.layout.item_add_group) {
@@ -128,8 +136,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 TextView groupName = holder.getView(R.id.tv_group_name);
                 groupName.setText(data);
                 //侧滑操作
-                final HorizontalScrollView hsv=holder.getView(R.id.hsv);
-                TextView tv_editor=holder.getView(R.id.tv_editor);
+                final HorizontalScrollView hsv = holder.getView(R.id.hsv);
+                TextView tv_editor = holder.getView(R.id.tv_editor);
                 tv_editor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -137,18 +145,18 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         hsv.post(new Runnable() {
                             @Override
                             public void run() {
-                                hsv.smoothScrollTo(0,0);
+                                hsv.smoothScrollTo(0, 0);
                             }
                         });
-                        Intent updateGroupIntent=new Intent(CreateClassActivity.this, EditorTextActivity.class);
-                        updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
-                        updateGroupIntent.putExtra("position",position);
-                        updateGroupIntent.putExtra("name",groups.get(position));
+                        Intent updateGroupIntent = new Intent(CreateClassActivity.this, EditorTextActivity.class);
+                        updateGroupIntent.putExtra("flag", EditorTextActivity.UPDATE_GROUP_NAME);
+                        updateGroupIntent.putExtra("position", position);
+                        updateGroupIntent.putExtra("name", groups.get(position));
                         startActivityForResult(updateGroupIntent, 102);
                     }
                 });
-                TextView tv_delete=holder.getView(R.id.tv_delete);
-                if(groups.size()!=1){
+                TextView tv_delete = holder.getView(R.id.tv_delete);
+                if (groups.size() != 1) {
                     tv_delete.setVisibility(View.VISIBLE);
                     tv_delete.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -158,43 +166,44 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                             ListViewUtil.setListViewHeightBasedOnChildren(lv_group);
                         }
                     });
-                }else {
+                } else {
                     tv_delete.setVisibility(View.GONE);
                 }
 
-                RelativeLayout container=holder.getView(R.id.rl_container);
-                ViewGroup.LayoutParams params= container.getLayoutParams();
-                params.width= DisplayUtil.getMobileWidth(CreateClassActivity.this);
+                RelativeLayout container = holder.getView(R.id.rl_container);
+                ViewGroup.LayoutParams params = container.getLayoutParams();
+                params.width = DisplayUtil.getMobileWidth(CreateClassActivity.this);
                 container.setLayoutParams(params);
-                final LinearLayout ll_operation=holder.getView(R.id.ll_operation);
+                final LinearLayout ll_operation = holder.getView(R.id.ll_operation);
                 hsv.setOnTouchListener(new View.OnTouchListener() {
                     int dx;
                     int lastX;
+
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
-                        switch (motionEvent.getAction()){
+                        switch (motionEvent.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                lastX= (int) motionEvent.getX();
+                                lastX = (int) motionEvent.getX();
                                 break;
                             case MotionEvent.ACTION_MOVE:
-                                dx= (int)motionEvent.getX()-lastX;
+                                dx = (int) motionEvent.getX() - lastX;
                                 break;
                             case MotionEvent.ACTION_UP:
-                                int width=ll_operation.getWidth()/2;
-                                boolean show=dx<0?dx<=-width:!(dx>=width);
-                                if(show){
+                                int width = ll_operation.getWidth() / 2;
+                                boolean show = dx < 0 ? dx <= -width : !(dx >= width);
+                                if (show) {
                                     hsv.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            hsv.smoothScrollTo(hsv.getMaxScrollAmount(),0);
+                                            hsv.smoothScrollTo(hsv.getMaxScrollAmount(), 0);
                                         }
                                     });
 
-                                }else {
+                                } else {
                                     hsv.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            hsv.smoothScrollTo(0,0);
+                                            hsv.smoothScrollTo(0, 0);
                                         }
                                     });
 
@@ -220,7 +229,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
             @Override
             public void success(ResponseData<List<SmallRegion>> data, Response response) {
-                left=data.getData();
+                left = data.getData();
             }
         });
     }
@@ -229,14 +238,14 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_group:
-                Intent addGroupIntent=new Intent(this, EditorTextActivity.class);
-                addGroupIntent.putExtra("flag",EditorTextActivity.ADD_GROUP_NAME);
+                Intent addGroupIntent = new Intent(this, EditorTextActivity.class);
+                addGroupIntent.putExtra("flag", EditorTextActivity.ADD_GROUP_NAME);
                 startActivityForResult(addGroupIntent, 100);
                 break;
             case R.id.rl_class_name:
-                Intent addClassNameIntent=new Intent(this, EditorTextActivity.class);
-                addClassNameIntent.putExtra("flag",EditorTextActivity.UPDATE_CLASS_NAME);
-                addClassNameIntent.putExtra("name",tv_class_name.getText());
+                Intent addClassNameIntent = new Intent(this, EditorTextActivity.class);
+                addClassNameIntent.putExtra("flag", EditorTextActivity.UPDATE_CLASS_NAME);
+                addClassNameIntent.putExtra("name", tv_class_name.getText());
                 startActivityForResult(addClassNameIntent, 101);
                 break;
             case R.id.rl_date:
@@ -255,6 +264,32 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+//    // 开班信息验证
+//    private void validateData() {
+//        String class_name = tv_class_name.getText().toString().trim();
+//        String xiaoqu = tv_xiaoqu.getText().toString().trim();
+//        String city = tv_city.getText().toString().trim();
+//        if (TextUtils.isEmpty(class_name)) {
+//            Util.toastMsg("班级名称不能为空！");
+//        } else if (TextUtils.isEmpty(xiaoqu)) {
+//            Util.toastMsg("小区尚未选择!");
+//        } else if (TextUtils.isEmpty(city)) {
+//            Util.toastMsg("城市尚未选择!");
+//        }
+//        try {
+//            EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+//            option.maxUsers = 200;
+//            option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
+//            EMGroup group = EMClient.getInstance().groupManager().createGroup(class_name, "", null, "", option);
+//
+//            String groupId = group.getGroupId();
+//        } catch (HyphenateException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -264,17 +299,17 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 groups.add(value);
                 adapter.notifyDataSetChanged();
                 ListViewUtil.setListViewHeightBasedOnChildren(lv_group);
-            }else if(requestCode==101){
+            } else if (requestCode == 101) {
                 String value = data.getStringExtra("value");
                 tv_class_name.setText(value);
-                if (clazz!=null){
+                if (clazz != null) {
                     clazz.setClassName(value);
                 }
-            }else if(requestCode==102){
+            } else if (requestCode == 102) {
                 String value = data.getStringExtra("value");
-                int position=data.getIntExtra("position",-1);
-                if(position>=0&&position<groups.size()){
-                    groups.set(position,value);
+                int position = data.getIntExtra("position", -1);
+                if (position >= 0 && position < groups.size()) {
+                    groups.set(position, value);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -291,12 +326,12 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 if (year < currentYear || (year == currentYear && monthOfYear + 1 < currentMonth) ||
                         (year == currentYear && monthOfYear + 1 == currentMonth && dayOfMonth <= currentDay)) {
                     String tip = "班级开始日期必须大于当前日期";
-                    Snackbar.make(tv_title,tip,Snackbar.LENGTH_SHORT).setDuration(2500).show();
+                    Snackbar.make(tv_title, tip, Snackbar.LENGTH_SHORT).setDuration(2500).show();
                 } else {
                     //输出当前日期
                     tv_class_time.setText(date);
-                    if (clazz!=null){
-                        clazz.setClassName(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,DateUtil.yyyy_MM_dd));
+                    if (clazz != null) {
+                        clazz.setClassName(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd));
                     }
 
                 }
@@ -304,16 +339,18 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1).show();
 
     }
+
     BottomSheetDialog dialog;
-    private void showBottomSheet(){
-        View view= LayoutInflater.from(this).inflate(R.layout.city_village,null);
-        DoubleListView<SmallRegion,City> dlv= (DoubleListView<SmallRegion, City>) view.findViewById(R.id.dlv);
-        dlv.leftAdapter(new SimpleTextAdapter<SmallRegion>(this,left) {
+
+    private void showBottomSheet() {
+        View view = LayoutInflater.from(this).inflate(R.layout.city_village, null);
+        DoubleListView<SmallRegion, City> dlv = (DoubleListView<SmallRegion, City>) view.findViewById(R.id.dlv);
+        dlv.leftAdapter(new SimpleTextAdapter<SmallRegion>(this, left) {
             @Override
             public String getText(SmallRegion data) {
                 return data.getRegionalName();
             }
-        }).rightAdapter(new SimpleTextAdapter<City>(this,null) {
+        }).rightAdapter(new SimpleTextAdapter<City>(this, null) {
             @Override
             public String getText(City data) {
                 return data.getCityName();
@@ -331,7 +368,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<SmallRegion, City>() {
             @Override
             public void onRightItemClick(SmallRegion item, City childItem) {
-                if(clazz!=null){
+                if (clazz != null) {
                     clazz.setCityId(childItem.getCityId());
                 }
                 tv_xiaoqu.setText(item.getRegionalName());
@@ -340,40 +377,62 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             }
         });
         //初始化选中.
-        if(left!=null&&!left.isEmpty()){
+        if (left != null && !left.isEmpty()) {
             dlv.setLeftList(left, 0);
             dlv.setRightList(left.get(0).getRegionalCityList(), -1);
         }
-        dialog=new BottomSheetDialog(this);
+        dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                dialog=null;
+                dialog = null;
             }
         });
     }
 
     @Override
     public void onValidationSucceeded() {
-        StringBuilder builder=new StringBuilder();
-        for (int i=0;i<groups.size();i++){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < groups.size(); i++) {
             builder.append(groups.get(i));
-            if(i!=groups.size()-1){
+            if (i != groups.size() - 1) {
                 builder.append(",");
             }
         }
-        if (clazz!=null){
+        if (clazz != null) {
             clazz.setClassGroup(builder.toString());
+            try {
+                Log.i(TAG, "调用欢心接口...");
+                EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+                option.maxUsers = 200;
+                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
+                Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
+
+                String[] members = {};
+
+                EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
+
+                String groupId = group.getGroupId();
+
+                clazz.setHxGroupId(groupId);
+            } catch (HyphenateException e) {
+                Log.i(TAG, "调用欢心接口 error...");
+                e.printStackTrace();
+            }
+
             dialogShow("正在创建班级...");
+
+            Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
+
             service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
                 @Override
                 public void success(ResponseData<LaiClass> data, Response response) {
                     dialogDissmiss();
-                    if(data.getStatus()==200){
-                        Intent intent=new Intent(CreateClassActivity.this,ContactsActivity.class);
-                        intent.putExtra("classId",data.getData().getClassId());
+                    if (data.getStatus() == 200) {
+                        Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
+                        intent.putExtra("classId", data.getData().getClassId());
                         startActivity(intent);
                     }
                     Util.toastMsg(data.getMsg());
@@ -390,7 +449,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        String msg=failedRule.getFailureMessage();
-        Snackbar.make(tv_title,msg,Snackbar.LENGTH_SHORT).setDuration(2000).show();
+        String msg = failedRule.getFailureMessage();
+        Snackbar.make(tv_title, msg, Snackbar.LENGTH_SHORT).setDuration(2000).show();
     }
 }

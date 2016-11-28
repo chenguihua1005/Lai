@@ -92,7 +92,7 @@ public class ChatContantAdapter extends BaseAdapter {
     /**
      * 存放控件
      */
-    public class ViewHolder {
+    private class ViewHolder {
         public TextView text_name;
         public ImageView img;
     }
