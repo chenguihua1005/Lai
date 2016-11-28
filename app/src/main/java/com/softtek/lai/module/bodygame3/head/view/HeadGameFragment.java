@@ -18,6 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.RequestCallback;
@@ -84,6 +85,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 //            params.topMargin = status;
 //            relativeLayout.setLayoutParams(params);
 //        }
+
+        if(UserInfoModel.getInstance().getRole().getSp().equals( String.valueOf(Constants.SP))){
+
+        }
         pull.setOnRefreshListener(this);
         search_btn.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
