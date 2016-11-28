@@ -45,7 +45,6 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import java.io.File;
 
@@ -152,7 +151,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     String gender="1";//性别
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    private static final int GET_BODY=2;//身体唯独
+    private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
