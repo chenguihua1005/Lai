@@ -191,6 +191,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         getallfirst();
         adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
             @Override
+
+
             public void convert(ViewHolder holder, String data, int position) {
                 ImageView iv_grid = holder.getView(R.id.iv_grid);
                 Picasso.with(getContext()).load(path + data).into(iv_grid);
