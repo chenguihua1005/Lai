@@ -860,7 +860,9 @@
             android:name=".module.bodygame3.head.view.SearchClassActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
-        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity" />
+        <activity android:name=".module.bodygame3.activity.view.NoClassFragment" />
+        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"></activity>
     </application>
 
 </manifest>
