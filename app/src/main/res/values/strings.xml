@@ -9,12 +9,8 @@
     <string name="bodyGameVlaue">体管赛</string>
     <string name="crateClassClassNameValue">班级名称：</string>
     <string name="crateClassTimeValue">班级周期：</string>
-    <string name="crateClassChooseValue">请选择</string>
 
     <string name="app_name">莱聚+</string>
-    <string name="hello_world">hello_world</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="activity_listview">AdapterTest</string>
@@ -68,7 +64,6 @@
     <string name="contact">通讯录</string>
     <string name="healthyRecord">健康记录</string>
     <string name="mine">我的</string>
-    <string name="aa">&lt;2016年6月6日&gt;</string>
     <string name="visitor">游客模式</string>
     <string name="login">登录</string>
     <string name="regist">注册</string>
@@ -100,37 +95,16 @@
     <string name="fragmentSetting">系统设置</string>
     <string name="fragmentResetPassword">重置密码</string>
     <string name="fragmentzx">注销账号</string>
-    <string name="zigezhenghao">资格证号</string>
     <string name="accountValidateNull">请输入资格证号</string>
     <string name="studentHonorJZ">减重奖章</string>
     <string name="studentHonorFC">复测奖章</string>
     <string name="studentHonorYGJ">月冠军</string>
     <string name="studentHonorsTAR">全国减重明星奖章</string>
 
-    <string name="CounselorA">体管赛</string>
-    <string name="CounselorB">往期回顾</string>
-    <string name="CounselorC">新学员录入</string>
-    <string name="CounselorD">复测</string>
-    <string name="CounselorE">当前进度</string>
-    <string name="CounselorF">荣誉榜</string>
     <string name="CounselorG">大赛赛况</string>
-    <string name="CounselorH">TIPS</string>
-    <string name="CounselorI">助教管理</string>
     <string name="CounselorJ">消息中心</string>
     <string name="AuditBarT">复测审核</string>
     <string name="AuditBarR">确认</string>
-    <string name="sendDynamic">发布动态</string>
-    <string name="inviteTutor">邀请助教</string>
-    <string name="inviteStudent">邀请学员</string>
-    <string name="gamestA">基本数据</string>
-    <string name="gamestB">上传照片</string>
-    <string name="gamestD">减重故事</string>
-    <string name="gamestE">成绩单</string>
-    <string name="tipsgamestI">TIPS</string>
-    <string name="gamestC">复测</string>
-    <string name="gamestF">荣誉榜</string>
-    <string name="gamestG">大赛赛况</string>
-    <string name="gamestH">加入跑团</string>
     <string name="phoneOr">手机号码</string>
     <string name="assistantManage">助教管理</string>
     <string name="assistantDetail">助教详情</string>
@@ -145,7 +119,6 @@
     <string name="joinGameR">《康宝莱使用知情书》</string>
     <string name="joinGameQ">请仔细阅读且勾选《康宝莱使用知情书》</string>
     <string name="old_password">原密码</string>
-    <string name="version_name">版本信息</string>
     <string name="version">V1.0.0 版本</string>
     <string name="aboutMe1">莱聚+，康宝莱专业体重管理与运动社交APP，一起“莱”感受积极健康生活方式的魅力吧！</string>
     <string name="aboutMe2">管理体重，监测包含脂肪含量在内的17项身体健康指数</string>
@@ -160,9 +133,6 @@
     <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
     <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
     <string name="noclass">您尚未加入班级，可以搜索加入班级\n或者创建一个新班级</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <!--日历文字说明-->
