@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.conversation.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jessica.zhang on 11/25/2016.
  */
 
-public class ChatContactModel {
+public class ChatContactModel implements Serializable{
     private String Mobile;
     private String UserName;
     private String UserEn;

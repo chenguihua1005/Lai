@@ -103,38 +103,44 @@
     <!--android:layout_marginTop="10dip">-->
 
     <!--</com.handmark.pulltorefresh.library.PullToRefreshListView>-->
-    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
-        android:id="@+id/list_contant"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:divider="#e1e1e1"
-        android:dividerHeight="0.5dp"
-        android:groupIndicator="@null"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        app:ptrAnimationStyle="flip"
-        app:ptrShowIndicator="false" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_perview"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="#B2898787"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:textSize="70sp"
-        android:visibility="gone"
-        android:layout_centerInParent="true"/>
+        <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
+            android:id="@+id/list_contant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#e1e1e1"
+            android:dividerHeight="0.5dp"
+            android:groupIndicator="@null"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:ptrAnimationStyle="flip"
+            app:ptrShowIndicator="false" />
 
-    <com.ggx.widgets.view.ChooseView
-        android:id="@+id/choose"
-        android:layout_width="25dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/toolbar"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/tv_perview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="#B2898787"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="70sp"
+            android:visibility="gone" />
+
+        <com.ggx.widgets.view.ChooseView
+            android:id="@+id/choose"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+
+            android:gravity="center" />
+
+    </RelativeLayout>
 
     <!--<ListView-->
 

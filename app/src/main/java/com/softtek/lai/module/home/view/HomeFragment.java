@@ -236,7 +236,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         super.onResume();
         rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
-        Log.i(TAG, "model = " + new Gson().toJson(model));
+        Log.i(TAG, "用戶信息model = " + new Gson().toJson(model));
 
         if (model == null) {
             return;

@@ -147,8 +147,7 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
         fragments.add(new FuCeFragment());
-        fragments.add(new ClassSRFragment());
-        content.setOffscreenPageLimit(4);
+        content.setOffscreenPageLimit(3);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
         int type = getIntent().getIntExtra("type", 0);

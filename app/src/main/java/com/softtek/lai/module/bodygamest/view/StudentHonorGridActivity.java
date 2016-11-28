@@ -374,7 +374,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.CounselorF);
+        tv_title.setText("我的勋章");
 
 
 //        img_fc_1.post(new Runnable() {

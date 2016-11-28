@@ -162,12 +162,10 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         btn_fuce.setOnClickListener(this);
         btn_class.setOnClickListener(this);
 
-        fragments.add(new BodyGamePCFragment());
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
         fragments.add(new PCFuCeFragment());
-        fragments.add(new ClassPCFragment());
-        content.setOffscreenPageLimit(4);
+        content.setOffscreenPageLimit(2);
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         //设置第一个fragment
         int type = getIntent().getIntExtra("type", 0);

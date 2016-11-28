@@ -4,43 +4,42 @@
     android:layout_height="100dp"
     android:orientation="horizontal"
     android:gravity="center"
+    android:background="#ffffff"
     android:baselineAligned="false">
     <LinearLayout
         android:layout_width="140dp"
         android:layout_height="90dp"
-        android:background="#f2f2f2"
-        android:baselineAligned="false"
+        android:background="@drawable/round_bg_grey"
+        android:gravity="center|left"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_weight_level_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="#999999"
             android:textSize="11sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:text="W1等级"/>
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp" />
         <TextView
+            android:id="@+id/tv_loss_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="#999999"
             android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="20dp"
-            android:text="减重5斤"/>
+            android:layout_marginLeft="20dp" />
         <TextView
+            android:id="@+id/tv_nation_weight_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#999999"
             android:textSize="10sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:text="12344人打成"/>
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:src="@drawable/item_horizontal_icon"/>
@@ -48,32 +47,31 @@
         android:layout_width="140dp"
         android:layout_height="90dp"
         android:orientation="vertical"
-        android:layout_marginLeft="25dp"
-        android:background="#f2f2f2">
+        android:gravity="center|left"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/round_bg_grey">
 
         <TextView
+            android:id="@+id/tv_fat_level_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="#999999"
             android:textSize="11sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:text="W1等级"/>
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp" />
         <TextView
+            android:id="@+id/tv_loss_fat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="#999999"
             android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="20dp"
-            android:text="减重5斤"/>
+            android:layout_marginLeft="20dp" />
         <TextView
+            android:id="@+id/tv_nation_fat_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#999999"
             android:textSize="10sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:text="12344人打成"/>
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
 </LinearLayout>

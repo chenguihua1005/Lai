@@ -5,18 +5,17 @@
 
 package com.softtek.lai.module.jingdu.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.counselor.net.CounselorService;
-import com.softtek.lai.module.jingdu.EventModel.RankEvent;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.net.JingduService;
 import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,9 +23,6 @@ import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Created by julie.zhu on 3/28/2016.

@@ -29,20 +29,14 @@ import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.bodygame2sr.model.SRBodyGameInfo;
 import com.softtek.lai.module.bodygame2sr.present.SRManager;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.review.view.ReviewActivity;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
-import com.softtek.lai.module.tips.view.AskDetailActivity;
-import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -198,17 +192,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
         rl_student_more.setEnabled(false);
         tv_stu_more.setVisibility(View.INVISIBLE);
         mlv.setEmptyView(rl_no_students);
-        //学员点击item
-        mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SPPCMoldel model=pcModels.get(position);
-                Intent jumpStudent=new Intent(getContext(),PersonalDataActivity.class);
-                jumpStudent.putExtra("userId",(long)model.getAccountId());
-                jumpStudent.putExtra("classId",(long)model.getClassId());
-                startActivity(jumpStudent);
-            }
-        });
+
         mgv.setEmptyView(rl_no_saikuang);
         //大赛点击item
         mgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -495,28 +479,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                     activity.switchTab();
                 }
                 break;
-            case R.id.ll_tip1:
-                //第一个tip
-                Tips tip1=info.getTips_content().get(0);
-                AskHealthyModel ask=new AskHealthyModel();
-                ask.setTips_Link(tip1.getTips_Link());
-                Intent tip1Intent=new Intent(getContext(), AskDetailActivity.class);
-                tip1Intent.putExtra("ask",ask);
-                startActivity(tip1Intent);
-                break;
-            case R.id.ll_tip2:
-                //第二个tip
-                Tips tip2=info.getTips_content().get(1);
-                AskHealthyModel ask2=new AskHealthyModel();
-                ask2.setTips_Link(tip2.getTips_Link());
-                Intent tip2Intent=new Intent(getContext(), AskDetailActivity.class);
-                tip2Intent.putExtra("ask",ask2);
-                startActivity(tip2Intent);
-                break;
-            case R.id.rl_tip:
-                //tips更多
-                startActivity(new Intent(getContext(), TipsActivity.class));
-                break;
+
             case R.id.fl_video:
                 //视频
                 if(info!=null&&StringUtils.isNotEmpty(info.getTips_video_name())){
@@ -534,27 +497,12 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                 //申请助教
                 startActivity(new Intent(getContext(), ApplyAssistantActivity.class));
                 break;
-            case R.id.ll_sp_review:
-                //往期回顾
-                startActivity(new Intent(getContext(), ReviewActivity.class));
-                break;
-            case R.id.ll_jindu:
-                //当期进度
-                startActivity(new Intent(getContext(), ZhuJiaoJingduActivity.class));
-                break;
+
             case R.id.ll_honor:
                 //荣誉榜
                 startActivity(new Intent(getContext(), SRHonorActivity.class));
                 break;
-            case R.id.fl_search:
-                String text=et_person.getText().toString();
-                if(StringUtils.isNotEmpty(text)){
-                    et_person.setText("");
-                    Intent search=new Intent(getContext(),SearchSRPcActivity.class);
-                    search.putExtra("value",text.replaceAll("%","").replaceAll("_",""));
-                    startActivity(search);
-                }
-                break;
+
         }
     }
 

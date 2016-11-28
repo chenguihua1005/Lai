@@ -15,7 +15,6 @@ import com.softtek.lai.utils.ZipUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;

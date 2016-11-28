@@ -359,6 +359,7 @@
                         android:id="@+id/textView18" />
             </RelativeLayout>
             <View
+                android:id="@+id/vi_noweight"
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
                 android:layout_marginRight="20dp"

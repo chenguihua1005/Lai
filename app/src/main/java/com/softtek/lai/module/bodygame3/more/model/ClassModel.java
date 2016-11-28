@@ -17,6 +17,7 @@ public class ClassModel implements Parcelable{
     private String ClassName;
     private int ClassRole;//班级角色1:总教练,2:教练,3:助教,4:学员
     private String ClassMasterName;
+    private String HXGroupId;
     private List<String> ClassMeasureDateList;
 
     protected ClassModel(Parcel in) {
@@ -26,6 +27,7 @@ public class ClassModel implements Parcelable{
         ClassRole = in.readInt();
         ClassMasterName = in.readString();
         ClassMeasureDateList = in.createStringArrayList();
+        HXGroupId=in.readString();
     }
 
     public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
@@ -88,6 +90,14 @@ public class ClassModel implements Parcelable{
         ClassMeasureDateList = classMeasureDateList;
     }
 
+    public String getHXGroupId() {
+        return HXGroupId;
+    }
+
+    public void setHXGroupId(String HXGroupId) {
+        this.HXGroupId = HXGroupId;
+    }
+
     @Override
     public String toString() {
         return "ClassModel{" +
@@ -96,6 +106,7 @@ public class ClassModel implements Parcelable{
                 ", ClassName='" + ClassName + '\'' +
                 ", ClassRole=" + ClassRole +
                 ", ClassMasterName='" + ClassMasterName + '\'' +
+                ", HXGroupId=" + HXGroupId +
                 ", ClassMeasureDateList=" + ClassMeasureDateList +
                 '}';
     }
@@ -113,5 +124,6 @@ public class ClassModel implements Parcelable{
         parcel.writeInt(ClassRole);
         parcel.writeString(ClassMasterName);
         parcel.writeStringList(ClassMeasureDateList);
+        parcel.writeString(HXGroupId);
     }
 }

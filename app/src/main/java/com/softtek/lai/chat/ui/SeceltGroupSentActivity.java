@@ -30,11 +30,11 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.adapter.SelectGroupSentAdapter;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -174,7 +174,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     }
 
     private void setData() {
-        List<ChatContactInfoModel> lists = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        List<ChatContactModel> lists = (ArrayList<ChatContactModel>) getIntent().getSerializableExtra("list");
         for (int i = 0; i < lists.size(); i++) {
             SelectContactInfoModel model = new SelectContactInfoModel();
             model.setSelected(false);
@@ -200,7 +200,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_next:
-                List<ChatContactInfoModel> select_list=new ArrayList<ChatContactInfoModel>();
+                List<ChatContactModel> select_list=new ArrayList<ChatContactModel>();
                 for (int i = 0; i < list.size(); i++) {
                     if(list.get(i).isSelected()){
                         select_list.add(list.get(i).getModel());

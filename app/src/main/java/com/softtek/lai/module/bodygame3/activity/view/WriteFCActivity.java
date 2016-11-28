@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.BuildConfig;
 import com.github.snowdream.android.util.Log;
@@ -32,21 +32,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame2pc.model.PhotModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
-import com.softtek.lai.module.newmemberentry.model.PhotModel;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
-import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.model.MeasureModel;
-import com.softtek.lai.module.retest.model.RetestAuditModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
-import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -54,12 +44,10 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
-import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -68,6 +56,7 @@ import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -158,13 +147,12 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     TextView tv_write_endd;
     @InjectView(R.id.rootlayout)
     RelativeLayout rootlayout;
+    @InjectView(R.id.vi_noweight)
+    View vi_noweight;
 
-    String gender="1";
+    String gender="1";//性别
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
-    String acountid="0";
-    String classid="0";
-    private static final int GET_BODY=2;
+    private static final int GET_BODY=2;//身体唯独
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
@@ -172,11 +160,17 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
     InitComitModel initComitModel;
+    InitDataModel initDataModel;
+    MultipartTypedOutput multipartTypedOutput;
+    Long accountId=Long.parseLong(userInfoModel.getUser().getUserid());//用户id
+    String Classid="";//班级id
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        ll_retestWrite_chu_weight.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
@@ -189,30 +183,29 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        context=this;
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
-
+        vi_noweight.setVisibility(View.GONE);
+        ll_retestWrite_nowweight.setVisibility(View.GONE);
     }
 
 
     @Override
     protected void initDatas() {
-        title.setText("初始数据录入");
-        tv_right.setText("保存");
+        title.setText("初始数据录入");//设置标题栏标题
+        tv_right.setText("保存");//保存数据
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        doGetInfo();
         if(BuildConfig.DEBUG) {
+            doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
             Util.toastMsg("C4E8E179-FD99-4955-8BF9-CF470898788B");
-//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
-//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
         }
         else {
+            //获取数据接口
+            doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
+//            doGetInfo(accountId,classid);
             Util.toastMsg("不是debug");
-//                    String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
-//                    multipartTypedOutput.addPart("classId",new TypedString(classID));
-//                    multipartTypedOutput.addPart("classId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         }
-        ll_retestWrite_nowweight.setVisibility(View.GONE);
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -224,7 +217,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                MultipartTypedOutput multipartTypedOutput=new MultipartTypedOutput();
+                multipartTypedOutput=new MultipartTypedOutput();
                 multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
                 multipartTypedOutput.addPart("classId",new TypedString(classID));
@@ -234,17 +227,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 multipartTypedOutput.addPart("ChuWeight",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("Circum",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("image",new TypedFile("image/png", new File(file)));
-                service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
 
-                    }
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
 //                retestPre.goGetPicture(file);
             }
 
@@ -261,14 +244,38 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     /*
     * 获取初始基本数据
     * */
-    private void doGetInfo() {
-        service.dogetInitData(UserInfoModel.getInstance().getToken(),Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), "7", new RequestCallback<ResponseData<InitDataModel>>() {
+    private void doGetInfo(Long accountId,String classId) {
+        service.dogetInitData(UserInfoModel.getInstance().getToken(),accountId, classId, new RequestCallback<ResponseData<InitDataModel>>() {
             @Override
             public void success(ResponseData<InitDataModel> initDataModelResponseData, Response response) {
                 int status=initDataModelResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
+                        try {
+                            initDataModel=initDataModelResponseData.getData();
+                            if (initDataModel!=null)
+                            {
+                                tv_write_nick.setText(initDataModel.getUserName());//设置用户名
+                                tv_write_phone.setText(initDataModel.getMobile());//手机号
+                                if (!TextUtils.isEmpty(initDataModel.getPhoto()))
+                            {
+                                String url= AddressManager.get("photoHost");
+                                Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
+                            }
+                                tv_write_class.setText(initDataModel.getClassName());//班级名
+                                tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
+                                String Stardata[]=initDataModel.getStartDate().split("-");
+                                tv_write_starm.setText(Long.parseLong(Stardata[1])+"");//开班月
+                                tv_write_stard.setText(Long.parseLong(Stardata[2])+"");//开班日
+                                String Enddata[]=initDataModel.getEndDate().split("-");
+                                tv_write_endm.setText(Long.parseLong(Enddata[1])+"");//结束月
+                                tv_write_endd.setText(Long.parseLong(Enddata[2])+"");//结束日
+//                                d
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         break;
                     default:
                         Util.toastMsg(initDataModelResponseData.getMsg());
@@ -283,6 +290,20 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    private void doPostInitData()
+    {
+        service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Util.toastMsg(responseData.getMsg());
+
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
+    }
 
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {
@@ -361,13 +382,13 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 //                intent.putExtra("isState",isState);
 //                startActivityForResult(intent,GET_BODY);
                 break;
-            case R.id.ll_retestWrite_nowweight:
+            case R.id.ll_retestWrite_chu_weight:
                 if (gender.equals("1")) {
-                    show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
+                    show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
                 }
                 else
                 {
-                    show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
+                    show_information("初始体重（斤）", 600, 150, 50, 9, 0, 0, 0);
                 }
                 break;
             case R.id.ll_retestWrite_tizhi:
@@ -377,12 +398,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 show_information("内脂",30,2,1,9,0,0,3);
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this,PictureActivity.class);
+                /*Intent intent1=new Intent(this,PictureActivity.class);
                 ArrayList<String> imags=new ArrayList<>();
-//                imags.add(retestWrite.getImage());
                 intent1.putExtra("images",imags);
                 intent1.putExtra("position",0);
-                startActivity(intent1);
+                startActivity(intent1);*/
                 break;
 
 

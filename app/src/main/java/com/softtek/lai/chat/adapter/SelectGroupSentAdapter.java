@@ -14,9 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class SelectGroupSentAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final SelectContactInfoModel selectContactInfoModel = list.get(position);
-        ChatContactInfoModel contactListInfo = selectContactInfoModel.getModel();
+        ChatContactModel contactListInfo = selectContactInfoModel.getModel();
         String photo = contactListInfo.getPhoto();
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
