@@ -69,7 +69,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
             LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         }
-        new Handler(Looper.getMainLooper()).postDelayed(this,1000);
+        new Handler(Looper.getMainLooper()).postDelayed(this,500);
 
     }
 
@@ -178,11 +178,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     }
 
     private void stepDeal(Context context, String userId, long step){
-        //List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-        //StepUtil.getInstance().deleteOldDate(dateEnd);
-        //首先先关闭服务
-        //isServiceStarted(context.getApplicationContext(),StepService.class.getPackage().getName());
-        //LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         //获取用户最新的步数
         int currentStep=StepUtil.getInstance().getCurrentStep(userId);
         //删除旧数据
@@ -205,34 +200,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
-
-        /*if(!steps.isEmpty()){
-            UserStep stepEnd=steps.get(steps.size()-1);
-            int currentStep= (int) (stepEnd.getStepCount());
-            if(step>currentStep){
-                //如果服务器上的步数大于本地
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(step);
-                StepUtil.getInstance().saveStep(userStep);
-            }else{
-                //如果本地大于服务器的
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(currentStep);
-                StepUtil.getInstance().saveStep(userStep);
-            }
-            //如果不大于则 不需要操作什么
-        }else{
-            //本地没有数据则写入本地
-            UserStep serverStep=new UserStep();
-            serverStep.setAccountId(Long.parseLong(userId));
-            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            serverStep.setStepCount(step);
-            StepUtil.getInstance().saveStep(serverStep);
-        }*/
     }
     public static  boolean isServiceStarted(Context context,String packageName){
         boolean isStarted =false;
