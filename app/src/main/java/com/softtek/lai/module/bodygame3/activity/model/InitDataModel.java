@@ -19,6 +19,9 @@ public class InitDataModel {
     private String UpArmGirth;//上臂围
     private String UpLegGirth;//大腿围
     private String DoLegGirth;//小腿围
+    private String WeekNum;//第几周
+    private String StartDate;//开始日期
+    private String EndDate;//结束日期
 
     @Override
     public String toString() {
@@ -37,7 +40,34 @@ public class InitDataModel {
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", WeekNum='" + WeekNum + '\'' +
+                ", StartDate='" + StartDate + '\'' +
+                ", EndDate='" + EndDate + '\'' +
                 '}';
+    }
+
+    public String getWeekNum() {
+        return WeekNum;
+    }
+
+    public void setWeekNum(String weekNum) {
+        WeekNum = weekNum;
+    }
+
+    public String getStartDate() {
+        return StartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
+
+    public String getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(String endDate) {
+        EndDate = endDate;
     }
 
     public String getUserName() {
