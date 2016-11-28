@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
+    android:background="@color/white"
     android:orientation="horizontal">
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center">
@@ -18,13 +19,17 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/bg_media"/>
             <TextView
+                android:id="@+id/tv_weight_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="#F3EE7B"
+                android:textSize="20sp"
                 android:text="w1"/>
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tv_weight_level_des"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -35,7 +40,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center">
@@ -49,12 +54,16 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/bg_media"/>
             <TextView
+                android:id="@+id/tv_fat_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="s1"/>
+                android:textColor="#F3EE7B"
+                android:textSize="20sp"
+                android:text="Z1"/>
         </FrameLayout>
         <TextView
+            android:id="@+id/tv_fat_level_des"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"

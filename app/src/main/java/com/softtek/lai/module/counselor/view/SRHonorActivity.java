@@ -6,13 +6,11 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +21,6 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
@@ -281,17 +278,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         tv_title.setText(R.string.CounselorF);
-        list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String accountId = honorTable1.get(position).getAccountId();
-                String classId = honorTable1.get(position).getClassId();
-                Intent intent = new Intent(SRHonorActivity.this, PersonalDataActivity.class);
-                intent.putExtra("userId", Long.parseLong(accountId));
-                intent.putExtra("classId", Long.parseLong(classId));
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override

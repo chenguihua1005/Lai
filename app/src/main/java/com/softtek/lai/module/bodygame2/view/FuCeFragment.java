@@ -23,8 +23,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
-import com.softtek.lai.module.retest.adapter.ClassAdapter;
-import com.softtek.lai.module.retest.adapter.StudentAdapter;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
@@ -79,8 +77,6 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     long loginid;
     private List<BanjiModel> banjiModelList = new ArrayList<>();
     private List<BanjiStudentModel> banjiStudentModelList = new ArrayList<>();
-    private ClassAdapter classAdapter;
-    private StudentAdapter studentAdapter;
     boolean h = true;
     int chuheight = 500;
     long ClassId;
@@ -135,7 +131,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
         try {
             banjiModelList = banji.getBanjiModels();
-            classAdapter.updateData(banjiModelList);
+            //classAdapter.updateData(banjiModelList);
 //        获取班级初列表始高度
             chuheight = setListViewHeightBasedOnChildren(list_class);
             chuheight += ll_shousuolist.getHeight();
@@ -182,7 +178,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         if (models != null) {
             banjiStudentModelList.addAll(models);
         }
-        studentAdapter.notifyDataSetChanged();
+        //studentAdapter.notifyDataSetChanged();
 
 
     }
@@ -248,11 +244,11 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     protected void initDatas() {
         EventBus.getDefault().register(this);
         //适配班级、学员列表listview
-        classAdapter = new ClassAdapter(getContext(), banjiModelList);
-        studentAdapter = new StudentAdapter(getContext(), banjiStudentModelList);
-        list_class.setAdapter(classAdapter);
-        list_query.setAdapter(studentAdapter);
-        list_query.setVerticalScrollBarEnabled(false);
+//        classAdapter = new ClassAdapter(getContext(), banjiModelList);
+//        studentAdapter = new StudentAdapter(getContext(), banjiStudentModelList);
+//        list_class.setAdapter(classAdapter);
+//        list_query.setAdapter(studentAdapter);
+//        list_query.setVerticalScrollBarEnabled(false);
         //监听
         ll_classlist.setOnClickListener(this);
         ll_shousuo.setOnClickListener(this);
@@ -450,7 +446,7 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
 
             banjiStudentModelList.clear();
             retestPre.doGetBanjiStudent(ClassId, loginid);
-            studentAdapter.notifyDataSetChanged();
+            //studentAdapter.notifyDataSetChanged();
 
 
         }

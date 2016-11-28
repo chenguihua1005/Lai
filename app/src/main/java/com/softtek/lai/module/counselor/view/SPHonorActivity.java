@@ -6,13 +6,11 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
@@ -35,10 +32,12 @@ import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
@@ -284,17 +283,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         tv_title.setText(R.string.CounselorF);
-        list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String accountId = honorTable1.get(position).getAccountId();
-                String classId = honorTable1.get(position).getClassId();
-                Intent intent = new Intent(SPHonorActivity.this, PersonalDataActivity.class);
-                intent.putExtra("userId", Long.parseLong(accountId));
-                intent.putExtra("classId", Long.parseLong(classId));
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override

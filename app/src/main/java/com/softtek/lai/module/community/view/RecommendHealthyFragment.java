@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -23,7 +22,6 @@ import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -150,7 +148,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
     }
 
     private static final int LIST_JUMP=1;
-    private static final int LIST_JUMP_2=2;
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -181,14 +178,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
             pageIndex=1;
             community.getRecommendDynamic(accountId,1);
         }
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        }, 400);*/
     }
 
     @Override
@@ -230,15 +219,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
                     communityModels.get(position).setIsPraise(model.getIsPraise());
                     communityModels.get(position).setUsernameSet(model.getUsernameSet());
                     communityModels.get(position).setPraiseNum(model.getPraiseNum());
-                    adapter.notifyDataSetChanged();
-                }
-            }else if(requestCode==LIST_JUMP_2){
-                int position=data.getIntExtra("position",-1);
-                LossWeightStoryModel model=data.getParcelableExtra("log");
-                if(position!=-1&&model!=null){
-                    communityModels.get(position).setIsPraise(model.getIsClicked());
-                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
-                    communityModels.get(position).setPraiseNum(model.getPriase());
                     adapter.notifyDataSetChanged();
                 }
             }

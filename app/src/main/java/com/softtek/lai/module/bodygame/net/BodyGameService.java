@@ -24,27 +24,6 @@ import retrofit.http.Query;
  */
 public interface BodyGameService {
 
-    //banner接口
-    @GET("/Index/TiGuanSaiClick")
-    void doGetTiGuanSaiClickw(
-                              Callback<ResponseData<TiGuanSaiModel>> callback);
-
-    @GET("/MeasuredRecordLog/GetNotMeasuredMemberCountBySRP")
-    void doGetFuceNum(
-            @Header("token") String token,
-            @Query("id") long id,
-            Callback<ResponseData<FuceNumModel>> callback
-    );
-    //tip
-    @GET("/HerbTips/GetTipsList")
-    void doGetTips(
-            Callback<ResponseData<List<TipsModel>>>callback
-    );
-    @GET("/HerbTips/GetTipsContentById")
-    void doGetTipsDetail(
-            @Query("id")long id,
-            Callback<ResponseData<List<TipsDetailModel>>>callback
-    );
     //参赛总人数及减重斤数
     @GET("/Index/LoadTotalPersonLoss")
     void doGetTotal(

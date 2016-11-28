@@ -146,13 +146,6 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 honorIntent.putExtra("classId", classId);
                 startActivity(honorIntent);
                 break;
-            case R.id.ll_story:
-            case R.id.rel_my_weight:
-                Intent storyIntent = new Intent(this, StoryActivity.class);
-                storyIntent.putExtra("userId", userId);
-                storyIntent.putExtra("classId", classId);
-                startActivity(storyIntent);
-                break;
             case R.id.rel_my_photo:
                 Intent photoIntent = new Intent(this, PassPhotoActivity.class);
                 photoIntent.putExtra("userId", userId);

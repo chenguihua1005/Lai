@@ -47,9 +47,9 @@ import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
 import com.hyphenate.util.PathUtil;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -102,7 +102,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     protected MyItemClickListener extendMenuItemClickListener;
 
-    List<ChatContactInfoModel> list;
+    List<ChatContactModel> list;
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
@@ -206,7 +206,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             public void onSendMessage(final String content) {
                 // 发送文本消息
                 for (int i = 0; i < list.size(); i++) {
-                    final ChatContactInfoModel model = list.get(i);
+                    final ChatContactModel model = list.get(i);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -224,7 +224,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                     public void onVoiceRecordComplete(final String voiceFilePath, final int voiceTimeLength) {
                         // 发送语音消息
                         for (int i = 0; i < list.size(); i++) {
-                            final ChatContactInfoModel model = list.get(i);
+                            final ChatContactModel model = list.get(i);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -242,7 +242,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             public void onBigExpressionClicked(final EaseEmojicon emojicon) {
                 //发送大表情(动态表情)
                 for (int i = 0; i < list.size(); i++) {
-                    final ChatContactInfoModel model = list.get(i);
+                    final ChatContactModel model = list.get(i);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -290,11 +290,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        list = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        list = (ArrayList<ChatContactModel>) getIntent().getSerializableExtra("list");
         text_count.setText("你将发送消息给" + list.size() + "位朋友:");
         String value = "";
         for (int i = 0; i < list.size(); i++) {
-            ChatContactInfoModel model = list.get(i);
+            ChatContactModel model = list.get(i);
             if (i == 0) {
                 value = value + model.getUserName();
             } else {
@@ -337,7 +337,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             if (requestCode == REQUEST_CODE_CAMERA) { // 发送照片
                 if (cameraFile != null && cameraFile.exists()) {
                     for (int i = 0; i < list.size(); i++) {
-                        final ChatContactInfoModel model = list.get(i);
+                        final ChatContactModel model = list.get(i);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -399,31 +399,31 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     //发送消息方法
     //==========================================================================
-    protected void sendTextMessage(String content, ChatContactInfoModel model) {
+    protected void sendTextMessage(String content, ChatContactModel model) {
         EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId().toLowerCase());
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
-    protected void sendBigExpressionMessage(String name, String identityCode, ChatContactInfoModel model) {
+    protected void sendBigExpressionMessage(String name, String identityCode, ChatContactModel model) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId().toLowerCase(), name, identityCode);
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
-    protected void sendVoiceMessage(String filePath, int length, ChatContactInfoModel model) {
+    protected void sendVoiceMessage(String filePath, int length, ChatContactModel model) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId().toLowerCase());
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
-    protected void sendImageMessage(String imagePath, ChatContactInfoModel model) {
+    protected void sendImageMessage(String imagePath, ChatContactModel model) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId().toLowerCase());
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
-    protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactInfoModel model) {
+    protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactModel model) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
         message.setAttribute("nickname", chatUserModel.getUserName());
         message.setAttribute("avatarURL", chatUserModel.getUserPhone());
@@ -440,7 +440,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         finish();
     }
 
-    protected void setProfile(EMConversation conversation, ChatContactInfoModel model) {
+    protected void setProfile(EMConversation conversation, ChatContactModel model) {
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         String name = model.getUserName();
         String photo = model.getPhoto();
@@ -469,7 +469,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                 return;
             }
             for (int i = 0; i < list.size(); i++) {
-                final ChatContactInfoModel model = list.get(i);
+                final ChatContactModel model = list.get(i);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -488,7 +488,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
             }
             for (int i = 0; i < list.size(); i++) {
-                final ChatContactInfoModel model = list.get(i);
+                final ChatContactModel model = list.get(i);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

@@ -63,6 +63,7 @@ public class LossWeightAndFat {
         private int FatReachCount;
         private int Level;
 
+
         public int getFatReachCount() {
             return FatReachCount;
         }
