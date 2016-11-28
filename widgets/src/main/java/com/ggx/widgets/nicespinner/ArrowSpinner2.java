@@ -16,7 +16,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import com.ggx.widgets.R;
 
 /**
+ *
  * Created by jerry.guan on 11/16/2016.
  */
 
@@ -195,17 +195,29 @@ public class ArrowSpinner2 extends LinearLayout{
         selectedIndex = 0;
         listView.setAdapter(adapter);
         textView.setText(adapter.getText(selectedIndex));
+        if(adapter.getCount()>0){
+            setImageVisibility(VISIBLE);
+        }else {
+            setImageVisibility(GONE);
+        }
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    public void setImageVisibility(int visibility){
+        imageView.setVisibility(visibility);
+    }
+
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (!popupWindow.isShowing()) {
-                showDropDown();
+                if(adapter.getCount()>0){
+                    showDropDown();
+
+                }
             } else {
                 dismissDropDown();
             }
