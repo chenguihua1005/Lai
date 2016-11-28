@@ -359,9 +359,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.tips.view.TipsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -549,9 +546,6 @@
             android:name=".module.historydate.view.HistoryDataDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.tips.view.VideoViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.sport.view.HistorySportListActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -603,9 +597,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamest.view.PhotoViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.tips.view.AskDetailActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".stepcount.service.StepService" />

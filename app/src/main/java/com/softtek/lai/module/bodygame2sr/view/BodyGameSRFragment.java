@@ -38,9 +38,6 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message.net.MessageService;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.review.view.ReviewActivity;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
-import com.softtek.lai.module.tips.view.AskDetailActivity;
-import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.StringUtil;
@@ -483,28 +480,7 @@ public class BodyGameSRFragment extends LazyBaseFragment implements View.OnClick
                     activity.switchTab();
                 }
                 break;
-            case R.id.ll_tip1:
-                //第一个tip
-                Tips tip1=info.getTips_content().get(0);
-                AskHealthyModel ask=new AskHealthyModel();
-                ask.setTips_Link(tip1.getTips_Link());
-                Intent tip1Intent=new Intent(getContext(), AskDetailActivity.class);
-                tip1Intent.putExtra("ask",ask);
-                startActivity(tip1Intent);
-                break;
-            case R.id.ll_tip2:
-                //第二个tip
-                Tips tip2=info.getTips_content().get(1);
-                AskHealthyModel ask2=new AskHealthyModel();
-                ask2.setTips_Link(tip2.getTips_Link());
-                Intent tip2Intent=new Intent(getContext(), AskDetailActivity.class);
-                tip2Intent.putExtra("ask",ask2);
-                startActivity(tip2Intent);
-                break;
-            case R.id.rl_tip:
-                //tips更多
-                startActivity(new Intent(getContext(), TipsActivity.class));
-                break;
+
             case R.id.fl_video:
                 //视频
                 if(info!=null&&StringUtils.isNotEmpty(info.getTips_video_name())){
