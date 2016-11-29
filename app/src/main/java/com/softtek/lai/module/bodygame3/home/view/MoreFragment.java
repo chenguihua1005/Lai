@@ -2,7 +2,9 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -29,6 +31,7 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -136,7 +139,20 @@ public class MoreFragment extends LazyBaseFragment {
         UserModel user=UserInfoModel.getInstance().getUser();
         if(user!=null){
             tv_name.setText(user.getNickname());
+            if (TextUtils.isEmpty(user.getPhoto())){
+                Picasso.with(getContext()).load(R.drawable.img_default).into(head_image);
+            }else {
+                Picasso.with(getContext()).load(R.drawable.img_default).fit()
+                        .error(R.drawable.img_default)
+                        .placeholder(R.drawable.img_default).into(head_image);
+            }
         }
+        head_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //这里点击进入个人详情
+            }
+        });
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -144,8 +160,7 @@ public class MoreFragment extends LazyBaseFragment {
                 int role=model.getClassRole();
                 tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
                 tv_number.setText(model.getClassCode());
-//                choosePanel(role);
-                choosePanel(4);
+                choosePanel(role);
             }
         });
         fl_right.setOnClickListener(new View.OnClickListener() {
@@ -175,28 +190,30 @@ public class MoreFragment extends LazyBaseFragment {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
-
+    Fragment fragment;
     private void choosePanel(int role){
         Bundle bundle=new Bundle();
         bundle.putParcelable("class",model);
         switch (role) {
             case 1://总教练
-                HeadCoachFragment headCoachFragment=new HeadCoachFragment();
-                headCoachFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commit();
+                fragment=new HeadCoachFragment();
+                fragment.setArguments(bundle);
+
+                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
             case 2://教练
-                CoachFragment coachFragment=new CoachFragment();
-                coachFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commit();
+                fragment =new CoachFragment();
+                fragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
             case 3://助教
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commit();
+                fragment=new AssistantFragment();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
             case 4://学员
-                StudentFragment studentFragment=new StudentFragment();
-                studentFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commit();
+                fragment=new StudentFragment();
+                fragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
         }
     }
@@ -209,10 +226,19 @@ public class MoreFragment extends LazyBaseFragment {
             arrow.setText(model.getClassName());
             this.model.setClassName(model.getClassName());
             arrow.getAdapter().notifyDataSetChanged();
-        }else {
+        }else if(clazz.getStatus()==1){
             //添加新班级
             this.classModels.add(clazz.getModel());
             arrow.getAdapter().notifyDataSetChanged();
+        }else if(clazz.getStatus()==2){
+            //删除班级
+            this.classModels.remove(clazz.getModel());
+            arrow.getAdapter().notifyDataSetChanged();
+            arrow.setSelected(0);
+            model=classModels.get(0);
+            if(classModels.isEmpty()&&fragment!=null){
+                getChildFragmentManager().beginTransaction().remove(fragment).commit();
+            }
         }
     }
 
