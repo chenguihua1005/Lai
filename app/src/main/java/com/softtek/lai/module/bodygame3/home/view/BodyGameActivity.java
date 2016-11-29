@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -67,7 +68,8 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     TextView tv_umread;
 
     private List<Fragment> fragments;
-   private MainPageAdapter adapter;
+    private FragmentPagerAdapter adapter;
+
     private int current = 0;
     private boolean isClick = false;
 
@@ -135,6 +137,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         adapter=new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
+
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

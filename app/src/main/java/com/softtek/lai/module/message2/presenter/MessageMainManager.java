@@ -169,37 +169,6 @@ public class MessageMainManager {
         });
     }
 
-    public void doGetOperateMsg(String accountid) {
-        service.getOperateMsg(UserInfoModel.getInstance().getToken(), accountid, new RequestCallback<ResponseData<List<OperateMsgModel>>>() {
-            @Override
-            public void success(ResponseData<List<OperateMsgModel>> responseData, Response response) {
-                Log.e("jarvis", responseData.toString());
-                int status = responseData.getStatus();
-                if (getNoticeFCMsgCallBack != null) {
-                    switch (status) {
-                        case 200:
-                            getNoticeFCMsgCallBack.getOperateMsg("true", responseData.getData());
-                            break;
-                        case 100:
-                            getNoticeFCMsgCallBack.getOperateMsg("false", null);
-                            break;
-                        default:
-                            getNoticeFCMsgCallBack.getOperateMsg("false", null);
-                            Util.toastMsg(responseData.getMsg());
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (getNoticeFCMsgCallBack != null) {
-                    getNoticeFCMsgCallBack.getOperateMsg("false", null);
-                }
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
 
     public void doGetUnreadMsg(String accountid) {
         service.getUnreadMsg(UserInfoModel.getInstance().getToken(), accountid, new RequestCallback<ResponseData<UnreadMsgModel>>() {

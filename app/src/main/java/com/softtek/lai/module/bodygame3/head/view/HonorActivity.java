@@ -40,7 +40,6 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        //接收当前排名类型（0周排名，1月排名，2总排名）
         tv_title.setText("荣誉榜");
         fragments=new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance());

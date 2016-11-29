@@ -152,10 +152,11 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                                 hsv.smoothScrollTo(0, 0);
                             }
                         });
-                        Intent updateGroupIntent = new Intent(CreateClassActivity.this, EditorTextActivity.class);
-                        updateGroupIntent.putExtra("flag", EditorTextActivity.UPDATE_GROUP_NAME);
-                        updateGroupIntent.putExtra("position", position);
-                        updateGroupIntent.putExtra("name", groups.get(position));
+                        Intent updateGroupIntent=new Intent(CreateClassActivity.this, EditorTextActivity.class);
+                        updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
+                        updateGroupIntent.putExtra("position",position);
+                        updateGroupIntent.putExtra("name",groups.get(position));
+                        updateGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
                         startActivityForResult(updateGroupIntent, 102);
                     }
                 });
@@ -242,8 +243,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_group:
-                Intent addGroupIntent = new Intent(this, EditorTextActivity.class);
-                addGroupIntent.putExtra("flag", EditorTextActivity.ADD_GROUP_NAME);
+                Intent addGroupIntent=new Intent(this, EditorTextActivity.class);
+                addGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
+                addGroupIntent.putExtra("flag",EditorTextActivity.ADD_GROUP_NAME);
                 startActivityForResult(addGroupIntent, 100);
                 break;
             case R.id.rl_class_name:

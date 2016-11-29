@@ -143,7 +143,6 @@ public class BodyGameSRActivity extends BaseActivity implements View.OnClickList
         btn_fuce.setOnClickListener(this);
         btn_class.setOnClickListener(this);
 
-        fragments.add(new BodyGameSRFragment());
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
         fragments.add(new FuCeFragment());

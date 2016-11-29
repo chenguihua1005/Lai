@@ -5,8 +5,7 @@
 
 package com.softtek.lai.module.message2.adapter;
 
-import android.content.Intent;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,52 +18,37 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
-import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.model.SelectNoticeMsgModel;
-import com.softtek.lai.module.message2.view.MessageOperatorActivity;
 import com.softtek.lai.module.message2.view.NoticeFC2Activity;
 
 import java.util.List;
 
-import zilla.libcore.util.Util;
-
 /**
- * Created by jarvis.liu on 3/22/2016.
+ * 复测消息，操作消息，通知消息adapter
  */
 public class MessageNoticeAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<SelectNoticeMsgModel> list;
     private BaseActivity context;
-    private IAssistantPresenter assistantPresenter;
-    String type;
+    private String type;
     public boolean isDel = false;
 
     public int select_count;
-    CheckBox cb;
+    private CheckBox cb;
 
     /**
      * 构造函数
      */
     public MessageNoticeAdapter(BaseActivity context, List<SelectNoticeMsgModel> list, String type, CheckBox cb) {
-        this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
         this.type = type;
         this.cb = cb;
-        assistantPresenter = new AssistantImpl(context);
-        Log.e("jarvis", list.toString());
     }
 
     @Override
     public int getCount() {
-        return list.size();//返回数组的长度
+        return list.size();
     }
 
     @Override
@@ -77,17 +61,13 @@ public class MessageNoticeAdapter extends BaseAdapter {
         return position;
     }
 
-    /**
-     * 书中详细解释该方法
-     */
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.message_2_remind_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.message_2_remind_item, parent,false);
             holder = new ViewHolder();
-            /**得到各个控件的对象*/
             holder.text_time = (TextView) convertView.findViewById(R.id.text_time);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_title = (TextView) convertView.findViewById(R.id.text_title);
@@ -96,15 +76,15 @@ public class MessageNoticeAdapter extends BaseAdapter {
             holder.lin_item = (LinearLayout) convertView.findViewById(R.id.lin_item);
             holder.img_select = (ImageView) convertView.findViewById(R.id.img_select);
 
-            convertView.setTag(holder);//绑定ViewHolder对象
+            convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
+            holder = (ViewHolder) convertView.getTag();
         }
-        /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
+
         final SelectNoticeMsgModel selectNoticeMsgModel = list.get(position);
         NoticeMsgModel noticeMsgModel = list.get(position).getNoticeMsgModel();
         String time = noticeMsgModel.getSendTime();
-        if (!"".equals(time)) {
+        if (!TextUtils.isEmpty(time)) {
             String[] str1 = time.split(" ");
             String[] str = str1[0].split("-");
             holder.text_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
@@ -133,24 +113,6 @@ public class MessageNoticeAdapter extends BaseAdapter {
         } else if ("fc".equals(type)) {
             holder.text_title.setText("复测提醒");
             holder.lin_more.setVisibility(View.VISIBLE);
-        } else if ("xzs".equals(type)) {
-            String msg_type = noticeMsgModel.getMessageType();
-            if ("0".equals(msg_type)) {
-                holder.text_title.setText("助教申请");
-            } else if ("1".equals(msg_type)) {
-                holder.text_title.setText("助教移除");
-            } else if ("2".equals(msg_type)) {
-                holder.text_title.setText("助教邀请");
-            } else if ("3".equals(msg_type)) {
-                holder.text_title.setText("确认参赛");
-            }
-            OperateMsgModel model = NoticeFC2Activity.operatList.get(position);
-            String isDo = model.getIsDo();
-            if ("1".equals(isDo)) {
-                holder.lin_more.setVisibility(View.GONE);
-            } else {
-                holder.lin_more.setVisibility(View.VISIBLE);
-            }
         }
         holder.lin_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -182,10 +144,6 @@ public class MessageNoticeAdapter extends BaseAdapter {
                     if ("fc".equals(type)) {
                         turnToFCActivity();
                     } else if ("notice".equals(type)) {
-                        System.out.println("notice--------------");
-                    } else if ("xzs".equals(type)) {
-                        OperateMsgModel model = NoticeFC2Activity.operatList.get(position);
-                        turnToXZSActivity(model);
                     }
                 }
             }
@@ -193,42 +151,31 @@ public class MessageNoticeAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void turnToXZSActivity(OperateMsgModel model) {
-        String isDo = model.getIsDo();
-        if ("1".equals(isDo)) {
-            Util.toastMsg("该消息已操作过, 不能重复操作");
-        } else {
-            Intent intent = new Intent(context, MessageOperatorActivity.class);
-            intent.putExtra("model", model);
-            context.startActivityForResult(intent, 0);
-        }
-    }
-
     private void turnToFCActivity() {
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-        if (String.valueOf(Constants.PC).equals(userrole)) {
-            Intent intent = new Intent(context, BodyGamePCActivity.class);
-            intent.putExtra("type", 3);
-            context.startActivity(intent);
-        } else if (String.valueOf(Constants.SR).equals(userrole)) {
-            //助教身份跳转复测页面
-            Intent intent = new Intent(context, BodyGameSRActivity.class);
-            intent.putExtra("type", 3);
-            context.startActivity(intent);
-
-        } else if (String.valueOf(Constants.SP).equals(userrole)) {
-            //顾问身份跳转复测页面
-            Intent intent = new Intent(context, BodyGameSPActivity.class);
-            intent.putExtra("type", 3);
-            context.startActivity(intent);
-
-        }
+//        if (String.valueOf(Constants.PC).equals(userrole)) {
+//            Intent intent = new Intent(context, BodyGamePCActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//        } else if (String.valueOf(Constants.SR).equals(userrole)) {
+//            //助教身份跳转复测页面
+//            Intent intent = new Intent(context, BodyGameSRActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//
+//        } else if (String.valueOf(Constants.SP).equals(userrole)) {
+//            //顾问身份跳转复测页面
+//            Intent intent = new Intent(context, BodyGameSPActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//
+//        }
     }
 
     /**
      * 存放控件
      */
-    public class ViewHolder {
+    private static class ViewHolder {
         public TextView text_time;
         public TextView text_value;
         public TextView text_title;

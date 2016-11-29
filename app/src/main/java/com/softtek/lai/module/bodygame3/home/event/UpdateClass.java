@@ -9,7 +9,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 
 public class UpdateClass {
 
-    private int status;//0是修改 1是添加
+    private int status;//0是修改 1是添加 2是移除班级
     private ClassModel model;
 
     public UpdateClass() {

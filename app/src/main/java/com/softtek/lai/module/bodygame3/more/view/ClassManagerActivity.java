@@ -53,6 +53,8 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout rl_update_fuce;
     @InjectView(R.id.tv_class_name)
     TextView tv_class_name;
+    @InjectView(R.id.rl_closs_class)
+    RelativeLayout rl_closs_class;
 
     @InjectView(R.id.lv)
     ListView lv;
@@ -70,6 +72,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
         rl_person_manager.setOnClickListener(this);
         rl_update_class.setOnClickListener(this);
         rl_update_fuce.setOnClickListener(this);
+        rl_closs_class.setOnClickListener(this);
         classModel=getIntent().getParcelableExtra("class");
 //        className=getIntent().getStringExtra("className");
 //        classId=getIntent().getStringExtra("classId");
@@ -244,6 +247,10 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
             }
                 break;
+            case R.id.rl_closs_class:{
+
+            }
+            break;
         }
     }
 

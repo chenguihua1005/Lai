@@ -7,81 +7,63 @@ package com.softtek.lai.module.message2.model;
 
 import java.io.Serializable;
 
-/**
- * Created by julie.zhu on 3/25/2016.
- */
 public class OperateMsgModel implements Serializable {
-    private String MsgType;
-    private String MsgId;
-    private String ReceId;
-    private String SenderId;
-    private String Content;
-    private String ClassId;
+    private int MsgType;
+    private String Msgid;
+    private String Recevid;
+    private String Senderid;
+    private String MsgContent;
+    private String Classid;
     private String SendTime;
-    private String IsRead;
-    private String IsDo;
+    private int IsRead;
+    private int IsDo;
 
-    @Override
-    public String toString() {
-        return "OperateMsgModel{" +
-                "MsgType='" + MsgType + '\'' +
-                ", MsgId='" + MsgId + '\'' +
-                ", ReceId='" + ReceId + '\'' +
-                ", SenderId='" + SenderId + '\'' +
-                ", Content='" + Content + '\'' +
-                ", ClassId='" + ClassId + '\'' +
-                ", SendTime='" + SendTime + '\'' +
-                ", IsRead='" + IsRead + '\'' +
-                ", IsDo='" + IsDo + '\'' +
-                '}';
-    }
-
-    public String getMsgType() {
+    public int getMsgType() {
         return MsgType;
     }
 
-    public void setMsgType(String msgType) {
+    public void setMsgType(int msgType) {
         MsgType = msgType;
     }
 
-    public String getMsgId() {
-        return MsgId;
+    public String getMsgid() {
+        return Msgid;
     }
 
-    public void setMsgId(String msgId) {
-        MsgId = msgId;
+    public void setMsgid(String msgid) {
+        Msgid = msgid;
     }
 
-    public String getReceId() {
-        return ReceId;
+    public String getRecevid() {
+        return Recevid;
     }
 
-    public void setReceId(String receId) {
-        ReceId = receId;
+    public void setRecevid(String recevid) {
+        Recevid = recevid;
     }
 
-    public String getSenderId() {
-        return SenderId;
+    public String getSenderid() {
+        return Senderid;
     }
 
-    public void setSenderId(String senderId) {
-        SenderId = senderId;
+    public void setSenderid(String senderid) {
+        Senderid = senderid;
     }
 
-    public String getContent() {
-        return Content;
+    public String getMsgContent() {
+        return MsgContent;
     }
 
-    public void setContent(String content) {
-        Content = content;
+    public void setMsgContent(String msgContent) {
+        MsgContent = msgContent;
     }
 
-    public String getClassId() {
-        return ClassId;
+    public String getClassid() {
+        return Classid;
     }
 
-    public void setClassId(String classId) {
-        ClassId = classId;
+    public void setClassid(String classid) {
+        Classid = classid;
     }
 
     public String getSendTime() {
@@ -92,19 +74,19 @@ public class OperateMsgModel implements Serializable {
         SendTime = sendTime;
     }
 
-    public String getIsRead() {
+    public int getIsRead() {
         return IsRead;
     }
 
-    public void setIsRead(String isRead) {
+    public void setIsRead(int isRead) {
         IsRead = isRead;
     }
 
-    public String getIsDo() {
+    public int getIsDo() {
         return IsDo;
     }
 
-    public void setIsDo(String isDo) {
+    public void setIsDo(int isDo) {
         IsDo = isDo;
     }
 }
