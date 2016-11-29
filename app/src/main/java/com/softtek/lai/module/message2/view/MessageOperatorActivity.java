@@ -1,221 +1,167 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.module.message2.view;
 
-
 import android.content.Intent;
-import android.view.KeyEvent;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ggx.widgets.adapter.EasyAdapter;
+import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.message.model.CheckClassEvent;
-import com.softtek.lai.module.message.presenter.IMessagePresenter;
-import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
-import com.softtek.lai.module.message2.presenter.MessageMainManager;
+import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.RequestCallback;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
- * 荣誉榜
+ * 操作类消息
  */
-@InjectLayout(R.layout.activity_message_operator)
-public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener, MessageMainManager.OperatorCallBack {
+@InjectLayout(R.layout.activity_message_operator2)
+public class MessageOperatorActivity extends BaseActivity {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
-    @InjectView(R.id.text_value)
-    TextView text_value;
-
-    @InjectView(R.id.text_zqs)
-    TextView text_zqs;
-
-    @InjectView(R.id.text_zqs1)
-    TextView text_zqs1;
-
-    @InjectView(R.id.but_yes)
-    Button but_yes;
-
-    @InjectView(R.id.but_no)
-    Button but_no;
-
-    @InjectView(R.id.img)
-    ImageView img;
-
-    @InjectView(R.id.lin)
-    LinearLayout lin;
-
-    private boolean isSelect = true;
-
-    private OperateMsgModel model;
-    private String msg_type;
-    private IMessagePresenter messagePresenter;
-    private IAssistantPresenter assistantPresenter;
-    private MessageMainManager manager;
-
+    @InjectView(R.id.lv)
+    ListView lv;
+    EasyAdapter<OperateMsgModel> adapter;
+    private List<OperateMsgModel> operatList=new ArrayList<>();
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
-        ll_left.setOnClickListener(this);
-        but_no.setOnClickListener(this);
-        but_yes.setOnClickListener(this);
-        text_zqs.setOnClickListener(this);
-        text_zqs1.setOnClickListener(this);
-        img.setOnClickListener(this);
-
-
+        tv_title.setText("小助手");
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        adapter=new EasyAdapter<OperateMsgModel>(this,operatList,R.layout.item_message_xzs) {
+            @Override
+            public void convert(ViewHolder holder, final OperateMsgModel data, final int position) {
+                TextView tv_time=holder.getView(R.id.tv_time);
+                String time = data.getSendTime();
+                if (!TextUtils.isEmpty(time)) {
+                    String[] str1 = time.split(" ");
+                    String[] str = str1[0].split("-");
+                    tv_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
+                }
+                TextView tv_content=holder.getView(R.id.tv_content);
+                tv_content.setText(data.getMsgContent());
+                ImageView iv_red=holder.getView(R.id.iv_red);
+                if ("0".equals(data.getIsRead())) {
+                    iv_red.setVisibility(View.VISIBLE);
+                } else {
+                    iv_red.setVisibility(View.GONE);
+                }
+                TextView tv_title=holder.getView(R.id.tv_title);
+                if(data.getMsgType()==2){
+                    tv_title.setText("邀请成为教练");
+                }else if (data.getMsgType()==3){
+                    tv_title.setText("邀请成为助教");
+                }else if (data.getMsgType()==4){
+                    tv_title.setText("邀请成为学员");
+                } else if (data.getMsgType()==5){
+                    tv_title.setText("申请加入班级");
+                }
+                TextView tv_detail=holder.getView(R.id.tv_detail);
+                if("1".equals(data.getIsDo())){
+                    tv_detail.setVisibility(View.GONE);
+                }else {
+                    tv_detail.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                OperateMsgModel model=operatList.get(i);
+                if ("1".equals(model.getIsDo())) {
+                    Util.toastMsg("该消息已操作过, 不能重复操作");
+                } else {
+                    Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
+                    intent.putExtra("model", model);
+                    startActivityForResult(intent, 0);
+                }
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
-        model = (OperateMsgModel) getIntent().getSerializableExtra("model");
-        assistantPresenter = new AssistantImpl(this);
-        messagePresenter = new MessageImpl(this);
-        text_value.setText(model.getContent());
-        msg_type = model.getMsgType();
-        if ("0".equals(msg_type)) {
-            tv_title.setText("助教申请");
-        } else if ("1".equals(msg_type)) {
-            tv_title.setText("助教移除");
-            manager = new MessageMainManager(this);
-        } else if ("2".equals(msg_type)) {
-            tv_title.setText("助教邀请");
-        } else if ("3".equals(msg_type)) {
-            tv_title.setText("确认参赛");
-        }
-        if("1".equals(model.getIsDo())){
-            but_no.setVisibility(View.GONE);
-            but_yes.setVisibility(View.GONE);
-            lin.setVisibility(View.GONE);
-        }else {
-            but_no.setVisibility(View.VISIBLE);
-            but_yes.setVisibility(View.VISIBLE);
-            lin.setVisibility(View.VISIBLE);
-        }
-    }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_left:
-                Intent intents = new Intent();
-                //把返回数据存入Intent
-                intents.putExtra("type", "xzs");
-                //设置返回数据
-                setResult(RESULT_OK, intents);
-                finish();
-                break;
-            case R.id.img:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs1:
-                startActivity(new Intent(this, ZQSActivity.class));
-                break;
-            case R.id.but_no:
-                dialogShow("加载中");
-                if ("0".equals(msg_type)) {
-                    assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 0, 0, "message");
-                } else if ("1".equals(msg_type)) {
-                    manager.doRefuseRemoveSR(model.getMsgId());
-                } else if ("2".equals(msg_type)) {
-                    messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "0");
-                } else if ("3".equals(msg_type)) {
-                    messagePresenter.acceptInviterToClass(model.getReceId(), model.getClassId(), "0");
-                }
+        dialogShow("加载中");
+        Log.i("小助手数据加载。。。。。。。。。。。。。。。。。。。。。。。。。。");
+        ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                .getOperateMsgList(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        new RequestCallback<ResponseData<List<OperateMsgModel>>>() {
+                            @Override
+                            public void success(ResponseData<List<OperateMsgModel>> data, Response response) {
+                                dialogDissmiss();
+                                if(data.getStatus()==200){
+                                    onResult(data.getData());
+                                }else {
+                                    Util.toastMsg(data.getMsg());
+                                }
+                            }
 
-                break;
-            case R.id.but_yes:
-                if (isSelect) {
-                    dialogShow("加载中");
-                    if ("0".equals(msg_type)) {
-                        assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 1, 0, "message");
-                    } else if ("1".equals(msg_type)) {
-                        assistantPresenter.removeAssistantRoleByClass(model.getSenderId(), model.getClassId(), "message");
-                    } else if ("2".equals(msg_type)) {
-                        messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "1");
-                    } else if ("3".equals(msg_type)) {
-                        dialogShow("加载中");
-                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
-                    }
-
-                } else {
-                    Util.toastMsg(R.string.joinGameQ);
-                }
-                break;
-
-        }
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
     }
 
-    @Subscribe
-    public void onEvent(CheckClassEvent event) {
-        dialogDissmiss();
+    private void onResult(List<OperateMsgModel> data){
+        operatList.addAll(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            dialogShow("加载中");
+            ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                    .getOperateMsgList(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            new RequestCallback<ResponseData<List<OperateMsgModel>>>() {
+                                @Override
+                                public void success(ResponseData<List<OperateMsgModel>> data, Response response) {
+                                    dialogDissmiss();
+                                    if(data.getStatus()==200){
+                                        operatList.clear();
+                                        onResult(data.getData());
+                                    }else {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                }
 
-    @Override
-    public void refuseRemoveSR(String type) {
-        dialogDissmiss();
-        if ("true".equals(type)) {
-            Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    dialogDissmiss();
+                                    super.failure(error);
+                                }
+                            });
         }
     }
 }

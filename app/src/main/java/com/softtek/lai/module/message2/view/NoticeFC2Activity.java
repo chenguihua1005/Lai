@@ -36,6 +36,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
+ * 关于服务窗，复测的通知都会进入这个界面
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_notice_list)
@@ -128,35 +129,12 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         } else if ("notice".equals(type)) {
             tv_title.setText("服务窗");
             manager.doGetNoticeMsg(model.getUserid());
-        } else if ("xzs".equals(type)) {
+        }/* else if ("xzs".equals(type)) {
             tv_title.setText("小助手");
             manager.doGetOperateMsg(model.getUserid());
-        }
+        }*/
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            if (adapter == null) {
-//                finish();
-//            } else {
-//                if (adapter.isDel) {
-//                    for (int i = 0; i < noticeList.size(); i++) {
-//                        noticeList.get(i).setSelect(false);
-//                    }
-//                    adapter.select_count = 0;
-//                    isSelsetAll = false;
-//                    footer.setVisibility(View.GONE);
-//                    adapter.isDel = false;
-//                    adapter.notifyDataSetChanged();
-//                } else {
-//                    finish();
-//                }
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     private String getMsgId() {
         String msgId = "";
@@ -252,6 +230,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    //通知消息请求返回
     @Override
     public void getNoticeMsg(String type, List<NoticeMsgModel> l) {
         dialogDissmiss();
@@ -266,6 +245,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    //复测消息请求返回
     @Override
     public void getMeasureMsg(String type, List<NoticeMsgModel> l) {
         dialogDissmiss();
@@ -280,21 +260,11 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         }
     }
 
+
+    //操作消息请求返回
     @Override
     public void getOperateMsg(String type, List<OperateMsgModel> l) {
-        dialogDissmiss();
-        if ("true".equals(type)) {
-            operatList = l;
-            noticeList = new ArrayList<>();
-            for (int i = 0; i < operatList.size(); i++) {
-                OperateMsgModel op = l.get(i);
-                NoticeMsgModel m = new NoticeMsgModel(op.getMsgType(), op.getMsgId(), op.getContent(), op.getSendTime(), op.getIsRead());
-                SelectNoticeMsgModel model = new SelectNoticeMsgModel(false, m);
-                noticeList.add(model);
-            }
-            adapter = new MessageNoticeAdapter(NoticeFC2Activity.this, noticeList, "xzs", cb_all);
-            list.setAdapter(adapter);
-        }
+
     }
 
     @Override
@@ -341,9 +311,6 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
             } else if ("notice".equals(t)) {
                 tv_title.setText("服务窗");
                 manager.doGetNoticeMsg(model.getUserid());
-            } else if ("xzs".equals(t)) {
-                tv_title.setText("小助手");
-                manager.doGetOperateMsg(model.getUserid());
             }
         }
     }

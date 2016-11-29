@@ -18,6 +18,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.StringUtil;
 
+import java.util.List;
+
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -50,7 +52,7 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
     ImageView iv_delete;
 
     private int flag;
-
+    private List<String> groups;
     @Override
     protected void initViews() {
         Intent intent=getIntent();
@@ -68,12 +70,14 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
                 tv_title.setText("修改组名");
                 et_value.setHint("小组名称");
                 et_value.setText(intent.getStringExtra("name"));
+                groups=intent.getStringArrayListExtra("groups");
                 Editable etext1=et_value.getText();
                 Selection.setSelection(etext1,etext1.length());
                 break;
             case ADD_GROUP_NAME:
                 tv_title.setText("添加小组");
                 et_value.setHint("小组名称");
+                groups=intent.getStringArrayListExtra("groups");
                 break;
             case ADD_ACTIVITY_NAME:
                 tv_title.setText("编辑活动名称");
@@ -127,6 +131,12 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
         if (StringUtil.length(et_value.getText().toString())>12){
             showTip("填写内容必须小于12个字");
         }else {
+            if(flag==UPDATE_GROUP_NAME||flag==ADD_GROUP_NAME){
+                if(groups.contains(et_value.getText().toString().trim())){
+                    showTip("组名以存在");
+                    return;
+                }
+            }
             Intent back=getIntent();
             back.putExtra("value",et_value.getText().toString());
             setResult(RESULT_OK,back);

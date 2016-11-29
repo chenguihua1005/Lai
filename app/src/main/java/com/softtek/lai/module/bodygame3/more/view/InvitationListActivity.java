@@ -158,9 +158,13 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
         }else {
             List<InvitatedContact> data=new ArrayList<>();
             data.add(contact);
+            groups.add(groupName);
             datas.put(groupName,data);
         }
         adapter.notifyDataSetChanged();
+        for (int i = 0; i < groups.size(); i++) {
+            lv.getRefreshableView().expandGroup(i);
+        }
     }
 
     @Override

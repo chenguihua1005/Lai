@@ -22,10 +22,10 @@ import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
+ * update by jerry.Guan on 29/11/2016.
  */
 public interface Message2Service {
-    @GET("/MsgCenter/UnreadMsg")
+    @GET("/V1/MsgCenter/UnReadMsgCnt")
     void getUnreadMsg(@Header("token") String token,
                     @Query("accountid") String accountid,
                     Callback<ResponseData<UnreadMsgModel>> callback);
@@ -35,10 +35,11 @@ public interface Message2Service {
                     @Query("accountid") String accountid,
                     Callback<ResponseData<List<NoticeMsgModel>>> callback);
 
-    @GET("/MsgCenter/GetOperateMsg")
-    void getOperateMsg(@Header("token") String token,
-                    @Query("accountid") String accountid,
-                    Callback<ResponseData<List<OperateMsgModel>>> callback);
+    //小助手类消息列表
+    @GET("/V1/MsgCenter/GetOperateMsgList")
+    void getOperateMsgList(@Header("token")String token,
+                           @Query("accountid")long accountId,
+                           Callback<ResponseData<List<OperateMsgModel>>> callback);
 
     @GET("/MsgCenter/GetMeasureMsg")
     void getMeasureMsg(@Header("token") String token,

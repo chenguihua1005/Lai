@@ -148,24 +148,24 @@ public class BrokenLine extends View{
                     canvas.drawLine(spoint.x,spoint.y,epoint.x,epoint.y,linePaint);
                 }
                 //画平均线(虚线)
-                linePaint.reset();
-                linePaint.setColor(0x4CFFFFFF);
-                linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-                linePaint.setAntiAlias(true);
-                linePaint.setStyle(Paint.Style.STROKE);
-                linePaint.setStrokeWidth(1);
-                float y=(float) (chartHeight-maxYAxis/2*per);
-                int num= (width-offset)/10;
-                int start=0+offset;
-                for (int i=0;i<num;i++){
-                    if(i%2==0){
-                        canvas.drawLine(start,y,start+10,y,linePaint);
-                    }
-                    start+=10;
-                }
+//                linePaint.reset();
+//                linePaint.setColor(0x4CFFFFFF);
+//                linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+//                linePaint.setAntiAlias(true);
+//                linePaint.setStyle(Paint.Style.STROKE);
+//                linePaint.setStrokeWidth(1);
+//                float y=(float) (chartHeight-maxYAxis/2*per);
+//                int num= (width-offset)/10;
+//                int start=0+offset;
+//                for (int i=0;i<num;i++){
+//                    if(i%2==0){
+//                        canvas.drawLine(start,y,start+10,y,linePaint);
+//                    }
+//                    start+=10;
+//                }
 
-                String avg=String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2);
-                canvas.drawText(avg,width+aTextPaint.measureText(avg)/2,y,aTextPaint);
+//                String avg=String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2);
+//                canvas.drawText(avg,width+aTextPaint.measureText(avg)/2,y,aTextPaint);
             }
 
         }

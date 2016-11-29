@@ -49,8 +49,8 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.text_unread_count_fwc)
     TextView text_unread_count_fwc;
 
-    @InjectView(R.id.rel_xzs)
-    RelativeLayout rel_xzs;
+    @InjectView(R.id.rl_xzs)
+    RelativeLayout rl_xzs;
     @InjectView(R.id.text_value_xzs)
     TextView text_value_xzs;
     @InjectView(R.id.text_unread_count_xzs)
@@ -106,7 +106,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
 
         ll_left.setOnClickListener(this);
         rel_fwc.setOnClickListener(this);
-        rel_xzs.setOnClickListener(this);
+        rl_xzs.setOnClickListener(this);
         rel_fc.setOnClickListener(this);
         rel_gs.setOnClickListener(this);
         rel_act.setOnClickListener(this);
@@ -137,11 +137,11 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.rel_fwc:
+            case R.id.rel_fwc://服务窗
                 startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "notice"));
                 break;
-            case R.id.rel_xzs:
-                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "xzs"));
+            case R.id.rl_xzs://小助手
+                startActivity(new Intent(this, MessageOperatorActivity.class));
                 break;
             case R.id.rel_fc:
                 startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "fc"));
@@ -179,7 +179,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
 
                 String operateMsg = unreadMsgModel.getOperateMsg();
                 if (!TextUtils.isEmpty(operateMsg)) {
-                    rel_xzs.setVisibility(View.VISIBLE);
+                    rl_xzs.setVisibility(View.VISIBLE);
                     text_value_xzs.setText(operateMsg);
                     text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
                     if ("0".equals(unreadMsgModel.getIsHasOperateMsg())) {
@@ -189,7 +189,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                     }
 
                 } else {
-                    rel_xzs.setVisibility(View.GONE);
+                    rl_xzs.setVisibility(View.GONE);
                 }
 
                 String measureMsg = unreadMsgModel.getMeasureMsg();
