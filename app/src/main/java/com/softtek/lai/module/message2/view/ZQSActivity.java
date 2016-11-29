@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.message.view;
+package com.softtek.lai.module.message2.view;
 
 import android.view.View;
 import android.webkit.WebView;
@@ -17,6 +17,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by jerry.guan on 3/16/2016.
  */
 @InjectLayout(R.layout.activity_term)

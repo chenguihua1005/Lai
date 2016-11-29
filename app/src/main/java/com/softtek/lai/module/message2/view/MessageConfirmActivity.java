@@ -22,7 +22,6 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
 
@@ -93,8 +92,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         model = (OperateMsgModel) getIntent().getSerializableExtra("model");
         assistantPresenter = new AssistantImpl(this);
         messagePresenter = new MessageImpl(this);
-        text_value.setText(model.getContent());
-        msg_type = model.getMsgType();
+        text_value.setText(model.getMsgContent());
+        msg_type = model.getMsgType()+"";
         if ("0".equals(msg_type)) {
             tv_title.setText("助教申请");
         } else if ("1".equals(msg_type)) {
@@ -119,8 +118,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
             //设置返回数据
             setResult(RESULT_OK, intent);
             finish();
@@ -133,8 +130,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ll_left:
                 Intent intents = new Intent();
-                //把返回数据存入Intent
-                intents.putExtra("type", "xzs");
                 //设置返回数据
                 setResult(RESULT_OK, intents);
                 finish();
@@ -163,13 +158,13 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             case R.id.but_no:
                 dialogShow("加载中");
                 if ("0".equals(msg_type)) {
-                    assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 0, 0, "message");
+                    assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgid()), 0, 0, "message");
                 } else if ("1".equals(msg_type)) {
-                    manager.doRefuseRemoveSR(model.getMsgId());
+                    manager.doRefuseRemoveSR(model.getMsgid());
                 } else if ("2".equals(msg_type)) {
-                    messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "0");
+                    messagePresenter.acceptInviter(model.getSenderid(), model.getClassid(), "0");
                 } else if ("3".equals(msg_type)) {
-                    messagePresenter.acceptInviterToClass(model.getReceId(), model.getClassId(), "0");
+                    messagePresenter.acceptInviterToClass(model.getSenderid(), model.getClassid(), "0");
                 }
 
                 break;
@@ -177,14 +172,14 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 if (isSelect) {
                     dialogShow("加载中");
                     if ("0".equals(msg_type)) {
-                        assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 1, 0, "message");
+                        assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgid()), 1, 0, "message");
                     } else if ("1".equals(msg_type)) {
-                        assistantPresenter.removeAssistantRoleByClass(model.getSenderId(), model.getClassId(), "message");
+                        assistantPresenter.removeAssistantRoleByClass(model.getSenderid(), model.getClassid(), "message");
                     } else if ("2".equals(msg_type)) {
-                        messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "1");
+                        messagePresenter.acceptInviter(model.getSenderid(), model.getClassid(), "1");
                     } else if ("3".equals(msg_type)) {
                         dialogShow("加载中");
-                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
+                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassid());
                     }
 
                 } else {

@@ -264,19 +264,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
     //操作消息请求返回
     @Override
     public void getOperateMsg(String type, List<OperateMsgModel> l) {
-        dialogDissmiss();
-        if ("true".equals(type)) {
-            operatList = l;
-            noticeList = new ArrayList<>();
-            for (int i = 0; i < operatList.size(); i++) {
-                OperateMsgModel op = l.get(i);
-                NoticeMsgModel m = new NoticeMsgModel(op.getMsgType(), op.getMsgId(), op.getContent(), op.getSendTime(), op.getIsRead());
-                SelectNoticeMsgModel model = new SelectNoticeMsgModel(false, m);
-                noticeList.add(model);
-            }
-            adapter = new MessageNoticeAdapter(NoticeFC2Activity.this, noticeList, "xzs", cb_all);
-            list.setAdapter(adapter);
-        }
+
     }
 
     @Override
