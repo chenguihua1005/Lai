@@ -14,6 +14,15 @@ public class LaiClass {
     private String ClassGroup;
     private int cityId;
     private long ClassMasterId;
+    private String HxGroupId;//环信组Id
+
+    public String getHxGroupId() {
+        return HxGroupId;
+    }
+
+    public void setHxGroupId(String hxGroupId) {
+        HxGroupId = hxGroupId;
+    }
 
     public String getClassName() {
         return ClassName;
