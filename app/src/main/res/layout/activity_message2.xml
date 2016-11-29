@@ -15,8 +15,9 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+
     <RelativeLayout
-        android:id="@+id/rel_xzs"
+        android:id="@+id/rl_xzs"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
         android:visibility="gone">
@@ -26,8 +27,7 @@
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:layout_centerVertical="true"
-
-            android:layout_marginLeft="15dip"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/img_xzs" />
 
         <LinearLayout
@@ -48,20 +48,14 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_xzs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_xzs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
 
         </LinearLayout>
 
@@ -127,20 +121,13 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_fwc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_fwc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
 
         </LinearLayout>
 
@@ -206,21 +193,13 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_fc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_fc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
-
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
         </LinearLayout>
 
         <TextView
@@ -285,21 +264,13 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_gs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_gs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
-
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
         </LinearLayout>
 
         <TextView
@@ -364,21 +335,13 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_pk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_pk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
-
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
         </LinearLayout>
 
         <TextView
@@ -409,6 +372,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/grey" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rel_act"
         android:layout_width="fill_parent"
@@ -441,20 +405,13 @@
                 android:textSize="@dimen/textSize1"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_value_act"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/messageMarginTop"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_value_act"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/word4"
-                    android:textSize="@dimen/textSize2" />
-            </LinearLayout>
+                android:singleLine="true"
+                android:textColor="@color/word4"
+                android:textSize="@dimen/textSize2" />
 
         </LinearLayout>
 

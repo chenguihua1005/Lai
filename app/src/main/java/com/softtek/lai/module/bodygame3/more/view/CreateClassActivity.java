@@ -148,6 +148,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
                         updateGroupIntent.putExtra("position",position);
                         updateGroupIntent.putExtra("name",groups.get(position));
+                        updateGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
                         startActivityForResult(updateGroupIntent, 102);
                     }
                 });
@@ -234,6 +235,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.tv_add_group:
                 Intent addGroupIntent=new Intent(this, EditorTextActivity.class);
+                addGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
                 addGroupIntent.putExtra("flag",EditorTextActivity.ADD_GROUP_NAME);
                 startActivityForResult(addGroupIntent, 100);
                 break;
