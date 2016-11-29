@@ -29,7 +29,7 @@ public class UserModel implements Serializable {
     private String IsCreatInfo;//该用户是否创建过档案
     private String HXAccountId;//若为空则还未注册
     private String HasEmchat;//0：未注册，1：已注册
-
+    private int HasThClass;//0无班级，1有班级
     @Override
     public String toString() {
         return "UserModel{" +
@@ -196,4 +196,11 @@ public class UserModel implements Serializable {
         IsCreatInfo = isCreatInfo;
     }
 
+    public int getHasThClass() {
+        return HasThClass;
+    }
+
+    public void setHasThClass(int hasThClass) {
+        HasThClass = hasThClass;
+    }
 }

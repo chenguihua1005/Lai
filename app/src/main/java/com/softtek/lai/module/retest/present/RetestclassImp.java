@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.model.PhotModel;
+import com.softtek.lai.module.bodygame2pc.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -259,7 +259,6 @@ public class RetestclassImp implements RetestPre{
         service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<PhotModel>>() {
             @Override
             public void success(ResponseData<PhotModel> photResponseData, Response response) {
-                Log.i(">>>>>>>>>>>>>>>>>>>>>>>>>>>>"+photResponseData.getData().getImg());
                 int status=photResponseData.getStatus();
                 switch (status) {
                     case 200:

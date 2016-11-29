@@ -34,7 +34,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.City;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -43,6 +45,8 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -434,6 +438,19 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
                         intent.putExtra("classId", data.getData().getClassId());
                         startActivity(intent);
+                        ClassModel classModel=new ClassModel();
+                        classModel.setClassId(data.getData().getClassId());
+                        classModel.setClassCode(data.getData().getClassCode());
+                        classModel.setClassName(clazz.getClassName());
+                        classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
+                        classModel.setClassRole(1);
+                        List<String> meausres=new ArrayList<>(12);
+                        for (int i=0;i<12;i++){
+                            meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
+                            clazz.getStartDate(),i*7));
+                        }
+                        classModel.setClassMeasureDateList(meausres);
+                        EventBus.getDefault().post(new UpdateClass(1,classModel));
                     }
                     Util.toastMsg(data.getMsg());
                 }

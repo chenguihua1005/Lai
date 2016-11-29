@@ -29,21 +29,7 @@ public interface PCPastReview {
                      @Query("classid") long classId,
                      RequestCallback<ResponseData<PastBaseData>> callback);
 
-    //获取历史班级列表
-    @GET("/Review/GetHistoryClassList")
-    void doGetHistoryClassList(
-            @Header("token") String token,
-            @Query("accountid") String accountid,
-            Callback<ResponseData<List<ClassListModel>>> callback
-    );
 
-    //获取学员往期减重故事
-    @GET("/Review/GetCompetitionLogList")
-    void getPastStory(@Header("token") String token,
-                      @Query("accountid") long accountId,
-                      @Query("classid") long classId,
-                      @Query("PageIndex") int pageIndex,
-                      RequestCallback<ResponseData<StoryList>> callback);
 
     //获取历史相册
     @GET("/Review/GetMyPhotoList")

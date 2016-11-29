@@ -21,8 +21,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
-import com.softtek.lai.module.newmemberentry.model.NewstudentsModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -85,8 +83,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     RelativeLayout ll_doleggirth;
 
     private FileModel file;//存储用户表对象
-    private NewstudentsModel newstudentsModel;//存储用户表单数据
-    private RetestWriteModel retestWriteModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,8 +122,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @Override
     protected void initDatas() {
         file = (FileModel) getIntent().getSerializableExtra("file");
-        newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
-        retestWriteModel = (RetestWriteModel) getIntent().getSerializableExtra("retestWriteModel");
         tv_title.setText("添加记录");
         tv_circum.setText("0.0".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
         tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");

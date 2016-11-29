@@ -12,7 +12,6 @@
     <string name="crateClassChooseValue">请选择</string>
 
     <string name="app_name">莱聚+</string>
-    <string name="hello_world">hello_world</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -160,7 +159,7 @@
     <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
     <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
     <string name="noclass">您尚未加入班级，可以搜索加入班级\n或者创建一个新班级</string>
-
+    <string name="noclass1">您尚未加入班级，可以搜索加入班级</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

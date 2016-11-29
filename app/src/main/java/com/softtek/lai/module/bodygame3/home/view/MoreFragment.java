@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -16,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.AssistantFragment;
@@ -23,8 +25,13 @@ import com.softtek.lai.module.bodygame3.more.view.CoachFragment;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.bodygame3.more.view.HeadCoachFragment;
 import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
+import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -53,6 +60,9 @@ public class MoreFragment extends LazyBaseFragment {
     TextView tv_role_name;
     @InjectView(R.id.tv_number)
     TextView tv_number;
+
+    @InjectView(R.id.ll_saikuang)
+    LinearLayout ll_saikuang;
 
     private List<ClassModel> classModels;
     private ClassModel model;
@@ -123,6 +133,10 @@ public class MoreFragment extends LazyBaseFragment {
     protected void initViews() {
         tv_title.setText("更多");
         tv_right.setText("开班");
+        UserModel user=UserInfoModel.getInstance().getUser();
+        if(user!=null){
+            tv_name.setText(user.getNickname());
+        }
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -130,7 +144,8 @@ public class MoreFragment extends LazyBaseFragment {
                 int role=model.getClassRole();
                 tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
                 tv_number.setText(model.getClassCode());
-                choosePanel(role);
+//                choosePanel(role);
+                choosePanel(4);
             }
         });
         fl_right.setOnClickListener(new View.OnClickListener() {
@@ -139,12 +154,26 @@ public class MoreFragment extends LazyBaseFragment {
                 startActivity(new Intent(getContext(),CreateClassActivity.class));
             }
         });
+        ll_saikuang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), GameActivity.class));
+            }
+        });
+
+
 
     }
 
     @Override
     protected void initDatas() {
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void choosePanel(int role){
@@ -171,4 +200,20 @@ public class MoreFragment extends LazyBaseFragment {
                 break;
         }
     }
+
+    @Subscribe
+    public void updateClass(UpdateClass clazz){
+        if(clazz.getStatus()==0){
+            //更新班级姓名
+            ClassModel model=clazz.getModel();
+            arrow.setText(model.getClassName());
+            this.model.setClassName(model.getClassName());
+            arrow.getAdapter().notifyDataSetChanged();
+        }else {
+            //添加新班级
+            this.classModels.add(clazz.getModel());
+            arrow.getAdapter().notifyDataSetChanged();
+        }
+    }
+
 }

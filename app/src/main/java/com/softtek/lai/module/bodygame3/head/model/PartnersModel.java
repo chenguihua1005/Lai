@@ -5,15 +5,6 @@ package com.softtek.lai.module.bodygame3.head.model;
  */
 
 public class PartnersModel {
-//    "AccountId": "4355",
-//            "Ranking": "1",					————排名
-//    "StuImg": "",
-//            "StuName": "莫奕",
-//            "StuGender": "1",					————性别
-//    "GroupName": "小组1",
-//            "GroupId": "c3757697-25bb-4340-b040-f76e9a21ab90",
-//            "Weight": "300",
-//            "Loss": "60"
 
     private String AccountId;
     private String Ranking;

@@ -1,16 +1,11 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,7 +29,7 @@ import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
-import com.softtek.lai.module.bodygame3.home.view.ActivityFragment;
+
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
@@ -69,7 +64,7 @@ import static android.graphics.Color.parseColor;
  * Use the {@linkNoClassFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@InjectLayout(R.layout.fragment_no_class)
+@InjectLayout(R.layout.fragment_classed)
 public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, OnDatePageChangeListener, View.OnClickListener {
 
     @InjectView(R.id.fl_right)
@@ -113,6 +108,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initViews() {
+
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
@@ -120,7 +116,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         material_calendar.setDatepageChangeListener(this);
         material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 
-        Calendar instance = Calendar.getInstance();
+        final Calendar instance = Calendar.getInstance();
         material_calendar.setSelectedDate(instance.getTime());
 
         Calendar instance1 = Calendar.getInstance();
@@ -148,6 +144,17 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         material_calendar.addDecorators(
                 oneDayDecorator//选中字体变大 白色显示
         );
+
+        list_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    TodayactModel todayactModel=todayactModels.get(i);
+                    String activityId=todayactModel.getActivityId();
+                Intent intent=new Intent(getContext(),ActivitydetailActivity.class);
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -172,7 +179,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
 
     private void getalldatafirst() {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "C4E8E179-FD99-4955-8BF9-CF470898788B", new RequestCallback<ResponseData<ActivitydataModel>>() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), "C4E8E179-FD99-4955-8BF9-CF470898788B", new RequestCallback<ResponseData<ActivitydataModel>>() {
             @Override
             public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
 //                calendarModels.clear();
@@ -239,7 +246,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 classid = classModels.get(i).getClassId();
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
                         calendarModels.clear();
@@ -327,7 +334,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     }
 
     private void gettodaydata(String datestr2) {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), "C4E8E179-FD99-4955-8BF9-CF470898788B", datestr2, new RequestCallback<ResponseData<TodaysModel>>() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), "C4E8E179-FD99-4955-8BF9-CF470898788B", datestr2, new RequestCallback<ResponseData<TodaysModel>>() {
             @Override
             public void success(ResponseData<TodaysModel> todaysModelResponseData, Response response) {
                 Util.toastMsg(todaysModelResponseData.getMsg());
@@ -359,9 +366,9 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             case R.id.ll_chuDate:
                 startActivity(new Intent(getContext(), WriteFCActivity.class));
                 break;
-            case R.id.ll_fuce:
-                startActivity(new Intent(getContext(), HonorActivity.class));
-                break;
+//            case R.id.ll_fuce:
+//                startActivity(new Intent(getContext(), HonorActivity.class));
+//                break;
         }
     }
 

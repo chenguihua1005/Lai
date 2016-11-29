@@ -63,9 +63,11 @@ public class BodyGameFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-//        if(UserInfoModel.getInstance().getUser().getUserrole().equals("0")){
+        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){//0无班级，1有班级
             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment()).commit();
-//        }
+        }else {
+            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment1()).commit();
+        }
 
 
         xAxis.add("10月18");

@@ -3,15 +3,12 @@ package com.softtek.lai.module.pastreview.presenter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 import com.softtek.lai.module.pastreview.net.PCPastReview;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;

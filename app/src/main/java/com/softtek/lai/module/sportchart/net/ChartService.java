@@ -1,14 +1,9 @@
 package com.softtek.lai.module.sportchart.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
-import com.softtek.lai.module.newmemberentry.model.PhotModel;
 import com.softtek.lai.module.sportchart.model.StepCountModel;
 import com.softtek.lai.utils.RequestCallback;
 
-import retrofit.Callback;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;

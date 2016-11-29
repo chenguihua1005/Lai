@@ -3,9 +3,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,17 +14,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame2.adapter.SearchPCAdapter;
-import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
-import com.softtek.lai.module.bodygame2.net.BodyGameService;
-import com.softtek.lai.module.bodygame2sr.view.SearchSRPcActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.bodygame3.more.model.Contact;
-import com.softtek.lai.module.bodygame3.more.view.SearchContactActivity;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +24,8 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-
+//查找班级
 @InjectLayout(R.layout.activity_search_class)
 public class SearchClassActivity extends BaseActivity implements View.OnClickListener {
     private String content_et;
@@ -70,7 +58,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         if (data.getStatus() == 200) {
                             classlistModels.clear();
                             classlistModels.addAll(data.getData());
-                            if (classlistModels != null || classlistModels.isEmpty()) {
+                            if (classlistModels == null || classlistModels.isEmpty()) {
                                 try {
                                     new AlertDialog.Builder(SearchClassActivity.this).setMessage("查询失败，无此班级").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
@@ -101,6 +89,9 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
         };
         lv_class.setAdapter(adapter);
+
+
+
     }
 
     @Override
