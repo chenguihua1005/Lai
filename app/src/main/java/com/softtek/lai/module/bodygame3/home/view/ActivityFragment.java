@@ -28,11 +28,11 @@ public class ActivityFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_act,new NoClassFragment()).commit();
-        }else {
+//        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
+//            getChildFragmentManager().beginTransaction().replace(R.id.contain_act,new NoClassFragment()).commit();
+//        }else {
             getChildFragmentManager().beginTransaction().replace(R.id.contain_act,new ClassedFragment()).commit();
-        }
+//        }
 
     }
 
