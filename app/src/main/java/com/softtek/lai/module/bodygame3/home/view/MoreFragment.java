@@ -74,75 +74,75 @@ public class MoreFragment extends LazyBaseFragment {
     @Override
     protected void lazyLoad() {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-        .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
-                , new RequestCallback<ResponseData<List<ClassModel>>>() {
-                    @Override
-                    public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-                        classModels=listResponseData.getData();
-                        arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(),classModels,R.layout.selector_class_item) {
+                .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
+                        , new RequestCallback<ResponseData<List<ClassModel>>>() {
                             @Override
-                            public void convert(ViewHolder holder, ClassModel data, int position) {
-                                TextView tv_class_name=holder.getView(R.id.tv_class_name);
-                                tv_class_name.setText(data.getClassName());
-                                ImageView iv_icon=holder.getView(R.id.iv_icon);
-                                int icon;
-                                switch (data.getClassRole()){
-                                    case 1:
-                                        icon=R.drawable.class_zongjiaolian;
-                                        break;
-                                    case 2:
-                                        icon=R.drawable.class_jiaolian;
-                                        break;
-                                    case 3:
-                                        icon=R.drawable.class_zhujiao;
-                                        break;
-                                    default:
-                                        icon=R.drawable.class_xueyuan;
-                                        break;
-                                }
-                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(),icon));
-                                TextView tv_role=holder.getView(R.id.tv_role_name);
-                                int role=data.getClassRole();
-                                tv_role.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
-                                TextView tv_number=holder.getView(R.id.tv_number);
-                                tv_number.setText(data.getClassCode());
-                            }
+                            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
+                                classModels = listResponseData.getData();
+                                arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                                    @Override
+                                    public void convert(ViewHolder holder, ClassModel data, int position) {
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        int icon;
+                                        switch (data.getClassRole()) {
+                                            case 1:
+                                                icon = R.drawable.class_zongjiaolian;
+                                                break;
+                                            case 2:
+                                                icon = R.drawable.class_jiaolian;
+                                                break;
+                                            case 3:
+                                                icon = R.drawable.class_zhujiao;
+                                                break;
+                                            default:
+                                                icon = R.drawable.class_xueyuan;
+                                                break;
+                                        }
+                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        TextView tv_role = holder.getView(R.id.tv_role_name);
+                                        int role = data.getClassRole();
+                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        TextView tv_number = holder.getView(R.id.tv_number);
+                                        tv_number.setText(data.getClassCode());
+                                    }
 
-                            @Override
-                            public String getText(int position) {
-                                if(classModels!=null&&!classModels.isEmpty()){
-                                    return classModels.get(position).getClassName();
-                                }else {
-                                    return "尚未开班";
+                                    @Override
+                                    public String getText(int position) {
+                                        if (classModels != null && !classModels.isEmpty()) {
+                                            return classModels.get(position).getClassName();
+                                        } else {
+                                            return "尚未开班";
+                                        }
+                                    }
+                                });
+                                if (classModels != null && !classModels.isEmpty()) {
+                                    model = classModels.get(0);
+                                    int role = model.getClassRole();
+                                    tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                    tv_number.setText(model.getClassCode());
+                                    choosePanel(role);
+
                                 }
                             }
                         });
-                        if(classModels!=null&&!classModels.isEmpty()){
-                            model=classModels.get(0);
-                            int role=model.getClassRole();
-                            tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
-                            tv_number.setText(model.getClassCode());
-                            choosePanel(role);
-
-                        }
-                    }
-                });
     }
 
     @Override
     protected void initViews() {
         tv_title.setText("更多");
         tv_right.setText("开班");
-        UserModel user=UserInfoModel.getInstance().getUser();
-        if(user!=null){
+        UserModel user = UserInfoModel.getInstance().getUser();
+        if (user != null) {
             tv_name.setText(user.getNickname());
         }
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                model=classModels.get(i);
-                int role=model.getClassRole();
-                tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
+                model = classModels.get(i);
+                int role = model.getClassRole();
+                tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
                 tv_number.setText(model.getClassCode());
 //                choosePanel(role);
                 choosePanel(4);
@@ -151,7 +151,7 @@ public class MoreFragment extends LazyBaseFragment {
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),CreateClassActivity.class));
+                startActivity(new Intent(getContext(), CreateClassActivity.class));
             }
         });
         ll_saikuang.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,6 @@ public class MoreFragment extends LazyBaseFragment {
                 startActivity(new Intent(getContext(), GameActivity.class));
             }
         });
-
 
 
     }
@@ -176,17 +175,17 @@ public class MoreFragment extends LazyBaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void choosePanel(int role){
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("class",model);
+    private void choosePanel(int role) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("class", model);
         switch (role) {
             case 1://总教练
-                HeadCoachFragment headCoachFragment=new HeadCoachFragment();
+                HeadCoachFragment headCoachFragment = new HeadCoachFragment();
                 headCoachFragment.setArguments(bundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commit();
                 break;
             case 2://教练
-                CoachFragment coachFragment=new CoachFragment();
+                CoachFragment coachFragment = new CoachFragment();
                 coachFragment.setArguments(bundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commit();
                 break;
@@ -194,7 +193,7 @@ public class MoreFragment extends LazyBaseFragment {
                 getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commit();
                 break;
             case 4://学员
-                StudentFragment studentFragment=new StudentFragment();
+                StudentFragment studentFragment = new StudentFragment();
                 studentFragment.setArguments(bundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commit();
                 break;
@@ -202,14 +201,14 @@ public class MoreFragment extends LazyBaseFragment {
     }
 
     @Subscribe
-    public void updateClass(UpdateClass clazz){
-        if(clazz.getStatus()==0){
+    public void updateClass(UpdateClass clazz) {
+        if (clazz.getStatus() == 0) {
             //更新班级姓名
-            ClassModel model=clazz.getModel();
+            ClassModel model = clazz.getModel();
             arrow.setText(model.getClassName());
             this.model.setClassName(model.getClassName());
             arrow.getAdapter().notifyDataSetChanged();
-        }else {
+        } else {
             //添加新班级
             this.classModels.add(clazz.getModel());
             arrow.getAdapter().notifyDataSetChanged();

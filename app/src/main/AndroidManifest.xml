@@ -774,10 +774,17 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
         <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity"></activity>
+
+        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"></activity>
         <activity
             android:name=".module.bodygame3.conversation.view.GroupsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"></activity>
+        <activity
+            android:name=".module.bodygame3.conversation.view.GroupDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.conversation.view.ClassDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

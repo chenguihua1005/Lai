@@ -2,6 +2,8 @@ package com.softtek.lai.module.bodygame3.conversation.service;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 
 import java.util.List;
 
@@ -31,5 +33,32 @@ public interface ContactService {
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<ChatContactModel>>> callback
     );
+
+
+    @GET("/v1/HerbUser/GetClassListByAccountId")
+    void GetClassListByAccountId(
+            @Header("token") String token,
+            @Query("accountId") String accountId,
+            Callback<ResponseData<List<ContactClassModel>>> callback
+    );
+
+    /**
+     * 班级群聊成员列表
+     *
+     * @param classId
+     * @param pageIndex
+     * @param pageSize
+     * @param callback
+     */
+
+    @GET("/v1/HerbUser/GetContactsByClassId")
+    void GetContactsByClassId(
+            @Header("token") String token,
+            @Query("classId") String classId,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize,
+            Callback<ResponseData<List<ClassMemberModel>>> callback
+    );
+
 
 }

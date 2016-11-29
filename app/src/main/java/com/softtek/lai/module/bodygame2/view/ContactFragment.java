@@ -223,7 +223,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     ChatContactInfoModel model = list.get(position);
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
+                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());//"userId"
                     intent.putExtra("name", model.getUserName());
                     intent.putExtra("photo", path + model.getPhoto());
                     startActivity(intent);
