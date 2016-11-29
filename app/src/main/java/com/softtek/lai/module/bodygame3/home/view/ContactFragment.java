@@ -28,6 +28,7 @@ import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAd
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -108,15 +109,19 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         menu_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if (2 == position) {
-                    boolean isLogin = EMClient.getInstance().isLoggedInBefore();
-                    if (isLogin) {
+
+                boolean isLogin = EMClient.getInstance().isLoggedInBefore();
+                if (isLogin) {
+                    if (0 == position) {
+                        Intent intent = new Intent(getActivity(), GroupsActivity.class);
+                        startActivity(intent);
+                    } else if (2 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                         intent.putExtra("list", (Serializable) list);
                         startActivity(intent);
-                    } else {
-                        Util.toastMsg("会话异常，请稍后再试");
                     }
+                } else {
+                    Util.toastMsg("会话异常，请稍后再试");
                 }
 
             }
