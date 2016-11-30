@@ -24,9 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -40,13 +37,14 @@ import com.softtek.lai.module.mygrades.model.ScoreModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.sportchart.model.PhotModel;
 import com.softtek.lai.module.sportchart.model.StepCountModel;
+import com.softtek.lai.module.sportchart.model.StepListModel;
 import com.softtek.lai.module.sportchart.net.ChartService;
 import com.softtek.lai.module.sportchart.presenter.ChartManager;
 import com.softtek.lai.module.sportchart.presenter.PhotoManager;
-import com.softtek.lai.module.studetail.util.LineChartUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.softtek.lai.widgets.chart.Entry;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.umeng.socialize.ShareAction;
@@ -94,7 +92,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @InjectView(R.id.btn_add)
     CheckBox btn_add;
     @InjectView(R.id.chart_sport)
-    LineChart chart;
+    com.softtek.lai.widgets.chart.Chart chart;
     @InjectView(R.id.bt_sport_left)
     Button bt_sport_left;
     @InjectView(R.id.bt_sport_right)
@@ -108,10 +106,10 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @InjectView(R.id.toolbar1)
     RelativeLayout toolbar1;
     DateForm dateForm;
-    private LineChartUtil chartUtil;
-    List<Integer> dates = new ArrayList<Integer>();
-    List<String>days=new ArrayList<String>();
-    List<String>day=new ArrayList<String>();
+    //private LineChartUtil chartUtil;
+    List<Entry> dates = new ArrayList<>();
+    List<String>days=new ArrayList<>();
+    List<String>day=new ArrayList<>();
     char type='6';
     int n=7;
     boolean state=true;
@@ -130,7 +128,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     String title_value;
     String isFocusid="0";
     SelectPicPopupWindow menuWindow;
-    List<Integer>list= Arrays.asList(0,0,0,0,0,0,0);
+    List<Entry>list=Arrays.asList(new Entry(0,0),
+                    new Entry(1,0),
+                    new Entry(2,0),
+                    new Entry(3,0),
+                    new Entry(4,0),
+                    new Entry(5,0),
+                    new Entry(6,0));//默认7天步数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,9 +150,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
             params1.topMargin=status;
             toolbar1.setLayoutParams(params1);
-//            RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) rel_sy.getLayoutParams();
-//            params2.topMargin=status;
-//            rel_sy.setLayoutParams(params2);
         }
         Userid=UserInfoModel.getInstance().getUser().getUserid();
         photoManager=new PhotoManager(this);
@@ -167,28 +168,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
             }
         });
-        //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
-        chart.setNoDataTextDescription("暂无数据");
-        //启用手势操作
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.getLegend().setEnabled(false);//去除图例
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaxValue(100f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);//不启用0轴的线
-        chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        chart.setData(new LineData());//设置一个空数据
-        chart.setBackgroundColor(this.getResources().getColor(R.color.white));
         btn_add.setOnClickListener(this);
         iv_perpage_banner.setOnClickListener(this);
         bt_sport_left.setOnClickListener(this);
@@ -202,27 +181,27 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         iGetProinfopresenter = new GetProinfoImpl(this);
         chartManager = new ChartManager(this);
         iGetProinfopresenter = new GetProinfoImpl(this);
-        chartUtil = new LineChartUtil(this, chart);
+        //chartUtil = new LineChartUtil(this, chart);
         dates.clear();
         day.clear();
         dateForm=new DateForm();
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        String nowdate7=getPeriodDate(type,0)+"";
-        String nowdate6=getPeriodDate(type,1)+"";
-        String nowdate5=getPeriodDate(type,2)+"";
-        String nowdate4=getPeriodDate(type,3)+"";
-        String nowdate3=getPeriodDate(type,4)+"";
-        String nowdate2=getPeriodDate(type,5)+"";
-        String nowdate1=getPeriodDate(type,6)+"";
-        days.add(formdate(nowdate1));
-        days.add(formdate(nowdate2));
-        days.add(formdate(nowdate3));
-        days.add(formdate(nowdate4));
-        days.add(formdate(nowdate5));
-        days.add(formdate(nowdate6));
-        days.add(formdate(nowdate7));
+        String nowdate7=getPeriodDate(type,0).toString();
+        String nowdate6=getPeriodDate(type,1).toString();
+        String nowdate5=getPeriodDate(type,2).toString();
+        String nowdate4=getPeriodDate(type,3).toString();
+        String nowdate3=getPeriodDate(type,4).toString();
+        String nowdate2=getPeriodDate(type,5).toString();
+        String nowdate1=getPeriodDate(type,6).toString();
+        days.add(formdate(nowdate1,false));
+        days.add(formdate(nowdate2,true));
+        days.add(formdate(nowdate3,true));
+        days.add(formdate(nowdate4,true));
+        days.add(formdate(nowdate5,true));
+        days.add(formdate(nowdate6,true));
+        days.add(formdate(nowdate7,true));
         day.add(dateForm.getDateform(nowdate1));
         day.add(dateForm.getDateform(nowdate2));
         day.add(dateForm.getDateform(nowdate3));
@@ -251,42 +230,34 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             case '0': // 1小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 1;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '1': // 2小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 2;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '2': // 3小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 3;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '3': // 6小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 6;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '4': // 12小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 12;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '5': // 一天前
                 day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '6': // 一星期前
                 day = c.get(Calendar.DAY_OF_MONTH) - n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
                 day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
         }
         int mYear = c.get(Calendar.YEAR);
@@ -296,21 +267,26 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
         return strForwardDate;
-        //return c.getTimeInMillis();
     }
-    public String formdate(String nowdate)
+    public String formdate(String nowdate,boolean getDay)
     {
-        String date;
-        String sr=nowdate.substring(4,5);
-        if (nowdate.substring(4,5).equals("0"))
-        {
-            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
-        }
-        else {
-            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
 
+        if (getDay){
+            return nowdate.substring(6,8);
+        }else {
+            String date;
+            if (nowdate.substring(4,5).equals("0")) {
+                date=nowdate.substring(5,6)+"月"+nowdate.substring(6,8);
+            }
+            else {
+                date=nowdate.substring(4,6)+"月"+nowdate.substring(6,8);
+            }
+            return date;
         }
-        return date;
+    }
+    public String formdate1(String nowdate)
+    {
+        return nowdate.substring(6,8);
 
     }
 
@@ -343,13 +319,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 String nowdate3 = getPeriodDate(type, n + 4) + "";
                 String nowdate2 = getPeriodDate(type, n + 5) + "";
                 String nowdate1 = getPeriodDate(type, n + 6) + "";
-                days.add(formdate(nowdate1));
-                days.add(formdate(nowdate2));
-                days.add(formdate(nowdate3));
-                days.add(formdate(nowdate4));
-                days.add(formdate(nowdate5));
-                days.add(formdate(nowdate6));
-                days.add(formdate(nowdate7));
+                days.add(formdate(nowdate1,false));
+                days.add(formdate(nowdate2,true));
+                days.add(formdate(nowdate3,true));
+                days.add(formdate(nowdate4,true));
+                days.add(formdate(nowdate5,true));
+                days.add(formdate(nowdate6,true));
+                days.add(formdate(nowdate7,true));
                 day.add(dateForm.getDateform(nowdate1));
                 day.add(dateForm.getDateform(nowdate2));
                 day.add(dateForm.getDateform(nowdate3));
@@ -381,13 +357,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     String nowdat2 = getPeriodDate(type, n + 5) + "";
                     String nowdat1 = getPeriodDate(type, n + 6) + "";
 
-                    days.add(formdate(nowdat1));
-                    days.add(formdate(nowdat2));
-                    days.add(formdate(nowdat3));
-                    days.add(formdate(nowdat4));
-                    days.add(formdate(nowdat5));
-                    days.add(formdate(nowdat6));
-                    days.add(formdate(nowdat7));
+                    days.add(formdate(nowdat1,false));
+                    days.add(formdate(nowdat2,true));
+                    days.add(formdate(nowdat3,true));
+                    days.add(formdate(nowdat4,true));
+                    days.add(formdate(nowdat5,true));
+                    days.add(formdate(nowdat6,true));
+                    days.add(formdate(nowdat7,true));
                     day.add(dateForm.getDateform(nowdat1));
                     day.add(dateForm.getDateform(nowdat2));
                     day.add(dateForm.getDateform(nowdat3));
@@ -741,21 +717,33 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     btn_add.setChecked(false);
                 }
                 dates.clear();
-                if (result.getStepList().size()<days.size()) {
-
-                    dates.addAll(list);
+                //步数
+                List<StepListModel> steps=result.getStepList();
+                int maxStep=0;
+                if (steps.size()<days.size()) {
+                    //如果步数数量小于天数表示步数的数量不满7天
+                    dates.addAll(list);//添加默认天数以及步数
                     for (int j = days.size() - 1; j >= 0; j--) {
-                        for (int i = 0; i <= result.getStepList().size() - 1; i++) {
-                            if (day.get(j).equals(result.getStepList().get(i).getDate())) {
-                                dates.set(j,Integer.parseInt(result.getStepList().get(i).getTotalCnt()));
+                        for (int i = 0; i <= steps.size() - 1; i++) {
+                            //判断是不是那一天，如果是就重新给那一天设置步数
+                            if (day.get(j).equals(steps.get(i).getDate())) {
+                                Entry entry=dates.get(j);
+                                int step=Integer.parseInt(steps.get(i).getTotalCnt());
+                                maxStep=step>maxStep?step:maxStep;
+                                entry.setVal(step);
+                                dates.set(j,entry);
                                 break;
                             }
                         }
                     }
                 }
                 else {
+                    //如果步数大于或者等于天数
                     for (int i = 0; i < 7; i++) {
-                        dates.add(Integer.parseInt(result.getStepList().get(6-i).getTotalCnt()));
+                        int step=Integer.parseInt(steps.get(6-i).getTotalCnt());
+                        maxStep=step>maxStep?step:maxStep;
+                        Entry entry=new Entry(i,step);
+                        dates.add(entry);
                     }
                 }
                 if (Userid.equals(isFocusid))
@@ -764,10 +752,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     {
                         Intent intent=getIntent();
                         int step=intent.getIntExtra("step",0);
-                        dates.set(6,step);
+                        maxStep=step>maxStep?step:maxStep;
+                        Entry entry=dates.get(6);
+                        entry.setVal(step);
+                        dates.set(6,entry);
                     }
                 }
-                chartUtil.addDataf(dates,days.size(),days);
+            chart.setDate(days,dates,maxStep);
         } catch (Exception e) {
             e.printStackTrace();
         }

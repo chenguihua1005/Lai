@@ -1,6 +1,7 @@
 package com.softtek.lai.widgets.chart;
 
 /**
+ * 每一个Entry对应一个X轴上的数据
  * Created by jerry.guan on 11/8/2016.
  */
 
