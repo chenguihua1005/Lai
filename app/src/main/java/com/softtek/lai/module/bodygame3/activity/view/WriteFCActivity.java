@@ -226,7 +226,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 multipartTypedOutput.addPart("ChuWeight",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("Circum",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
                 multipartTypedOutput.addPart("image",new TypedFile("image/png", new File(file)));
-oj
+
 //                retestPre.goGetPicture(file);
             }
 
