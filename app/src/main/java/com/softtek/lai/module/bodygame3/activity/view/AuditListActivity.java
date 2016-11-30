@@ -41,8 +41,8 @@ public class AuditListActivity extends BaseActivity{
         tv_title.setText("复测审核");
         String[] tabtitle={"未审核（4）","已审核（10）"};
         fragments=new ArrayList<>();
-        fragments.add(AuditFragment.getInstance());
-        fragments.add(AuditFragment.getInstance());
+        fragments.add(AuditFragment.getInstance(AUDITED));
+        fragments.add(AuditFragment.getInstance(AUDIT));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);

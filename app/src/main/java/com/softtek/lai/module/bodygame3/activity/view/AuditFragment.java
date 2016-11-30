@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,11 +49,13 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    private int audited;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static AuditFragment getInstance(){
+    public static Fragment getInstance(int audited) {
         AuditFragment fragment=new AuditFragment();
         Bundle data=new Bundle();
+        data.putInt("audited",audited);
         fragment.setArguments(data);
         return fragment;
     }
@@ -128,9 +131,11 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberListModels.clear();
-        pageIndex=1;
-        doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",pageIndex,1);
+        if (audited==0) {
+            memberListModels.clear();
+            pageIndex = 1;
+            doGetData(Long.parseLong("4"), "C4E8E179-FD99-4955-8BF9-CF470898788B", "2016-10-22", pageIndex, 1);
+        }
     }
 
     @Override
@@ -158,4 +163,6 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
             }
         });
     }
+
+
 }
