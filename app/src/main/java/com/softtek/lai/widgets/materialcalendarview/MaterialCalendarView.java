@@ -441,16 +441,17 @@ public class MaterialCalendarView extends ViewGroup {
         addView(topbar, new LayoutParams(1));
 
         buttonPast.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        buttonPast.setImageResource(R.drawable.mcv_action_previous);
+        buttonPast.setImageResource(R.drawable.left_btn);
         topbar.addView(buttonPast, new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
 
         title.setGravity(Gravity.CENTER);
+        title.setTextColor(getResources().getColor(R.color.yellow));
         topbar.addView(title, new LinearLayout.LayoutParams(
                 0, LayoutParams.MATCH_PARENT, DEFAULT_DAYS_IN_WEEK - 2
         ));
 
         buttonFuture.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        buttonFuture.setImageResource(R.drawable.mcv_action_next);
+        buttonFuture.setImageResource(R.drawable.right_btn);
         topbar.addView(buttonFuture, new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
 
         pager.setId(R.id.mcv_pager);
