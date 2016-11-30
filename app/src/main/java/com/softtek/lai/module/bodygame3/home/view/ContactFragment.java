@@ -26,6 +26,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
@@ -113,7 +114,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 boolean isLogin = EMClient.getInstance().isLoggedInBefore();
                 if (isLogin) {
                     if (0 == position) {
-                        Intent intent = new Intent(getActivity(), GroupsActivity.class);
+                        Intent intent = new Intent(getActivity(), GroupsActivity.class);//群聊列表
                         startActivity(intent);
                     } else if (2 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
@@ -273,6 +274,12 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                                 groups.remove(groups.indexOf("#"));
                                 groups.add("#");
                             }
+
+                            //存入数据库,之前先清除之前的数据
+                            ContactDao dao = new ContactDao(getContext());
+                            dao.clearContactTab();
+                            dao.insert(list);
+
                         }
                         adapter.notifyDataSetChanged();
                         for (int i = 0; i < groups.size(); i++) {

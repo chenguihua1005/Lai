@@ -2,9 +2,7 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -31,7 +29,6 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,96 +74,84 @@ public class MoreFragment extends LazyBaseFragment {
     @Override
     protected void lazyLoad() {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-        .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
-                , new RequestCallback<ResponseData<List<ClassModel>>>() {
-                    @Override
-                    public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-                        classModels=listResponseData.getData();
-                        arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(),classModels,R.layout.selector_class_item) {
+                .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
+                        , new RequestCallback<ResponseData<List<ClassModel>>>() {
                             @Override
-                            public void convert(ViewHolder holder, ClassModel data, int position) {
-                                TextView tv_class_name=holder.getView(R.id.tv_class_name);
-                                tv_class_name.setText(data.getClassName());
-                                ImageView iv_icon=holder.getView(R.id.iv_icon);
-                                int icon;
-                                switch (data.getClassRole()){
-                                    case 1:
-                                        icon=R.drawable.class_zongjiaolian;
-                                        break;
-                                    case 2:
-                                        icon=R.drawable.class_jiaolian;
-                                        break;
-                                    case 3:
-                                        icon=R.drawable.class_zhujiao;
-                                        break;
-                                    default:
-                                        icon=R.drawable.class_xueyuan;
-                                        break;
-                                }
-                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(),icon));
-                                TextView tv_role=holder.getView(R.id.tv_role_name);
-                                int role=data.getClassRole();
-                                tv_role.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
-                                TextView tv_number=holder.getView(R.id.tv_number);
-                                tv_number.setText(data.getClassCode());
-                            }
+                            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
+                                classModels = listResponseData.getData();
+                                arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                                    @Override
+                                    public void convert(ViewHolder holder, ClassModel data, int position) {
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        int icon;
+                                        switch (data.getClassRole()) {
+                                            case 1:
+                                                icon = R.drawable.class_zongjiaolian;
+                                                break;
+                                            case 2:
+                                                icon = R.drawable.class_jiaolian;
+                                                break;
+                                            case 3:
+                                                icon = R.drawable.class_zhujiao;
+                                                break;
+                                            default:
+                                                icon = R.drawable.class_xueyuan;
+                                                break;
+                                        }
+                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        TextView tv_role = holder.getView(R.id.tv_role_name);
+                                        int role = data.getClassRole();
+                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        TextView tv_number = holder.getView(R.id.tv_number);
+                                        tv_number.setText(data.getClassCode());
+                                    }
 
-                            @Override
-                            public String getText(int position) {
-                                if(classModels!=null&&!classModels.isEmpty()){
-                                    return classModels.get(position).getClassName();
-                                }else {
-                                    return "尚未开班";
+                                    @Override
+                                    public String getText(int position) {
+                                        if (classModels != null && !classModels.isEmpty()) {
+                                            return classModels.get(position).getClassName();
+                                        } else {
+                                            return "尚未开班";
+                                        }
+                                    }
+                                });
+                                if (classModels != null && !classModels.isEmpty()) {
+                                    model = classModels.get(0);
+                                    int role = model.getClassRole();
+                                    tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                    tv_number.setText(model.getClassCode());
+                                    choosePanel(role);
+
                                 }
                             }
                         });
-                        if(classModels!=null&&!classModels.isEmpty()){
-                            model=classModels.get(0);
-                            int role=model.getClassRole();
-                            tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
-                            tv_number.setText(model.getClassCode());
-                            choosePanel(role);
-
-                        }
-                    }
-                });
     }
 
     @Override
     protected void initViews() {
         tv_title.setText("更多");
         tv_right.setText("开班");
-        UserModel user=UserInfoModel.getInstance().getUser();
-        if(user!=null){
+        UserModel user = UserInfoModel.getInstance().getUser();
+        if (user != null) {
             tv_name.setText(user.getNickname());
-            if (TextUtils.isEmpty(user.getPhoto())){
-                Picasso.with(getContext()).load(R.drawable.img_default).into(head_image);
-            }else {
-                Picasso.with(getContext()).load(R.drawable.img_default).fit()
-                        .error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(head_image);
-            }
         }
-        head_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //这里点击进入个人详情
-            }
-        });
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                model=classModels.get(i);
-                int role=model.getClassRole();
-                tv_role_name.setText(role==1?"总教练":role==2?"教练":role==3?"助教":role==4?"学员":"");
+                model = classModels.get(i);
+                int role = model.getClassRole();
+                tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
                 tv_number.setText(model.getClassCode());
-                choosePanel(role);
+//                choosePanel(role);
+                choosePanel(4);
             }
         });
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),CreateClassActivity.class));
+                startActivity(new Intent(getContext(), CreateClassActivity.class));
             }
         });
         ll_saikuang.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +160,6 @@ public class MoreFragment extends LazyBaseFragment {
                 startActivity(new Intent(getContext(), GameActivity.class));
             }
         });
-
 
 
     }
@@ -190,55 +174,44 @@ public class MoreFragment extends LazyBaseFragment {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
-    Fragment fragment;
-    private void choosePanel(int role){
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("class",model);
+
+    private void choosePanel(int role) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("class", model);
         switch (role) {
             case 1://总教练
-                fragment=new HeadCoachFragment();
-                fragment.setArguments(bundle);
-
-                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                HeadCoachFragment headCoachFragment = new HeadCoachFragment();
+                headCoachFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commit();
                 break;
             case 2://教练
-                fragment =new CoachFragment();
-                fragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                CoachFragment coachFragment = new CoachFragment();
+                coachFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commit();
                 break;
             case 3://助教
-                fragment=new AssistantFragment();
-                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commit();
                 break;
             case 4://学员
-                fragment=new StudentFragment();
-                fragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                StudentFragment studentFragment = new StudentFragment();
+                studentFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commit();
                 break;
         }
     }
 
     @Subscribe
-    public void updateClass(UpdateClass clazz){
-        if(clazz.getStatus()==0){
+    public void updateClass(UpdateClass clazz) {
+        if (clazz.getStatus() == 0) {
             //更新班级姓名
-            ClassModel model=clazz.getModel();
+            ClassModel model = clazz.getModel();
             arrow.setText(model.getClassName());
             this.model.setClassName(model.getClassName());
             arrow.getAdapter().notifyDataSetChanged();
-        }else if(clazz.getStatus()==1){
+        } else {
             //添加新班级
             this.classModels.add(clazz.getModel());
             arrow.getAdapter().notifyDataSetChanged();
-        }else if(clazz.getStatus()==2){
-            //删除班级
-            this.classModels.remove(clazz.getModel());
-            arrow.getAdapter().notifyDataSetChanged();
-            arrow.setSelected(0);
-            model=classModels.get(0);
-            if(classModels.isEmpty()&&fragment!=null){
-                getChildFragmentManager().beginTransaction().remove(fragment).commit();
-            }
         }
     }
 

@@ -13,9 +13,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +34,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -39,7 +45,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.em_activity_chat)
 public class ChatActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
-
+    private static final String TAG = "ChatActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -47,9 +53,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.img_red)
+    ImageView img_red;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
     public static ChatActivity activityInstance;
     private EaseChatFragment chatFragment;
-    String toChatUsername;
+    private String toChatUsername;
+    protected int chatType;
+    private String classId;
+
+    private ContactClassModel classModel;
+
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
@@ -75,9 +93,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
+            Dialog dialog = builder.create();
+            if (!isFinishing()) {
+                if (dialog != null && !dialog.isShowing()) {
                     dialog.show();
                 }
             }
@@ -90,7 +108,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EaseConstant.IS_GROUP_SENT = "flase";
+//        EaseConstant.IS_GROUP_SENT = "flase";
         activityInstance = this;
         //聊天人或群id
         toChatUsername = getIntent().getExtras().getString("userId");
@@ -101,8 +119,25 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         if ("".equals(title_value)) {
             title_value = "test";
         }
+
+
+        //获取聊天类型
+        chatType = getIntent().getIntExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+
+        classId = getIntent().getStringExtra("classId");
+
+        classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
+        Log.i(TAG, "toChatUsername _userId = " + toChatUsername + "  title_value = " + title_value + " chatType =" + chatType + " classId = " + classId);
+        Log.i(TAG, "classModel = " + classModel);
+
         tv_title.setText(title_value);
         ll_left.setOnClickListener(this);
+        if (chatType == EaseConstant.CHATTYPE_GROUP) {
+            fl_right.setVisibility(View.VISIBLE);
+            iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+        }
+
+        fl_right.setOnClickListener(this);
 
         connectionListener = new EMConnectionListener() {
             @Override
@@ -195,6 +230,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.fl_right:
+//                Intent intent = new Intent(ChatActivity.this, GroupDetailsActivity.class);
+//                intent.putExtra("groupId", toChatUsername);
+//                intent.putExtra("classId",classId);
+//                startActivity(intent);
+
+                Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
+                intent.putExtra("groupId", toChatUsername);
+                intent.putExtra("classId", classId);
+                startActivity(intent);
                 break;
         }
     }

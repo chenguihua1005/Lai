@@ -22,7 +22,7 @@ public class Chart extends LinearLayout{
     private String title1;
     private String title2;
 
-    private boolean avgLine;
+    //private boolean avgLine;
     private TextView tv_title1;
     private TextView tv_title2;
     private BrokenLine brokenLine;
@@ -48,7 +48,7 @@ public class Chart extends LinearLayout{
         setOrientation(VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.chart,this);
         TypedArray ta=getContext().obtainStyledAttributes(attrs,R.styleable.Simple_Chart);
-        avgLine=ta.getBoolean(R.styleable.Simple_Chart_avgLine,false);
+        //avgLine=ta.getBoolean(R.styleable.Simple_Chart_avgLine,false);
         title1=ta.getString(R.styleable.Simple_Chart_chartTitle1);
         title2=ta.getString(R.styleable.Simple_Chart_chartTitle2);
         ta.recycle();
