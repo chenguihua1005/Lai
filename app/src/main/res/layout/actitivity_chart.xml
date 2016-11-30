@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/Re_pers_page"
     android:layout_width="match_parent"
@@ -58,25 +59,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginTop="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="运动步数"
-                android:layout_marginLeft="15dp"
-                android:textColor="#333333"
-                android:textSize="14sp"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <com.github.mikephil.charting.charts.LineChart
-                android:background="#f1f1f1"
-                android:id="@+id/chart_sport"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-            </com.github.mikephil.charting.charts.LineChart>
+                <com.softtek.lai.widgets.chart.Chart
+                    android:id="@+id/chart_sport"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/chart_sport_bg"
+                    app:chartTitle1="今日步数"/>
+
                 <Button
                     android:id="@+id/bt_sport_left"
                     android:layout_width="30dp"
@@ -101,8 +95,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                >
+                android:layout_height="70dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

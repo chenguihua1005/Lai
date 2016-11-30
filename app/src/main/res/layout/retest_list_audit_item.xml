@@ -26,6 +26,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/cir_headim"/>
         <TextView
+            android:id="@+id/tv_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(第3组)"

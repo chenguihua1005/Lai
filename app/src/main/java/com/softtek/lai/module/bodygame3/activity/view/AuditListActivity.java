@@ -9,17 +9,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.head.adapter.RetestTabAdapter;
-import com.softtek.lai.module.bodygame3.head.view.AuditFragment;
+import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -46,8 +41,8 @@ public class AuditListActivity extends BaseActivity{
         tv_title.setText("复测审核");
         String[] tabtitle={"未审核（4）","已审核（10）"};
         fragments=new ArrayList<>();
-        fragments.add(AuditFragment.getInstance());
-        fragments.add(AuditFragment.getInstance());
+        fragments.add(AuditFragment.getInstance(AUDITED));
+        fragments.add(AuditFragment.getInstance(AUDIT));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
