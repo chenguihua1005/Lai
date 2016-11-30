@@ -114,12 +114,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     protected void initDatas() {
-        EventBus.getDefault().register(this);
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
+
     }
 
     @Override
