@@ -36,7 +36,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.activity.view.AuditListActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -421,8 +420,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-                    startActivity(new Intent(getContext(), AuditListActivity.class));
-//                    startActivity(new Intent(getContext(), BodyGameActivity.class));
+//                    startActivity(new Intent(getContext(), AuditListActivity.class));
+                    startActivity(new Intent(getContext(), BodyGameActivity.class));
 //                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
