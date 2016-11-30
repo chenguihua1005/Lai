@@ -8,6 +8,7 @@ import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 
 import java.util.List;
 
+import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -48,7 +49,7 @@ public interface ActivityService {
     );
 
     //活动详情接口请求路径:Api/V1/ ClassActivity / GetActivityDetial
-    @POST("/V1/ClassActivity/GetActivityDetial")
+    @GET("/V1/ClassActivity/GetActivityDetial")
     void getactdetail(
             @Header("token") String token,
             @Query("UID") long UID,
@@ -57,12 +58,45 @@ public interface ActivityService {
     );
 
     //报名活动接口请求路径:Api/V1/ ClassActivity / JoinActivity
-    @FormUrlEncoded
     @POST("/V1/ClassActivity/JoinActivity")
     void signup(
             @Header("token") String token,
             @Field("UID") long UID,
             @Field("activityID") String activityID,
+            Callback<ResponseData> callback
+    );
+
+    //删除活动请求路径:Api/V1/ ClassActivity / DeleteActivity
+    @FormUrlEncoded
+    @POST("/V1/ClassActivity/DeleteActivity")
+    void deleteact(
+            @Header("token") String token,
+            @Field("UID") long UID,
+            @Field("activityID") String activityID,
+            Callback<ResponseData> callback
+    );
+
+    //退出活动请求路径:Api/V1/ ClassActivity / ExistActivity
+    @POST("/V1/ClassActivity/ExistActivity")
+    void exitact(@Header("token") String token,
+                 @Field("UID") long UID,
+                 @Field("activityID") String activityID,
+                 Callback<ResponseData> callback
+    );
+
+
+    //创建活动请求路径:Api/V1/ ClassActivity / CreateClassActivity
+    @FormUrlEncoded
+    @POST("/V1/ClassActivity/CreateClassActivity")
+    void commitact(
+            @Header("token") String token,
+            @Field("AccountId") long AccountId,
+            @Field("ClassId") String ClassId,
+            @Field("Title") String Title,
+            @Field("ClassActivityId") int ClassActivityId,
+            @Field("IsWholeDay") Boolean IsWholeDay,
+            @Field("StartTime") String StartTime,
+            @Field("Content") String Content,
             Callback<ResponseData> callback
     );
 }
