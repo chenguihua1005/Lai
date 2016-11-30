@@ -43,7 +43,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     FuceSevice fuceSevice;
     AuditListModel auditListModel;
     MemberListModel memberListModel;
-    EasyAdapter<AuditListModel> adapter;
+    EasyAdapter<MemberListModel> adapter;
     private List<AuditListModel> auditListModels = new ArrayList<AuditListModel>();
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     private List<MemberListModel> memberListModels1 = new ArrayList<MemberListModel>();
@@ -79,11 +79,14 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",1,10);
-        adapter=new EasyAdapter<AuditListModel>(getContext(),auditListModels,R.layout.retest_list_audit_item) {
+        adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
-            public void convert(ViewHolder holder, AuditListModel data, int position) {
+            public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username=holder.getView(R.id.tv_username);
+                username.setText(data.getUserName());
+                Log.i("data>>>>>"+data.getUserName());
             }
+
         };
         plv_audit.setAdapter(adapter);
     }
