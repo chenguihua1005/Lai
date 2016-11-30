@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.view;
+package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -20,10 +19,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.ranking.model.RankModel;
-import com.softtek.lai.module.ranking.persenter.RankManager;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -123,6 +119,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
                     case 200:
 //                        if (listResponseData)
                         memberListModels=listResponseData.getData().get(1).getMemberList();
+                        Log.i("测试》》》》"+memberListModels);
                         adapter.notifyDataSetChanged();
                         break;
                     default:

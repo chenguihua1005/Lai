@@ -9,17 +9,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.adapter.RetestTabAdapter;
-import com.softtek.lai.module.bodygame3.head.view.AuditFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 /**
