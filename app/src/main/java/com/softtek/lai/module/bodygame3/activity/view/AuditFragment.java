@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -21,6 +24,8 @@ import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,7 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -41,12 +47,9 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     @InjectView(R.id.im_nomessage)
     ImageView im_nomessage;
     FuceSevice fuceSevice;
-    AuditListModel auditListModel;
-    MemberListModel memberListModel;
+    int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
-    private List<AuditListModel> auditListModels = new ArrayList<AuditListModel>();
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    private List<MemberListModel> memberListModels1 = new ArrayList<MemberListModel>();
     public static AuditFragment getInstance(){
         AuditFragment fragment=new AuditFragment();
         Bundle data=new Bundle();
@@ -56,6 +59,18 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     protected void lazyLoad() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                plv_audit.setRefreshing();
+
+            }
+
+        }, 300);
+
 
     }
 
@@ -78,12 +93,21 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",1,10);
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username=holder.getView(R.id.tv_username);
+                TextView tv_group=holder.getView(R.id.tv_group);
+                TextView tv_weight=holder.getView(R.id.tv_weight);
+                CircleImageView cir_headim=holder.getView(R.id.cir_headim);
+                tv_group.setText(data.getGroupName());
+                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
+                if (!TextUtils.isEmpty(data.getUserIconUrl()))
+                {
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
+                    Log.i("图片》》》》"+AddressManager.get("photoHost")+data.getUserIconUrl());
+                }
                 Log.i("data>>>>>"+data.getUserName());
             }
 
@@ -104,26 +128,28 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        memberListModels.clear();
+        pageIndex=1;
+        doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",pageIndex,1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",++pageIndex,1);
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid, String typedate, int pageIndex, int pageSize) {
         fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, typedate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
+                plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
-//                        if (listResponseData)
-                        memberListModels=listResponseData.getData().get(1).getMemberList();
-                        Log.i("测试》》》》"+memberListModels);
+                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
                         adapter.notifyDataSetChanged();
+                        Log.i("测试》》》》"+memberListModels+"dsdf"+adapter.getDatas());
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
