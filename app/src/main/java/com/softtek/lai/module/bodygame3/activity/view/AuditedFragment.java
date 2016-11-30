@@ -42,7 +42,7 @@ import zilla.libcore.util.Util;
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class AuditFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
+public class AuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.im_nomessage)
@@ -52,7 +52,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance() {
-        AuditFragment fragment=new AuditFragment();
+        AuditedFragment fragment=new AuditedFragment();
         Bundle data=new Bundle();
         fragment.setArguments(data);
         return fragment;
@@ -97,19 +97,17 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
-                TextView username=holder.getView(R.id.tv_username);
-                TextView tv_group=holder.getView(R.id.tv_group);
-                TextView tv_weight=holder.getView(R.id.tv_weight);
-                CircleImageView cir_headim=holder.getView(R.id.cir_headim);
+                TextView username=holder.getView(R.id.tv_username);//用户名
+                TextView tv_group=holder.getView(R.id.tv_group);//祖名
+                TextView tv_weight=holder.getView(R.id.tv_weight);//体重
+                CircleImageView cir_headim=holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText(data.getGroupName());
                 tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl()))
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
-                    Log.i("图片》》》》"+AddressManager.get("photoHost")+data.getUserIconUrl());
                 }
-                Log.i("data>>>>>"+data.getUserName());
             }
 
         };
@@ -139,22 +137,17 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
         doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",++pageIndex,1);
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, String typedate, final int pageIndex, int pageSize) {
+    private void doGetData(Long accountid, String classid, String typedate, int pageIndex, int pageSize) {
         fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, typedate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-                if (pageIndex==1)
-                {
-                    listResponseData.getData().get(0).getCount();
-                }
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
                         adapter.notifyDataSetChanged();
-                        Log.i("测试》》》》"+memberListModels+"dsdf"+adapter.getDatas());
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

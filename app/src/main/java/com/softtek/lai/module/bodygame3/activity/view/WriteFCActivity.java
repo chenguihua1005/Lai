@@ -288,7 +288,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
-
+    //录入
     private void doPostInitData()
     {
         service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {

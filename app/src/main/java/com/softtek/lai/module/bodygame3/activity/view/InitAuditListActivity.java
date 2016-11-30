@@ -24,13 +24,12 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by Terry on 2016/11/29.
  */
 @InjectLayout(R.layout.activity_honorranking)
-public class AuditListActivity extends BaseActivity{
+public class InitAuditListActivity extends BaseActivity{
 
     @InjectView(R.id.tab)
     TabLayout tab;
@@ -47,10 +46,10 @@ public class AuditListActivity extends BaseActivity{
     String[] tabtitle={"未审核","已审核"};
     @Override
     protected void initViews() {
-        tv_title.setText("复测审核");
+        tv_title.setText("初始数据审核");
         fragments=new ArrayList<>();
-        fragments.add(AuditFragment.getInstance());
-        fragments.add(AuditedFragment.getInstance());
+        fragments.add(InitAuditFragment.getInstance());
+        fragments.add(InitAuditedFragment.getInstance());
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -65,12 +64,12 @@ public class AuditListActivity extends BaseActivity{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        doGetData(Long.parseLong("4"), "C4E8E179-FD99-4955-8BF9-CF470898788B", "2016-10-22", 1, 1);
+        doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B", 1, 2);
 
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, String typedate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, typedate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+    private void doGetData(Long accountid, String classid,  int pageIndex, int pageSize) {
+        fuceSevice.dogetInitAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
@@ -81,6 +80,7 @@ public class AuditListActivity extends BaseActivity{
                         tabtitle[1]="已审核("+listResponseData.getData().get(1).getCount()+")";
                         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
                         tab.setupWithViewPager(content);
+                        Log.i("已审核("+tabtitle[1]+"count"+listResponseData.getData().get(1).getCount());
                         break;
                     default:
                         break;

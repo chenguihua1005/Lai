@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by jessica.zhang on 11/25/2016.
  */
 
-public class ChatContactModel implements Serializable{
+public class ChatContactModel implements Serializable {
     private String Mobile;
     private String UserName;
     private String UserEn;
@@ -15,6 +15,9 @@ public class ChatContactModel implements Serializable{
     private String UserRole;
     private String HXAccountId;
     private String AccpetTime;
+//    private String Certification;//
+//    private long AccountId;
+
 
     public ChatContactModel(String mobile, String userName, String userEn, String gender, String photo, String userRole, String HXAccountId, String accpetTime) {
         Mobile = mobile;

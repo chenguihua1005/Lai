@@ -4,13 +4,12 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
-import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 
 import java.util.List;
 
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -84,7 +83,7 @@ public interface HeadService {
     void hasemail(
             @Header("token") String token,
             @Query("accountid") long accountid,
-            Callback<ResponseData> callback
+            Callback<ResponseData<NewsModel>> callback
     );
 
 

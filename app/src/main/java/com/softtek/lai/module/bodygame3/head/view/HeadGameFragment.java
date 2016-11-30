@@ -20,6 +20,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
@@ -93,10 +94,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 //        }
 
         if (UserInfoModel.getInstance().getRole().getSp().equals(String.valueOf(Constants.SP))) {
-           sp_tv.setVisibility(View.GONE);
+            sp_tv.setVisibility(View.GONE);
             pc_tv.setVisibility(View.VISIBLE);
             button.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             sp_tv.setVisibility(View.VISIBLE);
             pc_tv.setVisibility(View.GONE);
             button.setVisibility(View.GONE);
@@ -144,11 +145,12 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     }
 
     private void hasemail() {
-        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData>() {
+        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
-            public void success(ResponseData responseData, Response response) {
+            public void success(ResponseData<NewsModel> responseData, Response response) {
                 if (responseData.getData() != null) {
-                    double has = (double) responseData.getData();
+                    NewsModel newsModel = responseData.getData();
+                    int has = newsModel.getNum();
                     if (has == 0) {
                         iv_email.setImageResource(R.drawable.email);
                     } else {

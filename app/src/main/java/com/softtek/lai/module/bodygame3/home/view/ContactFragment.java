@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,7 +28,9 @@ import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
+import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -53,11 +54,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
-    @InjectView(R.id.fl)
-    FrameLayout fl;
-    @InjectView(R.id.et_search)
-    TextView et_search;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -68,25 +64,28 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @InjectView(R.id.tv_perview)
     TextView tv_perview;
 
-    //    @InjectView(R.id.lin_group_send)
-//    LinearLayout lin_group_send;
+    @InjectView(R.id.tip_search)
+    TextView tip_search;
+
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
     @InjectView(R.id.menu_gridview)
     CustomGridView menu_gridview;
 
+    @InjectView(R.id.ll_search)
+    LinearLayout ll_search;
+
+    @InjectView(R.id.search_hint)
+    TextView search_hint;
+
 
     ContactMenuAdapter menuAdapter;
     //通讯录联系人列表
-//    List<ChatContactInfoModel> list;
     List<ChatContactModel> list;
-
-    LinearLayout ll_search;
 
 
     //通讯录联系人列表适配器
-//    ChatContantAdapter adapter;
     private ContactExpandableAdapter adapter;
 
     public static Map<String, List<ChatContactModel>> datas = new HashMap<>();
@@ -97,6 +96,11 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("通讯录");
+        tip_search.setVisibility(View.GONE);
+        search_hint.setText("通过姓名,手机号或康宝莱资格证号搜索");
+
+        ll_search.setOnClickListener(this);
+
 
     }
 
@@ -116,6 +120,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     if (0 == position) {
                         Intent intent = new Intent(getActivity(), GroupsActivity.class);//群聊列表
                         startActivity(intent);
+                    } else if (1 == position) {//新朋友
+                        Intent intent = new Intent(getActivity(), NewFriendActivity.class);//群聊列表
+                        startActivity(intent);
                     } else if (2 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                         intent.putExtra("list", (Serializable) list);
@@ -134,14 +141,11 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 //        adapter = new ChatContantAdapter(getContext(), list);
         list_contant.getRefreshableView().setAdapter(adapter);
         list_contant.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-//        View head= LayoutInflater.from(getContext()).inflate(R.layout.expandable_head_contact,null);
-//        ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
-//        ll_search.setOnClickListener(this);
+
 
 //        list_contant.setOnRefreshListener(this);
 
         chooseView.setChooseListener(new ChooseView.OnChooseListener() {
-
             @Override
             public void onDown() {
                 tv_perview.setVisibility(View.VISIBLE);
@@ -172,13 +176,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         list_contant.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-//                ChatContactModel contact=datas.get(groups.get(i)).get(i1);
-//                Intent intent=new Intent(ContactsActivity.this,InvitationSettingActivity.class);
-//                intent.putExtra("classId",getIntent().getStringExtra("classId"));
-//                intent.putExtra("inviterId",contact.getAccountId());
-//                startActivity(intent);
-//                return false;
-
                 boolean isLogin = EMClient.getInstance().isLoggedInBefore();
                 Log.i(TAG, "是否登錄 = " + isLogin);
                 if (isLogin) {
@@ -224,17 +221,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.lin_group_send:
-//                boolean isLogin = EMClient.getInstance().isLoggedInBefore();
-//                if (isLogin) {
-//                    Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
-//                    intent.putExtra("list", (Serializable) list);
-//                    startActivity(intent);
-//                } else {
-//                    Util.toastMsg("会话异常，请稍后再试");
-//                }
-//
-//                break;
+            case R.id.ll_search:
+                Intent intent = new Intent(getContext(), ContactSearchActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -314,18 +304,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     }
 
-
-//    @Override
-//    public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//        getDataAndUpdate();
-//    }
-//
-//    @Override
-//    public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//        if (list_contant != null) {
-//            list_contant.onRefreshComplete();
-//        }
-//    }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
