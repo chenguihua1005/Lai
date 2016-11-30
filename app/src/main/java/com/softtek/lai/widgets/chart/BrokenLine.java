@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.github.snowdream.android.util.Log;
+
 import java.util.List;
 
 /**
@@ -87,14 +89,14 @@ public class BrokenLine extends View{
 
         //画x轴的线
         linePaint.setStrokeWidth(1);
-        canvas.drawLine(0+offset,chartHeight,width,chartHeight,linePaint);
+        canvas.drawLine(offset,chartHeight,width,chartHeight,linePaint);
 
-        //画x轴数据
+        //画x轴数据同时确定x轴的点
         if(dataLine!=null){
             List<String> xAxis=dataLine.getxAxis();
             if(xAxis!=null&&!xAxis.isEmpty()){
                 xPoint=new int[xAxis.size()];
-                int x=0+offset;
+                int x=offset;
                 for (int i=0,j=xAxis.size();i<j;i++){
                     String str=xAxis.get(i);
                     int textWitdh= width/(xAxis.size()-1);
@@ -114,8 +116,10 @@ public class BrokenLine extends View{
             List<Entry> yAxis=dataLine.getEntries();
             if(yAxis!=null&&!yAxis.isEmpty()){
                 maxYAxis=dataLine.getMaxYAxis();
-                double per=chartHeight*1d/maxYAxis;
-
+                double per=0;
+                if(maxYAxis!=0){
+                    per=(chartHeight-getPaddingTop()+7)*1d/maxYAxis;
+                }
                 Point[] broken=new Point[yAxis.size()];
                 //有数据，就画一个路径框
                 Path path=new Path();
@@ -126,9 +130,9 @@ public class BrokenLine extends View{
                 for (int i=0,j=yAxis.size();i<j;i++){
                     Entry entry=yAxis.get(i);
                     int x=xPoint[entry.getIndex()];
-                    float y= (float) ((chartHeight-per*entry.getVal())+getPaddingTop());
+                    int y= (int) (chartHeight-per*entry.getVal());
                     path.lineTo(x, y);
-                    broken[i]=new Point(x, (int) y);
+                    broken[i]=new Point(x,  y);
                     //画圆点
                     canvas.drawCircle(x, y,5,bgPaint);
                     //标数字
@@ -147,25 +151,6 @@ public class BrokenLine extends View{
                     Point epoint=broken[i];
                     canvas.drawLine(spoint.x,spoint.y,epoint.x,epoint.y,linePaint);
                 }
-                //画平均线(虚线)
-//                linePaint.reset();
-//                linePaint.setColor(0x4CFFFFFF);
-//                linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-//                linePaint.setAntiAlias(true);
-//                linePaint.setStyle(Paint.Style.STROKE);
-//                linePaint.setStrokeWidth(1);
-//                float y=(float) (chartHeight-maxYAxis/2*per);
-//                int num= (width-offset)/10;
-//                int start=0+offset;
-//                for (int i=0;i<num;i++){
-//                    if(i%2==0){
-//                        canvas.drawLine(start,y,start+10,y,linePaint);
-//                    }
-//                    start+=10;
-//                }
-
-//                String avg=String.valueOf(maxYAxis/2).substring(0,1)+getUnit(maxYAxis/2);
-//                canvas.drawText(avg,width+aTextPaint.measureText(avg)/2,y,aTextPaint);
             }
 
         }
