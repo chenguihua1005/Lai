@@ -72,13 +72,13 @@ public class MessageOperatorActivity extends BaseActivity {
                     iv_red.setVisibility(View.GONE);
                 }
                 TextView tv_title=holder.getView(R.id.tv_title);
-                if(data.getMsgType()==2){
+                if(data.getMsgtype()==2){
                     tv_title.setText("邀请成为教练");
-                }else if (data.getMsgType()==3){
+                }else if (data.getMsgtype()==3){
                     tv_title.setText("邀请成为助教");
-                }else if (data.getMsgType()==4){
+                }else if (data.getMsgtype()==4){
                     tv_title.setText("邀请成为学员");
-                } else if (data.getMsgType()==5){
+                } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
                 }
                 TextView tv_detail=holder.getView(R.id.tv_detail);

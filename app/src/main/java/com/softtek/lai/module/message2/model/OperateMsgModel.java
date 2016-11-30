@@ -8,7 +8,7 @@ package com.softtek.lai.module.message2.model;
 import java.io.Serializable;
 
 public class OperateMsgModel implements Serializable {
-    private int MsgType;
+    private int Msgtype;
     private String Msgid;
     private String Recevid;
     private String Senderid;
@@ -18,12 +18,12 @@ public class OperateMsgModel implements Serializable {
     private int IsRead;
     private int IsDo;
 
-    public int getMsgType() {
-        return MsgType;
+    public int getMsgtype() {
+        return Msgtype;
     }
 
-    public void setMsgType(int msgType) {
-        MsgType = msgType;
+    public void setMsgtype(int msgtype) {
+        Msgtype = msgtype;
     }
 
     public String getMsgid() {
