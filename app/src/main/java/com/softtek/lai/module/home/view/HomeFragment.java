@@ -73,6 +73,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
+
+
 /**
  * Created by jerry.guan on 3/15/2016.
  * 首页
@@ -422,7 +424,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 case Constants.BODY_GAME:
 //                    startActivity(new Intent(getContext(), AuditListActivity.class));
                     startActivity(new Intent(getContext(), BodyGameActivity.class));
-//                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
+//                    startActivity(new Intent(getContext(), InitAuditListActivity.class));
+                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();

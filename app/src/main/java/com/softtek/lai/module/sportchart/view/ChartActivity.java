@@ -759,6 +759,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     }
                 }
             chart.setDate(days,dates,maxStep);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

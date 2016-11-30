@@ -54,6 +54,16 @@ public interface FuceSevice {
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<AuditListModel>>> callback
     );
+    //    获取初始数据审核列表
+    @GET("/v1/MeasuredRecordLog/GetClassInitDataList")
+    void dogetInitAuditList(
+            @Header("token") String token,
+            @Query("accountId") Long accountId,
+            @Query("classId") String classId,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize,
+            Callback<ResponseData<List<AuditListModel>>> callback
+    );
 
 
 }
