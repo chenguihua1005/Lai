@@ -15,37 +15,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <FrameLayout
-        android:id="@+id/fl"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/toolbar"
-        android:background="#c9c8ce"
-        android:padding="9dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/pk_chouma_editor_boder"
-            android:gravity="center_vertical"
-            android:hint="手机号或者姓名"
-            android:paddingLeft="28dp"
-            android:singleLine="true"
-            android:textColor="#666666"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/pk_search" />
-
-    </FrameLayout>
+    <include layout="@layout/expandable_head_contact"/>
 
     <LinearLayout
         android:id="@+id/lin_group_send"

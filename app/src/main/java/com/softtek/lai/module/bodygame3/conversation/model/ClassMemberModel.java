@@ -5,6 +5,7 @@ package com.softtek.lai.module.bodygame3.conversation.model;
  */
 
 public class ClassMemberModel {
+
     private String HXAccountId;
     private String UserName;
     private String UserEn;

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -128,7 +129,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
         Log.i(TAG, "toChatUsername _userId = " + toChatUsername + "  title_value = " + title_value + " chatType =" + chatType + " classId = " + classId);
-        Log.i(TAG, "classModel = " + classModel);
+        Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
 
         tv_title.setText(title_value);
         ll_left.setOnClickListener(this);
@@ -232,14 +233,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 finish();
                 break;
             case R.id.fl_right:
-//                Intent intent = new Intent(ChatActivity.this, GroupDetailsActivity.class);
-//                intent.putExtra("groupId", toChatUsername);
-//                intent.putExtra("classId",classId);
-//                startActivity(intent);
+
 
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
                 intent.putExtra("groupId", toChatUsername);
                 intent.putExtra("classId", classId);
+                intent.putExtra("classModel", classModel);
+
                 startActivity(intent);
                 break;
         }
