@@ -156,7 +156,13 @@ public class UpdateFuceTimeActivity extends BaseActivity{
         Calendar c = Calendar.getInstance();
         if(position>0){
             String fuceDate=dates.get(position-1).getMeasureDate();
-            c.setTime(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convert2Date(fuceDate));
+            String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(fuceDate,currentDate);
+            if(compare<1){//表示上一次的复测日其是小于或者等于今天的则取今日
+                c.setTime(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convert2Date(currentDate));
+            }else {//上一次复测日其大于今天
+                c.setTime(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convert2Date(fuceDate));
+            }
         }
         //天数加1
         c.add(Calendar.DAY_OF_YEAR,1);

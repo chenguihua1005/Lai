@@ -16,6 +16,17 @@ public class FriendModel {
 //        "Status": 0,  --0:未处理 1：已同意，-1：已拒绝
 //        "Comment": null  ---备注
 
+//    "AcceptTime": "2016-11-29 14:31:22",
+//            "ApplyId": "9f5076ba-e5d3-4e16-a2f0-570024ca5e3a",
+//            "Comment": "",
+//            "HxAccountId": "44e6791bed25180e3b0090e6e8c1729c",
+//            "HxGroupId": "",
+//            "Role": 0,
+//            "SendTime": "2016-11-29 14:23:10",
+//            "Status": 1,
+//            "UserId": 4355,
+//            "UserName": "莫奕"
+
     private String ApplyId;//申请记录ID
     private int UserId;
     private String UserName;
