@@ -69,7 +69,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     private boolean isSelect = true;
 
     private OperateMsgModel model;
-    private String msg_type;
+    private int msg_type;
     private IMessagePresenter messagePresenter;
     private IAssistantPresenter assistantPresenter;
     private MessageMainManager manager;
@@ -93,15 +93,15 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         assistantPresenter = new AssistantImpl(this);
         messagePresenter = new MessageImpl(this);
         text_value.setText(model.getMsgContent());
-        msg_type = model.getMsgType()+"";
-        if ("0".equals(msg_type)) {
+        msg_type = model.getMsgtype();
+        if (0==msg_type) {
             tv_title.setText("助教申请");
-        } else if ("1".equals(msg_type)) {
+        } else if (1==msg_type) {
             tv_title.setText("助教移除");
             manager = new MessageMainManager(this);
-        } else if ("2".equals(msg_type)) {
+        } else if (2==msg_type) {
             tv_title.setText("助教邀请");
-        } else if ("3".equals(msg_type)) {
+        } else if (3==msg_type) {
             tv_title.setText("确认参赛");
         }
         if("1".equals(model.getIsDo())){
