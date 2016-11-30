@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMGroup;
 import com.softtek.lai.R;
@@ -15,6 +16,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.utils.DisplayUtil;
 
@@ -58,6 +60,8 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     private List<ClassMemberModel> members;
     private String classId;
 
+    private ContactClassModel classModel;
+
 
     @Override
     protected void initViews() {
@@ -75,8 +79,11 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        groupId = getIntent().getStringExtra("groupId");
-        classId = getIntent().getStringExtra("classId");
+        classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
+        classId = classModel.getClassId();
+
+        Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
+
 //        group = EMClient.getInstance().groupManager().getGroup(groupId);
 //        if (group == null) {
 //            finish();
@@ -96,6 +103,9 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private void getClassMembers(String classId) {
         String token = UserInfoModel.getInstance().getToken();
+
+        Log.i(TAG,"token = " + token);
+        Log.i(TAG,"classId = " + classId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
         service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<List<ClassMemberModel>>>() {
             @Override
