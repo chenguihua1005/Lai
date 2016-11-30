@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.adapter;
+package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame3.head.adapter.RetestTabAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
