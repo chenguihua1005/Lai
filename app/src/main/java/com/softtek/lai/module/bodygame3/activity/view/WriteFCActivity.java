@@ -37,6 +37,7 @@ import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
+import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -195,16 +196,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         title.setText("初始数据录入");//设置标题栏标题
         tv_right.setText("保存");//保存数据
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        if(BuildConfig.DEBUG) {
-            doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
-            Util.toastMsg("C4E8E179-FD99-4955-8BF9-CF470898788B");
-        }
-        else {
+
             //获取数据接口
-            doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
-//            doGetInfo(accountId,classid);
-            Util.toastMsg("不是debug");
-        }
+            doGetInfo(Long.parseLong("81618"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
+//
+
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -270,6 +266,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                 String Enddata[]=initDataModel.getEndDate().split("-");
                                 tv_write_endm.setText(Long.parseLong(Enddata[1])+"");//结束月
                                 tv_write_endd.setText(Long.parseLong(Enddata[2])+"");//结束日
+                                tv_write_chu_weight.setText(initDataModel.getInitWeight());//初始体重
+                                tv_retestWrite_tizhi.setText(initDataModel.getPysical());//体脂
+                                tv_retestWrite_neizhi.setText(initDataModel.getFat());//内脂
+                                gender=initDataModel.getGender();
 //                                d
                             }
                         } catch (Exception e) {
@@ -376,10 +376,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
-//                Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
-//                intent.putExtra("retestWrite",retestWrite);
-//                intent.putExtra("isState",isState);
-//                startActivityForResult(intent,GET_BODY);
+                Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
+                intent.putExtra("retestWrite",initComitModel);
+                intent.putExtra("isState",isState);
+                startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
                 if (gender.equals("1")) {
@@ -433,8 +433,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
-//            retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
-//            Log.i("新学员录入围度:retestWrite"+retestWrite);
+            initDataModel=(InitDataModel) data.getSerializableExtra("retestWrite");
+            Log.i("新学员录入围度:retestWrite"+initDataModel);
         }
         if (requestCode==BODY&&resultCode==RESULT_OK){
             AlertDialog.Builder builder=new AlertDialog.Builder(this);

@@ -1,37 +1,39 @@
 package com.softtek.lai.module.bodygame3.activity.model;
 
+import java.io.Serializable;
+
 import retrofit.mime.TypedFile;
 
 /**
  * Created by lareina.qiao on 2016/11/22.
  */
 
-public class InitComitModel {
-    private Long accountId;
-    private String classId;
-    private double pysical;
-    private double ChuWeight;
-    private double fat;
-    private double circum;
-    private double waistline;
-    private double upArmGirth;
-    private double upLegGirth;
-    private double doLegGirth;
-    private TypedFile image;
+public class InitComitModel implements Serializable{
+    private Long accountId;//用户id
+    private String classId;//班级id
+    private String pysical;//体脂
+    private String ChuWeight;//体重
+    private String fat;//内脂
+    private String circum;//胸围
+    private String waistline;//腰围
+    private String upArmGirth;//上臂围
+    private String upLegGirth;//大腿围
+    private String doLegGirth;//小腿围
+    private TypedFile image;//头像
 
     @Override
     public String toString() {
         return "InitComitModel{" +
                 "accountId=" + accountId +
                 ", classId='" + classId + '\'' +
-                ", pysical=" + pysical +
-                ", ChuWeight=" + ChuWeight +
-                ", fat=" + fat +
-                ", circum=" + circum +
-                ", waistline=" + waistline +
-                ", upArmGirth=" + upArmGirth +
-                ", upLegGirth=" + upLegGirth +
-                ", doLegGirth=" + doLegGirth +
+                ", pysical='" + pysical + '\'' +
+                ", ChuWeight='" + ChuWeight + '\'' +
+                ", fat='" + fat + '\'' +
+                ", circum='" + circum + '\'' +
+                ", waistline='" + waistline + '\'' +
+                ", upArmGirth='" + upArmGirth + '\'' +
+                ", upLegGirth='" + upLegGirth + '\'' +
+                ", doLegGirth='" + doLegGirth + '\'' +
                 ", image=" + image +
                 '}';
     }
@@ -52,67 +54,67 @@ public class InitComitModel {
         this.classId = classId;
     }
 
-    public double getPysical() {
+    public String getPysical() {
         return pysical;
     }
 
-    public void setPysical(double pysical) {
+    public void setPysical(String pysical) {
         this.pysical = pysical;
     }
 
-    public double getChuWeight() {
+    public String getChuWeight() {
         return ChuWeight;
     }
 
-    public void setChuWeight(double chuWeight) {
+    public void setChuWeight(String chuWeight) {
         ChuWeight = chuWeight;
     }
 
-    public double getFat() {
+    public String getFat() {
         return fat;
     }
 
-    public void setFat(double fat) {
+    public void setFat(String fat) {
         this.fat = fat;
     }
 
-    public double getCircum() {
+    public String getCircum() {
         return circum;
     }
 
-    public void setCircum(double circum) {
+    public void setCircum(String circum) {
         this.circum = circum;
     }
 
-    public double getWaistline() {
+    public String getWaistline() {
         return waistline;
     }
 
-    public void setWaistline(double waistline) {
+    public void setWaistline(String waistline) {
         this.waistline = waistline;
     }
 
-    public double getUpArmGirth() {
+    public String getUpArmGirth() {
         return upArmGirth;
     }
 
-    public void setUpArmGirth(double upArmGirth) {
+    public void setUpArmGirth(String upArmGirth) {
         this.upArmGirth = upArmGirth;
     }
 
-    public double getUpLegGirth() {
+    public String getUpLegGirth() {
         return upLegGirth;
     }
 
-    public void setUpLegGirth(double upLegGirth) {
+    public void setUpLegGirth(String upLegGirth) {
         this.upLegGirth = upLegGirth;
     }
 
-    public double getDoLegGirth() {
+    public String getDoLegGirth() {
         return doLegGirth;
     }
 
-    public void setDoLegGirth(double doLegGirth) {
+    public void setDoLegGirth(String doLegGirth) {
         this.doLegGirth = doLegGirth;
     }
 
