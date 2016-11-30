@@ -22,6 +22,7 @@ public class InitDataModel {
     private String WeekNum;//第几周
     private String StartDate;//开始日期
     private String EndDate;//结束日期
+    private String Gender;//性别
 
     @Override
     public String toString() {
@@ -43,7 +44,16 @@ public class InitDataModel {
                 ", WeekNum='" + WeekNum + '\'' +
                 ", StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
+                ", Gender='" + Gender + '\'' +
                 '}';
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
     }
 
     public String getWeekNum() {

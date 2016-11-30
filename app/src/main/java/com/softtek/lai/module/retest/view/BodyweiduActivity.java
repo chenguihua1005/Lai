@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
+import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -83,7 +85,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_retest_doleggirth)
     RelativeLayout ll_retest_doleggirth;
 
-    private RetestWriteModel retestWrite;
+    private InitComitModel initComitModel;
     private RetestPre retestPre;
     MeasureModel measureModel;
     String img="";
@@ -110,17 +112,15 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-//        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
-        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
+        initComitModel= (InitComitModel) getIntent().getSerializableExtra("retestWrite");
 
-        tv_retest_circum.setText(retestWrite.getCircum());
-        tv_retest_waistline.setText(retestWrite.getWaistline());
-        tv_retest_hiplie.setText(retestWrite.getHiplie());
-        tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
-        tv_retest_upleggirth.setText(retestWrite.getUpLegGirth());
-        tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
-        img=retestWrite.getImage();
+        tv_retest_circum.setText(initComitModel.getCircum()+"");
+        tv_retest_waistline.setText(initComitModel.getWaistline()+"");
+        tv_retest_hiplie.setText(initComitModel.getPysical()+"");
+        tv_retest_uparmgirth.setText(initComitModel.getUpArmGirth()+"");
+        tv_retest_upleggirth.setText(initComitModel.getUpLegGirth()+"");
+        tv_retest_doleggirth.setText(initComitModel.getDoLegGirth()+"");
 
 
 
@@ -160,16 +160,15 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
             //保存记录......
             case R.id.btn_retest_save:
 
-                retestWrite=new RetestWriteModel();
-                retestWrite.setCircum(tv_retest_circum.getText().toString());
-                retestWrite.setWaistline(tv_retest_waistline.getText().toString());
-                retestWrite.setHiplie(tv_retest_hiplie.getText().toString());
-                retestWrite.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
-                retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString());
-                retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString());
-                retestWrite.setImage(img);
+                initComitModel=new InitComitModel();
+                initComitModel.setCircum(tv_retest_circum.getText()+"");
+                initComitModel.setWaistline(tv_retest_waistline.getText().toString());
+                initComitModel.setPysical(tv_retest_hiplie.getText().toString());
+                initComitModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
+                initComitModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());
+                initComitModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());
                 Intent intent=new Intent();
-                intent.putExtra("retestWrite",retestWrite);
+                intent.putExtra("retestWrite",initComitModel);
                 setResult(RESULT_OK,intent);
                 finish();
 
