@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.message.model.MessageModel;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -20,10 +19,11 @@ import retrofit.http.Query;
  * Created by jarvis.liu on 3/22/2016.
  */
 public interface MessageService {
-    @GET("/MsgCenter/MsgList")
-    void getMsgList(@Header("token") String token,
-                    @Query("accountid") String accountid,
-                    Callback<ResponseData<MessageModel>> callback);
+
+    @GET("/MessageRead/GetMessageRead")
+    void getMessageRead(@Header("token") String token,
+                        Callback<ResponseData> callback);
+
 
     @FormUrlEncoded
     @POST("/HerbrClass/AcceptInviterToClass")
@@ -41,34 +41,11 @@ public interface MessageService {
                        @Field("acceptType") String acceptType,       //拒绝:0,接受:1
                        Callback<ResponseData> callback);
 
-    @POST("/MsgCenter/DelNoticeOrMeasureMsg")
-    void delNoticeOrMeasureMsg(@Header("token") String token,
-                       @Query("MessageId") String messageId,
-                       @Query("type") String type,
-                       Callback<ResponseData> callback);
-
-    @GET("/MessageRead/GetMessageRead")
-    void getMessageRead(@Header("token") String token,
-                       Callback<ResponseData> callback);
-
-    @GET("/HerbNewUser/PhoneIsExist")
-    void phoneIsExist(@Header("token") String token,
-                        @Query("mobile") String mobile,
-                       Callback<ResponseData> callback);
 
     @GET("/MsgCenter/AccIsJoinClass")
     void accIsJoinClass(@Header("token") String token,
                         @Query("accountid") String accountid,
                         @Query("classid") String classid,
                        Callback<ResponseData> callback);
-
-    @FormUrlEncoded
-    @POST("/MsgCenter/UpReadTime")
-    void upReadTime(@Header("token") String token,
-                    @Field("msgtype") String msgtype,        //1：复测消息 2：SP邀请SR信息 3：SR与PC申请信息 4：学员参赛信息
-                    @Field("recevieid") String recevieid,
-                    @Field("senderid") String senderid,
-                    @Field("classid") String classid,
-                    Callback<ResponseData> callback);
 
 }

@@ -9,8 +9,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -27,7 +26,6 @@
             android:id="@+id/text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textColor="@color/word"
             android:lineSpacingExtra="@dimen/messageMarginTop2"
             android:textSize="@dimen/textSize3" />

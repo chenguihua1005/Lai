@@ -94,8 +94,8 @@ public class ArrowSpinner2 extends LinearLayout{
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER);
         textView=new TextView(context);
-        textView.setMaxEms(8);
-        textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        textView.setMaxEms(10);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setMaxLines(1);
         imageView=new ImageView(context);
         addView(textView);
@@ -205,6 +205,10 @@ public class ArrowSpinner2 extends LinearLayout{
         }else {
             setImageVisibility(GONE);
         }
+    }
+    public void setSelected(int index){
+        selectedIndex=index;
+        textView.setText(adapter.getText(index));
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
