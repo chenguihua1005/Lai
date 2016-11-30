@@ -36,6 +36,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.view.AuditListActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;

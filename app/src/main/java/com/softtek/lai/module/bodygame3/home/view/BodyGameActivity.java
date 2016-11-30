@@ -29,6 +29,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
+import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -111,6 +114,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
 
         Log.i(TAG, "initViews   ......");
+        Log.e("123",UserInfoModel.getInstance().getUser().getHasThClass()+"");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -119,6 +123,11 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         btn_more.setOnClickListener(this);
 
         fragments = new ArrayList<>();
+//        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
+//            fragments.add(new HeadGameFragment());
+//        }else {
+//            fragments.add(new HeadGameFragment1());
+//        }
         fragments.add(new BodyGameFragment());
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
@@ -127,6 +136,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         content.setOffscreenPageLimit(4);
         adapter=new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
 
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

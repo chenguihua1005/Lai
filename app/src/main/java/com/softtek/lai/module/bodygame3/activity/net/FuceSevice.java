@@ -1,11 +1,13 @@
 package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 
 import java.io.File;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -35,24 +37,22 @@ public interface FuceSevice {
 
     //    提交初始数据接口
     @POST("/v1/MeasuredRecordLog/PostInitData")
-//    @Multipart
     void doPostInitData(
             @Header("token") String token,
-//            @Part("accountId") Long accountId,
-//            @Part("classId") String classId,
-//            @Part("pysical") double pysical,
-//            @Part("ChuWeight") double ChuWeight,
-//            @Part("Fat") double fat,
-//            @Part("Circum") double circum,
-//            @Part("Waistline") double waistline,
-//            @Part("Hipline") double hipline,
-//            @Part("UpArmGirth") double upArmGirth,
-//            @Part("UpLegGirth") double upLegGirth,
-//            @Part("DoLegGirth") double doLegGirth,
-//            @Part("image") TypedFile image,
-//            @Body InitComitModel initComitModel,
             @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData> callback
+    );
+
+    //    获取复测审核列表
+    @GET("/v1/MeasuredRecordLog/GetMeasureReviewedList")
+    void dogetAuditList(
+            @Header("token") String token,
+            @Query("accountId") Long accountId,
+            @Query("classId") String classId,
+            @Query("typeDate") String typeDate,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize,
+            Callback<ResponseData<List<AuditListModel>>> callback
     );
 
 

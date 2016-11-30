@@ -9,13 +9,17 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame3.head.adapter.HonorRankAdapter;
-import com.softtek.lai.module.bodygame3.head.view.WeekHonorFragment;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
+import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.adapter.RetestTabAdapter;
+import com.softtek.lai.module.bodygame3.head.view.AuditFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -39,11 +43,12 @@ public class AuditListActivity extends BaseActivity{
     List<Fragment> fragments;
     @Override
     protected void initViews() {
-        tv_title.setText("荣誉榜");
+        tv_title.setText("复测审核");
+        String[] tabtitle={"未审核（4）","已审核（10）"};
         fragments=new ArrayList<>();
-        fragments.add(WeekHonorFragment.getInstance());
-        fragments.add(WeekHonorFragment.getInstance());
-        content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(),fragments));
+        fragments.add(AuditFragment.getInstance());
+        fragments.add(AuditFragment.getInstance());
+        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(new View.OnClickListener() {
@@ -58,4 +63,5 @@ public class AuditListActivity extends BaseActivity{
     protected void initDatas() {
 
     }
+
 }

@@ -739,12 +739,20 @@
             android:name=".module.bodygame3.head.view.SearchClassActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
-        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity" />
-        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity" />
-        <activity android:name=".module.message2.view.MessageOperatorActivity"/>
+
         <activity
             android:name=".module.bodygame3.conversation.view.GroupsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.conversation.view.GroupDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.conversation.view.ClassDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity" />
+        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity" />
+        <activity android:name=".module.message2.view.MessageOperatorActivity"/>
+
     </application>
 
 </manifest>
