@@ -421,9 +421,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-                    startActivity(new Intent(getContext(), AuditListActivity.class));
-//                    startActivity(new Intent(getContext(), BodyGameActivity.class));
-//                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
+                    startActivity(new Intent(getContext(), BodyGameActivity.class));
+                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();

@@ -190,7 +190,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                     }
 
-                    if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                    if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                         reset_name.setText("复测审核");
                         iv_right.setImageResource(R.drawable.add_iv);
                         if (!activitydataModel.getRetest()) {
@@ -205,6 +205,22 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             reset_time.setText("未复测");
                         } else {
                             reset_time.setText("已复测");
+                        }
+                    }else if( Constants.COACH == (activitydataModel.getClassRole())){
+                        reset_name.setText("复测审核");
+                        iv_right.setImageResource(R.drawable.add_iv);
+                        if (!activitydataModel.getRetest()) {
+                            reset_time.setText("未审核");
+                        } else {
+                            reset_time.setText("已审核");
+                        }
+                    }else if(Constants.ASSISTANT == (activitydataModel.getClassRole())){
+                        reset_name.setText("复测审核");
+                        iv_right.setImageResource(R.drawable.add_iv);
+                        if (!activitydataModel.getRetest()) {
+                            reset_time.setText("未审核");
+                        } else {
+                            reset_time.setText("已审核");
                         }
                     }
                     //加载班级
