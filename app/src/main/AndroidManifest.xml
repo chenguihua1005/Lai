@@ -698,6 +698,9 @@
             android:name=".module.bodygame3.activity.view.AuditListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.bodygame3.activity.view.InitAuditListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.ranking.view.RankingActivity"
             android:screenOrientation="portrait" />
         <activity

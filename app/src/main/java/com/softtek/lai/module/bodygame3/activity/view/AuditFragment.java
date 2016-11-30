@@ -49,13 +49,11 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
-    private int audited;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance(int audited) {
+    public static Fragment getInstance() {
         AuditFragment fragment=new AuditFragment();
         Bundle data=new Bundle();
-        data.putInt("audited",audited);
         fragment.setArguments(data);
         return fragment;
     }
@@ -128,31 +126,33 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
-
+    //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        if (audited==0) {
             memberListModels.clear();
             pageIndex = 1;
             doGetData(Long.parseLong("4"), "C4E8E179-FD99-4955-8BF9-CF470898788B", "2016-10-22", pageIndex, 1);
-        }
     }
-
+    //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         doGetData(Long.parseLong("4"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-10-22",++pageIndex,1);
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, String typedate, int pageIndex, int pageSize) {
+    private void doGetData(Long accountid, String classid, String typedate, final int pageIndex, int pageSize) {
         fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, typedate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
+                if (pageIndex==1)
+                {
+                    listResponseData.getData().get(0).getCount();
+                }
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
+                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
                         adapter.notifyDataSetChanged();
                         Log.i("测试》》》》"+memberListModels+"dsdf"+adapter.getDatas());
                         break;
