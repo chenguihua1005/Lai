@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.conversation.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 
@@ -19,10 +21,14 @@ import java.util.List;
  */
 
 public class FriendAdapter extends BaseAdapter {
+    public static final String TAG = "NewFriendActivity";
+
     private LayoutInflater inflater;
     private List<FriendModel> friendslist;
+    private Context context;
 
     public FriendAdapter(Context context, List<FriendModel> list) {
+        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.friendslist = list;
     }
@@ -53,7 +59,7 @@ public class FriendAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.activity_newfriend, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.friend_item, viewGroup, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -61,6 +67,7 @@ public class FriendAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final FriendModel friendModel = friendslist.get(position);
+        Log.i(TAG, "friendModel = " + new Gson().toJson(friendModel));
 //        String photo = friendModel.get();
 //        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 //        if ("".equals(photo)) {
