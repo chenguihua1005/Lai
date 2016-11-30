@@ -30,6 +30,7 @@ import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
+import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -119,6 +120,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     if (0 == position) {
                         Intent intent = new Intent(getActivity(), GroupsActivity.class);//群聊列表
                         startActivity(intent);
+                    } else if (1 == position) {//新朋友
+                        Intent intent = new Intent(getActivity(), NewFriendActivity.class);//群聊列表
+                        startActivity(intent);
                     } else if (2 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                         intent.putExtra("list", (Serializable) list);
@@ -142,7 +146,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 //        list_contant.setOnRefreshListener(this);
 
         chooseView.setChooseListener(new ChooseView.OnChooseListener() {
-
             @Override
             public void onDown() {
                 tv_perview.setVisibility(View.VISIBLE);

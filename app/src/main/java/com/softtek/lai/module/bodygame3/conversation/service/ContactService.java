@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 
 import java.util.List;
 
@@ -58,6 +59,15 @@ public interface ContactService {
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<ClassMemberModel>>> callback
+    );
+
+    //新朋友列表
+
+    @GET("/v1/HerbUser/FriendApplyList")
+    void getFriendApplyList(
+            @Header("token") String token,
+            @Query("accountId") long accountId,
+            Callback<ResponseData<List<FriendModel>>> callback
     );
 
 

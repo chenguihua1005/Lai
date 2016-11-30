@@ -756,6 +756,9 @@
         <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity" />
         <activity android:name=".module.message2.view.MessageOperatorActivity" />
         <activity android:name=".module.bodygame3.conversation.view.ContactSearchActivity" />
+        <activity
+            android:name=".module.bodygame3.conversation.view.NewFriendActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

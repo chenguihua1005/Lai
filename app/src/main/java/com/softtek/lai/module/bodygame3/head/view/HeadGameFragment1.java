@@ -3,10 +3,8 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -22,14 +20,12 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
-import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
-import com.softtek.lai.module.bodygame3.head.adapter.PartnerAdapter;
+import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
+import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.head.model.RongyuModel;
@@ -37,10 +33,7 @@ import com.softtek.lai.module.bodygame3.head.model.TuijianModel;
 import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -236,11 +229,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     }
 
     private void gethasemail() {
-        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData>() {
+        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
-            public void success(ResponseData responseData, Response response) {
+            public void success(ResponseData<NewsModel>responseData, Response response) {
                 if (responseData.getData() != null) {
-                    double has = (double) responseData.getData();
+                    NewsModel newsModel=responseData.getData();
+                    int has = newsModel.getNum();
                     if (has == 0) {
                         iv_right.setImageResource(R.drawable.email);
                     } else {
