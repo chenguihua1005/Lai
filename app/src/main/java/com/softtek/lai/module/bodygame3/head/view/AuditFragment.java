@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -85,7 +86,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
         adapter=new EasyAdapter<AuditListModel>(getContext(),auditListModels,R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, AuditListModel data, int position) {
-
+                TextView username=holder.getView(R.id.tv_username);
             }
         };
         plv_audit.setAdapter(adapter);
@@ -121,7 +122,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
                 {
                     case 200:
 //                        if (listResponseData)
-                        memberListModels=listResponseData.getData().get(0).getMemberList();
+                        memberListModels=listResponseData.getData().get(1).getMemberList();
                         adapter.notifyDataSetChanged();
                         break;
                     default:
