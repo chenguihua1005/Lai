@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="15dp"
-        android:background="@color/white">
+        android:background="@drawable/ll_selector_grey">
         <ImageView
             android:id="@+id/iv_manager"
             android:layout_width="wrap_content"

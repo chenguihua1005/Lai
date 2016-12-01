@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,8 +24,6 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +38,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.iv_left)
+    ImageView iv_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.fl_right)
@@ -114,7 +115,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     protected void initDatas() {
-
+        iv_left.setImageResource(R.drawable.back_home);
     }
 
     @Override

@@ -16,17 +16,11 @@ import java.util.HashSet;
  */
 public class SchelDecorator implements DayViewDecorator {
     private int mode;
-    private String mtext;
     private HashSet<CalendarDay> dates;
     private Context context;
 
-    private String type;
-
-    //    public SchelDecorator(String mode, String mtext, Collection<CalendarDay> dates, Context context) {
     public SchelDecorator(int mode, Collection<CalendarDay> dates, Context context) {
-
         this.mode = mode;
-//        this.mtext = mtext;
         this.dates = new HashSet<>(dates);
         this.context = context;
 
@@ -39,8 +33,7 @@ public class SchelDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-//        view.addSpan(new Textspan(mode, mtext));
-        view.addSpan(new Textspan(mode));
+        view.addSpan(new Textspan(context,mode));
 
     }
 }

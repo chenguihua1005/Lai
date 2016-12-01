@@ -23,6 +23,7 @@ import static java.util.Calendar.DATE;
 abstract class CalendarPagerView extends ViewGroup implements View.OnClickListener {
 
     protected static final int DEFAULT_DAYS_IN_WEEK = 7;
+    //    private static final int DAY_OF_WEEK=Calendar.DAY_OF_WEEK;
     protected static final int DEFAULT_MAX_WEEKS = 6;
     protected static final int DAY_NAMES_ROW = 1;
     private static final Calendar tempWorkingCalendar = CalendarUtils.getInstance();
@@ -54,7 +55,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
         buildDayViews(dayViews, resetAndGetWorkingCalendar());
     }
 
-    // CalendarUtils.getDayOfWeek(calendar)： 表示当前日期是一个星期的第几天,也就是周几
+    // CalendarUtils.getDayOfWeek(calendar);// 表示当前日期是一个星期的第几天,也就是周几
     private void buildWeekDays(Calendar calendar) {
         for (int i = 0; i < DEFAULT_DAYS_IN_WEEK; i++) {
             WeekDayView weekDayView = new WeekDayView(getContext(), CalendarUtils.getDayOfWeek(calendar));
@@ -223,11 +224,11 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             throw new IllegalStateException("CalendarPagerView should never be left to decide it's size");
         }
 
-        //The spec width should be a correct multiple
+        //The spec width should be a correct multiple:规格宽度应该是一个正确的倍数
         final int measureTileWidth = specWidthSize / DEFAULT_DAYS_IN_WEEK;
         final int measureTileHeight = specHeightSize / getRows();
 
-        //Just use the spec sizes
+        //Just use the spec sizes:只使用规格尺寸
         setMeasuredDimension(specWidthSize, specHeightSize);
 
         int count = getChildCount();
@@ -275,10 +276,10 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             final int height = child.getMeasuredHeight();
 
             child.layout(childLeft, childTop, childLeft + width, childTop + height);
-
+            //下一个日期的左边距再增加一个DayView的宽度
             childLeft += width;
 
-            //We should warp every so many children
+            //We should warp every so many children   每循环七天，就要将上边距加一个DayView的高度
             if (i % DEFAULT_DAYS_IN_WEEK == (DEFAULT_DAYS_IN_WEEK - 1)) {
                 childLeft = parentLeft;
                 childTop += height;

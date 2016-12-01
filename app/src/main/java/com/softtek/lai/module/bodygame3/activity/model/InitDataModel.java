@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.activity.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 11/24/2016.
  */
-public class InitDataModel {
+public class InitDataModel implements Serializable {
     //获取初始数据基本信息及获取复测数据信息
     private String UserName;//用户名
     private String Photo;//用户头像
@@ -15,13 +17,14 @@ public class InitDataModel {
     private String Fat;//内酯
     private String Circum;//胸围
     private String Waistline;//腰围
-    private String Hiplie;//体重
+    private String Hiplie;//臀围
     private String UpArmGirth;//上臂围
     private String UpLegGirth;//大腿围
     private String DoLegGirth;//小腿围
     private String WeekNum;//第几周
     private String StartDate;//开始日期
     private String EndDate;//结束日期
+    private String Gender;//性别
 
     @Override
     public String toString() {
@@ -43,7 +46,16 @@ public class InitDataModel {
                 ", WeekNum='" + WeekNum + '\'' +
                 ", StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
+                ", Gender='" + Gender + '\'' +
                 '}';
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
     }
 
     public String getWeekNum() {
