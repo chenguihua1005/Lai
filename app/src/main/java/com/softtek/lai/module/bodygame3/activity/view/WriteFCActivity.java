@@ -435,8 +435,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         multipartTypedOutput.addPart("waistline",new TypedString(initDataModel.getWaistline().toString()));//腰围
         multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
         multipartTypedOutput.addPart("upArmGirth",new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
-        multipartTypedOutput.addPart("upLegGirth",new TypedString(initDataModel.getUpLegGirth()));//大腿围
-        multipartTypedOutput.addPart("doLegGirth",new TypedString(initDataModel.getDoLegGirth()));//小腿围
+        multipartTypedOutput.addPart("upLegGirth",new TypedString(initDataModel.getUpLegGirth().toString()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth",new TypedString(initDataModel.getDoLegGirth().toString()));//小腿围
         Log.i("上传数据"+multipartTypedOutput.getPartCount());
         doPostInitData();
 //        if (TextUtils.isEmpty(retestWrite.getImage()))
