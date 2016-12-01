@@ -206,6 +206,9 @@
             android:name=".module.home.view.ModifyPersonActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.bodygame3.head.view.PersonDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.home.view.ModifyPhotoActivity"
             android:screenOrientation="portrait" />
         <activity

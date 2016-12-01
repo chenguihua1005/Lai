@@ -24,6 +24,15 @@ public class PersonDetailActivity extends BaseActivity {
     LinearLayout gallery;
     @Override
     protected void initViews() {
+
+    }
+
+    @Override
+    protected void initDatas() {
+        mInflater=LayoutInflater.from(this);
+        mImgIds = new int[] { R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,
+            R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,
+                R.drawable.img_default,R.drawable.img_default};
         for(int i=0;i<mImgIds.length;i++)
         {
 
@@ -35,13 +44,5 @@ public class PersonDetailActivity extends BaseActivity {
             gallery.addView(view);
 
         }
-    }
-
-    @Override
-    protected void initDatas() {
-        mInflater=LayoutInflater.from(this);
-        mImgIds = new int[] { R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,
-            R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,R.drawable.img_default,
-                R.drawable.img_default,R.drawable.img_default};
     }
 }
