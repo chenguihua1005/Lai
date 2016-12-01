@@ -8,7 +8,6 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -37,10 +38,9 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
- *
  */
 @InjectLayout(R.layout.activity_message_confirm)
-public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener{
+public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -90,28 +90,28 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        msgId=getIntent().getStringExtra("msgId");
-        service=ZillaApi.NormalRestAdapter.create(Message2Service.class);
+        msgId = getIntent().getStringExtra("msgId");
+        service = ZillaApi.NormalRestAdapter.create(Message2Service.class);
         service.getInvitationDetail(UserInfoModel.getInstance().getToken(),
-                        msgId,
-                        new RequestCallback<ResponseData<InvitationConfirmShow>>() {
-                            @Override
-                            public void success(ResponseData<InvitationConfirmShow> data, Response response) {
-                                if(data.getStatus()==200){
-                                    onResult(data.getData());
-                                }
-                            }
-                        });
+                msgId,
+                new RequestCallback<ResponseData<InvitationConfirmShow>>() {
+                    @Override
+                    public void success(ResponseData<InvitationConfirmShow> data, Response response) {
+                        if (data.getStatus() == 200) {
+                            onResult(data.getData());
+                        }
+                    }
+                });
 
     }
 
-    public void onResult(InvitationConfirmShow show){
-        this.show=show;
+    public void onResult(InvitationConfirmShow show) {
+        this.show = show;
         tv_invitater_name.setText(show.getSender());
         tv_head_coach_name.setText(show.getClassMasterName());
-        if (TextUtils.isEmpty(show.getClassMasterPhoto())){
+        if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
-        }else {
+        } else {
             Picasso.with(this).load(R.drawable.img_default).fit()
                     .error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(head_image);
@@ -119,8 +119,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         tv_class_name.setText(show.getClassName());
         tv_class_code.setText(show.getClassCode());
         tv_first_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd)
-                .convertDateStr(show.getClassStart(),"yyyy年MM月dd日"));
-        int role=show.getClassRole();
+                .convertDateStr(show.getClassStart(), "yyyy年MM月dd日"));
+        int role = show.getClassRole();
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
         btn_no.setEnabled(true);
@@ -131,7 +131,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent =getIntent();
+            Intent intent = getIntent();
             //设置返回数据
             setResult(RESULT_OK, intent);
             finish();
@@ -139,6 +139,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,7 +156,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
-                                if(responseData.getStatus()==200){
+                                if (responseData.getStatus() == 200) {
 
                                 }
                             }
@@ -177,11 +178,21 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
-                                if(responseData.getStatus()==200){
+                                if (responseData.getStatus() == 200) {
                                     //确认成
                                     Util.toastMsg(responseData.getMsg());
+                                    //换信加入群 show
+//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
+//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
+                                    try {
+                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                    } catch (HyphenateException e) {
+                                        Util.toastMsg("同意失败:" + e.getMessage());
+                                        e.printStackTrace();
+                                    }
 
-                                }else if(responseData.getStatus()==201){
+
+                                } else if (responseData.getStatus() == 201) {
                                     //该用户已经加入班级
                                     Util.toastMsg(responseData.getMsg());
                                 }
@@ -195,7 +206,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.rl_aixin:
-                startActivityForResult(new Intent(this,EditorPhoneActivity.class),100);
+                startActivityForResult(new Intent(this, EditorPhoneActivity.class), 100);
                 break;
 
         }
@@ -204,8 +215,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==200&&resultCode==100){
-            introducerId=data.getLongExtra("accountId",0);
+        if (requestCode == 200 && resultCode == 100) {
+            introducerId = data.getLongExtra("accountId", 0);
         }
     }
 }

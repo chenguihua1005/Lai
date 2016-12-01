@@ -68,8 +68,6 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
                     break;
             }
         }
-
-
     };
 
     private void refresh() {
@@ -136,7 +134,6 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     private void getNewFriendList() {
         friendList.clear();
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        //UserInfoModel.getInstance().getUserId()
         Log.i(TAG, (UserInfoModel.getInstance().getToken() + " ++++ " + UserInfoModel.getInstance().getUserId()));
         service.getFriendApplyList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<FriendModel>>>() {
             @Override

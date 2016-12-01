@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -100,6 +101,13 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
         members = new ArrayList<ClassMemberModel>();
         memberAdapter = new MemberAdapter(members, this);
         group_list.setAdapter(memberAdapter);
+        group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+            }
+        });
         getClassMembers(classId);
 
     }
@@ -114,11 +122,9 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
                 classListInfoModel = listResponseData.getData();
-                members = classListInfoModel.getMembers();
+                members.addAll(classListInfoModel.getContactList());
                 Log.i(TAG, "members = " + members);
-                if (members != null) {
-                    memberAdapter.updateData(members);
-                }
+                memberAdapter.updateData(members);
             }
 
             @Override

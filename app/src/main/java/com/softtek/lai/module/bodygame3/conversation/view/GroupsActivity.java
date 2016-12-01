@@ -217,7 +217,9 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
             public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
                 classModels = listResponseData.getData();
                 Log.i(TAG, "classModels = " + classModels);
-                groupAdapter.updateData(classModels);
+                if (classModels != null) {
+                    groupAdapter.updateData(classModels);
+                }
 
             }
 

@@ -71,7 +71,7 @@ public interface ContactService {
             Callback<ResponseData<List<FriendModel>>> callback
     );
 
-    //移除好友申请信息 /v1/HerbUser/RemoveFriendApplyInfo
+    //移除好友申请信息
 
 
     @POST("/v1/HerbUser/RemoveFriendApplyInfo")
@@ -89,6 +89,14 @@ public interface ContactService {
             @Header("token") String token,
             @Query("applyId") String applyId,
             @Query("isAgree") int isAgree,
+            Callback<ResponseData> callback
+    );
+
+    //解散班级环信群
+    @GET("/v1/MsgCenter/DissolutionHxGroup")
+    void dissolutionHxGroup(
+            @Header("token") String token,
+            @Query("ClassId") String ClassId,
             Callback<ResponseData> callback
     );
 

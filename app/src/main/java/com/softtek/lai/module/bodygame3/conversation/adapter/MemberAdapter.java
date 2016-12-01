@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jessica.zhang on 2016/11/29.
@@ -54,7 +57,7 @@ public class MemberAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.chat_contant_list_item, null);
+            convertView = inflater.inflate(R.layout.member_list_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
@@ -66,15 +69,15 @@ public class MemberAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ClassMemberModel model = members.get(position);
-//        String photo = contactListInfo.getPhoto();
-//        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//        if ("".equals(photo)) {
-//            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
-//        } else {
-//            Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
-//        }
+        String photo = model.getPhoto();
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if ("".equals(photo)) {
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+        } else {
+            Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
+        }
         holder.img.setImageResource(R.drawable.img_default);
-        holder.text_name.setText(model.getCGName());
+        holder.text_name.setText(model.getUserName() + "(" + model.getCGName() + ")");
         return convertView;
     }
 
