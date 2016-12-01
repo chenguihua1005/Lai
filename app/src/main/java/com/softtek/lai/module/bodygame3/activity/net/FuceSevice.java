@@ -39,7 +39,7 @@ public interface FuceSevice {
     @POST("/v1/MeasuredRecordLog/PostInitData")
     void doPostInitData(
             @Header("token") String token,
-            @Body MultipartTypedOutput multipartTypedOutput,
+            @Body InitComitModel comitModel,
             Callback<ResponseData> callback
     );
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -85,7 +86,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_retest_doleggirth)
     RelativeLayout ll_retest_doleggirth;
 
-    private InitComitModel initComitModel;
+    private InitDataModel initDataModel;
     private RetestPre retestPre;
     MeasureModel measureModel;
     String img="";
@@ -113,15 +114,14 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("添加记录");
-        initComitModel= (InitComitModel) getIntent().getSerializableExtra("retestWrite");
+        initDataModel= (InitDataModel) getIntent().getSerializableExtra("retestWrite");
 
-        tv_retest_circum.setText(initComitModel.getCircum()+"");
-        tv_retest_waistline.setText(initComitModel.getWaistline()+"");
-        tv_retest_hiplie.setText(initComitModel.getPysical()+"");
-        tv_retest_uparmgirth.setText(initComitModel.getUpArmGirth()+"");
-        tv_retest_upleggirth.setText(initComitModel.getUpLegGirth()+"");
-        tv_retest_doleggirth.setText(initComitModel.getDoLegGirth()+"");
-
+        tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum())?"":initDataModel.getCircum());
+        tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline())?"":initDataModel.getCircum());
+        tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie());
+        tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth())?"":initDataModel.getCircum());
+        tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth())?"":initDataModel.getCircum());
+        tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth())?"":initDataModel.getCircum());
 
 
     }
@@ -160,15 +160,15 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
             //保存记录......
             case R.id.btn_retest_save:
 
-                initComitModel=new InitComitModel();
-                initComitModel.setCircum(tv_retest_circum.getText()+"");
-                initComitModel.setWaistline(tv_retest_waistline.getText().toString());
-                initComitModel.setPysical(tv_retest_hiplie.getText().toString());
-                initComitModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
-                initComitModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());
-                initComitModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());
+                initDataModel=new InitDataModel();
+                initDataModel.setCircum(tv_retest_circum.getText()+"");//胸围
+                initDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
+                initDataModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
+                initDataModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围
+                initDataModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());//大腿围
+                initDataModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());//小腿围
                 Intent intent=new Intent();
-                intent.putExtra("retestWrite",initComitModel);
+                intent.putExtra("retestWrite",initDataModel);
                 setResult(RESULT_OK,intent);
                 finish();
 
