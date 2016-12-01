@@ -40,6 +40,9 @@
     <string name="forgetPsd">
         <u>忘记密码?</u>
     </string>
+    <string name="ZQS">
+        <u>本人已仔细阅读 《康宝莱使用知情书》</u>
+    </string>
 
     <string name="neterror">服务器异常</string>
     <string name="newPasswordNull">请输入新密码</string>

@@ -9,18 +9,19 @@
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="5dp"/>
-            <solid android:color="#E1E1E1"/>
-            <stroke android:color="#FFA200"
-                android:width="1px"/>
+            <solid android:color="#B2FFA200"/>
         </shape>
     </item>
-
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="5dp"/>
+            <solid android:color="#B2FFA200"/>
+        </shape>
+    </item>
     <item>
         <shape>
             <corners android:radius="5dp"/>
-            <solid android:color="@color/white"/>
-            <stroke android:color="#FFA200"
-                android:width="1px"/>
+            <solid android:color="#FFA200"/>
 
         </shape>
     </item>
