@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.SendInvitation;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.BottomSheetDialog;
@@ -124,7 +127,11 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
         }
         tv_name.setText(StringUtil.showName(invitater.getInviterName(),invitater.getInviterMobile()));
-        tv_tianshi.setText("奶昔天使 "+invitater.getInviterMLUserName());
+        if(TextUtils.isEmpty(invitater.getInviterMLUserName())){
+            tv_tianshi.setText("暂无奶昔天使");
+        }else {
+            tv_tianshi.setText("奶昔天使 "+invitater.getInviterMLUserName());
+        }
         tv_class_name.setText(invitater.getClassName());
         tv_create_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(),"yyyy年MM月dd日"));
         tv_number.setText(invitater.getClassCode());
@@ -227,15 +234,24 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         lv.setDivider(new ColorDrawable(0xFFE1E1E1));
         lv.setDividerHeight(1);
         lv.setAdapter(adapter);
+        TextView title=new TextView(this);
+        title.setText(isGroup?"选择组":"选择角色");
+        title.setTextColor(0xFF999999);
+        title.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,5,getResources().getDisplayMetrics()));
+        title.setWidth(DisplayUtil.getMobileWidth(this));
+        title.setHeight(DisplayUtil.dip2px(this,40));
+        title.setPadding(DisplayUtil.dip2px(this,15),0,0,0);
+        title.setGravity(Gravity.CENTER|Gravity.LEFT);
+        lv.addHeaderView(title);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(isGroup){
-                    ClassGroup group=classGroupList.get(i);
+                    ClassGroup group=classGroupList.get(i-1);
                     tv_group_name.setText(group.getCGName());
                     invitation.setClassGroupId(group.getCGId());
                 }else {
-                    ClassRole role=classRole.get(i);
+                    ClassRole role=classRole.get(i-1);
                     tv_role.setText(role.getRoleName());
                     invitation.setClassRole(role.getRoleId());
                 }

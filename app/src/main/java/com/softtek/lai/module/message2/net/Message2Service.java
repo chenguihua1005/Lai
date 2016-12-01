@@ -8,6 +8,7 @@ package com.softtek.lai.module.message2.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message2.model.AiXinStudent;
+import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
@@ -84,4 +85,9 @@ public interface Message2Service {
                       @Query("status")int status,
                       @Query("IntroducerId")long introducerId,
                       Callback<ResponseData> callback);
+    //获取申请参数确认信息
+    @GET("/V1/MsgCenter/ShowApplyJionClass")
+    void getShenQingJoinInfo(@Header("token")String token,
+                             @Query("MsgId")String msgId,
+                             Callback<ResponseData<ApplyConfirm>> callback);
 }

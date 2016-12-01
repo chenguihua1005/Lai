@@ -8,8 +8,6 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -128,17 +126,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent =getIntent();
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -178,8 +166,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
                                 if(responseData.getStatus()==200){
-                                    //确认成
+                                    //确认成功
                                     Util.toastMsg(responseData.getMsg());
+
 
                                 }else if(responseData.getStatus()==201){
                                     //该用户已经加入班级

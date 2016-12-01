@@ -94,9 +94,15 @@ public class MessageOperatorActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 OperateMsgModel model=operatList.get(i);
-                if ("1".equals(model.getIsDo())) {
+                /*if ("1".equals(model.getIsDo())) {
                     Util.toastMsg("该消息已操作过, 不能重复操作");
                 } else {
+                }*/
+                if(5==model.getMsgtype()){
+                    Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
+                    intent.putExtra("msgId", model.getMsgid());
+                    startActivityForResult(intent, 10);
+                }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
                     startActivityForResult(intent, 0);

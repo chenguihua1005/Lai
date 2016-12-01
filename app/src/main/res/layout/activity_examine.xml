@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -38,11 +37,10 @@
                 android:src="@drawable/img_default" />
 
             <TextView
-                android:id="@+id/tv_head_coach_name"
+                android:id="@+id/tv_apply_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="小王"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -66,13 +64,12 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_class_name"
+            android:id="@+id/tv_quality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:text="超级减重班"
             android:textColor="#333333"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -95,13 +92,12 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_class_code"
+            android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:text="32131321"
             android:textColor="#333333"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -124,13 +120,12 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_first_time"
+            android:id="@+id/tv_tianshi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:text="1026年11月1日"
             android:textColor="#333333"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -139,6 +134,7 @@
         android:layout_height="0.5dp"
         android:background="#e1e1e1"/>
     <RelativeLayout
+        android:id="@+id/rl_group"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
@@ -153,13 +149,12 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_role_name"
+            android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:text="学员"
             android:textColor="#333333"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -168,32 +163,29 @@
         android:layout_height="0.5dp"
         android:background="#e1e1e1"/>
     <RelativeLayout
+        android:id="@+id/rl_role"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <TextView
-            android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="15dp"
-            android:text="A组"
+            android:layout_marginLeft="15dp"
+            android:text="选择角色"
             android:textColor="#333333"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_role_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="选择角色"
+            android:layout_marginRight="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
             android:textColor="#666666"
-            android:textSize="15sp"
-            android:layout_alignBaseline="@+id/tv_group_name"
-            android:layout_alignBottom="@+id/tv_group_name"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="14dp"
-            android:id="@+id/textView4" />
+            android:textSize="15sp" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
