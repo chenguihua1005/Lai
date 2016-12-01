@@ -1,6 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -248,6 +251,37 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
             }
                 break;
             case R.id.rl_closs_class:{
+                new AlertDialog.Builder(this)
+                        .setTitle("解散班级")
+                        .setMessage("此操作将会解散班级")
+                        .setNegativeButton("取消",null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogShow("正在解散");
+                                ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                        .shutDownClass(UserInfoModel.getInstance().getToken(),
+                                                classId,
+                                                new RequestCallback<ResponseData>() {
+                                                    @Override
+                                                    public void success(ResponseData responseData, Response response) {
+                                                        dialogDissmiss();
+                                                        if(responseData.getStatus()==200){
+                                                            EventBus.getDefault().post(new UpdateClass(2,classModel));
+                                                            finish();
+                                                        }else {
+                                                            Util.toastMsg(responseData.getMsg());
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void failure(RetrofitError error) {
+                                                        dialogDissmiss();
+                                                        super.failure(error);
+                                                    }
+                                                });
+                            }
+                        });
 
             }
             break;

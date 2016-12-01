@@ -154,5 +154,10 @@ public interface MoreService {
     void getLossLevel(@Header("token")String token,
                       @Query("AccountId")long accountId,
                       Callback<ResponseData<LossWeightAndFat>> callback);
+    //关闭班级
+    @GET("/V1/MsgCenter/ShutDownClass")
+    void shutDownClass(@Header("token")String token,
+                       @Query("ClassId")String classId,
+                       Callback<ResponseData> callback);
 
 }

@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ClassListInfoModel {
     private int TotalPages;
-    private List<ClassMemberModel> Members;
+    private List<ClassMemberModel> ContactList;
 
-    public ClassListInfoModel(int totalPages, List<ClassMemberModel> members) {
+    public ClassListInfoModel(int totalPages, List<ClassMemberModel> contactList) {
         TotalPages = totalPages;
-        Members = members;
+        ContactList = contactList;
     }
 
     public int getTotalPages() {
@@ -23,11 +23,11 @@ public class ClassListInfoModel {
         TotalPages = totalPages;
     }
 
-    public List<ClassMemberModel> getMembers() {
-        return Members;
+    public List<ClassMemberModel> getContactList() {
+        return ContactList;
     }
 
-    public void setMembers(List<ClassMemberModel> members) {
-        Members = members;
+    public void setContactList(List<ClassMemberModel> contactList) {
+        ContactList = contactList;
     }
 }

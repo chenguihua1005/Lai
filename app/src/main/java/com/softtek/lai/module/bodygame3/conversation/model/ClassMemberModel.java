@@ -11,8 +11,8 @@ public class ClassMemberModel {
     private String UserEn;
     private String Mobile;
     private String Photo;
-    private String CGId;
-    private String CGName;
+    private String CGId;//组Id
+    private String CGName;//组名
     private String Role;
     private String AddTime;
     private int IsFriend;//是否是好友（1：是， 0：否）
