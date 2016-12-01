@@ -37,7 +37,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_activitydetail)
-public class ActivitydetailActivity extends BaseActivity implements View.OnClickListener{
+public class ActivitydetailActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.detail_view)
@@ -54,6 +54,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     LinearLayout sign_lin;//报名活动/删除活动
     @InjectView(R.id.exit_lin)
     LinearLayout exit_lin;//退出
+    @InjectView(R.id.exit_tv)
+    TextView exit_tv;//退出活动
     @InjectView(R.id.delete_activity)
     Button delete_activity;
     @InjectView(R.id.signup_activity)
@@ -67,6 +69,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     protected void initViews() {
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
+        delete_activity.setOnClickListener(this);
+        exit_tv.setOnClickListener(this);
 
     }
 
@@ -124,9 +128,37 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.signup_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        Util.toastMsg(responseData.getMsg());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
+                break;
+            case R.id.delete_activity:
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        Util.toastMsg(responseData.getMsg());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
+                break;
+            case R.id.exit_tv:
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());

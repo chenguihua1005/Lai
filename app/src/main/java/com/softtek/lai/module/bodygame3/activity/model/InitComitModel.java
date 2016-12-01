@@ -1,23 +1,25 @@
 package com.softtek.lai.module.bodygame3.activity.model;
 
+import java.io.Serializable;
+
 import retrofit.mime.TypedFile;
 
 /**
  * Created by lareina.qiao on 2016/11/22.
  */
 
-public class InitComitModel {
-    private Long accountId;
-    private String classId;
-    private double pysical;
-    private double ChuWeight;
-    private double fat;
-    private double circum;
-    private double waistline;
-    private double upArmGirth;
-    private double upLegGirth;
-    private double doLegGirth;
-    private TypedFile image;
+public class InitComitModel implements Serializable{
+    private Long accountId;//用户id
+    private String classId;//班级id
+    private double pysical;//体脂
+    private double ChuWeight;//体重
+    private double fat;//内脂
+    private double circum;//胸围
+    private double waistline;//腰围
+    private double upArmGirth;//上臂围
+    private double upLegGirth;//大腿围
+    private double doLegGirth;//小腿围
+    private TypedFile image;//头像
 
     @Override
     public String toString() {

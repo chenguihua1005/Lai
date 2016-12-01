@@ -156,7 +156,7 @@ class DayView extends CheckedTextView {
 
         if (!isInMonth && shouldBeVisible) {
             setTextColor(getTextColors().getColorForState(
-                    new int[]{-android.R.attr.state_enabled}, Color.GRAY));
+                    new int[]{android.R.attr.state_enabled}, Color.GRAY));
         }
         setVisibility(shouldBeVisible ? View.VISIBLE : View.INVISIBLE);
     }
@@ -202,7 +202,7 @@ class DayView extends CheckedTextView {
             drawable.addState(new int[]{android.R.attr.state_pressed}, generateCircleDrawable(color));
         }
 
-        drawable.addState(new int[]{}, generateCircleDrawable(Color.TRANSPARENT));
+       drawable.addState(new int[]{}, generateCircleDrawable(Color.TRANSPARENT));
 
         return drawable;
     }
