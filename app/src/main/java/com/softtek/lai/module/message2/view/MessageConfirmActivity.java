@@ -36,7 +36,8 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
+ * 操作消息确认
+ * Created by jerry.guan on 1/12/2016.
  */
 @InjectLayout(R.layout.activity_message_confirm)
 public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
