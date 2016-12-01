@@ -2,10 +2,8 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.forlong401.log.transaction.utils.Utils;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.softtek.lai.R;
@@ -28,7 +25,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivityModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
-import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.more.view.EditorTextActivity;
 import com.softtek.lai.utils.RequestCallback;
@@ -44,7 +40,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -232,13 +227,13 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ActtypeModel acttypeModel = acttypeModels.get(i);
-                if (acttypeModel.getActivityTypeId() == 2) {
+//                if (acttypeModel.getActivityTypeId() == 2) {
                     classActivityId = acttypeModel.getActivityTypeId();
                     tv_activity_type.setText(acttypeModel.getActivityTypeName());
                     String path = AddressManager.get("photoHost");
                     Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).into(type_iv);
                     builder.dismiss();
-                }
+//                }
             }
         });
         iv_cancle.setOnClickListener(new View.OnClickListener() {

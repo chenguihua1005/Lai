@@ -758,8 +758,9 @@
         <activity
             android:name=".module.bodygame3.conversation.view.NewFriendActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.message2.view.EditorPhoneActivity"/>
-        <activity android:name=".module.message2.view.ExamineActivity"/>
+        <activity android:name=".module.message2.view.EditorPhoneActivity" />
+        <activity android:name=".module.message2.view.ExamineActivity" />
+        <activity android:name=".module.bodygame3.head.view.PantnerActivity"></activity>
     </application>
 
 </manifest>

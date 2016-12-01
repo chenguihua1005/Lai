@@ -110,11 +110,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     ImageView iv_right;
     @InjectView(R.id.grid_list)
     GridView grid_list;
+    @InjectView(R.id.re_search_bottom)
+    RelativeLayout re_search_bottom;
     private List<PartnersModel> partnersModels = new ArrayList<PartnersModel>();
     private List<TuijianModel> tuijianModels = new ArrayList<TuijianModel>();
     private int typecode;
     private List<ClassModel> classModels = new ArrayList<ClassModel>();
-    private String classid;
+//    private String classid;
     private String classId_first;
     String path = AddressManager.get("photoHost");
     private List<String> photos = new ArrayList<>();
@@ -128,7 +130,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initViews() {
+        searchContent.setOnClickListener(this);
         re_honor.setOnClickListener(this);
+        re_search_bottom.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -167,21 +171,25 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
 
         });
-        spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 typecode = datas.get(i).getTypecode();
                 updatepartner(typecode, 100, 1);//按类型分页加载小伙伴
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
+
         Log.e("ddddd", UserInfoModel.getInstance().getToken() + "," + UserInfoModel.getInstance().getUser().getUserid());
 
         getallfirst();
+
+
+        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                classId_first = classModels.get(i).getClassId();
+            }
+        });
         adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
             @Override
 
@@ -231,9 +239,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private void gethasemail() {
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
-            public void success(ResponseData<NewsModel>responseData, Response response) {
+            public void success(ResponseData<NewsModel> responseData, Response response) {
                 if (responseData.getData() != null) {
-                    NewsModel newsModel=responseData.getData();
+                    NewsModel newsModel = responseData.getData();
                     int has = newsModel.getNum();
                     if (has == 0) {
                         iv_right.setImageResource(R.drawable.email);
@@ -267,20 +275,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                             @Override
                             public String getText(int position) {
-                                classId_first = classModels.get(position).getClassId();
+                classId_first = classModels.get(position).getClassId();
 
                                 return classModels.get(position).getClassName();
-                            }
-                        });
-                        tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                classid = classModels.get(i).getClassId();
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-
                             }
                         });
                     }
@@ -396,23 +393,15 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.searchContent:
-//                Intent intent=new Intent(getContext(),)
-//                String content = searchContent.getText().toString().trim();
-//                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new RequestCallback<ResponseData<PartnersModel>>() {
-//                    @Override
-//                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
-//                        Util.toastMsg(partnersModelResponseData.getMsg());
-//
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        super.failure(error);
-//                    }
-//                });
+                Intent intent = new Intent(getContext(), PantnerActivity.class);
+                intent.putExtra("classId_first",classId_first);
+                startActivity(intent);
                 break;
             case R.id.re_honor:
                 startActivity(new Intent(getContext(), HonorActivity.class));
+                break;
+            case R.id.re_search_bottom:
+
                 break;
         }
     }
