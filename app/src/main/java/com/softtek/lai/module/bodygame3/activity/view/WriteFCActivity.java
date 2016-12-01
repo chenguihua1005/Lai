@@ -37,6 +37,7 @@ import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -48,6 +49,7 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -322,11 +324,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 show_information("内脂",30,2,1,9,0,0,3);
                 break;
             case R.id.im_retestwrite_showphoto:
-                /*Intent intent1=new Intent(this,PictureActivity.class);
-                ArrayList<String> imags=new ArrayList<>();
-                intent1.putExtra("images",imags);
+                Intent intent1=new Intent(this, PictureActivity.class);
+                ArrayList<String> images=new ArrayList<>();
+                intent1.putExtra("images",images);
                 intent1.putExtra("position",0);
-                startActivity(intent1);*/
+                startActivity(intent1);
                 break;
 
 
@@ -484,6 +486,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                     String url= AddressManager.get("photoHost");
                                     Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
                                 }
+//                                if (!TextUtils.isEmpty(initDataModel.getPhoto()))
+//                                {
+//                                    String url= AddressManager.get("photoHost");
+//                                    Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
+//                                }
                                 tv_write_class.setText(initDataModel.getClassName());//班级名
                                 tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
                                 String Stardata[]=initDataModel.getStartDate().split("-");
