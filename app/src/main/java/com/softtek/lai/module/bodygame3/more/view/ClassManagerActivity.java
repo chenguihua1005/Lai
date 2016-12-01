@@ -282,6 +282,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                                                 });
                             }
                         });
+
             }
             break;
         }

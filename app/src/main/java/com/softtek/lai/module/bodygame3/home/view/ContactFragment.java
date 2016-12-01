@@ -100,8 +100,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         search_hint.setText("通过姓名,手机号或康宝莱资格证号搜索");
 
         ll_search.setOnClickListener(this);
-
-
     }
 
     @Override
