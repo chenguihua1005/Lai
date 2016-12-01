@@ -67,7 +67,6 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     private List<ContactClassModel> classModels;
 
 
-    //    protected List<EMGroup> grouplist;
 //    protected List<EMGroup> grouplist;
 
     private GroupAdapter groupAdapter;

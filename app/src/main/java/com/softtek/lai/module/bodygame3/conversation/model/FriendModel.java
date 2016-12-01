@@ -5,31 +5,31 @@ package com.softtek.lai.module.bodygame3.conversation.model;
  */
 
 public class FriendModel {
-//"ApplyId": "8e33be15-cc6e-48dc-8822-60aaa60de539",  --申请记录ID
-//        "UserId": 48,
-//        "UserName": "j季军",
-//        "Role": 0,  -- 0：发送者(显示同意和拒绝按钮)， 1：接收者（显示对方的处理状态）
-//        "HxGroupId": null,   --群组环信ID
-//        "HxAccountId": "6c3577e47e0363df0b9aef37aaec907f", -- 好友环信ID
-//        "SendTime": "2016-11-28 09:28:43",
-//        "AcceptTime": "",
-//        "Status": 0,  --0:未处理 1：已同意，-1：已拒绝
-//        "Comment": null  ---备注
+//    "ApplyId":"8e33be15-cc6e-48dc-8822-60aaa60de539",--申请记录ID
+//    "UserId":48,
+//            "UserName":"j季军",
+//            "Photo":"",---头像
+//    "ClassName":"班级2",--班级名称
+//    "ClassRole":4,---班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
+//    "Role":0,--0：
+//
+//    发送者(显示同意和拒绝按钮)
+//
+//    ， 1：接收者（显示对方的处理状态）
+//            "HxGroupId":null,--群组环信ID
+//    "HxAccountId":"6c3577e47e0363df0b9aef37aaec907f",--好友环信ID
+//    "SendTime":"2016-11-28 09:28:43",
+//            "AcceptTime":"",
+//            "Status":0,--0:未处理 1：已同意，-1：已拒绝
+//    "Comment":null---备注
 
-//    "AcceptTime": "2016-11-29 14:31:22",
-//            "ApplyId": "9f5076ba-e5d3-4e16-a2f0-570024ca5e3a",
-//            "Comment": "",
-//            "HxAccountId": "44e6791bed25180e3b0090e6e8c1729c",
-//            "HxGroupId": "",
-//            "Role": 0,
-//            "SendTime": "2016-11-29 14:23:10",
-//            "Status": 1,
-//            "UserId": 4355,
-//            "UserName": "莫奕"
 
     private String ApplyId;//申请记录ID
     private int UserId;
     private String UserName;
+    private String Photo;//头像
+    private String ClassName;//班级名称
+    private int ClassRole;//班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
     private int Role;//发送者(显示同意和拒绝按钮)， 1：接收者（显示对方的处理状态）
     private String HxGroupId;//群组环信ID
     private String HxAccountId;//好友环信ID
@@ -38,17 +38,28 @@ public class FriendModel {
     private int Status;//0:未处理 1：已同意，-1：已拒绝
     private String Comment;//备注
 
-    public FriendModel(String applyId, int userId, String userName, int role, String hxGroupId, String hxAccountId, String sendTime, String acceptTime, int status, String comment) {
-        ApplyId = applyId;
-        UserId = userId;
-        UserName = userName;
-        Role = role;
-        HxGroupId = hxGroupId;
-        HxAccountId = hxAccountId;
-        SendTime = sendTime;
-        AcceptTime = acceptTime;
-        Status = status;
-        Comment = comment;
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
+    }
+
+    public int getClassRole() {
+        return ClassRole;
+    }
+
+    public void setClassRole(int classRole) {
+        ClassRole = classRole;
     }
 
     public String getApplyId() {

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.message2.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -17,12 +18,21 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.message2.model.AiXinStudent;
+import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_editor_text)
 public class EditorPhoneActivity extends BaseActivity implements Validator.ValidationListener{
@@ -84,7 +94,30 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
 
     @Override
     public void onValidationSucceeded() {
+        dialogShow("验证手机号");
+        ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                .validatePhone(UserInfoModel.getInstance().getToken(),
+                        et_value.getText().toString(),
+                        new RequestCallback<ResponseData<AiXinStudent>>() {
+                            @Override
+                            public void success(ResponseData<AiXinStudent> data, Response response) {
+                                dialogDissmiss();
+                                if(data.getStatus()==200){
+                                    Intent intent=getIntent();
+                                    intent.putExtra("accountId",data.getData().AccountId);
+                                    setResult(RESULT_OK,intent);
+                                    finish();
+                                }else if(data.getStatus()==202) {
+                                    et_value.setError(data.getMsg());
+                                }
+                            }
 
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
     }
 
     @Override

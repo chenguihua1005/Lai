@@ -7,6 +7,7 @@ package com.softtek.lai.module.message2.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.message.model.MessageModel;
+import com.softtek.lai.module.message2.model.AiXinStudent;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
@@ -71,8 +72,10 @@ public interface Message2Service {
                              @Query("MsgId")String msgId,
                              Callback<ResponseData<InvitationConfirmShow>> callback);
     //验证爱心学员的手机号码
-    @GET("")
-    void validatePhone(@Header("token")String token);
+    @GET("/v1/MsgCenter/GetAccountIdByMobile")
+    void validatePhone(@Header("token")String token,
+                       @Query("Mobile")String phone,
+                       Callback<ResponseData<AiXinStudent>> callback);
 
     //确认/拒绝加入班级
     @GET("/V1/MsgCenter/MakeSureJoin")

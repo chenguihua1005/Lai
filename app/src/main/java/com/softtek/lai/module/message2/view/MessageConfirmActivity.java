@@ -29,9 +29,11 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -152,18 +154,58 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
+                                dialogDissmiss();
+                                if(responseData.getStatus()==200){
 
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
                             }
                         });
                 break;
             case R.id.btn_no:
+                dialogShow();
+                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                        msgId,
+                        -1,
+                        introducerId,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                dialogDissmiss();
+                                if(responseData.getStatus()==200){
+                                    //确认成
+                                    Util.toastMsg(responseData.getMsg());
+
+                                }else if(responseData.getStatus()==201){
+                                    //该用户已经加入班级
+                                    Util.toastMsg(responseData.getMsg());
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
                 break;
             case R.id.rl_aixin:
+                startActivityForResult(new Intent(this,EditorPhoneActivity.class),100);
                 break;
 
         }
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==200&&resultCode==100){
+            introducerId=data.getLongExtra("accountId",0);
+        }
+    }
 }
