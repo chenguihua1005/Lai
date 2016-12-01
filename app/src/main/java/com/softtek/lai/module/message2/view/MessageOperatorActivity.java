@@ -108,7 +108,6 @@ public class MessageOperatorActivity extends BaseActivity {
     @Override
     protected void initDatas() {
         dialogShow("加载中");
-        Log.i("小助手数据加载。。。。。。。。。。。。。。。。。。。。。。。。。。");
         ZillaApi.NormalRestAdapter.create(Message2Service.class)
                 .getOperateMsgList(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
