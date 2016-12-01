@@ -61,7 +61,7 @@ import zilla.libcore.util.Util;
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener {
     //toolbar标题
-    @InjectView(R.id.tv_title)
+    @InjectView(R.id.spinner_title1)
     ArrowSpinner2 tv_title;
     @InjectView(R.id.spinner_title)
     ArrowSpinner2 spinner_title;

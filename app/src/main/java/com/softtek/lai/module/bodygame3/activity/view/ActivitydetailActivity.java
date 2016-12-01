@@ -133,7 +133,14 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
+                        if(200==responseData.getStatus()){
+                            Util.toastMsg(responseData.getMsg());
+                            sign_lin.setVisibility(View.GONE);
+                            exit_lin.setVisibility(View.VISIBLE);
+                        }else {
+                            Util.toastMsg(responseData.getMsg());
+                        }
+
                     }
 
                     @Override
@@ -147,6 +154,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
+                        finish();
                     }
 
                     @Override
@@ -162,6 +170,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
+                        finish();
                     }
 
                     @Override

@@ -64,9 +64,9 @@ public class BodyGameFragment extends LazyBaseFragment {
     @Override
     protected void initViews() {
         Log.e("0000",UserInfoModel.getInstance().getUser().getHasThClass()+"");
-        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){//0无班级，1有班级
+        if(UserInfoModel.getInstance().getUser().getHasThClass()==1){//0无班级，1有班级
             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment1()).commit();
-        }else if(UserInfoModel.getInstance().getUser().getHasThClass()==1){
+        }else if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,new HeadGameFragment()).commit();
         }
 
