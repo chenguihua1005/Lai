@@ -197,9 +197,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         tv_right.setText("保存");//保存数据
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         //获取数据接口
-        doGetInfo(Long.parseLong("81618"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
+        doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
         multipartTypedOutput=new MultipartTypedOutput();
-        multipartTypedOutput.addPart("accountId",new TypedString("81618"));
+        multipartTypedOutput.addPart("accountId",new TypedString("3399"));
         String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
         multipartTypedOutput.addPart("classId",new TypedString(classID));
         imageFileCropSelector=new ImageFileCropSelector(this);
@@ -428,20 +428,16 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        initComitModel.setCircum(Double.parseDouble(tv_retestWrite_tizhi.getText().toString()));
-        initComitModel.setChuWeight(Double.parseDouble(tv_write_chu_weight.getText().toString()));
-        initComitModel.setFat(Double.parseDouble(tv_retestWrite_neizhi.getText().toString()));
-//        initComitModel.setFat(Double.parseDouble(tv_retestWrite_neizhi.getText().toString()));
-//        multipartTypedOutput.addPart("pysical",new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
-//        multipartTypedOutput.addPart("fat",new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-//        multipartTypedOutput.addPart("ChuWeight",new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
-//        multipartTypedOutput.addPart("circum",new TypedString(initDataModel.getCircum()));//胸围
-//        multipartTypedOutput.addPart("waistline",new TypedString(initDataModel.getWaistline()));//腰围
-//        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie()));//臀围
-//        multipartTypedOutput.addPart("upArmGirth",new TypedString(initDataModel.getUpArmGirth()));//上臂围
-//        multipartTypedOutput.addPart("upLegGirth",new TypedString(initDataModel.getUpLegGirth()));//大腿围
-//        multipartTypedOutput.addPart("doLegGirth",new TypedString(initDataModel.getDoLegGirth()));//小腿围
-        Log.i("上传数据"+multipartTypedOutput.toString());
+        multipartTypedOutput.addPart("pysical",new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+        multipartTypedOutput.addPart("fat",new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+        multipartTypedOutput.addPart("ChuWeight",new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("circum",new TypedString(initDataModel.getCircum().toString()));//胸围
+        multipartTypedOutput.addPart("waistline",new TypedString(initDataModel.getWaistline().toString()));//腰围
+        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("upArmGirth",new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
+        multipartTypedOutput.addPart("upLegGirth",new TypedString(initDataModel.getUpLegGirth()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth",new TypedString(initDataModel.getDoLegGirth()));//小腿围
+        Log.i("上传数据"+multipartTypedOutput.getPartCount());
         doPostInitData();
 //        if (TextUtils.isEmpty(retestWrite.getImage()))
 //        {
@@ -521,7 +517,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     //录入
     private void doPostInitData()
     {
-        service.doPostInitData(UserInfoModel.getInstance().getToken(), initComitModel, new RequestCallback<ResponseData>() {
+        service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Util.toastMsg(responseData.getMsg());

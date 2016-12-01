@@ -302,11 +302,9 @@
         <activity
             android:name=".module.File.view.ExplainActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.message2.view.ZQSActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.retest.view.BodyweiduActivity"
             android:screenOrientation="portrait" />
@@ -645,7 +643,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".module.bodygame2sr.view.BodyGameSRActivity"
             android:launchMode="singleTask"
@@ -742,7 +739,6 @@
             android:name=".module.bodygame3.head.view.SearchClassActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
-
         <activity
             android:name=".module.bodygame3.conversation.view.GroupsActivity"
             android:screenOrientation="portrait" />
@@ -759,7 +755,7 @@
         <activity
             android:name=".module.bodygame3.conversation.view.NewFriendActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".module.bodygame3.head.view.PersonDetailActivity"></activity>
     </application>
 
 </manifest>
