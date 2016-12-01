@@ -98,11 +98,12 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
-    private List<ActscalendarModel> calendarModel_act = new ArrayList<ActscalendarModel>();
 
-    private List<ActscalendarModel> calendarModel_create = new ArrayList<ActscalendarModel>();
-    private List<ActscalendarModel> calendarModel_reset = new ArrayList<ActscalendarModel>();
-    private List<ActscalendarModel> calendarModel_free = new ArrayList<ActscalendarModel>();
+    private List<CalendarDay> calendarModel_act = new ArrayList<CalendarDay>();
+    private List<CalendarDay> calendarModel_create = new ArrayList<CalendarDay>();
+    private List<CalendarDay> calendarModel_reset = new ArrayList<CalendarDay>();
+    private List<CalendarDay> calendarModel_free = new ArrayList<CalendarDay>();
+
     private ActscalendarModel actcalendar = null;
     private ActscalendarModel createcalendar = null;
     private ActscalendarModel resetcalendar = null;
@@ -224,7 +225,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //
 //                            }
 //                        }
-                                new ApiSimulatoract().executeOnExecutor(Executors.newSingleThreadExecutor());
+                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
@@ -307,7 +308,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             if (activitydataModel.getList_ActCalendar() != null) {
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
-                                new ApiSimulatoract().executeOnExecutor(Executors.newSingleThreadExecutor());
+                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
@@ -424,93 +425,18 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //                break;
         }
     }
-//    private String dateString;
-    private String dateStringact;
-    private String dateStringreset;
-    private String dateStringcreate;
-    private String dateStringfree;
 
-    private class ApiSimulatoract extends AsyncTask<Void, Void, List<CalendarDay>> {
+    //    private String dateString;
+//    private String dateStringact;
+//    private String dateStringreset;
+//    private String dateStringcreate;
+//    private String dateStringfree;
 
-        @Override
-        protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, 0);
-            ArrayList<CalendarDay> dates = new ArrayList<>();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-            for (int i = 0; i < calendarModels.size(); i++) {
-                datetype=calendarModels.get(i).getDateType();
-                if(datetype==Constants.ACTIVITY){
-                    dateStringact=calendarModels.get(i).getMonthDate();
-                    try {
-                        Date date = df.parse(dateStringact);
-                        calendar.setTime(date);
-                        CalendarDay day = CalendarDay.from(calendar);
-                        dates.add(day);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-                if(datetype==Constants.CREATECLASS){
-                    dateStringcreate=calendarModels.get(i).getMonthDate();
-                    try {
-                        Date date = df.parse(dateStringcreate);
-                        calendar.setTime(date);
-                        CalendarDay day = CalendarDay.from(calendar);
-                        dates.add(day);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-                if(datetype==Constants.RESET){
-                    dateStringreset=calendarModels.get(i).getMonthDate();
-                    try {
-                        Date date = df.parse(dateStringreset);
-                        calendar.setTime(date);
-                        CalendarDay day = CalendarDay.from(calendar);
-                        dates.add(day);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-                if(datetype==Constants.FREE){
-                    dateStringfree=calendarModels.get(i).getMonthDate();
-                    try {
-                        Date date = df.parse(dateStringfree);
-                        calendar.setTime(date);
-                        CalendarDay day = CalendarDay.from(calendar);
-                        dates.add(day);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-                }
-            return dates;
-        }
-
-        @Override
-        protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
-            super.onPostExecute(calendarDays);
-            if (getActivity() == null || getActivity().isFinishing()) {
-                return;
-            }
-            if (material_calendar != null) {
-                material_calendar.addDecorator(new SchelDecorator(datetype, calendarDays, getActivity()));
-            }
-        }
-    }
-
-//    public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
-//
+//    private class ApiSimulatoract extends AsyncTask<Void, Void, List<CalendarDay>> {
 //
 //        @Override
-//        protected Void doInBackground(List<ActscalendarModel>... lists) {
+//        protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
+//
 //            Calendar calendar = Calendar.getInstance();
 //            calendar.add(Calendar.MONTH, 0);
 //            ArrayList<CalendarDay> dates = new ArrayList<>();
@@ -518,72 +444,163 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //
 //            for (int i = 0; i < calendarModels.size(); i++) {
 //                datetype = calendarModels.get(i).getDateType();
-//                if (Constants.ACTIVITY == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        actcalendar = new ActscalendarModel();
-//                        actcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
-//                        calendarModel_act.add(actcalendar);
+//                if (datetype == Constants.ACTIVITY) {
+//                    dateStringact = calendarModels.get(i).getMonthDate();
+//                    try {
+//                        Date date = df.parse(dateStringact);
+//                        calendar.setTime(date);
+//                        CalendarDay day = CalendarDay.from(calendar);
+//                        dates.add(day);
+//                    } catch (Exception ex) {
+//                        System.out.println(ex.getMessage());
 //                    }
 //                }
-//                if (Constants.RESET == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        resetcalendar = new ActscalendarModel();
-//                        resetcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
-//                        calendarModel_reset.add(resetcalendar);
+//
+//                if (datetype == Constants.CREATECLASS) {
+//                    dateStringcreate = calendarModels.get(i).getMonthDate();
+//                    try {
+//                        Date date = df.parse(dateStringcreate);
+//                        calendar.setTime(date);
+//                        CalendarDay day = CalendarDay.from(calendar);
+//                        dates.add(day);
+//                    } catch (Exception ex) {
+//                        System.out.println(ex.getMessage());
 //                    }
 //                }
-//                if (Constants.FREE == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        freecalendar = new ActscalendarModel();
-//                        freecalendar.setMonthDate(calendarModels.get(i).getMonthDate());
-//                        calendarModel_free.add(freecalendar);
+//
+//                if (datetype == Constants.RESET) {
+//                    dateStringreset = calendarModels.get(i).getMonthDate();
+//                    try {
+//                        Date date = df.parse(dateStringreset);
+//                        calendar.setTime(date);
+//                        CalendarDay day = CalendarDay.from(calendar);
+//                        dates.add(day);
+//                    } catch (Exception ex) {
+//                        System.out.println(ex.getMessage());
 //                    }
 //                }
-//                if (Constants.CREATECLASS == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        createcalendar = new ActscalendarModel();
-//                        createcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
-//                        calendarModel_create.add(createcalendar);
+//
+//                if (datetype == Constants.FREE) {
+//                    dateStringfree = calendarModels.get(i).getMonthDate();
+//                    try {
+//                        Date date = df.parse(dateStringfree);
+//                        calendar.setTime(date);
+//                        CalendarDay day = CalendarDay.from(calendar);
+//                        dates.add(day);
+//                    } catch (Exception ex) {
+//                        System.out.println(ex.getMessage());
 //                    }
 //                }
-////                try {
-////                    Date date = df.parse(dateString);
-////                    calendar.setTime(date);
-////                    CalendarDay day = CalendarDay.from(calendar);
-////                    dates.add(day);
-////                } catch (Exception ex) {
-////                    System.out.println(ex.getMessage());
-////                }
+//
 //            }
-//            return null;
+//            return dates;
 //        }
 //
 //        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
+//        protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
+//            super.onPostExecute(calendarDays);
 //            if (getActivity() == null || getActivity().isFinishing()) {
 //                return;
 //            }
 //            if (material_calendar != null) {
-////                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity()));
-////                material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
-////                material_calendar.addDecorator(new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
-////                material_calendar.addDecorator(new SchelDecorator(Constants.FREE, calendarModel_free, getActivity()));
-//
+//                material_calendar.addDecorator(new SchelDecorator(datetype, calendarDays, getActivity()));
+//            }
+//        }
+//    }
+
+    public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(List<ActscalendarModel>... lists) {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.add(Calendar.MONTH, 0);
+//            ArrayList<CalendarDay> dates = new ArrayList<>();
+
+
+            for (int i = 0; i < calendarModels.size(); i++) {
+                datetype = calendarModels.get(i).getDateType();
+                if (Constants.ACTIVITY == datetype) {
+                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
+//                        actcalendar = new ActscalendarModel();
+//                        actcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
+//                        calendarModel_act.add(actcalendar);
+                        calendarModel_act.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
+                    }
+                }
+                if (Constants.RESET == datetype) {
+                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
+//                        resetcalendar = new ActscalendarModel();
+//                        resetcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
+//                        calendarModel_reset.add(resetcalendar);
+                        calendarModel_reset.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
+                    }
+                }
+                if (Constants.FREE == datetype) {
+                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
+//                        freecalendar = new ActscalendarModel();
+//                        freecalendar.setMonthDate(calendarModels.get(i).getMonthDate());
+//                        calendarModel_free.add(freecalendar);
+                        calendarModel_free.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
+                    }
+                }
+                if (Constants.CREATECLASS == datetype) {
+                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
+//                        createcalendar = new ActscalendarModel();
+//                        createcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
+//                        calendarModel_create.add(createcalendar);
+                        calendarModel_create.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
+                    }
+                }
+
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (getActivity() == null || getActivity().isFinishing()) {
+                return;
+            }
+            if (material_calendar != null) {
+                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity()));
+                material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
+                material_calendar.addDecorator(new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
+                material_calendar.addDecorator(new SchelDecorator(Constants.FREE, calendarModel_free, getActivity()));
+
+            }
+        }
+
+        //        @Override
+//        protected void onPostExecute(@NonNull List<ActscalendarModel> calendarDays) {
+//            super.onPostExecute(calendarDays);
+//            if (getActivity() == null || getActivity().isFinishing()) {
+//                return;
+//            }
+//            if (material_calendar != null) {
+//                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarDays, getActivity()));
 //            }
 //        }
 //
-//        //        @Override
-////        protected void onPostExecute(@NonNull List<ActscalendarModel> calendarDays) {
-////            super.onPostExecute(calendarDays);
-////            if (getActivity() == null || getActivity().isFinishing()) {
-////                return;
-////            }
-////            if (material_calendar != null) {
-////                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarDays, getActivity()));
-////            }
-////        }
-////
-////    }
 //    }
+    }
+
+    private CalendarDay getCalendarDay(String dateStr) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 0);
+        CalendarDay day =null;
+//        ArrayList<CalendarDay> dates = new ArrayList<>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = df.parse(dateStr);
+            calendar.setTime(date);
+             day = CalendarDay.from(calendar);
+//            dates.add(day);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return day;
+    }
 }
