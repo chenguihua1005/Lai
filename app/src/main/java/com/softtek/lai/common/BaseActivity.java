@@ -135,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage("载入中");
             progressDialog.show();
         }
     }

@@ -6,6 +6,8 @@
 package com.softtek.lai.module.message.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.home.model.UnReadMsg;
+import com.softtek.lai.module.message2.model.UnreadMsgModel;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -20,9 +22,9 @@ import retrofit.http.Query;
  */
 public interface MessageService {
 
-    @GET("/MessageRead/GetMessageRead")
+    @GET("/V1/MsgCenter/IsHasUnReadMsg")
     void getMessageRead(@Header("token") String token,
-                        Callback<ResponseData> callback);
+                        Callback<ResponseData<UnReadMsg>> callback);
 
 
     @FormUrlEncoded

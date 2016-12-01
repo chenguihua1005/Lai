@@ -16,6 +16,11 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.utils.DisplayUtil;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
@@ -78,9 +83,18 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
         Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
+
+        String end_date = classModel.getEndDate();
+        if (StringToDate(end_date).before(getNowDate())) {
+//            btn_dismissclass.setText("解散班级群");
+//            btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
+        } else {
+            btn_dismissclass.setVisibility(View.GONE);
+//            btn_dismissclass.setText("您尚未关闭班级");
+//            btn_dismissclass.setBackgroundResource(R.drawable.btn_disable);
+        }
 
         ll_left.setOnClickListener(this);
         btn_dismissclass.setOnClickListener(this);
@@ -93,6 +107,33 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
 
 
+    }
+
+    public static Date StringToDate(String dateStr) {
+        String formatStr = "yyyy-MM-dd HH:mm:ss";//2017-02-24 00:00:00
+        DateFormat sdf = new SimpleDateFormat(formatStr);
+        Date date = null;
+        try {
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public Date getNowDate() {
+        Date date_now = null;
+        String formatStr = "yyyy-MM-dd HH:mm:ss";
+        DateFormat sdf = new SimpleDateFormat(formatStr);
+        String dateStr = sdf.format(new Date());
+        try {
+            date_now = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("leave", "now time = " + date_now);
+        return date_now;
     }
 
     @Override

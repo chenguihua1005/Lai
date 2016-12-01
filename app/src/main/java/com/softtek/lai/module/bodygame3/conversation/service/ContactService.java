@@ -2,7 +2,7 @@ package com.softtek.lai.module.bodygame3.conversation.service;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
-import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 
@@ -11,6 +11,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -58,7 +59,7 @@ public interface ContactService {
             @Query("classId") String classId,
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
-            Callback<ResponseData<List<ClassMemberModel>>> callback
+            Callback<ResponseData<ClassListInfoModel>> callback
     );
 
     //新朋友列表
@@ -70,5 +71,33 @@ public interface ContactService {
             Callback<ResponseData<List<FriendModel>>> callback
     );
 
+    //移除好友申请信息
+
+
+    @POST("/v1/HerbUser/RemoveFriendApplyInfo")
+    void removeFriendApplyInfo(
+            @Header("token") String token,
+            @Query("applyId") String applyId,
+            Callback<ResponseData> callback
+    );
+
+
+    //好友申请审批( 同意按钮)
+
+    @POST("/v1/HerbUser/ReviewFriendApplication")
+    void reviewFriendApplication(
+            @Header("token") String token,
+            @Query("applyId") String applyId,
+            @Query("isAgree") int isAgree,
+            Callback<ResponseData> callback
+    );
+
+    //解散班级环信群
+    @GET("/v1/MsgCenter/DissolutionHxGroup")
+    void dissolutionHxGroup(
+            @Header("token") String token,
+            @Query("ClassId") String ClassId,
+            Callback<ResponseData> callback
+    );
 
 }

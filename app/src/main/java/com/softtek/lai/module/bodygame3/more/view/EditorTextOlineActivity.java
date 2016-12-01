@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Selection;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,6 +41,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
     public static final int UPDATE_CLASS_NAME=1;
     public static final int UPDATE_GROUP_NAME=2;
     public static final int ADD_GROUP_NAME=3;
+    public static final int Edit_AIXIN_PHONE=4;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -83,6 +85,11 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
             case ADD_GROUP_NAME:
                 tv_title.setText("添加小组");
                 et_value.setHint("小组名称");
+                break;
+            case Edit_AIXIN_PHONE:
+                tv_title.setText("添加爱心学员");
+                et_value.setHint("输入爱心学员手机号");
+                et_value.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
         }
 

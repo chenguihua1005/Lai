@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
+import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
@@ -58,6 +60,8 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private MemberAdapter memberAdapter;
     private List<ClassMemberModel> members;
+
+    private ClassListInfoModel classListInfoModel;
     private String classId;
 
     private ContactClassModel classModel;
@@ -97,6 +101,13 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
         members = new ArrayList<ClassMemberModel>();
         memberAdapter = new MemberAdapter(members, this);
         group_list.setAdapter(memberAdapter);
+        group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+            }
+        });
         getClassMembers(classId);
 
     }
@@ -104,17 +115,16 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     private void getClassMembers(String classId) {
         String token = UserInfoModel.getInstance().getToken();
 
-        Log.i(TAG,"token = " + token);
-        Log.i(TAG,"classId = " + classId);
+        Log.i(TAG, "token = " + token);
+        Log.i(TAG, "classId = " + classId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<List<ClassMemberModel>>>() {
+        service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
             @Override
-            public void success(ResponseData<List<ClassMemberModel>> listResponseData, Response response) {
-                members = listResponseData.getData();
+            public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
+                classListInfoModel = listResponseData.getData();
+                members.addAll(classListInfoModel.getContactList());
                 Log.i(TAG, "members = " + members);
-                if (members != null) {
-                    memberAdapter.updateData(members);
-                }
+                memberAdapter.updateData(members);
             }
 
             @Override

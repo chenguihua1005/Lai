@@ -7,6 +7,9 @@ package com.softtek.lai.module.message2.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.message.model.MessageModel;
+import com.softtek.lai.module.message2.model.AiXinStudent;
+import com.softtek.lai.module.message2.model.ApplyConfirm;
+import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
@@ -63,4 +66,28 @@ public interface Message2Service {
                     @Field("msgtype") String msgtype,
                     @Field("msgid") String msgid,
                     Callback<ResponseData> callback);
+
+    //参赛邀请详情
+    @GET("/V1/MsgCenter/ShowJionClassInfo")
+    void getInvitationDetail(@Header("token")String token,
+                             @Query("MsgId")String msgId,
+                             Callback<ResponseData<InvitationConfirmShow>> callback);
+    //验证爱心学员的手机号码
+    @GET("/v1/MsgCenter/GetAccountIdByMobile")
+    void validatePhone(@Header("token")String token,
+                       @Query("Mobile")String phone,
+                       Callback<ResponseData<AiXinStudent>> callback);
+
+    //确认/拒绝加入班级
+    @GET("/V1/MsgCenter/MakeSureJoin")
+    void makeSureJoin(@Header("token")String token,
+                      @Query("MsgId")String msgId,
+                      @Query("status")int status,
+                      @Query("IntroducerId")long introducerId,
+                      Callback<ResponseData> callback);
+    //获取申请参数确认信息
+    @GET("/V1/MsgCenter/ShowApplyJionClass")
+    void getShenQingJoinInfo(@Header("token")String token,
+                             @Query("MsgId")String msgId,
+                             Callback<ResponseData<ApplyConfirm>> callback);
 }

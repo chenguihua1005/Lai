@@ -152,10 +152,10 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                                 hsv.smoothScrollTo(0, 0);
                             }
                         });
-                        Intent updateGroupIntent=new Intent(CreateClassActivity.this, EditorTextActivity.class);
-                        updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
-                        updateGroupIntent.putExtra("position",position);
-                        updateGroupIntent.putExtra("name",groups.get(position));
+                        Intent updateGroupIntent = new Intent(CreateClassActivity.this, EditorTextActivity.class);
+                        updateGroupIntent.putExtra("flag", EditorTextActivity.UPDATE_GROUP_NAME);
+                        updateGroupIntent.putExtra("position", position);
+                        updateGroupIntent.putExtra("name", groups.get(position));
                         updateGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
                         startActivityForResult(updateGroupIntent, 102);
                     }
@@ -243,9 +243,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_group:
-                Intent addGroupIntent=new Intent(this, EditorTextActivity.class);
+                Intent addGroupIntent = new Intent(this, EditorTextActivity.class);
                 addGroupIntent.putStringArrayListExtra("groups", (ArrayList<String>) groups);
-                addGroupIntent.putExtra("flag",EditorTextActivity.ADD_GROUP_NAME);
+                addGroupIntent.putExtra("flag", EditorTextActivity.ADD_GROUP_NAME);
                 startActivityForResult(addGroupIntent, 100);
                 break;
             case R.id.rl_class_name:
@@ -413,7 +413,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 Log.i(TAG, "调用欢心接口...");
                 EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
                 option.maxUsers = 200;
-                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
+                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
                 Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
 
                 String[] members = {};
@@ -440,19 +440,19 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
                         intent.putExtra("classId", data.getData().getClassId());
                         startActivity(intent);
-                        ClassModel classModel=new ClassModel();
+                        ClassModel classModel = new ClassModel();
                         classModel.setClassId(data.getData().getClassId());
                         classModel.setClassCode(data.getData().getClassCode());
                         classModel.setClassName(clazz.getClassName());
                         classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
                         classModel.setClassRole(1);
-                        List<String> meausres=new ArrayList<>(12);
-                        for (int i=0;i<12;i++){
+                        List<String> meausres = new ArrayList<>(12);
+                        for (int i = 0; i < 12; i++) {
                             meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
-                            clazz.getStartDate(),i*7));
+                                    clazz.getStartDate(), i * 7));
                         }
                         classModel.setClassMeasureDateList(meausres);
-                        EventBus.getDefault().post(new UpdateClass(1,classModel));
+                        EventBus.getDefault().post(new UpdateClass(1, classModel));
                     }
                     Util.toastMsg(data.getMsg());
                 }

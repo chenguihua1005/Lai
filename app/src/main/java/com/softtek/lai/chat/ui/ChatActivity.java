@@ -234,7 +234,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.fl_right:
 
-
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
                 intent.putExtra("groupId", toChatUsername);
                 intent.putExtra("classId", classId);

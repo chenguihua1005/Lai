@@ -67,7 +67,6 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     private List<ContactClassModel> classModels;
 
 
-    //    protected List<EMGroup> grouplist;
 //    protected List<EMGroup> grouplist;
 
     private GroupAdapter groupAdapter;
@@ -218,7 +217,9 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
             public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
                 classModels = listResponseData.getData();
                 Log.i(TAG, "classModels = " + classModels);
-                groupAdapter.updateData(classModels);
+                if (classModels != null) {
+                    groupAdapter.updateData(classModels);
+                }
 
             }
 
