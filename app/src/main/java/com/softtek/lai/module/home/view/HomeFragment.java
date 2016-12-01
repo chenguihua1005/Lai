@@ -42,6 +42,7 @@ import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
+import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
@@ -246,14 +247,19 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         String userrole = model.getUserrole();
         if (!String.valueOf(Constants.VR).equals(userrole)) {
             ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(),
-                    new Callback<ResponseData>() {
+                    new Callback<ResponseData<UnReadMsg>>() {
                         @Override
-                        public void success(ResponseData responseData, Response response) {
+                        public void success(ResponseData<UnReadMsg> responseData, Response response) {
                             int status = responseData.getStatus();
                             try {
                                 switch (status) {
                                     case 200:
-                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                                        if(responseData.getData().getNum()>0){
+                                            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+
+                                        }else {
+                                            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
+                                        }
                                         break;
                                     default:
                                         iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));

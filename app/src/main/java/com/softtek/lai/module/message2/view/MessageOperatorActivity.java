@@ -33,7 +33,7 @@ import zilla.libcore.util.Util;
 /**
  * 操作类消息
  */
-@InjectLayout(R.layout.activity_message_operator2)
+@InjectLayout(R.layout.activity_message_operator)
 public class MessageOperatorActivity extends BaseActivity {
 
     @InjectView(R.id.ll_left)
@@ -98,7 +98,7 @@ public class MessageOperatorActivity extends BaseActivity {
                     Util.toastMsg("该消息已操作过, 不能重复操作");
                 } else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
-                    intent.putExtra("model", model);
+                    intent.putExtra("msgId", model.getMsgid());
                     startActivityForResult(intent, 0);
                 }
             }
@@ -108,7 +108,6 @@ public class MessageOperatorActivity extends BaseActivity {
     @Override
     protected void initDatas() {
         dialogShow("加载中");
-        Log.i("小助手数据加载。。。。。。。。。。。。。。。。。。。。。。。。。。");
         ZillaApi.NormalRestAdapter.create(Message2Service.class)
                 .getOperateMsgList(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),

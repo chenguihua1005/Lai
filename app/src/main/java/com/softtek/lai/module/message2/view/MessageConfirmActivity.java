@@ -7,28 +7,31 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.Intent;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.message.model.CheckClassEvent;
-import com.softtek.lai.module.message.presenter.IMessagePresenter;
-import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message2.model.OperateMsgModel;
-import com.softtek.lai.module.message2.presenter.MessageMainManager;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.softtek.lai.module.message2.model.InvitationConfirmShow;
+import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -36,84 +39,95 @@ import zilla.libcore.util.Util;
  * Created by jarvis.liu on 3/22/2016.
  *
  */
-@InjectLayout(R.layout.activity_message_operator)
-public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener, MessageMainManager.OperatorCallBack {
+@InjectLayout(R.layout.activity_message_confirm)
+public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.text_value)
-    TextView text_value;
+    @InjectView(R.id.tv_invitater_name)
+    TextView tv_invitater_name;
+    @InjectView(R.id.tv_head_coach_name)
+    TextView tv_head_coach_name;
+    @InjectView(R.id.head_image)
+    CircleImageView head_image;
+    @InjectView(R.id.tv_class_name)
+    TextView tv_class_name;
+    @InjectView(R.id.tv_class_code)
+    TextView tv_class_code;
+    @InjectView(R.id.tv_first_time)
+    TextView tv_first_time;
+    @InjectView(R.id.tv_role_name)
+    TextView tv_role_name;
+    @InjectView(R.id.tv_group_name)
+    TextView tv_group_name;
+    @InjectView(R.id.tv_aixin_phone)
+    TextView tv_aixin_phone;
+    @InjectView(R.id.rl_aixin)
+    RelativeLayout rl_aixin;
+    @InjectView(R.id.cb_zqs)
+    CheckBox cb_zqs;
+    @InjectView(R.id.btn_yes)
+    Button btn_yes;
+    @InjectView(R.id.btn_no)
+    Button btn_no;
 
-    @InjectView(R.id.text_zqs)
-    TextView text_zqs;
-
-    @InjectView(R.id.text_zqs1)
-    TextView text_zqs1;
-
-    @InjectView(R.id.but_yes)
-    Button but_yes;
-
-    @InjectView(R.id.but_no)
-    Button but_no;
-
-    @InjectView(R.id.img)
-    ImageView img;
-
-    @InjectView(R.id.lin)
-    LinearLayout lin;
-
-    private boolean isSelect = true;
-
-    private OperateMsgModel model;
-    private int msg_type;
-    private IMessagePresenter messagePresenter;
-    private IAssistantPresenter assistantPresenter;
-    private MessageMainManager manager;
+    InvitationConfirmShow show;
+    Message2Service service;
+    String msgId;
+    long introducerId;
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        but_no.setOnClickListener(this);
-        but_yes.setOnClickListener(this);
-        text_zqs.setOnClickListener(this);
-        text_zqs1.setOnClickListener(this);
-        img.setOnClickListener(this);
-
-
+        tv_title.setText("参赛邀请");
+        btn_no.setOnClickListener(this);
+        btn_yes.setOnClickListener(this);
+        rl_aixin.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
-        model = (OperateMsgModel) getIntent().getSerializableExtra("model");
-        assistantPresenter = new AssistantImpl(this);
-        messagePresenter = new MessageImpl(this);
-        text_value.setText(model.getMsgContent());
-        msg_type = model.getMsgtype();
-        if (0==msg_type) {
-            tv_title.setText("助教申请");
-        } else if (1==msg_type) {
-            tv_title.setText("助教移除");
-            manager = new MessageMainManager(this);
-        } else if (2==msg_type) {
-            tv_title.setText("助教邀请");
-        } else if (3==msg_type) {
-            tv_title.setText("确认参赛");
-        }
-        if("1".equals(model.getIsDo())){
-            but_no.setVisibility(View.GONE);
-            but_yes.setVisibility(View.GONE);
-            lin.setVisibility(View.GONE);
-        }else {
-            but_no.setVisibility(View.VISIBLE);
-            but_yes.setVisibility(View.VISIBLE);
-            lin.setVisibility(View.VISIBLE);
-        }
+        msgId=getIntent().getStringExtra("msgId");
+        service=ZillaApi.NormalRestAdapter.create(Message2Service.class);
+        service.getInvitationDetail(UserInfoModel.getInstance().getToken(),
+                        msgId,
+                        new RequestCallback<ResponseData<InvitationConfirmShow>>() {
+                            @Override
+                            public void success(ResponseData<InvitationConfirmShow> data, Response response) {
+                                if(data.getStatus()==200){
+                                    onResult(data.getData());
+                                }
+                            }
+                        });
+
     }
+
+    public void onResult(InvitationConfirmShow show){
+        this.show=show;
+        tv_invitater_name.setText(show.getSender());
+        tv_head_coach_name.setText(show.getClassMasterName());
+        if (TextUtils.isEmpty(show.getClassMasterPhoto())){
+            Picasso.with(this).load(R.drawable.img_default).into(head_image);
+        }else {
+            Picasso.with(this).load(R.drawable.img_default).fit()
+                    .error(R.drawable.img_default)
+                    .placeholder(R.drawable.img_default).into(head_image);
+        }
+        tv_class_name.setText(show.getClassName());
+        tv_class_code.setText(show.getClassCode());
+        tv_first_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd)
+                .convertDateStr(show.getClassStart(),"yyyy年MM月dd日"));
+        int role=show.getClassRole();
+        tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+        tv_group_name.setText(show.getCGName());
+        btn_no.setEnabled(true);
+        btn_yes.setEnabled(true);
+
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -129,88 +143,69 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                Intent intents = new Intent();
-                //设置返回数据
-                setResult(RESULT_OK, intents);
                 finish();
                 break;
-            case R.id.img:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs1:
-                startActivity(new Intent(this, ZQSActivity.class));
-                break;
-            case R.id.but_no:
-                dialogShow("加载中");
-                if ("0".equals(msg_type)) {
-                    assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgid()), 0, 0, "message");
-                } else if ("1".equals(msg_type)) {
-                    manager.doRefuseRemoveSR(model.getMsgid());
-                } else if ("2".equals(msg_type)) {
-                    messagePresenter.acceptInviter(model.getSenderid(), model.getClassid(), "0");
-                } else if ("3".equals(msg_type)) {
-                    messagePresenter.acceptInviterToClass(model.getSenderid(), model.getClassid(), "0");
-                }
+            case R.id.btn_yes:
+                dialogShow();
+                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                        msgId,
+                        1,
+                        introducerId,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                dialogDissmiss();
+                                if(responseData.getStatus()==200){
 
-                break;
-            case R.id.but_yes:
-                if (isSelect) {
-                    dialogShow("加载中");
-                    if ("0".equals(msg_type)) {
-                        assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgid()), 1, 0, "message");
-                    } else if ("1".equals(msg_type)) {
-                        assistantPresenter.removeAssistantRoleByClass(model.getSenderid(), model.getClassid(), "message");
-                    } else if ("2".equals(msg_type)) {
-                        messagePresenter.acceptInviter(model.getSenderid(), model.getClassid(), "1");
-                    } else if ("3".equals(msg_type)) {
-                        dialogShow("加载中");
-                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassid());
-                    }
+                                }
+                            }
 
-                } else {
-                    Util.toastMsg(R.string.joinGameQ);
-                }
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
+                break;
+            case R.id.btn_no:
+                dialogShow();
+                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                        msgId,
+                        -1,
+                        introducerId,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                dialogDissmiss();
+                                if(responseData.getStatus()==200){
+                                    //确认成
+                                    Util.toastMsg(responseData.getMsg());
+
+                                }else if(responseData.getStatus()==201){
+                                    //该用户已经加入班级
+                                    Util.toastMsg(responseData.getMsg());
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
+                break;
+            case R.id.rl_aixin:
+                startActivityForResult(new Intent(this,EditorPhoneActivity.class),100);
                 break;
 
         }
     }
 
-    @Subscribe
-    public void onEvent(CheckClassEvent event) {
-        dialogDissmiss();
-    }
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void refuseRemoveSR(String type) {
-        dialogDissmiss();
-        if ("true".equals(type)) {
-            Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==200&&resultCode==100){
+            introducerId=data.getLongExtra("accountId",0);
         }
     }
 }
