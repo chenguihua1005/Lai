@@ -52,6 +52,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);
@@ -87,14 +88,12 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         ll_left.setVisibility(View.VISIBLE);
         ll_left.setOnClickListener(this);
         tv_title.setText("新朋友");
-
-
     }
 
     @Override
     protected void initDatas() {
         friendList = new ArrayList<FriendModel>();
-        friendAdapter = new FriendAdapter(NewFriendActivity.this, friendList);
+        friendAdapter = new FriendAdapter(NewFriendActivity.this, friendList, handler);
         friend_list.setAdapter(friendAdapter);
 
         getNewFriendList();//获取网络数据
@@ -138,15 +137,14 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         friendList.clear();
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
         //UserInfoModel.getInstance().getUserId()
-        service.getFriendApplyList(UserInfoModel.getInstance().getToken(), 2961, new Callback<ResponseData<List<FriendModel>>>() {
+        Log.i(TAG, (UserInfoModel.getInstance().getToken() + " ++++ " + UserInfoModel.getInstance().getUserId()));
+        service.getFriendApplyList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<FriendModel>>>() {
             @Override
             public void success(ResponseData<List<FriendModel>> listResponseData, Response response) {
                 friendList = listResponseData.getData();
 
                 Log.i(TAG, "friendList = " + new Gson().toJson(friendList));
-                if (friendList != null) {
-                    friendAdapter.updateData(friendList);
-                }
+                friendAdapter.updateData(friendList);
             }
 
             @Override

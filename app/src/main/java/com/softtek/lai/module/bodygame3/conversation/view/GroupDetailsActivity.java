@@ -15,6 +15,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
+import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
@@ -58,6 +59,8 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private MemberAdapter memberAdapter;
     private List<ClassMemberModel> members;
+
+    private ClassListInfoModel classListInfoModel;
     private String classId;
 
     private ContactClassModel classModel;
@@ -104,13 +107,14 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     private void getClassMembers(String classId) {
         String token = UserInfoModel.getInstance().getToken();
 
-        Log.i(TAG,"token = " + token);
-        Log.i(TAG,"classId = " + classId);
+        Log.i(TAG, "token = " + token);
+        Log.i(TAG, "classId = " + classId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<List<ClassMemberModel>>>() {
+        service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
             @Override
-            public void success(ResponseData<List<ClassMemberModel>> listResponseData, Response response) {
-                members = listResponseData.getData();
+            public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
+                classListInfoModel = listResponseData.getData();
+                members = classListInfoModel.getMembers();
                 Log.i(TAG, "members = " + members);
                 if (members != null) {
                     memberAdapter.updateData(members);
