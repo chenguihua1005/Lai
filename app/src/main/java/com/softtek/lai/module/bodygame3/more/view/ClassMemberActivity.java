@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.DialogInterface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassMember;
 import com.softtek.lai.module.bodygame3.more.model.Member;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.BottomSheetDialog;
 import com.softtek.lai.widgets.CircleImageView;
@@ -62,8 +64,7 @@ public class ClassMemberActivity extends BaseActivity {
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //finish();
-                chooseGroup();
+                finish();
             }
         });
     }
@@ -105,6 +106,7 @@ public class ClassMemberActivity extends BaseActivity {
                                     hsv.smoothScrollTo(0,0);
                                 }
                             });
+                            chooseGroup(position);
 
                         }
                     });
@@ -114,6 +116,12 @@ public class ClassMemberActivity extends BaseActivity {
                 tv_delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        hsv.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                hsv.smoothScrollTo(0,0);
+                            }
+                        });
                         removeMember(members.get(position));
                     }
                 });
@@ -145,7 +153,6 @@ public class ClassMemberActivity extends BaseActivity {
                                             hsv.smoothScrollTo(hsv.getMaxScrollAmount(),0);
                                         }
                                     });
-                                    chooseGroup();
 
                                 }else {
                                     hsv.post(new Runnable() {
@@ -233,11 +240,11 @@ public class ClassMemberActivity extends BaseActivity {
                                             }
                                         });
                     }
-                });
+                }).show();
     }
 
     BottomSheetDialog dialog;
-    private void chooseGroup( ){
+    private void chooseGroup(final int position){
         View view=LayoutInflater.from(this).inflate(R.layout.pop_trans_view,null);
         final ListView lv= (ListView) view.findViewById(R.id.lv);
         View footer=LayoutInflater.from(this).inflate(R.layout.trans_group_footer,null);
@@ -267,10 +274,33 @@ public class ClassMemberActivity extends BaseActivity {
             }
         });
         TextView tv_ok= (TextView) footer.findViewById(R.id.tv_ok);
+        final Member member=members.get(position);
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ClassGroup group=groups.get(lv.getCheckedItemPosition());
+                ZillaApi.NormalRestAdapter.create(MoreService.class)
+                        .turnToAnotherGroup(
+                                UserInfoModel.getInstance().getToken(),
+                                member.getAccountId(),
+                                classId,
+                                group.getCGId(),
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        if(responseData.getStatus()==200){
+                                            member.setCGId(group.getCGId());
+                                            member.setCGName(group.getCGName());
+                                            adapter.notifyDataSetChanged();
+                                            Snackbar.make(tv_title,"转租成功",Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                        }else {
+                                            Snackbar.make(tv_title,"转租失败",Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                        }
+                                    }
+                                }
 
+                        );
+                dialog.dismiss();
             }
         });
         TextView tv_cancel= (TextView) footer.findViewById(R.id.tv_cancel);

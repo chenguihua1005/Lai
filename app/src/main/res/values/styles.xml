@@ -53,7 +53,9 @@
     <style name="customCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/check_box</item>
     </style>
-
+    <style name="customCheckBoxTheme2" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_box2</item>
+    </style>
     <!--指定tabLayout样式-->
     <style name="myTabLayout" parent="Widget.Design.TabLayout">
         <!--<item name="tabMaxWidth">36dp</item> --><!--TAB最大宽度-->
