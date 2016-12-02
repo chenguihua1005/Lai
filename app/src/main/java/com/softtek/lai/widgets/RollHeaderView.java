@@ -64,8 +64,8 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     //初始化view
     private void initView() {
-        LayoutInflater.from(mContext).inflate(R.layout.view_header,this,false);
-//        View.inflate(mContext, R.layout.view_header, this);
+//        LayoutInflater.from(mContext).inflate(R.layout.view_header,this,false);
+        View.inflate(mContext, R.layout.view_header, this);
         mViewPager = (ViewPager) findViewById(R.id.vp);
         mDotLl = (LinearLayout) findViewById(R.id.ll_dot);
 
