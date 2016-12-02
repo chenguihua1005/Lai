@@ -13,10 +13,10 @@ public class ClassModel {
     private String ClassId;
     private String ClassName;
     private String ClassCode;
-    private String ClassRole;
+    private int ClassRole;
     private String ClassWeek;
 
-    public ClassModel(String classId, String className, String classCode, String classRole, String classWeek) {
+    public ClassModel(String classId, String className, String classCode, int classRole, String classWeek) {
         ClassId = classId;
         ClassName = className;
         ClassCode = classCode;
@@ -48,11 +48,11 @@ public class ClassModel {
         ClassCode = classCode;
     }
 
-    public String getClassRole() {
+    public int getClassRole() {
         return ClassRole;
     }
 
-    public void setClassRole(String classRole) {
+    public void setClassRole(int classRole) {
         ClassRole = classRole;
     }
 
