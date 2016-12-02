@@ -201,6 +201,7 @@
         android:layout_marginTop="80dp"
         android:background="@drawable/btn_dismissclass"
         android:text="解散班级群"
+        android:visibility="visible"
         android:textColor="@color/sc_transparent_background" />
 
 </LinearLayout>

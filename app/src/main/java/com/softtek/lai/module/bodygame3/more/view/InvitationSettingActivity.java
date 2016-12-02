@@ -192,6 +192,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
                                         if(responseData.getStatus()==200){
+
+
+
                                             //邀请成功
                                             InvitatedContact contact=new InvitatedContact();
                                             contact.setClassRole(invitation.getClassRole());

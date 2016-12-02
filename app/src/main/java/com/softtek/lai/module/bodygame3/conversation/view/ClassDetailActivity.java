@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.text.DateFormat;
@@ -22,7 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 2016/11/29.
@@ -86,25 +94,28 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
         Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
 
-        String end_date = classModel.getEndDate();
-        if (StringToDate(end_date).before(getNowDate())) {
-//            btn_dismissclass.setText("解散班级群");
-//            btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
-        } else {
-            btn_dismissclass.setVisibility(View.GONE);
-//            btn_dismissclass.setText("您尚未关闭班级");
-//            btn_dismissclass.setBackgroundResource(R.drawable.btn_disable);
+        if (classModel != null) {
+            String end_date = classModel.getEndDate();
+//            if (StringToDate(end_date).before(getNowDate())) {
+//                btn_dismissclass.setVisibility(View.VISIBLE);
+////            btn_dismissclass.setText("解散班级群");
+////            btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
+//            } else {
+//                btn_dismissclass.setVisibility(View.GONE);
+////            btn_dismissclass.setText("您尚未关闭班级");
+////            btn_dismissclass.setBackgroundResource(R.drawable.btn_disable);
+//            }
+            coach_name.setText(classModel.getCoachName());
+            tv_classname.setText(classModel.getClassName());
+            tv_classNo.setText(classModel.getClassCode());
+            tv_classStart_time.setText(classModel.getStartDate());
+            tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
+
+
+            ll_left.setOnClickListener(this);
+            btn_dismissclass.setOnClickListener(this);
+            classNumber_linear.setOnClickListener(this);
         }
-
-        ll_left.setOnClickListener(this);
-        btn_dismissclass.setOnClickListener(this);
-        classNumber_linear.setOnClickListener(this);
-
-        coach_name.setText(classModel.getCoachName());
-        tv_classname.setText(classModel.getClassName());
-        tv_classNo.setText(classModel.getClassCode());
-        tv_classStart_time.setText(classModel.getStartDate());
-        tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
 
 
     }
@@ -152,8 +163,31 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_dismissclass:
 
+
                 break;
 
         }
+    }
+
+
+    private void dissolutionHxGroup() {
+        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+        service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), classModel.getClassId(), new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status = responseData.getStatus();
+                if (200 == status) {
+                    Util.toastMsg("解散班级成功！");
+
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                Util.toastMsg("解散班级失败！");
+            }
+        });
     }
 }

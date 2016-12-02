@@ -185,7 +185,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 //                                    EMClient.getInstance().groupManager().joinGroup(groupid);
 //                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
                                     try {
-                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
                                     } catch (HyphenateException e) {
                                         Util.toastMsg("同意失败:" + e.getMessage());
                                         e.printStackTrace();

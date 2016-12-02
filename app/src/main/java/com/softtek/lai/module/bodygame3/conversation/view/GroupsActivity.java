@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -196,30 +197,31 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     private void getContactGroups() {
         Log.i(TAG, UserInfoModel.getInstance().getToken() + "..." + UserInfoModel.getInstance().getUserId());
 
-//        ZillaApi.NormalRestAdapter.create(MoreService.class).getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<ClassModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-//                classModels = listResponseData.getData();
-//                Log.i(TAG, "classModels = " + classModels);
-//                groupAdapter.updateData(classModels);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                ZillaApi.dealNetError(error);
-//
-//            }
-//        });
-
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
         service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
             @Override
             public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
                 classModels = listResponseData.getData();
-                Log.i(TAG, "classModels = " + classModels);
+                Log.i(TAG, "classModels = " + new Gson().toJson(classModels));
                 if (classModels != null) {
                     groupAdapter.updateData(classModels);
                 }
+//                for (int i = 0; i < classModels.size(); i++) {
+//                    ContactClassModel classModel = classModels.get(i);
+//                    String HXGroupId = classModel.getHXGroupId();
+//
+//                    if (!TextUtils.isEmpty(HXGroupId)) {
+//                        try {
+//                            EMClient.getInstance().groupManager().destroyGroup(HXGroupId);
+//                            Util.toastMsg("解散成功！");
+//
+//                        } catch (HyphenateException e) {
+//                            e.printStackTrace();
+//                            Util.toastMsg("解散失败！");
+//                        }
+//                    }
+//
+//                }
 
             }
 
