@@ -46,7 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_invitation_setting)
-public class InvitationSettingActivity extends BaseActivity implements View.OnClickListener{
+public class InvitationSettingActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -80,6 +80,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
     SendInvitation invitation;
     ClassInvitater classInvitater;
+
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
@@ -89,10 +90,10 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void initDatas() {
-        invitation=new SendInvitation();
+        invitation = new SendInvitation();
         invitation.setSenderId(UserInfoModel.getInstance().getUserId());
-        String  classId=getIntent().getStringExtra("classId");
-        long invitaterId=getIntent().getLongExtra("inviterId",0);
+        String classId = getIntent().getStringExtra("classId");
+        long invitaterId = getIntent().getLongExtra("inviterId", 0);
         invitation.setClassId(classId);
         invitation.setInviterId(invitaterId);
         dialogShow();
@@ -103,9 +104,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             @Override
                             public void success(ResponseData<ClassInvitater> data, Response response) {
                                 dialogDissmiss();
-                                Log.i("数据="+data);
-                                if(data.getStatus()==200||data.getStatus()==201) {
-                                    onResult(data.getData(),data.getStatus());
+                                Log.i("数据=" + data);
+                                if (data.getStatus() == 200 || data.getStatus() == 201) {
+                                    onResult(data.getData(), data.getStatus());
                                 }
                             }
 
@@ -117,35 +118,35 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         });
     }
 
-    private void onResult(ClassInvitater invitater,int status){
-        this.classInvitater=invitater;
+    private void onResult(ClassInvitater invitater, int status) {
+        this.classInvitater = invitater;
         invitater.setClassId(invitater.getClassId());
-        if(!TextUtils.isEmpty(invitater.getInviterPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+invitater.getInviterPhoto()).fit()
+        if (!TextUtils.isEmpty(invitater.getInviterPhoto())) {
+            Picasso.with(this).load(AddressManager.get("photoHost") + invitater.getInviterPhoto()).fit()
                     .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
-        }else {
+        } else {
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
         }
-        tv_name.setText(StringUtil.showName(invitater.getInviterName(),invitater.getInviterMobile()));
-        if(TextUtils.isEmpty(invitater.getInviterMLUserName())){
+        tv_name.setText(StringUtil.showName(invitater.getInviterName(), invitater.getInviterMobile()));
+        if (TextUtils.isEmpty(invitater.getInviterMLUserName())) {
             tv_tianshi.setText("暂无奶昔天使");
-        }else {
-            tv_tianshi.setText("奶昔天使 "+invitater.getInviterMLUserName());
+        } else {
+            tv_tianshi.setText("奶昔天使 " + invitater.getInviterMLUserName());
         }
         tv_class_name.setText(invitater.getClassName());
-        tv_create_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(),"yyyy年MM月dd日"));
+        tv_create_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(), "yyyy年MM月dd日"));
         tv_number.setText(invitater.getClassCode());
-        ClassGroup group=invitater.getClassGroupList().get(0);
-        ClassRole role=invitater.getClassRole().get(0);
-        if(status==201){
+        ClassGroup group = invitater.getClassGroupList().get(0);
+        ClassRole role = invitater.getClassRole().get(0);
+        if (status == 201) {
             tv_group_name.setText(group.getCGName());
-            tv_group_name.setCompoundDrawables(null,null,null,null);
+            tv_group_name.setCompoundDrawables(null, null, null, null);
             this.invitation.setClassGroupId(group.getCGId());
             tv_role.setText(role.getRoleName());
             this.invitation.setClassRole(role.getRoleId());
-            tv_role.setCompoundDrawables(null,null,null,null);
+            tv_role.setCompoundDrawables(null, null, null, null);
             tv_invitation.setVisibility(View.GONE);
-        }else {
+        } else {
 
             tv_group_name.setText(group.getCGName());
             tv_role.setText(role.getRoleName());
@@ -155,8 +156,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             rl_group.setOnClickListener(this);
             rl_role.setOnClickListener(this);
         }
-        classGroupList=invitater.getClassGroupList();
-        classRole=invitater.getClassRole();
+        classGroupList = invitater.getClassGroupList();
+        classRole = invitater.getClassRole();
 
     }
 
@@ -165,26 +166,26 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
             case R.id.rl_group:
-                showGroupName(true,new EasyAdapter<ClassGroup>(this,classGroupList,R.layout.textview) {
+                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, R.layout.textview) {
 
                     @Override
                     public void convert(ViewHolder holder, ClassGroup data, int position) {
-                        TextView tv=holder.getView(R.id.tv);
+                        TextView tv = holder.getView(R.id.tv);
                         tv.setText(data.getCGName());
                     }
                 });
                 break;
             case R.id.rl_role:
-                showGroupName(false,new EasyAdapter<ClassRole>(this,classRole,R.layout.textview) {
+                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, R.layout.textview) {
 
                     @Override
                     public void convert(ViewHolder holder, ClassRole data, int position) {
-                        TextView tv=holder.getView(R.id.tv);
+                        TextView tv = holder.getView(R.id.tv);
                         tv.setText(data.getRoleName());
                     }
                 });
@@ -198,12 +199,21 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        if(responseData.getStatus()==200){
+                                        if (responseData.getStatus() == 200) {
 
+                                            //环信发申请
+                                            //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+
+//                                            new Thread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    EMClient.getInstance().groupManager().applyJoinToGroup(groupid, "求加入");//需异步处理
+//                                                }
+//                                            }).start();
 
 
                                             //邀请成功
-                                            InvitatedContact contact=new InvitatedContact();
+                                            InvitatedContact contact = new InvitatedContact();
                                             contact.setClassRole(invitation.getClassRole());
                                             contact.setInviterCertification("");
                                             contact.setInviterId((int) invitation.getInviterId());
@@ -214,8 +224,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                             contact.setInviterUserName(classInvitater.getInviterName());
                                             contact.setJoinGroupId(invitation.getClassGroupId());
                                             contact.setJoinGroupName(tv_group_name.getText().toString());
-                                            Intent intent=new Intent(InvitationSettingActivity.this,InvitationListActivity.class);
-                                            intent.putExtra("invitater",contact);
+                                            Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+                                            intent.putExtra("invitater", contact);
                                             startActivity(intent);
                                         }
                                         Util.toastMsg(responseData.getMsg());
@@ -232,29 +242,30 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     }
 
     BottomSheetDialog dialog;
-    private void showGroupName(final boolean isGroup, EasyAdapter adapter){
-        final ListView lv=new ListView(this);
+
+    private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
+        final ListView lv = new ListView(this);
         lv.setDivider(new ColorDrawable(0xFFE1E1E1));
         lv.setDividerHeight(1);
         lv.setAdapter(adapter);
-        TextView title=new TextView(this);
-        title.setText(isGroup?"选择组":"选择角色");
+        TextView title = new TextView(this);
+        title.setText(isGroup ? "选择组" : "选择角色");
         title.setTextColor(0xFF999999);
-        title.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,5,getResources().getDisplayMetrics()));
+        title.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics()));
         title.setWidth(DisplayUtil.getMobileWidth(this));
-        title.setHeight(DisplayUtil.dip2px(this,40));
-        title.setPadding(DisplayUtil.dip2px(this,15),0,0,0);
-        title.setGravity(Gravity.CENTER|Gravity.LEFT);
+        title.setHeight(DisplayUtil.dip2px(this, 40));
+        title.setPadding(DisplayUtil.dip2px(this, 15), 0, 0, 0);
+        title.setGravity(Gravity.CENTER | Gravity.LEFT);
         lv.addHeaderView(title);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(isGroup){
-                    ClassGroup group=classGroupList.get(i-1);
+                if (isGroup) {
+                    ClassGroup group = classGroupList.get(i - 1);
                     tv_group_name.setText(group.getCGName());
                     invitation.setClassGroupId(group.getCGId());
-                }else {
-                    ClassRole role=classRole.get(i-1);
+                } else {
+                    ClassRole role = classRole.get(i - 1);
                     tv_role.setText(role.getRoleName());
                     invitation.setClassRole(role.getRoleId());
                 }
@@ -264,11 +275,11 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         lv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if(lv.getFirstVisiblePosition()!=0){
+                        if (lv.getFirstVisiblePosition() != 0) {
                             lv.getParent().requestDisallowInterceptTouchEvent(true);
                         }
                         break;
@@ -278,13 +289,13 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 return false;
             }
         });
-        dialog=new BottomSheetDialog(this);
+        dialog = new BottomSheetDialog(this);
         dialog.setContentView(lv);
         dialog.show();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                dialog=null;
+                dialog = null;
             }
         });
     }

@@ -75,7 +75,6 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 
-
 /**
  * Created by jerry.guan on 3/15/2016.
  * 首页
@@ -305,6 +304,11 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             chatUserModel.setUserPhone(path + model.getPhoto());
                             chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                             ChatUserInfoModel.getInstance().setUser(chatUserModel);
+
+
+
+
+
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
