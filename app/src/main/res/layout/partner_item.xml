@@ -37,9 +37,9 @@
         android:id="@+id/image_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="17dp"
         android:layout_toRightOf="@id/tv1"
-        android:src="@drawable/close" />
+        android:src="@drawable/phone_iv" />
 
     <TextView
         android:id="@+id/tv_certificate"
@@ -71,8 +71,9 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:src="@drawable/bodygame3_arrow"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
-        android:layout_height="wrap_content" />
+        android:layout_centerVertical="true"
+        android:paddingRight="15dp"
+        android:src="@drawable/bodygame3_arrow" />
 </RelativeLayout>

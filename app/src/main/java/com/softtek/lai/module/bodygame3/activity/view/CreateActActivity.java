@@ -171,7 +171,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 activityModel.setWholeDay(false);
                 activityModel.setStartTime(startime);
                 activityModel.setContent(mark);
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(UserInfoModel.getInstance().getToken(), activityModel, new RequestCallback<ResponseData>() {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(UserInfoModel.getInstance().getToken(),
+                        activityModel, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         if (200 == responseData.getStatus()) {
@@ -300,7 +301,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getacttype(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<ActtypeModel>>>() {
             @Override
             public void success(ResponseData<List<ActtypeModel>> listResponseData, Response response) {
-                Util.toastMsg(listResponseData.getMsg());
                 if (listResponseData.getData() != null && !listResponseData.getData().isEmpty()) {
                     acttypeModels.addAll(listResponseData.getData());
                     adapter.notifyDataSetChanged();

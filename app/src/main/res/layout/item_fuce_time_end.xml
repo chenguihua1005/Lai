@@ -35,7 +35,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="30dp"
-        android:text="以结束"
+        android:text="已结束"
         android:textColor="#999999"
         android:textSize="15sp" />
     <TextView

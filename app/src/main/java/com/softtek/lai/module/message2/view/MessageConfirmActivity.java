@@ -43,6 +43,7 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.activity_message_confirm)
 public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "MessageConfirmActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -99,9 +100,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if (b) {
                     btn_yes.setEnabled(true);
-                }else {
+                } else {
                     btn_yes.setEnabled(false);
                 }
             }
@@ -144,12 +145,16 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         int role = show.getClassRole();
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
-        if(show.getMsgStatus()==0){
+
+        if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
+            tv_aixin_phone.setText(show.getIntroducerMobile());
+        }
+        if (show.getMsgStatus() == 0) {
             ll_tip.setVisibility(View.VISIBLE);
             tv_tip.setVisibility(View.GONE);
             btn_no.setEnabled(true);
             btn_yes.setEnabled(true);
-        }else {
+        } else {
             ll_tip.setVisibility(View.GONE);
             tv_tip.setVisibility(View.VISIBLE);
         }
@@ -163,7 +168,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.tv_zqs:
-                startActivity(new Intent(this,ZQSActivity.class));
+                startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_yes:
                 dialogShow();
@@ -177,6 +182,19 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                 dialogDissmiss();
                                 Log.i(responseData.toString());
                                 if (responseData.getStatus() == 200) {
+                                    //换信加入群 show
+//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
+//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
+                                    try {
+                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "show.getClassMasterHxId()");
+//                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        finish();
+                                    } catch (HyphenateException e) {
+                                        Util.toastMsg("同意失败:" + e.getMessage());
+                                        e.printStackTrace();
+                                    }
                                     finish();
                                 }
                             }
@@ -202,16 +220,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                 if (responseData.getStatus() == 200) {
                                     //确认成
                                     Util.toastMsg(responseData.getMsg());
-                                    //换信加入群 show
-//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
-//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
-                                    try {
-                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                        finish();
-                                    } catch (HyphenateException e) {
-                                        Util.toastMsg("同意失败:" + e.getMessage());
-                                        e.printStackTrace();
-                                    }
 
 
                                 } else if (responseData.getStatus() == 201) {

@@ -217,7 +217,7 @@
                 android:background="#FFA200"
                 android:text="删除活动"
                 android:textColor="@color/white"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 

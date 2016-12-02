@@ -8,6 +8,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassMember;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.model.FuceDate;
+import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.LossWeightAndFat;
@@ -159,5 +160,10 @@ public interface MoreService {
     void shutDownClass(@Header("token")String token,
                        @Query("ClassId")String classId,
                        Callback<ResponseData> callback);
+
+    //往期回顾班级列表
+    void getHistoryClasses(@Header("token")String token,
+                           @Query("AccountId")long accountId,
+                           Callback<ResponseData<List<HistoryClassModel>>> callback);
 
 }
