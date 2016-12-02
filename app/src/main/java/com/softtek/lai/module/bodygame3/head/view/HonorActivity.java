@@ -44,8 +44,7 @@ public class HonorActivity extends BaseActivity {
         fragments=new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance());
 //        fragments.add(MonthHonorFragment.getInstance());
-        fragments.add(WeekHonorFragment.getInstance());
-        fragments.add(WeekHonorFragment.getInstance());
+//        fragments.add(TotalHonorFragment.getInstance());
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(),fragments));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);

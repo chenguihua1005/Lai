@@ -6,6 +6,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClaDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
@@ -112,4 +113,18 @@ public interface HeadService {
             @Query("ClassId")String ClassId,
             Callback<RequestCallback<ClaDetailModel>>callback
     );
+    //请求路径:Api/V1/ ClassHonor/ GetHonorRoll(荣誉榜)
+    @GET("/V1/ClassHonor/GetHonorRoll")
+    void doGetHonorRoll(
+            @Header("token") String token,
+            @Query("UID") Long UID,
+            @Query("ClassId") String ClassId,
+            @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
+            @Query("SortTimeType")String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("WhichTime") int WhichTime,
+            @Query("IsFirst") boolean IsFirst,
+            Callback<ResponseData<HonorRankModel>>callback
+            );
+
+
 }
