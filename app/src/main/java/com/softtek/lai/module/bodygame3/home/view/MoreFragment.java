@@ -18,6 +18,7 @@ import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.bodygame3.more.view.MoreNoClassFragment;
+import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
@@ -52,6 +53,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @InjectView(R.id.ll_saikuang)
     LinearLayout ll_saikuang;
+    @InjectView(R.id.ll_history)
+    LinearLayout ll_history;
 
 
     public MoreFragment() {
@@ -106,6 +109,12 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), GameActivity.class));
+            }
+        });
+        ll_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), PastReviewActivity.class));
             }
         });
 

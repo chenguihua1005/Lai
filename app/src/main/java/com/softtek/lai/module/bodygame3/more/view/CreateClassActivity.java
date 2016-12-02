@@ -40,6 +40,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
@@ -270,32 +271,6 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-//    // 开班信息验证
-//    private void validateData() {
-//        String class_name = tv_class_name.getText().toString().trim();
-//        String xiaoqu = tv_xiaoqu.getText().toString().trim();
-//        String city = tv_city.getText().toString().trim();
-//        if (TextUtils.isEmpty(class_name)) {
-//            Util.toastMsg("班级名称不能为空！");
-//        } else if (TextUtils.isEmpty(xiaoqu)) {
-//            Util.toastMsg("小区尚未选择!");
-//        } else if (TextUtils.isEmpty(city)) {
-//            Util.toastMsg("城市尚未选择!");
-//        }
-//        try {
-//            EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-//            option.maxUsers = 200;
-//            option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
-//            EMGroup group = EMClient.getInstance().groupManager().createGroup(class_name, "", null, "", option);
-//
-//            String groupId = group.getGroupId();
-//        } catch (HyphenateException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -437,6 +412,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 public void success(ResponseData<LaiClass> data, Response response) {
                     dialogDissmiss();
                     if (data.getStatus() == 200) {
+                        UserModel user=UserInfoModel.getInstance().getUser();
+                        user.setHasThClass(1);
+                        UserInfoModel.getInstance().saveUserCache(user);
                         Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
                         intent.putExtra("classId", data.getData().getClassId());
                         startActivity(intent);

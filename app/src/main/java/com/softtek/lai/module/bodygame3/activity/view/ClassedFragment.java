@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
@@ -50,6 +52,7 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -144,7 +147,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //设置日历的长和宽间距
         material_calendar.setTileWidthDp(50);
         material_calendar.setTileHeightDp(38);
-
+        material_calendar.removeDecorators();
         //设置选中的背景颜色
 //        int color = parseColor("#FFA200");
 //        material_calendar.setSelectionColor(color);
@@ -183,13 +186,103 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
         };
         list_activity.setAdapter(adapter);
+        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                classid = classModels.get(i).getClassId();
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
+                    @Override
+                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
+                        calendarModels.clear();
+
+                        if (activitydataModelResponseData.getData() != null) {
+                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
+                            if (activitydataModel.getList_ActCalendar() != null) {
+                                calendarModels.addAll(activitydataModel.getList_ActCalendar());
+                                material_calendar.removeDecorators();
+                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                            }
+
+                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                reset_name.setText("复测审核");
+                                if (!activitydataModel.getRetest()) {
+                                    reset_time.setText("未审核");
+                                } else {
+                                    reset_time.setText("已审核");
+                                }
+                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                reset_name.setText("复测录入");
+                                if (!activitydataModel.getRetest()) {
+                                    reset_time.setText("未复测");
+                                } else {
+                                    reset_time.setText("已复测");
+                                }
+                            }
+//                            加载班级
+                            classModels.clear();
+                            if (activitydataModel.getList_Class() != null) {
+                                classModels.addAll(activitydataModel.getList_Class());
+                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                                    @Override
+                                    public void convert(ViewHolder holder, ClassModel data, int position) {
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        int icon;
+                                        switch (data.getClassRole()) {
+                                            case 1:
+                                                icon = R.drawable.class_zongjiaolian;
+                                                break;
+                                            case 2:
+                                                icon = R.drawable.class_jiaolian;
+                                                break;
+                                            case 3:
+                                                icon = R.drawable.class_zhujiao;
+                                                break;
+                                            default:
+                                                icon = R.drawable.class_xueyuan;
+                                                break;
+                                        }
+                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        TextView tv_role = holder.getView(R.id.tv_role_name);
+                                        int role = data.getClassRole();
+                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        TextView tv_number = holder.getView(R.id.tv_number);
+                                        tv_number.setText(data.getClassCode());
+                                    }
+
+                                    @Override
+                                    public String getText(int position) {
+                                        if (classModels != null && !classModels.isEmpty()) {
+                                            return classModels.get(position).getClassName();
+                                        } else {
+                                            return "尚未开班";
+                                        }
+                                    }
+                                });
+
+
+                            }
+                            //获取今天的活动
+                            if (activitydataModel.getList_Activity() != null) {
+                                todayactModels.addAll(activitydataModel.getList_Activity());
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                    }
+                });
+            }
+        });
     }
 
 
     private void getalldatafirst() {
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                "",
                 new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
@@ -198,25 +291,9 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             if (activitydataModel.getList_ActCalendar() != null) {
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
-//                        for (int i = 0; i <calendarModels.size() ; i++) {
-//                            if(calendarModels.get(i).getDateType()== Constants.RESET){
-//                                if(calendarModels.get(i).getMonthDate()!=null){
-//                                    actcalendar=new ActscalendarModel();
-//                                    actcalendar.setMonthDate(calendarModels.get(i).getMonthDate());
-////                                calendarModel_act.clear();
-//                                    calendarModel_act.add(actcalendar);
-//                                    Log.e("1234",new Gson().toJson(calendarModel_act));
-//                                    if (calendarModel_act != null && calendarModel_act.size() > 0) {
-////                                    calendarModel_act1.addAll(calendarModel_act);//添加日期显示
-//                                        new ApiSimulatoract().executeOnExecutor(Executors.newSingleThreadExecutor());
-//                                    }
-//                                }
-//
-//                            }
-//                        }
+                                material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
-
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                                 fl_right.setVisibility(View.VISIBLE);
                                 fl_right.setEnabled(true);
@@ -226,7 +303,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 } else {
                                     reset_time.setText("已审核");
                                 }
-                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                            }
+                            if (Constants.STUDENT == (activitydataModel.getClassRole())) {
                                 reset_name.setText("复测录入");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -235,22 +313,21 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 } else {
                                     reset_time.setText("已复测");
                                 }
-                            } else if (Constants.COACH == (activitydataModel.getClassRole())) {
+                            }
+                            if (Constants.COACH == (activitydataModel.getClassRole())) {
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
-//                                iv_right.setImageResource(R.drawable.add_iv);
-//                                iv_right.setImageDrawable(getContext().getResources().getDrawable(R.drawable.add_iv));
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未审核");
                                 } else {
                                     reset_time.setText("已审核");
                                 }
-                            } else if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                            }
+                            if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
-//                                iv_right.setImageResource(R.drawable.add_iv);
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未审核");
                                 } else {
@@ -262,16 +339,39 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             if (activitydataModel.getList_Class() != null) {
                                 classModels.addAll(activitydataModel.getList_Class());
 
-                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
+                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                     @Override
                                     public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        TextView tv_class_name = holder.getView(R.id.tv_title);
-                                            tv_class_name.setText(data.getClassName());
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        int icon;
+                                        switch (data.getClassRole()) {
+                                            case 1:
+                                                icon = R.drawable.class_zongjiaolian;
+                                                break;
+                                            case 2:
+                                                icon = R.drawable.class_jiaolian;
+                                                break;
+                                            case 3:
+                                                icon = R.drawable.class_zhujiao;
+                                                break;
+                                            default:
+                                                icon = R.drawable.class_xueyuan;
+                                                break;
+                                        }
+                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        TextView tv_role = holder.getView(R.id.tv_role_name);
+                                        int role = data.getClassRole();
+                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        TextView tv_number = holder.getView(R.id.tv_number);
+                                        tv_number.setText(data.getClassCode());
                                     }
 
                                     @Override
                                     public String getText(int position) {
                                         if (classModels != null && !classModels.isEmpty()) {
+                                            classid=classModels.get(position).getClassId();
                                             return classModels.get(position).getClassName();
                                         } else {
                                             return "尚未开班";
@@ -291,151 +391,13 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
                     }
                 });
-        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                classid = classModels.get(i).getClassId();
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
-                    @Override
-                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
-                        calendarModels.clear();
-                        if (activitydataModelResponseData.getData() != null) {
-                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
-                            if (activitydataModel.getList_ActCalendar() != null) {
-                                calendarModels.addAll(activitydataModel.getList_ActCalendar());
-                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
-                            }
 
-                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-                                reset_name.setText("复测审核");
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
-                                reset_name.setText("复测录入");
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未复测");
-                                } else {
-                                    reset_time.setText("已复测");
-                                }
-                            }
-                            //加载班级
-                            classModels.clear();
-                            if (activitydataModel.getList_Class() != null) {
-                                classModels.addAll(activitydataModel.getList_Class());
-                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
-                                    @Override
-                                    public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        TextView tv_class_name = holder.getView(R.id.tv_classed);
-                                        tv_class_name.setText(data.getClassName());
-                                    }
-
-                                    @Override
-                                    public String getText(int position) {
-//                                        String classname="";
-//                                     if (classModels!=null&&classModels.isEmpty()) {
-//                                        classname=classModels.get(position).getClassName();
-//                                    }
-                                        return classModels.get(position).getClassName();
-                                    }
-                                });
-
-
-                            }
-                            //获取今天的活动
-                            if (activitydataModel.getList_Activity() != null) {
-                                todayactModels.addAll(activitydataModel.getList_Activity());
-                                adapter.notifyDataSetChanged();
-                            }
-
-
-                        }
-
-                    }
-                });
-            }
-        });
-//        tv_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                classid = classModels.get(i).getClassId();
-//                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
-//                    @Override
-//                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
-//                        calendarModels.clear();
-//                        if (activitydataModelResponseData.getData() != null) {
-//                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
-//                            if (activitydataModel.getList_ActCalendar() != null) {
-//                                calendarModels.addAll(activitydataModel.getList_ActCalendar());
-//                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
-//                            }
-//
-//                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-//                                reset_name.setText("复测审核");
-//                                if (!activitydataModel.getRetest()) {
-//                                    reset_time.setText("未审核");
-//                                } else {
-//                                    reset_time.setText("已审核");
-//                                }
-//                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
-//                                reset_name.setText("复测录入");
-//                                if (!activitydataModel.getRetest()) {
-//                                    reset_time.setText("未复测");
-//                                } else {
-//                                    reset_time.setText("已复测");
-//                                }
-//                            }
-//                            //加载班级
-//                            classModels.clear();
-//                            if (activitydataModel.getList_Class() != null) {
-//                                classModels.addAll(activitydataModel.getList_Class());
-//                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.class_title) {
-//                                    @Override
-//                                    public void convert(ViewHolder holder, ClassModel data, int position) {
-//                                        TextView tv_class_name = holder.getView(R.id.tv_title);
-//                                        tv_class_name.setText(data.getClassName());
-//                                    }
-//
-//                                    @Override
-//                                    public String getText(int position) {
-////                                        String classname="";
-////                                     if (classModels!=null&&classModels.isEmpty()) {
-////                                        classname=classModels.get(position).getClassName();
-////                                    }
-//                                        return classModels.get(position).getClassName();
-//                                    }
-//                                });
-//
-//
-//                            }
-//                            //获取今天的活动
-//                            if (activitydataModel.getList_Activity() != null) {
-//                                todayactModels.addAll(activitydataModel.getList_Activity());
-//                                adapter.notifyDataSetChanged();
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
     }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         oneDayDecorator.setDate(date.getDate());//字体加粗加大
         widget.invalidateDecorators();
-
         int YY = date.getCalendar().get(Calendar.YEAR);
         int MM = date.getCalendar().get(Calendar.MONTH) + 1;
         int DD = date.getCalendar().get(Calendar.DATE);
@@ -444,12 +406,11 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         todayactModels.clear();
         adapter.notifyDataSetChanged();
         gettodaydata(dateStr);
-
-
     }
 
     private void gettodaydata(String datestr2) {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), "C4E8E179-FD99-4955-8BF9-CF470898788B", datestr2, new RequestCallback<ResponseData<TodaysModel>>() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+                classid, datestr2, new RequestCallback<ResponseData<TodaysModel>>() {
             @Override
             public void success(ResponseData<TodaysModel> todaysModelResponseData, Response response) {
                 Util.toastMsg(todaysModelResponseData.getMsg());
@@ -470,7 +431,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         switch (view.getId()) {
             case R.id.fl_right:
                 Intent intent = new Intent(getContext(), CreateActActivity.class);
-                intent.putExtra("classid", "ea2226fc-dfe6-4b36-8ad7-95650bcc96dd");
+                intent.putExtra("classid",classid);
                 startActivity(intent);
                 break;
             case R.id.ll_chuDate:
@@ -481,54 +442,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //                break;
         }
     }
-
-//    /**
-//     * Simulate an API call to show how to add decorators//小圆点展示
-//     */
-//    public class ApiSimulatorcicle extends AsyncTask<List<ActscalendarModel>, Void, Void> {
-//        @Override
-//        protected Void doInBackground(List<ActscalendarModel>... lists) {
-//            for (int i = 0; i < calendarModels.size(); i++) {
-//                datetype = calendarModels.get(i).getDateType();
-//                if (Constants.ACTIVITY == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        calendarModel_act.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
-//                    }
-//                }
-//                if (Constants.RESET == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        calendarModel_reset.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
-//                    }
-//                }
-//                if (Constants.FREE == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-////
-//                        calendarModel_free.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
-//                    }
-//                }
-//                if (Constants.CREATECLASS == datetype) {
-//                    if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-//                        calendarModel_create.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
-//                    }
-//                }
-//
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            if (getActivity() == null || getActivity().isFinishing()) {
-//                return;
-//            }
-//            if (material_calendar != null) {
-//                material_calendar.addDecorator(new EventDecorator(R.color.activity,datetype, calendarModel_act, getActivity()));
-//                material_calendar.addDecorator(new EventDecorator(R.color.fuceshenhe, datetype,calendarModel_reset, getActivity()));
-//            }
-//        }
-//    }
-
 
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
@@ -541,7 +454,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 datetype = calendarModels.get(i).getDateType();
                 if (Constants.ACTIVITY == datetype) {
                     if (!TextUtils.isEmpty(calendarModels.get(i).getMonthDate())) {
-
                         calendarModel_act.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
                     }
                 }

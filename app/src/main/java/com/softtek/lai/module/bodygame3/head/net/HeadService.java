@@ -1,13 +1,16 @@
 package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
+import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
@@ -45,14 +48,8 @@ public interface HeadService {
             Callback<ResponseData<List<ClasslistModel>>> callback
     );
 
-//    classid
-//            sorttype
-//    pagesize
-//            pageindex
-//    keyword
-
-//    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
-    //检索小伙伴:Api/V1/HerbalifeClass /GetSearchClassPartner
+    //    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
+    //检索小伙伴
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(
             @Header("token") String token,
@@ -60,7 +57,7 @@ public interface HeadService {
             @Query("classid") String classid,
             @Query("pagesize") int pagesize,
             @Query("pageindex") int pageindex,
-            Callback<ResponseData<PantnerpageModel>> callback
+            RequestCallback<ResponseData<PantnerpageModel>> callback
     );
 //按类型分页加载小伙伴
 
@@ -73,13 +70,14 @@ public interface HeadService {
 //    请求路径:Api/V1/ HerbalifeClass / GetClassPartner
     void getpartnertype(
             @Header("token") String token,
-            @Query("classid")  String classid,
+            @Query("classid") String classid,
             @Query("sorttype") int sorttype,
             @Query("pagesize") int pagesize,
             @Query("pageindex") int pageindex,
             Callback<ResponseData<PartnertotalModel>> callback
     );
-//    请求路径:Api/V1/MsgCenter/UnReadTiMsgCnt
+
+    //    请求路径:Api/V1/MsgCenter/UnReadTiMsgCnt
     @GET("/V1/MsgCenter/UnReadTiMsgCnt")
     void hasemail(
             @Header("token") String token,
@@ -96,5 +94,13 @@ public interface HeadService {
             Callback<ResponseData<MemberInfoModel>> callback
     );
 
-
+    //选择班级加载数据请求路径:Api/V1/ HerbalifeClass / GetClassInfo
+    @GET("/V1/HerbalifeClass/GetClassInfo")
+    void choose(
+            @Header("token") String token,
+            @Query("classid") String classid,
+            @Query("classweeknum") String classweeknum,
+            @Query("pagesize") int pagesize,
+            Callback<ResponseData<ChooseModel>> callback
+    );
 }
