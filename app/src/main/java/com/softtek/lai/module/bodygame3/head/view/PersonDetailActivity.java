@@ -10,9 +10,18 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
+import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.utils.RequestCallback;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.Zilla;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static com.softtek.lai.R.id.img;
 
@@ -22,10 +31,16 @@ public class PersonDetailActivity extends BaseActivity {
     private LayoutInflater mInflater;
     @InjectView(R.id.gallery)
     LinearLayout gallery;
+    HeadService headService;
+    Long userid,accountid;
+    String classid;
+    MemberInfoModel memberInfoModel;
     @Override
     protected void initViews() {
-
+        doGetData(Long.parseLong("3399"),Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
     }
+
+
 
     @Override
     protected void initDatas() {
@@ -44,5 +59,29 @@ public class PersonDetailActivity extends BaseActivity {
             gallery.addView(view);
 
         }
+
+    }
+    private void doGetData(long userid,long accountid,String classid) {
+        headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
+        headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            @Override
+            public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+                int status=memberInfoModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        memberInfoModel=memberInfoModelResponseData.getData();
+                        if (memberInfoModel!=null)
+                        {
+                            
+                        }
+                        break;
+                    default:
+                        Util.toastMsg(memberInfoModelResponseData.getMsg());
+                        break;
+                }
+
+            }
+        });
     }
 }
