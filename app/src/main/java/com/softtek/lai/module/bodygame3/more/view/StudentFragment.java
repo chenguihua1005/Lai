@@ -79,10 +79,9 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
                                 dialogShow("退出班级");
                                 final ClassModel model=getArguments().getParcelable("class");
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                        .removeFromGroup(UserInfoModel.getInstance().getToken(),
+                                        .existClass(UserInfoModel.getInstance().getToken(),
                                                UserInfoModel.getInstance().getUserId(),
                                                 model.getClassId(),
-                                                "",
                                                 new Callback<ResponseData>() {
                                                     @Override
                                                     public void success(ResponseData responseData, Response response) {

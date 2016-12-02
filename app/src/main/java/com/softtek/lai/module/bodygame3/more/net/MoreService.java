@@ -162,8 +162,16 @@ public interface MoreService {
                        Callback<ResponseData> callback);
 
     //往期回顾班级列表
+    @GET("/V1/HistoryClass/GetHistoryClasses")
     void getHistoryClasses(@Header("token")String token,
                            @Query("AccountId")long accountId,
                            Callback<ResponseData<List<HistoryClassModel>>> callback);
+
+    //学员退赛
+    @GET("/V1/MineCustomer/ExsitClass")
+    void existClass(@Header("token")String token,
+                    @Query("AccountId")long accountId,
+                    @Query("ClassId")String classId,
+                    Callback<ResponseData> callback);
 
 }
