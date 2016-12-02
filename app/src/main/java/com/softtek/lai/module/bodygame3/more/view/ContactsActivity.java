@@ -82,6 +82,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 Intent intent=new Intent(ContactsActivity.this,InvitationSettingActivity.class);
                 intent.putExtra("classId",getIntent().getStringExtra("classId"));
                 intent.putExtra("inviterId",contact.getAccountId());
+                intent.putExtra("inviterHXId",contact.getHXAccountId());
                 startActivity(intent);
                 return false;
             }

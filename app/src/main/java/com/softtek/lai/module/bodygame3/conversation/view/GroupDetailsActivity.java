@@ -84,9 +84,10 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
-        classId = classModel.getClassId();
+        if (classModel != null) {
+            classId = classModel.getClassId();
 
-        Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
+            Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
 
 //        group = EMClient.getInstance().groupManager().getGroup(groupId);
 //        if (group == null) {
@@ -98,17 +99,18 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 //        GroupChangeListener groupChangeListener = new GroupChangeListener();
 //        EMClient.getInstance().groupManager().addGroupChangeListener(groupChangeListener);
 
-        members = new ArrayList<ClassMemberModel>();
-        memberAdapter = new MemberAdapter(members, this);
-        group_list.setAdapter(memberAdapter);
-        group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            members = new ArrayList<ClassMemberModel>();
+            memberAdapter = new MemberAdapter(members, this);
+            group_list.setAdapter(memberAdapter);
+            group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-            }
-        });
-        getClassMembers(classId);
+                }
+            });
+            getClassMembers(classId);
+        }
 
     }
 

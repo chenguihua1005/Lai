@@ -5,6 +5,7 @@ import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
@@ -82,6 +83,15 @@ public interface HeadService {
             @Header("token") String token,
             @Query("accountid") long accountid,
             Callback<ResponseData<NewsModel>> callback
+    );
+    //个人详情
+    @GET("/V1/HerbalifeClass/GetClassMemberInfo")
+    void doGetClassMemberInfo(
+            @Header("token") String token,
+            @Query("loginuserid") long loginuserid,//登录id
+            @Query("accountid") long accountid,//学员id
+            @Query("classid") String classid,//班级id
+            Callback<ResponseData<MemberInfoModel>> callback
     );
 
     //选择班级加载数据请求路径:Api/V1/ HerbalifeClass / GetClassInfo

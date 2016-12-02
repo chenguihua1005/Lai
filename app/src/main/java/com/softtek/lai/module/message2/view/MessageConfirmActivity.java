@@ -11,10 +11,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
@@ -41,6 +43,7 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.activity_message_confirm)
 public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "MessageConfirmActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -67,12 +70,19 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     TextView tv_aixin_phone;
     @InjectView(R.id.rl_aixin)
     RelativeLayout rl_aixin;
-    @InjectView(R.id.cb_zqs)
-    CheckBox cb_zqs;
+    @InjectView(R.id.cb_term)
+    CheckBox cb_term;
+    @InjectView(R.id.tv_zqs)
+    TextView tv_zqs;
     @InjectView(R.id.btn_yes)
     Button btn_yes;
     @InjectView(R.id.btn_no)
     Button btn_no;
+
+    @InjectView(R.id.ll_tip)
+    LinearLayout ll_tip;
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;
 
     InvitationConfirmShow show;
     Message2Service service;
@@ -86,6 +96,17 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         btn_no.setOnClickListener(this);
         btn_yes.setOnClickListener(this);
         rl_aixin.setOnClickListener(this);
+        tv_zqs.setOnClickListener(this);
+        cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    btn_yes.setEnabled(true);
+                } else {
+                    btn_yes.setEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -107,6 +128,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     public void onResult(InvitationConfirmShow show) {
         this.show = show;
+        Log.i(show.toString());
         tv_invitater_name.setText(show.getSender());
         tv_head_coach_name.setText(show.getClassMasterName());
         if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
@@ -123,8 +145,19 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         int role = show.getClassRole();
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
-        btn_no.setEnabled(true);
-        btn_yes.setEnabled(true);
+
+        if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
+            tv_aixin_phone.setText(show.getIntroducerMobile());
+        }
+        if (show.getMsgStatus() == 0) {
+            ll_tip.setVisibility(View.VISIBLE);
+            tv_tip.setVisibility(View.GONE);
+            btn_no.setEnabled(true);
+            btn_yes.setEnabled(true);
+        } else {
+            ll_tip.setVisibility(View.GONE);
+            tv_tip.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -133,6 +166,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_zqs:
+                startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_yes:
                 dialogShow();
@@ -144,8 +180,22 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
+                                Log.i(responseData.toString());
                                 if (responseData.getStatus() == 200) {
-
+                                    //换信加入群 show
+//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
+//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
+                                    try {
+                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "show.getClassMasterHxId()");
+//                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        finish();
+                                    } catch (HyphenateException e) {
+                                        Util.toastMsg("同意失败:" + e.getMessage());
+                                        e.printStackTrace();
+                                    }
+                                    finish();
                                 }
                             }
 
@@ -170,15 +220,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                 if (responseData.getStatus() == 200) {
                                     //确认成
                                     Util.toastMsg(responseData.getMsg());
-                                    //换信加入群 show
-//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
-//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
-                                    try {
-                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                    } catch (HyphenateException e) {
-                                        Util.toastMsg("同意失败:" + e.getMessage());
-                                        e.printStackTrace();
-                                    }
 
 
                                 } else if (responseData.getStatus() == 201) {

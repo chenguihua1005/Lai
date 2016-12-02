@@ -42,7 +42,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="15dp"
-                        android:text="小白"
                         android:textColor="#FFA200"
                         android:textSize="15sp" />
 
@@ -90,7 +89,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="小王"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -117,7 +115,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:text="超级减重班"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -143,7 +140,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:text="32131321"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -169,7 +165,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:text="1026年11月1日"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -195,7 +190,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:text="学员"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -221,7 +215,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:text="A组"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -257,40 +250,76 @@
                         android:drawableRight="@drawable/bodygame3_arrow"/>
                 </RelativeLayout>
             </android.support.v7.widget.LinearLayoutCompat>
-
-            <CheckBox
-                android:id="@+id/cb_zqs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ZQS"
-                android:textColor="#999999" />
-
-            <Button
-                android:id="@+id/btn_yes"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/bg_confirm_btn"
-                android:text="同意"
-                android:textColor="@color/white"
-                android:enabled="false"
-                android:textSize="17sp" />
-
-            <Button
-                android:id="@+id/btn_no"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/bg_no_btn"
-                android:text="取消"
-                android:enabled="false"
-                android:textColor="#FFA200"
-                android:textSize="@dimen/textSize5" />
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_term"
+                    style="@style/customCheckBoxTheme2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+                <TextView
+                    android:id="@+id/tv_zqs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/ZQS"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ll_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/btn_yes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/bg_confirm_btn"
+                        android:text="同意"
+                        android:textColor="@color/white"
+                        android:enabled="false"
+                        android:textSize="17sp" />
+
+                    <Button
+                        android:id="@+id/btn_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/bg_no_btn"
+                        android:text="取消"
+                        android:enabled="false"
+                        android:textColor="#FFA200"
+                        android:textSize="@dimen/textSize5" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="操作已处理"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    />
+            </FrameLayout>
+
 
         </LinearLayout>
 

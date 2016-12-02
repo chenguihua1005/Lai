@@ -25,6 +25,24 @@ public class InvitationConfirmShow {
     private long SenderId;
     private String ClassMasterPhoto;
     private String SenderPhoto;
+    private int MsgStatus;
+    private String IntroducerMobile;
+
+    public String getIntroducerMobile() {
+        return IntroducerMobile;
+    }
+
+    public void setIntroducerMobile(String introducerMobile) {
+        IntroducerMobile = introducerMobile;
+    }
+
+    public int getMsgStatus() {
+        return MsgStatus;
+    }
+
+    public void setMsgStatus(int msgStatus) {
+        MsgStatus = msgStatus;
+    }
 
     public String getClassMasterPhoto() {
         return ClassMasterPhoto;
@@ -152,5 +170,28 @@ public class InvitationConfirmShow {
 
     public void setSenderId(long SenderId) {
         this.SenderId = SenderId;
+    }
+
+    @Override
+    public String toString() {
+        return "InvitationConfirmShow{" +
+                "MsgId='" + MsgId + '\'' +
+                ", ClassId='" + ClassId + '\'' +
+                ", ClassName='" + ClassName + '\'' +
+                ", ClassMasterName='" + ClassMasterName + '\'' +
+                ", ClassMasterId=" + ClassMasterId +
+                ", ClassCode='" + ClassCode + '\'' +
+                ", CGId='" + CGId + '\'' +
+                ", CGName='" + CGName + '\'' +
+                ", ClassRole=" + ClassRole +
+                ", ClassStart='" + ClassStart + '\'' +
+                ", ClassMasterHxId=" + ClassMasterHxId +
+                ", ClassHxGroupId=" + ClassHxGroupId +
+                ", Sender='" + Sender + '\'' +
+                ", SenderId=" + SenderId +
+                ", ClassMasterPhoto='" + ClassMasterPhoto + '\'' +
+                ", SenderPhoto='" + SenderPhoto + '\'' +
+                ", MsgStatus=" + MsgStatus +
+                '}';
     }
 }

@@ -413,7 +413,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 Log.i(TAG, "调用欢心接口...");
                 EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
                 option.maxUsers = 200;
-                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
+                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicOpenJoin ;
                 Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
 
                 String[] members = {};

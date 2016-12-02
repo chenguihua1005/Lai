@@ -1,5 +1,6 @@
 package com.softtek.lai.module.message2.view;
 
+
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;

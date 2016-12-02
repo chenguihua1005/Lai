@@ -29,9 +29,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
-import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -114,7 +111,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
 
         Log.i(TAG, "initViews   ......");
-        Log.e("123",UserInfoModel.getInstance().getUser().getHasThClass()+"");
+        Log.e("123", UserInfoModel.getInstance().getUser().getHasThClass() + "");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -134,7 +131,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new ActivityFragment());
         fragments.add(new MoreFragment());
         content.setOffscreenPageLimit(4);
-        adapter=new MainPageAdapter(getSupportFragmentManager(), fragments);
+        adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
 
@@ -235,6 +232,27 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
+        //从服务器获取自己加入的和创建的群组列表，此api获取的群组sdk会自动保存到内存和db。
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
+//                    for (EMGroup group : grouplist) {
+//                        String groupId = group.getGroupId();
+//                        Log.i(TAG,"groupId= " +groupId);
+//                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
+//                        Log.i(TAG, " 解散成功！" + groupId);
+//                    }
+//                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+//                    Log.i(TAG, " 解散失败！");
+//                }
+//
+//            }
+//        }).start();
+
+
     }
 
     private void setChildProgress(int position, float progress) {
@@ -300,6 +318,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         Log.i(TAG, "onResume is running...");
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+
 
             Log.i(TAG, "已登录,未读消息数是： " + unreadNum);
             updateMessage(unreadNum);

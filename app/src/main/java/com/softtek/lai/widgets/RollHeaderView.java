@@ -11,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     //初始化view
     private void initView() {
+//        LayoutInflater.from(mContext).inflate(R.layout.view_header,this,false);
         View.inflate(mContext, R.layout.view_header, this);
         mViewPager = (ViewPager) findViewById(R.id.vp);
         mDotLl = (LinearLayout) findViewById(R.id.ll_dot);
