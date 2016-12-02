@@ -40,6 +40,8 @@ import zilla.libcore.util.Util;
 public class ActivitydetailActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.detail_view)
     GridView detail_view;//已报名的小伙伴
     @InjectView(R.id.detail_activity_name)
@@ -71,6 +73,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
         exit_tv.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
     }
 
@@ -178,6 +181,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         super.failure(error);
                     }
                 });
+                break;
+            case R.id.ll_left:
+                finish();
                 break;
         }
     }
