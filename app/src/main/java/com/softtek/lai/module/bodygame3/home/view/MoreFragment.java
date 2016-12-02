@@ -140,7 +140,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     public void deletClass(int classCount) {
         if(classCount==0){
             //没有班级的样式
-            getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commitAllowingStateLoss();
         }
     }
 }
