@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
+import com.softtek.lai.module.bodygame3.head.model.ClaDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
@@ -102,5 +103,13 @@ public interface HeadService {
             @Query("classweeknum") String classweeknum,
             @Query("pagesize") int pagesize,
             Callback<ResponseData<ChooseModel>> callback
+    );
+    //班级详情
+    @GET("/V1/HistoryClass/GetHistoryClassDetails")
+    void GetHistoryClassDetails(
+            @Header("token") String token,
+            @Query("AccountId")Long AccountId,
+            @Query("ClassId")String ClassId,
+            Callback<RequestCallback<ClaDetailModel>>callback
     );
 }
