@@ -26,6 +26,15 @@ public class InvitationConfirmShow {
     private String ClassMasterPhoto;
     private String SenderPhoto;
     private int MsgStatus;
+    private String IntroducerMobile;
+
+    public String getIntroducerMobile() {
+        return IntroducerMobile;
+    }
+
+    public void setIntroducerMobile(String introducerMobile) {
+        IntroducerMobile = introducerMobile;
+    }
 
     public int getMsgStatus() {
         return MsgStatus;
