@@ -27,7 +27,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
-import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;

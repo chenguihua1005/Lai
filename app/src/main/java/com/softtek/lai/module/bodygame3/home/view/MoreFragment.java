@@ -13,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
@@ -31,12 +32,14 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_more)
 public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass{
 
-
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.iv_left)
@@ -86,25 +89,27 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     @Override
     protected void initViews() {
         tv_title.setText("更多");
-        tv_right.setText("开班");
+
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
             if (TextUtils.isEmpty(user.getPhoto())){
                 Picasso.with(getContext()).load(R.drawable.img_default).into(head_image);
             }else {
-                Picasso.with(getContext()).load(R.drawable.img_default).fit()
+                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).fit()
                         .error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(head_image);
             }
-        }
-
-        fl_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), CreateClassActivity.class));
+            if(Constants.SP==Integer.parseInt(user.getUserrole())){
+                tv_right.setText("开班");
+                fl_right.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(getContext(), CreateClassActivity.class));
+                    }
+                });
             }
-        });
+        }
         ll_saikuang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +122,12 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                 startActivity(new Intent(getContext(), PastReviewActivity.class));
             }
         });
-
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
 
     }
 
