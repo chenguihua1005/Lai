@@ -174,8 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="visible"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
 
             <GridView
@@ -214,6 +214,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
                 android:background="#FFA200"
                 android:text="删除活动"
                 android:textColor="@color/white"
@@ -222,38 +223,59 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/exit_lin"
+            android:id="@+id/exit_lins"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="您已经报名成功，如临时不能参加，可点此"
-                android:textSize="13sp"
-                android:textColor="@color/word5" />
+            <LinearLayout
+                android:id="@+id/exit_lin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <TextView
-                android:id="@+id/exit_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="“退出活动”"
-                android:textSize="13sp"
-                android:textColor="@color/exit_btn" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="您已经报名成功，如临时不能参加，可点此"
+                    android:textColor="@color/word5"
+                    android:textSize="13sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="退出"
-                android:textSize="13sp"
-                android:textColor="@color/word5" />
+                <TextView
+                    android:id="@+id/exit_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="“退出活动”"
+                    android:textColor="@color/exit_btn"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="退出"
+                    android:textColor="@color/word5"
+                    android:textSize="13sp" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/del_activity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="#FFA200"
+                android:text="删除活动"
+                android:textColor="@color/white"
+                android:visibility="visible" />
         </LinearLayout>
-
     </LinearLayout>
 
 
