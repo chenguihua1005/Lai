@@ -167,6 +167,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     Long accountId=Long.parseLong(userInfoModel.getUser().getUserid());//用户id
     String Classid="";//班级id
     Context context;
+    String files;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,8 +216,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                multipartTypedOutput.addPart("image",new TypedFile("image/png", new File(file)));
+                files=file;
 
+                Log.i(files);
 //                retestPre.goGetPicture(file);
             }
 
@@ -247,7 +249,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
-//                retestWrite.setImage("");
+                files="";
                 break;
             //标题栏左返回
             case R.id.ll_left:
@@ -430,17 +432,24 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        multipartTypedOutput.addPart("pysical",new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
-        multipartTypedOutput.addPart("fat",new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-        multipartTypedOutput.addPart("ChuWeight",new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
-        multipartTypedOutput.addPart("circum",new TypedString(initDataModel.getCircum().toString()));//胸围
-        multipartTypedOutput.addPart("waistline",new TypedString(initDataModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
-        multipartTypedOutput.addPart("upArmGirth",new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
-        multipartTypedOutput.addPart("upLegGirth",new TypedString(initDataModel.getUpLegGirth().toString()));//大腿围
-        multipartTypedOutput.addPart("doLegGirth",new TypedString(initDataModel.getDoLegGirth().toString()));//小腿围
-        Log.i("上传数据"+multipartTypedOutput.getPartCount());
-        doPostInitData();
+        Log.i("图片测试"+files+"哈哈"+im_retestwrite_showphoto.getResources());
+        if (!TextUtils.isEmpty(files)) {
+            multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+            multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+            multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+            multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+            multipartTypedOutput.addPart("circum", new TypedString(initDataModel.getCircum().toString()));//胸围
+            multipartTypedOutput.addPart("waistline", new TypedString(initDataModel.getWaistline().toString()));//腰围
+//        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
+            multipartTypedOutput.addPart("upArmGirth", new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
+            multipartTypedOutput.addPart("upLegGirth", new TypedString(initDataModel.getUpLegGirth().toString()));//大腿围
+            multipartTypedOutput.addPart("doLegGirth", new TypedString(initDataModel.getDoLegGirth().toString()));//小腿围
+            Log.i("上传数据" + multipartTypedOutput.getPartCount());
+            doPostInitData();
+        }
+        else {
+            Util.toastMsg("请上传图片");
+        }
 //        if (TextUtils.isEmpty(retestWrite.getImage()))
 //        {
 //            Util.toastMsg("请上传照片");
@@ -492,6 +501,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                 {
                                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                                     Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+//                                    Picasso.with(context).load(url+initDataModel.getImgThumbnail());
                                     Log.i("复测图片缩略图"+url+initDataModel.getImgThumbnail());
 
                                 }
