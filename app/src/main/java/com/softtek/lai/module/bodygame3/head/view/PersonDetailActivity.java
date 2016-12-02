@@ -39,10 +39,17 @@ public class PersonDetailActivity extends BaseActivity {
     Long userid,accountid;
     String classid;
     MemberInfoModel memberInfoModel;
-    @InjectView(R.id.cir_userimg)
+    @InjectView(R.id.cir_userimg)//用户id
     CircleImageView cir_userimg;
-    @InjectView(R.id.tv_stuname)
+    @InjectView(R.id.tv_stuname)//用户名
     TextView tv_stuname;
+    @InjectView(R.id.tv_personlityName)
+    TextView tv_personlityName;//个性签名
+    @InjectView(R.id.tv_angle)
+    TextView tv_angle;//爱心天使姓名
+    @InjectView(R.id.tv_love)
+    TextView tv_love;//爱心学员
+    String img[],thImg[];
     @Override
     protected void initViews() {
         doGetData(Long.parseLong("3399"),Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
@@ -86,7 +93,12 @@ public class PersonDetailActivity extends BaseActivity {
                                 Picasso.with(getParent()).load(AddressManager.get("PhotoHost")+memberInfoModel.getUserThPhoto()).fit().into(cir_userimg);
                             }
                             tv_stuname.setText(memberInfoModel.getUserName());
-
+                            if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName()))
+                            {
+                                tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                            }
+                            tv_angle.setText("爱心天使："+memberInfoModel.getMilkAngle());
+                            tv_love.setText("爱心学员："+memberInfoModel.getIntroducer());
                         }
                         break;
                     default:

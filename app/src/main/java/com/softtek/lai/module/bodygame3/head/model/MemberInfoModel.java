@@ -26,6 +26,7 @@ public class MemberInfoModel {
     private String CurrentWeight;//目前体重
     private String CurttentImg;//目前体重图
     private String CurttentThImg;//目前体重缩略图
+    private String PersonalityName;//个人签名
 
     @Override
     public String toString() {
@@ -49,7 +50,16 @@ public class MemberInfoModel {
                 ", CurrentWeight='" + CurrentWeight + '\'' +
                 ", CurttentImg='" + CurttentImg + '\'' +
                 ", CurttentThImg='" + CurttentThImg + '\'' +
+                ", PersonalityName='" + PersonalityName + '\'' +
                 '}';
+    }
+
+    public String getPersonalityName() {
+        return PersonalityName;
+    }
+
+    public void setPersonalityName(String personalityName) {
+        PersonalityName = personalityName;
     }
 
     public String getUserName() {
