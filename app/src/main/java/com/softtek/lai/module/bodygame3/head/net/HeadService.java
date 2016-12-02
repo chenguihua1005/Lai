@@ -5,7 +5,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
-import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
+import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 
 import java.util.List;
@@ -51,15 +51,15 @@ public interface HeadService {
 //    keyword
 
 //    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
-    //检索小伙伴
+    //检索小伙伴:Api/V1/HerbalifeClass /GetSearchClassPartner
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(
             @Header("token") String token,
+            @Query("keyword") String keyword,
             @Query("classid") String classid,
             @Query("pagesize") int pagesize,
             @Query("pageindex") int pageindex,
-            @Query("keyword") String keyword,
-            Callback<ResponseData<PartnersModel>> callback
+            Callback<ResponseData<PantnerpageModel>> callback
     );
 //按类型分页加载小伙伴
 

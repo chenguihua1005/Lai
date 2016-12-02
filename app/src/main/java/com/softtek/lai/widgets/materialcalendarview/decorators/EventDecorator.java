@@ -19,9 +19,11 @@ public class EventDecorator implements DayViewDecorator {
     private int color;
     private HashSet<CalendarDay> dates;
     private Context context;
+    private int mode;
 
-    public EventDecorator(int color, Collection<CalendarDay> dates, Context context) {
+    public EventDecorator(int color,int mode, Collection<CalendarDay> dates, Context context) {
         this.color = color;
+        this.mode=mode;
         this.dates = new HashSet<>(dates);
         this.context = context;
     }
@@ -44,6 +46,6 @@ public class EventDecorator implements DayViewDecorator {
 //        }
 //        view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_my_selector));
 
-        view.addSpan(new DotSpan(3, color));
+        view.addSpan(new DotSpan(3, color,mode));
     }
 }

@@ -256,7 +256,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/bg_chat_btn"
             android:textColor="#ffffff"
             android:textSize="18sp"/>
         <Button
@@ -265,7 +264,6 @@
             android:text="发起聊天"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/bg_guy_btn"
             android:textColor="#ec7166"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"/>

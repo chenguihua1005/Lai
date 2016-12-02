@@ -6,10 +6,12 @@ import android.widget.FrameLayout;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ClassedFragment;
 import com.softtek.lai.module.bodygame3.activity.view.NoClassFragment;
 
 import butterknife.InjectView;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_activity2)
@@ -28,7 +30,7 @@ public class ActivityFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-        if(UserInfoModel.getInstance().getUser().getHasThClass()==1){
+        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
             getChildFragmentManager().beginTransaction().replace(R.id.contain_act,new NoClassFragment()).commit();
         }else {
             getChildFragmentManager().beginTransaction().replace(R.id.contain_act,new ClassedFragment()).commit();
