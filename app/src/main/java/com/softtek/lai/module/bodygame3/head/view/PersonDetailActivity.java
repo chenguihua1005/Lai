@@ -85,7 +85,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private List<NewsTopFourModel> newsTopFourModels=new ArrayList<NewsTopFourModel>();
     @Override
     protected void initViews() {
-        doGetData(Long.parseLong("3399"),Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
         tv_dynamic.setOnClickListener(this);
         try {
             if (memberInfoModel!=null) {
@@ -119,8 +118,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         mInflater=LayoutInflater.from(this);
+        accountid=Long.parseLong(getIntent().getIntExtra("student_id",0)+"");
         userid=UserInfoModel.getInstance().getUserId();
-        accountid=UserInfoModel.getInstance().getUserId();
+        classid=getIntent().getStringExtra("classId_first");
+        doGetData(userid,accountid,classid);
     }
     private void doGetData(long userid,long accountid,String classid) {
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
