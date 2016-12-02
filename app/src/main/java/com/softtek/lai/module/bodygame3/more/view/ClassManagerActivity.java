@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -266,6 +267,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                                                     @Override
                                                     public void success(ResponseData responseData, Response response) {
                                                         dialogDissmiss();
+                                                        Log.i("关闭班级+"+responseData.toString());
                                                         if(responseData.getStatus()==200){
                                                             EventBus.getDefault().post(new UpdateClass(2,classModel));
                                                             finish();

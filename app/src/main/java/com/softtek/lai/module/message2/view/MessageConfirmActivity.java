@@ -146,103 +146,107 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
         if (show.getMsgStatus() == 0) {
-            ll_tip.setVisibility(View.VISIBLE);
-            tv_tip.setVisibility(View.GONE);
-            btn_no.setEnabled(true);
-            btn_yes.setEnabled(true);
-        } else {
-            ll_tip.setVisibility(View.GONE);
-            tv_tip.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
+                tv_aixin_phone.setText(show.getIntroducerMobile());
+            }
+            if (show.getMsgStatus() == 0) {
+                ll_tip.setVisibility(View.VISIBLE);
+                tv_tip.setVisibility(View.GONE);
+                btn_no.setEnabled(true);
+                btn_yes.setEnabled(true);
+            } else {
+                ll_tip.setVisibility(View.GONE);
+                tv_tip.setVisibility(View.VISIBLE);
+            }
+
         }
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_left:
-                finish();
-                break;
-            case R.id.tv_zqs:
-                startActivity(new Intent(this, ZQSActivity.class));
-                break;
-            case R.id.btn_yes:
-                dialogShow();
-                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
-                        msgId,
-                        1,
-                        introducerId,
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                                dialogDissmiss();
-                                Log.i(responseData.toString());
-                                if (responseData.getStatus() == 200) {
-                                    //换信加入群 show
+        @Override
+        public void onClick (View v){
+            switch (v.getId()) {
+                case R.id.ll_left:
+                    finish();
+                    break;
+                case R.id.tv_zqs:
+                    startActivity(new Intent(this, ZQSActivity.class));
+                    break;
+                case R.id.btn_yes:
+                    dialogShow();
+                    service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                            msgId,
+                            1,
+                            introducerId,
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    dialogDissmiss();
+                                    Log.i(responseData.toString());
+                                    if (responseData.getStatus() == 200) {
+                                        //换信加入群 show
 //                                    EMClient.getInstance().groupManager().joinGroup(groupid);
 //                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
-                                    try {
-                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "show.getClassMasterHxId()");
+                                        try {
+                                            Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "show.getClassMasterHxId()");
 //                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
 //                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                            finish();
+                                        } catch (HyphenateException e) {
+                                            Util.toastMsg("同意失败:" + e.getMessage());
+                                            e.printStackTrace();
+                                        }
                                         finish();
-                                    } catch (HyphenateException e) {
-                                        Util.toastMsg("同意失败:" + e.getMessage());
-                                        e.printStackTrace();
                                     }
-                                    finish();
                                 }
-                            }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                dialogDissmiss();
-                                super.failure(error);
-                            }
-                        });
-                break;
-            case R.id.btn_no:
-                dialogShow();
-                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
-                        msgId,
-                        -1,
-                        introducerId,
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                                dialogDissmiss();
-
-                                if (responseData.getStatus() == 200) {
-                                    //确认成
-                                    Util.toastMsg(responseData.getMsg());
-
-
-                                } else if (responseData.getStatus() == 201) {
-                                    //该用户已经加入班级
-                                    Util.toastMsg(responseData.getMsg());
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    dialogDissmiss();
+                                    super.failure(error);
                                 }
-                            }
+                            });
+                    break;
+                case R.id.btn_no:
+                    dialogShow();
+                    service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                            msgId,
+                            -1,
+                            introducerId,
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    dialogDissmiss();
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                dialogDissmiss();
-                                super.failure(error);
-                            }
-                        });
-                break;
-            case R.id.rl_aixin:
-                startActivityForResult(new Intent(this, EditorPhoneActivity.class), 100);
-                break;
+                                    if (responseData.getStatus() == 200) {
+                                        //确认成
+                                        Util.toastMsg(responseData.getMsg());
 
+
+                                    } else if (responseData.getStatus() == 201) {
+                                        //该用户已经加入班级
+                                        Util.toastMsg(responseData.getMsg());
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    dialogDissmiss();
+                                    super.failure(error);
+                                }
+                            });
+                    break;
+                case R.id.rl_aixin:
+                    startActivityForResult(new Intent(this, EditorPhoneActivity.class), 100);
+                    break;
+
+            }
+        }
+
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 200 && resultCode == 100) {
+                introducerId = data.getLongExtra("accountId", 0);
+            }
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200 && resultCode == 100) {
-            introducerId = data.getLongExtra("accountId", 0);
-        }
-    }
-}
