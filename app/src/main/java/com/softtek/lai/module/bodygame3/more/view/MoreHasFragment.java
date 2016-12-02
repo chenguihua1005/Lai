@@ -45,10 +45,6 @@ public class MoreHasFragment extends Fragment {
 
     }
 
-    public DeleteClass getDeleteClass() {
-        return deleteClass;
-    }
-
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
     }
@@ -144,20 +140,20 @@ public class MoreHasFragment extends Fragment {
             case 1://总教练
                 HeadCoachFragment headCoachFragment = new HeadCoachFragment();
                 headCoachFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commitAllowingStateLoss();
                 break;
             case 2://教练
                 CoachFragment coachFragment = new CoachFragment();
                 coachFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commitAllowingStateLoss();
                 break;
             case 3://助教
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commitAllowingStateLoss();
                 break;
             case 4://学员
                 StudentFragment studentFragment = new StudentFragment();
                 studentFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.container, studentFragment).commitAllowingStateLoss();
                 break;
         }
     }
@@ -177,16 +173,20 @@ public class MoreHasFragment extends Fragment {
             arrow.getAdapter().notifyDataSetChanged();
         }else if(clazz.getStatus()==2){
             //删除班级
-            this.classModels.remove(clazz.getModel());
-            arrow.getAdapter().notifyDataSetChanged();
-            arrow.setSelected(0);
+            for (ClassModel model:classModels){
+                if(model.getClassCode().equals(clazz.getModel().getClassCode())){
+                    this.classModels.remove(model);
+                    arrow.getAdapter().notifyDataSetChanged();
+                    arrow.setSelected(0);
+                    this.model=classModels.get(0);
+                    choosePanel(this.model.getClassRole());
+                    break;
+                }
+            }
             if(classModels.isEmpty()){
                 if(deleteClass!=null){
                     deleteClass.deletClass(0);
                 }
-            }else {
-                model=classModels.get(0);
-                choosePanel(model.getClassRole());
             }
         }
     }

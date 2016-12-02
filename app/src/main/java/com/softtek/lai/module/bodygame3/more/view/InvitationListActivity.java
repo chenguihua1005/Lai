@@ -150,7 +150,6 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.i("有数据返回回来啦");
         InvitatedContact contact=intent.getParcelableExtra("invitater");
         String groupName=contact.getJoinGroupName();
         if(datas.containsKey(groupName)){
