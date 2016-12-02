@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,11 +16,14 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -35,6 +39,10 @@ public class PersonDetailActivity extends BaseActivity {
     Long userid,accountid;
     String classid;
     MemberInfoModel memberInfoModel;
+    @InjectView(R.id.cir_userimg)
+    CircleImageView cir_userimg;
+    @InjectView(R.id.tv_stuname)
+    TextView tv_stuname;
     @Override
     protected void initViews() {
         doGetData(Long.parseLong("3399"),Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
@@ -73,7 +81,12 @@ public class PersonDetailActivity extends BaseActivity {
                         memberInfoModel=memberInfoModelResponseData.getData();
                         if (memberInfoModel!=null)
                         {
-                            
+                            if (!TextUtils.isEmpty(memberInfoModel.getUserThPhoto()))
+                            {
+                                Picasso.with(getParent()).load(AddressManager.get("PhotoHost")+memberInfoModel.getUserThPhoto()).fit().into(cir_userimg);
+                            }
+                            tv_stuname.setText(memberInfoModel.getUserName());
+
                         }
                         break;
                     default:
