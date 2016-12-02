@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.conversation.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jessica.zhang on 2016/11/29.
  */
 
-public class ClassMemberModel {
+public class ClassMemberModel implements Serializable{
     private String HXAccountId;
     private int AccountId;//成员ID
     private String UserName;

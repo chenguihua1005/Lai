@@ -25,6 +25,8 @@ public class InitDataModel implements Serializable {
     private String StartDate;//开始日期
     private String EndDate;//结束日期
     private String Gender;//性别
+    private String ImgThumbnail;//缩略图
+    private String Img;//图
 
     @Override
     public String toString() {
@@ -47,7 +49,25 @@ public class InitDataModel implements Serializable {
                 ", StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
                 ", Gender='" + Gender + '\'' +
+                ", ImgThumbnail='" + ImgThumbnail + '\'' +
+                ", Img='" + Img + '\'' +
                 '}';
+    }
+
+    public String getImgThumbnail() {
+        return ImgThumbnail;
+    }
+
+    public void setImgThumbnail(String imgThumbnail) {
+        ImgThumbnail = imgThumbnail;
+    }
+
+    public String getImg() {
+        return Img;
+    }
+
+    public void setImg(String img) {
+        Img = img;
     }
 
     public String getGender() {

@@ -17,8 +17,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.Constant;
-import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -31,6 +29,7 @@ import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -44,7 +43,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -178,11 +176,14 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 Log.i(TAG, "是否登錄 = " + isLogin);
                 if (isLogin) {
                     ChatContactModel model = datas.get(groups.get(i)).get(i1);
-                    Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
-                    intent.putExtra("name", model.getUserName());
-                    intent.putExtra("photo", path + model.getPhoto());
+//                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
+//                    intent.putExtra("name", model.getUserName());
+//                    intent.putExtra("photo", path + model.getPhoto());
+//                    startActivity(intent);
+
+                    Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
                     startActivity(intent);
                 } else {
                     Util.toastMsg("会话功能开通中，请稍后再试");

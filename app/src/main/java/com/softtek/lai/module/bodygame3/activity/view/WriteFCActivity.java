@@ -479,18 +479,22 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                             initDataModel=initDataModelResponseData.getData();
                             if (initDataModel!=null)
                             {
+                                String url= AddressManager.get("photoHost");
                                 tv_write_nick.setText(initDataModel.getUserName());//设置用户名
                                 tv_write_phone.setText(initDataModel.getMobile());//手机号
                                 if (!TextUtils.isEmpty(initDataModel.getPhoto()))
                                 {
-                                    String url= AddressManager.get("photoHost");
+
                                     Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
+                                    Log.i("头像"+url+initDataModel.getPhoto());
                                 }
-//                                if (!TextUtils.isEmpty(initDataModel.getPhoto()))
-//                                {
-//                                    String url= AddressManager.get("photoHost");
-//                                    Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
-//                                }
+                                if (!TextUtils.isEmpty(initDataModel.getImgThumbnail()))
+                                {
+                                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                                    Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+                                    Log.i("复测图片缩略图"+url+initDataModel.getImgThumbnail());
+
+                                }
                                 tv_write_class.setText(initDataModel.getClassName());//班级名
                                 tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
                                 String Stardata[]=initDataModel.getStartDate().split("-");

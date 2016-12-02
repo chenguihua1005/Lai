@@ -1,11 +1,13 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Intent;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -84,10 +86,21 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
 //                (Picasso.with(PantnerActivity.this).load(R.drawable.img_default).into(head_image)
                 tv_certificate.setText(data.getMobile());
                 TextView certificate_tv = holder.getView(R.id.certificate_tv);
-                certificate_tv.setText("资格证号"+" "+data.getCertification());
+                certificate_tv.setText("资格证号" + " " + data.getCertification());
             }
         };
         pantner_list.setAdapter(adapter);
+        pantner_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                PartnerlistModel partnerlistModel = partnerlistModels.get(i);
+                int student_id = partnerlistModel.getAccountId();
+                Intent intent = new Intent(PantnerActivity.this, PersonDetailActivity.class);
+                intent.putExtra("classId_first", classId_first);
+                intent.putExtra("student_id", student_id);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getpantners() {
