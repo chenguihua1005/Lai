@@ -37,6 +37,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -117,7 +118,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         if (TextUtils.isEmpty(apply.getApplyCert())){
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
         }else {
-            Picasso.with(this).load(R.drawable.img_default).fit()
+            Picasso.with(this).load(AddressManager.get("photoHost")).fit()
                     .error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(head_image);
         }

@@ -94,7 +94,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 TextView tv_groupName=holder.getView(R.id.tv_group_name);
                 tv_groupName.setText(data.getClassGroupName());
                 TextView tv_serial=holder.getView(R.id.tv_serial);
-                tv_serial.setText((position+1)+"");
+                tv_serial.setText(String.valueOf(position+1));
                 //侧滑操作
                 final HorizontalScrollView hsv=holder.getView(R.id.hsv);
                 TextView tv_editor=holder.getView(R.id.tv_editor);
