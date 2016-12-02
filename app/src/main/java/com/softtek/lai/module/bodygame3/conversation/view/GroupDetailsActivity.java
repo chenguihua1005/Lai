@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.conversation.view;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -105,7 +107,10 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
             group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                    Intent intent = new Intent(GroupDetailsActivity.this, PersonDetailActivity.class);
+                    ClassMemberModel classMemberModel = memberAdapter.getItem(i);
+                    intent.putExtra("classMemberModel",classMemberModel);
+                    startActivity(intent);
 
                 }
             });

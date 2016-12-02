@@ -186,9 +186,13 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 //                                    EMClient.getInstance().groupManager().joinGroup(groupid);
 //                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
                                     try {
-                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "show.getClassMasterHxId()");
+                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "  show.getClassMasterHxId() = " + String.valueOf(show.getClassMasterHxId()));
 //                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
 //                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+//                                        EMClient.getInstance().groupManager().applyJoinToGroup(show.getClassHxGroupId(), "求加入");//需异步处理
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+
                                         EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
                                         finish();
                                     } catch (HyphenateException e) {

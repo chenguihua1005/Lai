@@ -17,6 +17,15 @@ public class ClassInvitater {
     private String InviterPhoto;
     private String InviterName;
     private String InviterMobile;
+    private String ClassGroupHxId;
+
+    public String getClassGroupHxId() {
+        return ClassGroupHxId;
+    }
+
+    public void setClassGroupHxId(String classGroupHxId) {
+        ClassGroupHxId = classGroupHxId;
+    }
 
     private List<ClassGroup> ClassGroupList;
     private List<ClassRole> ClassRole;

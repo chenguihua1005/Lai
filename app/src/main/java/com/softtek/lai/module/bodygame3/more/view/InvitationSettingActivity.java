@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -47,6 +49,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_invitation_setting)
 public class InvitationSettingActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "InvitationSettingActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -81,6 +84,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     SendInvitation invitation;
     ClassInvitater classInvitater;
 
+    private String inviterHXId;
+
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
@@ -94,6 +99,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         invitation.setSenderId(UserInfoModel.getInstance().getUserId());
         String classId = getIntent().getStringExtra("classId");
         long invitaterId = getIntent().getLongExtra("inviterId", 0);
+        inviterHXId = getIntent().getStringExtra("inviterHXId");//被邀请人的环信ID
+
+
         invitation.setClassId(classId);
         invitation.setInviterId(invitaterId);
         dialogShow();
@@ -203,13 +211,22 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
                                             //环信发申请
                                             //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+                                            Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
 
-//                                            new Thread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    EMClient.getInstance().groupManager().applyJoinToGroup(groupid, "求加入");//需异步处理
-//                                                }
-//                                            }).start();
+
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    String[] inviterHXIds = {inviterHXId};
+//                                                    EMClient.getInstance().groupManager().applyJoinToGroup(classInvitater.getClassGroupHxId(), "求加入");//需异步处理
+                                                    try {//群主加人调用此方法
+                                                        EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+//                                                        EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
+                                                    } catch (HyphenateException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }).start();
 
 
                                             //邀请成功
