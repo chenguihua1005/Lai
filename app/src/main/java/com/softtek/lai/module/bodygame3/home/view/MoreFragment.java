@@ -72,7 +72,6 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                     bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
                                     fragment.setArguments(bundle);
                                     getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
-
                                 }else {
                                     //没有班级的样式
                                     getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();

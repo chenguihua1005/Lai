@@ -2,12 +2,14 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,19 +23,24 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.ActivityModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
-import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.more.view.EditorTextActivity;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomDialog;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
@@ -47,6 +54,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.rl_activity_time)
@@ -63,15 +72,25 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     RelativeLayout rl_activity_mark;
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
+    @InjectView(R.id.tv_activity_type)
+    TextView tv_activity_type;
+    @InjectView(R.id.type_iv)
+    ImageView type_iv;
     private LinearLayout.LayoutParams parm;
     private String date;
     EasyAdapter<ActtypeModel> adapter;
-    private List<ActtypeModel> acttypeModels;
+    private List<ActtypeModel> acttypeModels = new ArrayList<ActtypeModel>();
+    private String classid;
+    private ActivityModel activityModel;
+    private int classActivityId;//活动类型Id
+
     @Override
     protected void initViews() {
         tv_title.setText("新建活动");
         tv_right.setText("确定");
+        activityModel = new ActivityModel();
         ll_left.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         rl_activity_mark.setOnClickListener(this);
         rl_activity_name.setOnClickListener(this);
         rl_activity_time.setOnClickListener(this);
@@ -80,7 +99,29 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
+        Intent intent = getIntent();
+        classid = intent.getStringExtra("classid");
+        gettype();
+        if (acttypeModels != null) {
+            adapter = new EasyAdapter<ActtypeModel>(this, acttypeModels, R.layout.gird_item) {
+                @Override
+                public void convert(ViewHolder holder, ActtypeModel data, int position) {
+                    TextView text = holder.getView(R.id.text);
+                    text.setText(data.getActivityTypeName());
+                    CircleImageView image = holder.getView(R.id.head_image);
+                    String path = AddressManager.get("photoHost");
+                    if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
+//                    Picasso.with(context).load(basePath + model.getStuImg()).into(viewHolder.head_img);
+                        Picasso.with(CreateActActivity.this).load(path + data.getActivityTypeIcon()).into(image);
+                    }
 
+                }
+
+            };
+        }
+
+
+//        Log.e("activity", activityModel.toString());
     }
 
     @Override
@@ -107,6 +148,46 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 addMarkIntent.putExtra("name", tv_activity_mark.getText());
                 startActivityForResult(addMarkIntent, 002);
                 break;
+            case R.id.fl_right:
+                String title = tv_activity_name.getText().toString().trim();
+                String startime = tv_activity_time.getText().toString().trim();
+                String mark = tv_activity_mark.getText().toString().trim();
+                if (TextUtils.isEmpty(title)) {
+                    Util.toastMsg("请输入活动标题");
+                    return;
+                }
+                if (TextUtils.isEmpty(startime)) {
+                    Util.toastMsg("请选择活动日期");
+                    return;
+                }
+                if (TextUtils.isEmpty(mark)) {
+                    Util.toastMsg("请输入活动说明");
+                    return;
+                }
+                activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
+                activityModel.setClassId(classid);
+                activityModel.setClassActivityId(classActivityId);
+                activityModel.setTitle(title);
+                activityModel.setWholeDay(false);
+                activityModel.setStartTime(startime);
+                activityModel.setContent(mark);
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(UserInfoModel.getInstance().getToken(), activityModel, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        if (200 == responseData.getStatus()) {
+                            Util.toastMsg(responseData.getMsg());
+                            finish();
+                        } else {
+                            Util.toastMsg(responseData.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
+                break;
         }
     }
 
@@ -117,8 +198,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             if (requestCode == 001) {
                 String value = data.getStringExtra("value");
                 tv_activity_name.setText(value);
-            }else if(requestCode==002){
-                String value_mark=data.getStringExtra("value");
+            } else if (requestCode == 002) {
+                String value_mark = data.getStringExtra("value");
                 tv_activity_mark.setText(value_mark);
             }
         }
@@ -137,24 +218,24 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         parm.gravity = Gravity.CENTER;
 
         // 自定义布局控件，用来初始化并存放自定义imageView
-
+        type_view.setAdapter(adapter);
 
         builder.setView(view);
         builder.show();
-        gettype();
-        adapter = new EasyAdapter<ActtypeModel>(this, acttypeModels, R.layout.gird_item) {
+
+        type_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void convert(ViewHolder holder, ActtypeModel data, int position) {
-              TextView text=holder.getView(R.id.text);
-                text.setText(data.getActivityTypeName());
-                ImageView image=holder.getView(R.id.image);
-                String path=AddressManager.getHost();
-                Picasso.with(CreateActActivity.this).load(path+data.getActivityTypeIcon()).into(image);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ActtypeModel acttypeModel = acttypeModels.get(i);
+//                if (acttypeModel.getActivityTypeId() == 2) {
+                    classActivityId = acttypeModel.getActivityTypeId();
+                    tv_activity_type.setText(acttypeModel.getActivityTypeName());
+                    String path = AddressManager.get("photoHost");
+                    Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).into(type_iv);
+                    builder.dismiss();
+//                }
             }
-
-        };
-        type_view.setAdapter(adapter);
-
+        });
         iv_cancle.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -220,7 +301,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void success(ResponseData<List<ActtypeModel>> listResponseData, Response response) {
                 Util.toastMsg(listResponseData.getMsg());
-                if(listResponseData.getData()!=null){
+                if (listResponseData.getData() != null && !listResponseData.getData().isEmpty()) {
                     acttypeModels.addAll(listResponseData.getData());
                     adapter.notifyDataSetChanged();
                 }

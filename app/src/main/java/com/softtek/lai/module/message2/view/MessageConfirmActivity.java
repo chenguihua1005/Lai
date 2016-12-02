@@ -8,14 +8,15 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
@@ -37,7 +38,8 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
+ * 操作消息确认
+ * Created by jerry.guan on 1/12/2016.
  */
 @InjectLayout(R.layout.activity_message_confirm)
 public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
@@ -67,12 +69,19 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     TextView tv_aixin_phone;
     @InjectView(R.id.rl_aixin)
     RelativeLayout rl_aixin;
-    @InjectView(R.id.cb_zqs)
-    CheckBox cb_zqs;
+    @InjectView(R.id.cb_term)
+    CheckBox cb_term;
+    @InjectView(R.id.tv_zqs)
+    TextView tv_zqs;
     @InjectView(R.id.btn_yes)
     Button btn_yes;
     @InjectView(R.id.btn_no)
     Button btn_no;
+
+    @InjectView(R.id.ll_tip)
+    LinearLayout ll_tip;
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;
 
     InvitationConfirmShow show;
     Message2Service service;
@@ -86,6 +95,17 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         btn_no.setOnClickListener(this);
         btn_yes.setOnClickListener(this);
         rl_aixin.setOnClickListener(this);
+        tv_zqs.setOnClickListener(this);
+        cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    btn_yes.setEnabled(true);
+                }else {
+                    btn_yes.setEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -107,6 +127,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     public void onResult(InvitationConfirmShow show) {
         this.show = show;
+        Log.i(show.toString());
         tv_invitater_name.setText(show.getSender());
         tv_head_coach_name.setText(show.getClassMasterName());
         if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
@@ -123,21 +144,16 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         int role = show.getClassRole();
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
-        btn_no.setEnabled(true);
-        btn_yes.setEnabled(true);
-
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent = getIntent();
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
-            return true;
+        if(show.getMsgStatus()==0){
+            ll_tip.setVisibility(View.VISIBLE);
+            tv_tip.setVisibility(View.GONE);
+            btn_no.setEnabled(true);
+            btn_yes.setEnabled(true);
+        }else {
+            ll_tip.setVisibility(View.GONE);
+            tv_tip.setVisibility(View.VISIBLE);
         }
-        return super.onKeyDown(keyCode, event);
+
     }
 
     @Override
@@ -145,6 +161,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_zqs:
+                startActivity(new Intent(this,ZQSActivity.class));
                 break;
             case R.id.btn_yes:
                 dialogShow();
@@ -156,8 +175,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
+                                Log.i(responseData.toString());
                                 if (responseData.getStatus() == 200) {
-
+                                    finish();
                                 }
                             }
 
@@ -178,6 +198,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
+
                                 if (responseData.getStatus() == 200) {
                                     //确认成
                                     Util.toastMsg(responseData.getMsg());
@@ -187,6 +208,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                     try {
                                         EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
 //                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        finish();
                                     } catch (HyphenateException e) {
                                         Util.toastMsg("同意失败:" + e.getMessage());
                                         e.printStackTrace();

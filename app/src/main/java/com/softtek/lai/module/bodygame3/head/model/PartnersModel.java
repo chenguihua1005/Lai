@@ -16,18 +16,15 @@ public class PartnersModel {
     private String GroupId;
     private String Weight;
     private String Loss;
+    private String IsRetire;
 
-    public PartnersModel(String accountId, String ranking, String stuImg, String stuThImg, String stuName, String stuGender, String groupName, String groupId, String weight, String loss) {
-        AccountId = accountId;
-        Ranking = ranking;
-        StuImg = stuImg;
-        StuThImg = stuThImg;
-        StuName = stuName;
-        StuGender = stuGender;
-        GroupName = groupName;
-        GroupId = groupId;
-        Weight = weight;
-        Loss = loss;
+
+    public String getIsRetire() {
+        return IsRetire;
+    }
+
+    public void setIsRetire(String isRetire) {
+        IsRetire = isRetire;
     }
 
     public String getStuThImg() {

@@ -33,7 +33,7 @@ public class SchelDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new Textspan(context,mode));
+        view.addSpan(new Textspan(context,mode,4));
 
     }
 }
