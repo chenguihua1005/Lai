@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_area"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/ll_area"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <ImageView
@@ -17,28 +20,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            app:srcCompat="@drawable/back_arrow_right"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            app:srcCompat="@drawable/close"
 
             />
-        <HorizontalScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-        <GridView
-            android:id="@+id/type_view"
+        <!--<HorizontalScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbars="none">-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnWidth="100dp"
-            android:numColumns="auto_fit"
-            android:stretchMode="spacingWidthUniform"  />
-            </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <GridView
+                android:id="@+id/type_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnWidth="100dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="spacingWidthUniform" />
+        </LinearLayout>
+        <!--</HorizontalScrollView>-->
+    </LinearLayout>
 
 
 </LinearLayout>

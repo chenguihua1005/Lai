@@ -4,17 +4,19 @@
     android:id="@+id/activity_person_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa"
+    android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity">
 <include layout="@layout/toolbar"/>
     <ScrollView
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#fafafa">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_stuname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="会飞的喵"
@@ -42,6 +45,7 @@
                     android:textColor="#333333"
                     />
                 <TextView
+                    android:id="@+id/tv_personlityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="点击编辑标签"
@@ -65,7 +69,7 @@
                     android:id="@+id/tv_love"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="爱心顾问：小王"
+                    android:text="爱心学员：小王"
                     android:textSize="10sp"
                     android:textColor="#999999"
                     android:layout_marginLeft="15dp"
@@ -88,6 +92,10 @@
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,9 +110,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#eeeeee"/>
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_vertical"
                 android:scrollbars="none"
                 >
@@ -117,7 +126,149 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="体重变化"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="15dp"
+                android:background="#75ba2b"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="体重"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#75ba2b"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-15.0斤"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#75ba2b"
+                        android:layout_marginLeft="12dp"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:background="#75ba2b"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="145dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="3dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/default_icon_rect"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="145dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/default_icon_rect"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="#eeeeee"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="查看我的曲线图"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:drawableLeft="@drawable/lable"
+            android:drawableRight="@drawable/action_right"
+            android:drawablePadding="5dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发起聊天"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发起聊天"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="#ec7166"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"/>
     </LinearLayout>
     </ScrollView>
 </RelativeLayout>
