@@ -77,6 +77,7 @@
                 </LinearLayout>
             </LinearLayout>
             <ImageView
+                android:id="@+id/im_guanzhu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/add_guanzhu_icon"
@@ -97,6 +98,7 @@
                 android:layout_height="1dp"
                 android:background="#eeeeee"/>
             <TextView
+                android:id="@+id/tv_dynamic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="最新动态"
@@ -119,12 +121,20 @@
                 >
                 <LinearLayout
                     android:id="@+id/gallery"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="暂未发布动态"/>
                 </LinearLayout>
+
             </HorizontalScrollView>
             <View
                 android:layout_width="match_parent"
@@ -132,6 +142,7 @@
                 android:background="#eeeeee"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_weigh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -184,9 +195,9 @@
                         android:textColor="#75ba2b"
                         />
                     <TextView
+                        android:id="@+id/tv_Lossweight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15.0斤"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="#75ba2b"
@@ -204,21 +215,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp">
-                <ImageView
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="145dp"
-                    android:layout_weight="1"
                     android:layout_marginRight="3dp"
+                    android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/im_InitImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:background="@drawable/default_icon_rect"/>
-                <ImageView
+                    <TextView
+                        android:id="@+id/tv_initWeit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="初始体重"
+                        android:background="#77ffad1e"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
+                        android:textColor="#ffffff"/>
+                </FrameLayout>
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="145dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerCrop"
                     android:layout_marginLeft="3dp"
+                    android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/im_currenimWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:background="@drawable/default_icon_rect"/>
-
+                    <TextView
+                        android:id="@+id/tv_currenweight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" 初始体重"
+                        android:background="#77619924"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
+                        android:textColor="#ffffff"/>
+                </FrameLayout>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -232,6 +274,7 @@
             android:layout_marginTop="15dp"
             android:background="#eeeeee"/>
         <TextView
+            android:id="@+id/tv_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
@@ -242,6 +285,7 @@
             android:paddingBottom="20dp"
             android:textSize="14sp"
             android:textColor="#333333"
+            android:visibility="visible"
             android:drawableLeft="@drawable/lable"
             android:drawableRight="@drawable/action_right"
             android:drawablePadding="5dp"/>
@@ -249,25 +293,29 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#eeeeee"
+            android:layout_marginBottom="15dp"
             />
         <Button
+            android:id="@+id/btn_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="发起聊天"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="5dp"
             android:textColor="#ffffff"
+            android:background="@drawable/bg_chat_btn"
             android:textSize="18sp"/>
         <Button
+            android:id="@+id/btn_addguy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发起聊天"
+            android:text="添加好友"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:textColor="#ec7166"
             android:textSize="18sp"
+            android:background="@drawable/bg_guy_btn"
             android:layout_marginBottom="10dp"/>
     </LinearLayout>
     </ScrollView>
