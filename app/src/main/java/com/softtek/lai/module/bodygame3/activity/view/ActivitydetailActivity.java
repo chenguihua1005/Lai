@@ -62,7 +62,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     Button delete_activity;
     @InjectView(R.id.signup_activity)
     Button signup_activity;
-
+    @InjectView(R.id.del_activity)
+    Button del_activity;
+    @InjectView(R.id.exit_lins)
+    LinearLayout exit_lins;
     private List<UseredModel> useredModels = new ArrayList<UseredModel>();
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
@@ -109,11 +112,34 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 if (actdetailModelResponseData.getData() != null) {
                     ActdetailModel actdetailModel = actdetailModelResponseData.getData();
                     if (actdetailModel.getSign()) {
-                        sign_lin.setVisibility(View.GONE);
-                        exit_lin.setVisibility(View.VISIBLE);
+                        if (UserInfoModel.getInstance().getUser().getUserrole().equals(Constants.SP)) {
+                            sign_lin.setVisibility(View.GONE);
+                            exit_lins.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.VISIBLE);
+                            signup_activity.setVisibility(View.GONE);
+                            del_activity.setVisibility(View.VISIBLE);
+                        } else {
+                            sign_lin.setVisibility(View.GONE);
+                            exit_lins.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.VISIBLE);
+                            delete_activity.setVisibility(View.GONE);
+                            del_activity.setVisibility(View.GONE);
+                        }
                     } else {
-                        sign_lin.setVisibility(View.VISIBLE);
-                        exit_lin.setVisibility(View.GONE);
+                        if(UserInfoModel.getInstance().getUser().getUserrole().equals(Constants.SP)){
+                            sign_lin.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.VISIBLE);
+                            exit_lins.setVisibility(View.VISIBLE);
+                            signup_activity.setVisibility(View.VISIBLE);
+                            del_activity.setVisibility(View.VISIBLE);
+                        }else{
+                            sign_lin.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.VISIBLE);
+                            signup_activity.setVisibility(View.VISIBLE);
+                            exit_lins.setVisibility(View.VISIBLE);
+                            del_activity.setVisibility(View.GONE);
+                        }
+
                     }
                     detail_activity_name.setText(actdetailModel.getTitle());
                     detail_activity_time.setText(actdetailModel.getStartTime());
@@ -136,11 +162,11 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
-                        if(200==responseData.getStatus()){
+                        if (200 == responseData.getStatus()) {
                             Util.toastMsg(responseData.getMsg());
                             sign_lin.setVisibility(View.GONE);
                             exit_lin.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             Util.toastMsg(responseData.getMsg());
                         }
 
@@ -170,17 +196,17 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
                         activityId, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
-                        finish();
-                    }
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                Util.toastMsg(responseData.getMsg());
+                                finish();
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                            }
+                        });
                 break;
             case R.id.ll_left:
                 finish();
