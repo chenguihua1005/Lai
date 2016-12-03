@@ -67,7 +67,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     int flag=0;
     IHealthyRecord iHealthyRecord;
     private ProgressDialog progressDialog;
-    //    PysicalManager pysicalManager;
+
     SimpleDateFormat sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");

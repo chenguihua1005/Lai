@@ -63,24 +63,16 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     Button bt_right;
 
     private LineChartUtil chartUtil;
-    List<Float> dates=new ArrayList<Float>();
-    List<String>days=new ArrayList<String>();
-    //时间
-    Calendar c = Calendar.getInstance();
-    //            取得系统日期:
-    int years = c.get(Calendar.YEAR);
-    int months = c.get(Calendar.MONTH) + 1;
-    int day = c.get(Calendar.DAY_OF_MONTH);
-    //取得系统时间：
-    int hour = c.get(Calendar.HOUR_OF_DAY);
-    int minute = c.get(Calendar.MINUTE);
+    List<Float> dates=new ArrayList<>();
+    List<String>days=new ArrayList<>();
+
     char type='6';
     int n=7;
     boolean state=true;
     int flag=0;
     IHealthyRecord iHealthyRecord;
     private ProgressDialog progressDialog;
-    //    PysicalManager pysicalManager;
+
     SimpleDateFormat sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");
