@@ -6,11 +6,9 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.model.CircumlistModel;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
 import com.softtek.lai.module.health.model.HealthFatModel;
 import com.softtek.lai.module.health.model.HealthHiplieModel;
@@ -23,7 +21,8 @@ import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
-import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.widgets.chart.Chart;
+import com.softtek.lai.widgets.chart.Entry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ import zilla.libcore.ui.InjectLayout;
 public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthRecordManager.HealthRecordCallBack,View.OnClickListener{
 
     @InjectView(R.id.chart)
-    LineChart chart;
+    Chart chart;
 
     @InjectView(R.id.rg)
     RadioGroup radio_group;
@@ -57,9 +56,8 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     @InjectView(R.id.bt_right)
     Button bt_right;
     DateForm dateForm;
-    private LineChartUtil chartUtil;
-    List<Float> dates=new ArrayList<Float>();
-    List<String>days=new ArrayList<String>();
+    List<Entry> dates=new ArrayList<>();
+    List<String>days=new ArrayList<>();
 
     char type='6';
     int n=7;
@@ -75,30 +73,6 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initViews() {
-        //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
-        chart.setNoDataTextDescription("暂无数据");
-        //启用手势操作
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.getLegend().setEnabled(false);//去除图例
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaxValue(100f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);//不启用0轴的线
-
-        chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        YAxis rightAxis=chart.getAxisRight();
-        rightAxis.setDrawZeroLine(true);
-        chart.setData(new LineData());//设置一个空数据
-
         radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
@@ -116,17 +90,15 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager=new HealthRecordManager(this);
-        chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
-//        Log.i(""+date+datetime[0]+datetime[1]);
         iHealthyRecord=new HealthyRecordImpl();
-        String nowdate7=DateForm.getPeriodDate(type,0)+"";
-        String nowdate6=DateForm.getPeriodDate(type,1)+"";
-        String nowdate5=DateForm.getPeriodDate(type,2)+"";
-        String nowdate4=DateForm.getPeriodDate(type,3)+"";
-        String nowdate3=DateForm.getPeriodDate(type,4)+"";
-        String nowdate2=DateForm.getPeriodDate(type,5)+"";
-        String nowdate1=DateForm.getPeriodDate(type,6)+"";
+        String nowdate7=DateForm.getPeriodDate(type,0).toString();
+        String nowdate6=DateForm.getPeriodDate(type,1).toString();
+        String nowdate5=DateForm.getPeriodDate(type,2).toString();
+        String nowdate4=DateForm.getPeriodDate(type,3).toString();
+        String nowdate3=DateForm.getPeriodDate(type,4).toString();
+        String nowdate2=DateForm.getPeriodDate(type,5).toString();
+        String nowdate1=DateForm.getPeriodDate(type,6).toString();
         days.add(dateForm.formdate(nowdate1));
         days.add(dateForm.formdate(nowdate2));
         days.add(dateForm.formdate(nowdate3));
@@ -169,12 +141,15 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
             if(healthCircrumModel==null){
                 return;
             }
-            int n=healthCircrumModel.getCircumlist().size();
-            for (int i=0;i<=n-1;i++) {
-                dates.add(Float.parseFloat(healthCircrumModel.getCircumlist().get(i).getCircum()));
+            List<CircumlistModel> models=healthCircrumModel.getCircumlist();
+            float max=0;
+            for (int i = 0; i < models.size(); i++) {
+                float weight=Float.parseFloat(models.get(i).getCircum());
+                max=weight>max?weight:max;
+                Entry entry=new Entry(i,weight);
+                dates.add(entry);
             }
-
-            chartUtil.addData(dates,n,days);
+            chart.setDate(days,dates, max);
         } catch (Exception e) {
             e.printStackTrace();
         }

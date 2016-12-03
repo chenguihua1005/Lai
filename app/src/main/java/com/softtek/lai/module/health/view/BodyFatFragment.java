@@ -1,14 +1,12 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
@@ -20,10 +18,12 @@ import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
 import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
+import com.softtek.lai.module.health.model.PysicallistModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.chart.Chart;
+import com.softtek.lai.widgets.chart.Entry;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +38,7 @@ import zilla.libcore.ui.InjectLayout;
 public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, HealthRecordManager.HealthRecordCallBack {
 
     @InjectView(R.id.chart)
-    LineChart chart;
+    Chart chart;
 
     @InjectView(R.id.rg)
     RadioGroup radio_group;
@@ -55,9 +55,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     @InjectView(R.id.bt_right)
     Button bt_right;
 
-
-    private LineChartUtil chartUtil;
-    List<Float> dates = new ArrayList<>();
+    List<Entry> dates = new ArrayList<>();
     List<String> days = new ArrayList<>();
 
     char type = '6';
@@ -65,36 +63,23 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     boolean state = true;
     int flag = 0;
     private ProgressDialog progressDialog;
-    SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    String date = sDateFormat.format(new java.util.Date());
     HealthRecordManager healthRecordManager;
     DateForm dateForm;
 
 
     @Override
     protected void initViews() {
-
-        //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
-        chart.setNoDataTextDescription("暂无数据");
-        //启用手势操作
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.getLegend().setEnabled(false);//去除图例
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaxValue(100f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);//不启用0轴的线
-        chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        chart.setData(new LineData());//设置一个空数据
+        radio_group.setOnCheckedChangeListener(this);
+        bt_left.setOnClickListener(this);
+        bt_right.setOnClickListener(this);
+        week.setOnClickListener(this);
+        month.setOnClickListener(this);
+        quarter.setOnClickListener(this);
+        year.setOnClickListener(this);
+        GradientDrawable gradient=new GradientDrawable();
+        gradient.setColors(new int[]{0xFF77BA2B,0xFFA6C225});
+        gradient.setCornerRadius(DisplayUtil.dip2px(getContext(),5));
+        chart.setBackground(gradient);
 
     }
 
@@ -106,15 +91,14 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager = new HealthRecordManager(this);
-        chartUtil = new LineChartUtil(getContext(), chart);
         dates.clear();
-        String nowdate7 = getPeriodDate(type, 0) + "";
-        String nowdate6 = getPeriodDate(type, 1) + "";
-        String nowdate5 = getPeriodDate(type, 2) + "";
-        String nowdate4 = getPeriodDate(type, 3) + "";
-        String nowdate3 = getPeriodDate(type, 4) + "";
-        String nowdate2 = getPeriodDate(type, 5) + "";
-        String nowdate1 = getPeriodDate(type, 6) + "";
+        String nowdate7 = getPeriodDate(type, 0).toString();
+        String nowdate6 = getPeriodDate(type, 1).toString();
+        String nowdate5 = getPeriodDate(type, 2).toString();
+        String nowdate4 = getPeriodDate(type, 3).toString();
+        String nowdate3 = getPeriodDate(type, 4).toString();
+        String nowdate2 = getPeriodDate(type, 5).toString();
+        String nowdate1 = getPeriodDate(type, 6).toString();
         days.add(formdate(nowdate1));
         days.add(formdate(nowdate2));
         days.add(formdate(nowdate3));
@@ -130,7 +114,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     public String formdate(String nowdate) {
         String date;
-        String sr = nowdate.substring(4, 5);
         if (nowdate.substring(4, 5).equals("0")) {
             date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
         } else {
@@ -154,7 +137,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
      * @param dateType
      * @author Yangtse
      */
-    //使用方法 char datetype = '7';
     public static StringBuilder getPeriodDate(char dateType, int n) {
         Calendar c = Calendar.getInstance(); // 当时的日期和时间
         int hour; // 需要更改的小时
@@ -163,42 +145,35 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
             case '0': // 1小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 1;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '1': // 2小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 2;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '2': // 3小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 3;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
+                
                 break;
             case '3': // 6小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 6;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '4': // 12小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 12;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '5': // 一天前
                 day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '6': // 一星期前
                 day = c.get(Calendar.DAY_OF_MONTH) - n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
                 day = c.get(Calendar.DAY_OF_MONTH) - 30 * n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
         }
         int mYear = c.get(Calendar.YEAR);
@@ -208,7 +183,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
         return strForwardDate;
-        //return c.getTimeInMillis();
     }
 
     @Override
@@ -500,7 +474,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4) + "     /t");
+                days.add(formyeardate(yeardate4));
                 progressDialog.show();
                 healthRecordManager.doGetHealthPysicalRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                 break;
@@ -524,11 +498,15 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
             if (pysicalModel == null) {
                 return;
             }
-            int n = pysicalModel.getPysicallist().size();
-            for (int i = 0; i <= n - 1; i++) {
-                dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
+            List<PysicallistModel> models=pysicalModel.getPysicallist();
+            float max=0;
+            for (int i = 0; i < models.size(); i++) {
+                float weight=Float.parseFloat(models.get(i).getPysical());
+                max=weight>max?weight:max;
+                Entry entry=new Entry(i,weight);
+                dates.add(entry);
             }
-            chartUtil.addData(dates, n, days);
+            chart.setDate(days,dates, max);
         } catch (Exception e) {
             e.printStackTrace();
         }

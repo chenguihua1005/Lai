@@ -1,16 +1,11 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
@@ -21,16 +16,14 @@ import com.softtek.lai.module.health.model.HealthWaistlineModel;
 import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
 import com.softtek.lai.module.health.model.HealthupLegGirthModel;
+import com.softtek.lai.module.health.model.HiplielistModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
-import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.widgets.chart.Chart;
+import com.softtek.lai.widgets.chart.Entry;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,13 +32,14 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
 public class HiplineFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthRecordManager.HealthRecordCallBack,View.OnClickListener{
 
     @InjectView(R.id.chart)
-    LineChart chart;
+    Chart chart;
 
     @InjectView(R.id.rg)
     RadioGroup radio_group;
@@ -62,8 +56,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     @InjectView(R.id.bt_right)
     Button bt_right;
 
-    private LineChartUtil chartUtil;
-    List<Float> dates=new ArrayList<>();
+    List<Entry> dates = new ArrayList<>();
     List<String>days=new ArrayList<>();
     char type='6';
     int n=7;
@@ -71,33 +64,9 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     int flag=0;
     IHealthyRecord iHealthyRecord;
     private ProgressDialog progressDialog;
-
-    SimpleDateFormat sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    String    date    =    sDateFormat.format(new    java.util.Date());
-    String[] datetime=date.split(" ");
     HealthRecordManager healthRecordManager;
     @Override
     protected void initViews() {
-        //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
-        chart.setNoDataTextDescription("暂无数据");
-        //启用手势操作
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.getLegend().setEnabled(false);//去除图例
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaxValue(100f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);//不启用0轴的线
-        chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        chart.setData(new LineData());//设置一个空数据
         radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
@@ -113,10 +82,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager=new HealthRecordManager(this);
-        chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
-//        pysicalManager=new PysicalManager(getContext());
-        Log.i(""+date+datetime[0]+datetime[1]);
         iHealthyRecord=new HealthyRecordImpl();
         String nowdate7=getPeriodDate(type,0)+"";
         String nowdate6=getPeriodDate(type,1)+"";
@@ -134,7 +100,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate7));
         progressDialog.show();
         healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
-//        iHealthyRecord.doGetHealthhiplieRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
     }
 
@@ -147,7 +112,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
      * @param  dateType
      * @author Yangtse
      */
-    //使用方法 char datetype = '7';
     public static StringBuilder getPeriodDate(char dateType,int n) {
         Calendar c = Calendar.getInstance(); // 当时的日期和时间
         int hour; // 需要更改的小时
@@ -156,42 +120,34 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
             case '0': // 1小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 1;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '1': // 2小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 2;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '2': // 3小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 3;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '3': // 6小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 6;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '4': // 12小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 12;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '5': // 一天前
                 day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '6': // 一星期前
                 day = c.get(Calendar.DAY_OF_MONTH) - n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
                 day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
         }
         int mYear = c.get(Calendar.YEAR);
@@ -201,7 +157,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
         return strForwardDate;
-        //return c.getTimeInMillis();
     }
     public String formdate(String nowdate)
     {
@@ -219,9 +174,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     }
     public String getDateform(String nowdate)
     {
-        String date;
-        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
-        return date;
+        return nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
 
     }
 
@@ -259,11 +212,16 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
             if(healthHiplieModel==null){
                 return;
             }
-            int n=healthHiplieModel.getHiplielist().size();
-            for (int i=0;i<=n-1;i++) {
-                dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));
+            List<HiplielistModel> models=healthHiplieModel.getHiplielist();
+            float max=0;
+            for (int i = 0; i < models.size(); i++) {
+                float hiplie=Float.parseFloat(models.get(i).getHiplie());
+                max=hiplie>max?hiplie:max;
+                Entry entry=new Entry(i,hiplie);
+                dates.add(entry);
             }
-            chartUtil.addData(dates,n,days);
+            chart.setDate(days,dates, max);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -380,7 +338,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                         n=n+4;
