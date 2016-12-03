@@ -114,7 +114,7 @@ public interface ContactService {
     void removeFriend(
             @Header("token") String token,
             @Query("accountId") long accountId,
-            @Query("rid") long rid,//好友关系ID（通讯录接口的AFriendId字段值）
+            @Query("rid") String rid,//好友关系ID（通讯录接口的AFriendId字段值）
             Callback<ResponseData> callback
     );
 
