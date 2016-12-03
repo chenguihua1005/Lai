@@ -34,7 +34,6 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- *
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
@@ -79,9 +78,9 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         quarter.setOnClickListener(this);
         year.setOnClickListener(this);
 
-        GradientDrawable gradient=new GradientDrawable();
-        gradient.setColors(new int[]{0xFF77BA2B,0xFFA6C225});
-        gradient.setCornerRadius(DisplayUtil.dip2px(getContext(),5));
+        GradientDrawable gradient = new GradientDrawable();
+        gradient.setColors(new int[]{0xFF77BA2B, 0xFFA6C225});
+        gradient.setCornerRadius(DisplayUtil.dip2px(getContext(), 5));
         chart.setBackground(gradient);
     }
 
@@ -172,7 +171,6 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
 
     public String formdate(String nowdate) {
         String date;
-        String sr = nowdate.substring(4, 5);
         if (nowdate.substring(4, 5).equals("0")) {
             date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
         } else {
@@ -184,10 +182,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     }
 
     public String getDateform(String nowdate) {
-        String date;
-        String sr = nowdate.substring(4, 5);
-        date = nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
-        return date;
+        return nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
 
     }
 
@@ -209,15 +204,15 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
             if (healthFatModel == null) {
                 return;
             }
-            List<FatlistModel> models=healthFatModel.getFatlist();
-            float max=0;
+            List<FatlistModel> models = healthFatModel.getFatlist();
+            float max = 0;
             for (int i = 0; i < models.size(); i++) {
-                float fat=Float.parseFloat(models.get(i).getFat());
-                max=fat>max?fat:max;
-                Entry entry=new Entry(i,fat);
+                float fat = Float.parseFloat(models.get(i).getFat());
+                max = fat > max ? fat : max;
+                Entry entry = new Entry(i, fat);
                 dates.add(entry);
             }
-            chart.setDate(days,dates, max);
+            chart.setDate(days, dates, max);
         } catch (Exception e) {
             e.printStackTrace();
         }

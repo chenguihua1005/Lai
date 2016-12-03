@@ -171,7 +171,6 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
 
     public String formdate(String nowdate) {
         String date;
-        String sr = nowdate.substring(4, 5);
         if (nowdate.substring(4, 5).equals("0")) {
             date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
         } else {
@@ -183,9 +182,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     }
 
     public String getDateform(String nowdate) {
-        String date;
-        date = nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
-        return date;
+        return nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
 
     }
 

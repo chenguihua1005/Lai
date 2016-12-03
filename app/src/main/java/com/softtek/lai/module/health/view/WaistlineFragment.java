@@ -1,6 +1,7 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -21,6 +22,7 @@ import com.softtek.lai.module.health.model.WaistlinelistModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
@@ -75,6 +77,10 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
         month.setOnClickListener(this);
         quarter.setOnClickListener(this);
         year.setOnClickListener(this);
+        GradientDrawable gradient = new GradientDrawable();
+        gradient.setColors(new int[]{0xFF77BA2B, 0xFFA6C225});
+        gradient.setCornerRadius(DisplayUtil.dip2px(getContext(), 5));
+        chart.setBackground(gradient);
     }
 
     @Override
