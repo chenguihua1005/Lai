@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -69,12 +70,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     private List<UseredModel> useredModels = new ArrayList<UseredModel>();
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
-
+    private int classrole;//班级角色
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
+        del_activity.setOnClickListener(this);
         exit_tv.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -90,6 +92,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             delete_activity.setVisibility(View.GONE);
         }
         activityId = getIntent().getStringExtra("activityId");
+        classrole=getIntent().getExtras().getInt("classrole");
+        Log.e("classrole",classrole+"");
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -106,30 +110,29 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void getalldetail() {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactdetail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData<ActdetailModel>>() {
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactdetail(UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(),
+                activityId, new RequestCallback<ResponseData<ActdetailModel>>() {
             @Override
             public void success(ResponseData<ActdetailModel> actdetailModelResponseData, Response response) {
                 if (actdetailModelResponseData.getData() != null) {
                     ActdetailModel actdetailModel = actdetailModelResponseData.getData();
                     if (actdetailModel.getSign()) {
-                        if (UserInfoModel.getInstance().getUser().getUserrole().equals(Constants.SP)) {
+                        if (classrole==Constants.HEADCOACH) {
                             sign_lin.setVisibility(View.GONE);
-                            exit_lins.setVisibility(View.VISIBLE);
-                            exit_lin.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.GONE);
                             signup_activity.setVisibility(View.GONE);
                             del_activity.setVisibility(View.VISIBLE);
                         } else {
                             sign_lin.setVisibility(View.GONE);
-                            exit_lins.setVisibility(View.VISIBLE);
                             exit_lin.setVisibility(View.VISIBLE);
                             delete_activity.setVisibility(View.GONE);
                             del_activity.setVisibility(View.GONE);
                         }
                     } else {
-                        if(UserInfoModel.getInstance().getUser().getUserrole().equals(Constants.SP)){
+                        if(classrole==Constants.HEADCOACH){
                             sign_lin.setVisibility(View.VISIBLE);
-                            exit_lin.setVisibility(View.VISIBLE);
-                            exit_lins.setVisibility(View.VISIBLE);
+                            exit_lin.setVisibility(View.GONE);
                             signup_activity.setVisibility(View.VISIBLE);
                             del_activity.setVisibility(View.VISIBLE);
                         }else{
@@ -179,6 +182,20 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 });
                 break;
             case R.id.delete_activity:
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        Util.toastMsg(responseData.getMsg());
+                        finish();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
+                break;
+            case R.id.del_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
