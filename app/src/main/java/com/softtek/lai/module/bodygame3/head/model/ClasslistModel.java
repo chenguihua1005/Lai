@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import java.io.Serializable;
+
 /**
  * Created by shelly.xu on 11/24/2016.
  */
 
-public class ClasslistModel {
+public class ClasslistModel implements Serializable{
     private String ClassId;
     private String ClassName;
     private String ClassCode;//班级编号

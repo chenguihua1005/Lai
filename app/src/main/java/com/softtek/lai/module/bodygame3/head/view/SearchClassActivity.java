@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 //查找班级
 @InjectLayout(R.layout.activity_search_class)
-public class SearchClassActivity extends BaseActivity implements View.OnClickListener {
+public class SearchClassActivity extends BaseActivity implements View.OnClickListener ,AdapterView.OnItemClickListener{
     private String content_et;
     @InjectView(R.id.lv_class)
     ListView lv_class;
@@ -35,6 +36,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    ClasslistModel classlistModel;
     private List<ClasslistModel> classlistModels = new ArrayList<ClasslistModel>();
     EasyAdapter<ClasslistModel> adapter;
 
@@ -89,6 +91,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
         };
         lv_class.setAdapter(adapter);
+        lv_class.setOnItemClickListener(this);
 
 
 
@@ -101,5 +104,13 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        classlistModel=classlistModels.get(i);
+        Intent intent=new Intent(this,ClassDetailActivity.class);
+        intent.putExtra("ClasslistModel",classlistModel);
+        startActivity(intent);
     }
 }

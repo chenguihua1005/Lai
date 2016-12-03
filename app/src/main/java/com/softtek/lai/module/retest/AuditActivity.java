@@ -20,7 +20,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -196,21 +196,6 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         accountid=accountId;
         String typedate=intent.getStringExtra("typeDate");
         Typedate=typedate;
-        //开班时间，判断班级名称（几月班）
-        String StartDate=intent.getStringExtra("StartDate");
-        //开始周期
-        String CurrStart=intent.getStringExtra("CurrStart");
-        //结束周期
-        String CurrEnd=intent.getStringExtra("CurrEnd");
-        //昵称
-        String UserName=intent.getStringExtra("UserName");
-        //手机号
-        String Mobile=intent.getStringExtra("Mobile");
-        //头像
-        String Photo=intent.getStringExtra("Photo");
-        //第几周期
-        String Weekth=intent.getStringExtra("Weekth");
-//        typedate
         acountid=accountId;
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),Typedate);
         tv_audit_chu_weight.setFocusable(false);
@@ -224,8 +209,6 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
-//        String[] img=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
-//        retestAudit.setImage(img[img.length-1]);
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();

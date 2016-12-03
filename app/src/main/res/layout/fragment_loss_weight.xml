@@ -1,0 +1,43 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:overScrollMode="never"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.softtek.lai.widgets.chart.Chart
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/chart_sport_bg"
+        app:chartTitle1="体重变化"/>
+
+    <com.softtek.lai.widgets.chart.Chart
+        android:id="@+id/body_fat"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/chart_cyan_bg"
+        app:chartTitle1="体脂变化"/>
+
+    <com.softtek.lai.widgets.chart.Chart
+        android:id="@+id/fat"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/chart_indigo_bg"
+        app:chartTitle1="内脂变化"/>
+
+</LinearLayout>
+</ScrollView>

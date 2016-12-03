@@ -12,8 +12,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.github.snowdream.android.util.Log;
-
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class BrokenLine extends View{
 
     private DataLine dataLine;
 
-    private int maxYAxis;//y轴的最大值
+    private float maxYAxis;//y轴的最大值
     int[] xPoint;//x轴点的坐标数组
 
     private Paint textPaint;//折线图字体画笔

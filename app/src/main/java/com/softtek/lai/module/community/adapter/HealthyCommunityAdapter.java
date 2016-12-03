@@ -32,7 +32,7 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;

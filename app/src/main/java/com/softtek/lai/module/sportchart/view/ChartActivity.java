@@ -73,6 +73,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
+ *
  * Created by lareina.qiao on 10/19/2016.
  */
 @InjectLayout(R.layout.actitivity_chart)
@@ -283,11 +284,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             }
             return date;
         }
-    }
-    public String formdate1(String nowdate)
-    {
-        return nowdate.substring(6,8);
-
     }
 
     @Override
@@ -514,7 +510,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     }
     // 保存到sdcard
     public static void savePic(Bitmap b, String strFileName) {
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             fos = new FileOutputStream(strFileName);
             if (null != fos) {
@@ -534,7 +530,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
      **/
     public static Bitmap getBitmapByView(ScrollView scrollView) {
         int h = 0;
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         // 获取listView实际高度
         for (int i = 0; i < scrollView.getChildCount(); i++) {
             h += scrollView.getChildAt(i).getHeight();
@@ -691,7 +687,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     btn_add.setVisibility(View.GONE);
                 }
                 else {
-                    tv_perpagename.setText(result.getUsername()+"的主页");
+                    tv_perpagename.setText(result.getUsername());
+                    tv_perpagename.append("的主页");
                     iv_perpage_banner.setClickable(false);
                     fl_pers_right.setVisibility(View.INVISIBLE);
                 }

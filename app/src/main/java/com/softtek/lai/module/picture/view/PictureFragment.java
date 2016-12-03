@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.view;
+package com.softtek.lai.module.picture.view;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

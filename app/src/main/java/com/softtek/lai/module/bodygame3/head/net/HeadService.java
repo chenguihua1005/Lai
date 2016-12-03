@@ -19,6 +19,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -95,7 +96,6 @@ public interface HeadService {
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
     );
-
     //选择班级加载数据请求路径:Api/V1/ HerbalifeClass / GetClassInfo
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
@@ -125,6 +125,13 @@ public interface HeadService {
             @Query("IsFirst") boolean IsFirst,
             Callback<ResponseData<HonorRankModel>>callback
             );
-
-
+    //请求路径:Api/V1/ MsgCenter / GetClassActivitys
+    //申请加入班级
+    @POST("/V1/MsgCenter/GetClassActivitys")
+    void doPostClass(
+            @Header("token") String token,
+            @Query("AccountId")Long AccountId,
+            @Query("ClassId")String ClassId,
+            Callback<ResponseData>callback
+    );
 }
