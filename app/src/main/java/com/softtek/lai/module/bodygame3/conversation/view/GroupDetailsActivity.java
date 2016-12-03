@@ -115,7 +115,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("HXAccountId", classMemberModel.getHXAccountId());
                     intent.putExtra("UserName", classMemberModel.getUserName());
                     intent.putExtra("AFriendId", classMemberModel.getAFriendId());
-                    intent.putExtra("ClassId",classModel.getClassId());
+                    intent.putExtra("ClassId", classModel.getClassId());
 
 
 //                    intent.putExtra("classMemberModel", classMemberModel);
@@ -138,11 +138,12 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
         service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
             @Override
             public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
+
+                Log.i(TAG, "listResponseData = " + new Gson().toJson(listResponseData));
                 classListInfoModel = listResponseData.getData();
                 if (classListInfoModel != null) {
                     members.addAll(classListInfoModel.getContactList());
                 }
-                Log.i(TAG, "members = " + members);
                 memberAdapter.updateData(members);
             }
 

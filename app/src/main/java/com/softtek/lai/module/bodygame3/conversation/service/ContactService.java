@@ -106,6 +106,7 @@ public interface ContactService {
             @Header("token") String token,
             @Query("senderId") long senderId,
             @Query("receiverId") long receiverId,
+            @Query("classId") String classId,
             Callback<ResponseData> callback
     );
 
