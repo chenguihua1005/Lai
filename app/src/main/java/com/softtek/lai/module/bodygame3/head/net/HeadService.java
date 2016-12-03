@@ -10,11 +10,8 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
-<<<<<<< HEAD
 import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
-=======
 import com.softtek.lai.module.bodygame3.head.model.VideoModel;
->>>>>>> 6cbd48d630d0711fbdb81c28b70c845f76e16857
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
