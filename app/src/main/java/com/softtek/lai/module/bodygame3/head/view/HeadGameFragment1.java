@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +67,10 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener {
+    @InjectView(R.id.pull)
+    MySwipRefreshView pull;
+    @InjectView(R.id.appbarl)
+    AppBarLayout appbarl;
     //toolbar标题
     @InjectView(R.id.spinner_title1)
     ArrowSpinner2 tv_title;
@@ -115,6 +121,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     ImageView iv_right;
     @InjectView(R.id.grid_list)
     GridView grid_list;
+    @InjectView(R.id.week_rel)
+    RelativeLayout week_rel;
     @InjectView(R.id.re_search_bottom)
     RelativeLayout re_search_bottom;
     private List<PartnersModel> partnersModels = new ArrayList<PartnersModel>();
@@ -138,6 +146,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     protected void initViews() {
         searchContent.setOnClickListener(this);
         re_honor.setOnClickListener(this);
+        week_rel.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
@@ -542,7 +551,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 startActivity(new Intent(getContext(), HonorActivity.class));
                 break;
             case R.id.re_search_bottom:
-
+                break;
+            case R.id.week_rel:
+                Intent intent1=new Intent(getContext(),VideomoreActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

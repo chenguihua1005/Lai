@@ -58,6 +58,8 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -304,6 +306,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
+
                         calendarModels.clear();
                         if (activitydataModelResponseData.getData() != null) {
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
@@ -425,6 +428,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
                             }
                             //获取今天的活动
+                            todayactModels.clear();
                             if (activitydataModel.getList_Activity() != null) {
                                 todayactModels.addAll(activitydataModel.getList_Activity());
                                 adapter.notifyDataSetChanged();
@@ -494,7 +498,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             case R.id.fl_right:
                 Intent intent = new Intent(getContext(), CreateActActivity.class);
                 intent.putExtra("classid",classid);
-                startActivity(intent);
+                startActivityForResult(intent,0);
+//                startActivity(intent);
                 break;
             case R.id.ll_chuDate:
                 startActivity(new Intent(getContext(), WriteFCActivity.class));
@@ -503,6 +508,18 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //                startActivity(new Intent(getContext(), HonorActivity.class));
 //                break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(resultCode==0){
+                progressDialogs.show();
+             getalldatafirst();
+            }
+        }
+
     }
 
     //日历上活动信息展示

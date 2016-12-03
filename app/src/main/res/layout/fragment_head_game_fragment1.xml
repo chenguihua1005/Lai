@@ -12,6 +12,7 @@
         <!-- TODO: Update blank fragment layout -->
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#F2F2F2"
@@ -293,6 +294,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:id="@+id/week_rel"
                         android:layout_width="match_parent"
                         android:layout_height="31dp"
                         android:layout_marginTop="10dp"

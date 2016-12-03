@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_editor_text"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_act_text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.bodygame3.activity.view.ActTextActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -23,11 +23,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/border_none"
             android:imeOptions="actionSend"
-            android:maxEms="12"
-            android:maxLines="1"
-            android:minEms="1"
             android:paddingLeft="10dp"
-            android:singleLine="true"
             android:textColor="#333333"
             android:textColorHint="#c0c0c0"
             android:textCursorDrawable="@drawable/color_cursor"
@@ -41,6 +37,5 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/bodygame3_delete" />
     </FrameLayout>
-
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
+import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -123,5 +124,12 @@ public interface HeadService {
             @Query("Applyer")Long Applyer,//申请人id
             @Query("ClassId")String ClassId,//班级id
             Callback<ResponseData>callback
+    );
+
+    //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
+    @GET("/V1/LaiClassRoom/GetLaiClassRoom")
+    void getvideo(
+            @Header("token") String token,
+            Callback<ResponseData<List<VideoModel>>> callback
     );
 }
