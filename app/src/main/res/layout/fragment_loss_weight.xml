@@ -10,33 +10,30 @@
     android:orientation="vertical">
 
     <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/weight"
+        android:id="@+id/weight_chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/chart_sport_bg"
         app:chartTitle1="体重变化"/>
 
     <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/body_fat"
+        android:id="@+id/bfat_chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/chart_cyan_bg"
         app:chartTitle1="体脂变化"/>
 
     <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/fat"
+        android:id="@+id/fat_chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/chart_indigo_bg"
         app:chartTitle1="内脂变化"/>
 
 </LinearLayout>

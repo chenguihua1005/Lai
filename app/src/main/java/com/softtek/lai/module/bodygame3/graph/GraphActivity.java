@@ -40,8 +40,10 @@ public class GraphActivity extends BaseActivity {
                 finish();
             }
         });
-        fragments.add(new LossWeightFragment());
-        fragments.add(new DimemsionFragment());
+        long accountId=getIntent().getLongExtra("accountId",0);
+        String classId=getIntent().getStringExtra("classId");
+        fragments.add(LossWeightFragment.getInstance(accountId,classId));
+        fragments.add(DimemsionFragment.getInstance(accountId,classId));
         adapter=new GraphAdapter(getSupportFragmentManager(),fragments);
         container.setAdapter(adapter);
         tab.setupWithViewPager(container);
