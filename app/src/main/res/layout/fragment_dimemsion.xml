@@ -17,7 +17,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="胸围"/>
+            app:chartTitle1="胸围变化"/>
 
         <com.softtek.lai.widgets.chart.Chart
             android:id="@+id/waist_chart"
@@ -27,7 +27,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="腰围"/>
+            app:chartTitle1="腰围变化"/>
 
         <com.softtek.lai.widgets.chart.Chart
             android:id="@+id/hipline_chart"
@@ -37,7 +37,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="臀围"/>
+            app:chartTitle1="臀围变化"/>
 
         <com.softtek.lai.widgets.chart.Chart
             android:id="@+id/upper_chart"
@@ -47,7 +47,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="上臂围"/>
+            app:chartTitle1="上臂围变化"/>
 
         <com.softtek.lai.widgets.chart.Chart
             android:id="@+id/datui_chart"
@@ -57,7 +57,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="大腿围"/>
+            app:chartTitle1="大腿围变化"/>
 
         <com.softtek.lai.widgets.chart.Chart
             android:id="@+id/xiaotui_chart"
@@ -67,6 +67,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/chart_sport_bg"
-            app:chartTitle1="小腿围"/>
+            app:chartTitle1="小腿围变化"/>
     </LinearLayout>
 </ScrollView>
