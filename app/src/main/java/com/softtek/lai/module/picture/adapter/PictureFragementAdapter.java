@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.adapter;
+package com.softtek.lai.module.picture.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

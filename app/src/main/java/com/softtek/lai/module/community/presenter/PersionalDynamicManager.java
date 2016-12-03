@@ -12,7 +12,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.net.UploadImageService;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;

@@ -504,14 +504,6 @@
             android:name=".module.sport.view.HistorySportListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.lossweightstory.view.PictureActivity"
-            android:process=":picture"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.lossweightstory.view.PictureMoreActivity"
-            android:process=":picture"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.laisportmine.view.MyInformationActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -765,6 +757,12 @@
         <activity android:name=".module.bodygame3.more.view.HistoryClassActivity" />
         <activity android:name=".module.bodygame3.graph.GraphActivity"></activity>
         <activity android:name=".module.bodygame3.head.view.ClassDetailActivity"></activity>
+        <activity android:name=".module.picture.view.PictureActivity"
+            android:process=":picture"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.picture.view.PictureMoreActivity"
+            android:process=":picture"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
