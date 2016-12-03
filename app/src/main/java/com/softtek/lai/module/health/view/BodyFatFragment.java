@@ -274,7 +274,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                         n = n + 4;
@@ -382,7 +382,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                         bt_right.setVisibility(View.VISIBLE);
