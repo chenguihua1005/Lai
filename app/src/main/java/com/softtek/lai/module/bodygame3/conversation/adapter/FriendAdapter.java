@@ -137,7 +137,6 @@ public class FriendAdapter extends BaseAdapter {
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Log.i(TAG, "token =" + UserInfoModel.getInstance().getToken() + "friendModel.getApplyId() = " + friendModel.getApplyId());
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
                 service.removeFriendApplyInfo(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), new Callback<ResponseData>() {

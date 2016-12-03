@@ -138,7 +138,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         service.getFriendApplyList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<FriendModel>>>() {
             @Override
             public void success(ResponseData<List<FriendModel>> listResponseData, Response response) {
-                friendList = listResponseData.getData();
+                friendList.addAll(listResponseData.getData());
 
                 Log.i(TAG, "friendList = " + new Gson().toJson(friendList));
                 friendAdapter.updateData(friendList);

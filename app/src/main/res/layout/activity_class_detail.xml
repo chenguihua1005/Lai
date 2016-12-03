@@ -9,6 +9,7 @@
     <include layout="@layout/toolbar"/>
 
     <LinearLayout
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -132,7 +133,6 @@
                 android:id="@+id/tv_classPerNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="36人"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View
@@ -146,13 +146,21 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             >
-            <TextView
-                android:id="@+id/tv_zhiqing"
+            <CheckBox
+                android:id="@+id/cb_term"
+                style="@style/customCheckBoxTheme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:checked="true" />
+            <TextView
+                android:id="@+id/tv_zhiqing"
+                android:layout_toRightOf="@+id/cb_term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="@string/zhiqingshu"
-                android:drawableLeft="@drawable/lable"
-                android:drawablePadding="5dp"
                 android:textSize="14sp"/>
         </RelativeLayout>
         <Button

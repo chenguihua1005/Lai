@@ -114,7 +114,9 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("AccountId", classMemberModel.getAccountId());
                     intent.putExtra("HXAccountId", classMemberModel.getHXAccountId());
                     intent.putExtra("UserName", classMemberModel.getUserName());
-                    intent.putExtra("AFriendId", "");
+                    intent.putExtra("AFriendId", classMemberModel.getAFriendId());
+                    intent.putExtra("ClassId",classModel.getClassId());
+
 
 //                    intent.putExtra("classMemberModel", classMemberModel);
                     startActivity(intent);
@@ -127,6 +129,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getClassMembers(String classId) {
+        members.clear();
         String token = UserInfoModel.getInstance().getToken();
 
         Log.i(TAG, "token = " + token);
@@ -136,7 +139,9 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
                 classListInfoModel = listResponseData.getData();
-                members.addAll(classListInfoModel.getContactList());
+                if (classListInfoModel != null) {
+                    members.addAll(classListInfoModel.getContactList());
+                }
                 Log.i(TAG, "members = " + members);
                 memberAdapter.updateData(members);
             }
