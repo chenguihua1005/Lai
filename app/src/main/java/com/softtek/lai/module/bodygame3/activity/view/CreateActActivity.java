@@ -164,6 +164,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
+//                ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
                 activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
                 activityModel.setClassId(classid);
                 activityModel.setClassActivityId(classActivityId);
@@ -177,6 +178,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     public void success(ResponseData responseData, Response response) {
                         if (200 == responseData.getStatus()) {
                             Util.toastMsg(responseData.getMsg());
+                            setResult(RESULT_OK);
                             finish();
                         } else {
                             Util.toastMsg(responseData.getMsg());
@@ -257,44 +259,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 //
 
 
-//        final CustomDialog.Builder b = new CustomDialog.Builder(this);
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        final View view = inflater.inflate(R.layout.progress_dialog, null);
-//
-//        ImageView closeBtn = (ImageView) view.findViewById(R.id.close_btn);
-//
-//        ll_viewArea = (LinearLayout) view.findViewById(R.id.ll_viewArea);
-//        parm = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.FILL_PARENT,
-//                LinearLayout.LayoutParams.FILL_PARENT);
-//        parm.gravity = Gravity.CENTER;
-//
-//        // 自定义布局控件，用来初始化并存放自定义imageView
-//        viewArea = new ViewArea(this, bitmap);
-//
-//        ll_viewArea.addView(viewArea, parm);
-//
-//        b.setView(view);
-//        b.show();
-//
-//
-//        closeBtn.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                DeleteDialog(position, b);
-//            }
-//        });
-//
-//
-//        ll_viewArea.setClickable(true);
-//        ll_viewArea.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                b.dismiss();
-//            }
-//        });
     }
 
     private void gettype() {
