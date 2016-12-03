@@ -125,9 +125,9 @@ public interface HeadService {
             @Query("IsFirst") boolean IsFirst,
             Callback<ResponseData<HonorRankModel>>callback
             );
-    //请求路径:Api/V1/ MsgCenter / GetClassActivitys
+    //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
     //申请加入班级
-    @POST("/V1/MsgCenter/GetClassActivitys")
+    @GET("/V1/MsgCenter/ApplyJoinClass")
     void doPostClass(
             @Header("token") String token,
             @Query("AccountId")Long AccountId,
