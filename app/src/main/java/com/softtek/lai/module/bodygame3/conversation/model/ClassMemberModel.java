@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class ClassMemberModel implements Serializable{
     private String HXAccountId;
-    private int AccountId;//成员ID
+    private long AccountId;//成员ID
     private String UserName;
     private String UserEn;
     private String Mobile;
@@ -33,7 +33,7 @@ public class ClassMemberModel implements Serializable{
         IsFriend = isFriend;
     }
 
-    public int getAccountId() {
+    public long getAccountId() {
         return AccountId;
     }
 

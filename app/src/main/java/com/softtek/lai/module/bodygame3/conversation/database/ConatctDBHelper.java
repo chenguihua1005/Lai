@@ -31,6 +31,8 @@ public class ConatctDBHelper extends SQLiteOpenHelper {
 
     }
 
+
+
     private String create_contactTable() {
         String create_Conatct = "create table " + ContactTable.TABLE_NAME + "(" + ContactTable._ID
                 + " integer primary key autoincrement, "
@@ -41,6 +43,10 @@ public class ConatctDBHelper extends SQLiteOpenHelper {
                 + ContactTable.Photo + " varchar(20),"
                 + ContactTable.UserRole + "  varchar(20),"
                 + ContactTable.HXAccountId + "  varchar(20),"
+
+                + ContactTable.Certification + " varchar(20),"
+                + ContactTable.AccountId + " varchar(20),"
+                + ContactTable.AFriendId + " varchar(20),"
                 + ContactTable.AccpetTime + " varchar(20))";
         Log.i(TAG, "create_Conatct()..." + create_Conatct);
 

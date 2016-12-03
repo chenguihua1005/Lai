@@ -109,7 +109,14 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(GroupDetailsActivity.this, PersonDetailActivity.class);
                     ClassMemberModel classMemberModel = memberAdapter.getItem(i);
-                    intent.putExtra("classMemberModel",classMemberModel);
+
+                    intent.putExtra("isFriend", classMemberModel.getIsFriend());//1： 好友
+                    intent.putExtra("AccountId", classMemberModel.getAccountId());
+                    intent.putExtra("HXAccountId", classMemberModel.getHXAccountId());
+                    intent.putExtra("UserName", classMemberModel.getUserName());
+                    intent.putExtra("AFriendId", "");
+
+//                    intent.putExtra("classMemberModel", classMemberModel);
                     startActivity(intent);
 
                 }

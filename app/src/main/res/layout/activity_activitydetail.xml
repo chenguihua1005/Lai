@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="15dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <Button
@@ -226,7 +226,7 @@
             android:id="@+id/exit_lins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="vertical">
 
             <LinearLayout

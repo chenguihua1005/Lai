@@ -273,7 +273,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                         n = n + 4;
@@ -381,7 +381,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                         bt_right.setVisibility(View.VISIBLE);
@@ -473,7 +473,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4) + "     /");
+                days.add(formyeardate(yeardate4));
                 progressDialog.show();
                 healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0), dateForm.getDateform(yeardate4), 4);
                 break;

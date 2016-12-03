@@ -344,7 +344,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthWeightRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                         n = n + 4;
@@ -544,7 +544,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4) + "     /");
+                days.add(formyeardate(yeardate4));
                 progressDialog.show();
                 healthRecordManager.doGetHealthWeightRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                 break;

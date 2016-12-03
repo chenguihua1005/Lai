@@ -449,7 +449,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4) + "     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
                         healthRecordManager.doGetHealthdoLegGirthRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                         bt_right.setVisibility(View.VISIBLE);
@@ -541,7 +541,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4) + "     /");
+                days.add(formyeardate(yeardate4));
                 progressDialog.show();
                 healthRecordManager.doGetHealthdoLegGirthRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                 break;
