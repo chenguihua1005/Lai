@@ -66,7 +66,7 @@ public class Chart extends LinearLayout{
     }
 
 
-    public void setDate(List<String> xAxis,List<Entry> yAxis,int max){
+    public void setDate(List<String> xAxis,List<Entry> yAxis,float max){
         line.setxAxis(xAxis);
         line.setEntries(yAxis);
         line.setMaxYAxis(max);

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.view;
+package com.softtek.lai.module.picture.view;
 
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.lossweightstory.adapter.PictureFragementAdapter;
+import com.softtek.lai.module.picture.adapter.PictureFragementAdapter;
 import com.softtek.lai.widgets.DebugViewPage;
 
 import java.util.ArrayList;

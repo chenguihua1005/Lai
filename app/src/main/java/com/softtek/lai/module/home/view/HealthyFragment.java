@@ -27,7 +27,7 @@ import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
 

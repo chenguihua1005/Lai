@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -30,7 +29,7 @@ import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -152,7 +151,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     in.putStringArrayListExtra("images", list);
                     in.putExtra("position", position);
                     ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
+                    ActivityCompat.startActivity( context, in, optionsCompat.toBundle());
                 }
             });
             if(isMine&&"0".equals(model.getMinetype())){
