@@ -41,6 +41,8 @@ import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,6 +104,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private ActscalendarModel freecalendar = null;
     private int datetype;
     private String classid;
+    private int classrole;
     private List<ClassModel> classModels = new ArrayList<ClassModel>();
     private List<TodayactModel> todayactModels = new ArrayList<TodayactModel>();
     private String dateStr;
@@ -162,6 +165,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 TodayactModel todayactModel = todayactModels.get(i);
                 String activityId = todayactModel.getActivityId();
                 Intent intent = new Intent(getContext(), ActivitydetailActivity.class);
+                intent.putExtra("classrole",classrole);
                 intent.putExtra("activityId", activityId);
                 startActivity(intent);
             }
@@ -190,6 +194,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classid = classModels.get(i).getClassId();
+                classrole=classModels.get(i).getClassRole();
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
@@ -219,50 +224,50 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 }
                             }
 //                            加载班级
-                            classModels.clear();
-                            if (activitydataModel.getList_Class() != null) {
-                                classModels.addAll(activitydataModel.getList_Class());
-                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                                    @Override
-                                    public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                        tv_class_name.setText(data.getClassName());
-                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
-                                        int icon;
-                                        switch (data.getClassRole()) {
-                                            case 1:
-                                                icon = R.drawable.class_zongjiaolian;
-                                                break;
-                                            case 2:
-                                                icon = R.drawable.class_jiaolian;
-                                                break;
-                                            case 3:
-                                                icon = R.drawable.class_zhujiao;
-                                                break;
-                                            default:
-                                                icon = R.drawable.class_xueyuan;
-                                                break;
-                                        }
-                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                        TextView tv_role = holder.getView(R.id.tv_role_name);
-                                        int role = data.getClassRole();
-                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-                                        TextView tv_number = holder.getView(R.id.tv_number);
-                                        tv_number.setText(data.getClassCode());
-                                    }
-
-                                    @Override
-                                    public String getText(int position) {
-                                        if (classModels != null && !classModels.isEmpty()) {
-                                            return classModels.get(position).getClassName();
-                                        } else {
-                                            return "尚未开班";
-                                        }
-                                    }
-                                });
-
-
-                            }
+//                            classModels.clear();
+//                            if (activitydataModel.getList_Class() != null) {
+//                                classModels.addAll(activitydataModel.getList_Class());
+//                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+//                                    @Override
+//                                    public void convert(ViewHolder holder, ClassModel data, int position) {
+//                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+//                                        tv_class_name.setText(data.getClassName());
+//                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+//                                        int icon;
+//                                        switch (data.getClassRole()) {
+//                                            case 1:
+//                                                icon = R.drawable.class_zongjiaolian;
+//                                                break;
+//                                            case 2:
+//                                                icon = R.drawable.class_jiaolian;
+//                                                break;
+//                                            case 3:
+//                                                icon = R.drawable.class_zhujiao;
+//                                                break;
+//                                            default:
+//                                                icon = R.drawable.class_xueyuan;
+//                                                break;
+//                                        }
+//                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+//                                        TextView tv_role = holder.getView(R.id.tv_role_name);
+//                                        int role = data.getClassRole();
+//                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+//                                        TextView tv_number = holder.getView(R.id.tv_number);
+//                                        tv_number.setText(data.getClassCode());
+//                                    }
+//
+//                                    @Override
+//                                    public String getText(int position) {
+//                                        if (classModels != null && !classModels.isEmpty()) {
+//                                            return classModels.get(position).getClassName();
+//                                        } else {
+//                                            return "尚未开班";
+//                                        }
+//                                    }
+//                                });
+//
+//
+//                            }
                             //获取今天的活动
                             if (activitydataModel.getList_Activity() != null) {
                                 todayactModels.addAll(activitydataModel.getList_Activity());
@@ -277,7 +282,20 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             }
         });
     }
+    private Date date_now;
+    private Date getNowDate() {
+        String formatStr = "yyyy-MM-dd";
+        DateFormat sdf = new SimpleDateFormat(formatStr);
+        String dateStr = sdf.format(new Date());
+        try {
+            date_now = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        Log.i("leave", "now time = " + date_now);
+        return date_now;
+    }
 
     private void getalldatafirst() {
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
@@ -294,6 +312,32 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
+
+                            for(int n=0;n<calendarModels.size();n++){
+                                if(java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())){
+                                    if(calendarModels.get(n).getDateType()==Constants.ACTIVITY){
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.VISIBLE);
+                                    }else if(calendarModels.get(n).getDateType()==Constants.RESET){
+                                        list_activity.setVisibility(View.GONE);
+                                        ll_fuce.setVisibility(View.VISIBLE);
+                                    }else if(calendarModels.get(n).getDateType()==Constants.FREE){
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    }else if(calendarModels.get(n).getDateType()==Constants.CREATECLASS){
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+
+                            //是否进行过初始数据录入
+                            if(activitydataModel.getFirst()){
+                                ll_chuDate.setVisibility(View.GONE);
+                            }else{
+                                ll_chuDate.setVisibility(View.VISIBLE);
+                            }
+
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                                 fl_right.setVisibility(View.VISIBLE);
                                 fl_right.setEnabled(true);
@@ -338,7 +382,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             classModels.clear();
                             if (activitydataModel.getList_Class() != null) {
                                 classModels.addAll(activitydataModel.getList_Class());
-
                                 tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                     @Override
                                     public void convert(ViewHolder holder, ClassModel data, int position) {
@@ -372,6 +415,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     public String getText(int position) {
                                         if (classModels != null && !classModels.isEmpty()) {
                                             classid=classModels.get(position).getClassId();
+                                            classrole=classModels.get(position).getClassRole();
                                             return classModels.get(position).getClassName();
                                         } else {
                                             return "尚未开班";
@@ -403,6 +447,24 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         int DD = date.getCalendar().get(Calendar.DATE);
 
         dateStr = YY + "-" + MM + "-" + DD;
+        for(int i=0;i<calendarModels.size();i++){
+            String dates=calendarModels.get(i).getMonthDate();
+            if(java.sql.Date.valueOf(dateStr).equals(java.sql.Date.valueOf(dates))){
+                if(calendarModels.get(i).getDateType()==Constants.ACTIVITY){
+                    ll_fuce.setVisibility(View.GONE);
+                    list_activity.setVisibility(View.VISIBLE);
+                }else if(calendarModels.get(i).getDateType()==Constants.RESET){
+                    list_activity.setVisibility(View.GONE);
+                    ll_fuce.setVisibility(View.VISIBLE);
+                }else if(calendarModels.get(i).getDateType()==Constants.FREE){
+                    ll_fuce.setVisibility(View.GONE);
+                    list_activity.setVisibility(View.GONE);
+                }else if(calendarModels.get(i).getDateType()==Constants.CREATECLASS){
+                    ll_fuce.setVisibility(View.GONE);
+                    list_activity.setVisibility(View.GONE);
+                }
+            }
+        }
         todayactModels.clear();
         adapter.notifyDataSetChanged();
         gettodaydata(dateStr);
@@ -413,7 +475,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 classid, datestr2, new RequestCallback<ResponseData<TodaysModel>>() {
             @Override
             public void success(ResponseData<TodaysModel> todaysModelResponseData, Response response) {
-                Util.toastMsg(todaysModelResponseData.getMsg());
+//                Util.toastMsg(todaysModelResponseData.getMsg());
                 todayactModels.clear();
                 if (todaysModelResponseData.getData() != null) {
                     TodaysModel model = todaysModelResponseData.getData();
