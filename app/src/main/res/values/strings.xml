@@ -183,6 +183,7 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="zhiqingshu"><u>本人已阅读《康宝莱使用知情书》</u></string>
 
 
 </resources>

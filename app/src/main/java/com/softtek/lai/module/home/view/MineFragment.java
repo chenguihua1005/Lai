@@ -26,6 +26,8 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.bodygame3.head.view.ClassDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -213,10 +215,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.rl_setting:
-                startActivity(new Intent(getContext(), SettingsActivity.class));
+                startActivity(new Intent(getContext(), HonorActivity.class));
+//                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                startActivity(new Intent(getContext(), PersonDetailActivity.class));
+                startActivity(new Intent(getContext(), ClassDetailActivity.class));
 //                Intent personal=new Intent(getContext(), PersionalActivity.class);
 //                personal.putExtra("isFocus",1);
 //                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));

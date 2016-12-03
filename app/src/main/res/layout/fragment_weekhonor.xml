@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="horizontal"
+                android:background="#FAFAFA"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
                 <LinearLayout
@@ -174,9 +175,23 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <com.handmark.pulltorefresh.library.PullToRefreshListView
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="小组排名"
+                android:textColor="#333333"
+                android:textSize="12sp"
+                android:background="#ffffff"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeeee"/>
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
+                android:id="@+id/list_honorrank"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             </com.handmark.pulltorefresh.library.PullToRefreshListView>
         </LinearLayout>

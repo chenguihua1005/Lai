@@ -764,6 +764,7 @@
         <activity android:name=".module.bodygame3.more.view.PastReviewActivity" />
         <activity android:name=".module.bodygame3.more.view.HistoryClassActivity" />
         <activity android:name=".module.bodygame3.graph.GraphActivity"></activity>
+        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity"></activity>
     </application>
 
 </manifest>
