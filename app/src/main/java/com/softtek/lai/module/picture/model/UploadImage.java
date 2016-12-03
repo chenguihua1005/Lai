@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.model;
+package com.softtek.lai.module.picture.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.File;
-import java.io.Serializable;
 
 /**
  * Created by John on 2016/4/17.

@@ -27,7 +27,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CustomGridView;

@@ -37,7 +37,7 @@ import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.bodygamest.view.BodyweidustActivity;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
+import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
@@ -71,7 +71,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -544,36 +543,6 @@ public class PCFuCeFragment extends LazyBaseFragment implements View.OnClickList
                 // functionality that depends on this permission.
             }
         }
-    }
-
-    public String tomonth(String month) {
-        if (month.equals("01")) {
-            month = "一月班";
-        } else if (month.equals("02")) {
-            month = "二月班";
-        } else if (month.equals("03")) {
-            month = "三月班";
-        } else if (month.equals("04")) {
-            month = "四月班";
-
-        } else if (month.equals("05")) {
-            month = "五月班";
-        } else if (month.equals("06")) {
-            month = "六月班";
-        } else if (month.equals("07")) {
-            month = "七月班";
-        } else if (month.equals("08")) {
-            month = "八月班";
-        } else if (month.equals("09")) {
-            month = "九月班";
-        } else if (month.equals("10")) {
-            month = "十月班";
-        } else if (month.equals("11")) {
-            month = "十一月班";
-        } else {
-            month = "十二月班";
-        }
-        return month;
     }
 
     @Override

@@ -7,11 +7,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.ClassDetailActivity">
     <include layout="@layout/toolbar"/>
+
     <LinearLayout
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -37,9 +39,9 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/img_default"/>
             <TextView
+                android:id="@+id/tv_coach_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小王"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/cir_img"/>
             </RelativeLayout>
@@ -61,9 +63,9 @@
                 android:text="班级名称"
                 android:textSize="14sp"/>
             <TextView
+                android:id="@+id/tv_classname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="超级减重班"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View
@@ -83,9 +85,9 @@
                 android:text="班级编号"
                 android:textSize="14sp"/>
             <TextView
+                android:id="@+id/tv_classid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="201611240125"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View
@@ -105,9 +107,9 @@
                 android:text="开班时间"
                 android:textSize="14sp"/>
             <TextView
+                android:id="@+id/tv_StaClassDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2016年11月1日"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View
@@ -127,6 +129,7 @@
                 android:text="班级人数"
                 android:textSize="14sp"/>
             <TextView
+                android:id="@+id/tv_classPerNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="36人"
@@ -144,6 +147,7 @@
             android:paddingRight="15dp"
             >
             <TextView
+                android:id="@+id/tv_zhiqing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/zhiqingshu"
@@ -152,6 +156,7 @@
                 android:textSize="14sp"/>
         </RelativeLayout>
         <Button
+            android:id="@+id/btn_joinclass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"

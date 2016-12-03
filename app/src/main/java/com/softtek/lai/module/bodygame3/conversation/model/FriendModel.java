@@ -5,27 +5,24 @@ package com.softtek.lai.module.bodygame3.conversation.model;
  */
 
 public class FriendModel {
-//    "ApplyId":"8e33be15-cc6e-48dc-8822-60aaa60de539",--申请记录ID
-//    "UserId":48,
-//            "UserName":"j季军",
-//            "Photo":"",---头像
-//    "ClassName":"班级2",--班级名称
-//    "ClassRole":4,---班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
-//    "Role":0,--0：
-//
-//    发送者(显示同意和拒绝按钮)
-//
-//    ， 1：接收者（显示对方的处理状态）
-//            "HxGroupId":null,--群组环信ID
-//    "HxAccountId":"6c3577e47e0363df0b9aef37aaec907f",--好友环信ID
-//    "SendTime":"2016-11-28 09:28:43",
-//            "AcceptTime":"",
-//            "Status":0,--0:未处理 1：已同意，-1：已拒绝
-//    "Comment":null---备注
+//    "ApplyId": "8e33be15-cc6e-48dc-8822-60aaa60de539",  --申请记录ID
+//    "UserId": 48,
+//            "UserName": "j季军",
+//            "Photo": "",   ---头像
+//    "ClassName": "班级2",  --班级名称
+//    "ClassRole": 4,   ---班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
+//    "Role": 0,  -- 0：发送者(显示同意和拒绝按钮)， 1：接收者（显示对方的处理状态）
+//            "HxGroupId": null,   --群组环信ID
+//    "HxAccountId": "6c3577e47e0363df0b9aef37aaec907f", -- 好友环信ID
+//    "SendTime": "2016-11-28 09:28:43",
+//            "AcceptTime": "",
+//            "Status": 0,  --0:未处理 1：已同意，-1：已拒绝
+//    "Comment": null  ---备注
+
 
 
     private String ApplyId;//申请记录ID
-    private int UserId;
+    private long UserId;
     private String UserName;
     private String Photo;//头像
     private String ClassName;//班级名称
@@ -70,11 +67,11 @@ public class FriendModel {
         ApplyId = applyId;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return UserId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         UserId = userId;
     }
 

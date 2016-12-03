@@ -19,11 +19,9 @@ public class ClassAdapter extends BaseAdapter {
 
     private Context context;
     private List<BanjiModel> banjiModelList;
-    private LayoutInflater inflater;
 
     public ClassAdapter(Context context,List<BanjiModel> banjiModelList) {
         this.context=context;
-        inflater=LayoutInflater.from(context);
         this.banjiModelList=banjiModelList;
     }
 
@@ -52,7 +50,7 @@ public class ClassAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder viewHolder=null;
+        ViewHolder viewHolder;
         if (convertView==null)
         {
             convertView=LayoutInflater.from(context).inflate(R.layout.listview_retest_class,parent,false);

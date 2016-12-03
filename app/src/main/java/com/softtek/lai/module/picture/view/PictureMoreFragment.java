@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.view;
+package com.softtek.lai.module.picture.view;
 
 import android.Manifest;
 import android.content.Context;

@@ -1,12 +1,10 @@
 package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.utils.RequestCallback;
 

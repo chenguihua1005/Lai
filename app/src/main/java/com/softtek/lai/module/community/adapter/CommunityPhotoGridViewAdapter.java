@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.List;

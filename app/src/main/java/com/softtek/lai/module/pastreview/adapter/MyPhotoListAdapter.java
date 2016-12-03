@@ -13,8 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
+import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
@@ -52,7 +52,7 @@ public class MyPhotoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_myphoto_listitem, parent, false);
             viewHolder = new ViewHolder(convertView);
