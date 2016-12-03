@@ -180,7 +180,20 @@
         <item name="textAllCaps">false</item>
         <!--英文大写,默认true-->
     </style>
-
+    <style name="myTabLayout6" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FFA200</item>
+        <!--TAB底部滑块颜色-->
+        <item name="tabPaddingStart">5dp</item>
+        <!--TAB左边padding-->
+        <item name="tabPaddingEnd">5dp</item>
+        <!--TAB右边padding-->
+        <item name="tabBackground">@null</item>
+        <!--TAB背景色-->
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance2</item>
+        <!--TAB文字样式-->
+        <item name="tabSelectedTextColor">#FFA200</item>
+        <!--TAB选中文字颜色-->
+    </style>
 
 
     <!--日历-->

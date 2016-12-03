@@ -761,7 +761,9 @@
         <activity android:name=".module.message2.view.EditorPhoneActivity" />
         <activity android:name=".module.message2.view.ExamineActivity" />
         <activity android:name=".module.bodygame3.head.view.PantnerActivity" />
-        <activity android:name=".module.bodygame3.more.view.PastReviewActivity"></activity>
+        <activity android:name=".module.bodygame3.more.view.PastReviewActivity" />
+        <activity android:name=".module.bodygame3.more.view.HistoryClassActivity" />
+        <activity android:name=".module.bodygame3.graph.GraphActivity"></activity>
     </application>
 
 </manifest>
