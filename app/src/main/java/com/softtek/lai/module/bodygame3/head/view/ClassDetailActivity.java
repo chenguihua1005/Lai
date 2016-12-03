@@ -20,6 +20,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.view.ZQSActivity;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -89,8 +90,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
                     btn_joinclass.setEnabled(true);
                 } else {
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
                     btn_joinclass.setEnabled(false);
                 }
             }
@@ -120,15 +123,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     private void doJoinClass() {
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
-        headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new Callback<ResponseData>() {
+        headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Util.toastMsg(responseData.getMsg());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
             }
         });
     }
