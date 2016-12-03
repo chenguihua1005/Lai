@@ -7,19 +7,29 @@ import java.io.Serializable;
  */
 
 public class ChatContactModel implements Serializable {
+
     private String Mobile;
     private String UserName;
     private String UserEn;
-    private String Gender;
+    private int Gender;//0 女 1 男
     private String Photo;
-    private String UserRole;
+    private int UserRole;
     private String HXAccountId;
     private String AccpetTime;
-//    private String Certification;//
-//    private long AccountId;
 
+    private String Certification;//
+    private long AccountId;//好友账号
+    private String AFriendId;//好友关系id
 
-    public ChatContactModel(String mobile, String userName, String userEn, String gender, String photo, String userRole, String HXAccountId, String accpetTime) {
+    public String getAFriendId() {
+        return AFriendId;
+    }
+
+    public void setAFriendId(String AFriendId) {
+        this.AFriendId = AFriendId;
+    }
+
+    public ChatContactModel(String mobile, String userName, String userEn, int gender, String photo, int userRole, String HXAccountId, String accpetTime, String certification, long accountId, String AFriendId) {
         Mobile = mobile;
         UserName = userName;
         UserEn = userEn;
@@ -28,7 +38,27 @@ public class ChatContactModel implements Serializable {
         UserRole = userRole;
         this.HXAccountId = HXAccountId;
         AccpetTime = accpetTime;
+        Certification = certification;
+        AccountId = accountId;
+        this.AFriendId = AFriendId;
     }
+
+    public String getCertification() {
+        return Certification;
+    }
+
+    public void setCertification(String certification) {
+        Certification = certification;
+    }
+
+    public long getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(long accountId) {
+        AccountId = accountId;
+    }
+
 
     public String getMobile() {
         return Mobile;
@@ -54,11 +84,11 @@ public class ChatContactModel implements Serializable {
         UserEn = userEn;
     }
 
-    public String getGender() {
+    public int getGender() {
         return Gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         Gender = gender;
     }
 
@@ -70,11 +100,11 @@ public class ChatContactModel implements Serializable {
         Photo = photo;
     }
 
-    public String getUserRole() {
+    public int getUserRole() {
         return UserRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(int userRole) {
         UserRole = userRole;
     }
 

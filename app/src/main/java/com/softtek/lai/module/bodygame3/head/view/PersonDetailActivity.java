@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -20,7 +19,6 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
@@ -95,7 +93,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     ImageView im_guanzhu;
     private List<NewsTopFourModel> newsTopFourModels = new ArrayList<NewsTopFourModel>();
 
-    ClassMemberModel classMemberModel;
+//    ClassMemberModel classMemberModel;
+
+    private int isFriend = 0;//1: 好友  0 ： 不是好友
+    private long AccountId;
+    private String HXAccountId;
+    private String UserName;
+    private String AFriendId;//好友关系id
+
+
 
     @Override
     protected void initViews() {
@@ -135,14 +141,26 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         userid = UserInfoModel.getInstance().getUserId();
         classid = getIntent().getStringExtra("classId_first");
 
-        classMemberModel = (ClassMemberModel) getIntent().getSerializableExtra("classMemberModel");
-        Log.i(TAG, "classMemberModel = " + new Gson().toJson(classMemberModel));
-        if (1 == classMemberModel.getIsFriend()) {
+//        classMemberModel = (ClassMemberModel) getIntent().getSerializableExtra("classMemberModel");
+
+        isFriend = getIntent().getIntExtra("isFriend", 0);
+        AccountId = getIntent().getLongExtra("AccountId", 0);
+        HXAccountId = getIntent().getStringExtra("HXAccountId");
+        UserName = getIntent().getStringExtra("UserName");
+        AFriendId = getIntent().getStringExtra("AFriendId");//好友关系id
+
+        Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId);
+        if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(AccountId)) {//是本人的话，隐藏聊天和加好友按钮
+            btn_chat.setVisibility(View.GONE);
+            btn_addguy.setVisibility(View.GONE);
+        }
+
+        if (1 == isFriend) {
             btn_addguy.setVisibility(View.GONE);
             btn_chat.setText("发起会话");
             btn_chat.setBackgroundColor(getResources().getColor(R.color.exit_btn));
 
-        } else if (0 == classMemberModel.getIsFriend()) {
+        } else {
             btn_chat.setText("发起临时会话");
             btn_addguy.setVisibility(View.VISIBLE);
         }
@@ -241,11 +259,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_chat:
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-                if (!hxid.equals(classMemberModel.getHXAccountId())) {
+                if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
                     intent.putExtra("chatType", EaseConstant.CHATTYPE_SINGLE);
-                    intent.putExtra("userId", classMemberModel.getHXAccountId());
-                    intent.putExtra("name", classMemberModel.getUserName());//组名
+                    intent.putExtra("userId", HXAccountId);
+                    intent.putExtra("name", UserName);
 //                intent.putExtra("classId", classMemberModel.getCGId());//??
                     startActivity(intent);
                 } else {
@@ -264,14 +282,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     //加好友请求
     private void sentFriendApply() {
+        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classMemberModel.getAccountId(), new Callback<ResponseData>() {
+        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
                 if (200 == status) {
                     try {
-                        EMClient.getInstance().contactManager().addContact(classMemberModel.getHXAccountId(), "love you");
+                        EMClient.getInstance().contactManager().addContact(HXAccountId, "love you");
                         Log.i(TAG, "好友请求成功！");
                         Util.toastMsg("已发加好友请求！");
                     } catch (HyphenateException e) {

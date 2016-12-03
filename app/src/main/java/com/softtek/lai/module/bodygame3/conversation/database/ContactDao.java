@@ -12,6 +12,8 @@ import java.util.List;
 
 import zilla.libcore.util.Util;
 
+import static com.softtek.lai.module.bodygame3.conversation.database.ContactTable.AccpetTime;
+
 /**
  * Created by jessica.zhang on 2016/11/29.
  */
@@ -32,6 +34,7 @@ public class ContactDao {
 
     }
 
+
     public void insert(List<ChatContactModel> list) {
         try {
             SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
@@ -39,16 +42,20 @@ public class ContactDao {
                 for (int i = 0; i < list.size(); i++) {
                     ChatContactModel model = list.get(i);
                     ContentValues values = new ContentValues();
-                    values.put("Mobile", model.getMobile());
-                    values.put("UserName", model.getUserName());
+                    values.put(ContactTable.Mobile, model.getMobile());
+                    values.put(ContactTable.UserName, model.getUserName());
 
-                    values.put("UserEn", model.getUserEn());
-                    values.put("Gender", model.getGender());
-                    values.put("Photo", model.getPhoto());
+                    values.put(ContactTable.UserEn, model.getUserEn());
+                    values.put(ContactTable.Gender, model.getGender());
+                    values.put(ContactTable.Photo, model.getPhoto());
 
-                    values.put("UserRole", model.getUserRole());
-                    values.put("HXAccountId", model.getHXAccountId());
-                    values.put("AccpetTime", model.getAccpetTime());
+                    values.put(ContactTable.UserRole, model.getUserRole());
+                    values.put(ContactTable.HXAccountId, model.getHXAccountId());
+
+                    values.put(ContactTable.Certification, model.getCertification());
+                    values.put(ContactTable.AccountId, model.getAccountId());
+                    values.put(ContactTable.AFriendId, model.getAFriendId());
+                    values.put(AccpetTime, model.getAccpetTime());
                     db.insert(ContactTable.TABLE_NAME, null, values);
                 }
                 db.close();
@@ -59,7 +66,6 @@ public class ContactDao {
             e.printStackTrace();
         }
     }
-
 
     public List<ChatContactModel> getAllConatct() {
         List<ChatContactModel> lists = null;
@@ -79,9 +85,15 @@ public class ContactDao {
                 String UserRole = cursor.getString(cursor.getColumnIndex(ContactTable.UserRole));
 
                 String HXAccountId = cursor.getString(cursor.getColumnIndex(ContactTable.HXAccountId));
-                String AccpetTime = cursor.getString(cursor.getColumnIndex(ContactTable.AccpetTime));
 
-                ChatContactModel model = new ChatContactModel(Mobile, UserName, UserEn, Gender, Photo, UserRole, HXAccountId, AccpetTime);
+
+                String Certification = cursor.getString(cursor.getColumnIndex(ContactTable.AccpetTime));
+                String AccountId = cursor.getString(cursor.getColumnIndex(ContactTable.AccountId));
+                String AFriendId = cursor.getString(cursor.getColumnIndex(ContactTable.AFriendId));
+                String AccpetTime = cursor.getString(cursor.getColumnIndex(ContactTable.AccpetTime));
+//(String mobile, String userName, String userEn, String gender, String photo, String userRole, String HXAccountId, String accpetTime, String certification, long accountId, String AFriendId) {
+
+                ChatContactModel model = new ChatContactModel(Mobile, UserName, UserEn, Integer.parseInt(Gender), Photo, Integer.parseInt(UserRole), HXAccountId, AccpetTime, Certification, Long.parseLong(AccountId), AFriendId);
                 lists.add(model);
             }
             cursor.close();

@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
-import com.softtek.lai.module.bodygame3.head.model.ClaDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
@@ -10,7 +9,6 @@ import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
-import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -19,7 +17,6 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -105,14 +102,7 @@ public interface HeadService {
             @Query("pagesize") int pagesize,
             Callback<ResponseData<ChooseModel>> callback
     );
-    //班级详情
-    @GET("/V1/HistoryClass/GetHistoryClassDetails")
-    void GetHistoryClassDetails(
-            @Header("token") String token,
-            @Query("AccountId")Long AccountId,
-            @Query("ClassId")String ClassId,
-            Callback<RequestCallback<ClaDetailModel>>callback
-    );
+
     //请求路径:Api/V1/ ClassHonor/ GetHonorRoll(荣誉榜)
     @GET("/V1/ClassHonor/GetHonorRoll")
     void doGetHonorRoll(
@@ -125,13 +115,13 @@ public interface HeadService {
             @Query("IsFirst") boolean IsFirst,
             Callback<ResponseData<HonorRankModel>>callback
             );
-    //请求路径:Api/V1/ MsgCenter / GetClassActivitys
+    //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
     //申请加入班级
-    @POST("/V1/MsgCenter/GetClassActivitys")
+    @GET("/V1/MsgCenter/ApplyJoinClass")
     void doPostClass(
             @Header("token") String token,
-            @Query("AccountId")Long AccountId,
-            @Query("ClassId")String ClassId,
+            @Query("Applyer")Long Applyer,//申请人id
+            @Query("ClassId")String ClassId,//班级id
             Callback<ResponseData>callback
     );
 }
