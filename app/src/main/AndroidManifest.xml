@@ -769,6 +769,10 @@
             android:name=".module.picture.view.PictureMoreActivity"
             android:process=":picture"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.head.view.VideomoreActivity"
+            android:configChanges="screenSize" />
+        <activity android:name=".module.bodygame3.activity.view.ActTextActivity"></activity>
         <activity android:name=".module.bodygame3.head.view.PhotoWallActivity"></activity>
     </application>
 

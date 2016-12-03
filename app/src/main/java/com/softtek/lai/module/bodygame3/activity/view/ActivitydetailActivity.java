@@ -63,8 +63,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     Button delete_activity;
     @InjectView(R.id.signup_activity)
     Button signup_activity;
-    @InjectView(R.id.del_activity)
-    Button del_activity;
     @InjectView(R.id.exit_lins)
     LinearLayout exit_lins;
     private List<UseredModel> useredModels = new ArrayList<UseredModel>();
@@ -76,7 +74,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
-        del_activity.setOnClickListener(this);
+
         exit_tv.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -119,28 +117,29 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     ActdetailModel actdetailModel = actdetailModelResponseData.getData();
                     if (actdetailModel.getSign()) {
                         if (classrole==Constants.HEADCOACH) {
-                            sign_lin.setVisibility(View.GONE);
                             exit_lin.setVisibility(View.GONE);
                             signup_activity.setVisibility(View.GONE);
-                            del_activity.setVisibility(View.VISIBLE);
+                            delete_activity.setVisibility(View.VISIBLE);
                         } else {
                             sign_lin.setVisibility(View.GONE);
                             exit_lin.setVisibility(View.VISIBLE);
                             delete_activity.setVisibility(View.GONE);
-                            del_activity.setVisibility(View.GONE);
+
                         }
                     } else {
                         if(classrole==Constants.HEADCOACH){
                             sign_lin.setVisibility(View.VISIBLE);
                             exit_lin.setVisibility(View.GONE);
                             signup_activity.setVisibility(View.VISIBLE);
-                            del_activity.setVisibility(View.VISIBLE);
+                            delete_activity.setVisibility(View.GONE);
+
                         }else{
                             sign_lin.setVisibility(View.VISIBLE);
                             exit_lin.setVisibility(View.VISIBLE);
                             signup_activity.setVisibility(View.VISIBLE);
+                            delete_activity.setVisibility(View.GONE);
                             exit_lins.setVisibility(View.VISIBLE);
-                            del_activity.setVisibility(View.GONE);
+
                         }
 
                     }
@@ -182,20 +181,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 });
                 break;
             case R.id.delete_activity:
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
-                        finish();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
-                break;
-            case R.id.del_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {

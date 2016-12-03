@@ -10,7 +10,11 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
+<<<<<<< HEAD
 import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+=======
+import com.softtek.lai.module.bodygame3.head.model.VideoModel;
+>>>>>>> 6cbd48d630d0711fbdb81c28b70c845f76e16857
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -125,6 +129,7 @@ public interface HeadService {
             @Query("ClassId")String ClassId,//班级id
             Callback<ResponseData>callback
     );
+
     //请求路径:Api/V1/HealthyCircle/GetPhotoWalls
     //照片墙
     @GET("/V1/HealthyCircle/GetPhotoWalls")
@@ -143,4 +148,11 @@ public interface HeadService {
             @Header("token")String token
 
             );
+
+    //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
+    @GET("/V1/LaiClassRoom/GetLaiClassRoom")
+    void getvideo(
+            @Header("token") String token,
+            Callback<ResponseData<List<VideoModel>>> callback
+    );
 }

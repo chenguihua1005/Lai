@@ -315,9 +315,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     //加好友请求
     private void sentFriendApply() {
-        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId);
+        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, new Callback<ResponseData>() {
+        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, ClassId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
