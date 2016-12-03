@@ -759,14 +759,17 @@
         <activity android:name=".module.bodygame3.head.view.PantnerActivity" />
         <activity android:name=".module.bodygame3.more.view.PastReviewActivity" />
         <activity android:name=".module.bodygame3.more.view.HistoryClassActivity" />
-        <activity android:name=".module.bodygame3.graph.GraphActivity"></activity>
-        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity"></activity>
-        <activity android:name=".module.picture.view.PictureActivity"
+        <activity android:name=".module.bodygame3.graph.GraphActivity" />
+        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity" />
+        <activity
+            android:name=".module.picture.view.PictureActivity"
             android:process=":picture"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.picture.view.PictureMoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.picture.view.PictureMoreActivity"
             android:process=":picture"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity"></activity>
     </application>
 
 </manifest>
