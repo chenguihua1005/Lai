@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -42,7 +41,7 @@ import zilla.libcore.util.Util;
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class InitAuditFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
+public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.im_nomessage)
@@ -52,7 +51,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance() {
-        InitAuditFragment fragment=new InitAuditFragment();
+        FcAuditedFragment fragment=new FcAuditedFragment();
         Bundle data=new Bundle();
         fragment.setArguments(data);
         return fragment;
@@ -97,10 +96,10 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
-                TextView username=holder.getView(R.id.tv_username);
-                TextView tv_group=holder.getView(R.id.tv_group);
-                TextView tv_weight=holder.getView(R.id.tv_weight);
-                CircleImageView cir_headim=holder.getView(R.id.cir_headim);
+                TextView username=holder.getView(R.id.tv_username);//用户名
+                TextView tv_group=holder.getView(R.id.tv_group);//组名
+                TextView tv_weight=holder.getView(R.id.tv_weight);//体重
+                CircleImageView cir_headim=holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText("("+data.getGroupName()+")");
                 tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
@@ -129,28 +128,24 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 10);
+            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22",  pageIndex, 10);
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,10);
+        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22",++pageIndex,10);
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid,  final int pageIndex, int pageSize) {
-        fuceSevice.dogetInitAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+    private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, typeDate,pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-                if (pageIndex==1)
-                {
-                    listResponseData.getData().get(0).getCount();
-                }
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
                         adapter.notifyDataSetChanged();
                         break;
                     default:

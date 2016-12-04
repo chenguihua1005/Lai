@@ -691,10 +691,10 @@
             android:name=".module.bodygame3.head.view.HonorActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.activity.view.AuditListActivity"
+            android:name=".module.bodygame3.activity.view.InitAuditListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.activity.view.InitAuditListActivity"
+            android:name=".module.bodygame3.activity.view.FcAuditListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.ranking.view.RankingActivity"

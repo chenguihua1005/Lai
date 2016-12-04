@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -100,7 +101,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
                 TextView tv_group=holder.getView(R.id.tv_group);//组名
                 TextView tv_weight=holder.getView(R.id.tv_weight);//体重
                 CircleImageView cir_headim=holder.getView(R.id.cir_headim);//头像;
-                tv_group.setText(data.getGroupName());
+                tv_group.setText("("+data.getGroupName()+")");
                 tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl()))
@@ -121,19 +122,19 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        startActivity(new Intent(getContext(),FcStuActivity.class));
     }
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 1);
+            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 10);
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,1);
+        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,10);
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid,  int pageIndex, int pageSize) {
