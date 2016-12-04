@@ -26,7 +26,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivityModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
-import com.softtek.lai.module.bodygame3.more.view.EditorTextActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomDialog;
@@ -137,15 +136,15 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.rl_activity_name:
-                Intent addClassNameIntent = new Intent(this, EditorTextActivity.class);
-                addClassNameIntent.putExtra("flag", EditorTextActivity.ADD_ACTIVITY_NAME);
-                addClassNameIntent.putExtra("name", tv_activity_name.getText());
+                Intent addClassNameIntent = new Intent(this, ActTextActivity.class);
+                addClassNameIntent.putExtra("value", ActTextActivity.ADD_ACTIVITY_NAME);
+                addClassNameIntent.putExtra("name_value", tv_activity_name.getText());
                 startActivityForResult(addClassNameIntent, 001);
                 break;
             case R.id.rl_activity_mark:
-                Intent addMarkIntent = new Intent(this, EditorTextActivity.class);
-                addMarkIntent.putExtra("flag", EditorTextActivity.ADD_MARK);
-                addMarkIntent.putExtra("name", tv_activity_mark.getText());
+                Intent addMarkIntent = new Intent(this, ActTextActivity.class);
+                addMarkIntent.putExtra("value",ActTextActivity.ADD_MARK);
+                addMarkIntent.putExtra("name_value", tv_activity_mark.getText());
                 startActivityForResult(addMarkIntent, 002);
                 break;
             case R.id.fl_right:
@@ -199,10 +198,10 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 001) {
-                String value = data.getStringExtra("value");
+                String value = data.getStringExtra("value_name");
                 tv_activity_name.setText(value);
             } else if (requestCode == 002) {
-                String value_mark = data.getStringExtra("value");
+                String value_mark = data.getStringExtra("value_name");
                 tv_activity_mark.setText(value_mark);
             }
         }
