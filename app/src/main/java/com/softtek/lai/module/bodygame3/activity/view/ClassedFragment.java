@@ -31,7 +31,6 @@ import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
@@ -54,9 +53,7 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -99,11 +96,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private List<CalendarDay> calendarModel_create = new ArrayList<CalendarDay>();
     private List<CalendarDay> calendarModel_reset = new ArrayList<CalendarDay>();
     private List<CalendarDay> calendarModel_free = new ArrayList<CalendarDay>();
-
-    private ActscalendarModel actcalendar = null;
-    private ActscalendarModel createcalendar = null;
-    private ActscalendarModel resetcalendar = null;
-    private ActscalendarModel freecalendar = null;
     private int datetype;
     private String classid;
     private int classrole;
@@ -147,19 +139,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 .setMaximumDate(instance2.getTime())
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
-
-//        new ApiSimulatorToday().executeOnExecutor(Executors.newSingleThreadExecutor());//标注今天
 //设置日历的长和宽间距
         material_calendar.setTileWidthDp(50);
         material_calendar.setTileHeightDp(38);
         material_calendar.removeDecorators();
-        //设置选中的背景颜色
-//        int color = parseColor("#FFA200");
-//        material_calendar.setSelectionColor(color);
-//        material_calendar.addDecorators(
-//                oneDayDecorator//选中字体变大 白色显示
-//        );
-//        int showOtherDates = material_calendar.getShowOtherDates();
         material_calendar.setShowOtherDates(0);
         list_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -176,6 +159,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initDatas() {
+        material_calendar.removeDecorators();
         //获取初始数据
         getalldatafirst();
         adapter = new EasyAdapter<TodayactModel>(getContext(), todayactModels, R.layout.activity_list) {
@@ -201,7 +185,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
                         calendarModels.clear();
-
                         if (activitydataModelResponseData.getData() != null) {
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             if (activitydataModel.getList_ActCalendar() != null) {
@@ -567,6 +550,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 return;
             }
             if (material_calendar != null) {
+                material_calendar.removeDecorators();
                 material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity()));
                 material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
                 material_calendar.addDecorator(new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
