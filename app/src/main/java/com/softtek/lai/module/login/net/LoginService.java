@@ -51,6 +51,7 @@ public interface LoginService {
     void doRegist(
             @Field("user") String userName,
             @Field("psd") String password,
+            @Field("HxAccountId") String HxAccountId,
             @Field("identify") String identify,
             Callback<ResponseData<UserModel>> callback);
 
