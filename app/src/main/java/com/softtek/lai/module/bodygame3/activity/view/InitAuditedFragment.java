@@ -122,7 +122,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(getContext(),FcStuActivity.class));
+//        startActivity(new Intent(getContext(),FcStuActivity.class));
     }
     //下拉刷新
     @Override
