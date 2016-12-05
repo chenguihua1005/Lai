@@ -5,11 +5,6 @@ package com.softtek.lai.module.bodygame3.head.model;
  */
 
 public class ClassModel {
-//    "ClassId": "c4e8e179-fd99-4955-8bf9-cf470898788b",
-//    "ClassName": "班级2",
-//    "ClassCode": "123457",
-//    "ClassRole": "4",		————1：开班教练	2：组别教练	3：组别助教	4：学员
-//    "ClassWeek": "8"		————班级所在周
     private String ClassId;
     private String ClassName;
     private String ClassCode;
@@ -22,6 +17,10 @@ public class ClassModel {
         ClassCode = classCode;
         ClassRole = classRole;
         ClassWeek = classWeek;
+    }
+
+    public ClassModel() {
+
     }
 
     public String getClassId() {

@@ -1,12 +1,15 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * Created by shelly.xu on 11/24/2016.
  */
 
-public class ClasslistModel implements Serializable{
+public class ClasslistModel implements Parcelable {
     private String ClassId;
     private String ClassName;
     private String ClassCode;//班级编号
@@ -78,5 +81,15 @@ public class ClasslistModel implements Serializable{
 
     public void setClassMemberNum(int classMemberNum) {
         ClassMemberNum = classMemberNum;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

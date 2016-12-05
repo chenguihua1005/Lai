@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
@@ -27,12 +29,17 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +77,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView sp_tv;
     Animation roate;
     HeadService service;
+    private List<ClasslistModel> classlistModels = new ArrayList<ClasslistModel>();
+    private List<ClasslistModel> classlistModels_temp = new ArrayList<ClasslistModel>();
+
 
     @Override
     protected void lazyLoad() {
@@ -227,11 +237,49 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 });
                 break;
             case R.id.search_btn:
-                String text = searchContent.getText().toString().trim();
+                final String text = searchContent.getText().toString().trim();
                 if (StringUtils.isNotEmpty(text)) {
-                    Intent intent = new Intent(getContext(), SearchClassActivity.class);
-                    intent.putExtra("content", text.replaceAll("%", "").replaceAll("_", ""));
-                    startActivity(intent);
+                    ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
+                            text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
+                                @Override
+                                public void success(ResponseData<List<ClasslistModel>> data, Response response) {
+                                    dialogDissmiss();
+                                    if (data.getStatus() == 200) {
+                                        boolean hasThisItem = false;//
+                                        classlistModels.clear();
+                                        classlistModels_temp.clear();
+                                        classlistModels.addAll(data.getData());
+                                        for (int i = 0; i < classlistModels.size(); i++) {
+                                            ClasslistModel model = classlistModels.get(i);
+                                            if (model.getClassName().contains(text)) {
+                                                classlistModels_temp.add(model);
+                                            }
+                                        }
+                                        if (classlistModels_temp.size()>0){
+                                            Intent intent = new Intent(getContext(), SearchClassActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("class", (Serializable) classlistModels_temp);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+
+                                        }else {
+                                            Util.toastMsg("暂无此班级");
+                                            return;
+
+                                        }
+
+                                    } else if (data.getStatus() == 100) {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    dialogDissmiss();
+                                    super.failure(error);
+                                }
+                            });
+
                 }
 
 //                String content=searchContent.getText().toString().trim();
