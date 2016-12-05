@@ -83,7 +83,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
     }
 
     private void onSuccess(List<WeightModel> data){
-        WeightModel mod=new WeightModel();
+        /*WeightModel mod=new WeightModel();
         mod.setWeekDay(1);
         mod.setFat("20");
         mod.setPysical("50");
@@ -106,7 +106,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
         data.add(mod);
         data.add(mod1);
         data.add(mod2);
-        data.add(mod3);
+        data.add(mod3);*/
         float maxWeight = 0;
         float maxBFat=0;
         float maxFat=0;

@@ -16,7 +16,7 @@ import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.NetErrorHandler;
+import com.softtek.lai.common.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
 import java.lang.ref.WeakReference;
