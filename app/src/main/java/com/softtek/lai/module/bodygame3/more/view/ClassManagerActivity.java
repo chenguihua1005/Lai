@@ -111,6 +111,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                         Intent updateGroupIntent=new Intent(ClassManagerActivity.this, EditorTextOlineActivity.class);
                         updateGroupIntent.putExtra("flag",EditorTextActivity.UPDATE_GROUP_NAME);
                         updateGroupIntent.putExtra("position",position);
+                        updateGroupIntent.putExtra("classId",classId);
                         updateGroupIntent.putExtra("name",groups.get(position).getClassGroupName());
                         updateGroupIntent.putExtra("groupId",groups.get(position).getClassGoupId());
                         startActivityForResult(updateGroupIntent, 102);

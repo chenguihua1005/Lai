@@ -165,6 +165,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
                             .updateGroupName(UserInfoModel.getInstance().getToken(),
+                                    classId,
                                     getIntent().getStringExtra("groupId"),
                                     value,
                                     new RequestCallback<ResponseData>() {
