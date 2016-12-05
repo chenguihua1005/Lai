@@ -110,7 +110,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     private int isFriend = 0;//1: 好友  0 ： 不是好友
     private long AccountId;
-    private String HXAccountId;
+    private String HXAccountId;//环信id
     private String UserName;
     private String AFriendId;//好友关系id
     private String ClassId;
@@ -157,6 +157,31 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         mInflater = LayoutInflater.from(this);
+        final int[] imgs=new int[]{R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect
+                ,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect};
+        for (int i=0;i<imgs.length;i++) {
+            View view = mInflater.inflate(R.layout.activity_index_gallery_item, gallery, false);
+            final ImageView img = (ImageView) view.findViewById(R.id.img);
+            Picasso.with(this).load(imgs[i]).fit().into(img);
+            gallery.addView(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = view.getId();
+                    String content=(String) view.getTag(R.layout.activity_index_gallery_item);
+                    Log.i("点击图片了" + view.getTag()+"haha"+content);
+                    for(int i=0;i<imgs.length;i++)
+                    {
+                        if (i==id)
+                        {
+                            Log.i("点击图片了" + view.getTag()+"haha"+content);
+                        }
+                    }
+
+                }
+            });
+
+        }
         accountid = Long.parseLong(getIntent().getIntExtra("student_id", 0) + "");
         userid = UserInfoModel.getInstance().getUserId();
         classid = getIntent().getStringExtra("classId_first");
@@ -257,7 +282,21 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void doGetPhotoView() {
         if (newsTopFourModels.size() == 0) {
-
+            int[] imgs=new int[]{R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect
+            ,R.drawable.default_icon_rect,R.drawable.default_icon_rect,R.drawable.default_icon_rect};
+            for (int i=0;i<imgs.length;i++) {
+                View view = mInflater.inflate(R.layout.activity_index_gallery_item, gallery, false);
+                ImageView img = (ImageView) view.findViewById(R.id.img);
+                Picasso.with(this).load(imgs[i]).fit().into(img);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int id = view.getId();
+                        Log.i("点击图片了" + id);
+                    }
+                });
+                gallery.addView(view);
+            }
         }
         for (int i = 0; i < newsTopFourModels.size(); i++) {
 
@@ -265,6 +304,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             ImageView img = (ImageView) view.findViewById(R.id.img);
             Picasso.with(this).load(AddressManager.get("PhotoHost") + newsTopFourModels.get(i).getThumbnailImgUrl()).fit().into(img);
             Log.i("动态" + AddressManager.get("PhotoHost") + newsTopFourModels.get(i).getThumbnailImgUrl());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id=view.getId();
+                    Log.i("点击图片了"+id);
+                }
+            });
             gallery.addView(view);
 
         }
