@@ -447,6 +447,18 @@
 
                     </RelativeLayout>
 
+                    <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--&lt;!&ndash;<RecyclerView&ndash;&gt;-->
+                    <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/id_recyclerview_horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="75dp"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:background="#FF0000"-->
+                    <!--android:scrollbars="none"></android.support.v7.widget.RecyclerView>-->
+                    <!--</RelativeLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -455,44 +467,56 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-
                         android:paddingTop="10dp"
                         android:visibility="visible">
 
                         <HorizontalScrollView
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="75dp"
                             android:scrollbars="none">
 
                             <LinearLayout
+                                android:id="@+id/grally"
                                 android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
                                 android:orientation="horizontal">
 
+
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center"-->
+                                <!--android:gravity="center"-->
+                                <!--android:text="暂未动态" />-->
+                                <com.softtek.lai.widgets.CustomGridView
+                                    android:id="@+id/photos"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="75dp"
+                                    android:layout_marginTop="5dp"
+                                    android:columnWidth="110dp"
+                                    android:gravity="center"
+                                    android:horizontalSpacing="3dp"
+                                    android:numColumns="3"
+                                    android:scrollbars="none"
+                                    android:stretchMode="none"
+                                    android:verticalSpacing="3dp" />
 
                                 <GridView
                                     android:id="@+id/grid_list"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:columnWidth="100dp"
-                                    android:numColumns="auto_fit"
-                                    android:stretchMode="spacingWidthUniform" />
+                                    android:layout_height="75dp"
+                                    android:columnWidth="110dp"
+                                    android:gravity="center"
+                                    android:horizontalSpacing="15dp"
+                                    android:numColumns="3"
+                                    android:stretchMode="spacingWidthUniform"
+                                    android:visibility="gone" />
                             </LinearLayout>
                         </HorizontalScrollView>
 
-
-                        <!--android:numColumns="auto_fit" &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;列数设置为自动-->
-                        <!--android:columnWidth="90dp"，&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;每列的宽度，也就是Item的宽度-->
-                        <!--android:stretchMode="columnWidth"&#45;&#45;&#45;&#45;&#45;&#45;缩放与列宽大小同步-->
-                        <!--android:verticalSpacing="10dp"&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;垂直边距-->
-                        <!--android:horizontalSpacing="10dp"-&#45;&#45;&#45;&#45;&#45;&#45;水平边距-->
-                        <!--<GridView-->
-                        <!--android:id="@+id/grid_list"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:columnWidth="100dp"-->
-                        <!--android:numColumns="auto_fit"-->
-                        <!--android:stretchMode="spacingWidthUniform" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -567,13 +591,12 @@
                             android:textSize="13dp" />
 
                         <!--<ImageView-->
-                        <!--android:id="@+id/iv_banjigame"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--app:srcCompat="@drawable/jianzhong_iv"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:layout_toLeftOf="@id/spinner_title"-->
-                        <!--/>-->
+                            <!--android:id="@+id/iv_banjigame"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--app:srcCompat="@drawable/jianzhong_iv"-->
+                    <!--/>-->
 
                         <com.ggx.widgets.nicespinner.ArrowSpinner2
                             android:id="@+id/spinner_title"
@@ -583,6 +606,8 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:gravity="right"
+                            app:arrowTint2="@color/word"
+
                             app:textSize2="26px"
                             app:textTint2="@color/word" />
 
