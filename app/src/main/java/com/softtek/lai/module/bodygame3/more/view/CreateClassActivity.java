@@ -308,7 +308,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 //输出当前日期
                 tv_class_time.setText(date);
                 if (clazz != null) {
-                    clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd));
+                    String date1=DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd);
+                    clazz.setStartDate(date1);
                 }
 
             }

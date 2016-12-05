@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -48,14 +47,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
