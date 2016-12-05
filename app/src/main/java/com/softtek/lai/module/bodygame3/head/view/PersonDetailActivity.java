@@ -110,7 +110,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     private int isFriend = 0;//1: 好友  0 ： 不是好友
     private long AccountId;
-    private String HXAccountId;
+    private String HXAccountId;//环信帐号
     private String UserName;
     private String AFriendId;//好友关系id
     private String ClassId;
