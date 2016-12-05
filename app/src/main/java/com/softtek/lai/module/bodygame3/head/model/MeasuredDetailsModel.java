@@ -1,0 +1,193 @@
+package com.softtek.lai.module.bodygame3.head.model;
+
+/**
+ * Created by 87356 on 2016/12/3.
+ */
+public class MeasuredDetailsModel {
+    private String WeekNum;//周数
+    private String TypeDate;//日期
+    private String Image;//图片
+    private String Thumbnail;//缩略图
+    private String UserName;//用户名
+    private String Photo;//头像
+    private String Mobile;//手机号
+    private String ClassName;//班级名称
+    private String InitWeight;//初始体重
+    private String Weight;//现在体重
+    private String Pysical;//体脂
+    private String Fat;//内脂
+    private String Circum;//胸围
+    private String Waistline;//腰围
+    private String Hiplie;//臀围
+    private String UpArmGirth;//上臂围
+    private String UpLegGirth;//大腿围
+    private String DoLegGirth;//小腿围
+
+    @Override
+    public String toString() {
+        return "MeasuredDetailsModel{" +
+                "WeekNum='" + WeekNum + '\'' +
+                ", TypeDate='" + TypeDate + '\'' +
+                ", Image='" + Image + '\'' +
+                ", Thumbnail='" + Thumbnail + '\'' +
+                ", UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", ClassName='" + ClassName + '\'' +
+                ", InitWeight='" + InitWeight + '\'' +
+                ", Weight='" + Weight + '\'' +
+                ", Pysical='" + Pysical + '\'' +
+                ", Fat='" + Fat + '\'' +
+                ", Circum='" + Circum + '\'' +
+                ", Waistline='" + Waistline + '\'' +
+                ", Hiplie='" + Hiplie + '\'' +
+                ", UpArmGirth='" + UpArmGirth + '\'' +
+                ", UpLegGirth='" + UpLegGirth + '\'' +
+                ", DoLegGirth='" + DoLegGirth + '\'' +
+                '}';
+    }
+
+    public String getWeekNum() {
+        return WeekNum;
+    }
+
+    public void setWeekNum(String weekNum) {
+        WeekNum = weekNum;
+    }
+
+    public String getTypeDate() {
+        return TypeDate;
+    }
+
+    public void setTypeDate(String typeDate) {
+        TypeDate = typeDate;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        Thumbnail = thumbnail;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
+    }
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
+    }
+
+    public String getInitWeight() {
+        return InitWeight;
+    }
+
+    public void setInitWeight(String initWeight) {
+        InitWeight = initWeight;
+    }
+
+    public String getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(String weight) {
+        Weight = weight;
+    }
+
+    public String getPysical() {
+        return Pysical;
+    }
+
+    public void setPysical(String pysical) {
+        Pysical = pysical;
+    }
+
+    public String getFat() {
+        return Fat;
+    }
+
+    public void setFat(String fat) {
+        Fat = fat;
+    }
+
+    public String getCircum() {
+        return Circum;
+    }
+
+    public void setCircum(String circum) {
+        Circum = circum;
+    }
+
+    public String getWaistline() {
+        return Waistline;
+    }
+
+    public void setWaistline(String waistline) {
+        Waistline = waistline;
+    }
+
+    public String getHiplie() {
+        return Hiplie;
+    }
+
+    public void setHiplie(String hiplie) {
+        Hiplie = hiplie;
+    }
+
+    public String getUpArmGirth() {
+        return UpArmGirth;
+    }
+
+    public void setUpArmGirth(String upArmGirth) {
+        UpArmGirth = upArmGirth;
+    }
+
+    public String getUpLegGirth() {
+        return UpLegGirth;
+    }
+
+    public void setUpLegGirth(String upLegGirth) {
+        UpLegGirth = upLegGirth;
+    }
+
+    public String getDoLegGirth() {
+        return DoLegGirth;
+    }
+
+    public void setDoLegGirth(String doLegGirth) {
+        DoLegGirth = doLegGirth;
+    }
+}

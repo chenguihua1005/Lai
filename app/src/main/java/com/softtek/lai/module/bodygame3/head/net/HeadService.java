@@ -10,6 +10,8 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
+import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -123,5 +125,31 @@ public interface HeadService {
             @Query("Applyer")Long Applyer,//申请人id
             @Query("ClassId")String ClassId,//班级id
             Callback<ResponseData>callback
+    );
+
+    //请求路径:Api/V1/HealthyCircle/GetPhotoWalls
+    //照片墙
+    @GET("/V1/HealthyCircle/GetPhotoWalls")
+    void doGetPhotoWalls(
+            @Header("token")String token,
+            @Query("Loginaccid")Long Loginaccid,//用户id
+            @Query("ClassId")String ClassId,//班级id
+            @Query("PageIndex")String PageIndex,//第几页
+            @Query("PageSize")String PageSize,//一页几条
+            Callback<ResponseData<PhotoWallListModel>>callback
+    );
+    //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
+    //照片墙主题列表
+    @GET("/V1/HealthyCircle/GetPhWallTheme")
+    void doGetPhWallTheme(
+            @Header("token")String token
+
+            );
+
+    //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
+    @GET("/V1/LaiClassRoom/GetLaiClassRoom")
+    void getvideo(
+            @Header("token") String token,
+            Callback<ResponseData<List<VideoModel>>> callback
     );
 }

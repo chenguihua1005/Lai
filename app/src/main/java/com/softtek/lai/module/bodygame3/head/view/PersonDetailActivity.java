@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +28,8 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.PopUpWindow.ActionItem;
+import com.softtek.lai.widgets.PopUpWindow.TitlePopup;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_person_detail)
-public class PersonDetailActivity extends BaseActivity implements View.OnClickListener {
+public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener {
     private static final String TAG = "PersonDetailActivity";
     private int[] mImgIds;
     private LayoutInflater mInflater;
@@ -51,6 +55,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
 
     HeadService headService;
@@ -93,6 +103,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     ImageView im_guanzhu;
     private List<NewsTopFourModel> newsTopFourModels = new ArrayList<NewsTopFourModel>();
 
+    //定义标题栏弹窗按钮
+    private TitlePopup titlePopup;
+
 //    ClassMemberModel classMemberModel;
 
     private int isFriend = 0;//1: 好友  0 ： 不是好友
@@ -100,7 +113,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String HXAccountId;
     private String UserName;
     private String AFriendId;//好友关系id
-
+    private String ClassId;
 
 
     @Override
@@ -131,6 +144,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+
+        //实例化标题栏弹窗
+        titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        //给标题栏弹窗添加子类
+//        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
+//        titlePopup.setItemOnClickListener(this);
+
     }
 
 
@@ -148,25 +168,33 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         HXAccountId = getIntent().getStringExtra("HXAccountId");
         UserName = getIntent().getStringExtra("UserName");
         AFriendId = getIntent().getStringExtra("AFriendId");//好友关系id
+        ClassId = getIntent().getStringExtra("ClassId");
 
-        Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId);
+        Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId + " ClassId = " + ClassId);
         if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(AccountId)) {//是本人的话，隐藏聊天和加好友按钮
             btn_chat.setVisibility(View.GONE);
             btn_addguy.setVisibility(View.GONE);
-        }
-
-        if (1 == isFriend) {
+            titlePopup.cleanAction();
+            titlePopup.addAction(new ActionItem(this, "修改爱心顾问", R.drawable.modifylove));
+            titlePopup.addAction(new ActionItem(this, "退出体管赛", R.drawable.exit_tiguan));
+        } else if (1 == isFriend) {
             btn_addguy.setVisibility(View.GONE);
             btn_chat.setText("发起会话");
             btn_chat.setBackgroundColor(getResources().getColor(R.color.exit_btn));
+            titlePopup.cleanAction();
+            titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
 
         } else {
             btn_chat.setText("发起临时会话");
             btn_addguy.setVisibility(View.VISIBLE);
         }
 
+        iv_email.setImageResource(R.drawable.more_menu);
+
+
         btn_chat.setOnClickListener(this);
         btn_addguy.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
 
         doGetData(userid, accountid, classid);
@@ -277,14 +305,19 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.fl_right:
+//                removeFriend();
+                titlePopup.show(view);
+
+                break;
         }
     }
 
     //加好友请求
     private void sentFriendApply() {
-        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId);
+        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, new Callback<ResponseData>() {
+        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, ClassId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
@@ -307,5 +340,46 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
+    }
+
+    private void removeFriend() {
+        Log.i(TAG, "本人 getUserId = " + UserInfoModel.getInstance().getUserId() + " 好友 getAccountId=  " + AccountId + " AFriendId =" + AFriendId);
+
+        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+        service.removeFriend(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AFriendId, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status = responseData.getStatus();
+                if (200 == status) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                EMClient.getInstance().contactManager().deleteContact(HXAccountId);
+                                Log.i(TAG, "删除好友成功！");
+                            } catch (HyphenateException e) {
+                                e.printStackTrace();
+                                Log.i(TAG, "删除好友error！");
+                            }
+                        }
+                    }).start();
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+
+    //POPMenu监听
+    @Override
+    public void onItemClick(ActionItem item, int position) {
+        if ("删除好友".equals(item.mTitle)) {
+            removeFriend();
+        }
     }
 }

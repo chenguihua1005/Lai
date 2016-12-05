@@ -2,9 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
 
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -14,7 +12,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.activity_initwrite)
-public class FcStuActivity extends BaseActivity {
+public class FcAuditStuActivity extends BaseActivity {
     FuceSevice fuceSevice;
     @Override
     protected void initViews() {

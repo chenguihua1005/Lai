@@ -26,10 +26,13 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
+import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
 import com.softtek.lai.module.bodygame3.head.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PhotoWallActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
@@ -216,11 +219,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.rl_setting:
-                startActivity(new Intent(getContext(), HonorActivity.class));
+                startActivity(new Intent(getContext(), InitAuditListActivity.class));
 //                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                startActivity(new Intent(getContext(), FcStuActivity.class));
+                startActivity(new Intent(getContext(), PersonDetailActivity.class));
 //                Intent personal=new Intent(getContext(), PersionalActivity.class);
 //                personal.putExtra("isFocus",1);
 //                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
