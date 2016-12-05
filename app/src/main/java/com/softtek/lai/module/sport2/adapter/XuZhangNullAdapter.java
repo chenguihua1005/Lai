@@ -1,4 +1,4 @@
-package com.softtek.lai.module.mygrades.adapter;
+package com.softtek.lai.module.sport2.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,11 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.mygrades.model.XunZhangModel;
 
 import java.util.ArrayList;
 import java.util.List;

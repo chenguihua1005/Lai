@@ -1,4 +1,4 @@
-package com.softtek.lai.module.mygrades.adapter;
+package com.softtek.lai.module.sport2.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,8 +19,8 @@ import java.util.List;
 public class XuZhangAdapter extends BaseAdapter{
 
     private Context context;
-    List<Integer> images1=new ArrayList<Integer>();
-    List<String> content1=new ArrayList<String>();
+    List<Integer> images1=new ArrayList<>();
+    List<String> content1=new ArrayList<>();
 
     public XuZhangAdapter(Context context, List<Integer> images1,List<String> content1) {
         this.context = context;

@@ -8,7 +8,7 @@ package com.softtek.lai.module.jingdu.presenter;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.jingdu.net.JingduService;
-import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.module.message2.model.PhotosModel;
 
 import org.greenrobot.eventbus.EventBus;
 

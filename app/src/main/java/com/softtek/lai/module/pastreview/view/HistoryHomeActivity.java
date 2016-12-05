@@ -134,12 +134,6 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.rel_my_base:
-                Intent baseIntent = new Intent(this, PcPastBaseDataActivity.class);
-                baseIntent.putExtra("userId", userId);
-                baseIntent.putExtra("classId", classId);
-                startActivity(baseIntent);
-                break;
             case R.id.rel_my_honor:
                 Intent honorIntent = new Intent(this, HistoryStudentHonorActivity.class);
                 honorIntent.putExtra("userId", userId);
