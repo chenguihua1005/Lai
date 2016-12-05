@@ -148,8 +148,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         //给标题栏弹窗添加子类
-        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.rehealthy));
-        titlePopup.setItemOnClickListener(this);
+//        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
+//        titlePopup.setItemOnClickListener(this);
 
     }
 
@@ -175,21 +175,21 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             btn_chat.setVisibility(View.GONE);
             btn_addguy.setVisibility(View.GONE);
             titlePopup.cleanAction();
-            titlePopup.addAction(new ActionItem(this, "修改爱心顾问", R.drawable.rehealthy));
-            titlePopup.addAction(new ActionItem(this, "退出体管赛", R.drawable.rehealthy));
+            titlePopup.addAction(new ActionItem(this, "修改爱心顾问", R.drawable.modifylove));
+            titlePopup.addAction(new ActionItem(this, "退出体管赛", R.drawable.exit_tiguan));
         } else if (1 == isFriend) {
             btn_addguy.setVisibility(View.GONE);
             btn_chat.setText("发起会话");
             btn_chat.setBackgroundColor(getResources().getColor(R.color.exit_btn));
             titlePopup.cleanAction();
-            titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.rehealthy));
+            titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
 
         } else {
             btn_chat.setText("发起临时会话");
             btn_addguy.setVisibility(View.VISIBLE);
         }
 
-        iv_email.setImageResource(R.drawable.bg_more);
+        iv_email.setImageResource(R.drawable.more_menu);
 
 
         btn_chat.setOnClickListener(this);
