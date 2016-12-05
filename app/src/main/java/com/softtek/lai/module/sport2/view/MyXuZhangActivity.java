@@ -1,22 +1,17 @@
-package com.softtek.lai.module.mygrades.view;
+package com.softtek.lai.module.sport2.view;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.mygrades.adapter.XuZhangAdapter;
-import com.softtek.lai.module.mygrades.adapter.XuZhangNullAdapter;
-import com.softtek.lai.module.mygrades.model.XunZhangModel;
-import com.softtek.lai.module.mygrades.presenter.XunZhangListManager;
+import com.softtek.lai.module.sport2.adapter.XuZhangAdapter;
+import com.softtek.lai.module.sport2.adapter.XuZhangNullAdapter;
+import com.softtek.lai.module.sport2.model.XunZhangModel;
+import com.softtek.lai.module.sport2.presenter.XunZhangListManager;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.util.ArrayList;

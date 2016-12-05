@@ -1,4 +1,4 @@
-package com.softtek.lai.module.mygrades.model;
+package com.softtek.lai.module.sport2.model;
 
 import java.util.List;
 

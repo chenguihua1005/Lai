@@ -6,7 +6,7 @@
 package com.softtek.lai.module.message2.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.message.model.MessageModel;
+import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.message2.model.AiXinStudent;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
@@ -28,6 +28,10 @@ import retrofit.http.Query;
  * update by jerry.Guan on 29/11/2016.
  */
 public interface Message2Service {
+    @GET("/V1/MsgCenter/IsHasUnReadMsg")
+    void getMessageRead(@Header("token") String token,
+                        Callback<ResponseData<UnReadMsg>> callback);
+
     @GET("/V1/MsgCenter/UnReadMsgCnt")
     void getUnreadMsg(@Header("token") String token,
                     @Query("accountid") String accountid,

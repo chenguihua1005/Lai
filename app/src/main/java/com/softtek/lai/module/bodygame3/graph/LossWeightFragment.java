@@ -150,15 +150,16 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
     @Override
     protected void initViews() {
+        int radius=DisplayUtil.dip2px(getContext(),5);
         GradientDrawable orange=new GradientDrawable();
         orange.setColors(new int[]{0xFFFEA003,0xFFED7460});
-        orange.setCornerRadius(DisplayUtil.dip2px(getContext(),5));
+        orange.setCornerRadius(radius);
         GradientDrawable cyan=new GradientDrawable();
         cyan.setColors(new int[]{0xFF77BA2B,0xFFA6C225});
-        cyan.setCornerRadius(DisplayUtil.dip2px(getContext(),5));
+        cyan.setCornerRadius(radius);
         GradientDrawable indigo=new GradientDrawable();
         indigo.setColors(new int[]{0xFF19BC84,0xFF1899A0});
-        indigo.setCornerRadius(DisplayUtil.dip2px(getContext(),5));
+        indigo.setCornerRadius(radius);
         weight_chart.setBackground(orange);
         bfat_chart.setBackground(cyan);
         fat_chart.setBackground(indigo);

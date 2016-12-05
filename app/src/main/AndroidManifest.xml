@@ -477,7 +477,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name=".jpush.MyReceiver"
+            android:name=".jpush.JpushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -552,7 +552,7 @@
         <service android:name=".stepcount.service.StepService" />
 
         <activity
-            android:name=".module.mygrades.view.MyXuZhangActivity"
+            android:name=".module.sport2.view.MyXuZhangActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport.view.RunSportActivity"
@@ -616,9 +616,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".module.pastreview.view.PcPastBaseDataActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".module.pastreview.view.PassPhotoActivity"
             android:screenOrientation="portrait" />
