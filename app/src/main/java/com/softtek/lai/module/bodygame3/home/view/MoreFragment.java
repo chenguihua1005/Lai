@@ -14,7 +14,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.graph.GraphActivity;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
@@ -26,6 +26,9 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     }
 
+    private int classCount=0;
+
     @Override
     protected void lazyLoad() {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -75,12 +80,14 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                 if (listResponseData.getData() != null
                                         && !listResponseData.getData().isEmpty()) {
                                     MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
+                                    classCount=listResponseData.getData().size();
                                     Bundle bundle=new Bundle();
                                     bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
                                     fragment.setArguments(bundle);
                                     getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
                                 }else {
                                     //没有班级的样式
+                                    classCount=0;
                                     getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
                                 }
                             }
@@ -120,11 +127,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(getContext(), PastReviewActivity.class));
-                Intent intent=new Intent(getContext(), GraphActivity.class);
-                intent.putExtra("accountId",UserInfoModel.getInstance().getUserId());
-                intent.putExtra("classId","2321321");
-                startActivity(intent);
+                startActivity(new Intent(getContext(), PastReviewActivity.class));
             }
         });
         ll_left.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +142,13 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     @Override
     protected void initDatas() {
         iv_left.setImageResource(R.drawable.back_home);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 
     @Override
@@ -146,6 +156,20 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         if(classCount==0){
             //没有班级的样式
             getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commitAllowingStateLoss();
+        }
+    }
+
+    @Subscribe
+    public void updateClass(UpdateClass clazz) {
+         if(classCount==0&&clazz.getStatus()==1){
+            //添加新班级
+             MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
+             Bundle bundle=new Bundle();
+             ArrayList<ClassModel> list=new ArrayList<>();
+             list.add(clazz.getModel());
+             bundle.putParcelableArrayList("class", list);
+             fragment.setArguments(bundle);
+             getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
         }
     }
 }

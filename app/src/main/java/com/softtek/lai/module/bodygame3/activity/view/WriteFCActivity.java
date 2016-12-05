@@ -2,12 +2,16 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -501,6 +505,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                     Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
 //                                    Picasso.with(context).load(url+initDataModel.getImgThumbnail());
                                     Log.i("复测图片缩略图"+url+initDataModel.getImgThumbnail());
+                                    Uri uri = Uri.parse(url+initDataModel.getImgThumbnail());
+                                            getRealFilePath(getBaseContext(),uri);
 
                                 }
                                 tv_write_class.setText(initDataModel.getClassName());//班级名
@@ -575,6 +581,29 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+    public static String getRealFilePath( final Context context, final Uri uri ) {
+        if (null == uri) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if (scheme == null)
+            data = uri.getPath();
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+            data = uri.getPath();
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
+                    }
+                }
+                cursor.close();
+            }
+        }
+        Log.i("测试测试测试》》》》》"+data);
+        return data;
     }
 
 }

@@ -299,23 +299,18 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR,1);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 int month = monthOfYear + 1;
                 String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (dayOfMonth < 10 ? ("0" + dayOfMonth) : dayOfMonth) + "日";
-                if (year < currentYear || (year == currentYear && monthOfYear + 1 < currentMonth) ||
-                        (year == currentYear && monthOfYear + 1 == currentMonth && dayOfMonth <= currentDay)) {
-                    String tip = "班级开始日期必须大于当前日期";
-                    Snackbar.make(tv_title, tip, Snackbar.LENGTH_SHORT).setDuration(2500).show();
-                } else {
-                    //输出当前日期
-                    tv_class_time.setText(date);
-                    if (clazz != null) {
-                        clazz.setClassName(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd));
-                    }
-
+                //输出当前日期
+                tv_class_time.setText(date);
+                if (clazz != null) {
+                    clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd));
                 }
+
             }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1).show();
 
@@ -417,6 +412,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         UserInfoModel.getInstance().saveUserCache(user);
                         Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
                         intent.putExtra("classId", data.getData().getClassId());
+                        intent.putExtra("createClass",true);
                         startActivity(intent);
                         ClassModel classModel = new ClassModel();
                         classModel.setClassId(data.getData().getClassId());

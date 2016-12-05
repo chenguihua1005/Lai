@@ -111,7 +111,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
 
         Log.i(TAG, "initViews   ......");
-        Log.e("123", UserInfoModel.getInstance().getUser().getHasThClass() + "");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -120,11 +119,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         btn_more.setOnClickListener(this);
 
         fragments = new ArrayList<>();
-//        if(UserInfoModel.getInstance().getUser().getHasThClass()==0){
-//            fragments.add(new HeadGameFragment());
-//        }else {
-//            fragments.add(new HeadGameFragment1());
-//        }
         fragments.add(new BodyGameFragment());
         fragments.add(new ChatFragment());
         fragments.add(new ContactFragment());
@@ -133,7 +127,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         content.setOffscreenPageLimit(4);
         adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
 
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -278,7 +271,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = intent.getIntExtra("type", 0);
+        int type = intent.getIntExtra("tab", 0);
         current = type;
         Log.i("消息中心发来通知");
         if (content != null) {

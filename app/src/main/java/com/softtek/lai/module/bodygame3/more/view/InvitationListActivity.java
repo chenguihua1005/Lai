@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.more.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -16,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.InvitatedExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
@@ -127,7 +129,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ll_left:{
-                finish();
+                Intent intent=new Intent(this, BodyGameActivity.class);
+                intent.putExtra("tab",4);
+                startActivity(intent);
             }
                 break;
             case R.id.fl_right:{
@@ -138,6 +142,17 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             }
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            Intent intent=new Intent(this, BodyGameActivity.class);
+            intent.putExtra("tab",4);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
