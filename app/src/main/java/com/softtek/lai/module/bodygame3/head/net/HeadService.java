@@ -95,7 +95,7 @@ public interface HeadService {
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
     );
-    //选择班级加载数据请求路径:Api/V1/ HerbalifeClass / GetClassInfo
+    //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
             @Header("token") String token,

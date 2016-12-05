@@ -13,7 +13,7 @@ import android.widget.EditText;
 public interface IRegistPresenter {
 
     //注册
-    void doRegist(String userName, String password, EditText et_identify);
+    void doRegist(String userName, String password,String HxAccountId, EditText et_identify);
 
     //获取验证码
     void getIdentify(String phone, String state);
