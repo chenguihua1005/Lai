@@ -53,7 +53,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
-        classlistModels = (List<ClasslistModel>) intent.getSerializableExtra("class");
+        classlistModels = intent.getParcelableArrayListExtra("class");
 //        classlistModels.add(classlistModel);
 //        dialogShow("正在查找...");
 //        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),

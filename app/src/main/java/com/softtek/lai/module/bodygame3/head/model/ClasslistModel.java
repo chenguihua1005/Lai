@@ -19,6 +19,29 @@ public class ClasslistModel implements Parcelable {
     private String ClassStart;
     private int ClassMemberNum;//学员人数
 
+    protected ClasslistModel(Parcel in) {
+        ClassId = in.readString();
+        ClassName = in.readString();
+        ClassCode = in.readString();
+        ClassMasterId = in.readInt();
+        ClassMasterPhoto = in.readString();
+        ClassMasterName = in.readString();
+        ClassStart = in.readString();
+        ClassMemberNum = in.readInt();
+    }
+
+    public static final Creator<ClasslistModel> CREATOR = new Creator<ClasslistModel>() {
+        @Override
+        public ClasslistModel createFromParcel(Parcel in) {
+            return new ClasslistModel(in);
+        }
+
+        @Override
+        public ClasslistModel[] newArray(int size) {
+            return new ClasslistModel[size];
+        }
+    };
+
     public String getClassId() {
         return ClassId;
     }
@@ -90,6 +113,13 @@ public class ClasslistModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(ClassId);
+        parcel.writeString(ClassName);
+        parcel.writeString(ClassCode);
+        parcel.writeInt(ClassMasterId);
+        parcel.writeString(ClassMasterPhoto);
+        parcel.writeString(ClassMasterName);
+        parcel.writeString(ClassStart);
+        parcel.writeInt(ClassMemberNum);
     }
 }

@@ -24,6 +24,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -238,12 +239,13 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 break;
             case R.id.search_btn:
                 final String text = searchContent.getText().toString().trim();
+                dialogShow("正在查找...");
                 if (StringUtils.isNotEmpty(text)) {
                     ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
                             text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                                 @Override
                                 public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                    dialogDissmiss();
+
                                     if (data.getStatus() == 200) {
                                         boolean hasThisItem = false;//
                                         classlistModels.clear();
@@ -258,17 +260,20 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                         if (classlistModels_temp.size()>0){
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);
                                             Bundle bundle = new Bundle();
-                                            bundle.putSerializable("class", (Serializable) classlistModels_temp);
+                                            bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>) classlistModels_temp);
                                             intent.putExtras(bundle);
                                             startActivity(intent);
+                                            dialogDissmiss();
 
                                         }else {
+                                            dialogDissmiss();
                                             Util.toastMsg("暂无此班级");
                                             return;
 
                                         }
 
                                     } else if (data.getStatus() == 100) {
+                                        dialogDissmiss();
                                         Util.toastMsg(data.getMsg());
                                     }
                                 }

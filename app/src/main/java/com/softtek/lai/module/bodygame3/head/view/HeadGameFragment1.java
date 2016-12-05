@@ -468,24 +468,39 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                     }
 
-                    //本周推荐
-                    if (classinfoModel.getListRec() != null) {
-                        tuijianModels.addAll(classinfoModel.getListRec());
-                        video_type1.setText(tuijianModels.get(0).getVideoType());
-                        video_name1.setText(tuijianModels.get(0).getTitle());
-                        if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
-                            iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
-                        } else {
-                            iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
-                        }
-                        video_type2.setText(tuijianModels.get(1).getVideoType());
-                        video_name2.setText(tuijianModels.get(1).getTitle());
-                        if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
-                            iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
-                        } else {
-                            iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
-                        }
-                    }
+//                    //本周推荐
+//                    if (classinfoModel.getListRec() != null) {
+//                        tuijianModels.addAll(classinfoModel.getListRec());
+//                        int count=classinfoModel.getListRec().size();
+//
+//                            if (tuijianModels.get(1) != null) {
+//                                video_type1.setText(tuijianModels.get(0).getVideoType());
+//                                video_name1.setText(tuijianModels.get(0).getTitle());
+//                                if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
+//                                    iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
+//                                } else {
+//                                    iv_imagevideo1.setBackroundResource(R.drawable.default_icon_rect);
+//                                }
+//                            }
+//                            if (tuijianModels.get(1) != null) {
+//                                if (!TextUtils.isEmpty(tuijianModels.get(1).getVideoType())) {
+//                                    video_type2.setText(tuijianModels.get(1).getVideoType());
+//                                }
+//                                if (!TextUtils.isEmpty(tuijianModels.get(1).getTitle())) {
+//                                    video_name2.setText(tuijianModels.get(1).getTitle());
+//                                }
+//                                if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
+//                                    iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
+//                                } else {
+//                                    iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
+//                                }
+//                            }
+//
+//
+//
+//
+//
+//                    }
 
                     //照片墙
                     if (classinfoModel.getPhotoWall() != null) {
