@@ -1,4 +1,4 @@
-package com.softtek.lai.utils;
+package com.softtek.lai.common;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +20,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.io.InterruptedIOException;
 import java.net.SocketTimeoutException;

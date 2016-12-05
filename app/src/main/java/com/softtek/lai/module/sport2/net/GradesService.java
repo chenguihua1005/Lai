@@ -1,9 +1,9 @@
-package com.softtek.lai.module.mygrades.net;
+package com.softtek.lai.module.sport2.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.mygrades.model.GradeHonorModel;
-import com.softtek.lai.module.mygrades.model.ScoreModel;
-import com.softtek.lai.module.mygrades.model.XunZhangModel;
+import com.softtek.lai.module.sport2.model.GradeHonorModel;
+import com.softtek.lai.module.sport2.model.ScoreModel;
+import com.softtek.lai.module.sport2.model.XunZhangModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;

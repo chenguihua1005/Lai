@@ -8,7 +8,7 @@ package com.softtek.lai.module.jingdu.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.SPModel;
-import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.module.message2.model.PhotosModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -16,10 +16,7 @@ import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
-import retrofit.http.Query;
 import retrofit.mime.TypedFile;
-
-import java.util.List;
 
 /**
  * Created by julie.zhu on 3/28/2016.

@@ -47,7 +47,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
@@ -245,7 +245,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         }
         String userrole = model.getUserrole();
         if (!String.valueOf(Constants.VR).equals(userrole)) {
-            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(),
+            ZillaApi.NormalRestAdapter.create(Message2Service.class).getMessageRead(UserInfoModel.getInstance().getToken(),
                     new Callback<ResponseData<UnReadMsg>>() {
                         @Override
                         public void success(ResponseData<UnReadMsg> responseData, Response response) {

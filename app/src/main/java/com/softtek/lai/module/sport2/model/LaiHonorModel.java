@@ -1,4 +1,4 @@
-package com.softtek.lai.module.mygrades.model;
+package com.softtek.lai.module.sport2.model;
 
 /**
  * Created by julie.zhu on 5/11/2016.

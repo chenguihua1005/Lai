@@ -1,10 +1,10 @@
-package com.softtek.lai.module.mygrades.presenter;
+package com.softtek.lai.module.sport2.presenter;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.mygrades.model.XunZhangModel;
-import com.softtek.lai.module.mygrades.net.GradesService;
+import com.softtek.lai.module.sport2.model.XunZhangModel;
+import com.softtek.lai.module.sport2.net.GradesService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
