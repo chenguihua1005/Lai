@@ -5,18 +5,14 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +37,6 @@ import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
-import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -64,14 +59,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@linkHeadGameFragment1.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@linkHeadGameFragment1#newInstance} factory method to
- * create an instance of this fragment.
- */
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener {
     @InjectView(R.id.pull)
@@ -132,19 +119,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     RelativeLayout week_rel;
     @InjectView(R.id.re_search_bottom)
     RelativeLayout re_search_bottom;
-    private List<PartnersModel> partnersModels = new ArrayList<PartnersModel>();
-    private List<TuijianModel> tuijianModels = new ArrayList<TuijianModel>();
+    private List<PartnersModel> partnersModels = new ArrayList<>();
+    private List<TuijianModel> tuijianModels = new ArrayList<>();
     private int typecode;
-    private List<ClassModel> classModels = new ArrayList<ClassModel>();
-    //    private String classid;
+    private List<ClassModel> classModels = new ArrayList<>();
     private String classId_first;
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
-    private ArrayList<String> photos_clear = new ArrayList<>();
     EasyAdapter<String> adapter;
     EasyAdapter<PartnersModel> partneradapter;
-    private List<TypeModel> datas = new ArrayList<TypeModel>();
-    private ClassModel classModel;
+    private List<TypeModel> datas = new ArrayList<>();
 
     @Override
     protected void lazyLoad() {
@@ -605,7 +589,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             model.setClassCode(clazz.getModel().getClassCode());
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
-            this.classModel.setClassName(model.getClassName());
             tv_title.setText(model.getClassName());
             tv_title.getAdapter().notifyDataSetChanged();
         } else if (clazz.getStatus() == 1) {
