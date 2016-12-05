@@ -222,7 +222,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         fl_right.setOnClickListener(this);
 
 
-        doGetData(userid, accountid, classid);
+        doGetData(userid, AccountId, ClassId);
     }
 
     private void doGetData(long userid, long accountid, String classid) {
