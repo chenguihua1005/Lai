@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -40,6 +42,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     @InjectView(R.id.choose)
     ChooseView chooseView;
     @InjectView(R.id.tv_perview)
@@ -59,6 +63,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
         ll_left.setOnClickListener(this);
+        boolean flag=getIntent().getBooleanExtra("createClass",false);
+        if(flag){
+            tv_right.setText("跳过");
+            fl_right.setOnClickListener(this);
+        }
         elv.setOnRefreshListener(this);
         elv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         View head= LayoutInflater.from(this).inflate(R.layout.expandable_head_contact,null);
@@ -177,10 +186,17 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.ll_search:
+            case R.id.ll_search:{
                 Intent intent=new Intent(this, SearchContactActivity.class);
                 intent.putExtra("classId",getIntent().getStringExtra("classId"));
                 startActivity(intent);
+            }
+                break;
+            case R.id.fl_right:{
+                Intent intent=new Intent(this, BodyGameActivity.class);
+                intent.putExtra("tab",4);
+                startActivity(intent);
+            }
                 break;
         }
     }

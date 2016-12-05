@@ -7,6 +7,7 @@ package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -141,4 +142,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
