@@ -144,13 +144,13 @@ public abstract class EaseChatRow extends LinearLayout {
 //            EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
             ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
             String p = chatUserModel.getUserPhone();
-            Picasso.with(getContext()).load(p).fit().error(R.drawable.img_default).into(userAvatarView);
+            Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
 
         } else {
             if (TextUtils.isEmpty(photoF)) {
                 photoF = "111";
             }
-            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.img_default).into(userAvatarView);
+            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
             usernickView.setText(nameF);
 //            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);

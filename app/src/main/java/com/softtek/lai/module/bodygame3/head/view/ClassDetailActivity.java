@@ -66,7 +66,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         btn_joinclass.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_title.setText("班级推荐");
-        classlistModel= (ClasslistModel) getIntent().getSerializableExtra("ClasslistModel");
+        classlistModel=getIntent().getParcelableExtra("ClasslistModel");
         try {
             if (!TextUtils.isEmpty(classlistModel.getClassMasterPhoto()))
             {

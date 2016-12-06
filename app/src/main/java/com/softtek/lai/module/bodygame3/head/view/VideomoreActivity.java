@@ -60,6 +60,7 @@ public class VideomoreActivity extends BaseActivity implements View.OnClickListe
         ZillaApi.NormalRestAdapter.create(HeadService.class).getvideo(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<VideoModel>>>() {
             @Override
             public void success(ResponseData<List<VideoModel>> listResponseData, Response response) {
+                videoModels.clear();
                 if (200 == listResponseData.getStatus()) {
                     if (listResponseData.getData() != null) {
                         videoModels.addAll(listResponseData.getData());

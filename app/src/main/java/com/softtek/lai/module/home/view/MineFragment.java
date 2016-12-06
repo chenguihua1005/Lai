@@ -224,7 +224,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 //                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                startActivity(new Intent(getContext(), WriteFCActivity.class));
+                startActivity(new Intent(getContext(), FcStuActivity.class));
 //                Intent personal=new Intent(getContext(), PersionalActivity.class);
 //                personal.putExtra("isFocus",1);
 //                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));

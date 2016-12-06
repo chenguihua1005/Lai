@@ -99,6 +99,7 @@ public interface MoreService {
     //修改组名
     @GET("/V1/MoreFunction/UpdateClassGroupName")
     void updateGroupName(@Header("token")String token,
+                         @Query("ClassId")String classId,
                          @Query("CGId")String groupId,
                          @Query("CGName")String groupName,
                          Callback<ResponseData> callback);
