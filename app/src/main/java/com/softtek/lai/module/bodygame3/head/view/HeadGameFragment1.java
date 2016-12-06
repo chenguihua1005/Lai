@@ -29,7 +29,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.adapter.MyRecyclerAdapter;
+import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
@@ -135,11 +135,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
     EasyAdapter<String> adapter;
-
-   private MyRecyclerAdapter partneradapter;
+    private ClassModel classModel;
+   private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
     private ProgressDialog progressDialog;
+    private DeleteClass deleteClass;
     @Override
     protected void lazyLoad() {
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -192,18 +193,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 lastVisitableItem=llm.findLastVisibleItemPosition();
             }
         });
-//        partneradapter.setOnItemClickListener(new MyRecyclerAdapter.OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, PartnersModel data) {
-//
-//            }
-//        });
     }
-
     @Override
     protected void initDatas() {
         gethasemail();
-
         TypeModel model1 = new TypeModel(0, "体重比");
         datas.add(model1);
         TypeModel model2 = new TypeModel(2, "体脂");
@@ -232,17 +225,40 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 updatepartner(typecode, 100, 1);//按类型分页加载小伙伴
             }
         });
-        partneradapter=new MyRecyclerAdapter(getContext(),partnersModels);
+        partneradapter=new ListRecyclerAdapter(getContext(),partnersModels);
         list_partner.setAdapter(partneradapter);
         getallfirst();//获取初始数据
-
+partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
+    @Override
+    public void onItemClick(View view, PartnersModel position) {
+                String stu_id=position.getAccountId();
+                int stu_ids=Integer.parseInt(stu_id);
+                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
+                intent.putExtra("AccountId",stu_ids);
+                intent.putExtra("ClassId",classId_first);
+                startActivity(intent);
+    }
+});
+//        partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, PartnersModel position) {
+//                PartnersModel partnersModel=partnersModels.get(position);
+//                String stu_id=partnersModel.getAccountId();
+//                int stu_ids=Integer.parseInt(stu_id);
+//                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
+//                intent.putExtra("AccountId",stu_ids);
+//                intent.putExtra("ClassId",classId_first);
+//                startActivity(intent);
+//            }
+//
+//        });
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classId_first = classModels.get(i).getClassId();
                 String classnum = classModels.get(i).getClassWeek();
                 ZillaApi.NormalRestAdapter.create(HeadService.class).choose(UserInfoModel.getInstance().getToken(), classId_first,
-                        classnum, 100, new RequestCallback<ResponseData<ChooseModel>>() {
+                        classnum, 10, new RequestCallback<ResponseData<ChooseModel>>() {
                             @Override
                             public void success(ResponseData<ChooseModel> chooseModelResponseData, Response response) {
                                 if (chooseModelResponseData.getData() != null) {
@@ -645,7 +661,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
 
+            if(classModels.isEmpty()){
+                if(deleteClass!=null){
+                    deleteClass.deletClass(0);
+                }
+            }else {
+                tv_title.setSelected(0);
+                this.classModel=classModels.get(0);
+
+            }
+
         }
 
+    }
+    public interface DeleteClass{
+        void deletClass(int classCount);
     }
 }

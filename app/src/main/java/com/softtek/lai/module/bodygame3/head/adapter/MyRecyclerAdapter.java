@@ -15,7 +15,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -36,10 +35,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @Override
     public MyRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout. partner_list,parent, false);
-        ViewHolder viewHolder=new ViewHolder(view);
-        view.setOnClickListener(this);
-        return viewHolder;
+
+            View view = LayoutInflater.from(context).inflate(R.layout. partner_list,parent, false);
+            ViewHolder viewHolder=new ViewHolder(view);
+            view.setOnClickListener(this);
+            return viewHolder;
     }
 
     @Override
@@ -80,11 +80,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             mOnItemClickListener.onItemClick(view,(PartnersModel) view.getTag());
         }
     }
-
-
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public  class ViewHolder extends RecyclerView.ViewHolder {
         TextView paiming;
         ImageView fale;
         TextView name_tv;

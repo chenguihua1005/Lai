@@ -109,7 +109,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private String dateStr;
     EasyAdapter<TodayactModel> adapter;
     private ClassModel classModel;
-
+    private DeleteClass deleteClass;
     public ClassedFragment() {
         // Required empty public constructor
     }
@@ -628,8 +628,20 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 }
             }
 
+            if(classModels.isEmpty()){
+                if(deleteClass!=null){
+                    deleteClass.deletClass(0);
+                }
+            }else {
+                tv_title.setSelected(0);
+                this.classModel=classModels.get(0);
+
+            }
+
         }
 
     }
-
+    public interface DeleteClass{
+        void deletClass(int classCount);
+    }
 }
