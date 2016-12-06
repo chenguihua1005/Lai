@@ -9,6 +9,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.message2.model.AiXinStudent;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
+import com.softtek.lai.module.message2.model.ApplyModel;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
@@ -17,6 +18,7 @@ import com.softtek.lai.module.message2.model.UnreadMsgModel;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -94,4 +96,9 @@ public interface Message2Service {
     void getShenQingJoinInfo(@Header("token")String token,
                              @Query("MsgId")String msgId,
                              Callback<ResponseData<ApplyConfirm>> callback);
+    //批准/拒绝申请加入班级
+    @POST("/v1/HerbalifeClass/ApproveClassApply")
+    void examine(@Header("token")String token,
+                 @Body ApplyModel model,
+                 Callback<ResponseData> callback);
 }

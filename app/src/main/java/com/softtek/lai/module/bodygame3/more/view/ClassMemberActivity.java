@@ -58,6 +58,7 @@ public class ClassMemberActivity extends BaseActivity {
     private List<Member> members=new ArrayList<>();
     private List<ClassGroup> groups;
     private String classId;
+    private String classHxId;
     @Override
     protected void initViews() {
         tv_title.setText("人员管理");
@@ -72,6 +73,7 @@ public class ClassMemberActivity extends BaseActivity {
     @Override
     protected void initDatas() {
         classId=getIntent().getStringExtra("classId");
+        classHxId=getIntent().getStringExtra("classHxId");
         adapter=new EasyAdapter<Member>(this,members,R.layout.item_class_member) {
             @Override
             public void convert(ViewHolder holder, Member data, final int position) {

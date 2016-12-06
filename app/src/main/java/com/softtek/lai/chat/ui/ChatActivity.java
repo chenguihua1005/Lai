@@ -28,6 +28,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.softtek.lai.LaiApplication;
@@ -68,6 +69,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private String classId;
 
     private ContactClassModel classModel;
+
+    private EMGroup group;
 
 
     public AlertDialog.Builder builder = null;
@@ -128,14 +131,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         classId = getIntent().getStringExtra("classId");
 
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
-        Log.i(TAG, "toChatUsername _userId = " + toChatUsername + "  title_value = " + title_value + " chatType =" + chatType + " classId = " + classId);
+        Log.i(TAG, "聊天人或群id userId = " + toChatUsername + "  title_value = " + title_value + " chatType =" + chatType + " classId = " + classId);
         Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
 
-        tv_title.setText(title_value);
+
         ll_left.setOnClickListener(this);
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //根据群组ID从本地获取群组基本信息
+                         group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+//                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
+                        tv_title.setText(group.getGroupName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
             fl_right.setVisibility(View.VISIBLE);
             iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+        } else {
+            tv_title.setText(title_value);
         }
 
         fl_right.setOnClickListener(this);
