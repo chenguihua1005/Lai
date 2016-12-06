@@ -22,6 +22,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
@@ -123,6 +124,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     protected void initViews() {
         tv_dynamic.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        tv_chart.setOnClickListener(this);
         try {
             if (memberInfoModel != null) {
                 if (userid == accountid || userid == Long.parseLong(memberInfoModel.getMilkAngleId())) {
@@ -205,7 +207,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
-        if (TextUtils.isEmpty(ClassId))
         doGetData(userid, AccountId, TextUtils.isEmpty(ClassId)?" ":ClassId);
     }
 
@@ -226,8 +227,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 }
                                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
 
-                                tv_angle.setText("奶昔天使：" + memberInfoModel.getMilkAngle());
-                                tv_love.setText("爱心学员：" + memberInfoModel.getIntroducer());
+                                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle())? "暂无奶昔天使":"奶昔天使：" + memberInfoModel.getMilkAngle()));
+                                tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer())?"暂无爱心学员":"爱心学员：" + memberInfoModel.getIntroducer()));
                                 if (AccountId==userid)//如果是本人，显示查看曲线图
                                 {
                                     //个性签名
@@ -252,7 +253,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                         tv_personlityName.setText("暂无个性签名");
                                         tv_personlityName.setCompoundDrawables(null,null,null,null);
                                     }
-                                    if ((memberInfoModel.getMilkAngleId()).equals(userid))//如果是登陆id是该学员的奶昔天使，显示查看曲线图
+                                    if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
                                     {
                                         tv_chart.setVisibility(View.VISIBLE);
                                     }
@@ -265,7 +266,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                         btn_chat.setVisibility(View.VISIBLE);
                                         btn_chat.setText("发起临时会话");
                                         btn_addguy.setVisibility(View.VISIBLE);
-                                        show_state=false;
+                                        iv_email.setVisibility(View.INVISIBLE);
                                     }
                                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                                     {
@@ -361,6 +362,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.tv_chart:
+                Intent graph=new Intent(this, GraphActivity.class);
+                graph.putExtra("accountId",AccountId);
+                graph.putExtra("classId",ClassId);
+                startActivity(graph);
                 //查看曲线图
                 break;
             case R.id.btn_chat:
@@ -385,13 +390,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.fl_right:
 //                removeFriend();
-                if (show_state) {
                     titlePopup.show(view);
-                }
-                else {
-                    iv_email.setVisibility(View.INVISIBLE);
-                }
-
                 break;
         }
     }
@@ -400,7 +399,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void sentFriendApply() {
         Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, ClassId, new Callback<ResponseData>() {
+        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId,TextUtils.isEmpty(ClassId)?" ":ClassId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
@@ -464,5 +463,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         if ("删除好友".equals(item.mTitle)) {
             removeFriend();
         }
+        if ("修改爱心学员".equals(item.mTitle)) {
+            removeFriend();
+        }
+        if ("删除好友".equals(item.mTitle)) {
+            removeFriend();
+        }
+
     }
 }
