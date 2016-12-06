@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -66,10 +65,13 @@ public class MessageOperatorActivity extends BaseActivity {
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
                 ImageView iv_red=holder.getView(R.id.iv_red);
-                if ("0".equals(data.getIsRead())) {
-                    iv_red.setVisibility(View.VISIBLE);
-                } else {
-                    iv_red.setVisibility(View.GONE);
+                //显示此条消息的状态
+                if(0==data.getMsgStatus()){
+                    //未操作
+                }else if(data.getMsgStatus()==1){
+                    //接受
+                }else if(data.getMsgStatus()==2){
+                    //拒绝
                 }
                 TextView tv_title=holder.getView(R.id.tv_title);
                 if(data.getMsgtype()==2){
@@ -81,12 +83,6 @@ public class MessageOperatorActivity extends BaseActivity {
                 } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
                 }
-                TextView tv_detail=holder.getView(R.id.tv_detail);
-                if("1".equals(data.getIsDo())){
-                    tv_detail.setVisibility(View.GONE);
-                }else {
-                    tv_detail.setVisibility(View.VISIBLE);
-                }
             }
         };
         lv.setAdapter(adapter);
@@ -94,10 +90,6 @@ public class MessageOperatorActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 OperateMsgModel model=operatList.get(i);
-                /*if ("1".equals(model.getIsDo())) {
-                    Util.toastMsg("该消息已操作过, 不能重复操作");
-                } else {
-                }*/
                 if(5==model.getMsgtype()){
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());

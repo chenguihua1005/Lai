@@ -54,45 +54,6 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     protected void initDatas() {
         Intent intent = getIntent();
         classlistModels = intent.getParcelableArrayListExtra("class");
-//        classlistModels.add(classlistModel);
-//        dialogShow("正在查找...");
-//        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
-//                content_et, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
-//                    @Override
-//                    public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-//                        dialogDissmiss();
-//                        if (data.getStatus() == 200) {
-//                            classlistModels.clear();
-//                            classlistModels.addAll(data.getData());
-//                            adapter.notifyDataSetChanged();
-////                            if (classlistModels == null || classlistModels.isEmpty()) {
-////                                try {
-////                                    new AlertDialog.Builder(SearchClassActivity.this).setMessage("查询失败，无此班级").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-////                                        @Override
-////                                        public void onClick(DialogInterface dialog, int which) {
-////                                            finish();
-////                                        }
-////                                    }).create().show();
-////                                } catch (Exception e) {
-////                                    e.printStackTrace();
-////                                }
-////                            } else {
-////                                adapter.notifyDataSetChanged();
-////                            }
-//
-//                        }else if(data.getStatus()==100){
-//                            Util.toastMsg(data.getMsg());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        dialogDissmiss();
-//                        super.failure(error);
-//                    }
-//                });
-
-
         adapter = new EasyAdapter<ClasslistModel>(this, classlistModels, R.layout.class_list) {
             @Override
             public void convert(ViewHolder holder, ClasslistModel data, int position) {
