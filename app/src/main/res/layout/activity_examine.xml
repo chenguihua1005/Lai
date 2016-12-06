@@ -2,11 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:orientation="vertical">
     <include layout="@layout/toolbar"/>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -202,6 +210,7 @@
         android:gravity="center"
         android:background="@drawable/bg_confirm_btn"
         android:text="同意"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:enabled="false"
         android:textSize="17sp" />
@@ -216,8 +225,11 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_no_btn"
         android:text="忽略"
+        android:visibility="gone"
         android:gravity="center"
         android:enabled="false"
         android:textColor="#FFA200"
         android:textSize="@dimen/textSize5" />
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>

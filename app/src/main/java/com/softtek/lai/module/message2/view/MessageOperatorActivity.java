@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -19,6 +18,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -65,11 +66,17 @@ public class MessageOperatorActivity extends BaseActivity {
                 }
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
-                ImageView iv_red=holder.getView(R.id.iv_red);
-                if ("0".equals(data.getIsRead())) {
-                    iv_red.setVisibility(View.VISIBLE);
-                } else {
-                    iv_red.setVisibility(View.GONE);
+                TextView tv_status=holder.getView(R.id.tv_status);
+                //显示此条消息的状态
+                if(0==data.getMsgStatus()){
+                    //未操作
+                    tv_status.setText("为处理");
+                }else if(data.getMsgStatus()==1){
+                    //接受
+                    tv_status.setText("已同意");
+                }else if(data.getMsgStatus()==2){
+                    //拒绝
+                    tv_status.setText("已忽略");
                 }
                 TextView tv_title=holder.getView(R.id.tv_title);
                 if(data.getMsgtype()==2){
@@ -81,12 +88,17 @@ public class MessageOperatorActivity extends BaseActivity {
                 } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
                 }
-                TextView tv_detail=holder.getView(R.id.tv_detail);
-                if("1".equals(data.getIsDo())){
-                    tv_detail.setVisibility(View.GONE);
+                ImageView iv_head=holder.getView(R.id.iv_head);
+                if(TextUtils.isEmpty(data.getSenderPhoto())){
+                    Picasso.with(MessageOperatorActivity.this).load(R.drawable.img_default).into(iv_head);
                 }else {
-                    tv_detail.setVisibility(View.VISIBLE);
+                    Picasso.with(MessageOperatorActivity.this)
+                            .load(AddressManager.get("photoHost")+data.getSenderPhoto())
+                            .fit()
+                            .error(R.drawable.img_default)
+                            .placeholder(R.drawable.img_default).into(iv_head);
                 }
+
             }
         };
         lv.setAdapter(adapter);
@@ -94,10 +106,6 @@ public class MessageOperatorActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 OperateMsgModel model=operatList.get(i);
-                /*if ("1".equals(model.getIsDo())) {
-                    Util.toastMsg("该消息已操作过, 不能重复操作");
-                } else {
-                }*/
                 if(5==model.getMsgtype()){
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
@@ -105,7 +113,7 @@ public class MessageOperatorActivity extends BaseActivity {
                 }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    startActivityForResult(intent, 0);
+                    startActivityForResult(intent, 10);
                 }
             }
         });
@@ -124,6 +132,7 @@ public class MessageOperatorActivity extends BaseActivity {
                                 if(data.getStatus()==200){
                                     onResult(data.getData());
                                 }else {
+
                                     Util.toastMsg(data.getMsg());
                                 }
                             }
@@ -144,7 +153,7 @@ public class MessageOperatorActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
+        if (requestCode == 10 && resultCode == RESULT_OK) {
             dialogShow("加载中");
             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                     .getOperateMsgList(UserInfoModel.getInstance().getToken(),

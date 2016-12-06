@@ -17,6 +17,24 @@ public class OperateMsgModel implements Serializable {
     private String SendTime;
     private int IsRead;
     private int IsDo;
+    private int MsgStatus;//0默认 1接受 2拒绝
+    private String SenderPhoto;
+
+    public String getSenderPhoto() {
+        return SenderPhoto;
+    }
+
+    public void setSenderPhoto(String senderPhoto) {
+        SenderPhoto = senderPhoto;
+    }
+
+    public int getMsgStatus() {
+        return MsgStatus;
+    }
+
+    public void setMsgStatus(int msgStatus) {
+        MsgStatus = msgStatus;
+    }
 
     public int getMsgtype() {
         return Msgtype;
