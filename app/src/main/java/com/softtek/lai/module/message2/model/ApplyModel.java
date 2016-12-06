@@ -8,5 +8,11 @@ package com.softtek.lai.module.message2.model;
 
 public class ApplyModel {
 
-    private String applyId;
+    public String applyId;
+    public long reviewerId;
+    public long accountId;
+    public String classId;
+    public String groupId;
+    public int classRole;
+    public int status;
 }

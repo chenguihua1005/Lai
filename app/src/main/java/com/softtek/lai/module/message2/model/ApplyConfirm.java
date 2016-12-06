@@ -20,8 +20,26 @@ public class ApplyConfirm {
     private String ApplyMLName;
     private String ApplyHxId;
     private String ClassHxId;
+    private String ClassId;
+    private int MsgStatus;
     private List<ClassGroup> ClassGroups;
     private List<ClassRole> ClassRoles;
+
+    public int getMsgStatus() {
+        return MsgStatus;
+    }
+
+    public void setMsgStatus(int msgStatus) {
+        MsgStatus = msgStatus;
+    }
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
 
     public int getApplyId() {
         return ApplyId;

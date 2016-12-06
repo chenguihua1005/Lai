@@ -18,6 +18,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -64,14 +66,17 @@ public class MessageOperatorActivity extends BaseActivity {
                 }
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
-                ImageView iv_red=holder.getView(R.id.iv_red);
+                TextView tv_status=holder.getView(R.id.tv_status);
                 //显示此条消息的状态
                 if(0==data.getMsgStatus()){
                     //未操作
+                    tv_status.setText("为处理");
                 }else if(data.getMsgStatus()==1){
                     //接受
+                    tv_status.setText("已同意");
                 }else if(data.getMsgStatus()==2){
                     //拒绝
+                    tv_status.setText("已忽略");
                 }
                 TextView tv_title=holder.getView(R.id.tv_title);
                 if(data.getMsgtype()==2){
@@ -83,6 +88,17 @@ public class MessageOperatorActivity extends BaseActivity {
                 } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
                 }
+                ImageView iv_head=holder.getView(R.id.iv_head);
+                if(TextUtils.isEmpty(data.getSenderPhoto())){
+                    Picasso.with(MessageOperatorActivity.this).load(R.drawable.img_default).into(iv_head);
+                }else {
+                    Picasso.with(MessageOperatorActivity.this)
+                            .load(AddressManager.get("photoHost")+data.getSenderPhoto())
+                            .fit()
+                            .error(R.drawable.img_default)
+                            .placeholder(R.drawable.img_default).into(iv_head);
+                }
+
             }
         };
         lv.setAdapter(adapter);
@@ -97,7 +113,7 @@ public class MessageOperatorActivity extends BaseActivity {
                 }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    startActivityForResult(intent, 0);
+                    startActivityForResult(intent, 10);
                 }
             }
         });
@@ -116,6 +132,7 @@ public class MessageOperatorActivity extends BaseActivity {
                                 if(data.getStatus()==200){
                                     onResult(data.getData());
                                 }else {
+
                                     Util.toastMsg(data.getMsg());
                                 }
                             }
@@ -136,7 +153,7 @@ public class MessageOperatorActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
+        if (requestCode == 10 && resultCode == RESULT_OK) {
             dialogShow("加载中");
             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                     .getOperateMsgList(UserInfoModel.getInstance().getToken(),
