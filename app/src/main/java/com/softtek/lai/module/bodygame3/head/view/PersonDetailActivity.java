@@ -68,6 +68,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     Long userid, accountid;
     String classid;
     MemberInfoModel memberInfoModel;
+    @InjectView(R.id.ll_weigh)
+    LinearLayout ll_weigh;
     @InjectView(R.id.cir_userimg)//用户id
             CircleImageView cir_userimg;
     @InjectView(R.id.tv_stuname)//用户名
@@ -105,6 +107,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     //定义标题栏弹窗按钮
     private TitlePopup titlePopup;
+    boolean show_state=true;
 
 //    ClassMemberModel classMemberModel;
 
@@ -119,6 +122,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         tv_dynamic.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         try {
             if (memberInfoModel != null) {
                 if (userid == accountid || userid == Long.parseLong(memberInfoModel.getMilkAngleId())) {
@@ -147,6 +151,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        titlePopup.setItemOnClickListener(this);
         //给标题栏弹窗添加子类
 //        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
 //        titlePopup.setItemOnClickListener(this);
@@ -182,37 +187,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             });
 
         }
-        accountid = Long.parseLong(getIntent().getIntExtra("student_id", 0) + "");
         userid = UserInfoModel.getInstance().getUserId();
-        classid = getIntent().getStringExtra("classId_first");
-
-//        classMemberModel = (ClassMemberModel) getIntent().getSerializableExtra("classMemberModel");
+        AccountId = getIntent().getLongExtra("AccountId",0);
+        ClassId = getIntent().getStringExtra("ClassId");
 
         isFriend = getIntent().getIntExtra("isFriend", 0);
-        AccountId = getIntent().getLongExtra("AccountId", 0);
         HXAccountId = getIntent().getStringExtra("HXAccountId");
         UserName = getIntent().getStringExtra("UserName");
         AFriendId = getIntent().getStringExtra("AFriendId");//好友关系id
-        ClassId = getIntent().getStringExtra("ClassId");
 
         Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId + " ClassId = " + ClassId);
-        if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(AccountId)) {//是本人的话，隐藏聊天和加好友按钮
-            btn_chat.setVisibility(View.GONE);
-            btn_addguy.setVisibility(View.GONE);
-            titlePopup.cleanAction();
-            titlePopup.addAction(new ActionItem(this, "修改爱心顾问", R.drawable.modifylove));
-            titlePopup.addAction(new ActionItem(this, "退出体管赛", R.drawable.exit_tiguan));
-        } else if (1 == isFriend) {
-            btn_addguy.setVisibility(View.GONE);
-            btn_chat.setText("发起会话");
-            btn_chat.setBackgroundColor(getResources().getColor(R.color.exit_btn));
-            titlePopup.cleanAction();
-            titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
-
-        } else {
-            btn_chat.setText("发起临时会话");
-            btn_addguy.setVisibility(View.VISIBLE);
-        }
 
         iv_email.setImageResource(R.drawable.more_menu);
 
@@ -221,11 +205,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
-
-        doGetData(userid, AccountId, ClassId);
+        if (TextUtils.isEmpty(ClassId))
+        doGetData(userid, AccountId, TextUtils.isEmpty(ClassId)?" ":ClassId);
     }
 
-    private void doGetData(long userid, long accountid, String classid) {
+    private void doGetData(final long userid, long accountid, String classid) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
             @Override
@@ -236,18 +220,66 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         case 200:
                             memberInfoModel = memberInfoModelResponseData.getData();
                             if (memberInfoModel != null) {
-                                if (!TextUtils.isEmpty(memberInfoModel.getUserThPhoto())) {
-                                    Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getUserThPhoto()).fit().into(cir_userimg);
+                                //加载头像
+                                if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
+                                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).fit().error(R.drawable.img_default).into(cir_userimg);
                                 }
-                                tv_stuname.setText(memberInfoModel.getUserName());
-                                if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
-                                    tv_personlityName.setText(memberInfoModel.getPersonalityName());
-                                }
-                                tv_angle.setText("爱心天使：" + memberInfoModel.getMilkAngle());
+                                tv_stuname.setText(memberInfoModel.getUserName());//用户名
+
+                                tv_angle.setText("奶昔天使：" + memberInfoModel.getMilkAngle());
                                 tv_love.setText("爱心学员：" + memberInfoModel.getIntroducer());
+                                if (AccountId==userid)//如果是本人，显示查看曲线图
+                                {
+                                    //个性签名
+                                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
+                                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                                    }
+                                    tv_chart.setVisibility(View.VISIBLE);
+                                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer()))
+                                    {
+                                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
+                                    }
+                                    titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "退出体管赛", R.drawable.exit_tiguan));
+
+                                }
+                                else {
+                                    //个性签名
+                                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
+                                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                                        tv_personlityName.setCompoundDrawables(null,null,null,null);//去除个性签名文本图标
+                                    }
+                                    else {
+                                        tv_personlityName.setText("暂无个性签名");
+                                        tv_personlityName.setCompoundDrawables(null,null,null,null);
+                                    }
+                                    if ((memberInfoModel.getMilkAngleId()).equals(userid))//如果是登陆id是该学员的奶昔天使，显示查看曲线图
+                                    {
+                                        tv_chart.setVisibility(View.VISIBLE);
+                                    }
+                                    if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
+                                    {
+                                        btn_chat.setVisibility(View.VISIBLE);
+                                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
+                                    }
+                                    else {//不是好友，可发起临时会话，显示添加好友
+                                        btn_chat.setVisibility(View.VISIBLE);
+                                        btn_chat.setText("发起临时会话");
+                                        btn_addguy.setVisibility(View.VISIBLE);
+                                        show_state=false;
+                                    }
+                                    if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
+                                    {
+                                        im_guanzhu.setVisibility(View.VISIBLE);
+                                    }
+                                    else {
+                                        im_guanzhu.setVisibility(View.VISIBLE);
+                                        im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
+                                    }
+                                }
                                 newsTopFourModels = memberInfoModel.getNewsTopFour();
                                 doGetPhotoView();//展示图片
                                 if ("4".equals(memberInfoModel.getClassRole())) {
+                                    ll_weigh.setVisibility(View.VISIBLE);
                                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
                                         tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
                                     } else {
@@ -353,7 +385,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.fl_right:
 //                removeFriend();
-                titlePopup.show(view);
+                if (show_state) {
+                    titlePopup.show(view);
+                }
+                else {
+                    iv_email.setVisibility(View.INVISIBLE);
+                }
 
                 break;
         }
