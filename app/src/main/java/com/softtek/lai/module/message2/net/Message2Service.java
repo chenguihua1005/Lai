@@ -94,4 +94,10 @@ public interface Message2Service {
     void getShenQingJoinInfo(@Header("token")String token,
                              @Query("MsgId")String msgId,
                              Callback<ResponseData<ApplyConfirm>> callback);
+    //批准/拒绝申请加入班级
+    @GET("/v1/HerbalifeClass/ApproveClassApply")
+    void examine(@Header("token")String token,
+                 @Query("MsgId")String msgId,
+                 @Query("status")int status,
+                 Callback<ResponseData> callback);
 }

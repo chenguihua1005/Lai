@@ -80,6 +80,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        tv_title.setText("参赛申请");
+        ll_left.setOnClickListener(this);
         rl_group.setOnClickListener(this);
         rl_role.setOnClickListener(this);
         btn_no.setOnClickListener(this);
@@ -194,6 +196,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.ll_left:
+                finish();
+                break;
             case R.id.rl_group:
                 showGroupName(true,new EasyAdapter<ClassGroup>(this,classGroupList,R.layout.textview) {
                     @Override
@@ -214,9 +219,42 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_no:
                 //忽略
+                dialogShow("审批忽略");
+                ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                        .examine(UserInfoModel.getInstance().getToken(),
+                                msgId,
+                                -1,
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
+                                    }
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDissmiss();
+                                        super.failure(error);
+                                    }
+                                });
                 break;
             case R.id.btn_yes:
                 //确定
+                dialogShow("审批确认");
+                ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                        .examine(UserInfoModel.getInstance().getToken(),
+                                msgId,
+                                1,
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDissmiss();
+                                        super.failure(error);
+                                    }
+                                });
                 break;
         }
     }

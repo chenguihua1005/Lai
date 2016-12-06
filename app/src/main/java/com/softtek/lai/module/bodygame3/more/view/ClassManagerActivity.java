@@ -234,6 +234,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
             case R.id.rl_person_manager:{
                 Intent intent=new Intent(this,ClassMemberActivity.class);
                 intent.putExtra("classId",classId);
+                intent.putExtra("classHxId",classModel.getHXGroupId());
                 startActivity(intent);
             }
                 break;

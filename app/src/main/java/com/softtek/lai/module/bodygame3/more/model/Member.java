@@ -15,6 +15,15 @@ public class Member {
     private String Photo;
     private String CGName;
     private String CGId;
+    private String HxAccountId;
+
+    public String getHxAccountId() {
+        return HxAccountId;
+    }
+
+    public void setHxAccountId(String hxAccountId) {
+        HxAccountId = hxAccountId;
+    }
 
     public long getAccountId() {
         return AccountId;
