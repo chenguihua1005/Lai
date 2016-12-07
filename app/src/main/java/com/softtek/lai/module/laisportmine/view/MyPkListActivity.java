@@ -29,7 +29,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_pk_list)
 public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
-        AdapterView.OnItemLongClickListener,MyPkDelPKMsgManager.MyPkDelPKMsgCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
+        MyPkDelPKMsgManager.MyPkDelPKMsgCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
         AdapterView.OnItemClickListener,DeleteMessageManager.DeleteMsgCallBack{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -67,7 +67,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         ll_select.setOnClickListener(this);
         cb_all.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
-        listview_pk.setOnItemLongClickListener(this);
         listview_pk.setOnItemClickListener(this);
     }
 
@@ -169,9 +168,9 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             PkNoticeModel pkNoticeModel = pkNoticeModelList.get(i);
             if (pkNoticeModel.getIsselect()) {
                 if ("".equals(msgId)) {
-                    msgId = pkNoticeModel.getPKMsgId();
+                    msgId = pkNoticeModel.getMsgid();
                 } else {
-                    msgId = msgId + "," + pkNoticeModel.getPKMsgId();
+                    msgId = msgId + "," + pkNoticeModel.getMsgid();
                 }
             }
         }
@@ -196,12 +195,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-        return true;
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

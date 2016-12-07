@@ -11,7 +11,7 @@ import com.softtek.lai.module.message2.model.AiXinStudent;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.ApplyModel;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
-import com.softtek.lai.module.message2.model.NoticeMsgModel;
+import com.softtek.lai.module.message2.model.NoticeModel;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
 
@@ -39,32 +39,23 @@ public interface Message2Service {
                     @Query("accountid") String accountid,
                     Callback<ResponseData<UnreadMsgModel>> callback);
 
-    @GET("/MsgCenter/GetNoticeMsg")
-    void getNoticeMsg(@Header("token") String token,
-                    @Query("accountid") String accountid,
-                    Callback<ResponseData<List<NoticeMsgModel>>> callback);
-
     //小助手类消息列表
     @GET("/V1/MsgCenter/GetOperateMsgList")
     void getOperateMsgList(@Header("token")String token,
                            @Query("accountid")long accountId,
                            Callback<ResponseData<List<OperateMsgModel>>> callback);
+    //服务窗消息列表
+    @GET("/V1/MsgCenter/GetMeasureMsgList")
+    void getMeasureMsgList(@Header("token")String token,
+                           @Query("accountid")long accountId,
+                           Callback<ResponseData<List<NoticeModel>>> callback);
+    //复测消息列表
+    @GET("/V1/MsgCenter/GetNoticeMsgList")
+    void getNoticeMsgList(@Header("token")String token,
+                          @Query("accountid")long accountId,
+                          Callback<ResponseData<List<NoticeModel>>> callback);
 
-    @GET("/MsgCenter/GetMeasureMsg")
-    void getMeasureMsg(@Header("token") String token,
-                    @Query("accountid") String accountid,
-                    Callback<ResponseData<List<NoticeMsgModel>>> callback);
 
-    @POST("/MsgCenter/UpReadTime")
-    void upRedTime(@Header("token") String token,
-                    @Query("msgtype") String msgtype,
-                    @Query("msgid") String msgid,
-                    Callback<ResponseData> callback);
-
-    @POST("/MsgCenter/RefuseRemoveSR")
-    void refuseRemoveSR(@Header("token") String token,
-                    @Query("msgid") String msgid,
-                    Callback<ResponseData> callback);
 
     @POST("/MsgCenter/DeleteOneOrMoreMsg")
     @FormUrlEncoded

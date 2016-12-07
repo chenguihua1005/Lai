@@ -12,11 +12,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.SelectPublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.message2.model.NoticeModel;
 import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
 
 import java.util.ArrayList;
@@ -90,9 +90,9 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
             SelectPublicWewlfModel selectPublicWewlfModel = publicWewlfModelList.get(i);
             if (selectPublicWewlfModel.isSelect()) {
                 if ("".equals(msgId)) {
-                    msgId = selectPublicWewlfModel.getPublicWewlfModel().getMessageId();
+                    msgId = selectPublicWewlfModel.getPublicWewlfModel().getMsgid();
                 } else {
-                    msgId = msgId + "," + selectPublicWewlfModel.getPublicWewlfModel().getMessageId();
+                    msgId = msgId + "," + selectPublicWewlfModel.getPublicWewlfModel().getMsgid();
                 }
             }
         }
@@ -163,7 +163,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel) {
+    public void getMyPublicWewlList(List<NoticeModel> publicWewlfModel) {
         try {
             if (publicWewlfModel == null || publicWewlfModel.isEmpty()) {
                 ll_public_nomessage.setVisibility(View.VISIBLE);

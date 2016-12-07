@@ -2,10 +2,12 @@ package com.softtek.lai.module.laisportmine.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
+import com.softtek.lai.module.laisportmine.model.NoticeActModel;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.model.SystemNewsModel;
+import com.softtek.lai.module.message2.model.NoticeModel;
 
 import java.util.List;
 
@@ -33,12 +35,13 @@ public interface MineService {
             @Query("accountid")long accountid,
             Callback<ResponseData>callback
     );
-    //慈善列表
-    @GET("/SportMsg/GetDonateMsg")
+
+    //慈善列表/V1/MsgCenter/GetDonateMsgList
+    @GET("/V1/MsgCenter/GetDonateMsgList")
     void doGetDonateMsg(
             @Header("token")String token,
             @Query("accountid")String accountid,
-            Callback<ResponseData<List<PublicWewlfModel>>>callback
+            Callback<ResponseData<List<NoticeModel>>>callback
     );
     //系统消息
     @GET("/SportMsg/GetSysMsg")
@@ -62,8 +65,15 @@ public interface MineService {
             @Query("accountid")String accountid,
             Callback<ResponseData<List<ActionModel>>>callback
     );
+    //活动通知
+    @GET("/V1/MsgCenter/GetActiveMsgList")
+    void getActiveNoticeMsg(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            Callback<ResponseData<List<NoticeActModel>>>callback
+    );
     //PK通知
-    @GET("/SportMsg/GetChallMsg")
+    @GET("/V1/MsgCenter/GetChallMsgList")
     void doGetPKINotice(
             @Header("token")String token,
             @Query("accountid")String accountid,
