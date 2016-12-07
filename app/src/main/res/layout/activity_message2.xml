@@ -1,26 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
+    <include layout="@layout/toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_xzs"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_xzs"
@@ -92,7 +92,7 @@
         android:id="@+id/rel_fwc"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_fwc"
@@ -164,7 +164,7 @@
         android:id="@+id/rel_fc"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_fc"
@@ -235,7 +235,7 @@
         android:id="@+id/rel_gs"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_gs"
@@ -306,7 +306,7 @@
         android:id="@+id/rel_pk"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_pk"
@@ -377,7 +377,7 @@
         android:id="@+id/rel_act"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_act"
@@ -443,4 +443,6 @@
             android:layout_alignParentBottom="true"
             android:background="@color/grey" />
     </RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

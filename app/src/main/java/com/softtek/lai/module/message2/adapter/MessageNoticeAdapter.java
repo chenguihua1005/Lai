@@ -20,7 +20,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.message2.model.NoticeMsgModel;
 import com.softtek.lai.module.message2.model.SelectNoticeMsgModel;
-import com.softtek.lai.module.message2.view.NoticeFC2Activity;
+//import com.softtek.lai.module.message2.view.NoticeFC2Activity;
 
 import java.util.List;
 
@@ -135,9 +135,9 @@ public class MessageNoticeAdapter extends BaseAdapter {
                     }
                     if (select_count == list.size()) {
                         cb.setChecked(true);
-                        NoticeFC2Activity.isSelsetAll = true;
+                        //NoticeFC2Activity.isSelsetAll = true;
                     } else {
-                        NoticeFC2Activity.isSelsetAll = false;
+                        //NoticeFC2Activity.isSelsetAll = false;
                         cb.setChecked(false);
                     }
                 } else {

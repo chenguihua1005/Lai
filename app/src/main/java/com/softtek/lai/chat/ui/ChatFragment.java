@@ -189,6 +189,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         //头像点击事件
         Intent intent = new Intent(getContext(), PersonDetailActivity.class);
         intent.putExtra("HXAccountId",username);
+        intent.putExtra("ClassId","");
         startActivity(intent);
     }
 
