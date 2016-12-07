@@ -95,22 +95,6 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         fl_right.setOnClickListener(this);
         tv_right.setText("编辑");
         list.setEmptyView(img_no_message);
-//        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (adapter != null) {
-//                    tv_right.setText("完成");
-//                    cb_all.setChecked(false);
-//                    isSelsetAll = false;
-//                    noticeList.get(position).setSelect(true);
-//                    footer.setVisibility(View.VISIBLE);
-//                    adapter.isDel = true;
-//                    adapter.select_count++;
-//                    adapter.notifyDataSetChanged();
-//                }
-//                return false;
-//            }
-//        });
     }
 
     @Override
@@ -129,10 +113,7 @@ public class NoticeFC2Activity extends BaseActivity implements View.OnClickListe
         } else if ("notice".equals(type)) {
             tv_title.setText("服务窗");
             manager.doGetNoticeMsg(model.getUserid());
-        }/* else if ("xzs".equals(type)) {
-            tv_title.setText("小助手");
-            manager.doGetOperateMsg(model.getUserid());
-        }*/
+        }
     }
 
 

@@ -212,7 +212,6 @@
         android:text="同意"
         android:visibility="gone"
         android:textColor="@color/white"
-        android:enabled="false"
         android:textSize="17sp" />
 
     <Button
@@ -227,7 +226,6 @@
         android:text="忽略"
         android:visibility="gone"
         android:gravity="center"
-        android:enabled="false"
         android:textColor="#FFA200"
         android:textSize="@dimen/textSize5" />
     </LinearLayout>

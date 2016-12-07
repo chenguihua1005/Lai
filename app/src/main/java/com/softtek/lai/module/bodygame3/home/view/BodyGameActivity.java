@@ -354,37 +354,22 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_bodygame:
                 btn_bodygame.setProgress(1);
-                if (current == 0) {
-                    return;
-                }
                 current = 0;
                 break;
             case R.id.btn_chat:
                 btn_chat.setProgress(1);
-                if (current == 1) {
-                    return;
-                }
                 current = 1;
                 break;
             case R.id.btn_contact:
                 btn_contact.setProgress(1);
-                if (current == 2) {
-                    return;
-                }
                 current = 2;
                 break;
             case R.id.btn_activity:
                 btn_activity.setProgress(1);
-                if (current == 3) {
-                    return;
-                }
                 current = 3;
                 break;
             case R.id.btn_more:
                 btn_more.setProgress(1);
-                if (current == 4) {
-                    return;
-                }
                 current = 4;
                 break;
         }

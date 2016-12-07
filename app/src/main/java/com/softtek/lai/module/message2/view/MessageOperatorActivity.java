@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,7 +23,9 @@ import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -35,19 +39,41 @@ import zilla.libcore.util.Util;
  * 操作类消息
  */
 @InjectLayout(R.layout.activity_message_operator)
-public class MessageOperatorActivity extends BaseActivity {
+public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     @InjectView(R.id.lv)
     ListView lv;
+
+    @InjectView(R.id.footer)
+    LinearLayout footer;
+    @InjectView(R.id.tv_delete)
+    TextView tv_delete;
+    @InjectView(R.id.lin_select)
+    LinearLayout lin_select;
+    @InjectView(R.id.cb_all)
+    CheckBox cb_all;
+
+    public boolean isSelsetAll = false;
+    private List<String> ids=new ArrayList<>();
+    private boolean doOperator=false;
+
     EasyAdapter<OperateMsgModel> adapter;
     private List<OperateMsgModel> operatList=new ArrayList<>();
     @Override
     protected void initViews() {
         tv_title.setText("小助手");
+        tv_delete.setOnClickListener(this);
+        lin_select.setOnClickListener(this);
+        tv_right.setText("编辑");
+        fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +83,19 @@ public class MessageOperatorActivity extends BaseActivity {
         adapter=new EasyAdapter<OperateMsgModel>(this,operatList,R.layout.item_message_xzs) {
             @Override
             public void convert(ViewHolder holder, final OperateMsgModel data, final int position) {
+                ImageView iv_select=holder.getView(R.id.iv_select);
+                if(doOperator){
+                    iv_select.setVisibility(View.VISIBLE);
+                }else {
+                    iv_select.setImageResource(R.drawable.history_data_circle);
+                    iv_select.setVisibility(View.GONE);
+                }
+                if (data.isSelected()) {
+                    iv_select.setImageResource(R.drawable.history_data_circled);
+                } else {
+                    iv_select.setImageResource(R.drawable.history_data_circle);
+                }
+
                 TextView tv_time=holder.getView(R.id.tv_time);
                 String time = data.getSendTime();
                 if (!TextUtils.isEmpty(time)) {
@@ -66,11 +105,12 @@ public class MessageOperatorActivity extends BaseActivity {
                 }
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
+                tv_content.append(" >>");
                 TextView tv_status=holder.getView(R.id.tv_status);
                 //显示此条消息的状态
                 if(0==data.getMsgStatus()){
                     //未操作
-                    tv_status.setText("为处理");
+                    tv_status.setText("未处理");
                 }else if(data.getMsgStatus()==1){
                     //接受
                     tv_status.setText("已同意");
@@ -106,6 +146,19 @@ public class MessageOperatorActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 OperateMsgModel model=operatList.get(i);
+                if(doOperator){
+                    //正在操作的话
+                    if(model.isSelected()){
+                        isSelsetAll=false;
+                        cb_all.setChecked(false);
+                        model.setSelected(false);
+                        ids.add(model.getMsgid());
+                    }else {
+                        model.setSelected(true);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return;
+                }
                 if(5==model.getMsgtype()){
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
@@ -146,6 +199,8 @@ public class MessageOperatorActivity extends BaseActivity {
     }
 
     private void onResult(List<OperateMsgModel> data){
+        tv_right.setText("编辑");
+        fl_right.setOnClickListener(this);
         operatList.addAll(data);
         adapter.notifyDataSetChanged();
     }
@@ -176,6 +231,47 @@ public class MessageOperatorActivity extends BaseActivity {
                                     super.failure(error);
                                 }
                             });
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fl_right:
+                if(!doOperator){
+                    doOperator=true;
+                    tv_right.setText("完成");
+                    cb_all.setChecked(false);
+                    footer.setVisibility(View.VISIBLE);
+                }else {
+                    doOperator=false;
+                    tv_right.setText("编辑");
+                    footer.setVisibility(View.GONE);
+                    //恢复之前所选的
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_delete:
+
+
+                break;
+            case R.id.lin_select:
+
+                if (isSelsetAll) {
+                    isSelsetAll = false;
+                    cb_all.setChecked(false);
+                    for (OperateMsgModel model:operatList){
+                        model.setSelected(false);
+                    }
+                } else {
+                    isSelsetAll = true;
+                    cb_all.setChecked(true);
+                    for (OperateMsgModel model:operatList){
+                        model.setSelected(true);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                break;
         }
     }
 }
