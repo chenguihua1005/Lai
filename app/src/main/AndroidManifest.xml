@@ -770,6 +770,7 @@
         <activity android:name=".module.bodygame3.head.view.PhotoWallActivity" />
         <activity android:name=".module.message2.view.NoticeServerActivity"/>
         <activity android:name=".module.message2.view.NoticeFC3Activity"/>
+        <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity"></activity>
     </application>
 
 </manifest>

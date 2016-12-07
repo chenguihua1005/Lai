@@ -152,4 +152,14 @@ public interface HeadService {
             @Header("token") String token,
             Callback<ResponseData<List<VideoModel>>> callback
     );
+    //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
+    @GET("/V1/HerbalifeClass/AddMineLovePC")
+    void doPostAddMineLovePC(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("classid")String classid,
+            @Query("mobile")String mobile,
+            Callback<ResponseData>callback
+    );
+
 }
