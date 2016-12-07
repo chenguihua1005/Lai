@@ -1,11 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -14,35 +9,15 @@ import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.model.PersonalListModel;
-import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
-import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import retrofit.client.Response;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 /**
@@ -87,7 +62,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         //绑定数据
         if (holder instanceof ViewHolder) {
-            Log.i("试图加载。/。。。。。。。。。。。。。。。。。。。。。。。。");
             PartnersModel partnersModel=partnersModels.get(position);
             ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
             ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());

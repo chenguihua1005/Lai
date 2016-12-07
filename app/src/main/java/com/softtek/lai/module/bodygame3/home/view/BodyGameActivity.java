@@ -112,7 +112,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
 
-        Log.i(TAG, "initViews   ......");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -303,17 +302,14 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        Log.i(TAG, "注册监听......");
         registerMessageReceiver();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume is running...");
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-            Log.i(TAG, "已登录,未读消息数是： " + unreadNum);
             updateMessage(unreadNum);
         }
     }

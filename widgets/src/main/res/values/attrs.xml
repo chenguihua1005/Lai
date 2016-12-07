@@ -13,11 +13,21 @@
         <attr name="textTint2" format="color"/>
         <attr name="textSize2" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="ArrowSpinner3">
+        <attr name="arrowColor" format="color" />
+        <attr name="hideArrow3" format="boolean" />
+        <attr name="textTint3" format="color"/>
+    </declare-styleable>
 
     <declare-styleable name="ArrowRectangleView">
         <attr name="arrow_width" format="dimension" />
         <attr name="arrow_height" format="dimension" />
         <attr name="arrow_offset" format="dimension" />
+        <attr name="arrow_position" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="middle" value="2"/>
+            <enum name="right" value="3"/>
+        </attr>
         <attr name="radius" format="dimension" />
         <attr name="background_color" format="color" />
         <attr name="shadow_color" format="color" />

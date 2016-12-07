@@ -769,8 +769,9 @@
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
             android:configChanges="screenSize" />
-        <activity android:name=".module.bodygame3.activity.view.ActTextActivity"></activity>
-        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity"></activity>
+        <activity android:name=".module.bodygame3.activity.view.ActTextActivity" />
+        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity" />
+        <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity"></activity>
     </application>
 
 </manifest>

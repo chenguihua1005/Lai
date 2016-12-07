@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +47,8 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static com.softtek.lai.R.id.tv_chart;
+
 @InjectLayout(R.layout.activity_person_detail)
 public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener {
     private static final String TAG = "PersonDetailActivity";
@@ -69,7 +70,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     HeadService headService;
     NewsTopFourModel newsTopFourModel;
     Long userid, accountid;
-    String classid;
+    int SetLove=1;
     MemberInfoModel memberInfoModel;
     @InjectView(R.id.ll_weigh)
     LinearLayout ll_weigh;
@@ -96,8 +97,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     //跳转点击
     @InjectView(R.id.tv_dynamic)
     TextView tv_dynamic;//动态
-    @InjectView(R.id.tv_chart)
-    TextView tv_chart;//曲线图
+    @InjectView(R.id.ll_chart)
+    LinearLayout ll_chart;//曲线图
 
     @InjectView(R.id.btn_chat)
     Button btn_chat;//发起聊天 或者临时聊天
@@ -126,32 +127,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     protected void initViews() {
         tv_dynamic.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        tv_chart.setOnClickListener(this);
-        try {
-            if (memberInfoModel != null) {
-                if (userid == accountid || userid == Long.parseLong(memberInfoModel.getMilkAngleId())) {
-                    tv_chart.setVisibility(View.VISIBLE);
-                }
-                if (userid == accountid) {
-                    btn_chat.setVisibility(View.GONE);
-                    btn_addguy.setVisibility(View.GONE);
-                    im_guanzhu.setVisibility(View.GONE);
-                } else if ("1".equals(memberInfoModel.getIsFriend())) {
-                    //是好友
-                    btn_addguy.setVisibility(View.GONE);
-                } else {
-                    //不是好友
-                    btn_chat.setText("发起临时会话");
-                }
-                if ("false".equals(memberInfoModel.getIsFocus())) {
-                    im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
-                }
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
+        ll_chart.setOnClickListener(this);
+
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -235,11 +212,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
                                     }
-                                    tv_chart.setVisibility(View.VISIBLE);
-                                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
+                                    ll_chart.setVisibility(View.VISIBLE);
+                                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer()))
+                                    {
                                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
                                     }
-                                    titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "退出体管赛", R.drawable.exit_tiguan));
 
                                 } else {
                                     //个性签名
@@ -252,7 +229,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     }
                                     if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
                                     {
-                                        tv_chart.setVisibility(View.VISIBLE);
+                                        ll_chart.setVisibility(View.VISIBLE);
                                     }
                                     if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
                                     {
@@ -274,7 +251,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 }
                                 newsTopFourModels = memberInfoModel.getNewsTopFour();
                                 doGetPhotoView();//展示图片
-                                if ("4".equals(memberInfoModel.getClassRole())) {
+                                if ("4".equals(memberInfoModel.getClassRole()))
+                                {
                                     ll_weigh.setVisibility(View.VISIBLE);
                                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
                                         tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
@@ -292,6 +270,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                         Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
                                         Log.i("现在体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg());
                                     }
+                                }
+                                else {
+                                    ll_chart.setVisibility(View.GONE);
                                 }
 
                             }
@@ -356,7 +337,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     startActivity(personal);
                 }
                 break;
-            case R.id.tv_chart:
+            case tv_chart:
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
                 graph.putExtra("classId", ClassId);
@@ -370,7 +351,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("chatType", EaseConstant.CHATTYPE_SINGLE);
                     intent.putExtra("userId", HXAccountId);
                     intent.putExtra("name", UserName);
-//                intent.putExtra("classId", classMemberModel.getCGId());//??
                     startActivity(intent);
 
 //                    Intent intent = new Intent(this, ConversationListActivity.class);
@@ -489,19 +469,34 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==SetLove&&resultCode==RESULT_OK) {
+        doGetData(userid,AccountId,ClassId);
+            titlePopup.cleanAction();
+        }
+    }
 
     //POPMenu监听
     @Override
     public void onItemClick(ActionItem item, int position) {
         if ("删除好友".equals(item.mTitle)) {
             removeFriend();
+            btn_addguy.setText("添加好友");
+            btn_addguy.setVisibility(View.VISIBLE);
         }
         if ("修改爱心学员".equals(item.mTitle)) {
 //            removeFriend();
         }
         if ("删除好友".equals(item.mTitle)) {
-//            removeFriend();
+            Intent intent=new Intent(this,SetLoveStuActivity.class);
+            intent.putExtra("AccounId",AccountId);
+            intent.putExtra("ClassId",ClassId);
+            startActivityForResult(intent,SetLove);
         }
 
     }
+
+
 }
