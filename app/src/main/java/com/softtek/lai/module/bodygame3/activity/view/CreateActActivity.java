@@ -143,7 +143,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.rl_activity_mark:
                 Intent addMarkIntent = new Intent(this, ActTextActivity.class);
-                addMarkIntent.putExtra("value",ActTextActivity.ADD_MARK);
+                addMarkIntent.putExtra("value", ActTextActivity.ADD_MARK);
                 addMarkIntent.putExtra("name_value", tv_activity_mark.getText());
                 startActivityForResult(addMarkIntent, 002);
                 break;
@@ -163,7 +163,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
-//                ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
+
                 activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
                 activityModel.setClassId(classid);
                 activityModel.setClassActivityId(classActivityId);
@@ -173,22 +173,22 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 activityModel.setContent(mark);
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(UserInfoModel.getInstance().getToken(),
                         activityModel, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        if (200 == responseData.getStatus()) {
-                            Util.toastMsg(responseData.getMsg());
-                            setResult(RESULT_OK);
-                            finish();
-                        } else {
-                            Util.toastMsg(responseData.getMsg());
-                        }
-                    }
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                if (200 == responseData.getStatus()) {
+                                    Util.toastMsg(responseData.getMsg());
+                                    setResult(RESULT_OK);
+                                    finish();
+                                } else {
+                                    Util.toastMsg(responseData.getMsg());
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                            }
+                        });
                 break;
         }
     }
@@ -230,11 +230,11 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ActtypeModel acttypeModel = acttypeModels.get(i);
 //                if (acttypeModel.getActivityTypeId() == 2) {
-                    classActivityId = acttypeModel.getActivityTypeId();
-                    tv_activity_type.setText(acttypeModel.getActivityTypeName());
-                    String path = AddressManager.get("photoHost");
-                    Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).into(type_iv);
-                    builder.dismiss();
+                classActivityId = acttypeModel.getActivityTypeId();
+                tv_activity_type.setText(acttypeModel.getActivityTypeName());
+                String path = AddressManager.get("photoHost");
+                Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).into(type_iv);
+                builder.dismiss();
 //                }
             }
         });

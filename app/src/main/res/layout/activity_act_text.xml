@@ -28,6 +28,7 @@
             android:imeOptions="actionSend"
             android:paddingLeft="10dp"
             android:textColor="#333333"
+            android:maxLength="300"
             android:textColorHint="#c0c0c0"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="16sp" />
@@ -58,7 +59,7 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:textColor="#333333"
-            android:maxLength="15"
+            android:maxLength="30"
             android:textColorHint="#c0c0c0"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="16sp" />

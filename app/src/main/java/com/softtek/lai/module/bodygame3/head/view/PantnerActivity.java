@@ -65,8 +65,8 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         overridePendingTransition(0, 0);
         tv_title.setText("搜索");
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
     }

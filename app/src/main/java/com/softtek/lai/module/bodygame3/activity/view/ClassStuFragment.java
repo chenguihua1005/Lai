@@ -16,13 +16,10 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
-import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -40,14 +37,13 @@ import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
-import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
+import com.softtek.lai.widgets.materialcalendarview.decorators.ResetDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,7 +62,6 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -79,8 +74,8 @@ import static android.app.Activity.RESULT_OK;
  * Use the {@linkNoClassFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@InjectLayout(R.layout.fragment_classed)
-public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+@InjectLayout(R.layout.fragment_class_stu)
+public class ClassStuFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
     SwipeRefreshLayout refresh;
     @InjectView(R.id.appbar)
@@ -92,7 +87,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner3 tv_title;
+    ArrowSpinner2 tv_title;
     @InjectView(R.id.list_activity)
     RecyclerView list_activity;
     @InjectView(R.id.material_calendar)
@@ -127,7 +122,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private int page = 1;
     private int lastVisitableItem;
 
-    public ClassedFragment() {
+    public ClassStuFragment() {
         // Required empty public constructor
     }
 
@@ -606,10 +601,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             }
             if (material_calendar != null) {
                 material_calendar.removeDecorators();
-                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.FREE, calendarModel_free, getActivity()));
+                material_calendar.addDecorator(new ResetDecorator(Constants.RESET, calendarModel_reset, getActivity()));
+                material_calendar.addDecorator(new ResetDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
+                material_calendar.addDecorator(new ResetDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
+                material_calendar.addDecorator(new ResetDecorator(Constants.FREE, calendarModel_free, getActivity()));
 
             }
         }

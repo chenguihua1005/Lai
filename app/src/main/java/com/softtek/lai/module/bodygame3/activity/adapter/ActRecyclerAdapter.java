@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.adapter;
+package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,19 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.model.PersonalListModel;
-import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
-import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,7 +27,7 @@ import zilla.libcore.file.AddressManager;
  * Created by shelly.xu on 12/6/2016.
  */
 
-public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ActRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
@@ -43,11 +35,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-    private List<PartnersModel> partnersModels;
+    private List<TodayactModel> partnersModels;
     private Context context;
     private int width;
 
-    public ListRecyclerAdapter(Context mContext, List infos) {
+    public ActRecyclerAdapter(Context mContext, List infos) {
         this.context = mContext;
         this.partnersModels = infos;
         width= DisplayUtil.getMobileWidth(mContext);
@@ -56,7 +48,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.partner_list, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_list, parent, false);
             return new ViewHolder(view);
         } else if (viewType == FOOTER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.up_load_view, parent, false);
@@ -72,27 +64,13 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         //绑定数据
         if (holder instanceof ViewHolder) {
-            PartnersModel partnersModel = partnersModels.get(position);
-            ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
-            ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());
-            if (partnersModel.getStuGender().equals("1")) {
-                ((ViewHolder) holder).fale.setImageResource(R.drawable.female_iv);
-            } else if (partnersModel.getStuGender().equals("0")) {
-                ((ViewHolder) holder).fale.setImageResource(R.drawable.male_iv);
-            } else if (partnersModel.getStuGender().equals("2")) {
-
+            Log.i("试图加载。/。。。。。。。。。。。。。。。。。。。。。。。。");
+            TodayactModel todayactModel = partnersModels.get(position);
+            ((ViewHolder) holder).activity_name.setText(todayactModel.getActivityName()+"("+todayactModel.getCount()+")");
+             ((ViewHolder) holder).activity_time.setText("集合时间"+todayactModel.getActivityStartDate());
+            if(!TextUtils.isEmpty(todayactModel.getActivityIcon())){
+              Picasso.with(context).load(AddressManager.get("photoHost")+todayactModel.getActivityIcon()).into(((ViewHolder) holder).activityicon);
             }
-            ((ViewHolder) holder).group_tv.setText(partnersModel.getGroupName());
-            if (TextUtils.isEmpty(partnersModel.getStuThImg())) {
-                Picasso.with(context).load(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-            } else {
-                Picasso.with(context).load(AddressManager.get("photoHost") + partnersModel.getStuThImg())
-                        .fit().error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-            }
-            ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
-            ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
-            ((ViewHolder) holder).tv_bi.setText("减重比");
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -130,25 +108,14 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView paiming;
-        ImageView fale;
-        TextView name_tv;
-        TextView group_tv;
-        TextView weight_first;
-        TextView jianzhong_tv;
-        TextView tv_bi;
-        ImageView head_img;
-
+        TextView activity_name;
+        TextView activity_time;
+        ImageView activityicon;
         public ViewHolder(View view) {
             super(view);
-            paiming = (TextView) itemView.findViewById(R.id.paiming);
-            fale = (ImageView) itemView.findViewById(R.id.fale);
-            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            group_tv = (TextView) itemView.findViewById(R.id.group_tv);
-            weight_first = (TextView) itemView.findViewById(R.id.weight_first);
-            jianzhong_tv = (TextView) itemView.findViewById(R.id.jianzhong_tv);
-            tv_bi = (TextView) itemView.findViewById(R.id.tv_bi);
-            head_img = (ImageView) itemView.findViewById(R.id.head_img);
+            activity_name=(TextView)view.findViewById(R.id.activity_name);
+            activity_time=(TextView)view.findViewById(R.id.activity_time);
+            activityicon=(ImageView)view.findViewById(R.id.activityicon);
         }
     }
 

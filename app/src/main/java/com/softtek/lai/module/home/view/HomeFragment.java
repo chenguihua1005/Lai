@@ -305,10 +305,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                             ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
-
-
-
-
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
