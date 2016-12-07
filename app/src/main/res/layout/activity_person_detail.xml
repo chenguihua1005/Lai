@@ -298,6 +298,11 @@
                     android:background="#eeeeee" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_chart"
+                android:orientation="vertical">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -310,7 +315,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
-                android:drawableLeft="@drawable/lable"
+                android:drawableLeft="@drawable/chart_icon"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/action_right"
                 android:paddingBottom="20dp"
@@ -320,14 +325,16 @@
                 android:text="查看我的曲线图"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <View
+                android:id="@+id/vi_chart"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
+                android:visibility="gone"
                 android:background="#eeeeee" />
-
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_chat"
                 android:layout_width="match_parent"
