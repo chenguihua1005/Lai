@@ -101,4 +101,11 @@ public interface Message2Service {
     void examine(@Header("token")String token,
                  @Body ApplyModel model,
                  Callback<ResponseData> callback);
+    //删除单个或多个消息
+    @FormUrlEncoded
+    @POST("/V1/MsgCenter/DeleteOneOrMoreMsg")
+    void deleteMssage(@Header("token")String token,
+                      @Field("Msgids")String ids,
+                      @Field("Msgtype")int msgType,
+                      Callback<ResponseData> callback);
 }

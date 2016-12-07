@@ -53,11 +53,8 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     private UserInfoModel userInfoModel;
     String accountid;
     private MyPkNoticeAdapter myPkNoticeAdapter;
-    private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
-    private CharSequence[] items={"删除"};
-    boolean isselec = false;
+    private List<PkNoticeModel>pkNoticeModelList=new ArrayList<>();
     boolean isdelpage=false;
-    int account=0;
     DeleteMessageManager delManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     MyPkDelPKMsgManager myPkDelPKMsgManager;

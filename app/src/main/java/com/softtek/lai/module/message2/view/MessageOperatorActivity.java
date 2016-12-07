@@ -2,6 +2,7 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -23,9 +24,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -62,7 +61,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     CheckBox cb_all;
 
     public boolean isSelsetAll = false;
-    private List<String> ids=new ArrayList<>();
+    private List<Integer> deleteIndex=new ArrayList<>();
     private boolean doOperator=false;
 
     EasyAdapter<OperateMsgModel> adapter;
@@ -152,9 +151,17 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                         isSelsetAll=false;
                         cb_all.setChecked(false);
                         model.setSelected(false);
-                        ids.add(model.getMsgid());
+                        deleteIndex.remove(i);
                     }else {
                         model.setSelected(true);
+                        deleteIndex.add(i);
+                        if(operatList.size()==deleteIndex.size()){
+                            isSelsetAll=true;
+                            cb_all.setChecked(true);
+                        }else {
+                            cb_all.setChecked(false);
+                        }
+
                     }
                     adapter.notifyDataSetChanged();
                     return;
@@ -247,31 +254,77 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     doOperator=false;
                     tv_right.setText("编辑");
                     footer.setVisibility(View.GONE);
-                    //恢复之前所选的
                 }
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.tv_delete:
+                dialogShow("正在删除");
+                StringBuilder builder=new StringBuilder();
+                for(int i=0,j=deleteIndex.size();i<j;i++){
+                    builder.append(operatList.get(deleteIndex.get(i)).getMsgid());
+                    if(i<j-1){
+                        builder.append(",");
+                    }
+                }
+                ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                        .deleteMssage(UserInfoModel.getInstance().getToken(),
+                                builder.toString(),
+                                1,
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        if(responseData.getStatus()!=200){
+                                            return;
+                                        }
+                                        for(int i=0,j=deleteIndex.size();i<j;i++){
+                                            operatList.remove(deleteIndex.get(i).intValue());
+                                        }
+                                        cb_all.setChecked(false);
+                                        adapter.notifyDataSetChanged();
+                                        dialogDissmiss();
 
+
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDissmiss();
+                                        super.failure(error);
+                                    }
+                                });
 
                 break;
             case R.id.lin_select:
-
                 if (isSelsetAll) {
                     isSelsetAll = false;
                     cb_all.setChecked(false);
+                    deleteIndex.clear();
                     for (OperateMsgModel model:operatList){
                         model.setSelected(false);
                     }
                 } else {
                     isSelsetAll = true;
                     cb_all.setChecked(true);
-                    for (OperateMsgModel model:operatList){
-                        model.setSelected(true);
+                    deleteIndex.clear();
+                    for (int i=0;i<operatList.size();i++){
+                        operatList.get(i).setSelected(true);
+                        deleteIndex.add(i);
                     }
                 }
                 adapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(doOperator&&keyCode==KeyEvent.KEYCODE_BACK){
+            doOperator=false;
+            tv_right.setText("编辑");
+            footer.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
