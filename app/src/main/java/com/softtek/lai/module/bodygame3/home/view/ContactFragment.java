@@ -181,7 +181,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("AccountId", model.getAccountId());
                     intent.putExtra("HXAccountId", model.getHXAccountId());
                     intent.putExtra("UserName", model.getUserName());
-                    intent.putExtra("AFriendId",model.getAFriendId());
+                    intent.putExtra("AFriendId", model.getAFriendId());
                     startActivity(intent);
                 } else {
                     Util.toastMsg("会话功能开通中，请稍后再试");
@@ -201,6 +201,12 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadingData();
+    }
+
+    @Override
     protected void onVisible() {
         super.onVisible();
         if (getContext() instanceof BodyGameActivity) {
@@ -212,7 +218,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private void loadingData() {
         dialogShow("加载中");
         getDataAndUpdate();
-
     }
 
     @Override
