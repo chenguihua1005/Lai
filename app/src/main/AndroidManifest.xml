@@ -385,9 +385,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.message2.view.NoticeFC2Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.message2.view.MessageConfirmActivity"
             android:screenOrientation="portrait" />
 
@@ -769,8 +766,10 @@
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
             android:configChanges="screenSize" />
-        <activity android:name=".module.bodygame3.activity.view.ActTextActivity"></activity>
-        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity"></activity>
+        <activity android:name=".module.bodygame3.activity.view.ActTextActivity" />
+        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity" />
+        <activity android:name=".module.message2.view.NoticeServerActivity"/>
+        <activity android:name=".module.message2.view.NoticeFC3Activity"/>
     </application>
 
 </manifest>
