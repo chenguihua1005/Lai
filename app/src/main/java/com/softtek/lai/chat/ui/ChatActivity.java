@@ -143,7 +143,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 public void run() {
                     try {
                         //根据群组ID从本地获取群组基本信息
-                         group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+                        group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
 //                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
                         tv_title.setText(group.getGroupName());
                     } catch (Exception e) {
@@ -152,8 +152,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 }
             }).start();
 
-            fl_right.setVisibility(View.VISIBLE);
-            iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+            if (classModel != null) {
+                fl_right.setVisibility(View.VISIBLE);
+                iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+            }
         } else {
             tv_title.setText(title_value);
         }
