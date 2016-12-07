@@ -8,14 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.SelectPublicWewlfModel;
 import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
-import com.softtek.lai.module.retest.model.BanjiModel;
+import com.softtek.lai.module.message2.model.NoticeModel;
 import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
@@ -26,14 +24,12 @@ import java.util.List;
 public class MyPublicWealfareAdapter extends BaseAdapter {
     private Context context;
     private List<SelectPublicWewlfModel> publicWewlfModelList;
-    private LayoutInflater inflater;
     public boolean isDel = false;
     public int select_count;
     CheckBox cb;
 
     public MyPublicWealfareAdapter(Context context, List<SelectPublicWewlfModel> publicWewlfModelList, CheckBox cb) {
         this.context = context;
-        inflater = LayoutInflater.from(context);
         this.cb = cb;
         this.publicWewlfModelList = publicWewlfModelList;
     }
@@ -83,11 +79,11 @@ public class MyPublicWealfareAdapter extends BaseAdapter {
         } else {
             holder.img_select.setVisibility(View.GONE);
         }
-        PublicWewlfModel publicWewlfModel = publicWewlfModelList.get(position).getPublicWewlfModel();
+        NoticeModel publicWewlfModel = publicWewlfModelList.get(position).getPublicWewlfModel();
         final SelectPublicWewlfModel selectPublicWewlfModel=publicWewlfModelList.get(position);
         String date = DateUtil.getInstance().convertDateStr(publicWewlfModel.getSendTime(), "yyyy年MM月dd日");
         holder.tv_public_date.setText(date);
-        holder.tv_public_content.setText(publicWewlfModel.getContent());
+        holder.tv_public_content.setText(publicWewlfModel.getMsgContent());
         if (selectPublicWewlfModel.isSelect()) {
             holder.img_select.setImageResource(R.drawable.history_data_circled);
         } else {

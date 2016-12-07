@@ -42,7 +42,7 @@ import zilla.libcore.util.Util;
  * 关于复测的通知都会进入这个界面
  */
 @InjectLayout(R.layout.activity_message_operator)
-public class NoticeFC3Activity extends BaseActivity implements View.OnClickListener{
+public class NoticeFCActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -150,7 +150,24 @@ public class NoticeFC3Activity extends BaseActivity implements View.OnClickListe
                 }
                 //===================================================
                 //做复测跳转
-
+                String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+//        if (String.valueOf(Constants.PC).equals(userrole)) {
+//            Intent intent = new Intent(context, BodyGamePCActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//        } else if (String.valueOf(Constants.SR).equals(userrole)) {
+//            //助教身份跳转复测页面
+//            Intent intent = new Intent(context, BodyGameSRActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//
+//        } else if (String.valueOf(Constants.SP).equals(userrole)) {
+//            //顾问身份跳转复测页面
+//            Intent intent = new Intent(context, BodyGameSPActivity.class);
+//            intent.putExtra("type", 3);
+//            context.startActivity(intent);
+//
+//        }
 
             }
         });

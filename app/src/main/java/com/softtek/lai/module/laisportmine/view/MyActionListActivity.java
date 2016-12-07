@@ -51,7 +51,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             TextView tv_delete;
     MyActionAdapter myActionAdapter;
     DeleteMessageManager delManager;
-    private List<ActionModel> actionModelLists = new ArrayList<ActionModel>();
+    private List<ActionModel> actionModelLists = new ArrayList<>();
     ActionListManager actionListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     DelNoticeOrMeasureManager delNoticeOrMeasureManager;

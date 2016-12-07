@@ -20,7 +20,7 @@
         android:id="@+id/rl_xzs"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_xzs"
@@ -92,7 +92,7 @@
         android:id="@+id/rel_fwc"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_fwc"
@@ -164,7 +164,7 @@
         android:id="@+id/rel_fc"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_fc"
@@ -235,7 +235,7 @@
         android:id="@+id/rel_gs"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_gs"
@@ -306,7 +306,7 @@
         android:id="@+id/rel_pk"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_pk"
@@ -377,7 +377,7 @@
         android:id="@+id/rel_act"
         android:layout_width="fill_parent"
         android:layout_height="68dip"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img_icon_act"
