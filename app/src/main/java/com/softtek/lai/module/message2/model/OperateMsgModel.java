@@ -19,6 +19,15 @@ public class OperateMsgModel implements Serializable {
     private int IsDo;
     private int MsgStatus;//0默认 1接受 2拒绝
     private String SenderPhoto;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getSenderPhoto() {
         return SenderPhoto;

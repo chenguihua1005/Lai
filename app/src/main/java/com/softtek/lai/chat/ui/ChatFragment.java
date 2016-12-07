@@ -21,6 +21,7 @@ import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.PathUtil;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,6 +69,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         setChatFragmentListener(this);
         super.setUpView();
     }
+
     @Override
     protected void registerExtendMenuItem() {
         //demo这里不覆盖基类已经注册的item,item点击listener沿用基类的
@@ -185,6 +187,10 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //头像点击事件
+        Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+        intent.putExtra("HXAccountId",username);
+        intent.putExtra("ClassId","");
+        startActivity(intent);
     }
 
     @Override

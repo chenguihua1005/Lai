@@ -17,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.InvitatedExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
@@ -68,6 +69,8 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        Bundle bundle=getIntent().getBundleExtra("class");
+        model=bundle.getParcelable("class");
         adapter=new InvitatedExpandableAdapter(this,datas,groups);
         lv.getRefreshableView().setAdapter(adapter);
 
@@ -79,8 +82,18 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 return true;
             }
         });
-        Bundle bundle=getIntent().getBundleExtra("class");
-        model=bundle.getParcelable("class");
+        lv.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                Intent intent=new Intent(InvitationListActivity.this, PersonDetailActivity.class);
+                InvitatedContact contact=datas.get(groups.get(i)).get(i1);
+                intent.putExtra("AccountId",contact.getInviterId());
+                intent.putExtra("ClassId",model.getClassId());
+                startActivity(intent);
+                return false;
+            }
+        });
+
         pageIndex=1;
         dialogShow("加载中...");
         ZillaApi.NormalRestAdapter.create(MoreService.class)

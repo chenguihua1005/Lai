@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,8 +23,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -38,16 +35,13 @@ import com.ggx.widgets.drop.ArrowRectangleView;
  * Created by jerry.guan on 11/16/2016.
  */
 
-public class ArrowSpinner2 extends LinearLayout{
+public class ArrowSpinner3 extends TextView{
 
     private static final int MAX_LEVEL = 10000;
     private static final int DEFAULT_ELEVATION = 16;
     private static final String INSTANCE_STATE = "instance_state";
     private static final String SELECTED_INDEX = "selected_index";
     private static final String IS_POPUP_SHOWING = "is_popup_showing";
-
-    private TextView textView;
-    private ImageView imageView;
 
     private int selectedIndex;
     private Drawable drawable;
@@ -58,20 +52,19 @@ public class ArrowSpinner2 extends LinearLayout{
     private AdapterView.OnItemSelectedListener onItemSelectedListener;
     private boolean isArrowHide;
     private int textColor;
-    private int textSize;
 
 
-    public ArrowSpinner2(Context context) {
+    public ArrowSpinner3(Context context) {
         super(context);
         init(context, null);
     }
 
-    public ArrowSpinner2(Context context, AttributeSet attrs) {
+    public ArrowSpinner3(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public ArrowSpinner2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ArrowSpinner3(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -93,30 +86,15 @@ public class ArrowSpinner2 extends LinearLayout{
     }
 
     private void init(Context context, AttributeSet attrs) {
-        setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER);
-        textView=new TextView(context);
-        textView.setMaxEms(10);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setMaxLines(1);
-        imageView=new ImageView(context);
-        addView(textView);
-        addView(imageView);
-        LinearLayout.LayoutParams params= (LayoutParams) textView.getLayoutParams();
-        params.height=LayoutParams.WRAP_CONTENT;
-        params.width=LayoutParams.WRAP_CONTENT;
-        params.rightMargin=8;
-        textView.setLayoutParams(params);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner2);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner3);
         setClickable(true);
-        textColor = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
-        textView.setTextColor(textColor);
-        textSize= typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_textSize2,10);
-        textView.setTextSize(textSize);
+        textColor = typedArray.getColor(R.styleable.ArrowSpinner3_textTint3, -1);
+        setTextColor(textColor);
 
         View view= LayoutInflater.from(context).inflate(R.layout.drop_list,null);
         ArrowRectangleView arv= (ArrowRectangleView) view.findViewById(R.id.arv);
-        arv.setArrowPosition(ArrowRectangleView.RIGHT);
+        arv.setArrowPosition(ArrowRectangleView.MIDDLE);
         listView = (ListView) view.findViewById(R.id.lv);
         listView.setDivider(new ColorDrawable(Color.WHITE));
         listView.setDividerHeight(2);
@@ -131,7 +109,7 @@ public class ArrowSpinner2 extends LinearLayout{
                 selectedIndex = position;
                 String text=adapter.getText(selectedIndex);
                 if(!TextUtils.isEmpty(text)){
-                    textView.setText(text);
+                    setText(text);
                 }
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(parent, view, position, id);
@@ -167,17 +145,13 @@ public class ArrowSpinner2 extends LinearLayout{
             }
         });
 
-        isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner2_hideArrow2, false);
+        isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner3_hideArrow3, false);
         if (!isArrowHide) {
-            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow);
-            int resId = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
+            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_white);
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);
-                if (resId != -1) {
-                    DrawableCompat.setTint(drawable, resId);
-                }
             }
-            imageView.setImageDrawable(drawable);
+            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         }
 
         typedArray.recycle();
@@ -202,24 +176,20 @@ public class ArrowSpinner2 extends LinearLayout{
         this.adapter=adapter;
         selectedIndex = 0;
         listView.setAdapter(adapter);
-        textView.setText(adapter.getText(selectedIndex));
+        setText(adapter.getText(selectedIndex));
         if(adapter.getCount()>0){
-            setImageVisibility(VISIBLE);
+            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         }else {
-            setImageVisibility(GONE);
+            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
     }
     public void setSelected(int index){
         selectedIndex=index;
-        textView.setText(adapter.getText(index));
+        setText(adapter.getText(index));
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    public void setImageVisibility(int visibility){
-        imageView.setVisibility(visibility);
     }
 
     @Override
@@ -271,7 +241,4 @@ public class ArrowSpinner2 extends LinearLayout{
         }
     }
 
-    public void setText(String str){
-        textView.setText(str);
-    }
 }

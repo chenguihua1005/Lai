@@ -185,5 +185,7 @@
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="zhiqingshu"><u>本人已阅读《康宝莱使用知情书》</u></string>
 
+    <string name="removing_friendMsg">正在移除好友消息</string>
+
 
 </resources>

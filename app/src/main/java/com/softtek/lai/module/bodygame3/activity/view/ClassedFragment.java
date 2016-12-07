@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -91,7 +92,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner2 tv_title;
+    ArrowSpinner3 tv_title;
     @InjectView(R.id.list_activity)
     RecyclerView list_activity;
     @InjectView(R.id.material_calendar)

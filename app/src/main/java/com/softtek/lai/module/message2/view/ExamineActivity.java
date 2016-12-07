@@ -132,13 +132,17 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     .placeholder(R.drawable.img_default).into(head_image);
         }
         tv_phone.setText(apply.getApplyMobile());
-        tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert())?"暂无":apply.getApplyCert());
+        tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert())?"未认证":apply.getApplyCert());
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName())?"暂无":apply.getApplyMLName());
         classGroupList=apply.getClassGroups();
         classRole=apply.getClassRoles();
         if(apply.getMsgStatus()==0){
             btn_no.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.VISIBLE);
+        }else {
+            //已经处理过的数据
+            tv_group_name.setText(apply.getClassGroupName());
+            tv_role_name.setText(apply.getClassRoleName());
         }
 
     }

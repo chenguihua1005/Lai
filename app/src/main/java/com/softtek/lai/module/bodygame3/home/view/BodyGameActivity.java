@@ -22,8 +22,10 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -110,7 +112,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
 
-        Log.i(TAG, "initViews   ......");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -226,24 +227,24 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
         //从服务器获取自己加入的和创建的群组列表，此api获取的群组sdk会自动保存到内存和db。
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
-//                    for (EMGroup group : grouplist) {
-//                        String groupId = group.getGroupId();
-//                        Log.i(TAG,"groupId= " +groupId);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
+                    for (EMGroup group : grouplist) {
+                        String groupId = group.getGroupId();
+                        Log.i(TAG,"groupId= " +groupId);
 //                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
 //                        Log.i(TAG, " 解散成功！" + groupId);
-//                    }
-//                } catch (HyphenateException e) {
-//                    e.printStackTrace();
+                    }
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
 //                    Log.i(TAG, " 解散失败！");
-//                }
-//
-//            }
-//        }).start();
+                }
+
+            }
+        }).start();
 
 
     }
@@ -301,19 +302,14 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        Log.i(TAG, "注册监听......");
         registerMessageReceiver();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume is running...");
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-
-
-            Log.i(TAG, "已登录,未读消息数是： " + unreadNum);
             updateMessage(unreadNum);
         }
     }
@@ -354,37 +350,22 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_bodygame:
                 btn_bodygame.setProgress(1);
-                if (current == 0) {
-                    return;
-                }
                 current = 0;
                 break;
             case R.id.btn_chat:
                 btn_chat.setProgress(1);
-                if (current == 1) {
-                    return;
-                }
                 current = 1;
                 break;
             case R.id.btn_contact:
                 btn_contact.setProgress(1);
-                if (current == 2) {
-                    return;
-                }
                 current = 2;
                 break;
             case R.id.btn_activity:
                 btn_activity.setProgress(1);
-                if (current == 3) {
-                    return;
-                }
                 current = 3;
                 break;
             case R.id.btn_more:
                 btn_more.setProgress(1);
-                if (current == 4) {
-                    return;
-                }
                 current = 4;
                 break;
         }

@@ -4,15 +4,41 @@ package com.softtek.lai.module.laisportmine.model;
  * Created by lareina.qiao on 5/12/2016.
  */
 public class PkNoticeModel {
-    private String PKMsgId;
     private String PKId;
-    private String MsgType;
-    private String Comments;
-    private String CreateTime;
     private String Photo;
     private String UserName;
     private String Chip;
+    private int Msgtype;
+    private String Msgid;
+    private String MsgContent;
+    private String SendTime;
+    private int IsRead;
+
     private Boolean Isselect;
+
+    public String getMsgid() {
+        return Msgid;
+    }
+
+    public void setMsgid(String msgid) {
+        Msgid = msgid;
+    }
+
+    public String getMsgContent() {
+        return MsgContent;
+    }
+
+    public void setMsgContent(String msgContent) {
+        MsgContent = msgContent;
+    }
+
+    public String getSendTime() {
+        return SendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        SendTime = sendTime;
+    }
 
     public Boolean getIsselect() {
         return Isselect;
@@ -22,30 +48,6 @@ public class PkNoticeModel {
         Isselect = isselect;
     }
 
-    private String IsRead;
-
-    @Override
-    public String toString() {
-        return "PkNoticeModel{" +
-                "PKMsgId='" + PKMsgId + '\'' +
-                ", PKId='" + PKId + '\'' +
-                ", MsgType='" + MsgType + '\'' +
-                ", Comments='" + Comments + '\'' +
-                ", CreateTime='" + CreateTime + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", UserName='" + UserName + '\'' +
-                ", Chip='" + Chip + '\'' +
-                ", IsRead='" + IsRead + '\'' +
-                '}';
-    }
-
-    public String getPKMsgId() {
-        return PKMsgId;
-    }
-
-    public void setPKMsgId(String PKMsgId) {
-        this.PKMsgId = PKMsgId;
-    }
 
     public String getPKId() {
         return PKId;
@@ -55,28 +57,12 @@ public class PkNoticeModel {
         this.PKId = PKId;
     }
 
-    public String getMsgType() {
-        return MsgType;
+    public int getMsgtype() {
+        return Msgtype;
     }
 
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
-
-    public String getComments() {
-        return Comments;
-    }
-
-    public void setComments(String comments) {
-        Comments = comments;
-    }
-
-    public String getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        CreateTime = createTime;
+    public void setMsgtype(int msgtype) {
+        Msgtype = msgtype;
     }
 
     public String getPhoto() {
@@ -103,11 +89,11 @@ public class PkNoticeModel {
         Chip = chip;
     }
 
-    public String getIsRead() {
+    public int getIsRead() {
         return IsRead;
     }
 
-    public void setIsRead(String isRead) {
+    public void setIsRead(int isRead) {
         IsRead = isRead;
     }
 }

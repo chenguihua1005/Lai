@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -760,9 +761,13 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             return;
         }
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        Log.i(TAG, "chatUserModel = '" + chatUserModel);
+
+        if (chatUserModel != null) {
+            message.setAttribute("nickname", chatUserModel.getUserName());
+            message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+            message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        }
 
         if (chatFragmentHelper != null) {
             //set extension

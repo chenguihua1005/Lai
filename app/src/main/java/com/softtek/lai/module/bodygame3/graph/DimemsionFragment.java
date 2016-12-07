@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.graph;
 
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -10,6 +11,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.graph.model.GirthModel;
 import com.softtek.lai.module.bodygame3.graph.net.GraphService;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
@@ -154,6 +156,23 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     @Override
     protected void initViews() {
         //设置背景颜色
+        int radius=DisplayUtil.dip2px(getContext(),5);
+        GradientDrawable orange=new GradientDrawable();
+        orange.setColors(new int[]{0xFFFEA003,0xFFED7460});
+        orange.setCornerRadius(radius);
+        GradientDrawable cyan=new GradientDrawable();
+        cyan.setColors(new int[]{0xFF77BA2B,0xFFA6C225});
+        cyan.setCornerRadius(radius);
+        GradientDrawable indigo=new GradientDrawable();
+        indigo.setColors(new int[]{0xFF19BC84,0xFF1899A0});
+        indigo.setCornerRadius(radius);
+
+        bust_chart.setBackground(orange);
+        waist_chart.setBackground(cyan);
+        hipline_chart.setBackground(indigo);
+        upper_chart.setBackground(orange);
+        datui_chart.setBackground(cyan);
+        xiaotui_chart.setBackground(indigo);
     }
 
     @Override

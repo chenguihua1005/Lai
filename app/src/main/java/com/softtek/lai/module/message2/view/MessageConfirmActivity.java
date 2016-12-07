@@ -214,17 +214,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
-
-                                if (responseData.getStatus() == 200) {
-                                    //确认成
-                                    setResult(RESULT_OK);
-                                    finish();
-
-
-                                } else if (responseData.getStatus() == 201) {
-                                    //该用户已经加入班级
-                                    Util.toastMsg(responseData.getMsg());
-                                }
+                                //确认成
+                                setResult(RESULT_OK);
+                                finish();
                             }
 
                             @Override
