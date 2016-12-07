@@ -1,19 +1,23 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +29,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
@@ -37,10 +42,12 @@ import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
@@ -51,7 +58,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -62,16 +68,18 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener {
     @InjectView(R.id.pull)
-    MySwipRefreshView pull;
-    @InjectView(R.id.appbarl)
-    AppBarLayout appbarl;
+    MySwipRefreshView refresh;
+    @InjectView(R.id.appbar)
+    AppBarLayout appbar;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     //toolbar标题
     @InjectView(R.id.spinner_title1)
     ArrowSpinner2 tv_title;
     @InjectView(R.id.spinner_title)
     ArrowSpinner2 spinner_title;
     @InjectView(R.id.list_partner)
-    ListView list_partner;
+    RecyclerView list_partner;
     @InjectView(R.id.searchContent)
     EditText searchContent;
     @InjectView(R.id.group_name)
@@ -127,32 +135,68 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
     EasyAdapter<String> adapter;
-    EasyAdapter<PartnersModel> partneradapter;
+    private ClassModel classModel;
+   private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
-
+    private int lastVisitableItem;
+    private ProgressDialog progressDialog;
+    private DeleteClass deleteClass;
     @Override
     protected void lazyLoad() {
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getallfirst();
 
+            }
+        });
     }
 
     @Override
     protected void initViews() {
+        list_partner.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
+        refresh.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
         searchContent.setOnClickListener(this);
         re_honor.setOnClickListener(this);
         week_rel.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         searchContent.setOnClickListener(this);
-
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset >= 0) {
+                    refresh.setEnabled(true);
+                } else {
+                    refresh.setEnabled(false);
+                }
+            }
+        });
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("加载中");
+        list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager llm= (LinearLayoutManager) recyclerView.getLayoutManager();
+                lastVisitableItem=llm.findLastVisibleItemPosition();
+            }
+        });
     }
-
-
     @Override
     protected void initDatas() {
         gethasemail();
-
         TypeModel model1 = new TypeModel(0, "体重比");
         datas.add(model1);
         TypeModel model2 = new TypeModel(2, "体脂");
@@ -173,8 +217,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 //根据position返回当前值给标题
                 return datas.get(position).getTypename();
             }
-
-
         });
         spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -183,16 +225,40 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 updatepartner(typecode, 100, 1);//按类型分页加载小伙伴
             }
         });
+        partneradapter=new ListRecyclerAdapter(getContext(),partnersModels);
+        list_partner.setAdapter(partneradapter);
         getallfirst();//获取初始数据
-
-
+partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
+    @Override
+    public void onItemClick(View view, PartnersModel position) {
+                String stu_id=position.getAccountId();
+                int stu_ids=Integer.parseInt(stu_id);
+                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
+                intent.putExtra("AccountId",stu_ids);
+                intent.putExtra("ClassId",classId_first);
+                startActivity(intent);
+    }
+});
+//        partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, PartnersModel position) {
+//                PartnersModel partnersModel=partnersModels.get(position);
+//                String stu_id=partnersModel.getAccountId();
+//                int stu_ids=Integer.parseInt(stu_id);
+//                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
+//                intent.putExtra("AccountId",stu_ids);
+//                intent.putExtra("ClassId",classId_first);
+//                startActivity(intent);
+//            }
+//
+//        });
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classId_first = classModels.get(i).getClassId();
                 String classnum = classModels.get(i).getClassWeek();
                 ZillaApi.NormalRestAdapter.create(HeadService.class).choose(UserInfoModel.getInstance().getToken(), classId_first,
-                        classnum, 100, new RequestCallback<ResponseData<ChooseModel>>() {
+                        classnum, 10, new RequestCallback<ResponseData<ChooseModel>>() {
                             @Override
                             public void success(ResponseData<ChooseModel> chooseModelResponseData, Response response) {
                                 if (chooseModelResponseData.getData() != null) {
@@ -213,6 +279,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                                     //班级赛况
                                     if (classinfoModel.getPartnersList() != null) {
+                                        partnersModels.clear();
                                         partnersModels.addAll(classinfoModel.getPartnersList());
                                         partneradapter.notifyDataSetChanged();
 
@@ -309,7 +376,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 ImageView iv_grid = holder.getView(R.id.iv_grid);
                 Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect).into(iv_grid);
-                Log.e("12444", path + data);
             }
         };
         grid_list.setAdapter(adapter);
@@ -323,47 +389,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
             }
         });
-
-        partneradapter = new EasyAdapter<PartnersModel>(getContext(), partnersModels, R.layout.partner_list) {
-            @Override
-            public void convert(ViewHolder holder, PartnersModel data, int position) {
-                TextView paiming = holder.getView(R.id.paiming);
-                paiming.setText(data.getRanking());
-                ImageView fale = holder.getView(R.id.fale);
-                if (data.getStuGender().equals("1")) {
-                    fale.setImageResource(R.drawable.female_iv);
-                } else if (data.getStuGender().equals("0")) {
-                    fale.setImageResource(R.drawable.male_iv);
-                } else if (data.getStuGender().equals("2")) {
-
-                }
-                TextView name_tv = holder.getView(R.id.name_tv);
-                name_tv.setText(data.getStuName());
-                TextView group_tv = holder.getView(R.id.group_tv);
-                group_tv.setText(data.getGroupName());
-                TextView weight_first = holder.getView(R.id.weight_first);
-                weight_first.setText("初始体重" + data.getWeight() + "斤");
-                TextView jianzhong_tv = holder.getView(R.id.jianzhong_tv);
-                jianzhong_tv.setText(data.getLoss());
-                TextView tv_bi = holder.getView(R.id.tv_bi);
-
-                ImageView head_img = holder.getView(R.id.head_img);
-                String basePath = AddressManager.get("photoHost");
-                if (StringUtils.isNotEmpty(data.getStuImg())) {
-                    Picasso.with(getContext()).load(basePath + data.getStuImg()).into(head_img);
-                }
-
-
-            }
-        };
-        list_partner.setAdapter(partneradapter);
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
         EventBus.getDefault().unregister(this);
     }
 
@@ -443,17 +474,25 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "斤");
                         student_tv.setText(rongyuModel.getStuName());
 
-                        if (StringUtils.isNotEmpty(rongyuModel.getStuPhoto())) {
-                            Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto()).into(studenticon);
+                        if (!TextUtils.isEmpty(rongyuModel.getStuPhoto())) {
+                            Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto())
+                            .fit().error(R.drawable.img_default)
+                                    .placeholder(R.drawable.img_default).into(studenticon);
+                        }else {
+                            Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
                         }
-                        student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
+                        if(!TextUtils.isEmpty(rongyuModel.getLossPre())){
+                            student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
+                        }
                         student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
                     }
 
                     //班级赛况
                     if (classinfoModel.getPartnersList() != null) {
+                        partnersModels.clear();
+                        Log.e("234",classinfoModel.getPartnersList().toString());
                         partnersModels.addAll(classinfoModel.getPartnersList());
-                        partneradapter.notifyDataSetChanged();
+                       partneradapter.notifyDataSetChanged();
 
                     }
 
@@ -491,7 +530,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     if (classinfoModel.getPhotoWall() != null) {
                         ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                         if (StringUtils.isNotEmpty(zhaopianModel.getUserPhoto())) {
-                            Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).into(head_images);
+                            Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
+                                    fit().error(R.drawable.img_default)
+                                    .placeholder(R.drawable.img_default).into(head_images);
                             Log.e("dddd", path + zhaopianModel.getUserPhoto());
                         }
                         name_user.setText(zhaopianModel.getUserName());
@@ -558,6 +599,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
                         PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
                         if (partnertotalModel.getPartnersList() != null) {
+                            partnersModels.clear();
                             partnersModels.addAll(partnertotalModel.getPartnersList());
                             partneradapter.notifyDataSetChanged();
                         }
@@ -581,6 +623,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             case R.id.week_rel:
                 Intent intent1 = new Intent(getContext(), VideomoreActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.fl_right:
+                Intent intent2 = new Intent(getContext(), Message2Activity.class);
+                startActivity(intent2);
                 break;
         }
     }
@@ -615,7 +661,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
 
+            if(classModels.isEmpty()){
+                if(deleteClass!=null){
+                    deleteClass.deletClass(0);
+                }
+            }else {
+                tv_title.setSelected(0);
+                this.classModel=classModels.get(0);
+
+            }
+
         }
 
+    }
+    public interface DeleteClass{
+        void deletClass(int classCount);
     }
 }

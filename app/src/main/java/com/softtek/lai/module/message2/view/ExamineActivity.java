@@ -24,6 +24,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup;
 import com.softtek.lai.module.bodygame3.more.model.ClassRole;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
+import com.softtek.lai.module.message2.model.ApplyModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -77,6 +78,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     String msgId;
 
     ApplyConfirm confirm;
+    ApplyModel model;
 
     @Override
     protected void initViews() {
@@ -116,6 +118,11 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
     public void onResult(ApplyConfirm apply){
         this.confirm=apply;
+        this.model=new ApplyModel();
+        model.accountId=apply.getApplyId();//申请人Id
+        model.applyId=msgId;//消息id
+        model.classId=apply.getClassId();//班级Id
+        model.reviewerId=UserInfoModel.getInstance().getUserId();//审核人Id
         tv_apply_name.setText(apply.getApplyName());
         if (TextUtils.isEmpty(apply.getApplyCert())){
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
@@ -125,12 +132,18 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     .placeholder(R.drawable.img_default).into(head_image);
         }
         tv_phone.setText(apply.getApplyMobile());
-        tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert())?"暂无":apply.getApplyCert());
+        tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert())?"未认证":apply.getApplyCert());
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName())?"暂无":apply.getApplyMLName());
         classGroupList=apply.getClassGroups();
         classRole=apply.getClassRoles();
-        btn_no.setEnabled(true);
-        btn_yes.setEnabled(true);
+        if(apply.getMsgStatus()==0){
+            btn_no.setVisibility(View.VISIBLE);
+            btn_yes.setVisibility(View.VISIBLE);
+        }else {
+            //已经处理过的数据
+            tv_group_name.setText(apply.getClassGroupName());
+            tv_role_name.setText(apply.getClassRoleName());
+        }
 
     }
 
@@ -155,9 +168,11 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 if(isGroup){
                     ClassGroup group=classGroupList.get(i-1);
                     tv_group_name.setText(group.getCGName());
+                    model.groupId=group.getCGId();
                 }else {
                     ClassRole role=classRole.get(i-1);
                     tv_role_name.setText(role.getRoleName());
+                    model.classRole=role.getRoleId();
                 }
                 dialog.dismiss();
             }
@@ -200,6 +215,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.rl_group:
+                if(confirm==null||confirm.getMsgStatus()!=0){
+                    return;
+                }
                 showGroupName(true,new EasyAdapter<ClassGroup>(this,classGroupList,R.layout.textview) {
                     @Override
                     public void convert(ViewHolder holder, ClassGroup data, int position) {
@@ -209,6 +227,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 });
                 break;
             case R.id.rl_role:
+                //如果此条消息一经操作过就不能在操作了
+                if(confirm==null||confirm.getMsgStatus()!=0){
+                    return;
+                }
                 showGroupName(false,new EasyAdapter<ClassRole>(this,classRole,R.layout.textview) {
                     @Override
                     public void convert(ViewHolder holder, ClassRole data, int position) {
@@ -220,15 +242,18 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_no:
                 //忽略
                 dialogShow("审批忽略");
+                model.status=2;
                 ZillaApi.NormalRestAdapter.create(Message2Service.class)
                         .examine(UserInfoModel.getInstance().getToken(),
-                                msgId,
-                                -1,
+                                model,
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
+                                        setResult(RESULT_OK);
+                                        finish();
                                     }
+
                                     @Override
                                     public void failure(RetrofitError error) {
                                         dialogDissmiss();
@@ -239,14 +264,16 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_yes:
                 //确定
                 dialogShow("审批确认");
+                model.status=1;
                 ZillaApi.NormalRestAdapter.create(Message2Service.class)
                         .examine(UserInfoModel.getInstance().getToken(),
-                                msgId,
-                                1,
+                                model,
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
+                                        setResult(RESULT_OK);
+                                        finish();
                                     }
 
                                     @Override

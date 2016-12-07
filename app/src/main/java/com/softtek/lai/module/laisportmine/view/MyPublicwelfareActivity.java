@@ -49,15 +49,13 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     ListView listview_publicwe;
     @InjectView(R.id.ll_public_nomessage)
     LinearLayout ll_public_nomessage;
-    private List<SelectPublicWewlfModel> publicWewlfModelList = new ArrayList<SelectPublicWewlfModel>();
+    private List<SelectPublicWewlfModel> publicWewlfModelList = new ArrayList<>();
     private MyPublicWealfareAdapter myPublicWealfareAdapter;
     MyPublicWewlListManager myPublicWewlListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     DeleteMessageManager delManager;
     DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     String accouid;
-    int positions;
-    private CharSequence[] items = {"删除"};
 
     public static boolean isSelsetAll = false;
 
@@ -85,30 +83,6 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
 
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            if (myPublicWealfareAdapter == null) {
-//                finish();
-//            } else {
-//                if (myPublicWealfareAdapter.isDel) {
-//                    for (int i = 0; i < publicWewlfModelList.size(); i++) {
-//                        publicWewlfModelList.get(i).setSelect(false);
-//                    }
-//                    isSelsetAll = false;
-//                    myPublicWealfareAdapter.select_count = 0;
-//                    footer.setVisibility(View.GONE);
-//                    myPublicWealfareAdapter.isDel = false;
-//                    myPublicWealfareAdapter.notifyDataSetChanged();
-//                } else {
-//                    finish();
-//                }
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     private String getMsgId() {
         String msgId = "";
@@ -225,7 +199,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     @Override
     public void deleteMsg(String type) {
         if ("true".equals(type)) {
-            List<SelectPublicWewlfModel> nList = new ArrayList<SelectPublicWewlfModel>();
+            List<SelectPublicWewlfModel> nList = new ArrayList<>();
             nList.addAll(publicWewlfModelList);
             for (int i = 0; i < nList.size(); i++) {
                 SelectPublicWewlfModel selectPublicWewlfModel = nList.get(i);

@@ -96,7 +96,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,7 +146,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -171,7 +171,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -222,7 +222,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_aixin"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/ll_selector_grey">
 
                     <TextView
@@ -274,52 +274,33 @@
                     android:textColor="#999999"
                     android:textSize="14sp" />
             </LinearLayout>
-            <FrameLayout
+
+            <Button
+                android:id="@+id/btn_yes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/ll_tip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <Button
-                        android:id="@+id/btn_yes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="25dp"
-                        android:background="@drawable/bg_confirm_btn"
-                        android:text="同意"
-                        android:textColor="@color/white"
-                        android:enabled="false"
-                        android:textSize="17sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_confirm_btn"
+                android:text="同意"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
 
-                    <Button
-                        android:id="@+id/btn_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/bg_no_btn"
-                        android:text="取消"
-                        android:enabled="false"
-                        android:textColor="#FFA200"
-                        android:textSize="@dimen/textSize5" />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_tip"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="操作已处理"
-                    android:textColor="#333333"
-                    android:textSize="15sp"
-                    />
-            </FrameLayout>
-
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_no_btn"
+                android:text="取消"
+                android:visibility="gone"
+                android:textColor="#FFA200"
+                android:textSize="@dimen/textSize5" />
 
         </LinearLayout>
 

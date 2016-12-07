@@ -98,7 +98,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 int student_id = partnerlistModel.getAccountId();
                 Intent intent = new Intent(PantnerActivity.this, PersonDetailActivity.class);
                 intent.putExtra("ClassId", classId_first);
-                intent.putExtra("AccountId", student_id);
+                intent.putExtra("AccountId", Long.parseLong(student_id+""));
                 startActivity(intent);
             }
         });
