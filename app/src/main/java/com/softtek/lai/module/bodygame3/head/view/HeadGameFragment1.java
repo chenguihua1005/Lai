@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -75,7 +76,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     FrameLayout fl_right;
     //toolbar标题
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner2 tv_title;
+    ArrowSpinner3 tv_title;
     @InjectView(R.id.spinner_title)
     ArrowSpinner2 spinner_title;
     @InjectView(R.id.list_partner)
