@@ -141,7 +141,7 @@ public class TitlePopup extends PopupWindow {
                     textView = new TextView(mContext);
                     textView.setTextColor(mContext.getResources().getColor(
                             android.R.color.white));
-                    textView.setTextSize(16);
+                    textView.setTextSize(14);
                     // 设置文本居中
                     textView.setGravity(Gravity.CENTER);
                     // 设置文本域的范围
