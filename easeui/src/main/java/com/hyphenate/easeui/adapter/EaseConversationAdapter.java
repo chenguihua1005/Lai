@@ -107,6 +107,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMMessage lastMessage1 = conversation.getLastMessage();
 
         if (conversation.getType() == EMConversationType.GroupChat) {
+            Log.i(TAG,"群聊类型  " );
             String groupId = conversation.getUserName();
             if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                 holder.motioned.setVisibility(View.VISIBLE);

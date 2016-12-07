@@ -152,7 +152,8 @@ public abstract class EaseChatRow extends LinearLayout {
             }
             Picasso.with(getContext()).load(photoF).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
-            usernickView.setText(nameF);
+//            usernickView.setText(nameF);
+            usernickView.setText(name);
 //            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
 //            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
         }
