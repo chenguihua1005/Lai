@@ -7,7 +7,6 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,10 +16,9 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.view.MyActionListActivity;
 import com.softtek.lai.module.laisportmine.view.MyPkListActivity;
 import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
-import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message2.model.ActionNoticeModel;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
 
@@ -30,6 +28,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_message2)
@@ -85,14 +84,6 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
     TextView text_unread_count_pk;
 
     private MessageMainManager manager;
-    private UserModel model;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        manager = new MessageMainManager(this);
-    }
 
     @Override
     protected void onDestroy() {
@@ -102,7 +93,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
-        tv_title.setText(R.string.CounselorJ);
+        tv_title.setText("消息中心");
 
         ll_left.setOnClickListener(this);
         rel_fwc.setOnClickListener(this);
@@ -114,21 +105,12 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        model = UserInfoModel.getInstance().getUser();
-        if (model == null) {
-            return;
-        }
-        String id = model.getUserid();
-        dialogShow("加载中");
-        manager.doGetUnreadMsg(id);
-    }
 
     @Override
     protected void initDatas() {
-
+        manager = new MessageMainManager(this);
+        dialogShow("加载中");
+        manager.doGetUnreadMsg(UserInfoModel.getInstance().getUserId()+"");
     }
 
     @Override
@@ -138,23 +120,32 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.rel_fwc://服务窗
-                startActivity(new Intent(this, NoticeServerActivity.class));
+                startActivityForResult(new Intent(this, NoticeServerActivity.class),100);
                 break;
             case R.id.rl_xzs://小助手
-                startActivity(new Intent(this, MessageOperatorActivity.class));
+                startActivityForResult(new Intent(this, MessageOperatorActivity.class),100);
                 break;
             case R.id.rel_fc://复测提醒
-                startActivity(new Intent(this, NoticeFCActivity.class));
+                startActivityForResult(new Intent(this, NoticeFCActivity.class),100);
                 break;
             case R.id.rel_gs://爱心慈善
-                startActivity(new Intent(this, MyPublicwelfareActivity.class));
+                startActivityForResult(new Intent(this, MyPublicwelfareActivity.class),100);
                 break;
             case R.id.rel_act://活动
-                startActivity(new Intent(this, MyActionListActivity.class));
+                startActivityForResult(new Intent(this, ActionActivity.class),100);
                 break;
             case R.id.rel_pk://Pk列表
-                startActivity(new Intent(this, MyPkListActivity.class));
+                startActivityForResult(new Intent(this, MyPkListActivity.class),100);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100&&resultCode==RESULT_OK){
+            dialogShow("加载中");
+            manager.doGetUnreadMsg(UserInfoModel.getInstance().getUserId()+"");
         }
     }
 

@@ -24,33 +24,34 @@ import java.util.List;
 /**
  * Created by John on 2016/3/27.
  */
-public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    private static final int ITEM=1;
-    private static final int FOOTER=2;
-    private static final int EMPTY=3;
+    private static final int ITEM = 1;
+    private static final int FOOTER = 2;
+    private static final int EMPTY = 3;
 
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<HomeInfoModel> infos;
     private int width;
+
     public LoadMoreRecyclerViewAdapter(Context mContext, List<HomeInfoModel> infos) {
         this.mContext = mContext;
         this.infos = infos;
-        width= DisplayUtil.getMobileWidth(mContext);
+        width = DisplayUtil.getMobileWidth(mContext);
     }
 
     @Override
-    public RecyclerView.ViewHolder  onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==ITEM){
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
             view.setOnClickListener(this);
             return new ViewHolder(view);
-        }else if(viewType==FOOTER){
+        } else if (viewType == FOOTER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.up_load_view, parent, false);
             return new FooterHolder(view);
-        }else if(viewType==EMPTY){
+        } else if (viewType == EMPTY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
             return new EmptyHolder(view);
         }
@@ -61,16 +62,16 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //绑定数据
-        if(holder instanceof ViewHolder){
+        if (holder instanceof ViewHolder) {
             HomeInfoModel info = infos.get(position);
-            Bitmap bitmap=((ViewHolder)holder).iv_image.getDrawingCache();
-            if(bitmap!=null&&bitmap.isRecycled()){
+            Bitmap bitmap = ((ViewHolder) holder).iv_image.getDrawingCache();
+            if (bitmap != null && bitmap.isRecycled()) {
                 bitmap.recycle();
             }
-            Picasso.with(mContext).load(info.getImg_Addr()).resize(width,DisplayUtil.dip2px(mContext,150))
+            Picasso.with(mContext).load(info.getImg_Addr()).resize(width, DisplayUtil.dip2px(mContext, 150))
                     .centerInside().placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
-            ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
+                    .error(R.drawable.default_icon_rect).into(((ViewHolder) holder).iv_image);
+            ((ViewHolder) holder).tv_title.setText(info.getImg_Title());
             //将数据保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
         }
@@ -79,16 +80,16 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return infos.size()==0?0:infos.size()+1;
+        return infos.size() == 0 ? 0 : infos.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
         int type;
-        if(position+1==getItemCount()){
-            type=getItemCount()<6?EMPTY:FOOTER;
-        }else{
-            type=ITEM;
+        if (position + 1 == getItemCount()) {
+            type = getItemCount() < 6 ? EMPTY : FOOTER;
+        } else {
+            type = ITEM;
         }
         return type;
     }
@@ -97,7 +98,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v,(Integer) v.getTag());
+            mOnItemClickListener.onItemClick(v, (Integer) v.getTag());
         }
     }
 
@@ -118,6 +119,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             super(view);
         }
     }
+
     public class EmptyHolder extends RecyclerView.ViewHolder {
 
         public EmptyHolder(View view) {
@@ -127,7 +129,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     //定义点击接口
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {

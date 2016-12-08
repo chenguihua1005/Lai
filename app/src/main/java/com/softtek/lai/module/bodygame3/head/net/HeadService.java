@@ -161,5 +161,14 @@ public interface HeadService {
             @Query("mobile")String mobile,
             Callback<ResponseData>callback
     );
+    //请求路径:Api/V1/HerbalifeClass/GetClassMemberInfoByHx
+    @GET("/V1/HerbalifeClass/GetClassMemberInfoByHx")
+    void doGetClassMemberInfoByHx(
+            @Header("token") String token,
+            @Query("loginuserid")long loginuserid,
+            @Query("hxaccountid")String hxaccountid,
+            @Query("classid")String classid,
+            Callback<ResponseData<MemberInfoModel>> callback
+    );
 
 }

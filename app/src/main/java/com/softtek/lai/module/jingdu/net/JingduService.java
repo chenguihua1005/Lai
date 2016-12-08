@@ -22,15 +22,6 @@ import retrofit.mime.TypedFile;
  * Created by julie.zhu on 3/28/2016.
  */
 public interface JingduService {
-    //顾问版
-    @GET("/Index/GetCurrentProgress")
-    void getproinfo(@Header("token") String token,
-                    Callback<ResponseData<RankModel>> callback);
-
-    //助教版
-    @GET("/Index/GetSPCurrentProgress")
-    void getspproinfo(@Header("token") String token,
-                    Callback<ResponseData<SPModel>> callback);
 
     //上传图片
     @POST("/FileUpload/PostFile")

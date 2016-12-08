@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygamest.Adapter;
+package com.softtek.lai.module.bodygamest.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,14 +64,7 @@ import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@linkNoClassFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@linkNoClassFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 @InjectLayout(R.layout.fragment_class_stu)
 public class ClassStuFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)

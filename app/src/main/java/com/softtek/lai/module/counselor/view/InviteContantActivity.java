@@ -36,7 +36,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
+ * Created by jjerry.guan on 3/22/2016.
  * 邀请通讯录学员
  */
 @InjectLayout(R.layout.activity_invite_contant_list)
@@ -50,9 +50,6 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.et_search)
     TextView et_search;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -62,8 +59,6 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     InviteContantAdapter adapter;
     private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
 
-    private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID};
     private String[] projection = {ContactsContract.CommonDataKinds.Phone._ID,
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.DATA1, "sort_key",

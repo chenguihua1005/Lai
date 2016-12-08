@@ -7,6 +7,7 @@ package com.softtek.lai.module.message2.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.model.UnReadMsg;
+import com.softtek.lai.module.message2.model.ActionNoticeModel;
 import com.softtek.lai.module.message2.model.AiXinStudent;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.ApplyModel;
@@ -55,6 +56,13 @@ public interface Message2Service {
                           @Query("accountid")long accountId,
                           Callback<ResponseData<List<NoticeModel>>> callback);
 
+    //活动通知
+    @GET("/V1/MsgCenter/GetActiveMsgList")
+    void getActiveNoticeMsg(
+            @Header("token")String token,
+            @Query("accountid")long accountid,
+            Callback<ResponseData<List<ActionNoticeModel>>>callback
+    );
 
 
     @POST("/MsgCenter/DeleteOneOrMoreMsg")

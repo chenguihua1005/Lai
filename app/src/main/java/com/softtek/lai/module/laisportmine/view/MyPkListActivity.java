@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -102,6 +103,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId())
         {
             case R.id.ll_left:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.tv_delete:
@@ -221,5 +223,15 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             listview_pk.setAdapter(myPkNoticeAdapter);
             myPkNoticeAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

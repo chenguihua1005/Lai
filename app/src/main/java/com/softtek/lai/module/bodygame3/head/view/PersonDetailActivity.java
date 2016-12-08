@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -184,111 +185,147 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
-        doGetData(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId);
+        doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId,HXAccountId);
     }
 
-    private void doGetData(final long userid, long accountid, String classid) {
+    private void doGetService(final long userid, long accountid, String classid,String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
-        headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
-            @Override
-            public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
-                int status = memberInfoModelResponseData.getStatus();
-                try {
-                    switch (status) {
-                        case 200:
-                            memberInfoModel = memberInfoModelResponseData.getData();
-                            if (memberInfoModel != null) {
-                                //加载头像
-                                if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).fit().error(R.drawable.img_default).into(cir_userimg);
-                                }
-                                tv_stuname.setText(memberInfoModel.getUserName());//用户名
-
-                                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                                tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
-                                if (AccountId == userid)//如果是本人，显示查看曲线图
-                                {
-                                    //个性签名
-                                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
-                                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
-                                    }
-                                    ll_chart.setVisibility(View.VISIBLE);
-                                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer()))
-                                    {
-                                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
-                                    }
-
-                                } else {
-                                    //个性签名
-                                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
-                                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
-                                        tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
-                                    } else {
-                                        tv_personlityName.setText("暂无个性签名");
-                                        tv_personlityName.setCompoundDrawables(null, null, null, null);
-                                    }
-                                    if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
-                                    {
-                                        ll_chart.setVisibility(View.VISIBLE);
-                                    }
-                                    if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
-                                    {
-                                        btn_chat.setVisibility(View.VISIBLE);
-                                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
-                                    } else {//不是好友，可发起临时会话，显示添加好友
-                                        btn_chat.setVisibility(View.VISIBLE);
-                                        btn_chat.setText("发起临时会话");
-                                        btn_addguy.setVisibility(View.VISIBLE);
-                                        iv_email.setVisibility(View.INVISIBLE);
-                                    }
-                                    if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
-                                    {
-                                        im_guanzhu.setVisibility(View.VISIBLE);
-                                    } else {
-                                        im_guanzhu.setVisibility(View.VISIBLE);
-                                        im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
-                                    }
-                                }
-                                newsTopFourModels = memberInfoModel.getNewsTopFour();
-                                doGetPhotoView();//展示图片
-                                if ("4".equals(memberInfoModel.getClassRole()))
-                                {
-                                    ll_weigh.setVisibility(View.VISIBLE);
-                                    if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
-                                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
-                                    } else {
-                                        tv_Lossweight.setText(memberInfoModel.getTotalLossWeight());//减重
-                                    }
-                                    tv_initWeit.setText(memberInfoModel.getInitWeight());//初始体重
-                                    tv_currenweight.setText(memberInfoModel.getCurrentWeight());//现在体重
-                                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
-                                    {
-                                        Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
-                                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
-                                    }
-                                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                                        Log.i("现在体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg());
-                                    }
-                                }
-                                else {
-                                    ll_chart.setVisibility(View.GONE);
-                                }
-
-                            }
-                            break;
-                        default:
-                            Util.toastMsg(memberInfoModelResponseData.getMsg());
-                            break;
+//        if (TextUtils.isEmpty(HXAccountId)) {
+            headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+                @Override
+                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+                    int status=memberInfoModelResponseData.getStatus();
+                    try {
+                        switch (status)
+                        {
+                            case 200:
+                                memberInfoModel = memberInfoModelResponseData.getData();
+                                doGetData();
+                                break;
+                            default:
+                                Util.toastMsg(memberInfoModelResponseData.getMsg());
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                }
+            });
+//        }
+//    else {
+//            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+//                @Override
+//                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+//                    int status = memberInfoModelResponseData.getStatus();
+//                    try {
+//                        switch (status) {
+//                            case 200:
+//                                memberInfoModel = memberInfoModelResponseData.getData();
+//                                doGetData();
+//                                break;
+//                            default:
+//                                Util.toastMsg(memberInfoModelResponseData.getMsg());
+//                                break;
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            });
+//        }
+    }
+    private void doGetData()
+    {
+        try {
+            if (memberInfoModel != null) {
+                //加载头像
+                if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).fit().error(R.drawable.img_default).into(cir_userimg);
+                }
+                tv_stuname.setText(memberInfoModel.getUserName());//用户名
+
+                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
+                if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
+                {
+                    //个性签名
+                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
+                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                    }
+                    ll_chart.setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer()))
+                    {
+                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
+                    }
+                    else {
+                        iv_email.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    //个性签名
+                    if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
+                        tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                        tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
+                    } else {
+                        tv_personlityName.setText("暂无个性签名");
+                        tv_personlityName.setCompoundDrawables(null, null, null, null);
+                    }
+                    if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
+                    {
+                        ll_chart.setVisibility(View.VISIBLE);
+                    }
+                    if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
+                    {
+                        btn_chat.setVisibility(View.VISIBLE);
+                        titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
+                    } else {//不是好友，可发起临时会话，显示添加好友
+                        btn_chat.setVisibility(View.VISIBLE);
+                        btn_chat.setText("发起临时会话");
+                        btn_addguy.setVisibility(View.VISIBLE);
+                        iv_email.setVisibility(View.INVISIBLE);
+                    }
+                    if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
+                    {
+                        im_guanzhu.setVisibility(View.VISIBLE);
+                    } else {
+                        im_guanzhu.setVisibility(View.VISIBLE);
+                        im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
+                    }
+                }
+                newsTopFourModels = memberInfoModel.getNewsTopFour();
+                doGetPhotoView();//展示图片
+                if ("4".equals(memberInfoModel.getClassRole()))
+                {
+                    ll_weigh.setVisibility(View.VISIBLE);
+                    if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
+                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
+                    } else {
+                        tv_Lossweight.setText(memberInfoModel.getTotalLossWeight());//减重
+                    }
+                    tv_initWeit.setText(memberInfoModel.getInitWeight());//初始体重
+                    tv_currenweight.setText(memberInfoModel.getCurrentWeight());//现在体重
+                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
+                    {
+                        Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
+                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                    }
+                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
+                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Log.i("现在体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg());
+                    }
+                }
+                else {
+                    ll_chart.setVisibility(View.GONE);
                 }
 
             }
-        });
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
-
     private void doGetPhotoView() {
         if (newsTopFourModels.size() == 0) {
             int[] imgs = new int[]{R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect
@@ -473,7 +510,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==SetLove&&resultCode==RESULT_OK) {
-        doGetData(userid,AccountId,ClassId);
+        doGetService(userid,AccountId,ClassId,HXAccountId);
             titlePopup.cleanAction();
         }
     }
