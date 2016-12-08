@@ -1,7 +1,11 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -21,11 +25,14 @@ import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.head.model.PhotoWallslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,6 +101,23 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 tv_content.setText(data.getContent());//正文
                 CheckBox cb_focus=holder.getView(R.id.cb_focus);
                 cb_focus.setChecked("1".equals(data.getIsFocus()));
+                CustomGridView photos=holder.getView(R.id.photos);
+                String[] imgs = data.getUserThPhoto().split(",");
+                final ArrayList<String> list = new ArrayList<>();
+                for (int i = 0; i < imgs.length; i++) {
+                    list.add(imgs[i]);
+                }
+                photos.setAdapter(new PhotosAdapter(list, PhotoWallActivity.this));
+                photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Intent in = new Intent(PhotoWallActivity.this, PictureMoreActivity.class);
+                        in.putStringArrayListExtra("images", list);
+                        in.putExtra("position", position);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                        ActivityCompat.startActivity(PhotoWallActivity.this, in, optionsCompat.toBundle());
+                    }
+                });
 
             }
         }
