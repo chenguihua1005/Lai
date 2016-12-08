@@ -211,7 +211,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     public void deleteMsg(String type) {
         dialogDissmiss();
         if ("true".equals(type)) {
-            List<ActionModel> nList = new ArrayList<ActionModel>();
+            List<ActionModel> nList = new ArrayList<>();
             nList.addAll(actionModelLists);
             for (int i = 0; i < nList.size(); i++) {
                 ActionModel actionModel = nList.get(i);
