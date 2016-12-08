@@ -268,24 +268,7 @@
         <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.CreateCounselorClassActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SPHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SRHonorActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
@@ -294,14 +277,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name=".module.counselor.view.InviteStudentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.counselor.view.GameActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.ApplyAssistantActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
             android:screenOrientation="portrait"
@@ -537,9 +515,6 @@
             android:name=".module.personalPK.view.SelectTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.laisportmine.view.MyActionListActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -622,25 +597,10 @@
         <activity
             android:name=".module.pastreview.view.HistoryStudentHonorActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygame2pc.view.BodyGamePCActivity"
-            android:screenOrientation="portrait" />
-
         <service
             android:name=".locationservice.LocationService"
             android:enabled="true"
             android:exported="true" />
-
-        <activity
-            android:name=".module.bodygame2.view.BodyGameSPActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.bodygame2sr.view.BodyGameSRActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <receiver android:name=".stepcount.service.NotificationReceive">
             <intent-filter>
@@ -741,20 +701,31 @@
         <activity
             android:name=".module.bodygame3.conversation.view.ClassDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity" />
-        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity" />
-        <activity android:name=".module.message2.view.MessageOperatorActivity" />
-        <activity android:name=".module.bodygame3.conversation.view.ContactSearchActivity" />
+        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.message2.view.MessageOperatorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.conversation.view.ContactSearchActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.bodygame3.conversation.view.NewFriendActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.message2.view.EditorPhoneActivity" />
-        <activity android:name=".module.message2.view.ExamineActivity" />
-        <activity android:name=".module.bodygame3.head.view.PantnerActivity" />
-        <activity android:name=".module.bodygame3.more.view.PastReviewActivity" />
-        <activity android:name=".module.bodygame3.more.view.HistoryClassActivity" />
-        <activity android:name=".module.bodygame3.graph.GraphActivity" />
-        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity" />
+        <activity android:name=".module.message2.view.EditorPhoneActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.message2.view.ExamineActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.head.view.PantnerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.PastReviewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.HistoryClassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.graph.GraphActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.picture.view.PictureActivity"
             android:process=":picture"
@@ -768,9 +739,10 @@
             android:configChanges="screenSize" />
         <activity android:name=".module.bodygame3.activity.view.ActTextActivity" />
         <activity android:name=".module.bodygame3.head.view.PhotoWallActivity" />
-        <activity android:name=".module.message2.view.NoticeServerActivity"/>
-        <activity android:name=".module.message2.view.NoticeFCActivity"/>
-        <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity"></activity>
+        <activity android:name=".module.message2.view.NoticeServerActivity" />
+        <activity android:name=".module.message2.view.NoticeFCActivity" />
+        <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity" />
+        <activity android:name=".module.message2.view.ActionActivity"></activity>
     </application>
 
 </manifest>

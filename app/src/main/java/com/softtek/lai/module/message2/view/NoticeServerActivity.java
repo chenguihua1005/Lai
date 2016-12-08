@@ -71,6 +71,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -292,6 +293,10 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
             tv_right.setText("编辑");
             footer.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
+            return true;
+        }else if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

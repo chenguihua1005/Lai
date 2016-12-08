@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame2pc.model.PhotModel;
+import com.softtek.lai.module.bodygamest.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;

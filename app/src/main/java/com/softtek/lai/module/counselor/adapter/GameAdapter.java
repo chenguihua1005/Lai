@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +29,6 @@ public class GameAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<MarchInfoModel> list;
     private Context context;
-    private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数

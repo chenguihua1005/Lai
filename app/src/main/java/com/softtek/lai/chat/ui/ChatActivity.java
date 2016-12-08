@@ -16,6 +16,7 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -121,7 +122,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         //传入参数
         String title_value = getIntent().getStringExtra("name");
         if ("".equals(title_value)) {
-            title_value = "test";
+            title_value = "";
         }
 
 
@@ -137,24 +138,26 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
         ll_left.setOnClickListener(this);
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        //根据群组ID从本地获取群组基本信息
-                        group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-//                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
-                        tv_title.setText(group.getGroupName());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-
             if (classModel != null) {
+                tv_title.setText(classModel.getClassName());
                 fl_right.setVisibility(View.VISIBLE);
                 iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+            }
+
+            if (TextUtils.isEmpty(tv_title.getText().toString().trim())) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //根据群组ID从本地获取群组基本信息
+                            group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+//                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
+                            tv_title.setText(group.getGroupName());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         } else {
             tv_title.setText(title_value);

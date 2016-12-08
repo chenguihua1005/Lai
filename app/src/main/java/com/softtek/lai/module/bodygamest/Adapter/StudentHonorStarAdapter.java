@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygamest.Adapter;
+package com.softtek.lai.module.bodygamest.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;

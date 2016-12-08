@@ -33,8 +33,8 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
- * 邀请通讯录学员
+ * Created by jerry.guan on 3/22/2016.
+ * 搜索通讯录学员
  */
 @InjectLayout(R.layout.activity_search_contant)
 public class SearchContantActivity extends BaseActivity implements View.OnClickListener{

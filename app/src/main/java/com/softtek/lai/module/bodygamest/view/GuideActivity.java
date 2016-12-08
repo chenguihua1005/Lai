@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygamest.Adapter.PagerAdapter;
+import com.softtek.lai.module.bodygamest.adapter.PagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
