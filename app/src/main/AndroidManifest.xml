@@ -268,24 +268,7 @@
         <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.CreateCounselorClassActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.AssistantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SPHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.SRHonorActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
@@ -294,14 +277,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name=".module.counselor.view.InviteStudentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.counselor.view.GameActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.counselor.view.ApplyAssistantActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
             android:screenOrientation="portrait"

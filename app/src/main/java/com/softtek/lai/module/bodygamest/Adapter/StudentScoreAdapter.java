@@ -7,7 +7,6 @@ package com.softtek.lai.module.bodygamest.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +30,6 @@ public class StudentScoreAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<StudentScripInfo> list;
     private Context context;
-    private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
@@ -41,7 +38,6 @@ public class StudentScoreAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        Log.e("jarvis", list.toString());
     }
 
     @Override

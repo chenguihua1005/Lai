@@ -46,37 +46,6 @@ public class Constants {
     public static final int INC = 4;
     public static final int VR = 5;
 
-    /**
-     * 动态发布标识
-     * 0:复测提示
-     * 1:广告
-     * 2:sp发布
-     * 3:自动生成
-     */
-    public static final int RESET_TIP = 0;
-    public static final int BANNER = 1;
-    public static final int SP_SEND = 2;
-    public static final int AUTO_GENERATE = 3;
-
-    /**
-     * 学员列表获取数据类别
-     * 0：按减重比
-     * 1：按减重百分比
-     * 2：按体质
-     * 3：按腰围
-     */
-    public static final String LOSS_WEIGHT = "0";
-    public static final String LOSS_WEIGHT_PER = "1";
-    public static final String PHYSIQUE = "2";
-    public static final String WAISTLINE = "3";
-
-    /**
-     * 助教邀请以及未接受邀请
-     * 0：未被邀请
-     * 1：被邀请
-     */
-    public static final int NOT_INVITED = 0;
-    public static final int INVITED = 1;
 
     /**
      * 主页活动类型
@@ -89,14 +58,6 @@ public class Constants {
     public static final int SALE_INFO = 6;
 
     /**
-     * 刷新和加载标识
-     * 0：刷新
-     * 1：加载
-     */
-    public static final int REFRESH = 0;
-    public static final int LOADING = 1;
-
-    /**
      * 功能模块常量标识符
      */
     public static final int BODY_GAME = 0;
@@ -107,9 +68,7 @@ public class Constants {
 
     public static final String MESSAGE_RECEIVED_ACTION = "jpush.MESSAGE_RECEIVED_ACTION";
     public static final String MESSAGE_CHAT_ACTION = "chat.MESSAGE_RECEIVED_ACTION";
-    public static final String MESSAGE_DISSMISS_ACTION = "dismiss.DIALOG_DISMISS_ACTION";
     public static final String MESSAGE_CREATE_CLASS_ACTION = "create.class.action";
-    public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 

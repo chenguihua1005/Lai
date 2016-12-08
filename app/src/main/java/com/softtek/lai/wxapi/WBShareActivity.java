@@ -1,4 +1,4 @@
-package com.softtek.lai;
+package com.softtek.lai.wxapi;
 
 import com.umeng.socialize.media.WBShareCallBackActivity;
 
