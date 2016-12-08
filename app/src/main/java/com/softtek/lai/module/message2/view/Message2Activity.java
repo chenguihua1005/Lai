@@ -8,10 +8,12 @@ package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -138,21 +140,21 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.rel_fwc://服务窗
-                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "notice"));
+                startActivity(new Intent(this, NoticeServerActivity.class));
                 break;
             case R.id.rl_xzs://小助手
                 startActivity(new Intent(this, MessageOperatorActivity.class));
                 break;
-            case R.id.rel_fc:
-                startActivity(new Intent(this, NoticeFC2Activity.class).putExtra("type", "fc"));
+            case R.id.rel_fc://复测提醒
+                startActivity(new Intent(this, NoticeFCActivity.class));
                 break;
-            case R.id.rel_gs:
+            case R.id.rel_gs://爱心慈善
                 startActivity(new Intent(this, MyPublicwelfareActivity.class));
                 break;
-            case R.id.rel_act:
+            case R.id.rel_act://活动
                 startActivity(new Intent(this, MyActionListActivity.class));
                 break;
-            case R.id.rel_pk:
+            case R.id.rel_pk://Pk列表
                 startActivity(new Intent(this, MyPkListActivity.class));
                 break;
         }

@@ -80,11 +80,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.btn_no)
     Button btn_no;
 
-    @InjectView(R.id.ll_tip)
-    LinearLayout ll_tip;
-    @InjectView(R.id.tv_tip)
-    TextView tv_tip;
-
     InvitationConfirmShow show;
     Message2Service service;
     String msgId;
@@ -151,13 +146,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             tv_aixin_phone.setText(show.getIntroducerMobile());
         }
         if (show.getMsgStatus() == 0) {
-            ll_tip.setVisibility(View.VISIBLE);
-            tv_tip.setVisibility(View.GONE);
-            btn_no.setEnabled(true);
-            btn_yes.setEnabled(true);
-        } else {
-            ll_tip.setVisibility(View.GONE);
-            tv_tip.setVisibility(View.VISIBLE);
+            btn_yes.setVisibility(View.VISIBLE);
+            btn_no.setVisibility(View.VISIBLE);
         }
 
     }
@@ -180,8 +170,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
-                                dialogDissmiss();
-                                Log.i(responseData.toString());
+
                                 if (responseData.getStatus() == 200) {
                                     //换信加入群 show
 //                                    EMClient.getInstance().groupManager().joinGroup(groupid);
@@ -195,12 +184,16 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 //                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
 
                                         EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                        setResult(RESULT_OK);
                                         finish();
                                     } catch (HyphenateException e) {
                                         Util.toastMsg("同意失败:" + e.getMessage());
                                         e.printStackTrace();
+                                    }finally {
+                                        dialogDissmiss();
                                     }
-                                    finish();
+                                }else {
+                                    dialogDissmiss();
                                 }
                             }
 
@@ -221,16 +214,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
-
-                                if (responseData.getStatus() == 200) {
-                                    //确认成
-                                    Util.toastMsg(responseData.getMsg());
-
-
-                                } else if (responseData.getStatus() == 201) {
-                                    //该用户已经加入班级
-                                    Util.toastMsg(responseData.getMsg());
-                                }
+                                //确认成
+                                setResult(RESULT_OK);
+                                finish();
                             }
 
                             @Override

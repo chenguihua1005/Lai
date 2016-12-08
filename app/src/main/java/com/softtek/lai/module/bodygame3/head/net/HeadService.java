@@ -95,7 +95,7 @@ public interface HeadService {
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
     );
-    //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo
+    //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo130ed197-17ea-4125-8643-09f9c8ec377
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
             @Header("token") String token,
@@ -152,4 +152,14 @@ public interface HeadService {
             @Header("token") String token,
             Callback<ResponseData<List<VideoModel>>> callback
     );
+    //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
+    @GET("/V1/HerbalifeClass/AddMineLovePC")
+    void doPostAddMineLovePC(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("classid")String classid,
+            @Query("mobile")String mobile,
+            Callback<ResponseData>callback
+    );
+
 }

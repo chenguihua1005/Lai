@@ -48,7 +48,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
         switch (flag){
             case ADD_MARK:
                 frag2.setVisibility(View.GONE);
-                tv_count.setText("仅限150个字");
+                tv_count.setText("仅限300个字");
                 tv_title.setText("编辑活动说明");
                 et_mark.setHint("活动说明");
                 et_mark.setText(intent.getStringExtra("name_value"));
@@ -56,7 +56,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                 Selection.setSelection(etext1,etext1.length());
                 break;
             case ADD_ACTIVITY_NAME:
-                tv_count.setText("仅限15个字");
+                tv_count.setText("仅限30个字");
                 frag1.setVisibility(View.GONE);
                 et_mark.setSingleLine();
                 tv_title.setText("编辑活动名称");

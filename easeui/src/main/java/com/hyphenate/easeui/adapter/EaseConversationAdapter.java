@@ -107,6 +107,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMMessage lastMessage1 = conversation.getLastMessage();
 
         if (conversation.getType() == EMConversationType.GroupChat) {
+            Log.i(TAG,"群聊类型  " );
             String groupId = conversation.getUserName();
             if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                 holder.motioned.setVisibility(View.VISIBLE);
@@ -174,7 +175,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             } else {
                 Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
             }
-            holder.avatar.setShapeType(1);
+//            holder.avatar.setShapeType(1);
         }
 
         if (conversation.getUnreadMsgCount() > 0) {

@@ -65,8 +65,8 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         overridePendingTransition(0, 0);
         tv_title.setText("搜索");
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
     }
@@ -98,7 +98,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 int student_id = partnerlistModel.getAccountId();
                 Intent intent = new Intent(PantnerActivity.this, PersonDetailActivity.class);
                 intent.putExtra("ClassId", classId_first);
-                intent.putExtra("AccountId", student_id);
+                intent.putExtra("AccountId", Long.parseLong(student_id+""));
                 startActivity(intent);
             }
         });

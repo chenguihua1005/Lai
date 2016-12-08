@@ -23,6 +23,7 @@ import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
+import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DateUtils;
 import com.squareup.picasso.Picasso;
@@ -39,8 +40,8 @@ public abstract class EaseChatRow extends LinearLayout {
     protected int position;
 
     protected TextView timeStampView;
-    //    protected EaseImageView userAvatarView;
-    private ImageView userAvatarView;
+    protected EaseImageView userAvatarView;
+//    private ImageView userAvatarView;
     protected View bubbleLayout;
     protected TextView usernickView;
 
@@ -76,7 +77,7 @@ public abstract class EaseChatRow extends LinearLayout {
     private void initView() {
         onInflateView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
-        userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+        userAvatarView = (EaseImageView) findViewById(R.id.iv_userhead);
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -147,12 +148,13 @@ public abstract class EaseChatRow extends LinearLayout {
             Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
 
         } else {
-            if (TextUtils.isEmpty(photoF)) {
+            if (TextUtils.isEmpty(avatar)) {
                 photoF = "111";
             }
-            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
+            Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
-            usernickView.setText(nameF);
+//            usernickView.setText(nameF);
+            usernickView.setText(name);
 //            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
 //            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
         }

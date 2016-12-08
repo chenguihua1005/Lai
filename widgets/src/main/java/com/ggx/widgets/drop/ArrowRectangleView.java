@@ -22,6 +22,10 @@ import com.ggx.widgets.R;
  */
 
 public class ArrowRectangleView extends ViewGroup{
+    public static final int LEFT=1;
+    public static final int MIDDLE=2;
+    public static final int RIGHT=3;
+
     // arrow's width
     private int mArrowWidth = 40;
     // arrow's height
@@ -36,6 +40,7 @@ public class ArrowRectangleView extends ViewGroup{
     private int mShadowColor = Color.BLACK;
     // shadow thickness
     private int mShadowThickness = 0;
+    private int arrowPosition;
 
 
     public ArrowRectangleView(Context context) {
@@ -78,6 +83,9 @@ public class ArrowRectangleView extends ViewGroup{
 
             } else if (attr == R.styleable.ArrowRectangleView_shadow_thickness) {
                 mShadowThickness = a.getDimensionPixelSize(attr, mShadowThickness);
+
+            } else if (attr == R.styleable.ArrowRectangleView_arrow_position) {
+                arrowPosition=a.getInt(R.styleable.ArrowRectangleView_arrow_position,2);
 
             }
         }
@@ -140,8 +148,14 @@ public class ArrowRectangleView extends ViewGroup{
 
         // draw arrow
         Path path = new Path();
-//        int startPoint = getMeasuredWidth() - mArrowOffset;
-        int startPoint = getMeasuredWidth()/2 - mArrowWidth/2;
+        int startPoint=0;
+        if(arrowPosition==LEFT){
+            startPoint=mArrowOffset;
+        }else if (arrowPosition==MIDDLE){
+            startPoint= getMeasuredWidth()/2 - mArrowWidth/2;
+        }else if (arrowPosition==RIGHT){
+            startPoint=getMeasuredWidth()-mArrowOffset;
+        }
         path.moveTo(startPoint, mArrowHeight);
         path.lineTo(startPoint + mArrowWidth, mArrowHeight);
         path.lineTo(startPoint + mArrowWidth / 2, 0);
@@ -163,6 +177,8 @@ public class ArrowRectangleView extends ViewGroup{
         return new MarginLayoutParams(getContext(), attrs);
     }
 
-
-
+    public void setArrowPosition(int arrowPosition) {
+        this.arrowPosition = arrowPosition;
+        invalidate();
+    }
 }
