@@ -26,7 +26,9 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
+import com.softtek.lai.module.bodygame3.head.view.PhotoWallActivity;
+import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
@@ -213,15 +215,15 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.rl_setting:
-                startActivity(new Intent(getContext(), SettingsActivity.class));
+                startActivity(new Intent(getContext(), PhotoWallActivity.class));
+//                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                startActivity(new Intent(getContext(), PersonDetailActivity.class));
-//                Intent personal=new Intent(getContext(), PersionalActivity.class);
-//                personal.putExtra("isFocus",1);
-//                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
-//                personal.putExtra("personalName",text_name.getText().toString());
-//                startActivity(personal);
+                Intent personal=new Intent(getContext(), PersionalActivity.class);
+                personal.putExtra("isFocus",1);
+                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
+                personal.putExtra("personalName",text_name.getText().toString());
+                startActivity(personal);
                 break;
         }
     }

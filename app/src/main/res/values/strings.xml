@@ -183,6 +183,18 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="zhiqingshu"><u>本人已阅读《康宝莱使用知情书》</u></string>
 
+    <string name="removing_friendMsg">正在移除好友消息</string>
+
+
+    <!--荣誉榜-->
+    <string name="rank_number_test">1</string>
+    <string name="rank_group_name_test">组</string>
+    <string name="rank_trainer_name_test">小王</string>
+    <string name="rank_trainer_name_test1">(教练)</string>
+    <string name="rank_per_number1_test">20</string>
+    <string name="rank_per_number2_test">%</string>
+    <string name="rank_per_test">人均减重比</string>
 
 </resources>

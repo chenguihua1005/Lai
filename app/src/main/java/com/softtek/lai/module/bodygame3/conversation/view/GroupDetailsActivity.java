@@ -109,7 +109,16 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(GroupDetailsActivity.this, PersonDetailActivity.class);
                     ClassMemberModel classMemberModel = memberAdapter.getItem(i);
-                    intent.putExtra("classMemberModel",classMemberModel);
+
+                    intent.putExtra("isFriend", classMemberModel.getIsFriend());//1： 好友
+                    intent.putExtra("AccountId", classMemberModel.getAccountId());
+                    intent.putExtra("HXAccountId", classMemberModel.getHXAccountId());
+                    intent.putExtra("UserName", classMemberModel.getUserName());
+                    intent.putExtra("AFriendId", classMemberModel.getAFriendId());
+                    intent.putExtra("ClassId", classModel.getClassId());
+
+
+//                    intent.putExtra("classMemberModel", classMemberModel);
                     startActivity(intent);
 
                 }
@@ -120,6 +129,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getClassMembers(String classId) {
+        members.clear();
         String token = UserInfoModel.getInstance().getToken();
 
         Log.i(TAG, "token = " + token);
@@ -128,9 +138,12 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
         service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
             @Override
             public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
+
+                Log.i(TAG, "listResponseData = " + new Gson().toJson(listResponseData));
                 classListInfoModel = listResponseData.getData();
-                members.addAll(classListInfoModel.getContactList());
-                Log.i(TAG, "members = " + members);
+                if (classListInfoModel != null) {
+                    members.addAll(classListInfoModel.getContactList());
+                }
                 memberAdapter.updateData(members);
             }
 

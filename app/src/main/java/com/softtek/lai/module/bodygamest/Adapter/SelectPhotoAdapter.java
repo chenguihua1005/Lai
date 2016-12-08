@@ -3,12 +3,10 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.Adapter;
+package com.softtek.lai.module.bodygamest.adapter;
 
 
-import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.bodygamest.view.SelectPhotoActivity;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,7 +32,6 @@ public class SelectPhotoAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<LogListModel> list;
     BaseActivity context;
-    private IAssistantPresenter assistantPresenter;
     CallBack callBack;
     private ArrayList<String> img_list;
 
@@ -49,15 +42,13 @@ public class SelectPhotoAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        img_list = new ArrayList<String>();
+        img_list = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             String[] url = list.get(i).getImgUrl().split("/");
             String urls = url[url.length - 1];
             img_list.add(urls);
         }
-        assistantPresenter = new AssistantImpl(context);
         this.callBack = callBack;
-        Log.e("jarvis", list.toString());
     }
 
     @Override

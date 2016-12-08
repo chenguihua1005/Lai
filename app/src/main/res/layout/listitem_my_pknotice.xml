@@ -27,30 +27,21 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/shape_pknews_layout">
 
-            <LinearLayout
-                android:id="@+id/ll_pk_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                >
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/im_pk_head"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
                     android:background="@drawable/img_default" />
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ll_pk_head"
-                android:orientation="vertical"
-                >
+                android:layout_toRightOf="@id/im_pk_head"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/ll_action_content"
@@ -67,7 +58,8 @@
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@+id/img_red"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        />
                     <ImageView
                         android:id="@+id/img_red"
                         android:layout_width="wrap_content"
@@ -118,6 +110,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="#bababa"
                         android:textSize="10sp"
+                        android:text="dsadas"
                         />
 
                     <ImageView

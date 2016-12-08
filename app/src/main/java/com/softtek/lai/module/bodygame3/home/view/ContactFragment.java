@@ -176,14 +176,12 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 Log.i(TAG, "是否登錄 = " + isLogin);
                 if (isLogin) {
                     ChatContactModel model = datas.get(groups.get(i)).get(i1);
-//                    Intent intent = new Intent(getActivity(), ChatActivity.class);
-//                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
-//                    intent.putExtra("name", model.getUserName());
-//                    intent.putExtra("photo", path + model.getPhoto());
-//                    startActivity(intent);
-
                     Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
+                    intent.putExtra("isFriend", 1);//1： 好友
+                    intent.putExtra("AccountId", model.getAccountId());
+                    intent.putExtra("HXAccountId", model.getHXAccountId());
+                    intent.putExtra("UserName", model.getUserName());
+                    intent.putExtra("AFriendId", model.getAFriendId());
                     startActivity(intent);
                 } else {
                     Util.toastMsg("会话功能开通中，请稍后再试");
@@ -203,6 +201,12 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadingData();
+    }
+
+    @Override
     protected void onVisible() {
         super.onVisible();
         if (getContext() instanceof BodyGameActivity) {
@@ -214,7 +218,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private void loadingData() {
         dialogShow("加载中");
         getDataAndUpdate();
-
     }
 
     @Override

@@ -34,7 +34,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.mygrades.view.MyXuZhangActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.ranking.view.RankingActivity;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;

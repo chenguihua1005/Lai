@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.more.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -16,6 +17,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.InvitatedExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
@@ -66,6 +69,8 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        Bundle bundle=getIntent().getBundleExtra("class");
+        model=bundle.getParcelable("class");
         adapter=new InvitatedExpandableAdapter(this,datas,groups);
         lv.getRefreshableView().setAdapter(adapter);
 
@@ -77,8 +82,18 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 return true;
             }
         });
-        Bundle bundle=getIntent().getBundleExtra("class");
-        model=bundle.getParcelable("class");
+        lv.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                Intent intent=new Intent(InvitationListActivity.this, PersonDetailActivity.class);
+                InvitatedContact contact=datas.get(groups.get(i)).get(i1);
+                intent.putExtra("AccountId",contact.getInviterId());
+                intent.putExtra("ClassId",model.getClassId());
+                startActivity(intent);
+                return false;
+            }
+        });
+
         pageIndex=1;
         dialogShow("加载中...");
         ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -127,7 +142,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ll_left:{
-                finish();
+                Intent intent=new Intent(this, BodyGameActivity.class);
+                intent.putExtra("tab",4);
+                startActivity(intent);
             }
                 break;
             case R.id.fl_right:{
@@ -138,6 +155,17 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             }
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            Intent intent=new Intent(this, BodyGameActivity.class);
+            intent.putExtra("tab",4);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

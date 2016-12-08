@@ -10,7 +10,7 @@ public class DataLine {
 
     private List<String> xAxis;
     private List<Entry> entries;
-    private int maxYAxis;
+    private float maxYAxis;
 
     public List<String> getxAxis() {
         return xAxis;
@@ -28,11 +28,11 @@ public class DataLine {
         this.entries = entries;
     }
 
-    public int getMaxYAxis() {
+    public float getMaxYAxis() {
         return maxYAxis;
     }
 
-    public void setMaxYAxis(int maxYAxis) {
+    public void setMaxYAxis(float maxYAxis) {
         this.maxYAxis = maxYAxis;
     }
 }

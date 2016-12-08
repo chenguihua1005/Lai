@@ -43,21 +43,21 @@ public class RegistPresenterImpl implements IRegistPresenter {
     }
 
     @Override
-    public void doRegist(String userName, String password, EditText et_identify) {
+    public void doRegist(String userName, String password, String HxAccountId, EditText et_identify) {
         String identify = et_identify.getText().toString();
-        service.doRegist(userName, password, identify, new Callback<ResponseData<UserModel>>() {
+        service.doRegist(userName, password, HxAccountId, identify, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(ResponseData<UserModel> userResponseData, Response response) {
                 Log.i(userResponseData.toString());
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        UserModel model=userResponseData.getData();
+                        UserModel model = userResponseData.getData();
                         model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
                         UserInfoModel.getInstance().setToken("");
-                        Intent intent=new Intent(context, CreatFlleActivity.class);
-                        intent.putExtra("token",model.getToken());
+                        Intent intent = new Intent(context, CreatFlleActivity.class);
+                        intent.putExtra("token", model.getToken());
                         ((AppCompatActivity) context).finish();
                         context.startActivity(intent);
                         break;

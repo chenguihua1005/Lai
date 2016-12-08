@@ -5,6 +5,7 @@ import android.support.v4.widget.SlidingPaneLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -64,8 +65,8 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         overridePendingTransition(0, 0);
         tv_title.setText("搜索");
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
     }
@@ -96,8 +97,8 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 PartnerlistModel partnerlistModel = partnerlistModels.get(i);
                 int student_id = partnerlistModel.getAccountId();
                 Intent intent = new Intent(PantnerActivity.this, PersonDetailActivity.class);
-                intent.putExtra("classId_first", classId_first);
-                intent.putExtra("student_id", student_id);
+                intent.putExtra("ClassId", classId_first);
+                intent.putExtra("AccountId", Long.parseLong(student_id+""));
                 startActivity(intent);
             }
         });

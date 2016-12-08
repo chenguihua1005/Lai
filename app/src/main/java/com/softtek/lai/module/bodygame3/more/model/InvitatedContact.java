@@ -13,7 +13,7 @@ public class InvitatedContact implements Parcelable{
 
 
     private String MessageId;
-    private int InviterId;
+    private long InviterId;
     private String InviterPhoto;
     private String InviterUserName;
     private String InviterMobile;
@@ -28,7 +28,7 @@ public class InvitatedContact implements Parcelable{
 
     protected InvitatedContact(Parcel in) {
         MessageId = in.readString();
-        InviterId = in.readInt();
+        InviterId = in.readLong();
         InviterPhoto = in.readString();
         InviterUserName = in.readString();
         InviterMobile = in.readString();
@@ -59,11 +59,11 @@ public class InvitatedContact implements Parcelable{
         this.MessageId = MessageId;
     }
 
-    public int getInviterId() {
+    public long getInviterId() {
         return InviterId;
     }
 
-    public void setInviterId(int InviterId) {
+    public void setInviterId(long InviterId) {
         this.InviterId = InviterId;
     }
 
@@ -139,7 +139,7 @@ public class InvitatedContact implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(MessageId);
-        parcel.writeInt(InviterId);
+        parcel.writeLong(InviterId);
         parcel.writeString(InviterPhoto);
         parcel.writeString(InviterUserName);
         parcel.writeString(InviterMobile);

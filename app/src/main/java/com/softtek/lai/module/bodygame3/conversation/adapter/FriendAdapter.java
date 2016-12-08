@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.conversation.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -135,12 +138,17 @@ public class FriendAdapter extends BaseAdapter {
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Log.i(TAG, "token =" + UserInfoModel.getInstance().getToken() + "friendModel.getApplyId() = " + friendModel.getApplyId());
+                final ProgressDialog pd = new ProgressDialog(context);
+                String str1 = context.getResources().getString(R.string.Is_sending_a_request);
+                pd.setMessage(str1);
+                pd.setCanceledOnTouchOutside(false);
+                pd.show();
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
                 service.removeFriendApplyInfo(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), new Callback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        pd.dismiss();
                         int status = responseData.getStatus();
                         if (200 == status) {
                             Util.toastMsg("success");
@@ -151,8 +159,9 @@ public class FriendAdapter extends BaseAdapter {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         ZillaApi.dealNetError(error);
-                        Util.toastMsg("success");
+                        Util.toastMsg("error");
                     }
                 });
 
@@ -163,21 +172,47 @@ public class FriendAdapter extends BaseAdapter {
         holder.agree_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken() + " friendModel.getApplyId() = " + friendModel.getApplyId() + " HxAccountId = " + friendModel.getHxAccountId());
+                final ProgressDialog pd = new ProgressDialog(context);
+                String str1 = context.getResources().getString(R.string.Are_agree_with);
+                final String str2 = context.getResources().getString(R.string.Has_agreed_to);
+                final String str3 = context.getResources().getString(R.string.Agree_with_failure);
+                pd.setMessage(str1);
+                pd.setCanceledOnTouchOutside(false);
+                pd.show();
+
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
                 service.reviewFriendApplication(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), 1, new Callback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        pd.dismiss();
                         int status = responseData.getStatus();
                         if (200 == status) {
-                            Util.toastMsg("success");
+                            Util.toastMsg(str2);
+                            // 环信同意好友请求
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        EMClient.getInstance().contactManager().acceptInvitation(friendModel.getHxAccountId());
+                                        Log.i(TAG, "接受好友请求成功");
+                                    } catch (HyphenateException e) {
+                                        e.printStackTrace();
+                                        Log.i(TAG, "接受好友请求失败");
+                                    }
+                                }
+                            }).start();
+
                             handler.sendEmptyMessage(0);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         ZillaApi.dealNetError(error);
-                        Util.toastMsg("success");
+                        Util.toastMsg(str3);
                     }
                 });
             }

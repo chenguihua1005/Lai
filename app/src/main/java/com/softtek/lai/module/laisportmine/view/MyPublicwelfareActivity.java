@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laisportmine.view;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -12,11 +13,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.SelectPublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.message2.model.NoticeModel;
 import com.softtek.lai.module.message2.presenter.DeleteMessageManager;
 
 import java.util.ArrayList;
@@ -49,15 +50,13 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     ListView listview_publicwe;
     @InjectView(R.id.ll_public_nomessage)
     LinearLayout ll_public_nomessage;
-    private List<SelectPublicWewlfModel> publicWewlfModelList = new ArrayList<SelectPublicWewlfModel>();
+    private List<SelectPublicWewlfModel> publicWewlfModelList = new ArrayList<>();
     private MyPublicWealfareAdapter myPublicWealfareAdapter;
     MyPublicWewlListManager myPublicWewlListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     DeleteMessageManager delManager;
     DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     String accouid;
-    int positions;
-    private CharSequence[] items = {"删除"};
 
     public static boolean isSelsetAll = false;
 
@@ -86,39 +85,15 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            if (myPublicWealfareAdapter == null) {
-//                finish();
-//            } else {
-//                if (myPublicWealfareAdapter.isDel) {
-//                    for (int i = 0; i < publicWewlfModelList.size(); i++) {
-//                        publicWewlfModelList.get(i).setSelect(false);
-//                    }
-//                    isSelsetAll = false;
-//                    myPublicWealfareAdapter.select_count = 0;
-//                    footer.setVisibility(View.GONE);
-//                    myPublicWealfareAdapter.isDel = false;
-//                    myPublicWealfareAdapter.notifyDataSetChanged();
-//                } else {
-//                    finish();
-//                }
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
     private String getMsgId() {
         String msgId = "";
         for (int i = 0; i < publicWewlfModelList.size(); i++) {
             SelectPublicWewlfModel selectPublicWewlfModel = publicWewlfModelList.get(i);
             if (selectPublicWewlfModel.isSelect()) {
                 if ("".equals(msgId)) {
-                    msgId = selectPublicWewlfModel.getPublicWewlfModel().getMessageId();
+                    msgId = selectPublicWewlfModel.getPublicWewlfModel().getMsgid();
                 } else {
-                    msgId = msgId + "," + selectPublicWewlfModel.getPublicWewlfModel().getMessageId();
+                    msgId = msgId + "," + selectPublicWewlfModel.getPublicWewlfModel().getMsgid();
                 }
             }
         }
@@ -183,13 +158,14 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.ll_left:
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
     }
 
     @Override
-    public void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel) {
+    public void getMyPublicWewlList(List<NoticeModel> publicWewlfModel) {
         try {
             if (publicWewlfModel == null || publicWewlfModel.isEmpty()) {
                 ll_public_nomessage.setVisibility(View.VISIBLE);
@@ -223,9 +199,18 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
     public void deleteMsg(String type) {
         if ("true".equals(type)) {
-            List<SelectPublicWewlfModel> nList = new ArrayList<SelectPublicWewlfModel>();
+            List<SelectPublicWewlfModel> nList = new ArrayList<>();
             nList.addAll(publicWewlfModelList);
             for (int i = 0; i < nList.size(); i++) {
                 SelectPublicWewlfModel selectPublicWewlfModel = nList.get(i);

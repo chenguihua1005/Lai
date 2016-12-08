@@ -5,11 +5,15 @@
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/plv_audit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@null">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
     <ImageView
         android:id="@+id/im_nomessage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/no_message"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>

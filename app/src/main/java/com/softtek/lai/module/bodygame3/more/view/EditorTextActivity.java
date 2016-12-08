@@ -146,17 +146,6 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-//        switch (flag){
-//            case UPDATE_CLASS_NAME:
-//                showTip("请填写班级名");
-//                break;
-//            case UPDATE_GROUP_NAME:
-//                showTip("请填写组名");
-//                break;
-//            case ADD_GROUP_NAME:
-//                showTip("请填写组名");
-//                break;
-//        }
         showTip("请填写内容");
     }
 }

@@ -1,10 +1,15 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by shelly.xu on 11/24/2016.
  */
 
-public class ClasslistModel {
+public class ClasslistModel implements Parcelable {
     private String ClassId;
     private String ClassName;
     private String ClassCode;//班级编号
@@ -13,6 +18,29 @@ public class ClasslistModel {
     private String ClassMasterName;//总教练名称
     private String ClassStart;
     private int ClassMemberNum;//学员人数
+
+    protected ClasslistModel(Parcel in) {
+        ClassId = in.readString();
+        ClassName = in.readString();
+        ClassCode = in.readString();
+        ClassMasterId = in.readInt();
+        ClassMasterPhoto = in.readString();
+        ClassMasterName = in.readString();
+        ClassStart = in.readString();
+        ClassMemberNum = in.readInt();
+    }
+
+    public static final Creator<ClasslistModel> CREATOR = new Creator<ClasslistModel>() {
+        @Override
+        public ClasslistModel createFromParcel(Parcel in) {
+            return new ClasslistModel(in);
+        }
+
+        @Override
+        public ClasslistModel[] newArray(int size) {
+            return new ClasslistModel[size];
+        }
+    };
 
     public String getClassId() {
         return ClassId;
@@ -76,5 +104,22 @@ public class ClasslistModel {
 
     public void setClassMemberNum(int classMemberNum) {
         ClassMemberNum = classMemberNum;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(ClassId);
+        parcel.writeString(ClassName);
+        parcel.writeString(ClassCode);
+        parcel.writeInt(ClassMasterId);
+        parcel.writeString(ClassMasterPhoto);
+        parcel.writeString(ClassMasterName);
+        parcel.writeString(ClassStart);
+        parcel.writeInt(ClassMemberNum);
     }
 }

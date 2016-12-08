@@ -89,6 +89,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     private EMConnectionListener connectionListener;
     private static final String TAG = "ChatFragment";
 
+//    private MessageReceiver mMessageReceiver;
+
 //    private android.app.AlertDialog.Builder accountRemovedBuilder;
 //    private boolean isConflictDialogShow;
 //    private boolean isAccountRemovedDialogShow;
@@ -201,7 +203,31 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
+
+//        registerMessageReceiver();
+
     }
+
+//    public class MessageReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
+//                int unreadNum = intent.getIntExtra("count", 0);
+//                //更新小红点
+//                updateMessage(unreadNum);
+//            }
+//        }
+//    }
+
+//    public void registerMessageReceiver() {
+//        mMessageReceiver = new MessageReceiver();
+//        IntentFilter filter = new IntentFilter();
+//        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+//        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+//        registerReceiver(mMessageReceiver, filter);
+//
+//    }
 
     @Override
     protected void onVisible() {
@@ -355,6 +381,13 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 }
             }
         }.start();
+
+
+        // jessica  同时刷新会话下面的小圆点数目
+        int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+        Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+        msgIntent.putExtra("count", unreadNum);
+        getContext().sendBroadcast(msgIntent);
     }
 
     private void registerBroadcastReceiver() {
@@ -457,10 +490,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
         unregisterBroadcastReceiver();
 
-//        try {
-//            getActivity().unregisterReceiver(internalDebugReceiver);
-//        } catch (Exception e) {
-//        }
+
     }
 
     @Override
@@ -483,6 +513,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         // after activity restore to foreground, reconnect
         if (!EMClient.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {//？？？？？？？？？？？？？？？
 //            EMChatManager.getInstance().reconnect();
+//            EMClient.getInstance().chatManager().
 //            EMClient.getInstance().
             Log.i(TAG,"环信服务器重连......");
         }
@@ -538,9 +569,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
 
                 // in background, do not refresh UI, notify it in notification bar
-                if(!easeUI.hasForegroundActivies()){
+//                if(!easeUI.hasForegroundActivies()){
                     ChatHelper.getInstance().getNotifier().onNewMsg(message);
-                }
+//                }
             }
             // 提示新消息
 
@@ -588,14 +619,17 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
         @Override
         public void onMessageReadAckReceived(List<EMMessage> messages) {
+            refreshUIWithMessage();
         }
 
         @Override
         public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+            refreshUIWithMessage();
         }
 
         @Override
         public void onMessageChanged(EMMessage message, Object change) {
+            refreshUIWithMessage();
         }
     };
 

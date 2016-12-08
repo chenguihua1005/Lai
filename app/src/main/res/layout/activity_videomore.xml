@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_videomore"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context="com.softtek.lai.module.bodygame3.head.view.VideomoreActivity">
+
+    <include layout="@layout/toolbar"></include>
+
+    <GridView
+        android:id="@+id/more_view"
+        android:paddingRight="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="200dp"
+        android:numColumns="2"
+        android:horizontalSpacing="15dp"
+        android:stretchMode="columnWidth" />
+</LinearLayout>

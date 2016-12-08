@@ -2,24 +2,18 @@ package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
-import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 
-import java.io.File;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.Multipart;
 import retrofit.http.POST;
-import retrofit.http.Part;
 import retrofit.http.Query;
 import retrofit.mime.MultipartTypedOutput;
-import retrofit.mime.TypedFile;
 
 /**
  * Created by lareina.qiao on 2016/11/22.
@@ -65,6 +59,26 @@ public interface FuceSevice {
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<AuditListModel>>> callback
     );
+    //复测录入
+    @POST("/v1/MeasuredRecordLog/PostMeasuredData")
+    void doPostMeasuredData(
+            @Header("toke")String token,
+            @Body MultipartTypedOutput multipartTypedOutput,
+            Callback<ResponseData>callback
+            );
+    //获取复测详情
+    @GET("/v1/MeasuredRecordLog/GetMeasuredDetails")
+    void doGetMeasuredDetails(
+            @Header("token")String token,
+            @Query("acmId")String acmId,
+            Callback<ResponseData<MeasuredDetailsModel>>callback
+    );
+
+
+
+
+
+
 
 
 }

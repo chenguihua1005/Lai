@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -340,8 +339,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     private void stepDeal(Context context,String userId,long step){
-        //List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-        //StepUtil.getInstance().deleteOldDate(dateEnd);
         //获取用户最新的步数
         int currentStep=StepUtil.getInstance().getCurrentStep(userId);
         //删除旧数据

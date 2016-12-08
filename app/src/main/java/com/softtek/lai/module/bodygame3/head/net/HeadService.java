@@ -5,11 +5,13 @@ import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
-import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
+import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -93,8 +95,7 @@ public interface HeadService {
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
     );
-
-    //选择班级加载数据请求路径:Api/V1/ HerbalifeClass / GetClassInfo
+    //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo130ed197-17ea-4125-8643-09f9c8ec377
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
             @Header("token") String token,
@@ -103,4 +104,71 @@ public interface HeadService {
             @Query("pagesize") int pagesize,
             Callback<ResponseData<ChooseModel>> callback
     );
+
+    //请求路径:Api/V1/ ClassHonor/ GetHonorRoll(荣誉榜)
+    @GET("/V1/ClassHonor/GetHonorRoll")
+    void doGetHonorRoll(
+            @Header("token") String token,
+            @Query("UID") Long UID,
+            @Query("ClassId") String ClassId,
+            @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
+            @Query("SortTimeType")String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("WhichTime") int WhichTime,
+            @Query("IsFirst") boolean IsFirst,
+            Callback<ResponseData<HonorRankModel>>callback
+            );
+    //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
+    //申请加入班级
+    @GET("/V1/MsgCenter/ApplyJoinClass")
+    void doPostClass(
+            @Header("token") String token,
+            @Query("Applyer")Long Applyer,//申请人id
+            @Query("ClassId")String ClassId,//班级id
+            Callback<ResponseData>callback
+    );
+
+    //请求路径:Api/V1/HealthyCircle/GetPhotoWalls
+    //照片墙
+    @GET("/V1/HealthyCircle/GetPhotoWalls")
+    void doGetPhotoWalls(
+            @Header("token")String token,
+            @Query("Loginaccid")Long Loginaccid,//用户id
+            @Query("ClassId")String ClassId,//班级id
+            @Query("PageIndex")String PageIndex,//第几页
+            @Query("PageSize")String PageSize,//一页几条
+            Callback<ResponseData<PhotoWallListModel>>callback
+    );
+    //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
+    //照片墙主题列表
+    @GET("/V1/HealthyCircle/GetPhWallTheme")
+    void doGetPhWallTheme(
+            @Header("token")String token
+
+            );
+
+    //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
+    @GET("/V1/LaiClassRoom/GetLaiClassRoom")
+    void getvideo(
+            @Header("token") String token,
+            Callback<ResponseData<List<VideoModel>>> callback
+    );
+    //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
+    @GET("/V1/HerbalifeClass/AddMineLovePC")
+    void doPostAddMineLovePC(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("classid")String classid,
+            @Query("mobile")String mobile,
+            Callback<ResponseData>callback
+    );
+    //请求路径:Api/V1/HerbalifeClass/GetClassMemberInfoByHx
+    @GET("/V1/HerbalifeClass/GetClassMemberInfoByHx")
+    void doGetClassMemberInfoByHx(
+            @Header("token") String token,
+            @Query("loginuserid")long loginuserid,
+            @Query("hxaccountid")String hxaccountid,
+            @Query("classid")String classid,
+            Callback<ResponseData<MemberInfoModel>> callback
+    );
+
 }

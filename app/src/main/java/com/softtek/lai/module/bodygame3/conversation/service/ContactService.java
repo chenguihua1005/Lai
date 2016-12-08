@@ -100,4 +100,24 @@ public interface ContactService {
             Callback<ResponseData> callback
     );
 
+    //加好友(个人详情)
+    @POST("/v1/HerbUser/SentFriendApply")
+    void sentFriendApply(
+            @Header("token") String token,
+            @Query("senderId") long senderId,
+            @Query("receiverId") long receiverId,
+            @Query("classId") String classId,
+            Callback<ResponseData> callback
+    );
+
+    // 移除好友
+    @POST("/v1/HerbUser/RemoveFriend")
+    void removeFriend(
+            @Header("token") String token,
+            @Query("accountId") long accountId,
+            @Query("rid") String rid,//好友关系ID（通讯录接口的AFriendId字段值）
+            Callback<ResponseData> callback
+    );
+
+
 }

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -29,7 +30,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_pk_list)
 public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
-        AdapterView.OnItemLongClickListener,MyPkDelPKMsgManager.MyPkDelPKMsgCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
+        MyPkDelPKMsgManager.MyPkDelPKMsgCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
         AdapterView.OnItemClickListener,DeleteMessageManager.DeleteMsgCallBack{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -53,11 +54,8 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     private UserInfoModel userInfoModel;
     String accountid;
     private MyPkNoticeAdapter myPkNoticeAdapter;
-    private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
-    private CharSequence[] items={"删除"};
-    boolean isselec = false;
+    private List<PkNoticeModel>pkNoticeModelList=new ArrayList<>();
     boolean isdelpage=false;
-    int account=0;
     DeleteMessageManager delManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     MyPkDelPKMsgManager myPkDelPKMsgManager;
@@ -70,7 +68,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         ll_select.setOnClickListener(this);
         cb_all.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
-        listview_pk.setOnItemLongClickListener(this);
         listview_pk.setOnItemClickListener(this);
     }
 
@@ -106,6 +103,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId())
         {
             case R.id.ll_left:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.tv_delete:
@@ -172,9 +170,9 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             PkNoticeModel pkNoticeModel = pkNoticeModelList.get(i);
             if (pkNoticeModel.getIsselect()) {
                 if ("".equals(msgId)) {
-                    msgId = pkNoticeModel.getPKMsgId();
+                    msgId = pkNoticeModel.getMsgid();
                 } else {
-                    msgId = msgId + "," + pkNoticeModel.getPKMsgId();
+                    msgId = msgId + "," + pkNoticeModel.getMsgid();
                 }
             }
         }
@@ -201,12 +199,6 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-        return true;
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent=new Intent(this, PKDetailActivity.class);
         intent.putExtra("pkId",Long.parseLong(pkNoticeModelList.get(position).getPKId()));
@@ -231,5 +223,15 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             listview_pk.setAdapter(myPkNoticeAdapter);
             myPkNoticeAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

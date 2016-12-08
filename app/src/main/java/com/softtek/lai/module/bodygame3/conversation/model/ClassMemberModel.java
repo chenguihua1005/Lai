@@ -6,9 +6,9 @@ import java.io.Serializable;
  * Created by jessica.zhang on 2016/11/29.
  */
 
-public class ClassMemberModel implements Serializable{
+public class ClassMemberModel implements Serializable {
     private String HXAccountId;
-    private int AccountId;//成员ID
+    private long AccountId;//成员ID
     private String UserName;
     private String UserEn;
     private String Mobile;
@@ -18,8 +18,9 @@ public class ClassMemberModel implements Serializable{
     private String Role;
     private String AddTime;
     private int IsFriend;//是否是好友（1：是， 0：否）
+    private String AFriendId;//班级好友关系ID
 
-    public ClassMemberModel(String HXAccountId, int accountId, String userName, String userEn, String mobile, String photo, String CGId, String CGName, String role, String addTime, int isFriend) {
+    public ClassMemberModel(String HXAccountId, long accountId, String userName, String userEn, String mobile, String photo, String CGId, String CGName, String role, String addTime, int isFriend, String AFriendId) {
         this.HXAccountId = HXAccountId;
         AccountId = accountId;
         UserName = userName;
@@ -31,9 +32,22 @@ public class ClassMemberModel implements Serializable{
         Role = role;
         AddTime = addTime;
         IsFriend = isFriend;
+        this.AFriendId = AFriendId;
     }
 
-    public int getAccountId() {
+    public void setAccountId(long accountId) {
+        AccountId = accountId;
+    }
+
+    public String getAFriendId() {
+        return AFriendId;
+    }
+
+    public void setAFriendId(String AFriendId) {
+        this.AFriendId = AFriendId;
+    }
+
+    public long getAccountId() {
         return AccountId;
     }
 

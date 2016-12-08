@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -30,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ggx.widgets.R;
+import com.ggx.widgets.drop.ArrowRectangleView;
 
 /**
  *
@@ -113,11 +115,12 @@ public class ArrowSpinner2 extends LinearLayout{
         textView.setTextSize(textSize);
 
         View view= LayoutInflater.from(context).inflate(R.layout.drop_list,null);
+        ArrowRectangleView arv= (ArrowRectangleView) view.findViewById(R.id.arv);
+        arv.setArrowPosition(ArrowRectangleView.RIGHT);
         listView = (ListView) view.findViewById(R.id.lv);
         listView.setDivider(new ColorDrawable(Color.WHITE));
         listView.setDividerHeight(2);
         listView.setItemsCanFocus(true);
-        //hide vertical and horizontal scrollbars
         listView.setVerticalScrollBarEnabled(false);
         listView.setHorizontalScrollBarEnabled(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

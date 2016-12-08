@@ -1,13 +1,15 @@
 package com.softtek.lai.module.laisportmine.model;
 
+import com.softtek.lai.module.message2.model.NoticeModel;
+
 /**
  * Created by lareina.qiao on 5/11/2016.
  */
 public class SelectPublicWewlfModel {
-    private PublicWewlfModel publicWewlfModel;
+    private NoticeModel publicWewlfModel;
     private boolean isSelect;
 
-    public SelectPublicWewlfModel(PublicWewlfModel publicWewlfModel, boolean isSelect) {
+    public SelectPublicWewlfModel(NoticeModel publicWewlfModel, boolean isSelect) {
         this.publicWewlfModel = publicWewlfModel;
         this.isSelect = isSelect;
     }
@@ -20,11 +22,11 @@ public class SelectPublicWewlfModel {
                 '}';
     }
 
-    public PublicWewlfModel getPublicWewlfModel() {
+    public NoticeModel getPublicWewlfModel() {
         return publicWewlfModel;
     }
 
-    public void setPublicWewlfModel(PublicWewlfModel publicWewlfModel) {
+    public void setPublicWewlfModel(NoticeModel publicWewlfModel) {
         this.publicWewlfModel = publicWewlfModel;
     }
 

@@ -101,7 +101,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 TextView tv_group=holder.getView(R.id.tv_group);
                 TextView tv_weight=holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim=holder.getView(R.id.cir_headim);
-                tv_group.setText(data.getGroupName());
+                tv_group.setText("("+data.getGroupName()+")");
                 tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl()))
@@ -129,12 +129,12 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 1);
+            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 10);
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,1);
+        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,10);
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid,  final int pageIndex, int pageSize) {

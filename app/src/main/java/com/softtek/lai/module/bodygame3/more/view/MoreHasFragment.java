@@ -177,9 +177,6 @@ public class MoreHasFragment extends Fragment {
                 if(model.getClassCode().equals(clazz.getModel().getClassCode())){
                     this.classModels.remove(model);
                     arrow.getAdapter().notifyDataSetChanged();
-                    arrow.setSelected(0);
-                    this.model=classModels.get(0);
-                    choosePanel(this.model.getClassRole());
                     break;
                 }
             }
@@ -187,6 +184,10 @@ public class MoreHasFragment extends Fragment {
                 if(deleteClass!=null){
                     deleteClass.deletClass(0);
                 }
+            }else {
+                arrow.setSelected(0);
+                this.model=classModels.get(0);
+                choosePanel(this.model.getClassRole());
             }
         }
     }
