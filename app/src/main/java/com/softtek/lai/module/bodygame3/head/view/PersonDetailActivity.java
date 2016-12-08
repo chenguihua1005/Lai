@@ -190,7 +190,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void doGetService(final long userid, long accountid, String classid,String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
-        if (!"".equals(HXAccountId)) {
+//        if (TextUtils.isEmpty(HXAccountId)) {
             headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -211,28 +211,29 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
             });
-        } else {
-            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
-                @Override
-                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
-                    int status = memberInfoModelResponseData.getStatus();
-                    try {
-                        switch (status) {
-                            case 200:
-                                memberInfoModel = memberInfoModelResponseData.getData();
-                                doGetData();
-                                break;
-                            default:
-                                Util.toastMsg(memberInfoModelResponseData.getMsg());
-                                break;
-                        }
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-        }
+//        }
+//    else {
+//            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+//                @Override
+//                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+//                    int status = memberInfoModelResponseData.getStatus();
+//                    try {
+//                        switch (status) {
+//                            case 200:
+//                                memberInfoModel = memberInfoModelResponseData.getData();
+//                                doGetData();
+//                                break;
+//                            default:
+//                                Util.toastMsg(memberInfoModelResponseData.getMsg());
+//                                break;
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            });
+//        }
     }
     private void doGetData()
     {

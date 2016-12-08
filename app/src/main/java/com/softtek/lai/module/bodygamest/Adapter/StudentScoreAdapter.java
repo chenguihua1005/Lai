@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.Adapter;
+package com.softtek.lai.module.bodygamest.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
-import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;

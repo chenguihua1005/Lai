@@ -18,8 +18,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.message2.model.NoticeModel;
+import com.softtek.lai.module.act.view.ActActivity;
+import com.softtek.lai.module.message2.model.ActionNoticeModel;
 import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -32,8 +34,8 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_message_operator)
-public class NoticeServerActivity extends BaseActivity implements View.OnClickListener {
+@InjectLayout(R.layout.activity_action)
+public class ActionActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -45,50 +47,42 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
     FrameLayout fl_right;
     @InjectView(R.id.lv)
     ListView lv;
-
+    @InjectView(R.id.ll_action_nomessage)
+    ImageView iv_nomessage;
     @InjectView(R.id.footer)
     LinearLayout footer;
-    @InjectView(R.id.tv_delete)
-    TextView tv_delete;
-    @InjectView(R.id.lin_select)
-    LinearLayout lin_select;
+    @InjectView(R.id.ll_select)
+    LinearLayout ll_select;
     @InjectView(R.id.cb_all)
     CheckBox cb_all;
+    @InjectView(R.id.tv_delete)
+    TextView tv_delete;
 
     public boolean isSelsetAll = false;
     private List<Integer> deleteIndex=new ArrayList<>();
     private boolean doOperator=false;
 
-    EasyAdapter<NoticeModel> adapter;
-    private List<NoticeModel> operatList=new ArrayList<>();
+    EasyAdapter<ActionNoticeModel> adapter;
+    private List<ActionNoticeModel> operatList=new ArrayList<>();
+
     @Override
     protected void initViews() {
-        tv_title.setText("服务窗");
-        tv_delete.setOnClickListener(this);
-        lin_select.setOnClickListener(this);
+        tv_title.setText("活动邀请");
         tv_right.setText("编辑");
-        fl_right.setOnClickListener(this);
-        ll_left.setOnClickListener(new View.OnClickListener() {
+        ll_left.setOnClickListener(this);
+        ll_select.setOnClickListener(this);
+        tv_delete.setOnClickListener(this);
+        lv.setEmptyView(iv_nomessage);
+    }
+
+    @Override
+    protected void initDatas() {
+        adapter=new EasyAdapter<ActionNoticeModel>(this,operatList,R.layout.listitem_my_action) {
             @Override
-            public void onClick(View view) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
-        adapter=new EasyAdapter<NoticeModel>(this,operatList,R.layout.message_2_remind_item) {
-            @Override
-            public void convert(ViewHolder holder, NoticeModel data, final int position) {
-                TextView tv_time=holder.getView(R.id.text_time);
-                String time = data.getSendTime();
-                if (!TextUtils.isEmpty(time)) {
-                    String[] str1 = time.split(" ");
-                    String[] str = str1[0].split("-");
-                    tv_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
-                } else {
-                    tv_time.setText("");
-                }
-                TextView tv_content=holder.getView(R.id.tv_content);
-                tv_content.setText(data.getMsgContent());
+            public void convert(ViewHolder holder, ActionNoticeModel data, final int position) {
+                TextView tv_notice_date=holder.getView(R.id.tv_notice_date);
+                String date = DateUtil.getInstance().convertDateStr(data.SendTime, "yyyy年MM月dd日");
+                tv_notice_date.setText(date);
                 ImageView iv_select=holder.getView(R.id.iv_select);
                 if(doOperator){
                     iv_select.setVisibility(View.VISIBLE);
@@ -96,21 +90,21 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                     iv_select.setImageResource(R.drawable.history_data_circle);
                     iv_select.setVisibility(View.GONE);
                 }
-                if (data.isSelected()) {
+                if (data.isSelected) {
                     iv_select.setImageResource(R.drawable.history_data_circled);
                 } else {
                     iv_select.setImageResource(R.drawable.history_data_circle);
                 }
-                ImageView iv_red=holder.getView(R.id.iv_red);
-                if ("0".equals(data.getIsRead())) {
+                ImageView iv_red=holder.getView(R.id.iv_read);
+                if (0==data.IsRead) {
                     iv_red.setVisibility(View.VISIBLE);
                 } else {
                     iv_red.setVisibility(View.GONE);
                 }
-                TextView tv_title=holder.getView(R.id.tv_title);
-                tv_title.setText("系统通知");
-                TextView tv_more=holder.getView(R.id.tv_more);
-                tv_more.setVisibility(View.GONE);
+                TextView tv_notice_title=holder.getView(R.id.tv_notice_title);
+                tv_notice_title.setText(data.ActTitle);
+                TextView tv_action_content=holder.getView(R.id.tv_action_content);
+                tv_action_content.setText(data.MsgContent);
 
             }
         };
@@ -118,16 +112,16 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NoticeModel model=operatList.get(i);
+                ActionNoticeModel model=operatList.get(i);
                 if(doOperator){
                     //正在操作的话
-                    if(model.isSelected()){
+                    if(model.isSelected){
                         isSelsetAll=false;
                         cb_all.setChecked(false);
-                        model.setSelected(false);
+                        model.isSelected=false;
                         deleteIndex.remove(i);
                     }else {
-                        model.setSelected(true);
+                        model.isSelected=true;
                         deleteIndex.add(i);
                         if(operatList.size()==deleteIndex.size()){
                             isSelsetAll=true;
@@ -141,22 +135,30 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 //===================================================
+                if(model.Msgtype==22){//是莱运动活动
+                    if (model.IsJoinAct==0) {
+                        Util.toastMsg("您不在该活动中，不能查看活动详情！");
+                    } else if (TextUtils.isEmpty(model.ActId)) {
+                        Util.toastMsg("抱歉, 该活动已取消！");
+                    } else {
+                        Intent intent = new Intent(ActionActivity.this, ActActivity.class);
+                        intent.putExtra("id", model.ActId);
+                        startActivityForResult(intent, 0);
+                    }
+                }else if(model.Msgtype==0){//体馆赛活动
 
+                }
 
 
             }
         });
-    }
-
-    @Override
-    protected void initDatas() {
         dialogShow("加载中");
         ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                .getNoticeMsgList(UserInfoModel.getInstance().getToken(),
+                .getActiveNoticeMsg(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
-                        new RequestCallback<ResponseData<List<NoticeModel>>>() {
+                        new RequestCallback<ResponseData<List<ActionNoticeModel>>>() {
                             @Override
-                            public void success(ResponseData<List<NoticeModel>> data, Response response) {
+                            public void success(ResponseData<List<ActionNoticeModel>> data, Response response) {
                                 dialogDissmiss();
                                 if(data.getStatus()==200){
                                     onResult(data.getData());
@@ -172,9 +174,9 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                                 super.failure(error);
                             }
                         });
-    }
 
-    private void onResult(List<NoticeModel> data){
+    }
+    private void onResult(List<ActionNoticeModel> data){
         tv_right.setText("编辑");
         fl_right.setOnClickListener(this);
         operatList.addAll(data);
@@ -182,37 +184,12 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10 && resultCode == RESULT_OK) {
-            dialogShow("加载中");
-            ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                    .getNoticeMsgList(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            new RequestCallback<ResponseData<List<NoticeModel>>>() {
-                                @Override
-                                public void success(ResponseData<List<NoticeModel>> data, Response response) {
-                                    dialogDissmiss();
-                                    if(data.getStatus()==200){
-                                        operatList.clear();
-                                        onResult(data.getData());
-                                    }else {
-                                        Util.toastMsg(data.getMsg());
-                                    }
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    dialogDissmiss();
-                                    super.failure(error);
-                                }
-                            });
-        }
-    }
-
-    @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        switch (view.getId()){
+            case R.id.ll_left:
+                setResult(RESULT_OK);
+                finish();
+                break;
             case R.id.fl_right:
                 if(!doOperator){
                     doOperator=true;
@@ -230,7 +207,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                 dialogShow("正在删除");
                 StringBuilder builder=new StringBuilder();
                 for(int i=0,j=deleteIndex.size();i<j;i++){
-                    builder.append(operatList.get(deleteIndex.get(i)).getMsgid());
+                    builder.append(operatList.get(deleteIndex.get(i)).Msgid);
                     if(i<j-1){
                         builder.append(",");
                     }
@@ -238,7 +215,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                 ZillaApi.NormalRestAdapter.create(Message2Service.class)
                         .deleteMssage(UserInfoModel.getInstance().getToken(),
                                 builder.toString(),
-                                2,
+                                5,
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
@@ -269,15 +246,15 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                     isSelsetAll = false;
                     cb_all.setChecked(false);
                     deleteIndex.clear();
-                    for (NoticeModel model:operatList){
-                        model.setSelected(false);
+                    for (ActionNoticeModel model:operatList){
+                        model.isSelected=false;
                     }
                 } else {
                     isSelsetAll = true;
                     cb_all.setChecked(true);
                     deleteIndex.clear();
                     for (int i=0;i<operatList.size();i++){
-                        operatList.get(i).setSelected(true);
+                        operatList.get(i).isSelected=true;
                         deleteIndex.add(i);
                     }
                 }
@@ -300,5 +277,33 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            dialogShow("加载中");
+            ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                    .getActiveNoticeMsg(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            new RequestCallback<ResponseData<List<ActionNoticeModel>>>() {
+                                @Override
+                                public void success(ResponseData<List<ActionNoticeModel>> data, Response response) {
+                                    dialogDissmiss();
+                                    if(data.getStatus()==200){
+                                        onResult(data.getData());
+                                    }else {
+
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    dialogDissmiss();
+                                    super.failure(error);
+                                }
+                            });
+        }
     }
 }
