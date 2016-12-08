@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -74,10 +73,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private TextView tv_top3_per;
     private ArrowSpinner2 spinner;
 
-    private boolean isWeightPressed = true;
-    private boolean isFatPressed = false;
-
-
     public static WeekHonorFragment getInstance() {
         WeekHonorFragment fragment = new WeekHonorFragment();
         Bundle data = new Bundle();
@@ -101,6 +96,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 tv_trainer_name.setText(data.getCoachName());
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
+                TextView tv_by_which = holder.getView(R.id.tv_by_which);
+                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? "人均减重比" : "人均减脂比");
             }
         };
         ListView refreshableView = listHonorrank.getRefreshableView();
@@ -145,26 +142,56 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         datas.add("第五体馆周");
         datas.add("第六体馆周");
         datas.add("第七体馆周");
-        spinner.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
+        datas.add("第八体馆周");
+        datas.add("第九体馆周");
+        datas.add("第十体馆周");
+        datas.add("第十一体馆周");
+        datas.add("第十二体馆周");
+        List<ListView> oneObjectList = new ArrayList<>();
+        oneObjectList.add(new ListView(getContext()));
+//        spinner.attachCustomSource(new ArrowSpinnerAdapter<ListView>(getContext(), oneObjectList, R.layout.spinner_week_list) {
+//            @Override
+//            public void convert(ViewHolder holder, ListView data, int position) {
+//
+//
+//
+//                TextView tv_class_name = holder.getView(R.id.tv_classed);
+//                tv_class_name.setText(data);
+//            }
+//
+//            @Override
+//            public String getText(int position) {
+//                //根据position返回当前值给标题
+//                return datas.get(position);
+//            }
+//
+//        });
+
+        final EasyAdapter<String> adapter = new EasyAdapter<String>(getContext(), datas, R.layout.class_title) {
+
             @Override
             public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_classed);
-                tv_class_name.setText(data);
+                TextView tv_classed = holder.getView(R.id.tv_classed);
+                tv_classed.setText(data);
+            }
+        };
+        spinner.attachCustomSource(new ArrowSpinnerAdapter<ListView>(getContext(), oneObjectList, R.layout.spinner_week_list) {
+            @Override
+            public void convert(ViewHolder holder, ListView listViews, int position) {
+                ListView listView = holder.getView(R.id.listView);
+                listView.setAdapter(adapter);
             }
 
             @Override
             public String getText(int position) {
-                //根据position返回当前值给标题
-                return datas.get(position);
+                return null;
             }
-
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = i + 1;
                 lazyLoad();
-                Log.e("curry", "onItemSelected: " + i);
             }
 
             @Override
@@ -198,17 +225,17 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             switch (topModel.getRanking()) {
                 case "1":
                     tv_top1_name.setText(topModel.getUserName());
-                    tv_top1_per.setText(topModel.getLossPer() + "%");
+                    tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "2":
                     tv_top2_name.setText(topModel.getUserName());
-                    tv_top2_per.setText(topModel.getLossPer() + "%");
+                    tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "3":
                     tv_top3_name.setText(topModel.getLossPer());
-                    tv_top3_per.setText(topModel.getLossPer() + "%");
+                    tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
             }

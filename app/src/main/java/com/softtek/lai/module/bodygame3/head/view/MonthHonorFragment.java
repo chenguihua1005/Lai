@@ -74,9 +74,6 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private TextView tv_top3_per;
     private ArrowSpinner2 spinner;
 
-    private boolean isWeightPressed = true;
-    private boolean isFatPressed = false;
-
 
     public static MonthHonorFragment getInstance() {
         MonthHonorFragment fragment = new MonthHonorFragment();
@@ -101,6 +98,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 tv_trainer_name.setText(data.getCoachName());
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
+                TextView tv_by_which = holder.getView(R.id.tv_by_which);
+                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? "人均减重比" : "人均减脂比");
             }
         };
         ListView refreshableView = listHonorrank.getRefreshableView();
@@ -141,10 +140,6 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         datas.add("第一体馆月");
         datas.add("第二体馆月");
         datas.add("第三体馆月");
-        datas.add("第四体馆月");
-        datas.add("第五体馆月");
-        datas.add("第六体馆月");
-        datas.add("第七体馆月");
         spinner.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
             @Override
             public void convert(ViewHolder holder, String data, int position) {
@@ -198,17 +193,17 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             switch (topModel.getRanking()) {
                 case "1":
                     tv_top1_name.setText(topModel.getUserName());
-                    tv_top1_per.setText(topModel.getLossPer() + "%");
+                    tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "2":
                     tv_top2_name.setText(topModel.getUserName());
-                    tv_top2_per.setText(topModel.getLossPer() + "%");
+                    tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "3":
                     tv_top3_name.setText(topModel.getLossPer());
-                    tv_top3_per.setText(topModel.getLossPer() + "%");
+                    tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + topModel.getLossPer() + "%" : "减脂" + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
             }

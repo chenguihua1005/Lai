@@ -82,7 +82,7 @@ import static android.app.Activity.RESULT_OK;
 @InjectLayout(R.layout.fragment_classed)
 public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
-    SwipeRefreshLayout refresh;
+    MySwipRefreshView refresh;
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
     @InjectView(R.id.fl_right)
@@ -191,7 +191,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
         final Calendar instance = Calendar.getInstance();
         material_calendar.setSelectedDate(instance.getTime());
-
+        material_calendar.removeDecorators();
         Calendar instance1 = Calendar.getInstance();
         instance1.set(instance1.get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
 
@@ -206,7 +206,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 //设置日历的长和宽间距
         material_calendar.setTileWidthDp(50);
         material_calendar.setTileHeightDp(38);
-        material_calendar.removeDecorators();
         material_calendar.setShowOtherDates(0);
 
     }
@@ -248,6 +247,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未审核");
@@ -255,6 +255,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     reset_time.setText("已审核");
                                 }
                             } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未复测");
@@ -274,9 +275,30 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 todayactModels.addAll(activitydataModel.getList_Activity());
                                 actRecyclerAdapter.notifyDataSetChanged();
                             }
+                            for (int n = 0; n < calendarModels.size(); n++) {
+                                if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
+                                    if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.VISIBLE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
+                                        if (todayactModels != null && todayactModels.size()>0) {
+                                            list_activity.setVisibility(View.VISIBLE);
+                                        } else {
+                                            list_activity.setVisibility(View.GONE);
+                                        }
 
+                                        ll_fuce.setVisibility(View.VISIBLE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
                             //复测与活动的显示
-                            displaydata();
+//                            displaydata();
                         }
 
                     }
@@ -288,30 +310,9 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         EventBus.getDefault().register(this);
     }
 
-    private void displaydata() {
-        for (int n = 0; n < calendarModels.size(); n++) {
-            if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
-                if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
-                    ll_fuce.setVisibility(View.GONE);
-                    list_activity.setVisibility(View.VISIBLE);
-                } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
-                    if (todayactModels != null) {
-                        list_activity.setVisibility(View.VISIBLE);
-                    } else {
-                        list_activity.setVisibility(View.GONE);
-                    }
-
-                    ll_fuce.setVisibility(View.VISIBLE);
-                } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
-                    ll_fuce.setVisibility(View.GONE);
-                    list_activity.setVisibility(View.GONE);
-                } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
-                    ll_fuce.setVisibility(View.GONE);
-                    list_activity.setVisibility(View.GONE);
-                }
-            }
-        }
-    }
+//    private void displaydata() {
+//
+//    }
 
     @Override
     public void onDestroyView() {
@@ -362,6 +363,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 fl_right.setVisibility(View.VISIBLE);
                                 fl_right.setEnabled(true);
                                 reset_name.setText("复测审核");
@@ -372,6 +374,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 }
                             }
                             if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -382,6 +385,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 }
                             }
                             if (Constants.COACH == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -392,6 +396,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 }
                             }
                             if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -455,7 +460,30 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             }
 
 //复测与活动的显示
-                            displaydata();
+
+                            for (int n = 0; n < calendarModels.size(); n++) {
+                                if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
+                                    if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.VISIBLE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
+                                        if (todayactModels != null && !todayactModels.isEmpty()) {
+                                            list_activity.setVisibility(View.VISIBLE);
+                                        } else {
+                                            list_activity.setVisibility(View.GONE);
+                                        }
+
+                                        ll_fuce.setVisibility(View.VISIBLE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
+                                        ll_fuce.setVisibility(View.GONE);
+                                        list_activity.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+//                            displaydata();
                         }
 
                     }

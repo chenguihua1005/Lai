@@ -6,6 +6,7 @@
 package com.softtek.lai.module.message2.view;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -130,7 +131,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
             Picasso.with(this).load(R.drawable.img_default).into(head_image);
         } else {
-            Picasso.with(this).load(AddressManager.get("photoHost")+show.getClassMasterPhoto()).fit()
+            Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).fit()
                     .error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(head_image);
         }
@@ -163,46 +164,105 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.btn_yes:
                 dialogShow();
-                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
-                        msgId,
-                        1,
-                        introducerId,
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
+                final String str2 = getResources().getString(R.string.Has_agreed_to);
+                final String str3 = getResources().getString(R.string.Agree_with_failure);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//莱后台请求
+                            service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                                    msgId,
+                                    1,
+                                    introducerId,
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            dialogDissmiss();
+                                            if (responseData.getStatus() == 200) {
+                                                setResult(RESULT_OK);
+                                                finish();
 
-                                if (responseData.getStatus() == 200) {
-                                    //换信加入群 show
-//                                    EMClient.getInstance().groupManager().joinGroup(groupid);
-//                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
-                                    try {
-                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "  show.getClassMasterHxId() = " + String.valueOf(show.getClassMasterHxId()));
-//                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                        //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
-//                                        EMClient.getInstance().groupManager().applyJoinToGroup(show.getClassHxGroupId(), "求加入");//需异步处理
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                                ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Util.toastMsg(str2);
+                                                    }
+                                                });
+                                            } else {// 此时需要环信剔除处理
+                                                try {
+//                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
+                                                    EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
+                                                } catch (HyphenateException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
 
-                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    } catch (HyphenateException e) {
-                                        Util.toastMsg("同意失败:" + e.getMessage());
-                                        e.printStackTrace();
-                                    }finally {
-                                        dialogDissmiss();
-                                    }
-                                }else {
-                                    dialogDissmiss();
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            dialogDissmiss();
+                                            super.failure(error);
+                                        }
+                                    });
+
+
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Util.toastMsg(str3);
                                 }
-                            }
+                            });
+                        } finally {
+                            dialogDissmiss();
+                        }
+                    }
+                }).start();
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                dialogDissmiss();
-                                super.failure(error);
-                            }
-                        });
+
+//                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+//                        msgId,
+//                        1,
+//                        introducerId,
+//                        new RequestCallback<ResponseData>() {
+//                            @Override
+//                            public void success(ResponseData responseData, Response response) {
+//
+//                                if (responseData.getStatus() == 200) {
+//                                    //换信加入群 show
+////                                    EMClient.getInstance().groupManager().joinGroup(groupid);
+////                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
+//                                    try {
+//                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "  show.getClassMasterHxId() = " + String.valueOf(show.getClassMasterHxId()));
+////                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
+////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                                        //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+////                                        EMClient.getInstance().groupManager().applyJoinToGroup(show.getClassHxGroupId(), "求加入");//需异步处理
+////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                                        setResult(RESULT_OK);
+//                                        finish();
+//                                    } catch (HyphenateException e) {
+//                                        Util.toastMsg("同意失败:" + e.getMessage());
+//                                        e.printStackTrace();
+//                                    }finally {
+//                                        dialogDissmiss();
+//                                    }
+//                                }else {
+//                                    dialogDissmiss();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                dialogDissmiss();
+//                                super.failure(error);
+//                            }
+//                        });
                 break;
             case R.id.btn_no:
                 dialogShow();
