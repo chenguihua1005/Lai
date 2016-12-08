@@ -1,10 +1,13 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by shelly.xu on 11/21/2016.
  */
 
-public class ClassModel {
+public class ClassModel{
     private String ClassId;
     private String ClassName;
     private String ClassCode;
@@ -73,4 +76,6 @@ public class ClassModel {
                 ", ClassWeek='" + ClassWeek + '\'' +
                 '}';
     }
+
+
 }

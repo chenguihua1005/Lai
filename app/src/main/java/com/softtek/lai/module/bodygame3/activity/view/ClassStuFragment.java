@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -87,7 +88,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner2 tv_title;
+    ArrowSpinner3 tv_title;
     @InjectView(R.id.list_activity)
     RecyclerView list_activity;
     @InjectView(R.id.material_calendar)
@@ -178,7 +179,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
             }
         });
 
-
         //日历
         material_calendar.setOnDateChangedListener(this);
 //        material_calendar.setDatepageChangeListener(this);
@@ -243,6 +243,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未审核");
@@ -250,6 +251,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                     reset_time.setText("已审核");
                                 }
                             } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未复测");
@@ -357,6 +359,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                             }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 fl_right.setVisibility(View.VISIBLE);
                                 fl_right.setEnabled(true);
                                 reset_name.setText("复测审核");
@@ -367,6 +370,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 }
                             }
                             if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -377,6 +381,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 }
                             }
                             if (Constants.COACH == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);
@@ -387,6 +392,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 }
                             }
                             if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
                                 fl_right.setEnabled(false);
                                 iv_right.setVisibility(View.GONE);

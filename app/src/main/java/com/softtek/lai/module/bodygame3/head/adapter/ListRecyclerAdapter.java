@@ -97,7 +97,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      int position=holder.getPosition();
+                      int position=holder.getAdapterPosition();
                         mOnItemClickListener.onItemClick(holder.itemView,position);
                     }
                 });
