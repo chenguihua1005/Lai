@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -43,7 +43,6 @@ import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.ResetDecorator;
-import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -87,7 +86,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner2 tv_title;
+    ArrowSpinner3 tv_title;
     @InjectView(R.id.list_activity)
     RecyclerView list_activity;
     @InjectView(R.id.material_calendar)

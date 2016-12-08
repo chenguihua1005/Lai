@@ -17,7 +17,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,7 +37,6 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRowText;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowVideo;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowVoice;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
-import com.hyphenate.exceptions.HyphenateException;
 
 public class EaseMessageAdapter extends BaseAdapter {
     private static final String TAG = "EaseMessageAdapter";
@@ -270,11 +268,11 @@ public class EaseMessageAdapter extends BaseAdapter {
 //        name=message.getStringAttribute("nickname");
 //        avatar=message.getStringAttribute("avatarURL");
 
-        try {
-            Log.i(TAG, "message   name =" + message.getStringAttribute("nickname") + " avatar = " + message.getStringAttribute("avatarURL"));
-        } catch (HyphenateException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Log.i(TAG, "message   name =" + message.getStringAttribute("nickname") + " avatar = " + message.getStringAttribute("avatarURL"));
+//        } catch (HyphenateException e) {
+//            e.printStackTrace();
+//        }
         if (convertView == null) {
             convertView = createChatRow(context, message, position);
         }
