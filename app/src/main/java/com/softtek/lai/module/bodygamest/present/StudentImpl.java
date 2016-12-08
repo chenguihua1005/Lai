@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
+import com.softtek.lai.module.bodygamest.adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.HnumsModel;

@@ -76,6 +76,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -324,6 +325,10 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
             tv_right.setText("编辑");
             footer.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
+            return true;
+        }else if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

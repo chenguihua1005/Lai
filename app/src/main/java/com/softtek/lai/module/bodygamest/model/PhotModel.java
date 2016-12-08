@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygame2pc.model;
+package com.softtek.lai.module.bodygamest.model;
 
 /**
  * Created by julie.zhu on 3/25/2016.
