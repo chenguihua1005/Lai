@@ -5,8 +5,10 @@
     android:gravity="center"
     android:orientation="horizontal">
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -24,5 +26,13 @@
             android:layout_marginTop="3dp"
             android:text="班级群" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/shuxian"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/word2"></View>
 
 </LinearLayout>

@@ -175,7 +175,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             } else {
                 Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
             }
-            holder.avatar.setShapeType(1);
+//            holder.avatar.setShapeType(1);
         }
 
         if (conversation.getUnreadMsgCount() > 0) {

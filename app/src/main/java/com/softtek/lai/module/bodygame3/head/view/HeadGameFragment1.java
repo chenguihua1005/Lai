@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -30,6 +32,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
@@ -65,9 +68,10 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_head_game_fragment1)
-public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener {
+public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
     MySwipRefreshView refresh;
     @InjectView(R.id.appbar)
@@ -137,20 +141,18 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private ArrayList<String> photos = new ArrayList<>();
     EasyAdapter<String> adapter;
     private ClassModel classModel;
-   private ListRecyclerAdapter partneradapter;
+    private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
     private ProgressDialog progressDialog;
     private DeleteClass deleteClass;
+    private static final int LOADCOUNT = 10;
+    private int page = 1;
+
     @Override
     protected void lazyLoad() {
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getallfirst();
-
-            }
-        });
+        refresh.setRefreshing(true);
+        getallfirst();
     }
 
     @Override
@@ -165,6 +167,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         week_rel.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
+        refresh.setOnRefreshListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -186,15 +189,25 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                int count = partneradapter.getItemCount();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
+                    //加载更多数据
+                    page++;
+                    updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+
+                }
+
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager llm= (LinearLayoutManager) recyclerView.getLayoutManager();
-                lastVisitableItem=llm.findLastVisibleItemPosition();
+                LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
+                lastVisitableItem = llm.findLastVisibleItemPosition();
             }
         });
     }
+
     @Override
     protected void initDatas() {
         gethasemail();
@@ -223,36 +236,24 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 typecode = datas.get(i).getTypecode();
-                updatepartner(typecode, 100, 1);//按类型分页加载小伙伴
+                updatepartner(typecode, 10, 1);//按类型分页加载小伙伴
             }
         });
-        partneradapter=new ListRecyclerAdapter(getContext(),partnersModels);
+        partneradapter = new ListRecyclerAdapter(getContext(), partnersModels);
         list_partner.setAdapter(partneradapter);
         getallfirst();//获取初始数据
-partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
-    @Override
-    public void onItemClick(View view, PartnersModel position) {
-                String stu_id=position.getAccountId();
-                int stu_ids=Integer.parseInt(stu_id);
-                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
-                intent.putExtra("AccountId",stu_ids);
-                intent.putExtra("ClassId",classId_first);
+        partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                PartnersModel partnersModel = partnersModels.get(position);
+                String stu_id = partnersModel.getAccountId();
+                long stu_ids = Long.parseLong(stu_id);
+                Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+                intent.putExtra("AccountId", stu_ids);
+                intent.putExtra("ClassId", classId_first);
                 startActivity(intent);
-    }
-});
-//        partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, PartnersModel position) {
-//                PartnersModel partnersModel=partnersModels.get(position);
-//                String stu_id=partnersModel.getAccountId();
-//                int stu_ids=Integer.parseInt(stu_id);
-//                Intent intent=new Intent(getContext(),PersonDetailActivity.class);
-//                intent.putExtra("AccountId",stu_ids);
-//                intent.putExtra("ClassId",classId_first);
-//                startActivity(intent);
-//            }
-//
-//        });
+            }
+        });
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -422,7 +423,7 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
-//                Util.toastMsg(classinfoModelResponseData.getMsg());
+                refresh.setRefreshing(false);
                 if (classinfoModelResponseData.getData() != null) {
                     final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
                     //班级加载
@@ -477,12 +478,12 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
 
                         if (!TextUtils.isEmpty(rongyuModel.getStuPhoto())) {
                             Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto())
-                            .fit().error(R.drawable.img_default)
+                                    .fit().error(R.drawable.img_default)
                                     .placeholder(R.drawable.img_default).into(studenticon);
-                        }else {
+                        } else {
                             Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
                         }
-                        if(!TextUtils.isEmpty(rongyuModel.getLossPre())){
+                        if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                             student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
                         }
                         student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
@@ -491,9 +492,9 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
                     //班级赛况
                     if (classinfoModel.getPartnersList() != null) {
                         partnersModels.clear();
-                        Log.e("234",classinfoModel.getPartnersList().toString());
+                        Log.e("234", classinfoModel.getPartnersList().toString());
                         partnersModels.addAll(classinfoModel.getPartnersList());
-                       partneradapter.notifyDataSetChanged();
+                        partneradapter.notifyDataSetChanged();
 
                     }
 
@@ -584,6 +585,7 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
 
             @Override
             public void failure(RetrofitError error) {
+                refresh.setRefreshing(false);
                 super.failure(error);
             }
         });
@@ -612,6 +614,8 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.searchContent:
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 Intent intent = new Intent(getContext(), PantnerActivity.class);
                 intent.putExtra("classId_first", classId_first);
                 startActivity(intent);
@@ -662,20 +666,27 @@ partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItem
                 }
             }
 
-            if(classModels.isEmpty()){
-                if(deleteClass!=null){
+            if (classModels.isEmpty()) {
+                if (deleteClass != null) {
                     deleteClass.deletClass(0);
                 }
-            }else {
+            } else {
                 tv_title.setSelected(0);
-                this.classModel=classModels.get(0);
+                this.classModel = classModels.get(0);
 
             }
 
         }
 
     }
-    public interface DeleteClass{
+
+    @Override
+    public void onRefresh() {
+        getallfirst();
+        refresh.setRefreshing(false);
+    }
+
+    public interface DeleteClass {
         void deletClass(int classCount);
     }
 }

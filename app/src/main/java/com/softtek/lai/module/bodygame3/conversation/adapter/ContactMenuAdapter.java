@@ -55,6 +55,9 @@ public class ContactMenuAdapter extends BaseAdapter {
 
         holder.menu_icon.setImageResource(menu_icons[i]);
         holder.menu_name.setText(menu_names[i]);
+        if (2 == i) {
+            holder.shuxian.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -63,9 +66,11 @@ public class ContactMenuAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
             menu_name = (TextView) view.findViewById(R.id.menu_name);
+            shuxian = view.findViewById(R.id.shuxian);
         }
 
         ImageView menu_icon;
         TextView menu_name;
+        View shuxian;
     }
 }
