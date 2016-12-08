@@ -13,13 +13,8 @@ import android.widget.ListView;
  */
 public interface IStudentPresenter {
 
-    //Sp邀请学员参赛学员列表
-    void getNotInvitePC(String classid, String spaccid, ListView list_student);
-
     //发送邀请
     void sendInviterMsg(String inviters, String classId, ImageView img_invite);
 
-    //班级是否可以邀请学员
-    void classInvitePCISOK(String classid,String type);
 
 }

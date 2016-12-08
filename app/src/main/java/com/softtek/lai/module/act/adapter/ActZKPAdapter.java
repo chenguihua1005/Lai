@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.softtek.lai.R;
 import com.softtek.lai.module.act.model.ActZKP1Model;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,7 +33,6 @@ public class ActZKPAdapter extends BaseAdapter {
     private List<ActZKP1Model> list;
 
     private Context context;
-    private IAssistantPresenter assistantPresenter;
     String type;
     float target_distance;
 
