@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
+import com.softtek.lai.module.bodygamest.adapter.StudentHonorJZAdapter;
+import com.softtek.lai.module.bodygamest.adapter.StudentHonorStarAdapter;
+import com.softtek.lai.module.bodygamest.adapter.StudentHonorYGJAdapter;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**

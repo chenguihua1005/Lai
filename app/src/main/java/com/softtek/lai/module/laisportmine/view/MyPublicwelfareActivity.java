@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laisportmine.view;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -157,6 +158,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.ll_left:
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
@@ -196,6 +198,15 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
         return false;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void deleteMsg(String type) {
         if ("true".equals(type)) {
