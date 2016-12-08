@@ -33,26 +33,26 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.base_fragment)
-public class ActivityRecordFragment extends BaseFragment  {
+public class ActivityRecordFragment extends BaseFragment {
 
     @InjectView(R.id.ptrrv)
     RecyclerView ptrrv;
 
-    private List<HomeInfoModel> infos=new ArrayList<>();
+    private List<HomeInfoModel> infos = new ArrayList<>();
 
     private IHomeInfoPresenter homeInfoPresenter;
 
     int page = 1;
 
     private LoadMoreRecyclerViewAdapter adapter;
-    private static final int LOADCOUNT=5;
+    private static final int LOADCOUNT = 5;
     private int lastVisitableItem;
-    private boolean isLoading=false;
+    private boolean isLoading = false;
 
-    public static ActivityRecordFragment getInstance(ArrayList<HomeInfoModel> records){
-        Bundle data=new Bundle();
-        data.putParcelableArrayList("datas",records);
-        ActivityRecordFragment fragment=new ActivityRecordFragment();
+    public static ActivityRecordFragment getInstance(ArrayList<HomeInfoModel> records) {
+        Bundle data = new Bundle();
+        data.putParcelableArrayList("datas", records);
+        ActivityRecordFragment fragment = new ActivityRecordFragment();
         fragment.setArguments(data);
         return fragment;
     }
@@ -65,13 +65,13 @@ public class ActivityRecordFragment extends BaseFragment  {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int count=adapter.getItemCount();
-                if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
-                    if(!isLoading){
-                        isLoading=true;
+                int count = adapter.getItemCount();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
+                    if (!isLoading) {
+                        isLoading = true;
                         //加载更多数据
                         page++;
-                        homeInfoPresenter.getContentByPage( page, Constants.ACTIVITY_RECORD);
+                        homeInfoPresenter.getContentByPage(page, Constants.ACTIVITY_RECORD);
                     }
                 }
             }
@@ -79,8 +79,8 @@ public class ActivityRecordFragment extends BaseFragment  {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
-                lastVisitableItem=llm.findLastVisibleItemPosition();
+                LinearLayoutManager llm = (LinearLayoutManager) ptrrv.getLayoutManager();
+                lastVisitableItem = llm.findLastVisibleItemPosition();
             }
         });
 
@@ -94,14 +94,14 @@ public class ActivityRecordFragment extends BaseFragment  {
         /*page=1;
         Bundle bundle=getArguments();
         infos=bundle.getParcelableArrayList("datas");*/
-        adapter=new LoadMoreRecyclerViewAdapter(getContext(),infos);
+        adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         adapter.setOnItemClickListener(new LoadMoreRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(),ArticalDetailActivity.class);
+                Intent intent = new Intent(getContext(), ArticalDetailActivity.class);
                 intent.putExtra("info", (Parcelable) infos.get(position));
-                intent.putExtra("title","活动推荐");
+                intent.putExtra("title", "活动推荐");
                 startActivity(intent);
             }
         });
@@ -117,10 +117,10 @@ public class ActivityRecordFragment extends BaseFragment  {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshView(ActivityEvent activity) {
-        isLoading=false;
+        isLoading = false;
         adapter.notifyItemRemoved(adapter.getItemCount());
-        if(activity.activitys==null||activity.activitys.isEmpty()){
-            page=--page<1?1:page;
+        if (activity.activitys == null || activity.activitys.isEmpty()) {
+            page = --page < 1 ? 1 : page;
             return;
         }
         //插入上次数据的末尾
@@ -128,17 +128,17 @@ public class ActivityRecordFragment extends BaseFragment  {
         adapter.notifyDataSetChanged();
     }
 
-    public void updateInfo(List<HomeInfoModel> records){
-        page=1;
-        if(infos==null){
-            infos=new ArrayList<>();
-        }else{
+    public void updateInfo(List<HomeInfoModel> records) {
+        page = 1;
+        if (infos == null) {
+            infos = new ArrayList<>();
+        } else {
             infos.clear();
         }
         infos.addAll(records);
-        if(adapter==null){
+        if (adapter == null) {
             adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
-            if(ptrrv!=null){
+            if (ptrrv != null) {
                 ptrrv.setAdapter(adapter);
             }
         }
