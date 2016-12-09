@@ -189,15 +189,15 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         final String password = et_password.getText().toString();
 
 
-        Log.i(TAG, "HXAccountId =" + MD5.md5WithEncoder(phoneNum));
+        Log.i(TAG, "HXAccountId =" + MD5.md5WithEncoder(phoneNum).toLowerCase());
         // 欢心环信注册
         new Thread(new Runnable() {
             @Override
             public void run() {
                 // call method in SDK
                 try {
-                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum), "HBL_SOFTTEK#321");
-                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum), et_identify);
+                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
+                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }

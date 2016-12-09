@@ -131,32 +131,36 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             }
         });
 
-        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole())==Constants.SP) {
-            if(UserInfoModel.getInstance().getUser().getDoingClass()==0){
+        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
+            if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
                 lin_nostart.setVisibility(View.VISIBLE);
                 sp_tv.setVisibility(View.GONE);
                 pc_tv.setVisibility(View.GONE);
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(this);
             }
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
                 lin_nostart.setVisibility(View.GONE);
                 sp_tv.setVisibility(View.VISIBLE);
                 pc_tv.setVisibility(View.GONE);
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(this);
+            }
 
         } else {
-            if(UserInfoModel.getInstance().getUser().getDoingClass()==0){
+            if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
                 lin_nostart.setVisibility(View.VISIBLE);
                 sp_tv.setVisibility(View.GONE);
                 pc_tv.setVisibility(View.VISIBLE);
                 button.setVisibility(View.GONE);
             }
-            lin_nostart.setVisibility(View.GONE);
-            sp_tv.setVisibility(View.GONE);
-            pc_tv.setVisibility(View.VISIBLE);
-            button.setVisibility(View.GONE);
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
 
+                lin_nostart.setVisibility(View.GONE);
+                sp_tv.setVisibility(View.GONE);
+                pc_tv.setVisibility(View.VISIBLE);
+                button.setVisibility(View.GONE);
+            }
         }
 
         progressDialog = new ProgressDialog(getActivity());
@@ -353,8 +357,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 }
                 break;
             case R.id.button:
-                Intent intent=new Intent(getContext(), CreateClassActivity.class);
+                Intent intent = new Intent(getContext(), CreateClassActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }
@@ -369,6 +374,11 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             }
 
 
+        } else if (clazz.getModel().getClassStatus() == 0) {
+            lin_nostart.setVisibility(View.VISIBLE);
+            sp_tv.setVisibility(View.GONE);
+            pc_tv.setVisibility(View.GONE);
+            button.setVisibility(View.VISIBLE);
         }
     }
 

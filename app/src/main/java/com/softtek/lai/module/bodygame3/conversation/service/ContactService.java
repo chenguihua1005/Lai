@@ -119,5 +119,13 @@ public interface ContactService {
             Callback<ResponseData> callback
     );
 
+    //获取班级详情（环信群ID）
+    @GET("/v1/HerbalifeClass/GetClassByHxGroupId")
+    void getClassByHxGroupId(
+            @Header("token") String token,
+            @Query("hxGroupId") String hxGroupId,
+            Callback<ResponseData<ContactClassModel>> callback
+    );
+
 
 }

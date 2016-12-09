@@ -199,7 +199,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 });
                 break;
             case R.id.tv_invitation:
-                dialogShow();
+                dialogShow(getResources().getString(R.string.Is_sending_a_request));
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -214,29 +214,18 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                             invitation,
                                             new RequestCallback<ResponseData>() {
                                                 @Override
-                                                public void success(ResponseData responseData, Response response) {
+                                                public void success(final ResponseData responseData, final Response response) {
                                                     dialogDissmiss();
                                                     if (responseData.getStatus() == 200) {
-                                                        //环信发申请
-                                                        //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg("成功发送邀请！");
 
+                                                            }
+                                                        });
 
-//                                                        new Thread(new Runnable() {
-//                                                            @Override
-//                                                            public void run() {
-//                                                                String[] inviterHXIds = {inviterHXId};
-////                                                    EMClient.getInstance().groupManager().applyJoinToGroup(classInvitater.getClassGroupHxId(), "求加入");//需异步处理
-//                                                                try {//群主加人调用此方法
-//                                                                    EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-////                                                        EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
-//                                                                } catch (HyphenateException e) {
-//                                                                    e.printStackTrace();
-//                                                                }
-//                                                            }
-//                                                        }).start();
-
-
-                                                        //邀请成功
                                                         InvitatedContact contact = new InvitatedContact();
                                                         contact.setClassRole(invitation.getClassRole());
                                                         contact.setInviterCertification("");
@@ -251,21 +240,43 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                         Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
                                                         intent.putExtra("invitater", contact);
                                                         startActivity(intent);
+                                                    } else {
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg(responseData.getMsg());
+                                                            }
+                                                        });
+
                                                     }
-                                                    Util.toastMsg(responseData.getMsg());
                                                 }
 
                                                 @Override
                                                 public void failure(RetrofitError error) {
-                                                    dialogDissmiss();
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            dialogDissmiss();
+                                                            Util.toastMsg(getResources().getString(R.string.Add_group_members_fail));
+
+                                                        }
+                                                    });
                                                     super.failure(error);
                                                 }
                                             });
 
                             //莱后台请求
-                        } catch (HyphenateException e) {
+                        } catch (final HyphenateException e) {
                             e.printStackTrace();
-                            Util.toastMsg("邀请失败！");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialogDissmiss();
+                                    Util.toastMsg(getResources().getString(R.string.Add_group_members_fail) + e.getMessage());
+
+                                }
+                            });
                         }
                     }
                 }).start();

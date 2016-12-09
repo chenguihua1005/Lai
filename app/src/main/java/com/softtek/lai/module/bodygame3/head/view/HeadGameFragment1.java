@@ -190,9 +190,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
+//        progressDialog = new ProgressDialog(getActivity());
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setMessage("加载中");
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

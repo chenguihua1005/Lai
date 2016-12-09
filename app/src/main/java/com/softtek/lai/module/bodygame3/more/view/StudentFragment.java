@@ -30,6 +30,8 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
+import static com.softtek.lai.R.id.rl_exit;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -58,6 +60,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         rl_level.setOnClickListener(this);
         RelativeLayout rl_media = (RelativeLayout) view.findViewById(R.id.rl_media);
         rl_media.setOnClickListener(this);
+        RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
+        rl_exit.setOnClickListener(this);
 
     }
 
@@ -73,7 +77,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
             }
             break;
-            case R.id.rl_exit: {
+            case rl_exit: {
                 new AlertDialog.Builder(getContext())
                         .setTitle("注意")
                         .setMessage("此操作将会从当前班级中退出")
@@ -121,7 +125,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                     }
                                 }).start();
                             }
-                        }).show();
+                        }).create().show();
             }
             break;
         }
