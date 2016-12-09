@@ -163,6 +163,7 @@
     <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
     <string name="noclass">您尚未加入班级，可以搜索加入班级\n或者创建一个新班级</string>
     <string name="noclass1">您尚未加入班级，可以搜索加入班级</string>
+    <string name="sptext"></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
