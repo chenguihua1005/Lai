@@ -69,8 +69,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        Bundle bundle=getIntent().getBundleExtra("class");
-        model=bundle.getParcelable("class");
+        model=getIntent().getParcelableExtra("class");
         adapter=new InvitatedExpandableAdapter(this,datas,groups);
         lv.getRefreshableView().setAdapter(adapter);
 
