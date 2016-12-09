@@ -1,8 +1,10 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -12,9 +14,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -24,11 +28,16 @@ import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
+import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +61,8 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_head_game)
 public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+    @InjectView(R.id.appbar)
+    AppBarLayout appbar;
     @InjectView(R.id.tv_totalperson)
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
@@ -76,43 +87,81 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView pc_tv;
     @InjectView(R.id.sp_tv)
     TextView sp_tv;
+    @InjectView(R.id.lin_nostart)
+    LinearLayout lin_nostart;
     Animation roate;
     HeadService service;
     private List<ClasslistModel> classlistModels = new ArrayList<ClasslistModel>();
     private List<ClasslistModel> classlistModels_temp = new ArrayList<ClasslistModel>();
+    private AddClass addClass;
+    private ProgressDialog progressDialog;
 
+    public static HeadGameFragment getInstance(AddClass addClass) {
+        HeadGameFragment fragment = new HeadGameFragment();
+        fragment.setAddClass(addClass);
+        return fragment;
+    }
+
+    public void setAddClass(AddClass addClass) {
+        this.addClass = addClass;
+    }
 
     @Override
     protected void lazyLoad() {
-        pull.post(new Runnable() {
-            @Override
-            public void run() {
-                pull.setRefreshing(true);
-            }
-        });
-        onRefresh();
+        pull.setRefreshing(true);
+        secondhead2();
     }
 
     @Override
     protected void initViews() {
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-//        if (DisplayUtil.getSDKInt() > 18) {
-//            int status = DisplayUtil.getStatusHeight(getActivity());
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) relativeLayout.getLayoutParams();
-//            params.topMargin = status;
-//            relativeLayout.setLayoutParams(params);
-//        }
+        pull.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset >= 0) {
+                    pull.setEnabled(true);
+                } else {
+                    pull.setEnabled(false);
+                }
+            }
+        });
 
-        if (UserInfoModel.getInstance().getRole().getSp().equals(String.valueOf(Constants.SP))) {
+        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole())==Constants.SP) {
+            if(UserInfoModel.getInstance().getUser().getDoingClass()==0){
+                lin_nostart.setVisibility(View.VISIBLE);
+                sp_tv.setVisibility(View.GONE);
+                pc_tv.setVisibility(View.GONE);
+                button.setVisibility(View.VISIBLE);
+                button.setOnClickListener(this);
+            }
+                lin_nostart.setVisibility(View.GONE);
+                sp_tv.setVisibility(View.VISIBLE);
+                pc_tv.setVisibility(View.GONE);
+                button.setVisibility(View.VISIBLE);
+                button.setOnClickListener(this);
+
+        } else {
+            if(UserInfoModel.getInstance().getUser().getDoingClass()==0){
+                lin_nostart.setVisibility(View.VISIBLE);
+                sp_tv.setVisibility(View.GONE);
+                pc_tv.setVisibility(View.VISIBLE);
+                button.setVisibility(View.GONE);
+            }
+            lin_nostart.setVisibility(View.GONE);
             sp_tv.setVisibility(View.GONE);
             pc_tv.setVisibility(View.VISIBLE);
-            button.setVisibility(View.VISIBLE);
-        } else {
-            sp_tv.setVisibility(View.VISIBLE);
-            pc_tv.setVisibility(View.GONE);
             button.setVisibility(View.GONE);
+
         }
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("加载中");
         pull.setOnRefreshListener(this);
         search_btn.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
@@ -121,38 +170,19 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     }
 
-    private void secondhead2() {
-        pull.setRefreshing(false);
-
-        service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
-            @Override
-            public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
-//                Util.toastMsg(headModel2ResponseData.getMsg());
-                if (headModel2ResponseData.getData() != null) {
-                    HeadModel2 model2 = headModel2ResponseData.getData();
-                    tv_totalperson.setText(model2.getTotalPerson() + "");
-                    tv_total_loss.setText(model2.getTotalLossWeight() + "");
-                    String basePath = AddressManager.get("photoHost");
-                    //首页banner
-                    if (StringUtils.isNotEmpty(model2.getThemePic())) {
-                        Picasso.with(getContext()).load(basePath + model2.getThemePic()).placeholder(R.drawable.default_icon_rect)
-                                .error(R.drawable.default_icon_rect).into(iv_banner);
-                    }
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
-            }
-        });
-    }
 
     @Override
     protected void initDatas() {
         roate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
         hasemail();
         secondhead2();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void hasemail() {
@@ -172,9 +202,42 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         });
     }
 
+    private void secondhead2() {
+        pull.setRefreshing(false);
+
+        service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
+            @Override
+            public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
+                progressDialog.dismiss();
+//                Util.toastMsg(headModel2ResponseData.getMsg());
+                if (headModel2ResponseData.getData() != null) {
+                    HeadModel2 model2 = headModel2ResponseData.getData();
+                    tv_totalperson.setText(model2.getTotalPerson() + "");
+                    tv_total_loss.setText(model2.getTotalLossWeight() + "");
+                    String basePath = AddressManager.get("photoHost");
+                    //首页banner
+                    if (StringUtils.isNotEmpty(model2.getThemePic())) {
+                        Picasso.with(getContext()).load(basePath + model2.getThemePic()).fit().placeholder(R.drawable.default_icon_rect)
+                                .error(R.drawable.default_icon_rect).into(iv_banner);
+                    } else {
+                        Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressDialog.dismiss();
+                super.failure(error);
+            }
+        });
+    }
+
 
     @Override
     public void onRefresh() {
+        secondhead2();
+        pull.setRefreshing(false);
 
     }
 
@@ -205,6 +268,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                                 if (StringUtils.isNotEmpty(model2.getThemePic())) {
                                                     Picasso.with(getContext()).load(basePath + model2.getThemePic()).placeholder(R.drawable.default_icon_rect)
                                                             .error(R.drawable.default_icon_rect).into(iv_banner);
+                                                } else {
+                                                    Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
                                                 }
                                             }
                                         } catch (Exception e) {
@@ -223,7 +288,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                 });
 
                             }
-                        }, 500);
+                        }, 5000);
                     }
 
                     @Override
@@ -257,7 +322,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                                 classlistModels_temp.add(model);
                                             }
                                         }
-                                        if (classlistModels_temp.size()>0){
+                                        if (classlistModels_temp.size() > 0) {
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);
                                             Bundle bundle = new Bundle();
                                             bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>) classlistModels_temp);
@@ -265,7 +330,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                             startActivity(intent);
                                             dialogDissmiss();
 
-                                        }else {
+                                        } else {
                                             dialogDissmiss();
                                             Util.toastMsg("暂无此班级");
                                             return;
@@ -286,20 +351,28 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                             });
 
                 }
-
-//                String content=searchContent.getText().toString().trim();
-//                service.getpartner(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUser().getUserid(), content, new Callback<ResponseData<PartnersModel>>() {
-//                    @Override
-//                    public void success(ResponseData<PartnersModel> partnersModelResponseData, Response response) {
-//
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//
-//                    }
-//                });
+                break;
+            case R.id.button:
+                Intent intent=new Intent(getContext(), CreateClassActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+    @Subscribe
+    public void updateClass(UpdateClass clazz) {
+        if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+            //添加新班级
+            Log.i("新增班级接受通知。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
+            if (addClass != null) {
+                addClass.addclass();
+            }
+
+
+        }
+    }
+
+    public interface AddClass {
+        void addclass();
     }
 }

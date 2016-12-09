@@ -19,6 +19,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -161,6 +162,7 @@ public interface HeadService {
             @Query("mobile")String mobile,
             Callback<ResponseData>callback
     );
+    //个人详情（环信id）
     //请求路径:Api/V1/HerbalifeClass/GetClassMemberInfoByHx
     @GET("/V1/HerbalifeClass/GetClassMemberInfoByHx")
     void doGetClassMemberInfoByHx(
@@ -170,5 +172,22 @@ public interface HeadService {
             @Query("classid")String classid,
             Callback<ResponseData<MemberInfoModel>> callback
     );
+    //关注接口
+    @POST("/HealthyCircle/FocusAccount")
+    void doFocusAccount(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("focusaccid")long focusaccid,
+            Callback<ResponseData>callback
+    );
+    //取消接口
+    @POST("/HealthyCircle/CancleFocusAccount")
+    void doCancleFocusAccount(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("focusaccid")long focusaccid,
+            Callback<ResponseData>callback
+    );
+
 
 }

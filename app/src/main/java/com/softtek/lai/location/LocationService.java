@@ -1,4 +1,4 @@
-package com.softtek.lai.locationservice;
+package com.softtek.lai.location;
 
 import android.app.Service;
 import android.content.Intent;
