@@ -41,7 +41,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy)
-public class HealthyFragment extends LazyBaseFragment{
+public class HealthyFragment extends LazyBaseFragment {
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -71,6 +71,7 @@ public class HealthyFragment extends LazyBaseFragment{
 
     @Override
     protected void initViews() {
+
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,4 +173,5 @@ public class HealthyFragment extends LazyBaseFragment{
             }
         }
     }
+
 }

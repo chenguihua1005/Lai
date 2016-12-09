@@ -199,61 +199,142 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 });
                 break;
             case R.id.tv_invitation:
-                dialogShow();
-                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                        .sendInviter(UserInfoModel.getInstance().getToken(),
-                                invitation,
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        dialogDissmiss();
-                                        if (responseData.getStatus() == 200) {
+                dialogShow(getResources().getString(R.string.Is_sending_a_request));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String[] inviterHXIds = {inviterHXId};
+                        try {//群主加人调用此方法
+                            Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
+                            EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+//                          EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
 
-                                            //环信发申请
-                                            //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
-                                            Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
-
-
-                                            new Thread(new Runnable() {
+                            ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                    .sendInviter(UserInfoModel.getInstance().getToken(),
+                                            invitation,
+                                            new RequestCallback<ResponseData>() {
                                                 @Override
-                                                public void run() {
-                                                    String[] inviterHXIds = {inviterHXId};
-//                                                    EMClient.getInstance().groupManager().applyJoinToGroup(classInvitater.getClassGroupHxId(), "求加入");//需异步处理
-                                                    try {//群主加人调用此方法
-                                                        EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-//                                                        EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
-                                                    } catch (HyphenateException e) {
-                                                        e.printStackTrace();
+                                                public void success(final ResponseData responseData, final Response response) {
+                                                    dialogDissmiss();
+                                                    if (responseData.getStatus() == 200) {
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg("成功发送邀请！");
+
+                                                            }
+                                                        });
+
+                                                        InvitatedContact contact = new InvitatedContact();
+                                                        contact.setClassRole(invitation.getClassRole());
+                                                        contact.setInviterCertification("");
+                                                        contact.setInviterId((int) invitation.getInviterId());
+                                                        contact.setInviterMobile(classInvitater.getInviterMobile());
+                                                        contact.setInviterPhoto(classInvitater.getInviterPhoto());
+                                                        contact.setInviterStatus(0);
+                                                        contact.setMessageId("0");
+                                                        contact.setInviterUserName(classInvitater.getInviterName());
+                                                        contact.setJoinGroupId(invitation.getClassGroupId());
+                                                        contact.setJoinGroupName(tv_group_name.getText().toString());
+                                                        Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+                                                        intent.putExtra("invitater", contact);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg(responseData.getMsg());
+                                                            }
+                                                        });
+
                                                     }
                                                 }
-                                            }).start();
 
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            dialogDissmiss();
+                                                            Util.toastMsg(getResources().getString(R.string.Add_group_members_fail));
 
-                                            //邀请成功
-                                            InvitatedContact contact = new InvitatedContact();
-                                            contact.setClassRole(invitation.getClassRole());
-                                            contact.setInviterCertification("");
-                                            contact.setInviterId((int) invitation.getInviterId());
-                                            contact.setInviterMobile(classInvitater.getInviterMobile());
-                                            contact.setInviterPhoto(classInvitater.getInviterPhoto());
-                                            contact.setInviterStatus(0);
-                                            contact.setMessageId("0");
-                                            contact.setInviterUserName(classInvitater.getInviterName());
-                                            contact.setJoinGroupId(invitation.getClassGroupId());
-                                            contact.setJoinGroupName(tv_group_name.getText().toString());
-                                            Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
-                                            intent.putExtra("invitater", contact);
-                                            startActivity(intent);
-                                        }
-                                        Util.toastMsg(responseData.getMsg());
-                                    }
+                                                        }
+                                                    });
+                                                    super.failure(error);
+                                                }
+                                            });
 
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        dialogDissmiss();
-                                        super.failure(error);
-                                    }
-                                });
+                            //莱后台请求
+                        } catch (final HyphenateException e) {
+                            e.printStackTrace();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialogDissmiss();
+                                    Util.toastMsg(getResources().getString(R.string.Add_group_members_fail) + e.getMessage());
+
+                                }
+                            });
+                        }
+                    }
+                }).start();
+
+//                ZillaApi.NormalRestAdapter.create(MoreService.class)
+//                        .sendInviter(UserInfoModel.getInstance().getToken(),
+//                                invitation,
+//                                new RequestCallback<ResponseData>() {
+//                                    @Override
+//                                    public void success(ResponseData responseData, Response response) {
+//                                        dialogDissmiss();
+//                                        if (responseData.getStatus() == 200) {
+//
+//                                            //环信发申请
+//                                            //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+//                                            Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
+//
+//
+//                                            new Thread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    String[] inviterHXIds = {inviterHXId};
+////                                                    EMClient.getInstance().groupManager().applyJoinToGroup(classInvitater.getClassGroupHxId(), "求加入");//需异步处理
+//                                                    try {//群主加人调用此方法
+//                                                        EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+////                                                        EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
+//                                                    } catch (HyphenateException e) {
+//                                                        e.printStackTrace();
+//                                                    }
+//                                                }
+//                                            }).start();
+//
+//
+//                                            //邀请成功
+//                                            InvitatedContact contact = new InvitatedContact();
+//                                            contact.setClassRole(invitation.getClassRole());
+//                                            contact.setInviterCertification("");
+//                                            contact.setInviterId((int) invitation.getInviterId());
+//                                            contact.setInviterMobile(classInvitater.getInviterMobile());
+//                                            contact.setInviterPhoto(classInvitater.getInviterPhoto());
+//                                            contact.setInviterStatus(0);
+//                                            contact.setMessageId("0");
+//                                            contact.setInviterUserName(classInvitater.getInviterName());
+//                                            contact.setJoinGroupId(invitation.getClassGroupId());
+//                                            contact.setJoinGroupName(tv_group_name.getText().toString());
+//                                            Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+//                                            intent.putExtra("invitater", contact);
+//                                            startActivity(intent);
+//                                        }
+//                                        Util.toastMsg(responseData.getMsg());
+//                                    }
+//
+//                                    @Override
+//                                    public void failure(RetrofitError error) {
+//                                        dialogDissmiss();
+//                                        super.failure(error);
+//                                    }
+//                                });
                 break;
         }
     }

@@ -5,15 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -24,6 +20,7 @@ import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.SimpleButton;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,11 +33,12 @@ import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
+
 /**
  * Created by lareina.qiao on 11/25/2016.
  */
 @InjectLayout(R.layout.fragment_totalhonor)
-public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback  {
+public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
 
     private String ByWhichRatio = "ByWeightRatio";
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
@@ -50,15 +48,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @InjectView(R.id.list_honorrank)
     PullToRefreshListView listHonorrank;//列表
-    @InjectView(R.id.ll_weight_per)
-    LinearLayout ll_weight_per;
-    @InjectView(R.id.ll_fat_per)
-    LinearLayout ll_fat_per;
-    @InjectView(R.id.iv_weight_per)
-    ImageView iv_weight_per;
-    @InjectView(R.id.iv_fat_per)
-    ImageView iv_fat_per;
-
+    @InjectView(R.id.sb_weight_per)
+    SimpleButton sb_weight_per;
+    @InjectView(R.id.sb_fat_per)
+    SimpleButton sb_fat_per;
 
     EasyAdapter<ListGroupModel> honorGroupRankAdapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();
@@ -72,7 +65,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private TextView tv_top1_per;
     private TextView tv_top2_per;
     private TextView tv_top3_per;
-    private ArrowSpinner2 spinner;
 
 
     public static TotalHonorFragment getInstance() {
@@ -84,6 +76,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
+        sb_weight_per.setProgress(1);
+        sb_fat_per.setProgress(0);
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
             public void convert(ViewHolder holder, ListGroupModel data, int position) {
@@ -98,10 +92,12 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 tv_trainer_name.setText(data.getCoachName());
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
+                TextView tv_by_which = holder.getView(R.id.tv_by_which);
+                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
             }
         };
         ListView refreshableView = listHonorrank.getRefreshableView();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank_month, null);
         civ_top1 = (CircleImageView) view.findViewById(R.id.civ_top1);
         civ_top2 = (CircleImageView) view.findViewById(R.id.civ_top2);
         civ_top3 = (CircleImageView) view.findViewById(R.id.civ_top3);
@@ -111,7 +107,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         tv_top1_per = (TextView) view.findViewById(R.id.tv_top1_per);
         tv_top2_per = (TextView) view.findViewById(R.id.tv_top2_per);
         tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
-        spinner = (ArrowSpinner2) view.findViewById(R.id.spinner);
 
         refreshableView.addHeaderView(view);
         listHonorrank.setAdapter(honorGroupRankAdapter);
@@ -134,40 +129,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initDatas() {
-        final List<String> datas = new ArrayList<>();
-        datas.add("第一体馆月");
-        datas.add("第二体馆月");
-        datas.add("第三体馆月");
-        datas.add("第四体馆月");
-        datas.add("第五体馆月");
-        datas.add("第六体馆月");
-        datas.add("第七体馆月");
-        spinner.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_classed);
-                tv_class_name.setText(data);
-            }
 
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return datas.get(position);
-            }
-
-        });
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = i + 1;
-                lazyLoad();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     @Override
@@ -195,17 +157,17 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             switch (topModel.getRanking()) {
                 case "1":
                     tv_top1_name.setText(topModel.getUserName());
-                    tv_top1_per.setText(topModel.getLossPer() + "%");
+                    tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "2":
                     tv_top2_name.setText(topModel.getUserName());
-                    tv_top2_per.setText(topModel.getLossPer() + "%");
+                    tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
                 case "3":
                     tv_top3_name.setText(topModel.getLossPer());
-                    tv_top3_per.setText(topModel.getLossPer() + "%");
+                    tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
                     setImage(civ_top1, topModel.getUserIconUrl());
                     break;
             }
@@ -216,26 +178,30 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
             Picasso.with(getContext()).load(basePath + endUrl).into(civ);
-        }
+    }
     }
 
 
-    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
+    @OnClick({R.id.sb_weight_per, R.id.sb_fat_per})
     public void onClick(View view) {
+        restoreState();
         switch (view.getId()) {
-            case R.id.ll_weight_per:
+            case R.id.sb_weight_per:
+                sb_weight_per.setProgress(1);
                 ByWhichRatio = "ByWeightRatio";
                 lazyLoad();
-                iv_weight_per.setImageResource(R.drawable.weight_per_select);
-                iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
                 break;
-            case R.id.ll_fat_per:
+            case R.id.sb_fat_per:
+                sb_fat_per.setProgress(1);
                 ByWhichRatio = "ByFatRatio";
                 lazyLoad();
-                iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
-                iv_fat_per.setImageResource(R.drawable.fat_per_select);
                 break;
         }
+    }
+
+    private void restoreState() {
+        sb_weight_per.setProgress(0);
+        sb_fat_per.setProgress(0);
     }
 }
 

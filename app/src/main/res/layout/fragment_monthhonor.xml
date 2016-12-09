@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,52 +14,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="53dp"
         android:background="#fafafa"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/ll_weight_per"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/sb_weight_per"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            app:normalBitmap="@drawable/weight_per_unselect"
+            app:pitchBitmap="@drawable/weight_per_select"
+            app:text="@string/lose_weight_per"
+            app:wx_alpha="true" />
 
-            <ImageView
-                android:id="@+id/iv_weight_per"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/weight_per_select" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="10dp"
-                android:text="减重比" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_fat_per"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/sb_fat_per"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_fat_per"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/fat_per_unselect" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="10dp"
-                android:text="减脂比" />
-        </LinearLayout>
-
+            app:normalBitmap="@drawable/fat_per_unselect"
+            app:pitchBitmap="@drawable/fat_per_select"
+            app:text="@string/lose_fat_per"
+            app:wx_alpha="true" />
 
     </LinearLayout>
 </LinearLayout>

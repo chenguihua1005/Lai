@@ -3,7 +3,7 @@
     android:id="@+id/ll_group_list_item"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#fafafa"
+    android:background="#ffffff"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -11,7 +11,7 @@
         android:id="@+id/tv_rank_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="9dp"
+        android:layout_marginLeft="15dp"
         android:text="@string/rank_number_test"
         android:textColor="#333333"
         android:textSize="18sp" />
@@ -108,6 +108,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_by_which"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -117,7 +118,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/bodygame3_arrow" />
 
 </LinearLayout>

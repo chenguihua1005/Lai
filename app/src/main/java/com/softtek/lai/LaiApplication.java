@@ -13,10 +13,10 @@ import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.common.NetErrorHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.common.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
 import java.lang.ref.WeakReference;
@@ -46,7 +46,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         ChatHelper.getInstance().init(getApplicationContext());
         //CrashHandler.getInstance().init(this);
 
+
     }
+
+
 
     public static LaiApplication getInstance() {
         return laiApplication;

@@ -139,28 +139,6 @@
             android:gravity="bottom|center"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <com.ggx.widgets.nicespinner.ArrowSpinner2
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_week_frame"
-                    android:padding="5dp"
-                    app:arrowTint2="#333333"
-                    app:pop2Height="100dp"
-                    app:pop2Width="140dp"
-                    app:textSize2="11px"
-                    app:textTint2="#333333" />
-
-            </RelativeLayout>
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
@@ -220,12 +198,12 @@
         android:layout_marginTop="12dp"
         android:background="#ffffff"
         android:padding="5dp"
-        android:paddingStart="15dp"
+        android:paddingLeft="9dp"
         android:text="小组排名"
         android:textColor="#424242"
         android:textSize="13sp" />
 
-    <!--<View
+ <!--   <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#eeeeee" />-->

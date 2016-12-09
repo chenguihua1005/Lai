@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginBottom="10dp"
                 app:layout_scrollFlags="scroll|snap">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -531,7 +532,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
-                android:layout_marginTop="10dp"
+
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"

@@ -282,7 +282,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             //We should warp every so many children   每循环七天，就要将上边距加一个DayView的高度
             if (i % DEFAULT_DAYS_IN_WEEK == (DEFAULT_DAYS_IN_WEEK - 1)) {
                 childLeft = parentLeft;
-                childTop += height;
+                childTop +=height+20;
             }
 
         }

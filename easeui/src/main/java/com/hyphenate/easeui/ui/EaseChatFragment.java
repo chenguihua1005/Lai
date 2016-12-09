@@ -210,7 +210,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
             } else {
-                onChatRoomViewCreation();
+                onChatRoomViewCreation();//聊天条目数据显示
             }
 
         }
@@ -592,11 +592,16 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 username = message.getFrom();
             }
 
+            Log.i(TAG, "username = " + username + "  toChatUsername = " + toChatUsername + " message.getTo() = " + message.getTo());
+
             // if the message is for current conversation
             if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)) {
+//            if (username.equalsIgnoreCase(toChatUsername) || message.getTo().equalsIgnoreCase(toChatUsername)) {
+                Log.i(TAG, "here 1....");
                 messageList.refreshSelectLast();
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
             } else {
+                Log.i(TAG, "here 2....");
                 EaseUI.getInstance().getNotifier().onNewMsg(message);
             }
         }
