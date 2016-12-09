@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message2.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -222,7 +221,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
                         } catch (HyphenateException e) {
                             e.printStackTrace();
-                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                             MessageConfirmActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Util.toastMsg(str3);
