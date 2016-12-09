@@ -76,7 +76,7 @@ public class MemberAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
         }
-        holder.img.setImageResource(R.drawable.img_default);
+//        holder.img.setImageResource(R.drawable.img_default);
         holder.text_name.setText(model.getUserName() + "(" + model.getCGName() + ")");
         return convertView;
     }

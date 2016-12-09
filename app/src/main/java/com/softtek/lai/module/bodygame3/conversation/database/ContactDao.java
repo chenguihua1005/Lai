@@ -10,8 +10,6 @@ import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import zilla.libcore.util.Util;
-
 import static com.softtek.lai.module.bodygame3.conversation.database.ContactTable.AccpetTime;
 
 /**
@@ -61,7 +59,7 @@ public class ContactDao {
                 db.close();
             }
 
-            Util.toastMsg("数据存入成功@！");
+//            Util.toastMsg("数据存入成功@！");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -178,7 +178,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                     introducerId,
                                     new RequestCallback<ResponseData>() {
                                         @Override
-                                        public void success(ResponseData responseData, Response response) {
+                                        public void success(final ResponseData responseData, Response response) {
                                             dialogDissmiss();
                                             if (responseData.getStatus() == 200) {
                                                 setResult(RESULT_OK);
@@ -191,6 +191,12 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                     }
                                                 });
                                             } else {// 此时需要环信剔除处理
+                                                ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Util.toastMsg(str3 + responseData.getMsg());
+                                                    }
+                                                });
                                                 try {
 //                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
                                                     EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
@@ -201,19 +207,25 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                         }
 
                                         @Override
-                                        public void failure(RetrofitError error) {
+                                        public void failure(final RetrofitError error) {
                                             dialogDissmiss();
+                                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Util.toastMsg(str3 + error.getMessage());
+                                                }
+                                            });
                                             super.failure(error);
                                         }
                                     });
 
 
-                        } catch (HyphenateException e) {
+                        } catch (final HyphenateException e) {
                             e.printStackTrace();
                             ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Util.toastMsg(str3);
+                                    Util.toastMsg(str3 + e.getMessage());
                                 }
                             });
                         } finally {

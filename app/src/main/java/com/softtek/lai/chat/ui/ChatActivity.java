@@ -115,7 +115,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
 //        EaseConstant.IS_GROUP_SENT = "flase";
         activityInstance = this;
-        //聊天人或群id
+        //聊天人或群id（环信）
         toChatUsername = getIntent().getExtras().getString("userId");
         //可以直接new EaseChatFratFragment使用
         chatFragment = new ChatFragment();
@@ -137,11 +137,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
 
         ll_left.setOnClickListener(this);
+        fl_right.setVisibility(View.VISIBLE);
+        iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
             if (classModel != null) {
                 tv_title.setText(classModel.getClassName());
-                fl_right.setVisibility(View.VISIBLE);
-                iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+
             }
 
             if (TextUtils.isEmpty(tv_title.getText().toString().trim())) {
@@ -259,10 +260,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.fl_right:
 
+                Log.i(TAG,"toChatUsername = " +toChatUsername +" classModel = " +classModel);
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
-                intent.putExtra("groupId", toChatUsername);
+                intent.putExtra("toChatUsername", toChatUsername);
                 intent.putExtra("classId", classId);
-                intent.putExtra("classModel", classModel);
+                intent.putExtra("classModel", classModel);//班级Model
 
                 startActivity(intent);
                 break;
