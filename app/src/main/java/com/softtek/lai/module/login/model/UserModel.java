@@ -30,6 +30,8 @@ public class UserModel implements Serializable {
     private String HXAccountId;//若为空则还未注册
     private String HasEmchat;//0：未注册，1：已注册
     private int HasThClass;//0无班级，1有班级
+    private int DoingClass;//0没有进行中的班级,1有
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -49,6 +51,8 @@ public class UserModel implements Serializable {
                 ", IsCreatInfo='" + IsCreatInfo + '\'' +
                 ", HXAccountId='" + HXAccountId + '\'' +
                 ", HasEmchat='" + HasEmchat + '\'' +
+                ", HasThClass=" + HasThClass +
+                ", DoingClass=" + DoingClass +
                 ", hasGender=" + hasGender +
                 '}';
     }
@@ -202,5 +206,13 @@ public class UserModel implements Serializable {
 
     public void setHasThClass(int hasThClass) {
         HasThClass = hasThClass;
+    }
+
+    public int getDoingClass() {
+        return DoingClass;
+    }
+
+    public void setDoingClass(int doingClass) {
+        DoingClass = doingClass;
     }
 }

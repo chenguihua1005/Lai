@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message2.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,12 +23,16 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -40,7 +43,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- * 操作消息确认
+ * 邀请消息确认
  * Created by jerry.guan on 1/12/2016.
  */
 @InjectLayout(R.layout.activity_message_confirm)
@@ -171,26 +174,40 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     public void run() {
                         try {
                             EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-//莱后台请求
+                            //莱后台请求
                             service.makeSureJoin(UserInfoModel.getInstance().getToken(),
                                     msgId,
                                     1,
                                     introducerId,
                                     new RequestCallback<ResponseData>() {
                                         @Override
-                                        public void success(ResponseData responseData, Response response) {
+                                        public void success(final ResponseData responseData, Response response) {
                                             dialogDissmiss();
                                             if (responseData.getStatus() == 200) {
+                                                ClassModel model=new ClassModel();
+                                                model.setClassId(show.getClassId());
+                                                model.setClassName(show.getClassName());
+                                                model.setClassCode(show.getClassCode());
+                                                model.setHXGroupId(show.getClassHxGroupId());
+                                                model.setClassRole(show.getClassRole());
+                                                model.setClassMasterName(show.getClassMasterName());
+                                                model.setClassStatus(show.getClassStatus());
+                                                EventBus.getDefault().post(new UpdateClass(1,model));
                                                 setResult(RESULT_OK);
                                                 finish();
-
-                                                ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         Util.toastMsg(str2);
                                                     }
                                                 });
                                             } else {// 此时需要环信剔除处理
+                                                ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Util.toastMsg(str3 + responseData.getMsg());
+                                                    }
+                                                });
                                                 try {
 //                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
                                                     EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
@@ -201,19 +218,25 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                         }
 
                                         @Override
-                                        public void failure(RetrofitError error) {
+                                        public void failure(final RetrofitError error) {
                                             dialogDissmiss();
+                                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Util.toastMsg(str3 + error.getMessage());
+                                                }
+                                            });
                                             super.failure(error);
                                         }
                                     });
 
 
-                        } catch (HyphenateException e) {
+                        } catch (final HyphenateException e) {
                             e.printStackTrace();
-                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                             MessageConfirmActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Util.toastMsg(str3);
+                                    Util.toastMsg(str3 + e.getMessage());
                                 }
                             });
                         } finally {

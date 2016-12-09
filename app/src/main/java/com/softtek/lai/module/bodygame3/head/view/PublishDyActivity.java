@@ -116,7 +116,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         list_title.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
+
             }
         });
 
