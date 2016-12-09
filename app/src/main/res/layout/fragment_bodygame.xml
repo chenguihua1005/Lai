@@ -4,54 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<android.support.design.widget.CoordinatorLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-        <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-
-        <!--<include layout="@layout/toolbar_bodygame" />-->
-        <!--<android.support.design.widget.AppBarLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#F2F2F2"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--android:orientation="vertical">-->
-
             <FrameLayout
                 android:id="@+id/contain_frg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></FrameLayout>
 
 
-            <!--<android.support.design.widget.CoordinatorLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
 
-            <!--</android.support.design.widget.CoordinatorLayout>-->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="首页界面"
-                android:textSize="40sp"
-                android:visibility="gone" />
-
-            <com.softtek.lai.widgets.chart.Chart
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@drawable/bg"
-                android:visibility="gone"
-                app:chartTitle1="哈哈哈"
-                app:chartTitle2="laall">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/bodygame3_arrow" />
-            </com.softtek.lai.widgets.chart.Chart>
-        <!--</android.support.design.widget.AppBarLayout>-->
-    <!--</android.support.design.widget.CoordinatorLayout>-->
 </FrameLayout>
