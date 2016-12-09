@@ -11,7 +11,7 @@
         android:id="@+id/tv_rank_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="9dp"
+        android:layout_marginLeft="15dp"
         android:text="@string/rank_number_test"
         android:textColor="#333333"
         android:textSize="18sp" />
@@ -118,7 +118,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/bodygame3_arrow" />
 
 </LinearLayout>
