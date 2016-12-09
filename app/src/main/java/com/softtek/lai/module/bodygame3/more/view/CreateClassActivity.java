@@ -401,8 +401,6 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
             dialogShow("正在创建班级...");
 
-            Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
-
             service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
                 @Override
                 public void success(ResponseData<LaiClass> data, Response response) {
@@ -421,6 +419,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         classModel.setClassName(clazz.getClassName());
                         classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
                         classModel.setClassRole(1);
+                        classModel.setClassStatus(0);
                         List<String> meausres = new ArrayList<>(12);
                         for (int i = 0; i < 12; i++) {
                             meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(

@@ -19,14 +19,23 @@ public class InvitationConfirmShow {
     private String CGName;
     private int ClassRole;
     private String ClassStart;
-    private Object ClassMasterHxId;
-    private Object ClassHxGroupId;
+    private String ClassMasterHxId;
+    private String ClassHxGroupId;
     private String Sender;
     private long SenderId;
     private String ClassMasterPhoto;
     private String SenderPhoto;
     private int MsgStatus;
     private String IntroducerMobile;
+    private int ClassStatus;
+
+    public int getClassStatus() {
+        return ClassStatus;
+    }
+
+    public void setClassStatus(int classStatus) {
+        ClassStatus = classStatus;
+    }
 
     public String getIntroducerMobile() {
         return IntroducerMobile;
@@ -140,19 +149,19 @@ public class InvitationConfirmShow {
         this.ClassStart = ClassStart;
     }
 
-    public Object getClassMasterHxId() {
+    public String getClassMasterHxId() {
         return ClassMasterHxId;
     }
 
-    public void setClassMasterHxId(Object ClassMasterHxId) {
+    public void setClassMasterHxId(String ClassMasterHxId) {
         this.ClassMasterHxId = ClassMasterHxId;
     }
 
-    public Object getClassHxGroupId() {
+    public String getClassHxGroupId() {
         return ClassHxGroupId;
     }
 
-    public void setClassHxGroupId(Object ClassHxGroupId) {
+    public void setClassHxGroupId(String ClassHxGroupId) {
         this.ClassHxGroupId = ClassHxGroupId;
     }
 

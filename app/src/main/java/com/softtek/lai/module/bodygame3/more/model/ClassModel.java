@@ -18,6 +18,7 @@ public class ClassModel implements Parcelable{
     private int ClassRole;//班级角色1:总教练,2:教练,3:助教,4:学员
     private String ClassMasterName;
     private String HXGroupId;
+    private int ClassStatus;//0未开始 1进行中
     private List<String> ClassMeasureDateList;
 
     public ClassModel() {
@@ -31,6 +32,7 @@ public class ClassModel implements Parcelable{
         ClassMasterName = in.readString();
         ClassMeasureDateList = in.createStringArrayList();
         HXGroupId=in.readString();
+        ClassStatus=in.readInt();
     }
 
     public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
@@ -44,6 +46,14 @@ public class ClassModel implements Parcelable{
             return new ClassModel[size];
         }
     };
+
+    public int getClassStatus() {
+        return ClassStatus;
+    }
+
+    public void setClassStatus(int classStatus) {
+        ClassStatus = classStatus;
+    }
 
     public String getClassId() {
         return ClassId;
@@ -109,7 +119,8 @@ public class ClassModel implements Parcelable{
                 ", ClassName='" + ClassName + '\'' +
                 ", ClassRole=" + ClassRole +
                 ", ClassMasterName='" + ClassMasterName + '\'' +
-                ", HXGroupId=" + HXGroupId +
+                ", HXGroupId='" + HXGroupId + '\'' +
+                ", ClassStatus=" + ClassStatus +
                 ", ClassMeasureDateList=" + ClassMeasureDateList +
                 '}';
     }
@@ -128,5 +139,6 @@ public class ClassModel implements Parcelable{
         parcel.writeString(ClassMasterName);
         parcel.writeStringList(ClassMeasureDateList);
         parcel.writeString(HXGroupId);
+        parcel.writeInt(ClassStatus);
     }
 }
