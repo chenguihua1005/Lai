@@ -144,9 +144,12 @@ public class ArrowSpinner2 extends LinearLayout{
             }
         });
         popupWindow = new PopupWindow(context);
+        int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getContext().getResources().getDisplayMetrics());
+        int pop2Width = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Width, defPopWidthValue);
+        int pop2Height = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Height, WindowManager.LayoutParams.WRAP_CONTENT);
         //popupWindow.setAnimationStyle(R.style.mypopupwindow);
-        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,170,getContext().getResources().getDisplayMetrics()));
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(pop2Width);
+        popupWindow.setHeight(pop2Height);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);

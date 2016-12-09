@@ -253,10 +253,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             try {
                                 switch (status) {
                                     case 200:
-                                        if(responseData.getData().getNum()>0){
+                                        if (responseData.getData().getNum() > 0) {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
 
-                                        }else {
+                                        } else {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         }
                                         break;
@@ -279,8 +279,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());
             chatUserModel.setUserPhone(path + model.getPhoto());
-//            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
-            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId());
+            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
+//            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId());
 
             ChatUserInfoModel.getInstance().setUser(chatUserModel);
             String hasEmchat = model.getHasEmchat();
@@ -374,7 +374,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     }
 
     private void loginChat(final ProgressDialog progressDialog, final String account) {
-        Log.i(TAG,"account = " + account +"  HBL_SOFTTEK#321");
+        Log.i(TAG, "account = " + account + "  HBL_SOFTTEK#321");
         Constants.IS_LOGINIMG = "1";
         EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override

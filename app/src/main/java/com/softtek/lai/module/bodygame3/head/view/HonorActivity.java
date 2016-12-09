@@ -40,8 +40,8 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        tv_title.setText("荣誉榜");
-        tv_right.setText("规则说明");
+        tv_title.setText(R.string.honorRank);
+        tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance());
         fragments.add(MonthHonorFragment.getInstance());
@@ -61,7 +61,5 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
-
-
     }
 }
