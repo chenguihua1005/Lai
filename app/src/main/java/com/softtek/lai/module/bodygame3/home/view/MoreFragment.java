@@ -15,6 +15,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -119,6 +120,14 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                 });
             }
         }
+        head_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(), PersonDetailActivity.class);
+                intent.putExtra("AccountId",UserInfoModel.getInstance().getUserId());
+                startActivity(intent);
+            }
+        });
         ll_saikuang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

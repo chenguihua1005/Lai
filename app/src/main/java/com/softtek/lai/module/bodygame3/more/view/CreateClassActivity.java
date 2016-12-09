@@ -300,11 +300,24 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_YEAR,1);
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog dialog=
+                new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMinDate(c.getTime().getTime());
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                int month = monthOfYear + 1;
-                String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (dayOfMonth < 10 ? ("0" + dayOfMonth) : dayOfMonth) + "日";
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                //通过mDialog.getDatePicker()获得dialog上的DatePicker组件，然后可以获取日期信息
+                DatePicker datePicker = dialog.getDatePicker();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth()+1;
+                int day = datePicker.getDayOfMonth();
+                String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
                 //输出当前日期
                 tv_class_time.setText(date);
                 if (clazz != null) {
@@ -313,7 +326,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 }
 
             }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1).show();
+        });
+        dialog.show();
 
     }
 
