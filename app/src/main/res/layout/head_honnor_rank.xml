@@ -154,6 +154,8 @@
                     android:background="@drawable/bg_week_frame"
                     android:padding="5dp"
                     app:arrowTint2="#333333"
+                    app:pop2Height="100dp"
+                    app:pop2Width="140dp"
                     app:textSize2="11px"
                     app:textTint2="#333333" />
 
@@ -218,7 +220,7 @@
         android:layout_marginTop="12dp"
         android:background="#ffffff"
         android:padding="5dp"
-        android:paddingLeft="9dp"
+        android:paddingStart="15dp"
         android:text="小组排名"
         android:textColor="#424242"
         android:textSize="13sp" />

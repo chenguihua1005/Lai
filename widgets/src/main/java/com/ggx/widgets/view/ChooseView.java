@@ -41,7 +41,7 @@ public class ChooseView extends LinearLayout{
     private void initView(){
         setOrientation(VERTICAL);
         setClickable(true);
-        buildCharaset("↑ ");
+//        buildCharaset("↑ ");
 
     }
 
@@ -60,9 +60,9 @@ public class ChooseView extends LinearLayout{
                 float rawY=event.getRawY();
                 TextView view= (TextView) getChooseView(rawX,rawY);
                 if(listener!=null&&view!=null){
-                    if(view.getText().toString().equals("↑ ")){
-                        index=-10;
-                    }
+//                    if(view.getText().toString().equals("↑ ")){
+//                        index=-10;
+//                    }
                     listener.chooseView(view.getText().toString(),index);
                 }
                 break;

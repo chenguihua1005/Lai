@@ -80,8 +80,6 @@ dependencies {
     compile project(':image_file_selector')
     compile project(':easeui')
     compile project(':widgets')
-//    compile 'com.android.support:appcompat-v7:24.3.0'
-//    compile 'com.android.support:design:24.3.0'
     compile 'com.rainim:libzilla:1.0.59'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
@@ -93,5 +91,6 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.0.0'
     testCompile 'junit:junit:4.12'
+
 }
 

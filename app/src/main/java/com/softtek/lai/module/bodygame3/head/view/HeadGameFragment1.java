@@ -46,6 +46,7 @@ import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
@@ -140,7 +141,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
     EasyAdapter<String> adapter;
-    private ClassModel classModel;
     private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
@@ -149,6 +149,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private static final int LOADCOUNT = 10;
     private int page = 1;
 
+    public void setDeleteClass(DeleteClass deleteClass) {
+        this.deleteClass = deleteClass;
+    }
+    public static HeadGameFragment1 getInstance(DeleteClass deleteClass){
+        HeadGameFragment1 fragment=new HeadGameFragment1();
+        fragment.setDeleteClass(deleteClass);
+        return fragment;
+    }
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
@@ -182,9 +190,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
+//        progressDialog = new ProgressDialog(getActivity());
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setMessage("加载中");
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -423,6 +431,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
+                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 if (classinfoModelResponseData.getData() != null) {
                     final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
@@ -585,6 +594,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 super.failure(error);
             }
@@ -647,7 +657,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             model.setClassRole(clazz.getModel().getClassRole());
             tv_title.setText(model.getClassName());
             tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 1) {
+        } else if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
             //添加新班级
             ClassModel model = new ClassModel();
             model.setClassId(clazz.getModel().getClassId());
@@ -666,14 +676,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
 
-            if (classModels.isEmpty()) {
-                if (deleteClass != null) {
-                    deleteClass.deletClass(0);
-                }
-            } else {
+            if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
-                this.classModel = classModels.get(0);
+            } else {
+                if (deleteClass != null) {
 
+                    deleteClass.deletClass();
+                }
             }
 
         }
@@ -687,6 +696,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     }
 
     public interface DeleteClass {
-        void deletClass(int classCount);
+        void deletClass();
     }
 }
