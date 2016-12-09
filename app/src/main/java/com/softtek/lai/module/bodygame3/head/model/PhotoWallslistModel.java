@@ -15,7 +15,7 @@ public class PhotoWallslistModel {
     private String Content;//内容
     private String Createdate;//发表日期
     private String IsHasTheme;//是否有主题，1有
-    private String IsPraise;//是否有动态，1是
+    private String IsPraise;//是否点赞动态，1是
     private String PraiseNum;//点赞数
     private List<String> PraiseNameList;//点赞姓名数组
     private String IsFocus;//是否关注此学员
