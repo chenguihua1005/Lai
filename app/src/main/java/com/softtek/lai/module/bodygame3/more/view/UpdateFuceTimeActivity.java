@@ -16,10 +16,13 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.module.bodygame3.more.model.FuceDate;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -202,6 +205,7 @@ public class UpdateFuceTimeActivity extends BaseActivity{
                                                         .jumpDateByDay(date,(i-position)*7));
                                             }
                                             adapter.notifyDataSetChanged();
+                                            EventBus.getDefault().post(new UpdateFuce(classId,dates));
                                         }else {
                                             Util.toastMsg(responseData.getMsg());
                                         }

@@ -2,17 +2,17 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -21,20 +21,21 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 2016/11/29.
@@ -54,7 +55,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     TextView tv_title;
 
     @InjectView(R.id.coach_img)
-    ImageView coach_img;
+    CircleImageView coach_img;
     @InjectView(R.id.coach_name)
     TextView coach_name;
 
@@ -77,6 +78,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
 
     private ContactClassModel classModel;
+    private String toChatUsername;//环信群id 或者个人Id
 
 
     @Override
@@ -96,7 +98,8 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
-        Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
+        toChatUsername = getIntent().getStringExtra("toChatUsername");
+        Log.i(TAG, "classModel = " + new Gson().toJson(classModel) + " toChatUsername = " + toChatUsername);
 
         if (classModel != null) {
             String end_date = classModel.getEndDate();
@@ -116,13 +119,60 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             tv_classStart_time.setText(classModel.getStartDate());
             tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
 
+            String photo = classModel.getCoachPhoto();
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            if ("".equals(photo)) {
+                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(coach_img);
+            } else {
+                Picasso.with(this).load(path + photo).fit().error(R.drawable.img_default).into(coach_img);
+            }
 
-            ll_left.setOnClickListener(this);
-            btn_dismissclass.setOnClickListener(this);
-            classNumber_linear.setOnClickListener(this);
+
+        } else {
+            //从会话群进入 ,  需要调用环信群id查询班级信息
+            if (!TextUtils.isEmpty(toChatUsername)) {
+                ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, new Callback<ResponseData<ContactClassModel>>() {
+                    @Override
+                    public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
+                        int status = contactClassModelResponseData.getStatus();
+                        if (200 == status) {
+                            classModel = contactClassModelResponseData.getData();
+                            Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
+                            if (classModel != null) {
+                                String end_date = classModel.getEndDate();
+                                if (StringToDate(end_date).before(getNowDate())) {
+                                    btn_dismissclass.setVisibility(View.VISIBLE);
+                                }
+
+                                String photo = classModel.getCoachPhoto();
+                                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                                if ("".equals(photo)) {
+                                    Picasso.with(ClassDetailActivity.this).load("111").fit().error(R.drawable.img_default).into(coach_img);
+                                } else {
+                                    Picasso.with(ClassDetailActivity.this).load(path + photo).fit().error(R.drawable.img_default).into(coach_img);
+                                }
+
+                                coach_name.setText(classModel.getCoachName());
+                                tv_classname.setText(classModel.getClassName());
+                                tv_classNo.setText(classModel.getClassCode());
+                                tv_classStart_time.setText(classModel.getStartDate());
+                                tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+            }
         }
 
-
+        ll_left.setOnClickListener(this);
+        btn_dismissclass.setOnClickListener(this);
+        classNumber_linear.setOnClickListener(this);
     }
 
     public static Date StringToDate(String dateStr) {
@@ -178,52 +228,110 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     //解散班级
     private void dissolutionHxGroup() {
+        Log.i(TAG, "classModel.getClassId() = " + classModel.getClassId() + " classModel.getHXGroupId() = " + classModel.getHXGroupId());
+        final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
+        dialogShow(getResources().getString(R.string.Is_sending_a_request));
 
-        Log.i(TAG, "classModel.getClassId() = " + classModel.getClassId());
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), classModel.getClassId(), new Callback<ResponseData>() {
-            @Override
-            public void success(ResponseData responseData, Response response) {
-                int status = responseData.getStatus();
-                if (200 == status) {
-                    Util.toastMsg("解散班级成功！");
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    EMClient.getInstance().groupManager().destroyGroup(classModel.getHXGroupId());//需异步处理
 
-                    //调用环信
-//                    try {
-//                        EMClient.getInstance().groupManager().destroyGroup(classModel.getClassId());
-//
-//                    } catch (HyphenateException e) {
-//                        e.printStackTrace();
-//                    }
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
-                                for (EMGroup group : grouplist) {
-                                    String groupId = group.getGroupId();
-                                    Log.i(TAG, "groupId= " + groupId);
-                                    if (groupId.equals(classModel.getHXGroupId())) {
-                                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
-                                        Log.i(TAG, " 解散成功！" + groupId);
-                                        finish();
+                    ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                    service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), classModel.getClassId(), new Callback<ResponseData>() {
+                        @Override
+                        public void success(final ResponseData responseData, Response response) {
+                            int status = responseData.getStatus();
+                            if (200 == status) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogDissmiss();
+                                        //跳转到群聊列表
+                                        Intent intent = new Intent(ClassDetailActivity.this, GroupsActivity.class);
+                                        startActivity(intent);
                                     }
-                                }
+                                });
 
-
-                            } catch (final HyphenateException e) {
-                                Log.i(TAG, "info" + e.toString());
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        dialogDissmiss();
+                                        Toast.makeText(getApplicationContext(), st5 + responseData.getMsg(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         }
-                    }).start();
 
+                        @Override
+                        public void failure(final RetrofitError error) {
+                            ZillaApi.dealNetError(error);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    dialogDissmiss();
+                                    Toast.makeText(getApplicationContext(), st5 + error.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+
+
+                } catch (final HyphenateException e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            dialogDissmiss();
+                            Toast.makeText(getApplicationContext(), st5 + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
+        }).start();
 
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                Util.toastMsg("解散班级失败！");
-            }
-        });
+
+//        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//        service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), classModel.getClassId(), new Callback<ResponseData>() {
+//            @Override
+//            public void success(ResponseData responseData, Response response) {
+//                int status = responseData.getStatus();
+//                if (200 == status) {
+//                    Util.toastMsg("解散班级成功！");
+//
+//                    //调用环信
+////                    try {
+////                        EMClient.getInstance().groupManager().destroyGroup(classModel.getClassId());
+////
+////                    } catch (HyphenateException e) {
+////                        e.printStackTrace();
+////                    }
+//                    new Thread(new Runnable() {
+//                        public void run() {
+//                            try {
+//                                List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
+//                                for (EMGroup group : grouplist) {
+//                                    String groupId = group.getGroupId();
+//                                    Log.i(TAG, "groupId= " + groupId);
+//                                    if (groupId.equals(classModel.getHXGroupId())) {
+//                                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
+//                                        Log.i(TAG, " 解散成功！" + groupId);
+//                                        finish();
+//                                    }
+//                                }
+//
+//
+//                            } catch (final HyphenateException e) {
+//                                Log.i(TAG, "info" + e.toString());
+//                            }
+//                        }
+//                    }).start();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                ZillaApi.dealNetError(error);
+//                Util.toastMsg("解散班级失败！");
+//            }
+//        });
     }
 }

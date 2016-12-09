@@ -88,7 +88,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         doGetData();
         photoWallListModelEasyAdapter=new EasyAdapter<PhotoWallslistModel>(this,photoWallItemModels,R.layout.photowall_list_item) {
             @Override
-            public void convert(ViewHolder holder, PhotoWallslistModel data, int position) {
+            public void convert(ViewHolder holder, final PhotoWallslistModel data, int position) {
                 TextView tv_name= holder.getView(R.id.tv_name);
                 tv_name.setText(data.getUserName());//用户名
                 CircleImageView civ_header_image=holder.getView(R.id.civ_header_image);
@@ -99,15 +99,61 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 }
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getContent());//正文
-                CheckBox cb_focus=holder.getView(R.id.cb_focus);
+                final CheckBox cb_focus=holder.getView(R.id.cb_focus);
                 cb_focus.setChecked("1".equals(data.getIsFocus()));
+                cb_focus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (cb_focus.isChecked())
+                        {
+                            headService.doFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), Long.parseLong("3399"), new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    int status=responseData.getStatus();
+                                    switch (status)
+                                    {
+                                        case 200:
+                                            Util.toastMsg(responseData.getMsg());
+                                            refreshList(data.getAccountid(),"1");
+                                            break;
+                                        default:
+                                            cb_focus.setChecked(false);
+                                            Util.toastMsg(responseData.getMsg());
+                                            refreshList(data.getAccountid(),"0");
+                                            break;
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), Long.parseLong("3399"), new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    int status=responseData.getStatus();
+                                    switch (status)
+                                    {
+                                        case 200:
+                                            Util.toastMsg(responseData.getMsg());
+                                            break;
+                                        default:
+                                            cb_focus.setChecked(true);
+                                            Util.toastMsg(responseData.getMsg());
+                                            break;
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
                 CustomGridView photos=holder.getView(R.id.photos);
-                String[] imgs = data.getUserThPhoto().split(",");
+//                String[] imgs = data.getUserThPhoto().split(",");
                 final ArrayList<String> list = new ArrayList<>();
-                for (int i = 0; i < imgs.length; i++) {
-                    list.add(imgs[i]);
+
+                for (int i = 0; i < data.getPhotoList().size(); i++) {
+                    list.add(data.getPhotoList().get(i));
                 }
-                photos.setAdapter(new PhotosAdapter(list, PhotoWallActivity.this));
+                photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this));
                 photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -149,7 +195,16 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
             }
         });
     }
-
+    private void refreshList(String Accountid,String focus)
+    {
+        for (PhotoWallslistModel model:photoWallItemModels)
+        {
+            if(model.getAccountid().equals(Accountid)){
+                model.setIsFocus(focus);
+            }
+        }
+        photoWallListModelEasyAdapter.notifyDataSetChanged();
+    }
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 

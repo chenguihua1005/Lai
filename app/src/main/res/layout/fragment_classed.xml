@@ -1,4 +1,4 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.softtek.lai.widgets.MySwipRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pull"
     android:layout_width="match_parent"
@@ -32,7 +32,8 @@
                 <com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView
                     android:id="@+id/material_calendar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:background="@color/white">
 
                 </com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView>
@@ -80,7 +81,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/reset_update"
                     android:gravity="center_vertical"
                     android:paddingRight="10dp">
 
@@ -119,17 +119,16 @@
 
 
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_activity"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
             <!--</LinearLayout>-->
         </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <!--<ListView-->
             <!--android:id="@+id/list_activity"-->
@@ -138,5 +137,5 @@
             <!--android:layout_margin="10dp"></ListView>-->
 
     </android.support.design.widget.CoordinatorLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</com.softtek.lai.widgets.MySwipRefreshView>
 

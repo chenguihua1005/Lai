@@ -16,6 +16,7 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -114,14 +115,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
 //        EaseConstant.IS_GROUP_SENT = "flase";
         activityInstance = this;
-        //聊天人或群id
+        //聊天人或群id（环信）
         toChatUsername = getIntent().getExtras().getString("userId");
         //可以直接new EaseChatFratFragment使用
         chatFragment = new ChatFragment();
         //传入参数
         String title_value = getIntent().getStringExtra("name");
         if ("".equals(title_value)) {
-            title_value = "test";
+            title_value = "";
         }
 
 
@@ -136,25 +137,28 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
 
         ll_left.setOnClickListener(this);
+        fl_right.setVisibility(View.VISIBLE);
+        iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        //根据群组ID从本地获取群组基本信息
-                        group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-//                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
-                        tv_title.setText(group.getGroupName());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-
             if (classModel != null) {
-                fl_right.setVisibility(View.VISIBLE);
-                iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+                tv_title.setText(classModel.getClassName());
+
+            }
+
+            if (TextUtils.isEmpty(tv_title.getText().toString().trim())) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //根据群组ID从本地获取群组基本信息
+                            group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+//                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
+                            tv_title.setText(group.getGroupName());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         } else {
             tv_title.setText(title_value);
@@ -256,10 +260,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.fl_right:
 
+                Log.i(TAG,"toChatUsername = " +toChatUsername +" classModel = " +classModel);
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
-                intent.putExtra("groupId", toChatUsername);
+                intent.putExtra("toChatUsername", toChatUsername);
                 intent.putExtra("classId", classId);
-                intent.putExtra("classModel", classModel);
+                intent.putExtra("classModel", classModel);//班级Model
 
                 startActivity(intent);
                 break;

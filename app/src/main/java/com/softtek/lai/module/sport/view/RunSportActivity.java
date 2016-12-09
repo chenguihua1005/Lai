@@ -51,7 +51,7 @@ import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.locationservice.LocationService;
+import com.softtek.lai.location.LocationService;
 import com.softtek.lai.module.sport.model.KilometrePace;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.SportModel;

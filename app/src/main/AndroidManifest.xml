@@ -598,7 +598,7 @@
             android:name=".module.pastreview.view.HistoryStudentHonorActivity"
             android:screenOrientation="portrait" />
         <service
-            android:name=".locationservice.LocationService"
+            android:name=".location.LocationService"
             android:enabled="true"
             android:exported="true" />
 

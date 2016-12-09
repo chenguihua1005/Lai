@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,9 +20,12 @@ import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ClassStuFragment;
 import com.softtek.lai.module.bodygame3.activity.view.ClassedFragment;
 import com.softtek.lai.module.bodygame3.activity.view.NoClassFragment;
+import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.utils.RequestCallback;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 import butterknife.InjectView;
