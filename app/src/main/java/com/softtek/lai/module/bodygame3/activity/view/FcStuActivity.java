@@ -158,6 +158,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         doData();
+        classId=getIntent().getStringExtra("classId");
+        Util.toastMsg("classId"+classId);
         multipartTypedOutput=new MultipartTypedOutput();
         if (initDataModel!=null)
         {
