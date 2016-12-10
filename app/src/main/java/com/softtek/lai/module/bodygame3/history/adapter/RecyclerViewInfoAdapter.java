@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,28 +30,16 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-//import com.softtek.lai.module.bodygame3.head.model.PhotoWallslistModel;
-//import com.softtek.lai.module.bodygame3.head.view.PhotoWallActivity;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import okhttp3.RequestBody;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -62,6 +52,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context mContext;
     private View mPopView;
     private int width;
+    private int mDialogHigh;
 
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
@@ -69,12 +60,14 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public RecyclerViewInfoAdapter(List<PhotoWallslistModel> items,
                                    ItemListener listener,
-                                   Context context, View popView) {
+                                   Context context, View popView,
+                                   int dialogHigh) {
         myItems = items;
         myListener = listener;
         mContext = context;
         mPopView = popView;
         width = DisplayUtil.getMobileWidth(mContext);
+        mDialogHigh = dialogHigh;
     }
 
     @Override
@@ -137,6 +130,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private boolean isFocus;
         private EasyAdapter<String> gridAdapter;
         private HistoryService service;
+        private boolean hasZaned;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -177,6 +171,42 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             } else if (isFocus) {
                 mIsFocus.setChecked(true);
             }
+
+            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (mIsFocus.isChecked()){
+                        service.doCancleFocusAccount(
+                                UserInfoModel.getInstance().getToken(),
+                                UserInfoModel.getInstance().getUserId(),
+                                Long.parseLong("3399"),
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        mIsFocus.setClickable(false);
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                    }
+                                });
+                    }else {
+                        service.doFocusAccount(
+                                UserInfoModel.getInstance().getToken(),
+                                UserInfoModel.getInstance().getUserId(),
+                                Long.parseLong("3399"),
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        mIsFocus.setClickable(true);
+                                    }
+                                }
+                        );
+                    }
+                }
+            });
+
             //用户头像
             if (!TextUtils.isEmpty(item.getUserThPhoto())) {
                 Picasso.with(mContext).load(path + item.getUserThPhoto()).fit().error(R.drawable.img_default)
@@ -255,7 +285,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
 
-        private void createDialog(final String healthId, final long accountId) {
+        private void createDialog(final String healthId, final long accountId,int dialogHigh) {
             final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
             View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_comment, null);
             final EditText mContent = (EditText) view.findViewById(R.id.et_comment);
@@ -288,6 +318,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
 
             dialog.setView(view);
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            params.y = dialogHigh;
             dialog.show();
         }
 
@@ -315,9 +347,15 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
             popupWindow.update();
+            if (model.getPraiseNameList() != null) {
+                if (hasZaned || model.getPraiseNameList().contains(UserInfoModel.getInstance().getUser().getNickname())) {
+                    mZan.setClickable(false);
+                }
+            }
             mZan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    hasZaned = true;
                     mZan.setClickable(false);
                     if (mZanLayout.getChildCount() > 0) {
                         mZanLayout.setVisibility(View.VISIBLE);
@@ -342,9 +380,10 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                                 @Override
                                 public void failure(RetrofitError error) {
-                                    mZan.setClickable(true);
+                                    hasZaned = false;
                                     if (mZan.getChildCount() < 2)
                                     mZan.removeViewAt(mCommentLayout.getChildCount() - 1);
+                                    mZan.setVisibility(View.GONE);
                                     super.failure(error);
                                 }
                             });
@@ -360,7 +399,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                     String commentName = UserInfoModel.getInstance().getUser().getNickname();
                     commentText.setText(commentName + ":" + String.valueOf(mContent.getText()));
                     mCommentLayout.addView(commentText);
-                    createDialog(model.getHealtId(), UserInfoModel.getInstance().getUserId());
+                    createDialog(model.getHealtId(), UserInfoModel.getInstance().getUserId(),mDialogHigh);
                 }
             });
 
