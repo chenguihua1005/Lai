@@ -18,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -256,11 +258,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                Intent intent1 = new Intent(this, BodyGameActivity.class);
+                intent1.putExtra("tab", 1);
+                startActivity(intent1);
                 break;
             case R.id.fl_right:
 
-                Log.i(TAG,"toChatUsername = " +toChatUsername +" classModel = " +classModel);
+                Log.i(TAG, "toChatUsername = " + toChatUsername + " classModel = " + classModel);
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
                 intent.putExtra("toChatUsername", toChatUsername);
                 intent.putExtra("classId", classId);
@@ -274,6 +278,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(this, BodyGameActivity.class);
+            intent.putExtra("tab", 1);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

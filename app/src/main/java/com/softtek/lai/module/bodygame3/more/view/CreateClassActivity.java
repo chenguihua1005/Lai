@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -299,8 +300,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_YEAR,1);
-        final DatePickerDialog dialog=
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(c.getTime().getTime());
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
@@ -315,13 +316,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 //通过mDialog.getDatePicker()获得dialog上的DatePicker组件，然后可以获取日期信息
                 DatePicker datePicker = dialog.getDatePicker();
                 int year = datePicker.getYear();
-                int month = datePicker.getMonth()+1;
+                int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
                 //输出当前日期
                 tv_class_time.setText(date);
                 if (clazz != null) {
-                    String date1=DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd);
+                    String date1 = DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd);
                     clazz.setStartDate(date1);
                 }
 
@@ -394,63 +395,106 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }
         if (clazz != null) {
             clazz.setClassGroup(builder.toString());
-            try {
-                Log.i(TAG, "调用欢心接口...");
-                EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-                option.maxUsers = 200;
-                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval ;//公开群，加入此群除了群主邀请，只能通过申请加入此群；
-                Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
-
-                String[] members = {};
-
-                EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
-
-                String groupId = group.getGroupId();
-
-                clazz.setHxGroupId(groupId);
-            } catch (HyphenateException e) {
-                Log.i(TAG, "调用欢心接口 error...");
-                e.printStackTrace();
-            }
+            Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
 
             dialogShow("正在创建班级...");
 
-            service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
+            new Thread(new Runnable() {
                 @Override
-                public void success(ResponseData<LaiClass> data, Response response) {
-                    dialogDissmiss();
-                    if (data.getStatus() == 200) {
-                        UserModel user=UserInfoModel.getInstance().getUser();
-                        user.setHasThClass(1);
-                        UserInfoModel.getInstance().saveUserCache(user);
-                        Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
-                        intent.putExtra("classId", data.getData().getClassId());
-                        intent.putExtra("createClass",true);
-                        startActivity(intent);
-                        ClassModel classModel = new ClassModel();
-                        classModel.setClassId(data.getData().getClassId());
-                        classModel.setClassCode(data.getData().getClassCode());
-                        classModel.setClassName(clazz.getClassName());
-                        classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
-                        classModel.setClassRole(1);
-                        classModel.setClassStatus(0);
-                        List<String> meausres = new ArrayList<>(12);
-                        for (int i = 0; i < 12; i++) {
-                            meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
-                                    clazz.getStartDate(), i * 7));
-                        }
-                        classModel.setClassMeasureDateList(meausres);
-                        EventBus.getDefault().post(new UpdateClass(1, classModel));
-                    }
-                    Util.toastMsg(data.getMsg());
-                }
+                public void run() {
 
-                @Override
-                public void failure(RetrofitError error) {
-                    dialogDissmiss();
-                    super.failure(error);
+                    try {
+                        EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+                        option.maxUsers = 200;
+                        option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;//私有群，群成员也能邀请人进群；；
+                        String[] members = {};
+                        EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
+
+                        String groupId = group.getGroupId();
+                        clazz.setHxGroupId(groupId);
+
+                        service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
+                            @Override
+                            public void success(final ResponseData<LaiClass> data, Response response) {
+                                if (data.getStatus() == 200) {
+                                    UserModel user = UserInfoModel.getInstance().getUser();
+                                    user.setHasThClass(1);
+                                    UserInfoModel.getInstance().saveUserCache(user);
+                                    Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
+                                    intent.putExtra("classId", data.getData().getClassId());
+                                    intent.putExtra("createClass", true);
+                                    startActivity(intent);
+                                    ClassModel classModel = new ClassModel();
+                                    classModel.setClassId(data.getData().getClassId());
+                                    classModel.setClassCode(data.getData().getClassCode());
+                                    classModel.setClassName(clazz.getClassName());
+                                    classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
+                                    classModel.setClassRole(1);
+                                    classModel.setClassStatus(0);
+                                    List<String> meausres = new ArrayList<>(12);
+                                    for (int i = 0; i < 12; i++) {
+                                        meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
+                                                clazz.getStartDate(), i * 7));
+                                    }
+                                    classModel.setClassMeasureDateList(meausres);
+                                    EventBus.getDefault().post(new UpdateClass(1, classModel));
+                                }
+
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        dialogDissmiss();
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                });
+                                Util.toastMsg(data.getMsg());
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        dialogDissmiss();
+                                        Toast.makeText(CreateClassActivity.this, "创建群组失败!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                super.failure(error);
+                            }
+                        });
+
+
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                dialogDissmiss();
+                                Toast.makeText(CreateClassActivity.this, "创建群组失败!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
                 }
-            });
+            }).start();
+
+//            try {
+//                Log.i(TAG, "调用欢心接口...");
+//                EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+//                option.maxUsers = 200;
+//                option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval;//公开群，加入此群除了群主邀请，只能通过申请加入此群；
+//                Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
+//
+//                String[] members = {};
+//
+//                EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
+//
+//                String groupId = group.getGroupId();
+//
+//                clazz.setHxGroupId(groupId);
+//            } catch (HyphenateException e) {
+//                Log.i(TAG, "调用欢心接口 error...");
+//                e.printStackTrace();
+//            }
+
+
         }
     }
 

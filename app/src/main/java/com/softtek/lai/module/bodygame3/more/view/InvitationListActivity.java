@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -69,8 +68,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        Bundle bundle=getIntent().getBundleExtra("class");
-        model=bundle.getParcelable("class");
+        model=getIntent().getParcelableExtra("class");
         adapter=new InvitatedExpandableAdapter(this,datas,groups);
         lv.getRefreshableView().setAdapter(adapter);
 

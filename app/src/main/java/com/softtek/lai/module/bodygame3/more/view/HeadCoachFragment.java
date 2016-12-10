@@ -45,7 +45,7 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.rl_invitation: {
                 Intent intent = new Intent(getContext(), InvitationListActivity.class);
-                intent.putExtra("class", getArguments());
+                intent.putExtra("class", getArguments().getParcelable("class"));
                 startActivity(intent);
             }
                 break;

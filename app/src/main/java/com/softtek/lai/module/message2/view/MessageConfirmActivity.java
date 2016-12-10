@@ -6,6 +6,7 @@
 package com.softtek.lai.module.message2.view;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -184,7 +185,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                         public void success(final ResponseData responseData, Response response) {
                                             dialogDissmiss();
                                             if (responseData.getStatus() == 200) {
-                                                ClassModel model=new ClassModel();
+                                                ClassModel model = new ClassModel();
                                                 model.setClassId(show.getClassId());
                                                 model.setClassName(show.getClassName());
                                                 model.setClassCode(show.getClassCode());
@@ -192,7 +193,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 model.setClassRole(show.getClassRole());
                                                 model.setClassMasterName(show.getClassMasterName());
                                                 model.setClassStatus(show.getClassStatus());
-                                                EventBus.getDefault().post(new UpdateClass(1,model));
+                                                EventBus.getDefault().post(new UpdateClass(1, model));
                                                 setResult(RESULT_OK);
                                                 finish();
                                                 (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
@@ -202,7 +203,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                     }
                                                 });
                                             } else {// 此时需要环信剔除处理
-                                                ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                                (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         Util.toastMsg(str3 + responseData.getMsg());
@@ -233,7 +234,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
                         } catch (final HyphenateException e) {
                             e.printStackTrace();
-                             MessageConfirmActivity.this.runOnUiThread(new Runnable() {
+                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Util.toastMsg(str3 + e.getMessage());
