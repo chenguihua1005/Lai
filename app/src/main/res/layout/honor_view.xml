@@ -101,12 +101,12 @@
                         android:id="@+id/user_set_img"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/default_icon_rect"/>
+                        android:src="@drawable/img_default"/>
                     <TextView
+                        android:id="@+id/tv_loss_fat"
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="111"
                         android:textSize="32dp"
                         android:textColor="@color/white"/>
 
@@ -118,7 +118,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="减重30斤"
                     android:textColor="@color/white">
 
                 </TextView>
@@ -177,12 +176,12 @@
                         android:id="@+id/user_set_img2"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/default_icon_rect"/>
+                        android:src="@drawable/img_default"/>
                     <TextView
+                        android:id="@+id/tv_loss_weight"
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="222"
                         android:textSize="32dp"
                         android:textColor="@color/white"/>
 
@@ -194,7 +193,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="减脂5%"
                     android:textColor="@color/white">
 
                 </TextView>

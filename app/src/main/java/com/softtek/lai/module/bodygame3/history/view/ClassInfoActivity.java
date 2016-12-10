@@ -7,13 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -23,21 +20,24 @@ import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.bodygame3.history.adapter.MyFragmentPagerAdapter;
 import com.softtek.lai.module.bodygame3.history.adapter.RecyclerViewInfoAdapter;
+import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_class_history)
@@ -72,8 +72,12 @@ public class ClassInfoActivity extends BaseActivity {
     TextView mLossWeightValue;
     @InjectView(R.id.tv_loss_fat_value)
     TextView mLossFatValue;
+    @InjectView(R.id.tv_loss_weight)
+    TextView mLossWeight;
+    @InjectView(R.id.tv_loss_fat)
+    TextView mLossFat;
 
-    private ArrayList<Fragment> classmates;
+    private ArrayList<Fragment> classmates = new ArrayList<>();
     private MyFragmentPagerAdapter mViewpagerAdapter;
     private int brokenIndex = 0;
     private int lastVisitableItem;
@@ -84,11 +88,11 @@ public class ClassInfoActivity extends BaseActivity {
     private List<PhotoWallslistModel> wallsList = new ArrayList<>();
 
     private HistoryClassModel historyClassModel;
+    private HistoryService service;
+    private int page = 1;
+    private static final int LOADCOUNT = 6;
 
     private void init() {
-        mInfoTitle.setText("3月班");
-        initViewpager();
-//        initRecyclerView();
         initAppbarAndPull();
     }
 
@@ -129,11 +133,11 @@ public class ClassInfoActivity extends BaseActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (mInfoAdapter.getItemCount() < 15) {
-                    if (!isLoading) {
-                        isLoading = true;
-
-                    }
+                int count = mInfoAdapter.getItemCount();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
+                    //加载更多数据
+                    page++;
+                    updateRecyclerView(page, 6);
                 }
             }
 
@@ -147,15 +151,43 @@ public class ClassInfoActivity extends BaseActivity {
         });
     }
 
-    private void initViewpager() {
-        classmates = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            BrokenLineFragment fragment = new BrokenLineFragment();
-            classmates.add(fragment);
-        }
+    private void updateRecyclerView(int pageIndex, int pageCount) {
+        service.getClassDynamic(
+                UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(),
+                historyClassModel.getClassId(),
+                pageIndex + "",
+                pageCount + "",
+                new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                        if (responseData.getStatus() == 200 && responseData.getData().getPhotoWallslist() != null) {
+                            wallsList.addAll(responseData.getData().getPhotoWallslist());
+                            mInfoAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (mPull.isRefreshing()) {
+                            mPull.setRefreshing(false);
+                        }
+                        super.failure(error);
+                    }
+                }
+        );
+    }
+
+    private void initViewpager(HistoryDetailsBean bean) {
+        BrokenLineFragment1 fragment1 = BrokenLineFragment1.newInstance(bean);
+        BrokenLineFragment2 fragment2 = BrokenLineFragment2.newInstance(bean);
+        BrokenLineFragment3 fragment3 = BrokenLineFragment3.newInstance(bean);
+        classmates.add(fragment1);
+        classmates.add(fragment2);
+        classmates.add(fragment3);
         mViewpagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), classmates);
         mBrokenViewPager.setAdapter(mViewpagerAdapter);
-        mBrokenViewPager.setOffscreenPageLimit(2);
+
         mBrokenViewPager.setCurrentItem(0);
         addPoint();
         mBrokenViewPager.addOnPageChangeListener(new MyOnPageChangeListener());
@@ -225,47 +257,96 @@ public class ClassInfoActivity extends BaseActivity {
         mMostFatNull.setVisibility(View.VISIBLE);
         mMostWeight.setVisibility(View.GONE);
         mMostWeightNull.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
+//        mRecyclerView.setVisibility(View.GONE);
         mLossFatValue.setVisibility(View.INVISIBLE);
         mLossWeightValue.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    protected void initDatas() {
-        dialogShow("加载中。。。");
-        historyClassModel = (HistoryClassModel) getIntent().getSerializableExtra("classData");
-        HistoryService service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
-        service.getClassDynamic(
+    private void getHistoryInfo() {
+        service.getHistoryInfo(
                 UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-                "00a46548-339f-4768-bd6b-4cca15f57249",
-//                model.getClassId(),
-                "1",
-                "100",
-                new Callback<ResponseData<PhotoWallListModel>>() {
+//                historyClassModel.getClassId(),
+                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                new RequestCallback<ResponseData<HistoryDetailsBean>>() {
+                    @SuppressLint("LongLogTag")
                     @Override
-                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
-                        dialogDissmiss();
-                        mPull.setRefreshing(false);
+                    public void success(ResponseData<HistoryDetailsBean> responseData, Response response) {
                         if (responseData.getStatus() == 200) {
-                            String totalPage = responseData.getData().getTotalPage();
-                            wallsList = responseData.getData().getPhotoWallslist();
-                            initRecyclerView();
+                            initViewpager(responseData.getData());
+                            if (responseData.getData().getList_Top1() != null) {
+                                if (responseData.getData().getList_Top1().size() > 2) {
+                                    initTop(responseData.getData().getList_Top1());
+                                } else {
+                                    initFailedView();
+                                }
+                            } else {
+                                initFailedView();
+                            }
 
-                        } else if (responseData.getMsg().equals("暂无数据")) {
-                            initFailedView();
                         }
                     }
 
-                    @SuppressLint("LongLogTag")
                     @Override
                     public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        mPull.setRefreshing(false);
-                        Log.d("historyClassModel-------------", String.valueOf(error));
-                        Toast.makeText(ClassInfoActivity.this, "失败", Toast.LENGTH_SHORT).show();
+                        initViewpager(new HistoryDetailsBean());
+                        super.failure(error);
                     }
                 });
     }
 
+    private void initTop(List<HistoryDetailsBean.ListTop1Bean> list) {
+        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto()).placeholder(R.drawable.default_icon_rect)
+                .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
+        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto()).placeholder(R.drawable.default_icon_rect)
+                .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
+        mLossFat.setText(list.get(0).getUserName());
+        mLossWeight.setText(list.get(1).getUserName());
+        mLossFatValue.setText("减重" + list.get(0).getLoss() + "斤");
+        mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
+    }
+
+    private void getClassDynamicInfo() {
+        service.getClassDynamic(
+                UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(),
+                historyClassModel.getClassId(),
+//                "00a46548-339f-4768-bd6b-4cca15f57249",
+                "1",
+                "6",
+                new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                        mPull.setRefreshing(false);
+                        if (responseData.getStatus() == 200) {
+                            wallsList.addAll(responseData.getData().getPhotoWallslist());
+                            mInfoAdapter.notifyDataSetChanged();
+
+                        } else if (responseData.getMsg().equals("暂无数据")) {
+                            initFailedView();
+                            initRecyclerView();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (mPull.isRefreshing()) {
+                            mPull.setRefreshing(false);
+                        }
+                        super.failure(error);
+                    }
+                });
+    }
+
+    @Override
+    protected void initDatas() {
+        classmates = new ArrayList<>();
+        initRecyclerView();
+        mBrokenViewPager.setOffscreenPageLimit(2);
+        service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
+        historyClassModel = (HistoryClassModel) getIntent().getSerializableExtra("classData");
+        mInfoTitle.setText(historyClassModel.getClassName());
+        getClassDynamicInfo();
+        getHistoryInfo();
+    }
 }

@@ -12,7 +12,7 @@ import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
-import com.softtek.lai.module.bodygame3.photowall.model.TitleModel;
+import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -209,7 +209,7 @@ public interface HeadService {
     @GET("/V1/HealthyCircle/GetPhWallTheme")
     void doGetPhWallTheme(
             @Header("token") String token,
-            Callback<ResponseData<List<TitleModel>>>callback
+            Callback<ResponseData<List<TopicModel>>>callback
     );
 
 

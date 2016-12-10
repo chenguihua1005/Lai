@@ -38,7 +38,12 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 import java.io.File;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.MultipartTypedOutput;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
@@ -104,11 +109,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     FuceSevice fuceSevice;
     InitDataModel initDataModel;
     String gender="0";
+    String classId;
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     private ImageFileCropSelector imageFileCropSelector;
     private static final int CAMERA_PREMISSION=100;
+    MultipartTypedOutput multipartTypedOutput;
     String files;
     @Override
     protected void initViews() {
@@ -151,6 +158,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         doData();
+        multipartTypedOutput=new MultipartTypedOutput();
         if (initDataModel!=null)
         {
             tv_write_chu_weight.setText(initDataModel.getInitWeight());//初始体重
@@ -267,8 +275,48 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
 
 
                 break;
+            case R.id.fl_right:
+                Log.i("图片测试"+files+"哈哈"+im_retestwrite_showphoto.getResources());
+                if (!TextUtils.isEmpty(files)) {
+                    multipartTypedOutput.addPart("accountId",new TypedString("3399"));
+                    multipartTypedOutput.addPart("classId",new TypedString("C4E8E179-FD99-4955-8BF9-CF470898788B"));
+                    multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+                    multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+                    multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+                    multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+                    multipartTypedOutput.addPart("circum", new TypedString(initDataModel.getCircum().toString()));//胸围
+                    multipartTypedOutput.addPart("waistline", new TypedString(initDataModel.getWaistline().toString()));//腰围
+//        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
+                    multipartTypedOutput.addPart("upArmGirth", new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
+                    multipartTypedOutput.addPart("upLegGirth", new TypedString(initDataModel.getUpLegGirth().toString()));//大腿围
+                    multipartTypedOutput.addPart("doLegGirth", new TypedString(initDataModel.getDoLegGirth().toString()));//小腿围
+                    Log.i("上传数据" + multipartTypedOutput.getPartCount());
+                    doPostInitData();
+                }
+                else {
+                    Util.toastMsg("请上传图片");
+                }
+                break;
 
         }
+    }
+    void doPostInitData()
+    {
+        fuceSevice.doPostMeasuredData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+        });
     }
     void doSetData()
     {
