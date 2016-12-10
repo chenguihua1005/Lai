@@ -71,8 +71,11 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             if (!TextUtils.isEmpty(classlistModel.getClassMasterPhoto()))
             {
                 //教练头像
-                Picasso.with(this).load(AddressManager.get("photoHost")+classlistModel.getClassMasterPhoto()).fit().into(cir_img);
+                Picasso.with(this).load(AddressManager.get("photoHost")+classlistModel.getClassMasterPhoto()).fit().error(R.drawable.img_default)
+                        .placeholder(R.drawable.img_default).into(cir_img);
                 Log.i("教练头像",AddressManager.get("photoHost")+classlistModel.getClassMasterPhoto());
+            }else{
+                Picasso.with(this).load(R.drawable.img_default).into(cir_img);
             }
             tv_coach_name.setText(classlistModel.getClassMasterName());//总教练名称
             tv_classname.setText(classlistModel.getClassName());//班级名称
