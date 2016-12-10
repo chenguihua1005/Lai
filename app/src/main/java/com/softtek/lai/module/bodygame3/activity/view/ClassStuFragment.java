@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
@@ -113,6 +114,16 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     private static final int LOADCOUNT = 10;
     private int page = 1;
     private int lastVisitableItem;
+
+    public void setDeleteClass(DeleteClass deleteClass) {
+        this.deleteClass = deleteClass;
+    }
+
+    public static ClassStuFragment getInstance(DeleteClass deleteClass) {
+        ClassStuFragment fragment = new ClassStuFragment();
+        fragment.setDeleteClass(deleteClass);
+        return fragment;
+    }
 
     public ClassStuFragment() {
         // Required empty public constructor
@@ -233,15 +244,17 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
 
-                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                reset_name.setText("复测审核");
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
+//                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+//                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
+//                                reset_name.setText("复测审核");
+//                                if (!activitydataModel.getRetest()) {
+//                                    reset_time.setText("未审核");
+//                                } else {
+//                                    reset_time.setText("已审核");
+//                                }
+//                            }
+//                            else
+                            if (Constants.STUDENT == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
                                 if (!activitydataModel.getRetest()) {
@@ -349,50 +362,17 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_chuDate.setVisibility(View.VISIBLE);
                             }
 
-                            if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                fl_right.setVisibility(View.VISIBLE);
-                                fl_right.setEnabled(true);
-                                reset_name.setText("复测审核");
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
+                            ll_fuce.setBackgroundResource(R.drawable.reset_back);
+                            reset_name.setText("复测录入");
+                            fl_right.setEnabled(false);
+                            iv_right.setVisibility(View.GONE);
+                            if (!activitydataModel.getRetest()) {
+                                reset_time.setText("未复测");
+                            } else {
+                                reset_time.setText("已复测");
                             }
-                            if (Constants.STUDENT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
-                                reset_name.setText("复测录入");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未复测");
-                                } else {
-                                    reset_time.setText("已复测");
-                                }
-                            }
-                            if (Constants.COACH == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                reset_name.setText("复测审核");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            }
-                            if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                reset_name.setText("复测审核");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            }
+
+
                             //加载班级
                             classModels.clear();
                             if (activitydataModel.getList_Class() != null) {
@@ -528,9 +508,9 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
             case R.id.ll_left:
                 getActivity().finish();
                 break;
-//            case R.id.ll_fuce:
-//                startActivity(new Intent(getContext(), HonorActivity.class));
-//                break;
+            case R.id.ll_fuce:
+                startActivity(new Intent(getContext(), FcStuActivity.class));
+                break;
         }
     }
 
@@ -659,7 +639,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
             if (classModels.isEmpty()) {
                 if (deleteClass != null) {
-                    deleteClass.deletClass(0);
+                    deleteClass.deletClass();
                 }
             } else {
                 tv_title.setSelected(0);
@@ -672,6 +652,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     public interface DeleteClass {
-        void deletClass(int classCount);
+        void deletClass();
     }
+
 }
