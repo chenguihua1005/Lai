@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message2.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -49,7 +48,6 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.activity_message_confirm)
 public class MessageConfirmActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "MessageConfirmActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -167,6 +165,10 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_yes:
+                if(!cb_term.isChecked()){
+                    Util.toastMsg("请勾选康宝莱用户使用协议");
+                    return;
+                }
                 dialogShow();
                 final String str2 = getResources().getString(R.string.Has_agreed_to);
                 final String str3 = getResources().getString(R.string.Agree_with_failure);
@@ -221,7 +223,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                         @Override
                                         public void failure(final RetrofitError error) {
                                             dialogDissmiss();
-                                            ((Activity) MessageConfirmActivity.this).runOnUiThread(new Runnable() {
+                                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     Util.toastMsg(str3 + error.getMessage());
