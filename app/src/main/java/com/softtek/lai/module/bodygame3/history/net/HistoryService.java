@@ -1,13 +1,10 @@
 package com.softtek.lai.module.bodygame3.history.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 
-import okhttp3.RequestBody;
-import retrofit.Callback;
-import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;

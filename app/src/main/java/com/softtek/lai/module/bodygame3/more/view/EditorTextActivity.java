@@ -1,9 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Selection;
 import android.view.View;
 import android.widget.EditText;
@@ -31,8 +30,6 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
     public static final int UPDATE_CLASS_NAME=1;
     public static final int UPDATE_GROUP_NAME=2;
     public static final int ADD_GROUP_NAME=3;
-    public static final int ADD_ACTIVITY_NAME=4;
-    public static final int ADD_MARK=5;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -44,6 +41,7 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
+
     @Required(order=1)
     @InjectView(R.id.et_value)
     EditText et_value;
@@ -79,14 +77,6 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
                 et_value.setHint("小组名称");
                 groups=intent.getStringArrayListExtra("groups");
                 break;
-            case ADD_ACTIVITY_NAME:
-                tv_title.setText("编辑活动名称");
-                et_value.setHint("活动名称");
-                break;
-            case ADD_MARK:
-                tv_title.setText("编辑活动说明");
-                et_value.setHint("活动说明");
-                break;
         }
         tv_right.setText("确定");
         ll_left.setOnClickListener(new View.OnClickListener() {
@@ -115,25 +105,26 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
 
     }
 
-    private void showTip(String msg){
-        new AlertDialog.Builder(this).setMessage(msg)
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).show();
-    }
-
-
     @Override
     public void onValidationSucceeded() {
         if (StringUtil.length(et_value.getText().toString())>12){
-            showTip("填写内容必须小于12个字");
+            String message="";
+            switch (flag){
+                case UPDATE_CLASS_NAME:
+                    message="班级名称不能超过12个汉字";
+                    break;
+                case ADD_GROUP_NAME:
+                case UPDATE_GROUP_NAME:
+                    message="小组名称不能超过12个汉字";
+                    break;
+            }
+            et_value.requestFocus();
+            et_value.setError(Html.fromHtml("<font color=#FFFFFF>" + message + "</font>"));
         }else {
             if(flag==UPDATE_GROUP_NAME||flag==ADD_GROUP_NAME){
                 if(groups.contains(et_value.getText().toString().trim())){
-                    showTip("组名以存在");
+                    et_value.requestFocus();
+                    et_value.setError(Html.fromHtml("<font color=#FFFFFF>小组名称已存在</font>"));
                     return;
                 }
             }
@@ -146,6 +137,19 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        showTip("请填写内容");
+        String message="";
+        switch (flag){
+            case UPDATE_CLASS_NAME:
+                message="请输入班级名称";
+                break;
+            case ADD_GROUP_NAME:
+            case UPDATE_GROUP_NAME:
+                message="请输入小组名称";
+                break;
+        }
+        if (failedView instanceof EditText) {
+            failedView.requestFocus();
+            ((EditText) failedView).setError(Html.fromHtml("<font color=#FFFFFF>" + message + "</font>"));
+        }
     }
 }

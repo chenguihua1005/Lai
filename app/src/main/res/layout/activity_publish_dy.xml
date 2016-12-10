@@ -1,77 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_publish_dy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context="com.softtek.lai.module.bodygame3.head.view.PublishDyActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
-    <LinearLayout
-        android:layout_below="@id/toolbar"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <EditText
+        android:id="@+id/et_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_shap"
+        android:gravity="top"
+        android:hint="写点什么吧..."
         android:paddingBottom="19dp"
-        android:background="@color/white">
-        <EditText
-            android:id="@+id/et_content"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="top"
-            android:paddingTop="8dp"
-            android:paddingLeft="6dp"
-            android:textSize="12sp"
-            android:background="@drawable/edit_shap"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textColorHint="#999999"
-            android:hint="写点什么吧..."/>
+        android:paddingLeft="6dp"
+        android:paddingTop="8dp"
+        android:textColorHint="#999999"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="12sp" />
 
-        <com.softtek.lai.widgets.CustomGridView
-            android:id="@+id/cgv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:numColumns="3"
-            android:columnWidth="100dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="4dp">
+    <com.softtek.lai.widgets.CustomGridView
+        android:id="@+id/cgv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4dp" />
 
-        </com.softtek.lai.widgets.CustomGridView>
-
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#ffffff">
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#eeeeee"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="话题"/>
-           <ListView
-               android:id="@+id/list_title"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-           </ListView>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#eeeeee"/>
-    </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_height="10dp"
+        android:background="#fafafa" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#333333"
+        android:text="话题" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E6E6E6" />
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="0.5dp"
+        android:divider="#E6E6E6"/>
+
+</LinearLayout>

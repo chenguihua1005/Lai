@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
@@ -200,13 +201,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
+                    if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
+                        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify);
+                    }
                 }
 
             }
         }).start();
 
-
-//        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum), et_identify);
     }
 
     @Override

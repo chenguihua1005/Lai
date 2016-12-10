@@ -103,7 +103,11 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
         if (classModel != null) {
             String end_date = classModel.getEndDate();
-            if (StringToDate(end_date).before(getNowDate())) {
+            long CoachId = classModel.getCoachId();
+
+            Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
+
+            if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
                 btn_dismissclass.setVisibility(View.VISIBLE);
 //            btn_dismissclass.setText("解散班级群");
 //            btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
@@ -141,7 +145,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                             Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
                             if (classModel != null) {
                                 String end_date = classModel.getEndDate();
-                                if (StringToDate(end_date).before(getNowDate())) {
+                                long CoachId = classModel.getCoachId();
+                                Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
+
+                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
                                     btn_dismissclass.setVisibility(View.VISIBLE);
                                 }
 
@@ -248,8 +255,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                     public void run() {
                                         dialogDissmiss();
                                         //跳转到群聊列表
+
                                         Intent intent = new Intent(ClassDetailActivity.this, GroupsActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 });
 

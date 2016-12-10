@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
