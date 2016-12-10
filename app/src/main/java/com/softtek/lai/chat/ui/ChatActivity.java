@@ -139,9 +139,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
 
         ll_left.setOnClickListener(this);
-        fl_right.setVisibility(View.VISIBLE);
-        iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+
+
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
+            fl_right.setVisibility(View.VISIBLE);
+            iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.groupicon));
+
             if (classModel != null) {
                 tv_title.setText(classModel.getClassName());
 
@@ -163,6 +166,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 }).start();
             }
         } else {
+            fl_right.setVisibility(View.GONE);
             tv_title.setText(title_value);
         }
 

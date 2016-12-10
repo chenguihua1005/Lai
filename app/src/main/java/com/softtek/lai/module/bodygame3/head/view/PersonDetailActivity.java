@@ -71,7 +71,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     HeadService headService;
     NewsTopFourModel newsTopFourModel;
     Long userid, accountid;
-    int SetLove=1;
+    int SetLove = 1;
     MemberInfoModel memberInfoModel;
     @InjectView(R.id.ll_weigh)
     LinearLayout ll_weigh;
@@ -185,32 +185,31 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
-        doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId,HXAccountId);
+        doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
     }
 
-    private void doGetService(final long userid, long accountid, String classid,String HXAccountId) {
+    private void doGetService(final long userid, long accountid, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
 //        if (TextUtils.isEmpty(HXAccountId)) {
-            headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
-                @Override
-                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
-                    int status=memberInfoModelResponseData.getStatus();
-                    try {
-                        switch (status)
-                        {
-                            case 200:
-                                memberInfoModel = memberInfoModelResponseData.getData();
-                                doGetData();
-                                break;
-                            default:
-                                Util.toastMsg(memberInfoModelResponseData.getMsg());
-                                break;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            @Override
+            public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+                int status = memberInfoModelResponseData.getStatus();
+                try {
+                    switch (status) {
+                        case 200:
+                            memberInfoModel = memberInfoModelResponseData.getData();
+                            doGetData();
+                            break;
+                        default:
+                            Util.toastMsg(memberInfoModelResponseData.getMsg());
+                            break;
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+        });
 //        }
 //    else {
 //            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
@@ -235,8 +234,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //            });
 //        }
     }
-    private void doGetData()
-    {
+
+    private void doGetData() {
         try {
             if (memberInfoModel != null) {
                 //加载头像
@@ -244,7 +243,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     Picasso.with(getParent()).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).fit().error(R.drawable.img_default).into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
-
+                AccountId = memberInfoModel.getAccountid();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
@@ -254,11 +253,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
                     }
                     ll_chart.setVisibility(View.VISIBLE);
-                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer()))
-                    {
+                    if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
-                    }
-                    else {
+                    } else {
                         iv_email.setVisibility(View.GONE);
                     }
 
@@ -295,8 +292,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 newsTopFourModels = memberInfoModel.getNewsTopFour();
                 doGetPhotoView();//展示图片
-                if ("4".equals(memberInfoModel.getClassRole()))
-                {
+                if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
                         tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
@@ -314,8 +310,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
                         Log.i("现在体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg());
                     }
-                }
-                else {
+                } else {
                     ll_chart.setVisibility(View.GONE);
                 }
 
@@ -326,6 +321,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
     }
+
     private void doGetPhotoView() {
         if (newsTopFourModels.size() == 0) {
             int[] imgs = new int[]{R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect
@@ -422,45 +418,68 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
+
+
+        new Thread(new Runnable() {
             @Override
-            public void success(ResponseData responseData, Response response) {
-                int status = responseData.getStatus();
-                if (200 == status) {
-                    progressDialog.dismiss();
-                    Util.toastMsg(getResources().getString(R.string.send_successful));
-                    new Thread(new Runnable() {
+            public void run() {
+                try {
+                    String s = getResources().getString(R.string.Add_a_friend);
+                    EMClient.getInstance().contactManager().addContact(HXAccountId, s);
+
+                    ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                    service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
                         @Override
-                        public void run() {
-                            try {
-                                String s = getResources().getString(R.string.Add_a_friend);
-                                EMClient.getInstance().contactManager().addContact(HXAccountId, s);
-                            } catch (final HyphenateException e) {//环信加好友成功与否并不影响这边逻辑
-                                e.printStackTrace();
-                                progressDialog.dismiss();
-//                                runOnUiThread(new Runnable() {
-//                                    public void run() {
-//                                        progressDialog.dismiss();
-//                                        String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-//                                        Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
-//                                    }
-//                                });
+                        public void success(final ResponseData responseData, Response response) {
+                            int status = responseData.getStatus();
+
+                            if (200 == status) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                        Util.toastMsg(getResources().getString(R.string.send_successful));
+                                    }
+                                });
+
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                        String s2 = getResources().getString(R.string.Request_add_buddy_failure);
+                                        Toast.makeText(getApplicationContext(), s2 + responseData.getMsg(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
-
                         }
-                    }).start();
-                }
-            }
 
-            @Override
-            public void failure(final RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                progressDialog.dismiss();
-                String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                Toast.makeText(getApplicationContext(), s2, Toast.LENGTH_LONG).show();
+                        @Override
+                        public void failure(final RetrofitError error) {
+                            ZillaApi.dealNetError(error);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    progressDialog.dismiss();
+                                    String s2 = getResources().getString(R.string.Request_add_buddy_failure);
+                                    Toast.makeText(getApplicationContext(), s2 + error.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+
+                } catch (final HyphenateException e) {//环信加好友成功与否并不影响这边逻辑
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            progressDialog.dismiss();
+                            String s2 = getResources().getString(R.string.Request_add_buddy_failure);
+                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
             }
-        });
+        }).start();
+
 
     }
 
@@ -473,44 +492,72 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         pd.setMessage(st1);
         pd.setCanceledOnTouchOutside(false);
         pd.show();
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.removeFriend(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AFriendId, new Callback<ResponseData>() {
+
+        new Thread(new Runnable() {
             @Override
-            public void success(ResponseData responseData, Response response) {
-                pd.dismiss();
-                int status = responseData.getStatus();
-                if (200 == status) {
-                    Util.toastMsg("删除成功！");
-                    new Thread(new Runnable() {
+            public void run() {
+                try {
+                    EMClient.getInstance().contactManager().deleteContact(HXAccountId);
+
+                    ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                    service.removeFriend(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AFriendId, new Callback<ResponseData>() {
                         @Override
-                        public void run() {
-                            try {
-                                EMClient.getInstance().contactManager().deleteContact(HXAccountId);
-                                Log.i(TAG, "删除好友成功！");
-                            } catch (HyphenateException e) {
-                                e.printStackTrace();
-                                Log.i(TAG, "删除好友error！");
+                        public void success(ResponseData responseData, Response response) {
+                            int status = responseData.getStatus();
+                            if (200 == status) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pd.dismiss();
+                                        Util.toastMsg("删除好友成功");
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pd.dismiss();
+                                        Util.toastMsg("删除好友失败！");
+                                    }
+                                });
+
                             }
                         }
-                    }).start();
 
+                        @Override
+                        public void failure(final RetrofitError error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pd.dismiss();
+                                    Util.toastMsg(st2 + error.getMessage());
+                                }
+                            });
+
+                            ZillaApi.dealNetError(error);
+                        }
+                    });
+                } catch (final HyphenateException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pd.dismiss();
+                            Util.toastMsg(st2 + e.getMessage());
+                        }
+                    });
+                    e.printStackTrace();
                 }
             }
+        }).start();
 
-            @Override
-            public void failure(RetrofitError error) {
-                pd.dismiss();
-                Util.toastMsg(st2 +error.getMessage());
-                ZillaApi.dealNetError(error);
-            }
-        });
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==SetLove&&resultCode==RESULT_OK) {
-        doGetService(userid,AccountId,ClassId,HXAccountId);
+        if (requestCode == SetLove && resultCode == RESULT_OK) {
+            doGetService(userid, AccountId, ClassId, HXAccountId);
             titlePopup.cleanAction();
         }
     }
@@ -524,14 +571,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             btn_addguy.setVisibility(View.VISIBLE);
         }
         if ("修改爱心学员".equals(item.mTitle)) {
-//            removeFriend();
+            Intent intent = new Intent(this, SetLoveStuActivity.class);
+            intent.putExtra("AccounId", AccountId);
+            intent.putExtra("ClassId", ClassId);
+            startActivityForResult(intent, SetLove);
         }
-        if ("删除好友".equals(item.mTitle)) {
-            Intent intent=new Intent(this,SetLoveStuActivity.class);
-            intent.putExtra("AccounId",AccountId);
-            intent.putExtra("ClassId",ClassId);
-            startActivityForResult(intent,SetLove);
-        }
+
 
     }
 
