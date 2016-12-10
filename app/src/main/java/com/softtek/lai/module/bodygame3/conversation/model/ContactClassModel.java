@@ -20,7 +20,7 @@ public class ContactClassModel implements Serializable{
 //            "Total": 1
 
 
-    private int CoachId;//总教练Id
+    private long CoachId;//总教练Id
     private String CoachName;//总教练姓名
     private String CoachPhoto;//总教练照片
 
@@ -35,7 +35,7 @@ public class ContactClassModel implements Serializable{
     private int Total;
     private String HXGroupId;
 
-    public ContactClassModel(int coachId, String coachName, String coachPhoto, String classId, String classBanner, String className, String classCode, String role, String startDate, String endDate, int total, String HXGroupId) {
+    public ContactClassModel(long coachId, String coachName, String coachPhoto, String classId, String classBanner, String className, String classCode, String role, String startDate, String endDate, int total, String HXGroupId) {
         CoachId = coachId;
         CoachName = coachName;
         CoachPhoto = coachPhoto;
@@ -58,11 +58,11 @@ public class ContactClassModel implements Serializable{
         this.HXGroupId = HXGroupId;
     }
 
-    public int getCoachId() {
+    public long getCoachId() {
         return CoachId;
     }
 
-    public void setCoachId(int coachId) {
+    public void setCoachId(long coachId) {
         CoachId = coachId;
     }
 
