@@ -255,8 +255,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                     public void run() {
                                         dialogDissmiss();
                                         //跳转到群聊列表
+
                                         Intent intent = new Intent(ClassDetailActivity.this, GroupsActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 });
 

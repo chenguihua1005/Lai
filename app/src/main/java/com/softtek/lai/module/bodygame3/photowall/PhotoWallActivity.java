@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.view;
+package com.softtek.lai.module.bodygame3.photowall;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -31,18 +31,13 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
-import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallslistModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
-import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
-import com.softtek.lai.module.home.view.HealthyFragment;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DisplayUtil;
@@ -51,8 +46,6 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class MemberInfoModel {
+    private long Accountid;//
     private String UserName;//学员姓名
     private String UserPhoto;//学员头像
     private String UserThPhoto;//学员头像缩略图
@@ -27,6 +28,14 @@ public class MemberInfoModel {
     private String CurttentImg;//目前体重图
     private String CurttentThImg;//目前体重缩略图
     private String PersonalityName;//个人签名
+
+    public long getAccountid() {
+        return Accountid;
+    }
+
+    public void setAccountid(long accountid) {
+        Accountid = accountid;
+    }
 
     @Override
     public String toString() {

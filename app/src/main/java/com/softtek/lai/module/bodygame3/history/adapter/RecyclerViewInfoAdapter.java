@@ -11,25 +11,19 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallslistModel;
-import com.softtek.lai.module.bodygame3.head.view.PhotoWallActivity;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
