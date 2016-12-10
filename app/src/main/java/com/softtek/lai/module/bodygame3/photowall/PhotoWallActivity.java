@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -31,13 +31,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
-import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DisplayUtil;
@@ -70,14 +67,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
-
-    private RecommentHealthyManager community;
-    private HealthyCommunityAdapter adapter;
-    private EasyAdapter<PhotoWallslistModel> photoWallListModelEasyAdapter;
+    private EasyAdapter<PhotoWallslistModel> adapter;
     PhotoWallListModel photoWallListModel;
-    PhotoWallslistModel photowallItemModel;
     List<PhotoWallslistModel> photoWallItemModels=new ArrayList<PhotoWallslistModel>();
-    private List<HealthyCommunityModel> communityModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
     HeadService headService;
@@ -87,8 +79,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     private ImageFileSelector imageFileSelector;
     @Override
     protected void initViews() {
+        tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
-        iv_email.setBackground(getResources().getDrawable(R.drawable.camera));
+        iv_email.setBackground(ContextCompat.getDrawable(this,R.drawable.camera));
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setEmptyView(empty);
@@ -128,16 +121,21 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     protected void initDatas() {
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
         doGetData();
-        photoWallListModelEasyAdapter=new EasyAdapter<PhotoWallslistModel>(this,photoWallItemModels,R.layout.photowall_list_item) {
+        adapter =new EasyAdapter<PhotoWallslistModel>(this,photoWallItemModels,R.layout.photowall_list_item) {
             @Override
             public void convert(ViewHolder holder, final PhotoWallslistModel data, int position) {
                 TextView tv_name= holder.getView(R.id.tv_name);
                 tv_name.setText(data.getUserName());//用户名
                 CircleImageView civ_header_image=holder.getView(R.id.civ_header_image);
                 if (!TextUtils.isEmpty(data.getUserPhoto())) {//头像
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost")+data.getUserPhoto()).fit().error(R.drawable.img_default)
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost")+data.getUserPhoto())
+                            .fit()
+                            .error(R.drawable.img_default)
+                            .placeholder(R.drawable.img_default)
                             .into(civ_header_image);
-                    Log.i("照片墙动态测试头像",AddressManager.get("photoHost")+data.getUserPhoto());
+                }else {
+                    Picasso.with(getParent()).load(R.drawable.img_default)
+                            .into(civ_header_image);
                 }
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getContent());//正文
@@ -206,7 +204,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     }
                 });
                 CustomGridView photos=holder.getView(R.id.photos);
-//                String[] imgs = data.getUserThPhoto().split(",");
                 final ArrayList<String> list = new ArrayList<>();
 
                 for (int i = 0; i < data.getPhotoList().size(); i++) {
@@ -225,9 +222,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 });
 
             }
-        }
-        ;
-        ptrlv.setAdapter(photoWallListModelEasyAdapter);
+        };
+        ptrlv.setAdapter(adapter);
     }
 
     private void doGetData() {
@@ -243,11 +239,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         {
                             empty.setVisibility(View.GONE);
                             photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                            photoWallListModelEasyAdapter.notifyDataSetChanged();
-
+                            adapter.notifyDataSetChanged();
                         }
-                        break;
-                    case 100:
                         break;
                     default:
                         Util.toastMsg(photoWallListModelResponseData.getMsg());
@@ -264,7 +257,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 model.setIsFocus(focus);
             }
         }
-        photoWallListModelEasyAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
