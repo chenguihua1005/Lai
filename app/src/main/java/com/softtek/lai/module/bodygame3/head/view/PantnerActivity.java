@@ -74,7 +74,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initDatas() {
         classId_first = getIntent().getStringExtra("classId_first");
-        getpantners();
+//        getpantners();
         adapter = new EasyAdapter<PartnerlistModel>(this, partnerlistModels, R.layout.partner_item) {
             @Override
             public void convert(ViewHolder holder, PartnerlistModel data, int position) {
@@ -102,36 +102,37 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
             }
         });
-    }
-
-    private void getpantners() {
-        ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
-                "", classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
-                    @Override
-                    public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {
-                        pb.setVisibility(View.GONE);
-                        if (200 == pantnerpageModelResponseData.getStatus()) {
-                            if (pantnerpageModelResponseData.getData() != null) {
-                                PantnerpageModel pantnerpageModel = pantnerpageModelResponseData.getData();
-                                if (pantnerpageModel.getPartnersList() != null) {
-                                    partnerlistModels.clear();
-                                    partnerlistModels.addAll(pantnerpageModel.getPartnersList());
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pb.setVisibility(View.GONE);
-                        super.failure(error);
-                    }
-                });
         pantnerContent.addTextChangedListener(this);
     }
+
+//    private void getpantners() {
+//        ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
+//                "", classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
+//                    @Override
+//                    public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {
+//                        pb.setVisibility(View.GONE);
+//                        if (200 == pantnerpageModelResponseData.getStatus()) {
+//                            if (pantnerpageModelResponseData.getData() != null) {
+//                                PantnerpageModel pantnerpageModel = pantnerpageModelResponseData.getData();
+//                                if (pantnerpageModel.getPartnersList() != null) {
+//                                    partnerlistModels.clear();
+//                                    partnerlistModels.addAll(pantnerpageModel.getPartnersList());
+//                                    adapter.notifyDataSetChanged();
+//                                }
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        pb.setVisibility(View.GONE);
+//                        super.failure(error);
+//                    }
+//                });
+
+//    }
 
     @Override
     public void onClick(View view) {

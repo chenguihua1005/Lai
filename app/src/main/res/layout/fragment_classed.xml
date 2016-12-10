@@ -44,7 +44,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="初始数据录入"
+                        android:text="初始数据审核"
                         android:textSize="15sp"
                         android:textColor="@color/word" />
 
@@ -78,6 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
+
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -94,7 +95,7 @@
                         android:id="@+id/reset_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text="复测审核"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:layout_marginLeft="10dp"
