@@ -595,8 +595,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             Log.i(TAG, "username = " + username + "  toChatUsername = " + toChatUsername + " message.getTo() = " + message.getTo());
 
             // if the message is for current conversation
-            if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)) {
-//            if (username.equalsIgnoreCase(toChatUsername) || message.getTo().equalsIgnoreCase(toChatUsername)) {
+//            if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)) {
+            if (username.equalsIgnoreCase(toChatUsername) || message.getTo().equalsIgnoreCase(toChatUsername)) {
                 Log.i(TAG, "here 1....");
                 messageList.refreshSelectLast();
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
