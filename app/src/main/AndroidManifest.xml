@@ -749,12 +749,12 @@
             android:name=".module.bodygame3.head.view.VideomoreActivity"
             android:configChanges="screenSize" />
         <activity android:name=".module.bodygame3.activity.view.ActTextActivity" />
-        <activity android:name=".module.bodygame3.head.view.PhotoWallActivity" />
+        <activity android:name=".module.bodygame3.photowall.PhotoWallActivity" />
         <activity android:name=".module.message2.view.NoticeServerActivity" />
         <activity android:name=".module.message2.view.NoticeFCActivity" />
         <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity" />
         <activity android:name=".module.message2.view.ActionActivity" />
-        <activity android:name=".module.bodygame3.head.view.PublishDyActivity"></activity>
+        <activity android:name=".module.bodygame3.photowall.PublishDyActivity"></activity>
     </application>
 
 </manifest>

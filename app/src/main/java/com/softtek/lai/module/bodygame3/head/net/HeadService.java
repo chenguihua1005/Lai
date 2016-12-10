@@ -10,9 +10,9 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
-import com.softtek.lai.module.bodygame3.head.model.PublicDyModel;
-import com.softtek.lai.module.bodygame3.head.model.TitleModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
+import com.softtek.lai.module.bodygame3.photowall.model.TitleModel;
 import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 

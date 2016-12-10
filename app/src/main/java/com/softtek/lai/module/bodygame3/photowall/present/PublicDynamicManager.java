@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.present;
+package com.softtek.lai.module.bodygame3.photowall.present;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,10 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.model.PublicDyModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.community.model.CommunityModel;
-import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.net.UploadImageService;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;

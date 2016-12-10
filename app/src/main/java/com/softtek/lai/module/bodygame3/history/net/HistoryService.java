@@ -1,7 +1,7 @@
 package com.softtek.lai.module.bodygame3.history.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
