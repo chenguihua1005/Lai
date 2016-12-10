@@ -22,7 +22,6 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.ggx.widgets.view.CheckTextView;
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupManager;
@@ -399,7 +398,6 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
                 option.maxUsers = 200;
                 option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval ;//公开群，加入此群除了群主邀请，只能通过申请加入此群；
-                Log.i(TAG, "班级信息 = " + new Gson().toJson(clazz));
 
                 String[] members = {};
 
