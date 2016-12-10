@@ -62,6 +62,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     private int flag;
     private String classId;
+    private String classHXId;
 
     @Override
     protected void initViews() {
@@ -74,6 +75,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 et_value.setHint("班级名称");
                 et_value.setText(intent.getStringExtra("name"));
                 et_value.setMaxEms(10);
+                classHXId=intent.getStringExtra("classHxId");
                 Editable etext = et_value.getText();
                 Selection.setSelection(etext, etext.length());
                 break;
@@ -152,11 +154,9 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-
-                            String hxGroupId = "";
                             String changedGroupName = value;
                             try {
-                                EMClient.getInstance().groupManager().changeGroupName(hxGroupId, changedGroupName);//需异步处理
+                                EMClient.getInstance().groupManager().changeGroupName(classHXId, changedGroupName);//需异步处理
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                                         .updateClassName(UserInfoModel.getInstance().getToken(),

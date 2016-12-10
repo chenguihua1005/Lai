@@ -78,8 +78,6 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
         rl_update_fuce.setOnClickListener(this);
         rl_closs_class.setOnClickListener(this);
         classModel=getIntent().getParcelableExtra("class");
-//        className=getIntent().getStringExtra("className");
-//        classId=getIntent().getStringExtra("classId");
         className=classModel.getClassName();
         classId=classModel.getClassId();
 
@@ -243,6 +241,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 Intent intent=new Intent(this,EditorTextOlineActivity.class);
                 intent.putExtra("flag",EditorTextOlineActivity.UPDATE_CLASS_NAME);
                 intent.putExtra("classId",classId);
+                intent.putExtra("classHxId",classModel.getHXGroupId());
                 intent.putExtra("name",className);
                 startActivityForResult(intent,101);
             }
