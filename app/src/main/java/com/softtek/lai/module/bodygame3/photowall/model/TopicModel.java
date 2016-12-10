@@ -1,9 +1,10 @@
 package com.softtek.lai.module.bodygame3.photowall.model;
 
 /**
- * Created by Terry on 2016/12/9.
+ * 话题模型
+ * Created by jerry.guan on 2016/12/9.
  */
-public class TitleModel {
+public class TopicModel {
     private String WordKeyId;//话题id
     private String WordKey;//话题关键字
     private String ThemePhoto;//话题图片

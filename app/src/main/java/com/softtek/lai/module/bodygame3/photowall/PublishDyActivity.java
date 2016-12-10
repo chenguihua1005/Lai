@@ -9,10 +9,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -33,13 +30,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
-import com.softtek.lai.module.bodygame3.photowall.model.TitleModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
+import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
-import com.softtek.lai.module.message2.view.ShuoMClickableSpan;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -55,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
@@ -69,28 +66,32 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     @LifeCircleInject
     ValidateLife validateLife;
 
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @InjectView(R.id.cgv)
     CustomGridView cgv;
     @Required(order = 1,message = "请输入内容")
     @InjectView(R.id.et_content)
     EditText et_content;
-    @InjectView(R.id.list_title)
-    ListView list_title;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
-    EasyAdapter<TitleModel> titleModelEasyAdapter;
-    List<TitleModel> titleModels=new ArrayList<TitleModel>();
+    @InjectView(R.id.lv)
+    ListView lv;
+
+    List<TopicModel> titleModels=new ArrayList<>();
+    EasyAdapter<TopicModel> topicAdapter;
     private List<UploadImage> images=new ArrayList<>();
     private ImageFileSelector imageFileSelector;
     CommunityPhotoGridViewAdapter adapter;
     HeadService headService;
     PublicDynamicManager manager;
+
+
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -102,7 +103,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     protected void initDatas() {
-        doGetTitle();
+        doGetTopic();
         manager=new PublicDynamicManager(images, this);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
         if(image!=null){
@@ -116,9 +117,9 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
-        titleModelEasyAdapter=new EasyAdapter<TitleModel>(this,titleModels,R.layout.title_list_item) {
+        topicAdapter =new EasyAdapter<TopicModel>(this,titleModels,R.layout.item_topic) {
             @Override
-            public void convert(ViewHolder holder, final TitleModel data, int position) {
+            public void convert(ViewHolder holder, final TopicModel data, int position) {
                 TextView tv_title_name=holder.getView(R.id.tv_title_name);
                 tv_title_name.setText("#"+data.getWordKey()+"#");
                 TextView tv_hot_num=holder.getView(R.id.tv_hot_num);
@@ -133,27 +134,14 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 re_oc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (ck_select.isChecked())
-                        {
-                            ck_select.setChecked(false);
-                        }
-                        else {
-                            String htmlText="#"+data.getWordKey()+"#";
-                            SpannableString span=new SpannableString("#"+data.getWordKey()+"#");
-                            ClickableSpan clickspan=new ShuoMClickableSpan((data.getWordKey()),getParent());
-                            span.setSpan(clickspan,0,htmlText.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            span.subSequence(0,span.length());
-                            et_content.append(span);
-                            ck_select.setChecked(true);
 
-                        }
                     }
                 });
 
             }
         };
-        list_title.setAdapter(titleModelEasyAdapter);
-        list_title.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setAdapter(topicAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i(view.getId()+"");
@@ -169,22 +157,30 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         imageFileSelector.setCallback(this);
     }
 
-    private void doGetTitle() {
+    private void doGetTopic() {
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
-        headService.doGetPhWallTheme(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<TitleModel>>>() {
+        dialogShow("获取话题列表");
+        headService.doGetPhWallTheme(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<TopicModel>>>() {
             @Override
-            public void success(ResponseData<List<TitleModel>> listResponseData, Response response) {
+            public void success(ResponseData<List<TopicModel>> listResponseData, Response response) {
+                dialogDissmiss();
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
                         titleModels.addAll(listResponseData.getData());
-                        titleModelEasyAdapter.notifyDataSetChanged();
+                        topicAdapter.notifyDataSetChanged();
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialogDissmiss();
+                super.failure(error);
             }
         });
     }
@@ -316,15 +312,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             model.setKeywordId(titleModels.get(0).getWordKeyId());
             model.setAccountid(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
             manager.sendDynamic(model);
-//            sdfs
         }
-//        headService=ZillaApi.NormalRestAdapter.create(HeadService.class);
-//        headService.doCreatePhotoWall(UserInfoModel.getInstance().getToken(), Long.parseLong("76363"), et_content.getText().toString(), titleModels.get(0).getWordKey(), "C4E8E179-FD99-4955-8BF9-CF470898788B", "", new RequestCallback<ResponseData>() {
-//            @Override
-//            public void success(ResponseData responseData, Response response) {
-//                Util.toastMsg(responseData.getMsg());
-//            }
-//        });
     }
 
     @Override
