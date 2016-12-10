@@ -113,7 +113,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                         .error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(head_image);
             }
-//            if(Constants.SP==Integer.parseInt(user.getUserrole())){
+            if(Constants.SP==Integer.parseInt(user.getUserrole())){
                 tv_right.setText("开班");
                 fl_right.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -121,7 +121,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                         startActivity(new Intent(getContext(), CreateClassActivity.class));
                     }
                 });
-//            }
+            }
         }
         head_image.setOnClickListener(new View.OnClickListener() {
             @Override
