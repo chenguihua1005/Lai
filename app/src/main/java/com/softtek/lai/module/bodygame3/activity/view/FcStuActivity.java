@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +30,7 @@ import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
@@ -36,6 +39,7 @@ import java.io.File;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -45,13 +49,30 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_initwrite)
 public class FcStuActivity extends BaseActivity implements View.OnClickListener{
-
+    @InjectView(R.id.iv_write_head)
+    CircleImageView iv_write_head;//头像
+    @InjectView(R.id.tv_write_nick)
+    TextView tv_write_nick;//昵称
+    @InjectView(R.id.tv_write_phone)
+    TextView tv_write_phone;//手机号
+    @InjectView(R.id.tv_write_class)
+    TextView tv_write_class;//班级名称
+    @InjectView(R.id.tv_retest_write_weekth)
+    TextView tv_retest_write_weekth;//第几周
+    @InjectView(R.id.tv_write_starm)
+    TextView tv_write_starm;//开始月
+    @InjectView(R.id.tv_write_stard)
+    TextView tv_write_stard;//开始日
+    @InjectView(R.id.tv_write_endm)
+    TextView tv_write_endm;//结束月
+    @InjectView(R.id.tv_write_endd)
+    TextView tv_write_endd;
     @InjectView(R.id.tv_write_chu_weight)
     EditText tv_write_chu_weight;//初始体重
     @InjectView(R.id.tv_retestWrite_nowweight)
     EditText tv_retestWrite_nowweight;//现在体重
     @InjectView(R.id.tv_retestWrite_tizhi)
-    EditText tv_retestWrite_tizhi;//体脂
+    TextView tv_retestWrite_tizhi;//体脂
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;//内脂
 
@@ -64,7 +85,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.ll_retestWrite_neizhi)
     RelativeLayout ll_retestWrite_neizhi;
     @InjectView(R.id.btn_retest_write_addbody)
-    RelativeLayout btn_retest_write_addbody;
+    Button btn_retest_write_addbody;
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
     @InjectView(R.id.im_delete)
@@ -135,6 +156,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
                 {
                     case 200:
                         initDataModel=initDataModelResponseData.getData();
+                        doSetData();
                         break;
                     default:
                         Util.toastMsg(initDataModelResponseData.getMsg());
@@ -143,6 +165,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
             }
         });
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -224,6 +248,29 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
                 break;
 
         }
+    }
+    void doSetData()
+    {
+        if (!TextUtils.isEmpty(initDataModel.getPhoto()))
+        {
+            Picasso.with(this).load(AddressManager.get("photoHost")).fit().into(iv_write_head);
+        }
+        tv_write_nick.setText(initDataModel.getUserName());
+        tv_write_phone.setText(initDataModel.getMobile());
+        tv_write_class.setText(initDataModel.getClassName());
+        tv_retest_write_weekth.setText(initDataModel.getWeekNum());
+        String[] stardata=initDataModel.getStartDate().split("-");
+        String[] stardata1=stardata[2].split(" ");
+        tv_write_starm.setText(stardata[1]);
+        tv_write_stard.setText(stardata1[0]);
+        String[] enddata=initDataModel.getEndDate().split("-");
+        String[] enddata1=enddata[2].split(" ");
+        tv_write_endm.setText(enddata[1]);
+        tv_write_endd.setText(enddata1[0]);
+        tv_write_chu_weight.setText(initDataModel.getInitWeight());
+        tv_retestWrite_nowweight.setText(initDataModel.getWeight());
+        tv_retestWrite_tizhi.setText(initDataModel.getPysical());
+        tv_retestWrite_neizhi.setText(initDataModel.getFat());
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -11,6 +11,7 @@ import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.head.model.TitleModel;
 import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -187,6 +188,25 @@ public interface HeadService {
             @Query("accountid")long accountid,
             @Query("focusaccid")long focusaccid,
             Callback<ResponseData>callback
+    );
+    //发表照片墙动态
+    //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
+    @GET("/V1/HealthyCircle/CreatePhotoWall")
+    void doCreatePhotoWall(
+            @Header("token")String token,
+            @Query("Accountid")long Accountid,//登录id
+            @Query("Content")String Content,//动态内容
+            @Query("keywordId")String keywordId,//主题id
+            @Query("ClassId")String ClassId,//班级id
+            @Query("Photos")String Photos,//照片集合
+            Callback<ResponseData>callback
+    );
+    //照片墙主题列表
+    //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
+    @GET("/V1/HealthyCircle/GetPhWallTheme")
+    void doGetPhWallTheme(
+            @Header("token") String token,
+            Callback<ResponseData<List<TitleModel>>>callback
     );
 
 
