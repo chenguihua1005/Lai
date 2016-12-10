@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -69,7 +70,11 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                 if(i== EditorInfo.IME_ACTION_SEARCH){
                      /*隐藏软键盘*/
                     SoftInputUtil.hidden(SearchContactActivity.this);
-                    //lv.setVisibility(View.INVISIBLE);
+                    if(edit.length()==0){
+                        edit.requestFocus();
+                        edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入用户名/手机号/资格证号</font>"));
+                        return false;
+                    }
                     pb.setVisibility(View.VISIBLE);
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
                             .sendSearch(UserInfoModel.getInstance().getToken(),

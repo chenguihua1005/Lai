@@ -84,7 +84,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_area)
     RelativeLayout rl_area;
-    @Required(order = 2, message = "请选择小区和城市")
+    @Required(order = 2, message = "请选择小区及城市")
     @InjectView(R.id.tv_xiaoqu)
     TextView tv_xiaoqu;
     @InjectView(R.id.tv_city)
@@ -92,7 +92,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
-    @Required(order = 3, message = "请选择复测日期")
+    @Required(order = 3, message = "请选择第一次复测日期")
     @InjectView(R.id.tv_class_time)
     TextView tv_class_time;
 

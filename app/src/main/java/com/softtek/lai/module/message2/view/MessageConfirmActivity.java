@@ -165,6 +165,10 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_yes:
+                if(!cb_term.isChecked()){
+                    Util.toastMsg("请勾选康宝莱用户使用协议");
+                    return;
+                }
                 dialogShow();
                 final String str2 = getResources().getString(R.string.Has_agreed_to);
                 final String str3 = getResources().getString(R.string.Agree_with_failure);
