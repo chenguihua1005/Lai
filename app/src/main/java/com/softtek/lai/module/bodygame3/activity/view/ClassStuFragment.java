@@ -114,6 +114,10 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     private static final int LOADCOUNT = 10;
     private int page = 1;
     private int lastVisitableItem;
+    private String typeDate;//复测日期
+
+    SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
+    String strDate = sf.format(new Date());
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -242,18 +246,19 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                                for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                        if (calendarModels.get(i).getMonthDate() == strDate) {
+                                            typeDate = calendarModels.get(i).getMonthDate();
+                                        }
+
+                                    }else {
+                                        ll_fuce.setVisibility(View.GONE);
+                                    }
+                                }
+
                             }
 
-//                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-//                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-//                                reset_name.setText("复测审核");
-//                                if (!activitydataModel.getRetest()) {
-//                                    reset_time.setText("未审核");
-//                                } else {
-//                                    reset_time.setText("已审核");
-//                                }
-//                            }
-//                            else
                             if (Constants.STUDENT == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                 reset_name.setText("复测录入");
@@ -352,6 +357,18 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+
+                                for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                        if (calendarModels.get(i).getMonthDate() == strDate) {
+                                            typeDate = calendarModels.get(i).getMonthDate();
+                                        }
+
+                                    }else {
+                                        ll_fuce.setVisibility(View.GONE);
+                                    }
+                                }
+
 
                             }
 
@@ -458,6 +475,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                    typeDate=dates;
                     list_activity.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
@@ -503,13 +521,17 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 //                startActivity(intent);
                 break;
             case R.id.ll_chuDate:
-                startActivity(new Intent(getContext(), WriteFCActivity.class));
+                Intent chuDate=new Intent(getContext(), WriteFCActivity.class);
+                chuDate.putExtra("classid",classid);
+                startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
             case R.id.ll_fuce:
-                startActivity(new Intent(getContext(), FcStuActivity.class));
+                Intent fuce=new Intent(getContext(), FcStuActivity.class);
+                fuce.putExtra("classid",classid);
+                startActivity(fuce);
                 break;
         }
     }
