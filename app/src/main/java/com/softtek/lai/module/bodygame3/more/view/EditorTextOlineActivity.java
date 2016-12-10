@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -36,12 +38,12 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_editor_text)
-public class EditorTextOlineActivity extends BaseActivity implements Validator.ValidationListener{
+public class EditorTextOlineActivity extends BaseActivity implements Validator.ValidationListener {
 
-    public static final int UPDATE_CLASS_NAME=1;
-    public static final int UPDATE_GROUP_NAME=2;
-    public static final int ADD_GROUP_NAME=3;
-    public static final int Edit_AIXIN_PHONE=4;
+    public static final int UPDATE_CLASS_NAME = 1;
+    public static final int UPDATE_GROUP_NAME = 2;
+    public static final int ADD_GROUP_NAME = 3;
+    public static final int Edit_AIXIN_PHONE = 4;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -51,7 +53,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
-    @Required(order=1)
+    @Required(order = 1)
     @InjectView(R.id.et_value)
     EditText et_value;
 
@@ -63,24 +65,24 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     @Override
     protected void initViews() {
-        Intent intent=getIntent();
-        flag=intent.getIntExtra("flag",0);
-        classId=intent.getStringExtra("classId");
-        switch (flag){
+        Intent intent = getIntent();
+        flag = intent.getIntExtra("flag", 0);
+        classId = intent.getStringExtra("classId");
+        switch (flag) {
             case UPDATE_CLASS_NAME:
                 tv_title.setText("编辑班级名称");
                 et_value.setHint("班级名称");
                 et_value.setText(intent.getStringExtra("name"));
                 et_value.setMaxEms(10);
-                Editable etext=et_value.getText();
-                Selection.setSelection(etext,etext.length());
+                Editable etext = et_value.getText();
+                Selection.setSelection(etext, etext.length());
                 break;
             case UPDATE_GROUP_NAME:
                 tv_title.setText("修改组名");
                 et_value.setHint("小组名称");
                 et_value.setText(intent.getStringExtra("name"));
-                Editable etext1=et_value.getText();
-                Selection.setSelection(etext1,etext1.length());
+                Editable etext1 = et_value.getText();
+                Selection.setSelection(etext1, etext1.length());
                 break;
             case ADD_GROUP_NAME:
                 tv_title.setText("添加小组");
@@ -108,7 +110,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
         et_value.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_SEND){
+                if (i == EditorInfo.IME_ACTION_SEND) {
                     SoftInputUtil.hidden(EditorTextOlineActivity.this);
                     validateLife.validate();
                     return true;
@@ -123,7 +125,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     }
 
-    private void showTip(String msg){
+    private void showTip(String msg) {
         new AlertDialog.Builder(this).setMessage(msg)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
@@ -136,31 +138,66 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
-        if (StringUtil.length(et_value.getText().toString())>12){
+        if (StringUtil.length(et_value.getText().toString()) > 12) {
             showTip("填写内容必须小于12个字");
-        }else {
-            switch (flag){
+        } else {
+            switch (flag) {
                 case UPDATE_CLASS_NAME: {
-                    final String value=et_value.getText().toString();
-                    ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .updateClassName(UserInfoModel.getInstance().getToken(),
-                                    classId,
-                                    value,
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if (responseData.getStatus() == 200) {
-                                                Intent back = getIntent();
-                                                back.putExtra("value", value);
-                                                setResult(RESULT_OK, back);
-                                                finish();
-                                            } else {
-                                                Util.toastMsg(responseData.getMsg());
-                                            }
-                                        }
-                                    });
+                    final String value = et_value.getText().toString();
+
+                    //环信群组名称修改
+//groupId 需要改变名称的群组的id
+//changedGroupName 改变后的群组名称
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            String hxGroupId = "";
+                            String changedGroupName = value;
+                            try {
+                                EMClient.getInstance().groupManager().changeGroupName(hxGroupId, changedGroupName);//需异步处理
+
+                                ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                        .updateClassName(UserInfoModel.getInstance().getToken(),
+                                                classId,
+                                                value,
+                                                new RequestCallback<ResponseData>() {
+                                                    @Override
+                                                    public void success(final ResponseData responseData, Response response) {
+                                                        if (responseData.getStatus() == 200) {
+                                                            Intent back = getIntent();
+                                                            back.putExtra("value", value);
+                                                            setResult(RESULT_OK, back);
+                                                            finish();
+                                                        } else {
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    Util.toastMsg(responseData.getMsg());
+                                                                }
+                                                            });
+
+                                                        }
+                                                    }
+                                                });
+
+                            } catch (HyphenateException e) {
+                                e.printStackTrace();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Util.toastMsg("修改班级名称失败！");
+                                    }
+                                });
+                            }
+
+                        }
+                    }).start();
+
+
                 }
-                    break;
+                break;
                 case UPDATE_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -182,7 +219,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                                         }
                                     });
                 }
-                    break;
+                break;
                 case ADD_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -206,7 +243,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                                         }
                                     });
                 }
-                    break;
+                break;
             }
 
 
