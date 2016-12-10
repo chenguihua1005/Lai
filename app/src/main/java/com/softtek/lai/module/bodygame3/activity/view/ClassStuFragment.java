@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
@@ -190,8 +189,8 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 //设置日历的长和宽间距
-        material_calendar.setTileWidthDp(50);
-        material_calendar.setTileHeightDp(38);
+//        material_calendar.setTileWidthDp(50);
+//        material_calendar.setTileHeightDp(38);
         material_calendar.removeDecorators();
         material_calendar.setShowOtherDates(0);
 

@@ -16,12 +16,9 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
@@ -39,7 +36,6 @@ import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
-import com.softtek.lai.module.bodygame3.more.view.UpdateFuceTimeActivity$$ViewInjector;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -49,7 +45,6 @@ import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,7 +63,6 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -206,8 +200,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 //设置日历的长和宽间距
-        material_calendar.setTileWidthDp(50);
-        material_calendar.setTileHeightDp(38);
+//        material_calendar.setTileWidthDp(50);
+//        material_calendar.setTileHeightDp(38);
         material_calendar.setShowOtherDates(0);
 
     }
