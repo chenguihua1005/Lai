@@ -9,7 +9,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -17,22 +21,33 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.head.model.TitleModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.head.present.PublicDynamicManager;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
+import com.softtek.lai.module.community.model.CommunityModel;
+import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
+import com.softtek.lai.module.message2.view.ShuoMClickableSpan;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
@@ -47,13 +62,20 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_publish_dy)
-public class PublishDyActivity extends BaseActivity implements AdapterView.OnItemClickListener,ImageFileSelector.Callback,View.OnClickListener{
+public class PublishDyActivity extends BaseActivity implements AdapterView.OnItemClickListener,ImageFileSelector.Callback,View.OnClickListener
+        ,Validator.ValidationListener{
+    @LifeCircleInject
+    ValidateLife validateLife;
+
     @InjectView(R.id.cgv)
     CustomGridView cgv;
+    @Required(order = 1,message = "请输入内容")
     @InjectView(R.id.et_content)
     EditText et_content;
     @InjectView(R.id.list_title)
@@ -72,6 +94,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     private ImageFileSelector imageFileSelector;
     CommunityPhotoGridViewAdapter adapter;
     HeadService headService;
+    PublicDynamicManager manager;
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -84,6 +107,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     protected void initDatas() {
         doGetTitle();
+        manager=new PublicDynamicManager(images, this);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
         if(image!=null){
             try {
@@ -98,17 +122,37 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         cgv.setAdapter(adapter);
         titleModelEasyAdapter=new EasyAdapter<TitleModel>(this,titleModels,R.layout.title_list_item) {
             @Override
-            public void convert(ViewHolder holder, TitleModel data, int position) {
+            public void convert(ViewHolder holder, final TitleModel data, int position) {
                 TextView tv_title_name=holder.getView(R.id.tv_title_name);
                 tv_title_name.setText("#"+data.getWordKey()+"#");
                 TextView tv_hot_num=holder.getView(R.id.tv_hot_num);
                 tv_hot_num.setText(data.getThemeHot());
                 CircleImageView cir_title=holder.getView(R.id.cir_title);
-                CheckBox ck_select=holder.getView(R.id.ck_select);
+                final CheckBox ck_select=holder.getView(R.id.ck_select);
+                RelativeLayout re_oc=holder.getView(R.id.re_oc);
                 if (!TextUtils.isEmpty(data.getThemePhoto()))
                 {
                     Picasso.with(PublishDyActivity.this).load(AddressManager.get("photoHost")+data.getThemePhoto()).fit().into(cir_title);
                 }
+                re_oc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ck_select.isChecked())
+                        {
+                            ck_select.setChecked(false);
+                        }
+                        else {
+                            String htmlText="#"+data.getWordKey()+"#";
+                            SpannableString span=new SpannableString("#"+data.getWordKey()+"#");
+                            ClickableSpan clickspan=new ShuoMClickableSpan((data.getWordKey()),getParent());
+                            span.setSpan(clickspan,0,htmlText.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            span.subSequence(0,span.length());
+                            et_content.append(span);
+                            ck_select.setChecked(true);
+
+                        }
+                    }
+                });
 
             }
         };
@@ -116,7 +160,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         list_title.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Log.i(view.getId()+"");
             }
         });
 
@@ -250,7 +294,48 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.fl_right:
+                //发布个人动态按钮
+                validateLife.validate();
+                break;
 
         }
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        SoftInputUtil.hidden(this);
+        if(images.size()==1){
+            new AlertDialog.Builder(this)
+                    .setMessage("请选择至少一张图片上传")
+                    .create().show();
+            return;
+        }
+        //开始发布
+        Log.i("图片测试"+images);
+        if(manager!=null){
+            PublicDyModel model=new PublicDyModel();
+            model.setContent(et_content.getText().toString().trim());
+            model.setClassId("C4E8E179-FD99-4955-8BF9-CF470898788B");
+            model.setKeywordId(titleModels.get(0).getWordKeyId());
+            model.setAccountid(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            manager.sendDynamic(model);
+//            sdfs
+        }
+//        headService=ZillaApi.NormalRestAdapter.create(HeadService.class);
+//        headService.doCreatePhotoWall(UserInfoModel.getInstance().getToken(), Long.parseLong("76363"), et_content.getText().toString(), titleModels.get(0).getWordKey(), "C4E8E179-FD99-4955-8BF9-CF470898788B", "", new RequestCallback<ResponseData>() {
+//            @Override
+//            public void success(ResponseData responseData, Response response) {
+//                Util.toastMsg(responseData.getMsg());
+//            }
+//        });
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        String message = failedRule.getFailureMessage();
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .create().show();
     }
 }
