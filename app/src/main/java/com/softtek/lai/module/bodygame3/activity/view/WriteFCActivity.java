@@ -167,7 +167,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     InitComitModel initComitModel;
     MultipartTypedOutput multipartTypedOutput;
     Long accountId=Long.parseLong(userInfoModel.getUser().getUserid());//用户id
-    String Classid="";//班级id
+    String classId=" ";//班级id
     Context context;
     String files;
     @Override
@@ -200,6 +200,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         title.setText("初始数据录入");//设置标题栏标题
         tv_right.setText("保存");//保存数据
+        classId=getIntent().getStringExtra("classId");
+        Util.toastMsg("classId"+classId);
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         //获取数据接口
         doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");

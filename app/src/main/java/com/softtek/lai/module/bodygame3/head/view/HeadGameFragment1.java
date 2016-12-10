@@ -431,7 +431,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
-                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 if (classinfoModelResponseData.getData() != null) {
                     final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
@@ -490,7 +489,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     .fit().error(R.drawable.img_default)
                                     .placeholder(R.drawable.img_default).into(studenticon);
                         } else {
-                            Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
+                            Picasso.with(getContext()).load(R.drawable.img_default).fit().error(R.drawable.img_default).placeholder(R.drawable.img_default).into(studenticon);
                         }
                         if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                             student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
@@ -594,7 +593,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             @Override
             public void failure(RetrofitError error) {
-                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 super.failure(error);
             }

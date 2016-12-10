@@ -10,13 +10,16 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.model.PantnerpageModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
-import com.softtek.lai.module.bodygame3.head.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
+import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -187,6 +190,26 @@ public interface HeadService {
             @Query("accountid")long accountid,
             @Query("focusaccid")long focusaccid,
             Callback<ResponseData>callback
+    );
+    //发表照片墙动态
+    //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
+    @POST("/V1/HealthyCircle/CreatePhotoWall")
+    void doCreatePhotoWall(
+            @Header("token")String token,
+            @Body PublicDyModel publicDyModel,
+//            @Query("Accountid")long Accountid,//登录id
+//            @Query("Content")String Content,//动态内容
+//            @Query("keywordId")String keywordId,//主题id
+//            @Query("ClassId")String ClassId,//班级id
+//            @Query("Photos")String Photos,//照片集合
+            Callback<ResponseData>callback
+    );
+    //照片墙主题列表
+    //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
+    @GET("/V1/HealthyCircle/GetPhWallTheme")
+    void doGetPhWallTheme(
+            @Header("token") String token,
+            Callback<ResponseData<List<TopicModel>>>callback
     );
 
 

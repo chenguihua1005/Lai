@@ -62,7 +62,7 @@ public interface FuceSevice {
     //复测录入
     @POST("/v1/MeasuredRecordLog/PostMeasuredData")
     void doPostMeasuredData(
-            @Header("toke")String token,
+            @Header("token")String token,
             @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData>callback
             );

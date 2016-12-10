@@ -25,6 +25,7 @@ import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -37,6 +38,7 @@ import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.RequestCallback;
@@ -127,6 +129,20 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private static final int LOADCOUNT = 10;
     private int page = 1;
     private int lastVisitableItem;
+    private String typeDate;//复测日期
+
+    SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
+    String strDate = sf.format(new Date());
+
+    public void setDeleteClass(DeleteClass deleteClass) {
+        this.deleteClass = deleteClass;
+    }
+
+    public static ClassedFragment getInstance(DeleteClass deleteClass) {
+        ClassedFragment fragment = new ClassedFragment();
+        fragment.setDeleteClass(deleteClass);
+        return fragment;
+    }
 
     public ClassedFragment() {
         // Required empty public constructor
@@ -246,22 +262,45 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
+                            for (int i = 0; i < calendarModels.size(); i++) {
+                                if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                                        typeDate = calendarModels.get(i).getMonthDate();
+                                    }
 
-                            if (Constants.HEADCOACH == (activitydataModel.getClassRole()) || Constants.COACH == (activitydataModel.getClassRole()) || Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                }else {
+                                    ll_fuce.setVisibility(View.GONE);
+                                }
+                            }
+
+                            if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
+                                fl_right.setVisibility(View.VISIBLE);
+                                fl_right.setEnabled(true);
+                                reset_name.setText("复测审核");
+                                reset_time.setText("待审核" + activitydataModel.getNum());
+
+                            }
+                            if (Constants.COACH == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 reset_name.setText("复测审核");
+                                fl_right.setEnabled(false);
+                                iv_right.setVisibility(View.GONE);
                                 if (!activitydataModel.getRetest()) {
                                     reset_time.setText("未审核");
                                 } else {
                                     reset_time.setText("已审核");
                                 }
-                            } else if (Constants.STUDENT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
-                                reset_name.setText("复测录入");
+                            }
+                            if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
+                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
+                                reset_name.setText("复测审核");
+                                fl_right.setEnabled(false);
+                                iv_right.setVisibility(View.GONE);
                                 if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未复测");
+                                    reset_time.setText("未审核");
                                 } else {
-                                    reset_time.setText("已复测");
+                                    reset_time.setText("已审核");
                                 }
                             }
 ////                            加载班级
@@ -298,8 +337,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     }
                                 }
                             }
-                            //复测与活动的显示
-//                            displaydata();
                         }
 
                     }
@@ -311,9 +348,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         EventBus.getDefault().register(this);
     }
 
-//    private void displaydata() {
-//
-//    }
 
     @Override
     public void onDestroyView() {
@@ -353,60 +387,26 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                                for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                        if (calendarModels.get(i).getMonthDate() == strDate) {
+                                            typeDate = calendarModels.get(i).getMonthDate();
+                                        }
+
+                                    }else {
+                                        ll_fuce.setVisibility(View.GONE);
+                                    }
+                                }
 
                             }
 
-                            //是否进行过初始数据录入
-                            if (activitydataModel.getFirst()) {
-                                ll_chuDate.setVisibility(View.GONE);
-                            } else {
-                                ll_chuDate.setVisibility(View.VISIBLE);
-                            }
+                            ll_fuce.setBackgroundResource(R.drawable.reset_update);
+                            fl_right.setVisibility(View.VISIBLE);
+                            fl_right.setEnabled(true);
+                            reset_name.setText("复测审核");
+                            reset_time.setText("待审核" + activitydataModel.getNum());
 
-                            if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                fl_right.setVisibility(View.VISIBLE);
-                                fl_right.setEnabled(true);
-                                reset_name.setText("复测审核");
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            }
-                            if (Constants.STUDENT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_back);
-                                reset_name.setText("复测录入");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未复测");
-                                } else {
-                                    reset_time.setText("已复测");
-                                }
-                            }
-                            if (Constants.COACH == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                reset_name.setText("复测审核");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            }
-                            if (Constants.ASSISTANT == (activitydataModel.getClassRole())) {
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                reset_name.setText("复测审核");
-                                fl_right.setEnabled(false);
-                                iv_right.setVisibility(View.GONE);
-                                if (!activitydataModel.getRetest()) {
-                                    reset_time.setText("未审核");
-                                } else {
-                                    reset_time.setText("已审核");
-                                }
-                            }
+
                             //加载班级
                             classModels.clear();
                             if (activitydataModel.getList_Class() != null) {
@@ -484,7 +484,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     }
                                 }
                             }
-//                            displaydata();
                         }
 
                     }
@@ -515,6 +514,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                    typeDate = dates;
                     list_activity.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
@@ -557,17 +557,23 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 Intent intent = new Intent(getContext(), CreateActActivity.class);
                 intent.putExtra("classid", classid);
                 startActivityForResult(intent, 0);
-//                startActivity(intent);
                 break;
             case R.id.ll_chuDate:
-                startActivity(new Intent(getContext(), WriteFCActivity.class));
+                Intent chuDate=new Intent(getContext(), InitAuditListActivity.class);
+                chuDate.putExtra("classId",classid);
+                startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
-//            case R.id.ll_fuce:
-//                startActivity(new Intent(getContext(), HonorActivity.class));
-//                break;
+            case R.id.ll_fuce://复测审核
+                Log.e("classde",classid+typeDate);
+                Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
+                fuce.putExtra("classId", classid);
+                fuce.putExtra("typeDate", typeDate);
+                startActivity(fuce);
+                break;
+
         }
     }
 
@@ -642,11 +648,11 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 material_calendar.removeDecorators();
                 decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
                 material_calendar.addDecorator(decorator);
-                decorator_act=new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity());
+                decorator_act = new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity());
                 material_calendar.addDecorator(decorator_act);
-                decorator_create=new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity());
+                decorator_create = new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity());
                 material_calendar.addDecorator(decorator_create);
-                decorator_free=new SchelDecorator(Constants.FREE, calendarModel_free, getActivity());
+                decorator_free = new SchelDecorator(Constants.FREE, calendarModel_free, getActivity());
                 material_calendar.addDecorator(decorator_free);
 
             }
@@ -675,71 +681,69 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     //更新班级
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        if (clazz.getStatus() == 0) {
-            //更新班级姓名
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            this.classModel.setClassName(model.getClassName());
-            tv_title.setText(model.getClassName());
-            tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 1) {
-            //添加新班级
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 2) {
-            //删除班级
-            for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                    this.classModels.remove(model);
-                    tv_title.getAdapter().notifyDataSetChanged();
-                    break;
+        if (classModel != null) {
+            if (clazz.getStatus() == 0) {
+                //更新班级姓名
+                ClassModel model = new ClassModel();
+                model.setClassId(clazz.getModel().getClassId());
+                model.setClassCode(clazz.getModel().getClassCode());
+                model.setClassName(clazz.getModel().getClassName());
+                model.setClassRole(clazz.getModel().getClassRole());
+                this.classModel.setClassName(model.getClassName());
+                tv_title.setText(model.getClassName());
+                tv_title.getAdapter().notifyDataSetChanged();
+            } else if (clazz.getStatus() == 1) {
+                //添加新班级
+                ClassModel model = new ClassModel();
+                model.setClassId(clazz.getModel().getClassId());
+                model.setClassCode(clazz.getModel().getClassCode());
+                model.setClassName(clazz.getModel().getClassName());
+                model.setClassRole(clazz.getModel().getClassRole());
+                this.classModels.add(model);
+                tv_title.getAdapter().notifyDataSetChanged();
+            } else if (clazz.getStatus() == 2) {
+                //删除班级
+                for (ClassModel model : classModels) {
+                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                        this.classModels.remove(model);
+                        tv_title.getAdapter().notifyDataSetChanged();
+                        break;
+                    }
                 }
-            }
 
-            if (classModels.isEmpty()) {
-                if (deleteClass != null) {
-                    deleteClass.deletClass(0);
+                if (classModels.isEmpty()) {
+                    if (deleteClass != null) {
+                        deleteClass.deletClass();
+                    }
+                } else {
+                    tv_title.setSelected(0);
+                    this.classModel = classModels.get(0);
+
                 }
-            } else {
-                tv_title.setSelected(0);
-                this.classModel = classModels.get(0);
 
             }
-
         }
 
     }
 
     public interface DeleteClass {
-        void deletClass(int classCount);
+        void deletClass();
     }
 
     @Subscribe
     public void updatefuce(UpdateFuce updateFuce) {
         Log.i("修改复测日。。。。。。。。。。。。。。。。。。", "修改复测日");
         if (classid.equals(updateFuce.getClassId())) {
-            calendarModel_reset.clear();
-            calendarModels.clear();
-            for (int i=0;i<updateFuce.getFuceDate().size();i++){
-               ActCalendarModel actCalendarModel=new ActCalendarModel();
-                actCalendarModel.setMonthDate(updateFuce.getFuceDate().get(i).getMeasureDate());
-                calendarModels.add(actCalendarModel);
+            for (int i = 0; i < updateFuce.getFuceDate().size(); i++) {
+                calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
             }
-//            for (int i = 0; i < updateFuce.getFuceDate().size(); i++) {
-//                calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
-//            }
-//            material_calendar.removeDecorator(decorator);
-//            decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
-//            material_calendar.addDecorator(decorator);
+            material_calendar.removeDecorator(decorator);
+            decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
+            material_calendar.addDecorator(decorator);
+
         }
+
+
     }
 
 

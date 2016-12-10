@@ -253,7 +253,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                                     groupName = "#";
                                 } else {
                                     groupName = contact.getUserEn().substring(0, 1).toUpperCase();
-
                                 }
                                 if (!groups.contains(groupName)) {
                                     groups.add(groupName);
@@ -274,6 +273,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
                         }
                         adapter.notifyDataSetChanged();
+
+                        Log.i(TAG, "groups = " + new Gson().toJson(groups));
+                        Log.i(TAG,"datas = " + new Gson().toJson(datas));
                         for (int i = 0; i < groups.size(); i++) {
                             list_contant.getRefreshableView().expandGroup(i);
                             chooseView.buildCharaset(groups.get(i));
