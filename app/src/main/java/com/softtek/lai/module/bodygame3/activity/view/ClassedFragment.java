@@ -38,6 +38,8 @@ import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
+import com.softtek.lai.module.bodygame3.more.view.UpdateFuceTimeActivity$$ViewInjector;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -281,7 +283,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.VISIBLE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
-                                        if (todayactModels != null && todayactModels.size()>0) {
+                                        if (todayactModels != null && todayactModels.size() > 0) {
                                             list_activity.setVisibility(View.VISIBLE);
                                         } else {
                                             list_activity.setVisibility(View.GONE);
@@ -588,6 +590,11 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         getalldatafirst();
     }
 
+    private SchelDecorator decorator;
+    private SchelDecorator decorator_act;
+    private SchelDecorator decorator_free;
+    private SchelDecorator decorator_create;
+
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
 
@@ -634,10 +641,14 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             }
             if (material_calendar != null) {
                 material_calendar.removeDecorators();
-                material_calendar.addDecorator(new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity()));
-                material_calendar.addDecorator(new SchelDecorator(Constants.FREE, calendarModel_free, getActivity()));
+                decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
+                material_calendar.addDecorator(decorator);
+                decorator_act=new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity());
+                material_calendar.addDecorator(decorator_act);
+                decorator_create=new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity());
+                material_calendar.addDecorator(decorator_create);
+                decorator_free=new SchelDecorator(Constants.FREE, calendarModel_free, getActivity());
+                material_calendar.addDecorator(decorator_free);
 
             }
         }
@@ -662,6 +673,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     }
 
 
+    //更新班级
     @Subscribe
     public void updateClass(UpdateClass clazz) {
         if (clazz.getStatus() == 0) {
@@ -710,4 +722,26 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     public interface DeleteClass {
         void deletClass(int classCount);
     }
+
+    @Subscribe
+    public void updatefuce(UpdateFuce updateFuce) {
+        Log.i("修改复测日。。。。。。。。。。。。。。。。。。", "修改复测日");
+        if (classid.equals(updateFuce.getClassId())) {
+            calendarModel_reset.clear();
+            calendarModels.clear();
+            for (int i=0;i<updateFuce.getFuceDate().size();i++){
+               ActCalendarModel actCalendarModel=new ActCalendarModel();
+                actCalendarModel.setMonthDate(updateFuce.getFuceDate().get(i).getMeasureDate());
+                calendarModels.add(actCalendarModel);
+            }
+//            for (int i = 0; i < updateFuce.getFuceDate().size(); i++) {
+//                calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
+//            }
+//            material_calendar.removeDecorator(decorator);
+//            decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
+//            material_calendar.addDecorator(decorator);
+        }
+    }
+
+
 }

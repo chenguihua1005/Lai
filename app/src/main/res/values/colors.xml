@@ -39,4 +39,6 @@
     <color name="yellow">#FFA200</color>
     <color name="text_dd">#424242</color>
     <color name="exit_btn">#EC7166</color>
+    <color name="comment_name">#576a80</color>
+    <color name="comment_content">#333333</color>
 </resources>

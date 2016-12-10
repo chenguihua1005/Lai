@@ -268,7 +268,6 @@
         <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
@@ -279,7 +278,6 @@
         <activity
             android:name=".module.counselor.view.GameActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
             android:screenOrientation="portrait"
@@ -365,6 +363,7 @@
         <activity
             android:name=".module.message2.view.MessageConfirmActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.history.view.ClassInfoActivity"/>
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -597,6 +596,7 @@
         <activity
             android:name=".module.pastreview.view.HistoryStudentHonorActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".location.LocationService"
             android:enabled="true"
@@ -701,31 +701,42 @@
         <activity
             android:name=".module.bodygame3.conversation.view.ClassDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.LossWeightAndFatActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.activity.view.ActivitydetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message2.view.MessageOperatorActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.conversation.view.ContactSearchActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.bodygame3.more.view.LossWeightAndFatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.activity.view.ActivitydetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.MessageOperatorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.conversation.view.ContactSearchActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.conversation.view.NewFriendActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.message2.view.EditorPhoneActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message2.view.ExamineActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.head.view.PantnerActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.more.view.PastReviewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.more.view.HistoryClassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.graph.GraphActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.head.view.ClassDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.message2.view.EditorPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.ExamineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.head.view.PantnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.PastReviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.HistoryClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.graph.GraphActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.head.view.ClassDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.picture.view.PictureActivity"
             android:process=":picture"
@@ -742,7 +753,8 @@
         <activity android:name=".module.message2.view.NoticeServerActivity" />
         <activity android:name=".module.message2.view.NoticeFCActivity" />
         <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity" />
-        <activity android:name=".module.message2.view.ActionActivity"></activity>
+        <activity android:name=".module.message2.view.ActionActivity" />
+        <activity android:name=".module.bodygame3.head.view.PublishDyActivity"></activity>
     </application>
 
 </manifest>

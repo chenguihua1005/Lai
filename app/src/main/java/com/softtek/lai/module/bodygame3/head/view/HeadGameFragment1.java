@@ -190,9 +190,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
+//        progressDialog = new ProgressDialog(getActivity());
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setMessage("加载中");
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -431,7 +431,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
-                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 if (classinfoModelResponseData.getData() != null) {
                     final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
@@ -594,7 +593,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             @Override
             public void failure(RetrofitError error) {
-                progressDialog.dismiss();
                 refresh.setRefreshing(false);
                 super.failure(error);
             }

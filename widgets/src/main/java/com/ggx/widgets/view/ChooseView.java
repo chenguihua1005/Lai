@@ -22,6 +22,7 @@ public class ChooseView extends LinearLayout{
 
     private OnChooseListener listener;
     private List<RectF> rectFs=new ArrayList<>();
+    private List<String> charaset=new ArrayList<>();
 
     public ChooseView(Context context) {
         super(context);
@@ -41,7 +42,7 @@ public class ChooseView extends LinearLayout{
     private void initView(){
         setOrientation(VERTICAL);
         setClickable(true);
-        buildCharaset("↑ ");
+//        buildCharaset("↑ ");
 
     }
 
@@ -60,9 +61,9 @@ public class ChooseView extends LinearLayout{
                 float rawY=event.getRawY();
                 TextView view= (TextView) getChooseView(rawX,rawY);
                 if(listener!=null&&view!=null){
-                    if(view.getText().toString().equals("↑ ")){
-                        index=-10;
-                    }
+//                    if(view.getText().toString().equals("↑ ")){
+//                        index=-10;
+//                    }
                     listener.chooseView(view.getText().toString(),index);
                 }
                 break;
@@ -77,6 +78,10 @@ public class ChooseView extends LinearLayout{
     }
 
     public void buildCharaset(String text){
+        if(charaset.contains(text)){
+           return;
+        }
+        charaset.add(text);
         TextView textView=new TextView(getContext());
         textView.setText(text);
         textView.setTextSize(12);
@@ -89,6 +94,11 @@ public class ChooseView extends LinearLayout{
         textView.setGravity(Gravity.CENTER);
         addView(textView);
 
+    }
+
+    public void clear(){
+        charaset.clear();
+        removeAllViews();
     }
 
     @Override
