@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -86,10 +87,19 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     RelativeLayout ll_retestWrite_neizhi;
     @InjectView(R.id.btn_retest_write_addbody)
     Button btn_retest_write_addbody;
+    @InjectView(R.id.im_retestwrite_takephoto)
+    ImageView im_retestwrite_takephoto;
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
     @InjectView(R.id.im_delete)
     ImageView im_delete;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     FuceSevice fuceSevice;
     InitDataModel initDataModel;
@@ -102,6 +112,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     String files;
     @Override
     protected void initViews() {
+        tv_title.setText("复测录入");
+        tv_right.setText("保存");
+        fl_right.setOnClickListener(this);
+        im_delete.setOnClickListener(this);
+        im_retestwrite_takephoto.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
@@ -172,6 +187,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId())
         {
+            //删除照片
+            case R.id.im_delete:
+                im_retestwrite_showphoto.setVisibility(View.GONE);
+                im_delete.setVisibility(View.GONE);
+                files="";
+                break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
                 if (gender.equals("1")) {
