@@ -289,7 +289,7 @@
             android:name=".module.message2.view.ZQSActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.retest.view.BodyweiduActivity"
+            android:name=".module.bodygame3.activity.view.BodyweiduActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamest.view.BodyweidustActivity"

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:fillViewport="true"
+        android:scrollbars="none"
         android:id="@+id/scrollView">
 
         <LinearLayout
@@ -272,7 +273,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="初始体重"
+                        android:text="初始体重(必填)"
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
@@ -325,7 +326,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="现在体重"
+                        android:text="现在体重（必填）"
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
@@ -379,7 +380,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="体脂（选填）："
+                        android:text="体脂（必填）："
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
@@ -428,7 +429,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="内脂（选填）："
+                        android:text="内脂（必填）："
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
