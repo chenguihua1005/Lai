@@ -49,11 +49,15 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    private String classId;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance() {
+    public static Fragment getInstance(String classId) {
         InitAuditFragment fragment=new InitAuditFragment();
         Bundle data=new Bundle();
+        Util.toastMsg(classId);
+//        data.putInt("classId", Integer.parseInt(classId));
+        classId=classId;
         fragment.setArguments(data);
         return fragment;
     }
@@ -93,6 +97,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        Util.toastMsg("可不可以获取"+classId);
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
@@ -129,7 +134,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 10);
+        Log.i("C4E8E179-FD99-4955-8BF9-CF470898788B");
+            doGetData(UserInfoModel.getInstance().getUserId(),classId ,  pageIndex, 10);
     }
     //下拉加载
     @Override
