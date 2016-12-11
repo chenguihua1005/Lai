@@ -10,8 +10,12 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+
+import com.sw926.imagefileselector.ablum.ImageGridActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 
 class ImagePickHelper {
@@ -24,6 +28,8 @@ class ImagePickHelper {
 
     private WeakReference<Activity> mActivityWeakReference;
     private WeakReference<Fragment> mFragmentWeakReference;
+
+    private boolean isMutilSelected;//是否是多选
 
     public ImagePickHelper(Context context) {
         mContext = context;
@@ -66,6 +72,27 @@ class ImagePickHelper {
         }
     }
 
+    public void selectorMutilImage(Fragment fragment,int limit) {
+        if(limit<=1){
+            isMutilSelected=false;
+            selectImage(fragment);
+        }else {
+            isMutilSelected=true;
+            fragment.startActivityForResult(new Intent(fragment.getContext(),
+                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+        }
+    }
+
+    public void selectorMutilImage(Activity activity,int limit) {
+        if(limit<=1){
+            isMutilSelected=false;
+            selectorImage(activity);
+        }else {
+            isMutilSelected=true;
+            activity.startActivityForResult(new Intent(activity,
+                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+        }
+    }
     private void doSelect(Activity activity) {
         Intent intent = createIntent();
         activity.startActivityForResult(intent, SELECT_PIC);
@@ -89,10 +116,19 @@ class ImagePickHelper {
             return;
         }
         if (requestCode == SELECT_PIC) {
-            Uri uri = intent.getData();
-            String path = Compatibility.getPath(mContext, uri);
-            if (mCallback != null) {
-                mCallback.onSuccess(path);
+            if(!isMutilSelected){
+                Uri uri = intent.getData();
+                String path = Compatibility.getPath(mContext, uri);
+                if (mCallback != null) {
+                    mCallback.onSuccess(path);
+                }
+
+            }else {//是多选
+                List<String> imgs=intent.getStringArrayListExtra("imgs");
+                Log.i("选择照片返回","返回回来啦。选择的相片数量为+++"+imgs.size());
+                if (mCallback != null) {
+                    mCallback.onMutilSussess(imgs);
+                }
             }
         }
     }
@@ -123,6 +159,8 @@ class ImagePickHelper {
 
     public interface Callback {
         void onSuccess(String file);
+
+        void onMutilSussess(List<String> imgs);
 
         void onError();
     }
