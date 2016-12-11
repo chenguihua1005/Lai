@@ -48,8 +48,9 @@ public class InitAuditListActivity extends BaseActivity{
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
+        classId=getIntent().getStringExtra("classId");
         fragments=new ArrayList<>();
-        fragments.add(InitAuditFragment.getInstance());
+        fragments.add(InitAuditFragment.getInstance(classId));
         fragments.add(InitAuditedFragment.getInstance());
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
@@ -65,8 +66,7 @@ public class InitAuditListActivity extends BaseActivity{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        classId=getIntent().getStringExtra(classId);
-        Log.i("班级编号"+classId+"C4E8E179-FD99-4955-8BF9-CF470898788B");
+//        Log.i("班级编号"+classId+"C4E8E179-FD99-4955-8BF9-CF470898788B");
         doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 2);
 
     }
