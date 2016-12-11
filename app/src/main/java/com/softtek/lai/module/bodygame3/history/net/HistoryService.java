@@ -5,6 +5,7 @@ import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 
+import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -46,4 +47,21 @@ public interface HistoryService {
                  @Field("Username") String username,
                  @Field("HealthId") String healthId,
                  RequestCallback<ResponseData> callback);
+
+    //关注接口
+    @POST("/HealthyCircle/FocusAccount")
+    void doFocusAccount(
+            @Header("token") String token,
+            @Query("accountid")long accountid,
+            @Query("focusaccid")long focusaccid,
+            Callback<ResponseData> callback
+    );
+    //取消接口
+    @POST("/HealthyCircle/CancleFocusAccount")
+    void doCancleFocusAccount(
+            @Header("token") String token,
+            @Query("accountid")long accountId,
+            @Query("focusaccid")long focusaccId,
+            Callback<ResponseData>callback
+    );
 }

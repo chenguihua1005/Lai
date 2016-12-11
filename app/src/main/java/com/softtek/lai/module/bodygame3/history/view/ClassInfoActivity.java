@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Rect;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +79,8 @@ public class ClassInfoActivity extends BaseActivity {
     TextView mLossWeight;
     @InjectView(R.id.tv_loss_fat)
     TextView mLossFat;
+    @InjectView(R.id.ll_history)
+    LinearLayout mHistoryView;
 
     private ArrayList<Fragment> classmates = new ArrayList<>();
     private MyFragmentPagerAdapter mViewpagerAdapter;
@@ -91,6 +96,7 @@ public class ClassInfoActivity extends BaseActivity {
     private HistoryService service;
     private int page = 1;
     private static final int LOADCOUNT = 6;
+    private int dialogHigh;
 
     private void init() {
         initAppbarAndPull();
@@ -121,12 +127,35 @@ public class ClassInfoActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
+//        mHistoryView.getViewTreeObserver(). addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                Rect r = new Rect();
+//                // r will be populated with the coordinates of your view that area still visible.
+//                mHistoryView.getWindowVisibleDisplayFrame(r);
+//                int screenHeight = myLayout.getRootView().getHeight();
+//                int heightDiff = screenHeight - (r.bottom - r.top);
+//                int statusBarHeight=0;
+//                if (heightDiff > DisplayUtil.dip2px(ClassInfoActivity.this,50))
+//                try {
+//                    Class<?> c = Class.forName("com.android.internal.R$dimen");
+//                    Object obj = c.newInstance();
+//                    Field field = c.getField("status_bar_height");
+//                    int x = Integer.parseInt(field.get(obj).toString());
+//                    statusBarHeight =getResources().getDimensionPixelSize(x);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                dialogHigh = heightDiff - statusBarHeight;
+//            }
+//    });
+
         final View popView = this.getLayoutInflater().inflate(R.layout.history_popup_window, null);
         mInfoAdapter = new RecyclerViewInfoAdapter(wallsList, new RecyclerViewInfoAdapter.ItemListener() {
             @Override
             public void onItemClick(PhotoWallslistModel item, int pos) {
             }
-        }, this, popView);
+        }, this, popView,getResources().getDisplayMetrics().heightPixels / 2);
         mRecyclerView.setAdapter(mInfoAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
