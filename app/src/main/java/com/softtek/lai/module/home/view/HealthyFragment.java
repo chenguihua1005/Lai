@@ -131,6 +131,11 @@ public class HealthyFragment extends LazyBaseFragment {
             }
 
             @Override
+            public void onMutilSuccess(List<String> files) {
+
+            }
+
+            @Override
             public void onError() {
 
             }

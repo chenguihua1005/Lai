@@ -269,6 +269,11 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     }
 
     @Override
+    public void onMutilSuccess(List<String> files) {
+
+    }
+
+    @Override
     public void onError() {
 
     }

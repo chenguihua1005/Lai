@@ -69,7 +69,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     FrameLayout fl_right;
     private EasyAdapter<PhotoWallslistModel> adapter;
     PhotoWallListModel photoWallListModel;
-    List<PhotoWallslistModel> photoWallItemModels=new ArrayList<PhotoWallslistModel>();
+    List<PhotoWallslistModel> photoWallItemModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
     HeadService headService;
@@ -107,6 +107,11 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 image.setUri(Uri.fromFile(new File(file)));
                 intent.putExtra("uploadImage",image);
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+
             }
 
             @Override
@@ -320,7 +325,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileSelector.selectImage(PhotoWallActivity.this);
+                            imageFileSelector.selectMutilImage(PhotoWallActivity.this,9);
                         }
                     }
                 }).create().show();

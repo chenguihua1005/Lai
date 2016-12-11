@@ -9,7 +9,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -22,7 +26,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -38,6 +41,7 @@ import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -83,7 +87,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     @InjectView(R.id.lv)
     ListView lv;
 
-    List<TopicModel> titleModels=new ArrayList<>();
+    List<TopicModel> topicModels =new ArrayList<>();
     EasyAdapter<TopicModel> topicAdapter;
     private List<UploadImage> images=new ArrayList<>();
     private ImageFileSelector imageFileSelector;
@@ -91,6 +95,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     HeadService headService;
     PublicDynamicManager manager;
 
+    private int limit=9;
 
     @Override
     protected void initViews() {
@@ -117,7 +122,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
-        topicAdapter =new EasyAdapter<TopicModel>(this,titleModels,R.layout.item_topic) {
+        topicAdapter =new EasyAdapter<TopicModel>(this, topicModels,R.layout.item_topic) {
             @Override
             public void convert(ViewHolder holder, final TopicModel data, int position) {
                 TextView tv_title_name=holder.getView(R.id.tv_title_name);
@@ -126,6 +131,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 tv_hot_num.setText(data.getThemeHot());
                 CircleImageView cir_title=holder.getView(R.id.cir_title);
                 final CheckBox ck_select=holder.getView(R.id.ck_select);
+
                 RelativeLayout re_oc=holder.getView(R.id.re_oc);
                 if (!TextUtils.isEmpty(data.getThemePhoto()))
                 {
@@ -134,19 +140,26 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 re_oc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        if(ck_select.isChecked()){
+                            ck_select.setChecked(false);
+                            int start=et_content.getSelectionStart();
+                            String replace="#"+data.getWordKey()+"#";
+                            String str=et_content.getText().toString();
+                            et_content.setText(str.replace(replace,""));
+                            et_content.setSelection(start-replace.length());
+                        }else {
+                            ck_select.setChecked(true);
+                            Editable edit=et_content.getText();
+                            SpannableString ss=new SpannableString("#"+data.getWordKey()+"#");
+                            ss.setSpan(new ForegroundColorSpan(0xFFEC7166),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            edit.insert(et_content.getSelectionStart(),ss);
+                        }
                     }
                 });
 
             }
         };
         lv.setAdapter(topicAdapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(view.getId()+"");
-            }
-        });
 
         int px= DisplayUtil.dip2px(this,300);
         //*************************
@@ -168,8 +181,9 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 switch (status)
                 {
                     case 200:
-                        titleModels.addAll(listResponseData.getData());
+                        topicModels.addAll(listResponseData.getData());
                         topicAdapter.notifyDataSetChanged();
+                        ListViewUtil.setListViewHeightBasedOnChildren(lv);
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -213,7 +227,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                         }
                     }else if(which==1){
                         //打开图库
-                        imageFileSelector.selectImage(PublishDyActivity.this);
+                        imageFileSelector.selectMutilImage(PublishDyActivity.this,limit);
                     }
                 }
             }).create().show();
@@ -263,11 +277,19 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void onSuccess(String file) {
-        UploadImage image=new UploadImage();
-        File outFile=new File(file);
-        image.setImage(outFile);
-        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
-        images.add(0, image);
+
+    }
+
+    @Override
+    public void onMutilSuccess(List<String> files) {
+        limit-=files.size();
+        for (int i=files.size()-1;i>=0;i--){
+            UploadImage image=new UploadImage();
+            File outFile=new File(files.get(i));
+            image.setImage(outFile);
+            image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+            images.add(0, image);
+        }
         if(images.size()==10){
             images.remove(9);
         }
@@ -304,22 +326,20 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             return;
         }
         //开始发布
-        Log.i("图片测试"+images);
         if(manager!=null){
             PublicDyModel model=new PublicDyModel();
             model.setContent(et_content.getText().toString().trim());
             model.setClassId("C4E8E179-FD99-4955-8BF9-CF470898788B");
-            model.setKeywordId(titleModels.get(0).getWordKeyId());
-            model.setAccountid(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            model.setKeywordId(topicModels.get(0).getWordKeyId());
+            model.setAccountid(UserInfoModel.getInstance().getUserId());
             manager.sendDynamic(model);
         }
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        String message = failedRule.getFailureMessage();
         new AlertDialog.Builder(this)
-                .setMessage(message)
+                .setMessage(failedRule.getFailureMessage())
                 .create().show();
     }
 }
