@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import java.io.File;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class ImageFileCropSelector {
@@ -38,6 +39,12 @@ public class ImageFileCropSelector {
             }
 
             @Override
+            public void onMutilSussess(List<String> imgs) {
+
+            }
+
+
+            @Override
             public void onError() {
                 handleError();
             }
@@ -63,6 +70,11 @@ public class ImageFileCropSelector {
                 if (mCallback != null) {
                     mCallback.onSuccess(outFile);
                 }
+            }
+
+            @Override
+            public void onMutilCallBack(List<String> outFiles) {
+
             }
         });
         mImageCropperHelper =new ImageCropHelper();

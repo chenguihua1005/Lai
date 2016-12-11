@@ -71,7 +71,7 @@ public class RongyuModel {
 
     @Override
     public String toString() {
-        return "rongyuModel{" +
+        return "RongyuModel{" +
                 "GroupName='" + GroupName + '\'' +
                 ", GroupLossPre='" + GroupLossPre + '\'' +
                 ", StuPhoto='" + StuPhoto + '\'' +

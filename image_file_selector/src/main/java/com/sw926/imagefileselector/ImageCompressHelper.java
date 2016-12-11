@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 class ImageCompressHelper {
 
@@ -66,12 +68,21 @@ class ImageCompressHelper {
             new CompressTask().execute(srcImageFile);
         }
     }
+    public void compressMutil(List<String> fileNames, boolean deleteSrc) {
+        ImageFile[] files=new ImageFile[fileNames.size()];
+        for (int i=0;i<fileNames.size();i++){
+            files[i]=new ImageFile(fileNames.get(i), deleteSrc);
+        }
+        new CompressMutilTask().execute(files);
+
+    }
 
     private class CompressTask extends AsyncTask<ImageFile, Integer, String> {
 
         @Override
         protected String doInBackground(ImageFile... params) {
             AppLogger.i(TAG, "------------------ start compress file ------------------");
+
             ImageFile srcFileInfo = params[0];
 
             Bitmap.CompressFormat format = mCompressFormat;
@@ -99,6 +110,45 @@ class ImageCompressHelper {
             super.onPostExecute(result);
             if (mCallback != null) {
                 mCallback.onCallBack(result);
+            }
+        }
+
+    }
+
+    private class CompressMutilTask extends AsyncTask<ImageFile, Integer, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(ImageFile... params) {
+            AppLogger.i(TAG, "------------------ start compress file ------------------");
+            List<String> outs=new ArrayList<>(params.length);
+            for (ImageFile srcFileInfo:params){
+                Bitmap.CompressFormat format = mCompressFormat;
+                if (format == null) {
+                    format = CompressFormatUtils.parseFormat(srcFileInfo.mSrcFilePath);
+                }
+                File outputFile = CommonUtils.generateExternalImageCacheFile(mContext, CompressFormatUtils.getExt(format));
+                File srcFile = new File(srcFileInfo.mSrcFilePath);
+                boolean isCompress = compressImageFile(srcFileInfo.mSrcFilePath, outputFile.getPath(), mMaxWidth, mMaxHeight, mQuality, format);
+                if (!isCompress) {
+                    // 没有压缩，直接copy
+                    CommonUtils.copy(srcFile, outputFile);
+                }
+                if (srcFileInfo.mDeleteSrc) {
+                    //noinspection ResultOfMethodCallIgnored
+                    srcFile.delete();
+                }
+                outs.add(outputFile.getPath());
+            }
+
+
+            return outs;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> result) {
+            super.onPostExecute(result);
+            if (mCallback != null) {
+                mCallback.onMutilCallBack(result);
             }
         }
 
@@ -214,6 +264,7 @@ class ImageCompressHelper {
 
     public interface CompressCallback {
         void onCallBack(String outFile);
+        void onMutilCallBack(List<String> outFiles);
     }
 
     private class ImageFile {
