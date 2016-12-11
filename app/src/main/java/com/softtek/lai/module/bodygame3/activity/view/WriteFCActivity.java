@@ -12,12 +12,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -362,6 +364,26 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 // functionality that depends on this permission.
             }
         }
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+photoname);//从网络获取图片
+                        saveImageToGallery(getParent(),bitmap);
+                    }
+                }).start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -494,6 +516,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     /*
     * 获取数据值
     * */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     void doSetData()
     {
         if (initDataModel!=null)
@@ -511,14 +534,44 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 {
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            photoname=initDataModel.getImgThumbnail();
-                            Bitmap bitmap=getHttpBitmap(url+photoname);
-                            saveImageToGallery(getParent(),bitmap);
+                    SavePic savePic=new SavePic();
+                    photoname=initDataModel.getImgThumbnail();
+                    if(ActivityCompat.checkSelfPermission(getParent(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                            ||ActivityCompat.checkSelfPermission(getParent(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(getParent(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                ||ActivityCompat.shouldShowRequestPermissionRationale(getParent(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            //允许弹出提示
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                    ,READ_WRITER);
+
+                        } else {
+                            //不允许弹出提示
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                    ,READ_WRITER);
                         }
-                    }).start();
+                    }else {
+                        //保存
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+photoname);//从网络获取图片
+                                saveImageToGallery(getParent(),bitmap);
+                            }
+                        }).start();
+
+                    }
+//                    savePic.onStarSave(url+photoname);
+//                    savePic.GetImageInputStream();
+
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            photoname=initDataModel.getImgThumbnail();
+//                            Bitmap bitmap=getHttpBitmap(url+photoname);
+//                            saveImageToGallery(getParent(),bitmap);
+//                        }
+//                    }).start();
 
                 }
                 tv_write_class.setText(initDataModel.getClassName());//班级名
@@ -602,6 +655,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
         return bitmap;
     }
+    private static int READ_WRITER=0X10;
     /*l录入*/
     void doSetPostData()
     {Log.i("身体维度上传"+"胸围"+initDataModel.getCircum()+"腰围 "+initDataModel.getWaistline()+"臀围"+initDataModel.getHiplie()+"上臂围"+initDataModel.getUpArmGirth()+"大腿围"+initDataModel.getUpLegGirth()+"小腿围"+initDataModel.getDoLegGirth());
