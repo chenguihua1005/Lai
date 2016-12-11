@@ -55,8 +55,6 @@ public class ImageGridActivity extends AppCompatActivity {
                 chooseAlbum();
             }
         });
-        tv_completed.setEnabled(false);
-        tv_completed.setText("完成");
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.setSubtitle("");
@@ -89,7 +87,7 @@ public class ImageGridActivity extends AppCompatActivity {
                     selectCount++;
                     if(selectCount>limit){
                         selectCount--;
-                        Toast.makeText(ImageGridActivity.this,"最多选择9张图片",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImageGridActivity.this,"最多选择"+limit+"张图片",Toast.LENGTH_SHORT).show();
                         return;
                     }
                     item.isSelected=true;

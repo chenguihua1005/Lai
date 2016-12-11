@@ -97,7 +97,7 @@ public class HealthyFragment extends LazyBaseFragment {
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileSelector.selectImage(HealthyFragment.this);
+                            imageFileSelector.selectMutilImage(HealthyFragment.this,9);
                         }
                     }
                 }).create().show();
@@ -132,7 +132,16 @@ public class HealthyFragment extends LazyBaseFragment {
 
             @Override
             public void onMutilSuccess(List<String> files) {
-
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                for (int i=files.size()-1;i>=0;i--){
+                    UploadImage image=new UploadImage();
+                    File file=new File(files.get(i));
+                    image.setImage(file);
+                    image.setUri(Uri.fromFile(file));
+                    uploadImages.add(image);
+                }
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
             }
 
             @Override
