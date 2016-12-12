@@ -65,7 +65,7 @@ public class NoClassFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-
+    spinner_title1.setText("尚未开班");
     }
 
     @Override

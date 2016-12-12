@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -79,6 +80,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     AppBarLayout appbar;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     //toolbar标题
     @InjectView(R.id.spinner_title1)
     ArrowSpinner3 tv_title;
@@ -174,6 +177,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         re_honor.setOnClickListener(this);
         week_rel.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
         refresh.setOnRefreshListener(this);
         iv_imagevideo1.setOnClickListener(this);
@@ -370,8 +374,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                             gengxin.setText("暂无更新");
                                         }
                                     }
-
-
                                 }
                             }
 
@@ -650,6 +652,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             case R.id.iv_imagevideo2:
                 Intent video2 = new Intent(getContext(), VideomoreActivity.class);
                 startActivity(video2);
+                break;
+            case R.id.ll_left:
+                getActivity().finish();
                 break;
 
         }
