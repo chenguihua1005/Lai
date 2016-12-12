@@ -43,10 +43,6 @@ import zilla.libcore.ui.InjectLayout;
 public class NoClassFragment extends LazyBaseFragment implements View.OnClickListener{
     //    @InjectView(R.id.spinner_title1)
 //    ArrowSpinner3 spinner_title;
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
-    @InjectView(R.id.pull)
-    MySwipRefreshView pull;
     private AddClass addClass;
     @InjectView(R.id.spinner_title1)
     ArrowSpinner3 spinner_title1;

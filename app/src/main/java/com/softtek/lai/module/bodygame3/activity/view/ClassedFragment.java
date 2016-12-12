@@ -590,7 +590,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (resultCode == 0) {
-                progressDialogs.show();
+
                 getalldatafirst();
             }
         }
