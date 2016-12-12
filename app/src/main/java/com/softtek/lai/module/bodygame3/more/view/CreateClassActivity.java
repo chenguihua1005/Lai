@@ -78,7 +78,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_class_name)
     RelativeLayout rl_class_name;
-    @Required(order = 1, message = "请填写班级名称")
+    @Required(order = 1, message = "请输入班级名称")
     @InjectView(R.id.tv_class_name)
     TextView tv_class_name;
 
@@ -131,7 +131,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         clazz.setClassMasterId(UserInfoModel.getInstance().getUserId());
         service = ZillaApi.NormalRestAdapter.create(MoreService.class);
         groups = new ArrayList<>();
-        groups.add("未命名小组");
+        groups.add("默认小组");
         adapter = new EasyAdapter<String>(this, groups, R.layout.item_add_group) {
             @Override
             public void convert(ViewHolder holder, String data, final int position) {

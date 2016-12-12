@@ -13,15 +13,15 @@ public class PhotoWallslistModel {
     private String HealtId;//动态id
     private String Content;//内容
     private String Createdate;//发表日期
-    private String IsHasTheme;//是否有主题，1有
-    private String IsPraise;//是否点赞动态，1是
-    private String PraiseNum;//点赞数
+    private int IsHasTheme;//是否有主题，1有
+    private int IsPraise;//是否点赞动态，1是
+    private int PraiseNum;//点赞数
     private List<String> PraiseNameList;//点赞姓名数组
-    private String IsFocus;//是否关注此学员
+    private int IsFocus;//是否关注此学员
     private List<String> PhotoList;//照片列表
     private List<String> ThumbnailPhotoList;//照片列表缩略图
-    private String CommendsNum;//评论数
-    private List<PhotoWallComListModel>PhotoWallCommendsList;
+    private int CommendsNum;//评论数
+    private List<CommentModel> PhotoWallCommendsList;
 
     public String getAccountid() {
         return Accountid;
@@ -79,28 +79,32 @@ public class PhotoWallslistModel {
         Createdate = createdate;
     }
 
-    public String getIsHasTheme() {
+    public int getIsHasTheme() {
         return IsHasTheme;
     }
 
-    public void setIsHasTheme(String isHasTheme) {
+    public void setIsHasTheme(int isHasTheme) {
         IsHasTheme = isHasTheme;
     }
 
-    public String getIsPraise() {
+    public int getIsPraise() {
         return IsPraise;
     }
 
-    public void setIsPraise(String isPraise) {
+    public void setIsPraise(int isPraise) {
         IsPraise = isPraise;
     }
 
-    public String getPraiseNum() {
+    public int getPraiseNum() {
         return PraiseNum;
     }
 
-    public void setPraiseNum(String praiseNum) {
+    public void setPraiseNum(int praiseNum) {
         PraiseNum = praiseNum;
+    }
+
+    public void setIsFocus(int isFocus) {
+        IsFocus = isFocus;
     }
 
     public List<String> getPraiseNameList() {
@@ -111,12 +115,8 @@ public class PhotoWallslistModel {
         PraiseNameList = praiseNameList;
     }
 
-    public String getIsFocus() {
+    public int getIsFocus() {
         return IsFocus;
-    }
-
-    public void setIsFocus(String isFocus) {
-        IsFocus = isFocus;
     }
 
     public List<String> getPhotoList() {
@@ -135,19 +135,19 @@ public class PhotoWallslistModel {
         ThumbnailPhotoList = thumbnailPhotoList;
     }
 
-    public String getCommendsNum() {
+    public int getCommendsNum() {
         return CommendsNum;
     }
 
-    public void setCommendsNum(String commendsNum) {
+    public void setCommendsNum(int commendsNum) {
         CommendsNum = commendsNum;
     }
 
-    public List<PhotoWallComListModel> getPhotoWallCommendsList() {
+    public List<CommentModel> getPhotoWallCommendsList() {
         return PhotoWallCommendsList;
     }
 
-    public void setPhotoWallCommendsList(List<PhotoWallComListModel> photoWallCommendsList) {
+    public void setPhotoWallCommendsList(List<CommentModel> photoWallCommendsList) {
         PhotoWallCommendsList = photoWallCommendsList;
     }
 }

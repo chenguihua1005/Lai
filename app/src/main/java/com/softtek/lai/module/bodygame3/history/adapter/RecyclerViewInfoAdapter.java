@@ -160,7 +160,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private void setData(final PhotoWallslistModel item) {
             isMyselfFocus = item.getAccountid().equals(UserInfoModel.getInstance().getUser().getUserid());
-            isFocus = item.getIsFocus().equals("1");
+            isFocus = item.getIsFocus()==1;
             service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
 
             //用户名
@@ -224,7 +224,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             mDate.setText(item.getCreatedate());
 
             //发表留言内容
-            if (item.getIsHasTheme().equals("1")) {
+            if (item.getIsHasTheme()==1) {
                 String content = item.getContent();
                 SpannableString ss = new SpannableString(content);
                 ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -251,7 +251,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
             //评论
-            if (!item.getCommendsNum().equals("0")) {
+            if (item.getCommendsNum()!=0) {
                 for (int i = 0; i < item.getPhotoWallCommendsList().size(); i++) {
                     String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
                     String commendsContent = item.getPhotoWallCommendsList().get(i).getCommnets();

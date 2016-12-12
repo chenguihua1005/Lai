@@ -136,10 +136,10 @@ public interface HeadService {
     @GET("/V1/HealthyCircle/GetPhotoWalls")
     void doGetPhotoWalls(
             @Header("token")String token,
-            @Query("Loginaccid")Long Loginaccid,//用户id
+            @Query("Loginaccid")long Loginaccid,//用户id
             @Query("ClassId")String ClassId,//班级id
-            @Query("PageIndex")String PageIndex,//第几页
-            @Query("PageSize")String PageSize,//一页几条
+            @Query("PageIndex")int PageIndex,//第几页
+            @Query("PageSize")int PageSize,//一页几条
             Callback<ResponseData<PhotoWallListModel>>callback
     );
     //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
