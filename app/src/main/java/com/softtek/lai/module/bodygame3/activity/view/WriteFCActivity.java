@@ -535,19 +535,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         }
     }
-    private Handler handler = new Handler() {
 
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (msg.what == 0) {
-                Util.toastMsg("保存失败");
-            }else {
-                Util.toastMsg("保存成功");
-            }
-        }
-
-    };
 
     /*l录入*/
     void doSetPostData()
@@ -560,7 +548,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(initDataModel.getCircum())?"":initDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(initDataModel.getWaistline())?"":initDataModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hipline",new TypedString(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie().toString()));//臀围
         multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpArmGirth())?"":initDataModel.getUpArmGirth().toString()));//上臂围
         multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpLegGirth())?"":initDataModel.getUpLegGirth().toString()));//大腿围
         multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getDoLegGirth())?"":initDataModel.getDoLegGirth().toString()));//小腿围

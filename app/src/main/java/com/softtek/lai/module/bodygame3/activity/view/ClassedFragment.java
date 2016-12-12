@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -150,6 +151,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        classrole = bundle.getInt("classrole");
+        if (classrole == Constants.HEADCOACH) {
+            fl_right.setVisibility(View.VISIBLE);
+        } else {
+            fl_right.setVisibility(View.GONE);
+            iv_right.setVisibility(View.GONE);
+        }
+
         list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
@@ -261,11 +271,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                         typeDate = calendarModels.get(i).getMonthDate();
                                     }
 
-                                }else {
+                                } else {
                                     ll_fuce.setVisibility(View.GONE);
                                 }
                             }
-
+                            if (classrole == Constants.HEADCOACH) {
+                                fl_right.setVisibility(View.VISIBLE);
+                            } else {
+                                fl_right.setVisibility(View.GONE);
+                            }
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 fl_right.setVisibility(View.VISIBLE);
@@ -386,12 +400,13 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                             typeDate = calendarModels.get(i).getMonthDate();
                                         }
 
-                                    }else {
+                                    } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
                                 }
 
                             }
+
 
                             ll_fuce.setBackgroundResource(R.drawable.reset_update);
                             fl_right.setVisibility(View.VISIBLE);
@@ -552,15 +567,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 startActivityForResult(intent, 0);
                 break;
             case R.id.ll_chuDate:
-                Intent chuDate=new Intent(getContext(), InitAuditListActivity.class);
-                chuDate.putExtra("classId",classid);
+                Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
+                chuDate.putExtra("classId", classid);
                 startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
             case R.id.ll_fuce://复测审核
-                Log.e("classde",classid+typeDate);
+                Log.e("classde", classid + typeDate);
                 Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
                 fuce.putExtra("classId", classid);
                 fuce.putExtra("typeDate", typeDate);
