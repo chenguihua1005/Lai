@@ -77,5 +77,6 @@
         android:id="@+id/tv_count"
         android:layout_width="match_parent"
         android:text="仅限十五个字"
+        android:layout_marginLeft="15dp"
         android:layout_height="wrap_content" />
 </LinearLayout>

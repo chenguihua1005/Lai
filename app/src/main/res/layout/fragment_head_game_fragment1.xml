@@ -430,7 +430,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="100dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -440,13 +440,13 @@
 
                 <HorizontalScrollView
                     android:layout_width="fill_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="wrap_content"
                     android:scrollbars="none">
 
                     <LinearLayout
                         android:id="@+id/grally"
                         android:layout_width="fill_parent"
-                        android:layout_height="75dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
@@ -455,8 +455,8 @@
                         <com.softtek.lai.widgets.CustomGridView
                             android:id="@+id/photos"
                             android:layout_width="match_parent"
-                            android:layout_height="75dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"
+
                             android:columnWidth="110dp"
                             android:gravity="center"
                             android:horizontalSpacing="3dp"
