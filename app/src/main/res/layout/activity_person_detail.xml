@@ -9,7 +9,7 @@
 
 
 
-    <ScrollView
+    <com.softtek.lai.module.bodygame3.activity.view.MyScrollview
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
@@ -129,7 +129,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone">
 
                 </com.softtek.lai.widgets.HorizontalListView>
                 <TextView
@@ -138,9 +139,9 @@
                     android:layout_height="120dp"
                     android:text="暂无动态"
                     android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:textColor="#b1b0b0"
                     android:gravity="center"
-                    android:visibility="gone"/>
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -353,7 +354,7 @@
                 android:textColor="#ec7166"
                 android:textSize="18sp" />
         </LinearLayout>
-    </ScrollView>
+    </com.softtek.lai.module.bodygame3.activity.view.MyScrollview>
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 </RelativeLayout>

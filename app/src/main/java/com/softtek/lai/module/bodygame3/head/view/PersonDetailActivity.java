@@ -32,6 +32,7 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.view.PersionalActivity;
+import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -127,6 +128,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String UserName;
     private String AFriendId;//好友关系id
     private String ClassId;
+    ArrayList<String> images=new ArrayList<>();
 
 
     @Override
@@ -174,7 +176,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId + " ClassId = " + ClassId);
 
         iv_email.setImageResource(R.drawable.more_menu);
-
 
         btn_chat.setOnClickListener(this);
         btn_addguy.setOnClickListener(this);
@@ -235,7 +236,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             if (memberInfoModel != null) {
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).fit().error(R.drawable.img_default).into(cir_userimg);
+                    String url=AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
+                    Picasso.with(getParent()).load(url).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
@@ -290,12 +292,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
-                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight());//减重
+                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight()+"斤");//减重d
                     } else {
-                        tv_Lossweight.setText(memberInfoModel.getTotalLossWeight());//减重
+                        tv_Lossweight.setText("-"+memberInfoModel.getTotalLossWeight()+"斤");//减重
                     }
-                    tv_initWeit.setText(memberInfoModel.getInitWeight());//初始体重
-                    tv_currenweight.setText(memberInfoModel.getCurrentWeight());//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight())?"暂未录入数据":memberInfoModel.getInitWeight());//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight())?"暂未复测":memberInfoModel.getCurrentWeight());//现在体重
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
                         Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
@@ -320,20 +322,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetPhotoView() {
         if (newsTopFourModels.size()!=0)
         {
+            hlist_dy.setVisibility(View.VISIBLE);
+            tv_no_dy.setVisibility(View.GONE);
+            for (int n=0;n<newsTopFourModels.size();n++)
+            {
+                images.add(n,newsTopFourModels.get(n).getImgUrl());
+            }
             easyAdapter.notifyDataSetChanged();
         }
         else
         {
-            newsTopFourModel=new NewsTopFourModel();
-            newsTopFourModel.setImgId("1");
-            newsTopFourModel.setThumbnailImgUrl("sdf");
-            newsTopFourModel.setImgUrl("jdf");
-            newsTopFourModels.add(newsTopFourModel);
-            newsTopFourModels.add(newsTopFourModel);
-            newsTopFourModels.add(newsTopFourModel);
-            newsTopFourModels.add(newsTopFourModel);
-            easyAdapter.notifyDataSetChanged();
-
+            hlist_dy.setVisibility(View.GONE);
+            tv_no_dy.setVisibility(View.VISIBLE);
         }
     }
 
@@ -556,6 +556,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Util.toastMsg("点击图片啦"+i);
+        Intent intent1=new Intent(this, PictureActivity.class);
+        intent1.putExtra("images",images);
+        intent1.putExtra("position",i);
+        startActivity(intent1);
     }
 }
