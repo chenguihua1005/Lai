@@ -184,7 +184,7 @@ public interface HeadService {
             @Query("focusaccid")long focusaccid,
             Callback<ResponseData>callback
     );
-    //取消接口
+    //取消关注接口
     @POST("/HealthyCircle/CancleFocusAccount")
     void doCancleFocusAccount(
             @Header("token") String token,

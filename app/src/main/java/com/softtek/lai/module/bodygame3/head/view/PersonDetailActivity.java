@@ -194,7 +194,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
     }
 
-    private void doGetService(final long userid, long accountid, String classid, String HXAccountId) {
+    private void doGetService(final long userid, long AccountId, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
             headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
@@ -217,7 +217,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
-            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
                     int status = memberInfoModelResponseData.getStatus();
@@ -250,6 +250,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
+                HXAccountId=memberInfoModel.getHXAccountId();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
@@ -354,7 +355,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(intent1,GET_Sian);
                 break;
             case R.id.tv_dynamic:
-                if (userid == accountid) {
+                if (userid == AccountId) {
                     Intent personal = new Intent(this, PersionalActivity.class);
                     personal.putExtra("isFocus", memberInfoModel.getIsFocus());
                     personal.putExtra("personalId", userid);
@@ -394,12 +395,44 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 titlePopup.show(view);
                 break;
             case R.id.im_guanzhu:
+                headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
                 if (im_guanzhu.isChecked())
                 {
-                    Log.i("加关注");
+                    Log.i("关注");
+                    headService.doFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                            int status=responseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    break;
+                                default:
+                                    im_guanzhu.setChecked(true);
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        }
+                    });
                 }
                 else {
                     Log.i("取消关注");
+
+                    headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                            int status=responseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    break;
+                                default:
+                                    im_guanzhu.setChecked(false);
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        }
+                    });
 
                 }
                 break;
