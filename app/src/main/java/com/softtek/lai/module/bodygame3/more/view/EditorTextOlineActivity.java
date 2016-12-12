@@ -1,9 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.Selection;
 import android.view.KeyEvent;
@@ -69,6 +68,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
         Intent intent = getIntent();
         flag = intent.getIntExtra("flag", 0);
         classId = intent.getStringExtra("classId");
+        et_value.setImeOptions(EditorInfo.IME_ACTION_SEND);
         switch (flag) {
             case UPDATE_CLASS_NAME:
                 tv_title.setText("编辑班级名称");
@@ -91,7 +91,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 et_value.setHint("小组名称");
                 break;
             case Edit_AIXIN_PHONE:
-                tv_title.setText("添加爱心学员");
+                tv_title.setText("爱心学员");
                 et_value.setHint("输入爱心学员手机号");
                 et_value.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
@@ -127,30 +127,31 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     }
 
-    private void showTip(String msg) {
-        new AlertDialog.Builder(this).setMessage(msg)
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).show();
-    }
-
-
     @Override
     public void onValidationSucceeded() {
-        if (StringUtil.length(et_value.getText().toString()) > 12) {
-            showTip("填写内容必须小于12个字");
+        if(flag==Edit_AIXIN_PHONE){
+            if(et_value.getText().length()!=11){
+                et_value.requestFocus();
+                et_value.setError(Html.fromHtml("<font color=#FFFFFF>请输入11位手机号码</font>"));
+            }
+        } else if (StringUtil.length(et_value.getText().toString()) > 12) {
+            String message="";
+            switch (flag){
+                case UPDATE_CLASS_NAME:
+                    message="班级名称不能超过12个汉字";
+                    break;
+                case ADD_GROUP_NAME:
+                case UPDATE_GROUP_NAME:
+                    message="小组名称不能超过12个汉字";
+                    break;
+            }
+            et_value.requestFocus();
+            et_value.setError(Html.fromHtml("<font color=#FFFFFF>" + message + "</font>"));
         } else {
             switch (flag) {
                 case UPDATE_CLASS_NAME: {
                     final String value = et_value.getText().toString();
-
                     //环信群组名称修改
-//groupId 需要改变名称的群组的id
-//changedGroupName 改变后的群组名称
-
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -252,17 +253,22 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-//        switch (flag){
-//            case UPDATE_CLASS_NAME:
-//                showTip("请填写班级名");
-//                break;
-//            case UPDATE_GROUP_NAME:
-//                showTip("请填写组名");
-//                break;
-//            case ADD_GROUP_NAME:
-//                showTip("请填写组名");
-//                break;
-//        }
-        showTip("请填写内容");
+        String message="";
+        switch (flag){
+            case UPDATE_CLASS_NAME:
+                message="请输入班级名称";
+                break;
+            case ADD_GROUP_NAME:
+            case UPDATE_GROUP_NAME:
+                message="请输入小组名称";
+                break;
+            case Edit_AIXIN_PHONE:
+                message="请输入手机号码";
+                break;
+        }
+        if (failedView instanceof EditText) {
+            failedView.requestFocus();
+            ((EditText) failedView).setError(Html.fromHtml("<font color=#FFFFFF>" + message + "</font>"));
+        }
     }
 }

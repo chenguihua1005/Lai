@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.message2.view.ExamineActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.message2.view.MessageConfirmActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 
 import org.json.JSONException;
@@ -63,7 +65,26 @@ public class JpushReceiver extends BroadcastReceiver {
                         try {
                             JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
                             //拿到通知类型
-                            String keyValue=json.optString("kry");
+                            int msgType=json.optInt("msgtype");
+                            if(msgType==0){//普通通知直接跳转到消息列表
+                                //默认跳转到消息中心
+                                Intent i = new Intent(context, Message2Activity.class);
+                                i.putExtras(bundle);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(i);
+                            }else if(msgType==1){//申请加入班级通知
+                                //进入申请确认界面
+                                Intent i = new Intent(context, ExamineActivity.class);
+                                i.putExtra("msgId",json.optString("msgId"));
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(i);
+                            }else if(msgType==2){//邀请加入班级通知
+                                //进入邀请确认界面
+                                Intent i = new Intent(context, MessageConfirmActivity.class);
+                                i.putExtra("msgId",json.optString("msgId"));
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(i);
+                            }
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Get message extra JSON error!");

@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="TextView"
+                        android:text="复测录入"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 

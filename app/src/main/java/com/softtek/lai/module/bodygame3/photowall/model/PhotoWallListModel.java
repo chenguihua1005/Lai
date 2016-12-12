@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.head.model;
+package com.softtek.lai.module.bodygame3.photowall.model;
 
 import java.util.List;
 

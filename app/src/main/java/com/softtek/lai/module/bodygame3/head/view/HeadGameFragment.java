@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
+import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
@@ -67,6 +69,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
+    @InjectView(R.id.fl_right)
+    LinearLayout fl_right;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
     @InjectView(R.id.toolbar)
@@ -94,7 +98,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     private List<ClasslistModel> classlistModels = new ArrayList<ClasslistModel>();
     private List<ClasslistModel> classlistModels_temp = new ArrayList<ClasslistModel>();
     private AddClass addClass;
-    private ProgressDialog progressDialog;
 
     public static HeadGameFragment getInstance(AddClass addClass) {
         HeadGameFragment fragment = new HeadGameFragment();
@@ -163,15 +166,12 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             }
         }
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
         pull.setOnRefreshListener(this);
         search_btn.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
-
+        fl_right.setOnClickListener(this);
     }
 
 
@@ -212,7 +212,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
-                progressDialog.dismiss();
 //                Util.toastMsg(headModel2ResponseData.getMsg());
                 if (headModel2ResponseData.getData() != null) {
                     HeadModel2 model2 = headModel2ResponseData.getData();
@@ -231,7 +230,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
             @Override
             public void failure(RetrofitError error) {
-                progressDialog.dismiss();
                 super.failure(error);
             }
         });
@@ -361,6 +359,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 startActivity(intent);
                 getActivity().finish();
                 break;
+            case R.id.fl_right:
+                Intent intent2 = new Intent(getContext(), Message2Activity.class);
+                startActivity(intent2);
+                break;
         }
     }
 
@@ -375,10 +377,36 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
 
         } else if (clazz.getModel().getClassStatus() == 0) {
-            lin_nostart.setVisibility(View.VISIBLE);
-            sp_tv.setVisibility(View.GONE);
-            pc_tv.setVisibility(View.GONE);
-            button.setVisibility(View.VISIBLE);
+            if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                    lin_nostart.setVisibility(View.VISIBLE);
+                    sp_tv.setVisibility(View.GONE);
+                    pc_tv.setVisibility(View.GONE);
+                    button.setVisibility(View.VISIBLE);
+                    button.setOnClickListener(this);
+                }
+                if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+                    lin_nostart.setVisibility(View.GONE);
+                    sp_tv.setVisibility(View.VISIBLE);
+                    pc_tv.setVisibility(View.GONE);
+                    button.setVisibility(View.VISIBLE);
+                    button.setOnClickListener(this);
+                }
+
+            } else {
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                    lin_nostart.setVisibility(View.VISIBLE);
+                    sp_tv.setVisibility(View.GONE);
+                    pc_tv.setVisibility(View.VISIBLE);
+                    button.setVisibility(View.GONE);
+                }
+                if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+                    lin_nostart.setVisibility(View.GONE);
+                    sp_tv.setVisibility(View.GONE);
+                    pc_tv.setVisibility(View.VISIBLE);
+                    button.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
