@@ -142,6 +142,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
+        fl_right.setVisibility(View.GONE);
         list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
@@ -530,6 +531,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 break;
             case R.id.ll_fuce:
                 Intent fuce=new Intent(getContext(), FcStuActivity.class);
+                fuce.putExtra("typeDate",typeDate);
                 fuce.putExtra("classId",classid);
                 startActivity(fuce);
                 break;
