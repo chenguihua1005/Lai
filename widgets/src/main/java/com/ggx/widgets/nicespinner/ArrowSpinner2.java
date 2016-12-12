@@ -172,7 +172,7 @@ public class ArrowSpinner2 extends LinearLayout{
 
         isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner2_hideArrow2, false);
         if (!isArrowHide) {
-            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow);
+            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_black);
             int resId = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);

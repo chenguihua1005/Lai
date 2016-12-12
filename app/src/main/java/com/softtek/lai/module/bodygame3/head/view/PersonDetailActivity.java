@@ -1,14 +1,17 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +29,8 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
+import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
@@ -62,6 +67,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -115,7 +122,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     TextView tv_no_dy;
 
     @InjectView(R.id.im_guanzhu)
-    ImageView im_guanzhu;
+    CheckBox im_guanzhu;
     private List<NewsTopFourModel> newsTopFourModels = new ArrayList<NewsTopFourModel>();
     EasyAdapter<NewsTopFourModel> easyAdapter;
     //定义标题栏弹窗按钮
@@ -130,6 +137,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String ClassId;
     ArrayList<String> images = new ArrayList<>();
 
+    private static final int GET_Sian=1;//发布签名
 
     @Override
     protected void initViews() {
@@ -137,6 +145,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         ll_left.setOnClickListener(this);
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
+        im_guanzhu.setOnClickListener(this);
+        tv_title.setText("个人详情");
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -179,6 +189,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_chat.setOnClickListener(this);
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        tv_personlityName.setOnClickListener(this);
 
         doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
     }
@@ -246,6 +257,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                        tv_personlityName.setCompoundDrawables(null, null, null, null);
                     }
                     ll_chart.setVisibility(View.VISIBLE);
                     if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
@@ -253,11 +265,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         iv_email.setVisibility(View.GONE);
                     }
+                    im_guanzhu.setVisibility(View.GONE);
 
                 } else {
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                        tv_personlityName.setClickable(false);
                         tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
                     } else {
                         tv_personlityName.setText("暂无个性签名");
@@ -279,10 +293,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
-                        im_guanzhu.setVisibility(View.VISIBLE);
+                        im_guanzhu.setChecked(false);
                     } else {
-                        im_guanzhu.setVisibility(View.VISIBLE);
-                        im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
+                        im_guanzhu.setChecked(true);
+
                     }
                 }
                 newsTopFourModels.addAll(memberInfoModel.getNewsTopFour());
@@ -334,6 +348,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_personlityName:
+                Intent intent1=new Intent(this,EditSignaActivity.class);
+                intent1.putExtra("sina",tv_personlityName.getText().toString());
+                startActivityForResult(intent1,GET_Sian);
+                break;
             case R.id.tv_dynamic:
                 if (userid == accountid) {
                     Intent personal = new Intent(this, PersionalActivity.class);
@@ -373,6 +392,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.fl_right:
 //                removeFriend();
                 titlePopup.show(view);
+                break;
+            case R.id.im_guanzhu:
+                if (im_guanzhu.isChecked())
+                {
+                    Log.i("加关注");
+                }
+                else {
+                    Log.i("取消关注");
+
+                }
                 break;
         }
     }
@@ -524,6 +553,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == SetLove && resultCode == RESULT_OK) {
             doGetService(userid, AccountId, ClassId, HXAccountId);
             titlePopup.cleanAction();
+        }
+        if (requestCode==GET_Sian&&resultCode==RESULT_OK)
+        {
+            tv_personlityName.setText(data.getStringExtra("sina"));
+            tv_personlityName.setClickable(false);
+            tv_personlityName.setCompoundDrawables(null, null, null, null);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.activity.model.EditSignaModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
@@ -136,10 +137,10 @@ public interface HeadService {
     @GET("/V1/HealthyCircle/GetPhotoWalls")
     void doGetPhotoWalls(
             @Header("token")String token,
-            @Query("Loginaccid")Long Loginaccid,//用户id
+            @Query("Loginaccid")long Loginaccid,//用户id
             @Query("ClassId")String ClassId,//班级id
-            @Query("PageIndex")String PageIndex,//第几页
-            @Query("PageSize")String PageSize,//一页几条
+            @Query("PageIndex")int PageIndex,//第几页
+            @Query("PageSize")int PageSize,//一页几条
             Callback<ResponseData<PhotoWallListModel>>callback
     );
     //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
@@ -211,6 +212,13 @@ public interface HeadService {
             @Header("token") String token,
             Callback<ResponseData<List<TopicModel>>>callback
     );
+    //请求路径:Api/V1/HerbalifeClass/CommitPersonalityName
+    @POST("/V1/HerbalifeClass/CommitPersonalityName")
+    void doCommitSina(
+            @Header("token") String token,
+            @Body EditSignaModel editSignaModel,
+            Callback<ResponseData>callback
+            );
 
 
 }

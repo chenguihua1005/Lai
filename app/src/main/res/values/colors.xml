@@ -41,4 +41,6 @@
     <color name="exit_btn">#EC7166</color>
     <color name="comment_name">#576a80</color>
     <color name="comment_content">#333333</color>
+    <color name="btn_grey_true">#a99f9f</color>
+    <color name="btn_grey_false">#666666</color>
 </resources>

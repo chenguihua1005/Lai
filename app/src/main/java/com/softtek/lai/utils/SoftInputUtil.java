@@ -44,6 +44,16 @@ public class SoftInputUtil {
 
     }
 
+    /**
+     * view获取焦点软键盘打开
+     *
+     * @param context
+     */
+    public static void showInputAsView(Context context,View view) {
+        InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.showSoftInput(view, 0);
+    }
+
     public static boolean isShow(Context context){
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         return imm.isActive();//isOpen若返回true，则表示输入法打开
