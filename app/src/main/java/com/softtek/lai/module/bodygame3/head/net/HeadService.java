@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.activity.model.EditSignaModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
@@ -211,6 +212,13 @@ public interface HeadService {
             @Header("token") String token,
             Callback<ResponseData<List<TopicModel>>>callback
     );
+    //请求路径:Api/V1/HerbalifeClass/CommitPersonalityName
+    @POST("/V1/HerbalifeClass/CommitPersonalityName")
+    void doCommitSina(
+            @Header("token") String token,
+            @Body EditSignaModel editSignaModel,
+            Callback<ResponseData>callback
+            );
 
 
 }

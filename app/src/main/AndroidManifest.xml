@@ -491,7 +491,7 @@
             android:name=".module.laisportmine.view.MyInformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.GuideActivity"
+            android:name=".module.bodygame3.activity.view.GuideActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.laisportmine.view.MyNewsActivity"
