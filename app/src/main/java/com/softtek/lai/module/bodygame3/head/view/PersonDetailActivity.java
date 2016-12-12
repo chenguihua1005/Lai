@@ -58,8 +58,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private static final String TAG = "PersonDetailActivity";
     private int[] mImgIds;
     private LayoutInflater mInflater;
-    @InjectView(R.id.gallery)
-    LinearLayout gallery;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;

@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity">
 
-    <include layout="@layout/toolbar" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -127,7 +127,9 @@
                 <com.softtek.lai.widgets.HorizontalListView
                     android:id="@+id/hlist_dy"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp">
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
 
                 </com.softtek.lai.widgets.HorizontalListView>
                 <TextView
@@ -352,4 +354,6 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 </RelativeLayout>
