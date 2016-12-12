@@ -50,7 +50,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance() {
+    public static Fragment getInstance(String classId,String typeDate) {
         FcAuditFragment fragment=new FcAuditFragment();
         Bundle data=new Bundle();
         fragment.setArguments(data);

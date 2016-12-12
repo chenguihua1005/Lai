@@ -44,12 +44,14 @@ public class FcAuditListActivity extends BaseActivity{
     List<Fragment> fragments;
     FuceSevice fuceSevice;
     String[] tabtitle={"未审核","已审核"};
+    String classId;
+    String typeDate;
     @Override
     protected void initViews() {
         tv_title.setText("复测审核");
         fragments=new ArrayList<>();
-        fragments.add(FcAuditFragment.getInstance());
-        fragments.add(FcAuditedFragment.getInstance());
+        fragments.add(FcAuditFragment.getInstance(classId,typeDate));
+        fragments.add(FcAuditedFragment.getInstance(classId,typeDate));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -64,7 +66,9 @@ public class FcAuditListActivity extends BaseActivity{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22", 1, 2);
+        classId=getIntent().getStringExtra("classId");
+        typeDate=getIntent().getStringExtra("typeDate");
+        doGetData(UserInfoModel.getInstance().getUserId(), classId,typeDate, 1, 1);
 
     }
     //获取审核列表数据

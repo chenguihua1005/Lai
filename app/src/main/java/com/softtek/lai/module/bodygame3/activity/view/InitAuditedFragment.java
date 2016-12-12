@@ -50,10 +50,12 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
     FuceSevice fuceSevice;
     int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
+    private static String classid;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance() {
+    public static Fragment getInstance(String classId) {
         InitAuditedFragment fragment=new InitAuditedFragment();
         Bundle data=new Bundle();
+        classid=classId;
         fragment.setArguments(data);
         return fragment;
     }
@@ -122,19 +124,22 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        startActivity(new Intent(getContext(),FcStuActivity.class));
+        Intent InitdataAudit=new Intent(getContext(),InitDataAuditActivity.class);
+        InitdataAudit.putExtra("ACMID",memberListModels.get(i).getAcmId());
+        InitdataAudit.putExtra("classId",classid);
+        startActivity(InitdataAudit);
     }
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B",  pageIndex, 10);
+            doGetData(UserInfoModel.getInstance().getUserId(), classid,  pageIndex, 10);
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B",++pageIndex,10);
+        doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid,  int pageIndex, int pageSize) {
