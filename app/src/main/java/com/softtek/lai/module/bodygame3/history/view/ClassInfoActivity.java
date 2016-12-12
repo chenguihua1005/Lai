@@ -1,23 +1,33 @@
 package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Rect;
+import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amap.api.services.proguard.s;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.bodygame3.history.adapter.MyFragmentPagerAdapter;
@@ -30,6 +40,9 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -80,9 +93,15 @@ public class ClassInfoActivity extends BaseActivity {
     @InjectView(R.id.tv_loss_fat)
     TextView mLossFat;
     @InjectView(R.id.ll_history)
-    LinearLayout mHistoryView;
+    RelativeLayout mHistoryView;
+    @InjectView(R.id.ll_comment_layout)
+    LinearLayout mComment;
+    @InjectView(R.id.et_comment_content)
+    TextView mCommentContent;
+    @InjectView(R.id.btn_comment_submit)
+    Button mCommentSubmit;
 
-    private ArrayList<Fragment> classmates = new ArrayList<>();
+    private ArrayList<Fragment> classmates;
     private MyFragmentPagerAdapter mViewpagerAdapter;
     private int brokenIndex = 0;
     private int lastVisitableItem;
@@ -155,7 +174,7 @@ public class ClassInfoActivity extends BaseActivity {
             @Override
             public void onItemClick(PhotoWallslistModel item, int pos) {
             }
-        }, this, popView,getResources().getDisplayMetrics().heightPixels / 2);
+        }, this, popView);
         mRecyclerView.setAdapter(mInfoAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -178,6 +197,23 @@ public class ClassInfoActivity extends BaseActivity {
 
             }
         });
+
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideSoftInput(view.getWindowToken());
+                mComment.setVisibility(View.GONE);
+                return false;
+            }
+        });
+    }
+
+    private void hideSoftInput(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token,
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private void updateRecyclerView(int pageIndex, int pageCount) {
@@ -369,7 +405,11 @@ public class ClassInfoActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         classmates = new ArrayList<>();
+        wallsList.clear();
         initRecyclerView();
         mBrokenViewPager.setOffscreenPageLimit(2);
         service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
@@ -377,5 +417,52 @@ public class ClassInfoActivity extends BaseActivity {
         mInfoTitle.setText(historyClassModel.getClassName());
         getClassDynamicInfo();
         getHistoryInfo();
+    }
+
+    @Subscribe
+    public void doComment(final CommentEvent event) {
+        mComment.setVisibility(View.VISIBLE);
+//        InputMethodManager imm = (InputMethodManager) ClassInfoActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        mCommentContent.setEnabled(true);
+        mCommentContent.setFocusable(true);
+        mCommentSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mComment.setVisibility(View.GONE);
+                hideSoftInput(view.getWindowToken());
+                service.postCommnents(
+                        UserInfoModel.getInstance().getToken(),
+                        event.getHealthId(),
+                        event.getAccountId(),
+                        mCommentContent.getText().toString(),
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                if (responseData.getStatus() == 200) {
+                                    mCommentSubmit.setText("");
+                                    TextView commentText = new TextView(ClassInfoActivity.this);
+                                    String commentName = UserInfoModel.getInstance().getUser().getNickname();
+                                    commentText.setText(commentName + ":" + mCommentContent.getText().toString());
+                                    event.getView().addView(commentText);
+                                }
+                                Toast.makeText(ClassInfoActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                mCommentSubmit.setText("");
+                                Log.d("comment---------------", error.toString());
+                                super.failure(error);
+                            }
+                        });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
