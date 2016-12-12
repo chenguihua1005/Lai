@@ -95,7 +95,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("通讯录");
         tip_search.setVisibility(View.GONE);
-        search_hint.setText("通过姓名,手机号或康宝莱资格证号搜索");
+        search_hint.setText("请输入姓名或手机号进行搜索");
 
         ll_search.setOnClickListener(this);
     }
