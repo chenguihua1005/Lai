@@ -63,7 +63,7 @@ import zilla.libcore.util.Util;
  * Use the {@linkHeadGameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@InjectLayout(R.layout.fragment_head_game)
+@InjectLayout(R.layout.noclass_fragment)
 public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
@@ -75,8 +75,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     LinearLayout fl_right;
     @InjectView(R.id.iv_banner)
     ImageView iv_banner;
-    @InjectView(R.id.toolbar)
-    RelativeLayout relativeLayout;
     @InjectView(R.id.searchContent)
     EditText searchContent;
     @InjectView(R.id.pull)
@@ -353,12 +351,12 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                 }
                             });
 
-                }else {
+                } else {
 
                     searchContent.setError("请输入搜索内容");
 
 
-            }
+                }
                 break;
             case R.id.button:
                 Intent intent = new Intent(getContext(), CreateClassActivity.class);
