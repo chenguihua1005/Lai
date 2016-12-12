@@ -179,7 +179,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         service.doCancleFocusAccount(
                                 UserInfoModel.getInstance().getToken(),
                                 UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong("3399"),
+//                                Long.parseLong("3399"),
+                                Long.parseLong(item.getAccountid()),
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
@@ -195,7 +196,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         service.doFocusAccount(
                                 UserInfoModel.getInstance().getToken(),
                                 UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong("3399"),
+//                                Long.parseLong("3399"),
+                                Long.parseLong(item.getAccountid()),
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
