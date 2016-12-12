@@ -1,16 +1,15 @@
 package com.softtek.lai.module.bodygame3.head.presenter;
 
+import android.util.Log;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
-import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.retest.model.LaichModel;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
 
 /**
@@ -23,27 +22,26 @@ public class WeekHonorManager {
     private final HeadService service;
 
 
-    public WeekHonorManager(WeekHonnorCallback callback){
-        this.callback=callback;
+    public WeekHonorManager(WeekHonnorCallback callback) {
+        this.callback = callback;
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
     }
 
-    public void getWeekHonnorInfo(Long UID,String classId,String byWhichRatio,String sortTimeType,int whichTime,Boolean isFirst ){
-        String token= UserInfoModel.getInstance().getToken();
-        service.doGetHonorRoll(token,UID,classId,byWhichRatio,sortTimeType,whichTime,isFirst,
-                new Callback<ResponseData<HonorRankModel>>(){
+    public void getWeekHonnorInfo(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
+        String token = UserInfoModel.getInstance().getToken();
+        service.doGetHonorRoll(token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
+                new Callback<ResponseData<HonorRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorRankModel> honorRankModelResponseData, Response response) {
-                        int status=honorRankModelResponseData.getStatus();
-                        switch (status)
-                        {
+                        int status = honorRankModelResponseData.getStatus();
+                        switch (status) {
                             case 200:
-                                HonorRankModel honorRankModel= honorRankModelResponseData.getData();
-                                if(callback!=null)
+                                HonorRankModel honorRankModel = honorRankModelResponseData.getData();
+                                if (callback != null)
                                     callback.getModel(honorRankModel);
                                 break;
                             default:
-                                if(callback!=null)
+                                if (callback != null)
                                     callback.getModel(null);
                                 break;
                         }
@@ -51,16 +49,16 @@ public class WeekHonorManager {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if(callback!=null)
+                        if (callback != null)
                             callback.getModel(null);
-                        ZillaApi.dealNetError(error);
+//                        ZillaApi.dealNetError(error);
                     }
                 });
 
 
     }
 
-    public interface WeekHonnorCallback{
+    public interface WeekHonnorCallback {
         void getModel(HonorRankModel model);
     }
 }

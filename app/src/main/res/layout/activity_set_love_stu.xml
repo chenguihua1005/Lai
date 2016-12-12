@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.SetLoveStuActivity">
-<include layout="@layout/toolbar"/>
+<include layout="@layout/toolbar"
+    android:id="@+id/toolbar"/>
     <EditText
         android:id="@+id/et_phone"
         android:layout_below="@+id/toolbar"
