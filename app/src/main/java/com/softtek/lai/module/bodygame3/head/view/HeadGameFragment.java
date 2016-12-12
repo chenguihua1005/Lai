@@ -1,12 +1,14 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -91,6 +93,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView pc_tv;
     @InjectView(R.id.sp_tv)
     TextView sp_tv;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.lin_nostart)
     LinearLayout lin_nostart;
     Animation roate;
@@ -167,6 +171,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         }
 
         pull.setOnRefreshListener(this);
+        ll_left.setOnClickListener(this);
         search_btn.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         ivhead2_refresh.setOnClickListener(this);
@@ -306,8 +311,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 break;
             case R.id.search_btn:
                 final String text = searchContent.getText().toString().trim();
-                dialogShow("正在查找...");
+
                 if (StringUtils.isNotEmpty(text)) {
+                    dialogShow("正在查找...");
                     ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
                             text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                                 @Override
@@ -332,11 +338,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                             startActivity(intent);
                                             dialogDissmiss();
 
-                                        } else {
-                                            dialogDissmiss();
-                                            Util.toastMsg("暂无此班级");
-                                            return;
-
                                         }
 
                                     } else if (data.getStatus() == 100) {
@@ -352,16 +353,23 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                 }
                             });
 
-                }
+                }else {
+
+                    searchContent.setError("请输入搜索内容");
+
+
+            }
                 break;
             case R.id.button:
                 Intent intent = new Intent(getContext(), CreateClassActivity.class);
                 startActivity(intent);
-                getActivity().finish();
                 break;
             case R.id.fl_right:
                 Intent intent2 = new Intent(getContext(), Message2Activity.class);
                 startActivity(intent2);
+                break;
+            case R.id.ll_left:
+                getActivity().finish();
                 break;
         }
     }

@@ -147,7 +147,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
-    private ProgressDialog progressDialog;
     private DeleteClass deleteClass;
     private static final int LOADCOUNT = 10;
     private int page = 1;
@@ -196,9 +195,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
-//        progressDialog = new ProgressDialog(getActivity());
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.setMessage("加载中");
+
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -327,6 +324,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                             } else {
                                                 iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
                                             }
+                                            iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
                                         }
 
                                     }

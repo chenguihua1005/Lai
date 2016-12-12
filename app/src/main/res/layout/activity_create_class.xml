@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:text="首次复测时间"
+                    android:text="第一次复测日"
                     android:textColor="#666666"
                     android:textSize="15sp" />
 

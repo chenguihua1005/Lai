@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.conversation.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,8 +77,13 @@ public class MemberAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
         }
-//        holder.img.setImageResource(R.drawable.img_default);
-        holder.text_name.setText(model.getUserName() + "(" + model.getCGName() + ")");
+
+        if (TextUtils.isEmpty(model.getCGName())) {
+            holder.text_name.setText(model.getUserName());
+        } else {
+            holder.text_name.setText(model.getUserName() + "(" + model.getCGName() + ")");
+
+        }
         return convertView;
     }
 

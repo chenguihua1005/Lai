@@ -12,8 +12,6 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-
         <LinearLayout
             android:id="@+id/rl_container"
             android:layout_width="match_parent"

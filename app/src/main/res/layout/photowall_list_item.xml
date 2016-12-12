@@ -14,11 +14,13 @@
 
     <LinearLayout
         android:id="@+id/ll_content"
-        android:layout_toRightOf="@id/civ_header_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="13dp"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/civ_header_image"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -70,13 +72,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="9sp"
                 android:textColor="#cbcbcb"
                 android:layout_centerInParent="true"
                 android:layout_alignParentLeft="true"
@@ -94,32 +97,21 @@
                 android:layout_toRightOf="@id/tv_date"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/textview_blue"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/no_message"
-                android:layout_alignParentRight="true"/>
-
-            <CheckBox
-                android:id="@+id/cb_zan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/zan"
-                android:button="@null"
-                android:text="0"
-                android:checked="false"
-                android:background="@null"
-                android:textColor="#f67169"
+                android:id="@+id/iv_operator"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/zan_selector"
-                android:drawablePadding="5dp"
-                android:layout_gravity="right"/>
+                android:scaleType="centerInside"
+                android:src="@drawable/operator" />
         </RelativeLayout>
         <LinearLayout
             android:id="@+id/ll_dianzan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:orientation="horizontal"
             android:layout_marginTop="5sp"
             android:background="#F1F1F1"
@@ -135,9 +127,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textColor="#7a7a7a"
-                android:textSize="10sp"
-                android:text=""/>
+                android:textColor="#576A80"
+                android:textSize="10sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F1F1F1"
+            android:gravity="center|left"
+            android:visibility="gone">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e1e1e1"/>
+        </LinearLayout>
+        <View
+            android:id="@+id/item_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
     </LinearLayout>
 </RelativeLayout>

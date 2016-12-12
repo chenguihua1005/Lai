@@ -44,7 +44,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_classdetail)
 public class ClassDetailActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "ClassDetailActivity";
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -106,12 +105,19 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             long CoachId = classModel.getCoachId();
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
-
-            if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
+            if (CoachId == UserInfoModel.getInstance().getUserId()){
                 btn_dismissclass.setVisibility(View.VISIBLE);
-//            btn_dismissclass.setText("解散班级群");
-//            btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
+                if (StringToDate(end_date).before(getNowDate())){
+                    btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
+                }else{
+                    btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
+                    btn_dismissclass.setEnabled(false);
+                }
             }
+
+//            if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
+//                btn_dismissclass.setVisibility(View.VISIBLE);
+//            }
 //            else {
 //                btn_dismissclass.setVisibility(View.GONE);
 //            btn_dismissclass.setText("您尚未关闭班级");
@@ -148,8 +154,17 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                 long CoachId = classModel.getCoachId();
                                 Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
 
-                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
+//                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
+//                                    btn_dismissclass.setVisibility(View.VISIBLE);
+//                                }
+                                if (CoachId == UserInfoModel.getInstance().getUserId()){
                                     btn_dismissclass.setVisibility(View.VISIBLE);
+                                    if (StringToDate(end_date).before(getNowDate())){
+                                        btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
+                                    }else{
+                                        btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
+                                        btn_dismissclass.setEnabled(false);
+                                    }
                                 }
 
                                 String photo = classModel.getCoachPhoto();

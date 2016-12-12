@@ -60,7 +60,7 @@ import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_person_detail)
-public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener,AdapterView.OnItemClickListener {
+public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = "PersonDetailActivity";
     private int[] mImgIds;
     private LayoutInflater mInflater;
@@ -135,7 +135,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String UserName;
     private String AFriendId;//好友关系id
     private String ClassId;
-    ArrayList<String> images=new ArrayList<>();
+    ArrayList<String> images = new ArrayList<>();
 
     private static final int GET_Sian=1;//发布签名
 
@@ -161,13 +161,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         mInflater = LayoutInflater.from(this);
-        easyAdapter=new EasyAdapter<NewsTopFourModel>(this,newsTopFourModels,R.layout.activity_index_gallery_item) {
+        easyAdapter = new EasyAdapter<NewsTopFourModel>(this, newsTopFourModels, R.layout.activity_index_gallery_item) {
             @Override
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
-                ImageView img=holder.getView(R.id.img);
-                if (!TextUtils.isEmpty(data.getThumbnailImgUrl()))
-                {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost")+data.getThumbnailImgUrl()).fit().into(img);
+                ImageView img = holder.getView(R.id.img);
+                if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().into(img);
                 }
             }
         };
@@ -198,28 +197,27 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetService(final long userid, long accountid, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
-        headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
-            @Override
-            public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
-                int status = memberInfoModelResponseData.getStatus();
-                try {
-                    switch (status) {
-                        case 200:
-                            memberInfoModel = memberInfoModelResponseData.getData();
-                            doGetData();
-                            break;
-                        default:
-                            Util.toastMsg(memberInfoModelResponseData.getMsg());
-                            break;
+            headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+                @Override
+                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+                    int status = memberInfoModelResponseData.getStatus();
+                    try {
+                        switch (status) {
+                            case 200:
+                                memberInfoModel = memberInfoModelResponseData.getData();
+                                doGetData();
+                                break;
+                            default:
+                                Util.toastMsg(memberInfoModelResponseData.getMsg());
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-        }
-    else {
-            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid,classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            });
+        } else {
+            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
                     int status = memberInfoModelResponseData.getStatus();
@@ -247,7 +245,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             if (memberInfoModel != null) {
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    String url=AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
+                    String url = AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
                     Picasso.with(getParent()).load(url).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
@@ -306,12 +304,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
-                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight()+"斤");//减重d
+                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight() + "斤");//减重d
                     } else {
-                        tv_Lossweight.setText("-"+memberInfoModel.getTotalLossWeight()+"斤");//减重
+                        tv_Lossweight.setText("-" + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight())?"暂未录入数据":memberInfoModel.getInitWeight());//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight())?"暂未复测":memberInfoModel.getCurrentWeight());//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂未录入数据" : memberInfoModel.getInitWeight());//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "暂未复测" : memberInfoModel.getCurrentWeight());//现在体重
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
                         Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
@@ -334,18 +332,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doGetPhotoView() {
-        if (newsTopFourModels.size()!=0)
-        {
+        if (newsTopFourModels.size() != 0) {
             hlist_dy.setVisibility(View.VISIBLE);
             tv_no_dy.setVisibility(View.GONE);
-            for (int n=0;n<newsTopFourModels.size();n++)
-            {
-                images.add(n,newsTopFourModels.get(n).getImgUrl());
+            for (int n = 0; n < newsTopFourModels.size(); n++) {
+                images.add(n, newsTopFourModels.get(n).getImgUrl());
             }
             easyAdapter.notifyDataSetChanged();
-        }
-        else
-        {
+        } else {
             hlist_dy.setVisibility(View.GONE);
             tv_no_dy.setVisibility(View.VISIBLE);
         }
@@ -449,7 +443,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     public void run() {
                                         progressDialog.dismiss();
                                         String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                                        Toast.makeText(getApplicationContext(), s2 + responseData.getMsg(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -461,8 +455,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     progressDialog.dismiss();
-                                    String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                                    Toast.makeText(getApplicationContext(), s2 + error.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -473,8 +466,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     runOnUiThread(new Runnable() {
                         public void run() {
                             progressDialog.dismiss();
-                            String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -591,9 +583,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent1=new Intent(this, PictureActivity.class);
-        intent1.putExtra("images",images);
-        intent1.putExtra("position",i);
+        Intent intent1 = new Intent(this, PictureActivity.class);
+        intent1.putExtra("images", images);
+        intent1.putExtra("position", i);
         startActivity(intent1);
     }
 }

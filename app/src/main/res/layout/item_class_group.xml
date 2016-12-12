@@ -72,7 +72,7 @@
                 android:id="@+id/tv_delete"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:background="#ff4400"
+                android:background="#FFA200"
                 android:gravity="center"
                 android:text="删除"
                 android:textColor="#FFFFFF" />
