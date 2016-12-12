@@ -1,20 +1,8 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -25,18 +13,9 @@ import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ClassStuFragment;
 import com.softtek.lai.module.bodygame3.activity.view.ClassedFragment;
 import com.softtek.lai.module.bodygame3.activity.view.NoClassFragment;
-import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
-import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
-import com.softtek.lai.module.bodygame3.head.view.SearchClassActivity;
-import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -85,7 +64,6 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
 
     @Override
     protected void initDatas() {
-
 
     }
 

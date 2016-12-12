@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
@@ -205,8 +203,8 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 //设置日历的长和宽间距
-        material_calendar.setTileWidthDp(50);
-        material_calendar.setTileHeightDp(38);
+//        material_calendar.setTileWidthDp(50);
+//        material_calendar.setTileHeightDp(38);
         material_calendar.removeDecorators();
         material_calendar.setShowOtherDates(0);
 
@@ -556,8 +554,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
-
-
         @Override
         protected Void doInBackground(List<ActscalendarModel>... lists) {
 
