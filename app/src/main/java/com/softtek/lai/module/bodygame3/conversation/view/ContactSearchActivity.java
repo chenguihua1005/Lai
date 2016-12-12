@@ -57,7 +57,7 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         overridePendingTransition(0, 0);
         tv_title.setText("通讯录搜索");
-        edit.setHint("通过姓名,手机号或康宝莱资格证号搜索");
+        edit.setHint("请输入姓名或手机号进行搜索");
 
         ll_left.setVisibility(View.INVISIBLE);
         tv_cancel.setOnClickListener(this);
