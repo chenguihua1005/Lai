@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -148,8 +147,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     public void getModel(HonorRankModel model) {
-        Log.e("curry", "getModel: " + model.toString());
         listHonorrank.onRefreshComplete();
+        if (model==null){
+            return;
+        }
         groupModelList.clear();
         groupModelList.addAll(model.getList_group());
         honorGroupRankAdapter.notifyDataSetChanged();
