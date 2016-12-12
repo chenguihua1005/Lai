@@ -112,6 +112,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     Button btn_chat;//发起聊天 或者临时聊天
     @InjectView(R.id.btn_addguy)
     Button btn_addguy;//加好友
+    @InjectView(R.id.tv_no_dy)
+    TextView tv_no_dy;
 
     @InjectView(R.id.im_guanzhu)
     ImageView im_guanzhu;
@@ -120,8 +122,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     //定义标题栏弹窗按钮
     private TitlePopup titlePopup;
     boolean show_state = true;
-    int n;
-//    ClassMemberModel classMemberModel;
 
     private int isFriend = 0;//1: 好友  0 ： 不是好友
     private long AccountId;
@@ -163,47 +163,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         };
         hlist_dy.setAdapter(easyAdapter);
         hlist_dy.setOnItemClickListener(this);
-        final int[] imgs = new int[]{R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect
-                , R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect};
-        for (int i = 0; i < imgs.length; i++) {
-            View view = mInflater.inflate(R.layout.activity_index_gallery_item, gallery, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.img);
-            Picasso.with(this).load(imgs[i]).fit().into(img);
-            n=i;
-            view.setId(i);
-            view.setTag(i);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int id=view.getId();
-//                    String tent=(String) view.getTag();
-                    for (int i=0;i<imgs.length;i++)
-                    {
-                        if (i==id)
-                        {
-//                            Util.toastMsg(tent);
-                        }
-                    }
-                }
-            });
-            gallery.addView(view);
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.i("点击图片了" + n);
-//
-////                    int id = view.getId();
-////                    String content = (String) view.getTag(R.layout.activity_index_gallery_item);
-////                    Log.i("点击图片了" + view.getTag() + "haha" + content);
-////                    for (int i = 0; i < imgs.length; i++) {
-////                        if (i == id) {
-////                        }
-////                    }
-//
-//                }
-//            });
 
-        }
         userid = UserInfoModel.getInstance().getUserId();
         AccountId = getIntent().getLongExtra("AccountId", 0);
         ClassId = getIntent().getStringExtra("ClassId");
@@ -377,39 +337,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             easyAdapter.notifyDataSetChanged();
 
         }
-//        if (newsTopFourModels.size() == 0) {
-//            int[] imgs = new int[]{R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect
-//                    , R.drawable.default_icon_rect, R.drawable.default_icon_rect, R.drawable.default_icon_rect};
-//            for (int i = 0; i < imgs.length; i++) {
-//                View view = mInflater.inflate(R.layout.activity_index_gallery_item, gallery, false);
-//                ImageView img = (ImageView) view.findViewById(R.id.img);
-//                Picasso.with(this).load(imgs[i]).fit().into(img);
-//                view.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        int id = view.getId();
-//                        Log.i("点击图片了" + id);
-//                    }
-//                });
-//                gallery.addView(view);
-//            }
-//        }
-//        for (int i = 0; i < newsTopFourModels.size(); i++) {
-//
-//            View view = mInflater.inflate(R.layout.activity_index_gallery_item, gallery, false);
-//            ImageView img = (ImageView) view.findViewById(R.id.img);
-//            Picasso.with(this).load(AddressManager.get("PhotoHost") + newsTopFourModels.get(i).getThumbnailImgUrl()).fit().into(img);
-//            Log.i("动态" + AddressManager.get("PhotoHost") + newsTopFourModels.get(i).getThumbnailImgUrl());
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int id = view.getId();
-//                    Log.i("点击图片了" + id);
-//                }
-//            });
-//            gallery.addView(view);
-//
-//        }
     }
 
     @Override

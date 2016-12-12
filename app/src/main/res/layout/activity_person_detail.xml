@@ -130,31 +130,15 @@
                     android:layout_height="120dp">
 
                 </com.softtek.lai.widgets.HorizontalListView>
-
-                <HorizontalScrollView
+                <TextView
+                    android:id="@+id/tv_no_dy"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_gravity="center_vertical"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:id="@+id/gallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:gravity="center"-->
-                            <!--android:text="暂未发布动态" />-->
-                    </LinearLayout>
-
-                </HorizontalScrollView>
+                    android:text="暂无动态"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center"
+                    android:visibility="gone"/>
 
                 <View
                     android:layout_width="match_parent"
