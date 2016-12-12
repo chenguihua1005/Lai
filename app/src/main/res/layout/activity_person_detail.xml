@@ -7,9 +7,9 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity">
 
-    <include layout="@layout/toolbar" />
 
-    <ScrollView
+
+    <com.softtek.lai.module.bodygame3.activity.view.MyScrollview
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
@@ -124,31 +124,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#eeeeee" />
-
-                <HorizontalScrollView
+                <com.softtek.lai.widgets.HorizontalListView
+                    android:id="@+id/hlist_dy"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_gravity="center_vertical"
-                    android:scrollbars="none">
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone">
 
-                    <LinearLayout
-                        android:id="@+id/gallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:gravity="center"-->
-                            <!--android:text="暂未发布动态" />-->
-                    </LinearLayout>
-
-                </HorizontalScrollView>
+                </com.softtek.lai.widgets.HorizontalListView>
+                <TextView
+                    android:id="@+id/tv_no_dy"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:text="暂无动态"
+                    android:textSize="14sp"
+                    android:textColor="#b1b0b0"
+                    android:gravity="center"
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -361,5 +354,7 @@
                 android:textColor="#ec7166"
                 android:textSize="18sp" />
         </LinearLayout>
-    </ScrollView>
+    </com.softtek.lai.module.bodygame3.activity.view.MyScrollview>
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 </RelativeLayout>

@@ -188,6 +188,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
+        if (model==null){
+            return;
+        }
         groupModelList.clear();
         groupModelList.addAll(model.getList_group());
         honorGroupRankAdapter.notifyDataSetChanged();

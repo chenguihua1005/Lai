@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -36,8 +35,8 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_newfriend)
 public class NewFriendActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "NewFriendActivity";
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)

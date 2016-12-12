@@ -1,20 +1,9 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -25,18 +14,9 @@ import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ClassStuFragment;
 import com.softtek.lai.module.bodygame3.activity.view.ClassedFragment;
 import com.softtek.lai.module.bodygame3.activity.view.NoClassFragment;
-import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
-import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
-import com.softtek.lai.module.bodygame3.head.view.SearchClassActivity;
-import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -69,13 +49,20 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             ClassRole = activitydataModel.getClassRole();
                             if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-
-                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, NoClassFragment.getInstance(ActivityFragment.this)).commit();
+                                NoClassFragment fragment=NoClassFragment.getInstance(ActivityFragment.this);
+                                 Bundle bundle=new Bundle();
+                                bundle.putInt("classrole",ClassRole);
+                                fragment.setArguments(bundle);
+                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, fragment).commit();
                             } else {
                                 if (ClassRole == Constants.STUDENT) {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, ClassStuFragment.getInstance(ActivityFragment.this)).commit();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act,ClassStuFragment.getInstance(ActivityFragment.this)).commit();
                                 } else {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, ClassedFragment.getInstance(ActivityFragment.this)).commit();
+                                    ClassedFragment classedFragment=ClassedFragment.getInstance(ActivityFragment.this);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putInt("classrole",ClassRole);
+                                    classedFragment.setArguments(bundle);
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, classedFragment).commit();
                                 }
                             }
                         }
@@ -85,7 +72,6 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
 
     @Override
     protected void initDatas() {
-
 
     }
 

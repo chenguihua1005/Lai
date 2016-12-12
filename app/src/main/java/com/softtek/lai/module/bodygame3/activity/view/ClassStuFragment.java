@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
@@ -38,6 +36,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -70,7 +69,7 @@ import static android.app.Activity.RESULT_OK;
 @InjectLayout(R.layout.fragment_class_stu)
 public class ClassStuFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
-    SwipeRefreshLayout refresh;
+    MySwipRefreshView refresh;
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
     @InjectView(R.id.fl_right)
@@ -142,6 +141,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
+        fl_right.setVisibility(View.GONE);
         list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
@@ -205,8 +205,8 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 //设置日历的长和宽间距
-        material_calendar.setTileWidthDp(50);
-        material_calendar.setTileHeightDp(38);
+//        material_calendar.setTileWidthDp(50);
+//        material_calendar.setTileHeightDp(38);
         material_calendar.removeDecorators();
         material_calendar.setShowOtherDates(0);
 
@@ -530,6 +530,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 break;
             case R.id.ll_fuce:
                 Intent fuce=new Intent(getContext(), FcStuActivity.class);
+                fuce.putExtra("typeDate",typeDate);
                 fuce.putExtra("classId",classid);
                 startActivity(fuce);
                 break;
@@ -556,8 +557,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
-
-
         @Override
         protected Void doInBackground(List<ActscalendarModel>... lists) {
 

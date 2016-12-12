@@ -30,6 +30,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
@@ -38,8 +39,13 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -52,7 +58,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context mContext;
     private View mPopView;
     private int width;
-    private int mDialogHigh;
 
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
@@ -60,14 +65,12 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public RecyclerViewInfoAdapter(List<PhotoWallslistModel> items,
                                    ItemListener listener,
-                                   Context context, View popView,
-                                   int dialogHigh) {
+                                   Context context, View popView) {
         myItems = items;
         myListener = listener;
         mContext = context;
         mPopView = popView;
         width = DisplayUtil.getMobileWidth(mContext);
-        mDialogHigh = dialogHigh;
     }
 
     @Override
@@ -132,6 +135,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private HistoryService service;
         private boolean hasZaned;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             mPopImg = (ImageView) itemView.findViewById(R.id.iv_pop_img);
@@ -165,25 +169,28 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //用户名
             mUsername.setText(item.getUserName());
-            //关注
-            if (isMyselfFocus) {
-                mIsFocus.setVisibility(View.INVISIBLE);
-            } else if (isFocus) {
+//            关注
+//            if (isMyselfFocus) {
+//                mIsFocus.setVisibility(View.INVISIBLE);
+//            } else if (isFocus) {
+            if (isFocus) {
                 mIsFocus.setChecked(true);
             }
 
             mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (mIsFocus.isChecked()){
+                    if (!mIsFocus.isChecked()) {
                         service.doCancleFocusAccount(
                                 UserInfoModel.getInstance().getToken(),
                                 UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong("3399"),
+                                Long.parseLong(item.getAccountid()),
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
-                                        mIsFocus.setClickable(false);
+                                        if (responseData.getStatus()!=200){
+                                            mIsFocus.setChecked(true);
+                                        }
                                     }
 
                                     @Override
@@ -191,15 +198,22 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         super.failure(error);
                                     }
                                 });
-                    }else {
+                    } else {
                         service.doFocusAccount(
                                 UserInfoModel.getInstance().getToken(),
                                 UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong("3399"),
+                                Long.parseLong(item.getAccountid()),
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
-                                        mIsFocus.setClickable(true);
+                                       if (responseData.getStatus()!= 200){
+                                           mIsFocus.setChecked(false);
+                                       }
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
                                     }
                                 }
                         );
@@ -285,44 +299,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
 
-        private void createDialog(final String healthId, final long accountId,int dialogHigh) {
-            final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
-            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_comment, null);
-            final EditText mContent = (EditText) view.findViewById(R.id.et_comment);
-            final TextView mSubmit = (TextView) view.findViewById(R.id.tv_comment_submit);
-            mSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!String.valueOf(mContent.getText()).equals("")) {
-
-                        service.postCommnents(
-                                UserInfoModel.getInstance().getToken(),
-                                healthId,
-                                accountId,
-                                String.valueOf(mContent.getText()),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        Log.d("createDialog---------------",error.toString());
-                                        mCommentLayout.removeViewAt(mCommentLayout.getChildCount() - 1);
-                                        super.failure(error);
-                                    }
-                                });
-                    }
-                }
-            });
-
-            dialog.setView(view);
-            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-            params.y = dialogHigh;
-            dialog.show();
-        }
-
         private void initPopupWindow(View v, View popView, final PhotoWallslistModel model) {
             final LinearLayout mZan = (LinearLayout) popView.findViewById(R.id.ll_zan);
             final LinearLayout mComment = (LinearLayout) popView.findViewById(R.id.ll_comment);
@@ -350,56 +326,60 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             if (model.getPraiseNameList() != null) {
                 if (hasZaned || model.getPraiseNameList().contains(UserInfoModel.getInstance().getUser().getNickname())) {
                     mZan.setClickable(false);
+                } else {
+                    mZan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                            hasZaned = true;
+                            mZan.setClickable(false);
+                            if (mZanLayout.getChildCount() > 0) {
+                                mZanLayout.setVisibility(View.VISIBLE);
+                            }
+                            TextView zanText = new TextView(mContext);
+                            String name = "," + UserInfoModel.getInstance().getUser().getNickname();
+                            if (mZanLayout.getChildCount() == 1) {
+                                name = name.substring(1, name.length());
+                            }
+                            zanText.setText(name);
+                            mZanLayout.addView(zanText);
+
+                            service.postZan(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    UserInfoModel.getInstance().getUser().getNickname(),
+                                    model.getHealtId(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            hasZaned = false;
+                                            if (mZan.getChildCount() < 2)
+                                                mZan.removeViewAt(mCommentLayout.getChildCount() - 1);
+                                            mZan.setVisibility(View.GONE);
+                                            super.failure(error);
+                                        }
+                                    });
+
+
+                        }
+                    });
                 }
             }
-            mZan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hasZaned = true;
-                    mZan.setClickable(false);
-                    if (mZanLayout.getChildCount() > 0) {
-                        mZanLayout.setVisibility(View.VISIBLE);
-                    }
-                    TextView zanText = new TextView(mContext);
-                    String name = "," + UserInfoModel.getInstance().getUser().getNickname();
-                    if (mZanLayout.getChildCount() == 1) {
-                        name = name.substring(1, name.length());
-                    }
-                    zanText.setText(name);
-                    mZanLayout.addView(zanText);
 
-                    service.postZan(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            UserInfoModel.getInstance().getUser().getNickname(),
-                            model.getHealtId(),
-                            new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    hasZaned = false;
-                                    if (mZan.getChildCount() < 2)
-                                    mZan.removeViewAt(mCommentLayout.getChildCount() - 1);
-                                    mZan.setVisibility(View.GONE);
-                                    super.failure(error);
-                                }
-                            });
-
-
-                }
-            });
 
             mComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TextView commentText = new TextView(mContext);
-                    String commentName = UserInfoModel.getInstance().getUser().getNickname();
-                    commentText.setText(commentName + ":" + String.valueOf(mContent.getText()));
-                    mCommentLayout.addView(commentText);
-                    createDialog(model.getHealtId(), UserInfoModel.getInstance().getUserId(),mDialogHigh);
+                    popupWindow.dismiss();
+                    CommentEvent event = new CommentEvent();
+                    event.setAccountId(UserInfoModel.getInstance().getUserId());
+                    event.setHealthId(model.getHealtId());
+                    event.setView(mCommentLayout);
+                    EventBus.getDefault().post(event);
                 }
             });
 
@@ -410,6 +390,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
         }
+
     }
 
     public class FooterHolder extends RecyclerView.ViewHolder {

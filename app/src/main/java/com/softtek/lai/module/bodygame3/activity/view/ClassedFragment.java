@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -16,16 +17,12 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -38,7 +35,6 @@ import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.RequestCallback;
@@ -50,7 +46,6 @@ import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
 import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,7 +64,6 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -157,6 +151,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        classrole = bundle.getInt("classrole");
+        if (classrole == Constants.HEADCOACH) {
+            fl_right.setVisibility(View.VISIBLE);
+        } else {
+            fl_right.setVisibility(View.GONE);
+            iv_right.setVisibility(View.GONE);
+        }
+
         list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
@@ -221,8 +224,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
 //设置日历的长和宽间距
-        material_calendar.setTileWidthDp(50);
-        material_calendar.setTileHeightDp(38);
+//        material_calendar.setTileWidthDp(50);
+//        material_calendar.setTileHeightDp(38);
         material_calendar.setShowOtherDates(0);
 
     }
@@ -268,11 +271,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                         typeDate = calendarModels.get(i).getMonthDate();
                                     }
 
-                                }else {
+                                } else {
                                     ll_fuce.setVisibility(View.GONE);
                                 }
                             }
-
+                            if (classrole == Constants.HEADCOACH) {
+                                fl_right.setVisibility(View.VISIBLE);
+                            } else {
+                                fl_right.setVisibility(View.GONE);
+                            }
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                 fl_right.setVisibility(View.VISIBLE);
@@ -393,12 +400,13 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                             typeDate = calendarModels.get(i).getMonthDate();
                                         }
 
-                                    }else {
+                                    } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
                                 }
 
                             }
+
 
                             ll_fuce.setBackgroundResource(R.drawable.reset_update);
                             fl_right.setVisibility(View.VISIBLE);
@@ -559,15 +567,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 startActivityForResult(intent, 0);
                 break;
             case R.id.ll_chuDate:
-                Intent chuDate=new Intent(getContext(), InitAuditListActivity.class);
-                chuDate.putExtra("classId",classid);
+                Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
+                chuDate.putExtra("classId", classid);
                 startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
             case R.id.ll_fuce://复测审核
-                Log.e("classde",classid+typeDate);
+                Log.e("classde", classid + typeDate);
                 Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
                 fuce.putExtra("classId", classid);
                 fuce.putExtra("typeDate", typeDate);
@@ -582,7 +590,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (resultCode == 0) {
-                progressDialogs.show();
+
                 getalldatafirst();
             }
         }
