@@ -124,6 +124,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#eeeeee" />
+                <com.softtek.lai.widgets.HorizontalListView
+                    android:id="@+id/hlist_dy"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+
+                </com.softtek.lai.widgets.HorizontalListView>
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
