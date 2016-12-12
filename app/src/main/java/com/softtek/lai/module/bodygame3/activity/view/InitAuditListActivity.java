@@ -51,7 +51,7 @@ public class InitAuditListActivity extends BaseActivity{
         classId=getIntent().getStringExtra("classId");
         fragments=new ArrayList<>();
         fragments.add(InitAuditFragment.getInstance(classId));
-        fragments.add(InitAuditedFragment.getInstance());
+        fragments.add(InitAuditedFragment.getInstance(classId));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);

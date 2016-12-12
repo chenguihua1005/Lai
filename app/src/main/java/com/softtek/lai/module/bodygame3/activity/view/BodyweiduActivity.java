@@ -118,11 +118,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         try {
             if (initDataModel!=null) {
                 tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum()) ? "" : initDataModel.getCircum());
-                tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline()) ? "" : initDataModel.getCircum());
+                tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline()) ? "" : initDataModel.getWaistline());
                 tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie()) ? "" : initDataModel.getHiplie());
-                tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth()) ? "" : initDataModel.getCircum());
-                tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth()) ? "" : initDataModel.getCircum());
-                tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth()) ? "" : initDataModel.getCircum());
+                tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth()) ? "" : initDataModel.getUpArmGirth());
+                tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth()) ? "" : initDataModel.getUpLegGirth());
+                tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth()) ? "" : initDataModel.getDoLegGirth());
             }
         } catch (Exception e) {
             e.printStackTrace();

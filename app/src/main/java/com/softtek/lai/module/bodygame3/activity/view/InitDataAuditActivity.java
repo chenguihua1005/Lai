@@ -2,24 +2,15 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -41,7 +32,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.PhotModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
@@ -54,15 +44,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
@@ -79,7 +61,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_initwrite)
-public class WriteFCActivity extends BaseActivity implements View.OnClickListener,
+public class InitDataAuditActivity extends BaseActivity implements View.OnClickListener,
         Validator.ValidationListener/*,ImageFileSelector.Callback*/{
     //标题栏
     @InjectView(R.id.tv_title)
@@ -223,7 +205,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(String file) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+                Picasso.with(InitDataAuditActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 files=file;
 
                 Log.i(files);
@@ -289,23 +271,23 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
                                     //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this,Manifest.permission.CAMERA)){
+                                    if(ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this,Manifest.permission.CAMERA)){
                                         //允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
+                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
                                                 new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
 
                                     }else{
                                         //不允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
+                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
                                                 new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                     }
                                 }else {
-                                    imageFileCropSelector.takePhoto(WriteFCActivity.this);
+                                    imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
                                 }
                             } else if (which == 1) {
-                                imageFileCropSelector.selectImage(WriteFCActivity.this);
+                                imageFileCropSelector.selectImage(InitDataAuditActivity.this);
                             }
                         }
                     }).create().show();
@@ -316,7 +298,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
-                Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
+                Intent intent=new Intent(InitDataAuditActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",initDataModel);
                 intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
@@ -356,7 +338,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(WriteFCActivity.this);
+                imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
 
             } else {
 
@@ -383,10 +365,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(WriteFCActivity.this);
+                        imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(WriteFCActivity.this);
+                        imageFileCropSelector.selectImage(InitDataAuditActivity.this);
                     }
                 }
             }).create().show();

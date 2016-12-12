@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -108,13 +109,14 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     FuceSevice fuceSevice;
     InitDataModel initDataModel;
     String gender="0";
     String classId;
     private Long userId;
-    InitComitModel initComitModel;
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
@@ -363,7 +365,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
     void doSetPostData()
     {
-        Log.i("身体维度上传"+"胸围"+initDataModel.getCircum()+"腰围 "+initDataModel.getWaistline()+"臀围"+initDataModel.getHiplie()+"上臂围"+initDataModel.getUpArmGirth()+"大腿围"+initDataModel.getUpLegGirth()+"小腿围"+initDataModel.getDoLegGirth());
+
         multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
