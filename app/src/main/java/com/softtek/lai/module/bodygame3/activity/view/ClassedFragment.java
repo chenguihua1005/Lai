@@ -122,6 +122,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private static final int LOADCOUNT = 10;
     private int page = 1;
     private int lastVisitableItem;
+    private String typeDate;//复测日期
+
+    SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
+    String strDate = sf.format(new Date());
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -251,7 +255,16 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                             }
+                            for (int i = 0; i < calendarModels.size(); i++) {
+                                if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                                        typeDate = calendarModels.get(i).getMonthDate();
+                                    }
 
+                                }else {
+                                    ll_fuce.setVisibility(View.GONE);
+                                }
+                            }
 
                             if (Constants.HEADCOACH == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);
@@ -367,15 +380,24 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                                for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                                        if (calendarModels.get(i).getMonthDate() == strDate) {
+                                            typeDate = calendarModels.get(i).getMonthDate();
+                                        }
+
+                                    }else {
+                                        ll_fuce.setVisibility(View.GONE);
+                                    }
+                                }
 
                             }
 
-                                ll_fuce.setBackgroundResource(R.drawable.reset_update);
-                                fl_right.setVisibility(View.VISIBLE);
-                                fl_right.setEnabled(true);
-                                reset_name.setText("复测审核");
-                                reset_time.setText("待审核" + activitydataModel.getNum());
-
+                            ll_fuce.setBackgroundResource(R.drawable.reset_update);
+                            fl_right.setVisibility(View.VISIBLE);
+                            fl_right.setEnabled(true);
+                            reset_name.setText("复测审核");
+                            reset_time.setText("待审核" + activitydataModel.getNum());
 
 
                             //加载班级
@@ -485,6 +507,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
+                    typeDate = dates;
                     list_activity.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
@@ -529,13 +552,19 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 startActivityForResult(intent, 0);
                 break;
             case R.id.ll_chuDate:
-                startActivity(new Intent(getContext(), InitAuditListActivity.class));
+                Intent chuDate=new Intent(getContext(), InitAuditListActivity.class);
+                chuDate.putExtra("classId",classid);
+                startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
             case R.id.ll_fuce://复测审核
-                startActivity(new Intent(getContext(), FcAuditListActivity.class));
+                Log.e("classde",classid+typeDate);
+                Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
+                fuce.putExtra("classId", classid);
+                fuce.putExtra("typeDate", typeDate);
+                startActivity(fuce);
                 break;
 
         }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import java.io.File;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class ImageFileSelector {
@@ -26,6 +27,11 @@ public class ImageFileSelector {
             public void onSuccess(String file) {
                 AppLogger.d(TAG, "select image from sdcard: " + file);
                 handleResult(file, false);
+            }
+
+            @Override
+            public void onMutilSussess(List<String> imgs) {
+                handleMutilResult(imgs,false);
             }
 
             @Override
@@ -55,6 +61,13 @@ public class ImageFileSelector {
                 AppLogger.d(TAG, "compress image output: " + outFile);
                 if (mCallback != null) {
                     mCallback.onSuccess(outFile);
+                }
+            }
+
+            @Override
+            public void onMutilCallBack(List<String> outFiles) {
+                if (mCallback != null) {
+                    mCallback.onMutilSuccess(outFiles);
                 }
             }
         });
@@ -116,12 +129,22 @@ public class ImageFileSelector {
         mCallback = callback;
     }
 
+    //这是图片单选
     public void selectImage(Activity activity) {
-        mImagePickHelper.selectorImage(activity);
+        mImagePickHelper.selectorMutilImage(activity,1);
     }
 
     public void selectImage(Fragment fragment) {
-        mImagePickHelper.selectImage(fragment);
+        mImagePickHelper.selectorMutilImage(fragment,1);
+    }
+
+    //下面是多图选择
+    public void selectMutilImage(Activity activity,int limit) {
+        mImagePickHelper.selectorMutilImage(activity,limit);
+    }
+
+    public void selectMutilImage(Fragment fragment,int limit) {
+        mImagePickHelper.selectorMutilImage(fragment,limit);
     }
 
     public void takePhoto(Activity activity) {
@@ -143,6 +166,16 @@ public class ImageFileSelector {
         }
     }
 
+    private void handleMutilResult(List<String> fileName, boolean deleteSrc) {
+        if (!fileName.isEmpty()) {
+            mImageCompressHelper.compressMutil(fileName, deleteSrc);
+        } else {
+            if (mCallback != null) {
+                mCallback.onError();
+            }
+        }
+    }
+
     private void handleError() {
         if (mCallback != null) {
             mCallback.onError();
@@ -151,7 +184,7 @@ public class ImageFileSelector {
 
     public interface Callback {
         void onSuccess(String file);
-
+        void onMutilSuccess(List<String> files);
         void onError();
     }
 

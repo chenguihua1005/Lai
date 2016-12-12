@@ -176,6 +176,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         fl_right.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
         refresh.setOnRefreshListener(this);
+        iv_imagevideo1.setOnClickListener(this);
+        iv_imagevideo2.setOnClickListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -641,6 +643,15 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 Intent intent2 = new Intent(getContext(), Message2Activity.class);
                 startActivity(intent2);
                 break;
+            case R.id.iv_imagevideo1:
+                Intent video1 = new Intent(getContext(), VideomoreActivity.class);
+                startActivity(video1);
+                break;
+            case R.id.iv_imagevideo2:
+                Intent video2 = new Intent(getContext(), VideomoreActivity.class);
+                startActivity(video2);
+                break;
+
         }
     }
 

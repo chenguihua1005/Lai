@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 
@@ -11,6 +12,7 @@ import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Query;
 import retrofit.mime.MultipartTypedOutput;
@@ -33,7 +35,6 @@ public interface FuceSevice {
     @POST("/v1/MeasuredRecordLog/PostInitData")
     void doPostInitData(
             @Header("token") String token,
-//            @Body InitComitModel comitModel,
             @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData> callback
     );
@@ -62,7 +63,7 @@ public interface FuceSevice {
     //复测录入
     @POST("/v1/MeasuredRecordLog/PostMeasuredData")
     void doPostMeasuredData(
-            @Header("toke")String token,
+            @Header("token")String token,
             @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData>callback
             );

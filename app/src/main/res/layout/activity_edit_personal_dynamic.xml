@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#f1f1f1"
-    tools:context="com.softtek.lai.module.community.view.EditPersonalDynamicActivity">
+    android:background="#f1f1f1">
 
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
@@ -38,10 +37,11 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:numColumns="3"
+            android:numColumns="4"
             android:columnWidth="100dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="4dp">
+            android:verticalSpacing="4dp"
+            android:horizontalSpacing="4dp">
 
         </com.softtek.lai.widgets.CustomGridView>
     </LinearLayout>

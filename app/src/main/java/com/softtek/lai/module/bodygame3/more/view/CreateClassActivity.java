@@ -123,7 +123,6 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rl_area.setOnClickListener(this);
-//        tv_right.setOnClickListener(this);
     }
 
     @Override

@@ -48,11 +48,15 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    private static String classid;
+    private static String typedate;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance() {
+    public static Fragment getInstance(String classId,String typeDate) {
         FcAuditedFragment fragment=new FcAuditedFragment();
         Bundle data=new Bundle();
+        classid=classId;
+        typedate=typeDate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -128,12 +132,12 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22",  pageIndex, 10);
+            doGetData(UserInfoModel.getInstance().getUserId(), classid,typedate,  pageIndex, 10);
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22",++pageIndex,10);
+        doGetData(UserInfoModel.getInstance().getUserId(),classid,typedate,++pageIndex,10);
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {

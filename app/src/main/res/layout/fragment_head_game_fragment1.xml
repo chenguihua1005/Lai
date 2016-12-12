@@ -532,9 +532,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
-
                 android:background="@color/white"
-                android:gravity="center_vertical"
+
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
@@ -546,6 +545,14 @@
                     android:textColor="@color/word"
                     android:textSize="13dp" />
 
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/jianzhong_iv"
+                    android:layout_toLeftOf="@+id/spinner_title"
+                    android:paddingTop="7dp"
+                    android:layout_height="wrap_content" />
+
                 <com.ggx.widgets.nicespinner.ArrowSpinner2
                     android:id="@+id/spinner_title"
                     android:layout_width="wrap_content"
@@ -555,7 +562,6 @@
                     android:layout_marginRight="10dp"
                     android:gravity="right"
                     app:textSize2="13px"
-
                     app:arrowTint2="@color/word" />
 
             </RelativeLayout>

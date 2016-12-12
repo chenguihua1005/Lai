@@ -20,15 +20,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
-import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -39,8 +41,13 @@ import java.io.File;
 
 import butterknife.InjectView;
 import retrofit.client.Response;
+import retrofit.mime.MultipartTypedOutput;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -49,7 +56,7 @@ import zilla.libcore.util.Util;
  */
 
 @InjectLayout(R.layout.activity_initwrite)
-public class FcStuActivity extends BaseActivity implements View.OnClickListener{
+public class FcStuActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
     @InjectView(R.id.iv_write_head)
     CircleImageView iv_write_head;//头像
     @InjectView(R.id.tv_write_nick)
@@ -67,13 +74,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.tv_write_endm)
     TextView tv_write_endm;//结束月
     @InjectView(R.id.tv_write_endd)
-    TextView tv_write_endd;
+    TextView tv_write_endd;//结束日
     @InjectView(R.id.tv_write_chu_weight)
     EditText tv_write_chu_weight;//初始体重
     @InjectView(R.id.tv_retestWrite_nowweight)
     EditText tv_retestWrite_nowweight;//现在体重
+    @Required(order = 1,message = "体脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_tizhi)
     TextView tv_retestWrite_tizhi;//体脂
+    @Required(order = 2,message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;//内脂
 
@@ -100,15 +109,22 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     FuceSevice fuceSevice;
     InitDataModel initDataModel;
     String gender="0";
+    String classId;
+    private Long userId;
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     private ImageFileCropSelector imageFileCropSelector;
     private static final int CAMERA_PREMISSION=100;
+    MultipartTypedOutput multipartTypedOutput;
+    @LifeCircleInject
+    ValidateLife validateLife;
     String files;
     @Override
     protected void initViews() {
@@ -150,7 +166,10 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        classId=getIntent().getStringExtra("classId");
+        userId=UserInfoModel.getInstance().getUserId();
         doData();
+        multipartTypedOutput=new MultipartTypedOutput();
         if (initDataModel!=null)
         {
             tv_write_chu_weight.setText(initDataModel.getInitWeight());//初始体重
@@ -163,7 +182,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void doData() {
-        fuceSevice.dogetInitData(UserInfoModel.getInstance().getToken(), Long.parseLong("3399"), "C4E8E179-FD99-4955-8BF9-CF470898788B", new RequestCallback<ResponseData<InitDataModel>>() {
+        fuceSevice.dogetInitData(UserInfoModel.getInstance().getToken(), userId, classId, new RequestCallback<ResponseData<InitDataModel>>() {
             @Override
             public void success(ResponseData<InitDataModel> initDataModelResponseData, Response response) {
                 int status=initDataModelResponseData.getStatus();
@@ -267,31 +286,100 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
 
 
                 break;
+            case R.id.fl_right:
+                if (TextUtils.isEmpty(tv_write_chu_weight.getText()))
+                {
+                    String message = "初始体重为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                }
+                else if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText()))
+            {
+                String message = "现在体重为必填项，请选择";
+                new AlertDialog.Builder(this)
+                        .setMessage(message)
+                        .create().show();
+            }
+                else {
+                    validateLife.validate();
+                }
+
+                break;
 
         }
     }
+    void doPostInitData()
+    {
+        fuceSevice.doPostMeasuredData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+        });
+    }
     void doSetData()
     {
-        if (!TextUtils.isEmpty(initDataModel.getPhoto()))
-        {
-            Picasso.with(this).load(AddressManager.get("photoHost")).fit().into(iv_write_head);
+        try {
+            if (initDataModel!=null) {
+                if (!TextUtils.isEmpty(initDataModel.getPhoto())) {
+                    Picasso.with(this).load(AddressManager.get("photoHost")+initDataModel.getPhoto()).fit().into(iv_write_head);
+                }
+                gender=initDataModel.getGender();
+                tv_write_nick.setText(initDataModel.getUserName());
+                tv_write_phone.setText(initDataModel.getMobile());
+                tv_write_class.setText(initDataModel.getClassName());
+                tv_retest_write_weekth.setText(initDataModel.getWeekNum());
+                String[] stardata = initDataModel.getStartDate().split("-");
+                String[] stardata1 = stardata[2].split(" ");
+                tv_write_starm.setText(stardata[1]);
+                tv_write_stard.setText(stardata1[0]);
+                String[] enddata = initDataModel.getEndDate().split("-");
+                String[] enddata1 = enddata[2].split(" ");
+                tv_write_endm.setText(enddata[1]);
+                tv_write_endd.setText(enddata1[0]);
+                if (!TextUtils.isEmpty(initDataModel.getImgThumbnail()))
+                {
+                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                    Picasso.with(this).load(AddressManager.get("photoHost")+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+
+                }
+                tv_write_chu_weight.setText("0.0".equals(initDataModel.getInitWeight())?"":initDataModel.getInitWeight());
+                tv_retestWrite_nowweight.setText("0.0".equals(initDataModel.getWeight())?"":initDataModel.getWeight());
+                tv_retestWrite_tizhi.setText("0.0".equals(initDataModel.getPysical())?"":initDataModel.getPysical());
+                tv_retestWrite_neizhi.setText("0.0".equals(initDataModel.getFat())?"":initDataModel.getFat());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        tv_write_nick.setText(initDataModel.getUserName());
-        tv_write_phone.setText(initDataModel.getMobile());
-        tv_write_class.setText(initDataModel.getClassName());
-        tv_retest_write_weekth.setText(initDataModel.getWeekNum());
-        String[] stardata=initDataModel.getStartDate().split("-");
-        String[] stardata1=stardata[2].split(" ");
-        tv_write_starm.setText(stardata[1]);
-        tv_write_stard.setText(stardata1[0]);
-        String[] enddata=initDataModel.getEndDate().split("-");
-        String[] enddata1=enddata[2].split(" ");
-        tv_write_endm.setText(enddata[1]);
-        tv_write_endd.setText(enddata1[0]);
-        tv_write_chu_weight.setText(initDataModel.getInitWeight());
-        tv_retestWrite_nowweight.setText(initDataModel.getWeight());
-        tv_retestWrite_tizhi.setText(initDataModel.getPysical());
-        tv_retestWrite_neizhi.setText(initDataModel.getFat());
+    }
+    void doSetPostData()
+    {
+
+        multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
+        multipartTypedOutput.addPart("classId",new TypedString(classId));
+        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+        multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+        multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+        multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(initDataModel.getCircum())?"":initDataModel.getCircum().toString()));//胸围
+        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(initDataModel.getWaistline())?"":initDataModel.getWaistline().toString()));//腰围
+        multipartTypedOutput.addPart("hipline",new TypedString(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpArmGirth())?"":initDataModel.getUpArmGirth().toString()));//上臂围
+        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpLegGirth())?"":initDataModel.getUpLegGirth().toString()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getDoLegGirth())?"":initDataModel.getDoLegGirth().toString()));//小腿围
+        Log.i("上传数据" + multipartTypedOutput.getPartCount());
+        doPostInitData();
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -383,5 +471,28 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener{
         }).create().show();
 
 
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        if (!TextUtils.isEmpty(files)) {
+            doSetPostData();
+        }
+        else {
+            String message ="请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
+        String message = failedRule.getFailureMessage();
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .create().show();
     }
 }

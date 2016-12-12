@@ -1,4 +1,4 @@
-package com.softtek.lai.module.retest.view;
+package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -115,13 +115,18 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         tv_title.setText("添加记录");
         initDataModel= (InitDataModel) getIntent().getSerializableExtra("retestWrite");
-
-        tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum())?"":initDataModel.getCircum());
-        tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline())?"":initDataModel.getCircum());
-        tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie());
-        tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth())?"":initDataModel.getCircum());
-        tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth())?"":initDataModel.getCircum());
-        tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth())?"":initDataModel.getCircum());
+        try {
+            if (initDataModel!=null) {
+                tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum()) ? "" : initDataModel.getCircum());
+                tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline()) ? "" : initDataModel.getWaistline());
+                tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie()) ? "" : initDataModel.getHiplie());
+                tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth()) ? "" : initDataModel.getUpArmGirth());
+                tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth()) ? "" : initDataModel.getUpLegGirth());
+                tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth()) ? "" : initDataModel.getDoLegGirth());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -150,7 +155,6 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
             //填写说明
             case R.id.ll_retest_explain:
                 startActivity(new Intent(this,ExplainActivity.class));
-
                 break;
             //返回按钮
             case R.id.ll_left:
@@ -161,7 +165,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
             case R.id.btn_retest_save:
 
                 initDataModel=new InitDataModel();
-                initDataModel.setCircum(tv_retest_circum.getText()+"");//胸围
+                initDataModel.setCircum(tv_retest_circum.getText().toString());//胸围
                 initDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
                 initDataModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
                 initDataModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围

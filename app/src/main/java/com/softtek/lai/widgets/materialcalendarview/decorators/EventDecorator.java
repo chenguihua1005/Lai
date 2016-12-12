@@ -21,11 +21,11 @@ public class EventDecorator implements DayViewDecorator {
     private Context context;
     private int mode;
 
-    public EventDecorator(int color,int mode, Collection<CalendarDay> dates, Context context) {
-        this.color = color;
-        this.mode=mode;
+    public EventDecorator(int mode, Collection<CalendarDay> dates, Context context) {
+        this.mode = mode;
         this.dates = new HashSet<>(dates);
         this.context = context;
+
     }
 
     @Override
@@ -35,17 +35,8 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-//        Iterator<CalendarDay> it = dates.iterator();
-//        while(it.hasNext()){
-//            CalendarDay day = it.next();
-//            if (CalendarDay.today().equals(day)){
-//                  view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_my_selector));
-//            }else {
-//                view.addSpan(new DotSpan(5, color));
-//            }
-//        }
-//        view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_my_selector));
 
-        view.addSpan(new DotSpan(3, color,mode));
+
+        view.addSpan(new DotSpan(context,mode,4));
     }
 }

@@ -9,10 +9,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -40,7 +47,6 @@ import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.picture.view.PictureActivity;
-import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -51,6 +57,12 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
@@ -106,19 +118,14 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     ValidateLife validateLife;
 
     //初始体重
-    @Required(order = 1,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_write_chu_weight)
     EditText tv_write_chu_weight;
-
-
-    //现在体重
-    @Required(order = 1,message = "现在体重必填项，请选择")
-    @InjectView(R.id.tv_retestWrite_nowweight)
-    EditText tv_retestWrite_nowweight;
     //体脂
+    @Required(order = 2,message = "体脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_tizhi)
     TextView tv_retestWrite_tizhi;
     //内脂
+    @Required(order = 3,message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;
 
@@ -155,7 +162,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     View vi_noweight;
 
     String gender="1";//性别
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
@@ -164,12 +170,13 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
     InitDataModel initDataModel;
-    InitComitModel initComitModel;
     MultipartTypedOutput multipartTypedOutput;
-    Long accountId=Long.parseLong(userInfoModel.getUser().getUserid());//用户id
-    String Classid="";//班级id
+    Long userId;//用户id
+    String classId=" ";//班级id
     Context context;
     String files;
+    InitComitModel initComitModel;
+    String photoname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,11 +185,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         ll_retestWrite_chu_weight.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-        tv_retestWrite_nowweight.setEnabled(false);
 
     }
 
@@ -200,13 +205,14 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         title.setText("初始数据录入");//设置标题栏标题
         tv_right.setText("保存");//保存数据
+        classId=getIntent().getStringExtra("classId");
+        userId=UserInfoModel.getInstance().getUserId();
+//        Util.toastMsg("classId"+classId);
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         //获取数据接口
-        doGetInfo(Long.parseLong("3399"),"C4E8E179-FD99-4955-8BF9-CF470898788B");
+        doGetInfo(userId,"72ccdb79-9342-4f31-9737-fe4c8508f189 ");
         multipartTypedOutput=new MultipartTypedOutput();
-        multipartTypedOutput.addPart("accountId",new TypedString("3399"));
-        String classID = "C4E8E179-FD99-4955-8BF9-CF470898788B";
-        multipartTypedOutput.addPart("classId",new TypedString(classID));
+
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -236,12 +242,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    @Subscribe
-    public void doGetPhoto(PhotModel photModel) {
-        System.out.println("照片名称" + photModel.getImg());
-//        retestWrite.setImage(photModel.getImg());
-    }
-
     private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
@@ -259,7 +259,16 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-                validateLife.validate();
+                if (TextUtils.isEmpty(tv_write_chu_weight.getText()))
+                {
+                    String message = "初始体重为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                }
+                else {
+                    validateLife.validate();
+                }
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
@@ -355,6 +364,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 // functionality that depends on this permission.
             }
         }
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -403,12 +413,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             public void onClick(DialogInterface dialog, int which) {
                 if (num==0) {
                     tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                    tv_write_chu_weight.setError(null);
                 }
                 else if (num==1)
                 {
-                    tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                    tv_retestWrite_nowweight.setError(null);
+
                 }
                 else if (num==2)
                 {
@@ -436,43 +444,24 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         //验证成功
         Log.i("图片测试"+files+"哈哈"+im_retestwrite_showphoto.getResources());
         if (!TextUtils.isEmpty(files)) {
-            multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
-            multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
-            multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-            multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
-            multipartTypedOutput.addPart("circum", new TypedString(initDataModel.getCircum().toString()));//胸围
-            multipartTypedOutput.addPart("waistline", new TypedString(initDataModel.getWaistline().toString()));//腰围
-//        multipartTypedOutput.addPart("hipline",new TypedString(initDataModel.getHiplie().toString()));//臀围
-            multipartTypedOutput.addPart("upArmGirth", new TypedString(initDataModel.getUpArmGirth().toString()));//上臂围
-            multipartTypedOutput.addPart("upLegGirth", new TypedString(initDataModel.getUpLegGirth().toString()));//大腿围
-            multipartTypedOutput.addPart("doLegGirth", new TypedString(initDataModel.getDoLegGirth().toString()));//小腿围
-            Log.i("上传数据" + multipartTypedOutput.getPartCount());
-            doPostInitData();
+            doSetPostData();
+
         }
         else {
-            Util.toastMsg("请上传图片");
+            String message ="请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
         }
-//        if (TextUtils.isEmpty(retestWrite.getImage()))
-//        {
-//            Util.toastMsg("请上传照片");
-//        }
-//        else {
-//            retestWrite.setInitWeight(tv_write_chu_weight.getText() + "");
-//            retestWrite.setWeight(tv_retestWrite_nowweight.getText() + "");
-//            retestWrite.setPysical(tv_retestWrite_tizhi.getText() + "");
-//            retestWrite.setFat(tv_retestWrite_neizhi.getText() + "");
-//            retestWrite.setClassId(classid);
-//            retestWrite.setAccountId(acountid);
-//            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setMessage("数据刷新中...");
-//            progressDialog.show();
-//            retestPre.doPostWrite(Long.parseLong(acountid), loginid, retestWrite, this, progressDialog);
-//        }
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
+        String message = failedRule.getFailureMessage();
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .create().show();
     }
 
     /*
@@ -488,41 +477,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     case 200:
                         try {
                             initDataModel=initDataModelResponseData.getData();
-                            if (initDataModel!=null)
-                            {
-                                String url= AddressManager.get("photoHost");
-                                tv_write_nick.setText(initDataModel.getUserName());//设置用户名
-                                tv_write_phone.setText(initDataModel.getMobile());//手机号
-                                if (!TextUtils.isEmpty(initDataModel.getPhoto()))
-                                {
-
-                                    Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
-                                    Log.i("头像"+url+initDataModel.getPhoto());
-                                }
-                                if (!TextUtils.isEmpty(initDataModel.getImgThumbnail()))
-                                {
-                                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                                    Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-//                                    Picasso.with(context).load(url+initDataModel.getImgThumbnail());
-                                    Log.i("复测图片缩略图"+url+initDataModel.getImgThumbnail());
-                                    Uri uri = Uri.parse(url+initDataModel.getImgThumbnail());
-                                            getRealFilePath(getBaseContext(),uri);
-
-                                }
-                                tv_write_class.setText(initDataModel.getClassName());//班级名
-                                tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
-                                String Stardata[]=initDataModel.getStartDate().split("-");
-                                tv_write_starm.setText(Long.parseLong(Stardata[1])+"");//开班月
-                                tv_write_stard.setText(Long.parseLong(Stardata[2])+"");//开班日
-                                String Enddata[]=initDataModel.getEndDate().split("-");
-                                tv_write_endm.setText(Long.parseLong(Enddata[1])+"");//结束月
-                                tv_write_endd.setText(Long.parseLong(Enddata[2])+"");//结束日
-                                tv_write_chu_weight.setText(initDataModel.getInitWeight());//初始体重
-                                tv_retestWrite_tizhi.setText(initDataModel.getPysical());//体脂
-                                tv_retestWrite_neizhi.setText(initDataModel.getFat());//内脂
-                                gender=initDataModel.getGender();
-//                                d
-                            }
+                            doSetData();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -539,13 +494,95 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
-    //录入
+    /*
+    * 获取数据值
+    * */
+    void doSetData()
+    {
+        if (initDataModel!=null)
+        {
+            try {
+                final String url= AddressManager.get("photoHost");
+                tv_write_nick.setText(initDataModel.getUserName());//设置用户名
+                tv_write_phone.setText(initDataModel.getMobile());//手机号
+                if (!TextUtils.isEmpty(initDataModel.getPhoto()))
+                {
+
+                    Picasso.with(context).load(url+initDataModel.getPhoto()).fit().into(iv_write_head);//头像
+                }
+                if (!TextUtils.isEmpty(initDataModel.getImgThumbnail()))
+                {
+                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                    Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+                    photoname=initDataModel.getImgThumbnail();
+
+
+                }
+                tv_write_class.setText(initDataModel.getClassName());//班级名
+                tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
+                String Stardata[]=initDataModel.getStartDate().split("-");
+                tv_write_starm.setText(Long.parseLong(Stardata[1])+"");//开班月
+                tv_write_stard.setText(Long.parseLong(Stardata[2])+"");//开班日
+                String Enddata[]=initDataModel.getEndDate().split("-");
+                tv_write_endm.setText(Long.parseLong(Enddata[1])+"");//结束月
+                tv_write_endd.setText(Long.parseLong(Enddata[2])+"");//结束日
+                tv_write_chu_weight.setText("0.0".equals(initDataModel.getWeight())?"":initDataModel.getWeight());//初始体重
+                tv_retestWrite_tizhi.setText("0.0".equals(initDataModel.getPysical())?"":initDataModel.getPysical());//体脂
+                tv_retestWrite_neizhi.setText("0.0".equals(initDataModel.getFat())?"":initDataModel.getFat());//内脂
+                gender=initDataModel.getGender();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                Util.toastMsg("保存失败");
+            }else {
+                Util.toastMsg("保存成功");
+            }
+        }
+
+    };
+
+    /*l录入*/
+    void doSetPostData()
+    {Log.i("身体维度上传"+"胸围"+initDataModel.getCircum()+"腰围 "+initDataModel.getWaistline()+"臀围"+initDataModel.getHiplie()+"上臂围"+initDataModel.getUpArmGirth()+"大腿围"+initDataModel.getUpLegGirth()+"小腿围"+initDataModel.getDoLegGirth());
+        multipartTypedOutput.addPart("accountId",new TypedString(userId+""));
+        multipartTypedOutput.addPart("classId",new TypedString("72ccdb79-9342-4f31-9737-fe4c8508f189"));
+        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+        multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+        multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+        multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(initDataModel.getCircum())?"":initDataModel.getCircum().toString()));//胸围
+        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(initDataModel.getWaistline())?"":initDataModel.getWaistline().toString()));//腰围
+        multipartTypedOutput.addPart("hipline",new TypedString(TextUtils.isEmpty(initDataModel.getHiplie())?"":initDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpArmGirth())?"":initDataModel.getUpArmGirth().toString()));//上臂围
+        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getUpLegGirth())?"":initDataModel.getUpLegGirth().toString()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(initDataModel.getDoLegGirth())?"":initDataModel.getDoLegGirth().toString()));//小腿围
+        Log.i("上传数据" + multipartTypedOutput.getPartCount());
+        doPostInitData();
+    }
+    //录入请求
     private void doPostInitData()
     {
         service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                Util.toastMsg(responseData.getMsg());
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
 
             }
             @Override
@@ -555,19 +592,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    /*@Override
-    public void onSuccess(String file) {
-        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-        im_delete.setVisibility(View.VISIBLE);
-        Picasso.with(this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-        retestPre.goGetPicture(file);
-    }
-
-    @Override
-    public void onError() {
-
-    }
-    */
     /**
      * 点击屏幕隐藏软键盘
      **/
@@ -582,28 +606,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
         return super.dispatchTouchEvent(ev);
     }
-    public static String getRealFilePath( final Context context, final Uri uri ) {
-        if (null == uri) return null;
-        final String scheme = uri.getScheme();
-        String data = null;
-        if (scheme == null)
-            data = uri.getPath();
-        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-            if (null != cursor) {
-                if (cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    if (index > -1) {
-                        data = cursor.getString(index);
-                    }
-                }
-                cursor.close();
-            }
-        }
-        Log.i("测试测试测试》》》》》"+data);
-        return data;
-    }
+
 
 }
