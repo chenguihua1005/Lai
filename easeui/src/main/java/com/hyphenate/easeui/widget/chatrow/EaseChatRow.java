@@ -21,6 +21,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.adapter.EaseMessageAdapter;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
 import com.hyphenate.easeui.widget.EaseImageView;
@@ -41,7 +42,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
     protected TextView timeStampView;
     protected EaseImageView userAvatarView;
-//    private ImageView userAvatarView;
+    //    private ImageView userAvatarView;
     protected View bubbleLayout;
     protected TextView usernickView;
 
@@ -131,10 +132,10 @@ public abstract class EaseChatRow extends LinearLayout {
         String name = null;
         String avatar = null;
         try {
-            name=message.getStringAttribute("nickname");
-            avatar=message.getStringAttribute("avatarURL");
-            if(TextUtils.isEmpty(avatar)){
-                avatar="111";
+            name = message.getStringAttribute("nickname");
+            avatar = message.getStringAttribute("avatarURL");
+            if (TextUtils.isEmpty(avatar)) {
+                avatar = "111";
             }
         } catch (HyphenateException e) {
             e.printStackTrace();
@@ -144,6 +145,12 @@ public abstract class EaseChatRow extends LinearLayout {
         if (message.direct() == Direct.SEND) {
 //            EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
             ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+            if (usernickView != null) {
+                usernickView.setVisibility(VISIBLE);
+//            usernickView.setText(chatUserModel.getUserName());
+                EaseUserUtils.setUserNick(chatUserModel.getUserName(), usernickView);
+            }
+
             String p = chatUserModel.getUserPhone();
             Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
 
