@@ -11,13 +11,13 @@ public class CommentEvent {
     private String healthId;
     private long accountId;
     private String comments;
-    private LinearLayout view;
+    private View view;
 
-    public LinearLayout getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(LinearLayout view) {
+    public void setView(View view) {
         this.view = view;
     }
 

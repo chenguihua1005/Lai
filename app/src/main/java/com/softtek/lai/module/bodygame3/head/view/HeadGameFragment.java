@@ -65,8 +65,8 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.noclass_fragment)
 public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
+    //    @InjectView(R.id.appbar)
+//    AppBarLayout appbar;
     @InjectView(R.id.tv_totalperson)
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
@@ -125,16 +125,16 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            }
-        });
+//        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (verticalOffset >= 0) {
+//                    pull.setEnabled(true);
+//                } else {
+//                    pull.setEnabled(false);
+//                }
+//            }
+//        });
 
         if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
             if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
@@ -352,10 +352,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                             });
 
                 } else {
-
-                    searchContent.setError("请输入搜索内容");
-
-
+                    Util.toastMsg("请输入班级名称或班级编号");
                 }
                 break;
             case R.id.button:

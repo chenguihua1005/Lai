@@ -242,7 +242,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:hint="请输入您的爱心学员手机号"
+                        android:hint="爱心学员手机号（非必填）"
                         android:textColor="#333333"
                         android:textColorHint="#999999"
                         android:textSize="16sp"
@@ -297,7 +297,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/bg_no_btn"
-                android:text="取消"
+                android:text="忽略"
                 android:visibility="gone"
                 android:textColor="#FFA200"
                 android:textSize="@dimen/textSize5" />

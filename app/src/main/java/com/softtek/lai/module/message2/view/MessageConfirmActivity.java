@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message2.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -140,8 +139,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         }
         tv_class_name.setText(show.getClassName());
         tv_class_code.setText(show.getClassCode());
-        tv_first_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd)
-                .convertDateStr(show.getClassStart(), "yyyy年MM月dd日"));
+        tv_first_time.setText(show.getClassStart());
         int role = show.getClassRole();
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
