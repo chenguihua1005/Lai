@@ -8,13 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@color/grey"
     tools:context=".module.retest.WriteActivity">
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:layout_weight="1"
-        android:background="@color/grey">
+        >
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
