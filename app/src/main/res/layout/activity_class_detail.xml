@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.ClassDetailActivity">
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 
     <LinearLayout
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -173,5 +174,16 @@
             android:textSize="14sp"
             android:textColor="#ffffff"
             android:background="@drawable/bg_joinclass_btn"/>
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:text="您已发送过加入班级申请了, 请耐心等待总教练审核吧"/>
     </LinearLayout>
 </RelativeLayout>

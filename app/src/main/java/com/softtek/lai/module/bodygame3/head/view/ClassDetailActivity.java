@@ -52,12 +52,16 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     TextView tv_zhiqing;//跳转知情书说明
     @InjectView(R.id.btn_joinclass)
     Button btn_joinclass;//加入班级按钮
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;//提示文本
+    @InjectView(R.id.cb_term)
+    CheckBox cb_term;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.cb_term)
-    CheckBox cb_term;
+
     HeadService headService;
 
     ClasslistModel classlistModel;
@@ -126,7 +130,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                     doJoinClass();
                 }
                 else {
-                    Util.toastMsg("请勾选已阅读《康宝莱知情书》");
+                    Util.toastMsg("请勾选已阅读《康宝莱使用知情书》");
                 }
                 break;
             case R.id.ll_left:
@@ -139,7 +143,17 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                Util.toastMsg(responseData.getMsg());
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        finish();
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
             }
         });
     }
@@ -163,14 +177,14 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                     tv_StaClassDate.setText(date[0] + "年" + Long.parseLong(date[1]) + "月" + Long.parseLong(date1[0]) + "日");//开班日期
                 }
                 tv_classPerNum.setText(classDetailModel.getClassMemberNum() + "人");
-                if ("1".equals(classDetailModel.getIsSendMsg()))
-                {
-                    btn_joinclass.setEnabled(false);
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
+                if ("1".equals(classDetailModel.getIsSendMsg()))//是否已发送申请
+                {//是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本
+                    btn_joinclass.setVisibility(View.GONE);
+                    cb_term.setEnabled(false);
+                    tv_tip.setVisibility(View.VISIBLE);
                 }
                 else {
-                    btn_joinclass.setEnabled(true);
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
