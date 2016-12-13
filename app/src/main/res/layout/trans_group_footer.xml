@@ -35,5 +35,4 @@
         android:text="取消"
         android:textColor="#666666"
         android:textSize="18sp" />
-
 </LinearLayout>

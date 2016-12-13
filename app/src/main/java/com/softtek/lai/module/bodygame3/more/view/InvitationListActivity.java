@@ -63,7 +63,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         lv.setOnRefreshListener(this);
-        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        lv.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     @Override
@@ -156,7 +156,22 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-
+        pageIndex=1;
+        ZillaApi.NormalRestAdapter.create(MoreService.class)
+                .getInvitatedContactList(
+                        UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        model.getClassId(),
+                        20, pageIndex,
+                        new RequestCallback<ResponseData<List<InvitatedContact>>>() {
+                            @Override
+                            public void success(ResponseData<List<InvitatedContact>> data, Response response) {
+                                lv.onRefreshComplete();
+                                if(data.getStatus()==200){
+                                    onResult(data.getData());
+                                }
+                            }
+                        });
     }
 
 

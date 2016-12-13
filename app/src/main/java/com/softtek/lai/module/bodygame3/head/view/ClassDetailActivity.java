@@ -1,14 +1,12 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -19,15 +17,12 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.view.ZQSActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
-import retrofit.Callback;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;

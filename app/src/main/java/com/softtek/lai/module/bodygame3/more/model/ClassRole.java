@@ -9,6 +9,7 @@ public class ClassRole {
 
     private String RoleName;
     private int RoleId;
+    public boolean isSelected;
 
     public String getRoleName() {
         return RoleName;
