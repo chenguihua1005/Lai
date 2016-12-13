@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
@@ -24,6 +25,7 @@ import java.util.List;
 public class BrokenLineFragment2 extends Fragment {
     private static final String ARGUMENTS = "BrokenLineFragment2";
     private Chart mBrokeChat;
+    private TextView mNoData;
 
     private List<String> xAsix = new ArrayList<>();
     private List<Entry> data = new ArrayList<>();
@@ -53,14 +55,17 @@ public class BrokenLineFragment2 extends Fragment {
         Bundle arg = getArguments();
         historyDetailsBean = (HistoryDetailsBean) arg.getSerializable(ARGUMENTS);
         mBrokeChat = (Chart) view.findViewById(R.id.broken_chat);
+        mNoData = (TextView)view.findViewById(R.id.tv_no_data);
         mBrokeChat.setTitle1("减重比均值");
+        mBrokeChat.setTitle2("未复测");
         int radius = DisplayUtil.dip2px(getContext(), 5);
-        GradientDrawable orange = new GradientDrawable();
-        orange.setColors(new int[]{0xFFFEA003, 0xFFED7460});
-        orange.setCornerRadius(radius);
-        mBrokeChat.setBackground(orange);
+        GradientDrawable green = new GradientDrawable();
+        green.setColors(new int[]{0xFF77BA2B, 0xFFA6C225});
+        green.setCornerRadius(radius);
+        mBrokeChat.setBackground(green);
         float maxValue = 0;
         if (historyDetailsBean.getList_WeightPer() != null) {
+            mNoData.setVisibility(View.GONE);
             for (int i = 0; i < historyDetailsBean.getList_WeightPer().size(); i++) {
                 xAsix.add(historyDetailsBean.getList_WeightPer().get(i).getGroupName());
                 float value =Float.valueOf(historyDetailsBean.getList_WeightPer().get(i).getLossPer());
@@ -72,7 +77,6 @@ public class BrokenLineFragment2 extends Fragment {
             mBrokeChat.setTitle2(historyDetailsBean.getList_WeightPer().get(0).getLossWeight() + "%");
         }else {
             mBrokeChat.setDate(xAsix,data,maxValue);
-            mBrokeChat.setTitle2("");
         }
 
     }
