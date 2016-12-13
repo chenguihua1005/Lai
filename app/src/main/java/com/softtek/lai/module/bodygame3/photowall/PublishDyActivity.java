@@ -96,7 +96,8 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     PublicDynamicManager manager;
 
     private int limit=9;
-
+    private String classId;
+    private boolean hasTheme;
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -110,14 +111,18 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     protected void initDatas() {
         doGetTopic();
         manager=new PublicDynamicManager(images, this);
-        UploadImage image= getIntent().getParcelableExtra("uploadImage");
-        if(image!=null){
-            try {
-                image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        classId=getIntent().getStringExtra("classId");
+        ArrayList<UploadImage> uploadImages= getIntent().getParcelableArrayListExtra("uploadImages");
+        if(uploadImages!=null&&!uploadImages.isEmpty()){
+            limit-=uploadImages.size();
+            for (UploadImage image:uploadImages){
+                try {
+                    image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                images.add(image);
             }
-            images.add(image);
         }
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
@@ -142,6 +147,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                     public void onClick(View view) {
                         if(ck_select.isChecked()){
                             ck_select.setChecked(false);
+                            hasTheme=false;
                             int start=et_content.getSelectionStart();
                             String replace="#"+data.getWordKey()+"#";
                             String str=et_content.getText().toString();
@@ -149,6 +155,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                             et_content.setSelection(start-replace.length());
                         }else {
                             ck_select.setChecked(true);
+                            hasTheme=true;
                             Editable edit=et_content.getText();
                             SpannableString ss=new SpannableString("#"+data.getWordKey()+"#");
                             ss.setSpan(new ForegroundColorSpan(0xFFEC7166),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -329,8 +336,12 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         if(manager!=null){
             PublicDyModel model=new PublicDyModel();
             model.setContent(et_content.getText().toString().trim());
-            model.setClassId("C4E8E179-FD99-4955-8BF9-CF470898788B");
-            model.setKeywordId(topicModels.get(0).getWordKeyId());
+            model.setClassId(classId);
+            if(hasTheme){
+                model.setKeywordId(topicModels.get(0).getWordKeyId());
+            }else {
+                model.setKeywordId("");
+            }
             model.setAccountid(UserInfoModel.getInstance().getUserId());
             manager.sendDynamic(model);
         }

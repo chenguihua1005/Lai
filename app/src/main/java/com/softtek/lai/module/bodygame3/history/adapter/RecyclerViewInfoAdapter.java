@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
@@ -19,7 +20,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -32,6 +32,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
+import com.softtek.lai.module.bodygame3.history.view.ClassInfoActivity;
+import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
+import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
@@ -41,7 +44,6 @@ import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ import zilla.libcore.file.AddressManager;
 public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<PhotoWallslistModel> myItems = new ArrayList<>();
     private ItemListener myListener;
+    private CommentListener mCommentListener;
     private Context mContext;
     private View mPopView;
     private int width;
@@ -71,6 +74,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         mContext = context;
         mPopView = popView;
         width = DisplayUtil.getMobileWidth(mContext);
+//        mCommentListener = commentListener;
     }
 
     @Override
@@ -117,6 +121,10 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onItemClick(PhotoWallslistModel item, int pos);
     }
 
+    public interface CommentListener {
+        void onCommentClick();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public PhotoWallslistModel item;
         private ImageView mPopImg;
@@ -128,12 +136,13 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private TextView mContent;
         private CustomGridView mPhotos;
         private TextView mDate;
+        private TextView mZanName;
         private String path = AddressManager.get("photoHost");
         private boolean isMyselfFocus;
         private boolean isFocus;
         private EasyAdapter<String> gridAdapter;
         private HistoryService service;
-        private boolean hasZaned;
+        private boolean hasZaned = false;
 
 
         public ViewHolder(View itemView) {
@@ -147,6 +156,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             mContent = (TextView) itemView.findViewById(R.id.tv_content);
             mPhotos = (CustomGridView) itemView.findViewById(R.id.cgv_photos);
             mDate = (TextView) itemView.findViewById(R.id.tv_date);
+            mZanName = (TextView) itemView.findViewById(R.id.tv_zan_name);
 
             if (mZanLayout.getChildCount() <= 1) {
                 mZanLayout.setVisibility(View.GONE);
@@ -164,19 +174,18 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private void setData(final PhotoWallslistModel item) {
             isMyselfFocus = item.getAccountid().equals(UserInfoModel.getInstance().getUser().getUserid());
-            isFocus = item.getIsFocus()==1;
+            isFocus = item.getIsFocus() == 1;
             service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
 
             //用户名
             mUsername.setText(item.getUserName());
 //            关注
-//            if (isMyselfFocus) {
-//                mIsFocus.setVisibility(View.INVISIBLE);
-//            } else if (isFocus) {
-            if (isFocus) {
+            if (isMyselfFocus) {
+                mIsFocus.setVisibility(View.INVISIBLE);
+            } else if (isFocus) {
+//            if (isFocus) {
                 mIsFocus.setChecked(true);
             }
-
             mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -188,7 +197,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
-                                        if (responseData.getStatus()!=200){
+                                        if (responseData.getStatus() != 200) {
                                             mIsFocus.setChecked(true);
                                         }
                                     }
@@ -206,9 +215,9 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
-                                       if (responseData.getStatus()!= 200){
-                                           mIsFocus.setChecked(false);
-                                       }
+                                        if (responseData.getStatus() != 200) {
+                                            mIsFocus.setChecked(false);
+                                        }
                                     }
 
                                     @Override
@@ -238,7 +247,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             mDate.setText(item.getCreatedate());
 
             //发表留言内容
-            if (item.getIsHasTheme()==1) {
+            if (item.getIsHasTheme() == 1) {
                 String content = item.getContent();
                 SpannableString ss = new SpannableString(content);
                 ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -246,46 +255,53 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             } else {
                 mContent.setText(item.getContent());
             }
-
-
             //点赞的人
-            if (item.getPraiseNameList().size() > 0) {
-                String name = "";
-                mZanLayout.setVisibility(View.VISIBLE);
+            if (!item.getPraiseNameList().isEmpty()) {
+                hasZaned = item.getPraiseNameList().contains(UserInfoModel.getInstance().getUser().getNickname());
+                mZanLayout.setVisibility(View.VISIBLE);//显示点赞人
                 for (int i = 0; i < item.getPraiseNameList().size(); i++) {
-                    name = item.getPraiseNameList().get(i) + ",";
-                    if (i == item.getPraiseNameList().size() - 1) {
-                        name = name.substring(0, name.length() - 1);
+                    if (i == 0) {
+                        mZanName.setText(item.getPraiseNameList().get(i));
+                    } else {
+                        mZanName.append("," + item.getPraiseNameList().get(i));
                     }
                 }
-                TextView zanText = new TextView(mContext);
-                zanText.setText(name);
-                zanText.setTextColor(0xFF576a80);
-                mZanLayout.addView(zanText);
+            } else {
+                mZanLayout.setVisibility(View.GONE);//显示点赞人
             }
+//            if (item.getPraiseNameList().size() > 0) {
+//                String name = "";
+//                mZanLayout.setVisibility(View.VISIBLE);
+//                for (int i = 0; i < item.getPraiseNameList().size(); i++) {
+//                    name = item.getPraiseNameList().get(i) + ",";
+//                    if (i == item.getPraiseNameList().size() - 1) {
+//                        name = name.substring(0, name.length() - 1);
+//                    }
+//                }
+//                TextView zanText = new TextView(mContext);
+//                zanText.setText(name);
+//                zanText.setTextColor(0xFF576a80);
+//                mZanLayout.addView(zanText);
+//            }
 
             //评论
-            if (item.getCommendsNum()!=0) {
+            if (!item.getPhotoWallCommendsList().isEmpty()) {
+                Log.i("评论=============================================================");
                 for (int i = 0; i < item.getPhotoWallCommendsList().size(); i++) {
-                    String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
-                    String commendsContent = item.getPhotoWallCommendsList().get(i).getCommnets();
                     TextView commendText = new TextView(mContext);
-                    commendText.setText(commendsName + ":" + commendsContent);
+                    String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
+                    SpannableString ss = new SpannableString(commendsName + "：");
+                    ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    commendText.setText(ss);
+                    String commendsContent = item.getPhotoWallCommendsList().get(i).getCommnets();
+                    commendText.append(commendsContent);
                     mCommentLayout.addView(commendText);
                 }
             }
 
             //照片墙的缩略图
             if (item.getThumbnailPhotoList().size() > 0) {
-                gridAdapter = new EasyAdapter<String>(mContext, item.getThumbnailPhotoList(), R.layout.grid_list) {
-                    @Override
-                    public void convert(com.ggx.widgets.adapter.ViewHolder holder, String data, int position) {
-                        ImageView iv_grid = holder.getView(R.id.iv_grid);
-                        Picasso.with(mContext).load(path + data).placeholder(R.drawable.default_icon_rect)
-                                .error(R.drawable.default_icon_rect).into(iv_grid);
-                    }
-                };
-                mPhotos.setAdapter(gridAdapter);
+                mPhotos.setAdapter((new PhotosAdapter(item.getThumbnailPhotoList(), mContext)));
                 mPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -324,7 +340,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
             popupWindow.update();
             if (model.getPraiseNameList() != null) {
-                if (hasZaned || model.getPraiseNameList().contains(UserInfoModel.getInstance().getUser().getNickname())) {
+                if (hasZaned) {
                     mZan.setClickable(false);
                 } else {
                     mZan.setOnClickListener(new View.OnClickListener() {
@@ -333,17 +349,11 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                             popupWindow.dismiss();
                             hasZaned = true;
                             mZan.setClickable(false);
-                            if (mZanLayout.getChildCount() > 0) {
-                                mZanLayout.setVisibility(View.VISIBLE);
-                            }
-                            TextView zanText = new TextView(mContext);
                             String name = "," + UserInfoModel.getInstance().getUser().getNickname();
-                            if (mZanLayout.getChildCount() == 1) {
+                            if (item.getPraiseNameList().isEmpty()) {
                                 name = name.substring(1, name.length());
                             }
-                            zanText.setText(name);
-                            mZanLayout.addView(zanText);
-
+                            mZanName.append(name);
                             service.postZan(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                     UserInfoModel.getInstance().getUser().getNickname(),
@@ -357,9 +367,10 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         @Override
                                         public void failure(RetrofitError error) {
                                             hasZaned = false;
-                                            if (mZan.getChildCount() < 2)
-                                                mZan.removeViewAt(mCommentLayout.getChildCount() - 1);
-                                            mZan.setVisibility(View.GONE);
+                                            if (item.getPraiseNameList().isEmpty()) {
+                                                mZanLayout.setVisibility(View.GONE);
+                                                mZanName.setText("");
+                                            }
                                             super.failure(error);
                                         }
                                     });
@@ -378,7 +389,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                     CommentEvent event = new CommentEvent();
                     event.setAccountId(UserInfoModel.getInstance().getUserId());
                     event.setHealthId(model.getHealtId());
-                    event.setView(mCommentLayout);
+                    event.setView(itemView);
                     EventBus.getDefault().post(event);
                 }
             });

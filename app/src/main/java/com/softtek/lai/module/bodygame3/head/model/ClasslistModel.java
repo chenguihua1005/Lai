@@ -13,21 +13,21 @@ public class ClasslistModel implements Parcelable {
     private String ClassId;
     private String ClassName;
     private String ClassCode;//班级编号
-    private int ClassMasterId;//班级总教练id
-    private String ClassMasterPhoto;//总教练照片
-    private String ClassMasterName;//总教练名称
-    private String ClassStart;
-    private int ClassMemberNum;//学员人数
+//    private int ClassMasterId;//班级总教练id
+//    private String ClassMasterPhoto;//总教练照片
+//    private String ClassMasterName;//总教练名称
+//    private String ClassStart;
+//    private int ClassMemberNum;//学员人数
 
     protected ClasslistModel(Parcel in) {
         ClassId = in.readString();
         ClassName = in.readString();
         ClassCode = in.readString();
-        ClassMasterId = in.readInt();
-        ClassMasterPhoto = in.readString();
-        ClassMasterName = in.readString();
-        ClassStart = in.readString();
-        ClassMemberNum = in.readInt();
+//        ClassMasterId = in.readInt();
+//        ClassMasterPhoto = in.readString();
+//        ClassMasterName = in.readString();
+//        ClassStart = in.readString();
+//        ClassMemberNum = in.readInt();
     }
 
     public static final Creator<ClasslistModel> CREATOR = new Creator<ClasslistModel>() {
@@ -66,45 +66,45 @@ public class ClasslistModel implements Parcelable {
         ClassCode = classCode;
     }
 
-    public int getClassMasterId() {
-        return ClassMasterId;
-    }
-
-    public void setClassMasterId(int classMasterId) {
-        ClassMasterId = classMasterId;
-    }
-
-    public String getClassMasterPhoto() {
-        return ClassMasterPhoto;
-    }
-
-    public void setClassMasterPhoto(String classMasterPhoto) {
-        ClassMasterPhoto = classMasterPhoto;
-    }
-
-    public String getClassMasterName() {
-        return ClassMasterName;
-    }
-
-    public void setClassMasterName(String classMasterName) {
-        ClassMasterName = classMasterName;
-    }
-
-    public String getClassStart() {
-        return ClassStart;
-    }
-
-    public void setClassStart(String classStart) {
-        ClassStart = classStart;
-    }
-
-    public int getClassMemberNum() {
-        return ClassMemberNum;
-    }
-
-    public void setClassMemberNum(int classMemberNum) {
-        ClassMemberNum = classMemberNum;
-    }
+//    public int getClassMasterId() {
+//        return ClassMasterId;
+//    }
+//
+//    public void setClassMasterId(int classMasterId) {
+//        ClassMasterId = classMasterId;
+//    }
+//
+//    public String getClassMasterPhoto() {
+//        return ClassMasterPhoto;
+//    }
+//
+//    public void setClassMasterPhoto(String classMasterPhoto) {
+//        ClassMasterPhoto = classMasterPhoto;
+//    }
+//
+//    public String getClassMasterName() {
+//        return ClassMasterName;
+//    }
+//
+//    public void setClassMasterName(String classMasterName) {
+//        ClassMasterName = classMasterName;
+//    }
+//
+//    public String getClassStart() {
+//        return ClassStart;
+//    }
+//
+//    public void setClassStart(String classStart) {
+//        ClassStart = classStart;
+//    }
+//
+//    public int getClassMemberNum() {
+//        return ClassMemberNum;
+//    }
+//
+//    public void setClassMemberNum(int classMemberNum) {
+//        ClassMemberNum = classMemberNum;
+//    }
 
     @Override
     public int describeContents() {
@@ -116,10 +116,10 @@ public class ClasslistModel implements Parcelable {
         parcel.writeString(ClassId);
         parcel.writeString(ClassName);
         parcel.writeString(ClassCode);
-        parcel.writeInt(ClassMasterId);
-        parcel.writeString(ClassMasterPhoto);
-        parcel.writeString(ClassMasterName);
-        parcel.writeString(ClassStart);
-        parcel.writeInt(ClassMemberNum);
+//        parcel.writeInt(ClassMasterId);
+//        parcel.writeString(ClassMasterPhoto);
+//        parcel.writeString(ClassMasterName);
+//        parcel.writeString(ClassStart);
+//        parcel.writeInt(ClassMemberNum);
     }
 }

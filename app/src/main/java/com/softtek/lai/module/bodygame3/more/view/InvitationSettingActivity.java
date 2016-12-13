@@ -2,13 +2,11 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,8 +26,6 @@ import com.softtek.lai.module.bodygame3.more.model.ClassRole;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.model.SendInvitation;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
-import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.BottomSheetDialog;
@@ -141,7 +137,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             tv_tianshi.setText("奶昔天使 " + invitater.getInviterMLUserName());
         }
         tv_class_name.setText(invitater.getClassName());
-        tv_create_time.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(), "yyyy年MM月dd日"));
+        tv_create_time.setText(invitater.getStartDate()/*DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(), "yyyy年MM月dd日")*/);
         tv_number.setText(invitater.getClassCode());
         ClassGroup group = invitater.getClassGroupList().get(0);
         ClassRole role = invitater.getClassRole().get(0);
@@ -178,24 +174,38 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 finish();
                 break;
             case R.id.rl_group:
-                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, R.layout.textview) {
-
+                showGroupName(true,new EasyAdapter<ClassGroup>(this, classGroupList, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassGroup data, int position) {
-                        TextView tv = holder.getView(R.id.tv);
+                        CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getCGName());
                     }
                 });
+//                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, R.layout.textview) {
+//
+//                    @Override
+//                    public void convert(ViewHolder holder, ClassGroup data, int position) {
+//                        TextView tv = holder.getView(R.id.tv);
+//                        tv.setText(data.getCGName());
+//                    }
+//                });
                 break;
             case R.id.rl_role:
-                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, R.layout.textview) {
-
+                showGroupName(false,new EasyAdapter<ClassRole>(this, classRole, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassRole data, int position) {
-                        TextView tv = holder.getView(R.id.tv);
+                        CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getRoleName());
                     }
                 });
+//                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, R.layout.textview) {
+//
+//                    @Override
+//                    public void convert(ViewHolder holder, ClassRole data, int position) {
+//                        TextView tv = holder.getView(R.id.tv);
+//                        tv.setText(data.getRoleName());
+//                    }
+//                });
                 break;
             case R.id.tv_invitation:
                 if (TextUtils.isEmpty(inviterHXId)) {
@@ -285,67 +295,70 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         }
                     }).start();
                 }
-//                ZillaApi.NormalRestAdapter.create(MoreService.class)
-//                        .sendInviter(UserInfoModel.getInstance().getToken(),
-//                                invitation,
-//                                new RequestCallback<ResponseData>() {
-//                                    @Override
-//                                    public void success(ResponseData responseData, Response response) {
-//                                        dialogDissmiss();
-//                                        if (responseData.getStatus() == 200) {
-//
-//                                            //环信发申请
-//                                            //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
-//                                            Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
-//
-//
-//                                            new Thread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    String[] inviterHXIds = {inviterHXId};
-////                                                    EMClient.getInstance().groupManager().applyJoinToGroup(classInvitater.getClassGroupHxId(), "求加入");//需异步处理
-//                                                    try {//群主加人调用此方法
-//                                                        EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-////                                                        EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
-//                                                    } catch (HyphenateException e) {
-//                                                        e.printStackTrace();
-//                                                    }
-//                                                }
-//                                            }).start();
-//
-//
-//                                            //邀请成功
-//                                            InvitatedContact contact = new InvitatedContact();
-//                                            contact.setClassRole(invitation.getClassRole());
-//                                            contact.setInviterCertification("");
-//                                            contact.setInviterId((int) invitation.getInviterId());
-//                                            contact.setInviterMobile(classInvitater.getInviterMobile());
-//                                            contact.setInviterPhoto(classInvitater.getInviterPhoto());
-//                                            contact.setInviterStatus(0);
-//                                            contact.setMessageId("0");
-//                                            contact.setInviterUserName(classInvitater.getInviterName());
-//                                            contact.setJoinGroupId(invitation.getClassGroupId());
-//                                            contact.setJoinGroupName(tv_group_name.getText().toString());
-//                                            Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
-//                                            intent.putExtra("invitater", contact);
-//                                            startActivity(intent);
-//                                        }
-//                                        Util.toastMsg(responseData.getMsg());
-//                                    }
-//
-//                                    @Override
-//                                    public void failure(RetrofitError error) {
-//                                        dialogDissmiss();
-//                                        super.failure(error);
-//                                    }
-//                                });
                 break;
         }
     }
-
     BottomSheetDialog dialog;
-
     private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_trans_view, null);
+        final ListView lv = (ListView) view.findViewById(R.id.lv);
+        View footer = LayoutInflater.from(this).inflate(R.layout.trans_group_footer, null);
+        lv.addFooterView(footer);
+        lv.setAdapter(adapter);
+        lv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (lv.getFirstVisiblePosition() != 0) {
+                            lv.getParent().requestDisallowInterceptTouchEvent(true);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
+            }
+        });
+        TextView tv_ok = (TextView) footer.findViewById(R.id.tv_ok);
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int checkedPosition=lv.getCheckedItemPosition();
+                if(isGroup){
+                    ClassGroup group = classGroupList.get(checkedPosition);
+                    tv_group_name.setText(group.getCGName());
+                    invitation.setClassGroupId(group.getCGId());
+                }else {
+                    ClassRole role = classRole.get(checkedPosition);
+                    tv_role.setText(role.getRoleName());
+                    invitation.setClassRole(role.getRoleId());
+                }
+                dialog.dismiss();
+            }
+        });
+        TextView tv_cancel = (TextView) footer.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                dialog = null;
+            }
+        });
+    }
+
+    /*private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
         final ListView lv = new ListView(this);
         lv.setDivider(new ColorDrawable(0xFFE1E1E1));
         lv.setDividerHeight(1);
@@ -400,6 +413,6 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 dialog = null;
             }
         });
-    }
+    }*/
 
 }

@@ -37,14 +37,20 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
@@ -130,10 +136,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
         //获取聊天类型
         chatType = getIntent().getIntExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-
         classId = getIntent().getStringExtra("classId");
 
-        classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");
+        classModel = (ContactClassModel) getIntent().getSerializableExtra("classModel");//这是从通讯库- 班级群-中传过来的
         Log.i(TAG, "聊天人或群id userId = " + toChatUsername + "  title_value = " + title_value + " chatType =" + chatType + " classId = " + classId);
         Log.i(TAG, "classModel = " + new Gson().toJson(classModel));
 
@@ -256,6 +261,36 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
 
+
+    }
+
+
+    private void getClassInfo() {
+        Log.i(TAG, "群聊或个人环信Id ： toChatUsername = " + toChatUsername);
+        if (EaseConstant.CHATTYPE_GROUP == chatType) {//如果是群聊界面的话.需要根据环信GroupId查询这个群，即：班级信息
+            if (!TextUtils.isEmpty(toChatUsername)) {
+                ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, new Callback<ResponseData<ContactClassModel>>() {
+                    @Override
+                    public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
+                        int status = contactClassModelResponseData.getStatus();
+                        if (200 == status) {
+                            classModel = contactClassModelResponseData.getData();
+                            Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
+                            if (classModel != null) {
+
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+            }
+        }
     }
 
     @Override
