@@ -53,16 +53,16 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
                                  Bundle bundle=new Bundle();
                                 bundle.putInt("classrole",ClassRole);
                                 fragment.setArguments(bundle);
-                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, fragment).commit();
+                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, fragment).commitAllowingStateLoss();
                             } else {
                                 if (ClassRole == Constants.STUDENT) {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act,ClassStuFragment.getInstance(ActivityFragment.this)).commit();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act,ClassStuFragment.getInstance(ActivityFragment.this)).commitAllowingStateLoss();
                                 } else {
                                     ClassedFragment classedFragment=ClassedFragment.getInstance(ActivityFragment.this);
                                     Bundle bundle=new Bundle();
                                     bundle.putInt("classrole",ClassRole);
                                     classedFragment.setArguments(bundle);
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, classedFragment).commit();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, classedFragment).commitAllowingStateLoss();
                                 }
                             }
                         }

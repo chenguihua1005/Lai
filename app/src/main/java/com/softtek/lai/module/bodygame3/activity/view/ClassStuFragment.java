@@ -247,11 +247,10 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                                 for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                                        typeDate = calendarModels.get(i).getMonthDate();
+                                    }
                                     if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                                        if (calendarModels.get(i).getMonthDate() == strDate) {
-                                            typeDate = calendarModels.get(i).getMonthDate();
-                                        }
-
                                         resetstatus = activitydataModel.getRetestStatus();
                                         if (resetstatus == 1) {//已过去的复测日
                                             ll_fuce.setEnabled(true);
@@ -371,10 +370,11 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
 
                                 for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                                        typeDate = calendarModels.get(i).getMonthDate();
+                                    }
                                     if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                                        if (calendarModels.get(i).getMonthDate() == strDate) {
-                                            typeDate = calendarModels.get(i).getMonthDate();
-                                        }
+
                                         resetstatus = activitydataModel.getRetestStatus();
                                         if (resetstatus == 1) {//已过去的复测日
                                             ll_fuce.setEnabled(true);
@@ -490,6 +490,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
         int DD = date.getCalendar().get(Calendar.DATE);
 
         dateStr = YY + "-" + MM + "-" + DD;
+        typeDate = dateStr;
         for (int i = 0; i < calendarModels.size(); i++) {
             String dates = calendarModels.get(i).getMonthDate();
             if (java.sql.Date.valueOf(dateStr).equals(java.sql.Date.valueOf(dates))) {
@@ -498,7 +499,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                    typeDate = dates;
+
                     if (resetstatus == 1) {//已过去的复测日
                         ll_fuce.setEnabled(true);
                     } else if (resetstatus == 2) {//进行中的复测日

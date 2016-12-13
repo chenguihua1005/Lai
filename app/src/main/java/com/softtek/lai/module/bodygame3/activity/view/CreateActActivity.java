@@ -302,7 +302,9 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 //                dateAndTime.set(Calendar.MINUTE, minute);
                 dateAndTime.set(Calendar.HOUR_OF_DAY, i);//时
                 dateAndTime.set(Calendar.MINUTE, i1);//分
-                tv_activity_time.setText(date + "" + i + ":" + i1);
+//                String.format("%d:%d",hourOfDay,minute)
+                Log.e("time", date + "" + String.format("%d:%d", i, i1));
+                tv_activity_time.setText(date + "" + String.format("%d:%d", i, i1));
             }
         }, dateAndTime.get(Calendar.HOUR_OF_DAY),
                 dateAndTime.get(Calendar.MINUTE), true).show();

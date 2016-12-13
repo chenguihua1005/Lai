@@ -9,6 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:background="#FAFAFA"
         android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/appbar"
@@ -210,9 +211,10 @@
                             android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="383dp"
+                    android:layout_height="match_parent"
                     android:background="#FAFAFA"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -241,31 +243,15 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/classed_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="您的班级尚未开始哦, 请耐心等待! 现在可以切换到"
+                                android:gravity="center_horizontal"
+                                android:text=""
                                 android:textSize="13sp" />
 
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="“更多”，"
-                                android:textSize="13sp" />
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="查看新班级并开始邀请小伙伴."
-                                android:textSize="13sp" />
-                        </LinearLayout>
                     </LinearLayout>
 
                     <TextView

@@ -54,6 +54,7 @@ import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
@@ -86,6 +87,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     //toolbar标题
     @InjectView(R.id.re_photowall)
     RelativeLayout re_photowall;
+    @InjectView(R.id.honor_lin)
+    LinearLayout honor_lin;
     @InjectView(R.id.spinner_title1)
     ArrowSpinner3 tv_title;
     @InjectView(R.id.spinner_title)
@@ -134,7 +137,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.iv_right)
     ImageView iv_right;
     @InjectView(R.id.photos)
-    CustomGridView grid_list;
+    HorizontalListView grid_list;
     @InjectView(R.id.week_rel)
     RelativeLayout week_rel;
     @InjectView(R.id.re_search_bottom)
@@ -182,6 +185,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         week_rel.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        honor_lin.setOnClickListener(this);
         re_photowall.setOnClickListener(this);
         re_search_bottom.setOnClickListener(this);
         refresh.setOnRefreshListener(this);
@@ -664,6 +668,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
                 photowall.putExtra("classId", classId_first);
                 startActivity(photowall);
+                break;
+            case R.id.honor_lin:
+                Intent honor = new Intent(getContext(), HonorActivity.class);
+                honor.putExtra("classId", classId_first);
+                startActivity(honor);
                 break;
 
         }
