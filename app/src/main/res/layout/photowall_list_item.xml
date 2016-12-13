@@ -29,7 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="lee"
             android:textSize="14sp"
             android:layout_centerVertical="true"
             android:textColor="#333333" />
@@ -53,7 +52,6 @@
             android:layout_marginTop="2dp"
             android:textSize="15sp"
             android:textColor="#666666"
-            android:text="了解对方宽带计费路上看到附近的时空裂缝考虑到附近卡看风景阿登省开发梵蒂冈发动机可根据会计的经费公开"
             android:ellipsize="end"
             android:gravity="center|left"
             android:maxLines="4" />
