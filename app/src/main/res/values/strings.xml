@@ -223,4 +223,7 @@
     <string name="et_chu_text">初始体重必填项，请选择</string>
     <string name="group_ranking">组内排名</string>
 
+    <string name="please_close_class">解散班级群(请先关闭班级)</string>
+    <string name="please_dismiss_class">解散班级群</string>
+
 </resources>

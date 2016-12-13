@@ -46,8 +46,8 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/cb_guanzhu_bg"
                 android:button="@null"
-                android:gravity="center"
-                android:checked="false"/>
+                android:checked="false"
+                android:gravity="center" />
         </LinearLayout>
 
 
@@ -62,19 +62,18 @@
             android:textColor="#676666"
             android:textSize="15sp" />
 
-
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/cgv_photos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:columnWidth="79dp"
+            android:numColumns="3"
             android:gravity="center"
             android:horizontalSpacing="3dp"
-            android:numColumns="3"
+            android:verticalSpacing="3dp"
+            android:columnWidth="79dp"
+            android:layout_marginTop="5dp"
             android:scrollbars="none"
-            android:stretchMode="none"
-            android:verticalSpacing="3dp" />
+            android:stretchMode="none"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -104,16 +103,25 @@
                 android:textColor="@color/textview_blue"
                 android:textSize="13sp"
                 android:visibility="gone" />
+            iv_pop_img
 
             <ImageView
                 android:id="@+id/iv_pop_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:button="@null"
-                android:drawablePadding="5dp"
-                android:src="@drawable/history_popup_img" />
+                android:scaleType="centerInside"
+                android:src="@drawable/operator" />
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_pop_img"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:button="@null"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:src="@drawable/history_popup_img" />-->
 
         </RelativeLayout>
     </LinearLayout>
@@ -133,15 +141,28 @@
 
         <LinearLayout
             android:id="@+id/ll_zan_person"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="#F1F1F1"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:padding="4dp">
+
             <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/zan_grey"
+                android:layout_marginStart="4dp"/>
+
+            <TextView
+                android:id="@+id/tv_zan_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/zan_grey"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                android:textColor="#576A80"/>
+
 
         </LinearLayout>
 
@@ -149,7 +170,18 @@
             android:id="@+id/ll_comment_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e1e1e1" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/item_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
     </LinearLayout>
 
 </RelativeLayout>

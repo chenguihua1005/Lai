@@ -14,8 +14,17 @@ public class ActivitydataModel {
     private int ClassRole;//角色
     private int Num;//人数
     private Boolean IsRetest;//是否复测
+    private int RetestStatus;
     private List<TodayactModel> list_Activity;
     private List<ClassModel> list_Class;
+
+    public int getRetestStatus() {
+        return RetestStatus;
+    }
+
+    public void setRetestStatus(int retestStatus) {
+        RetestStatus = retestStatus;
+    }
 
     public Boolean getFirst() {
         return IsFirst;

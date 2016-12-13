@@ -30,10 +30,11 @@
         <RelativeLayout
             android:id="@+id/bubble"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
-             android:background="@drawable/ease_chatto_bg"
+            android:layout_below="@+id/tv_userid"
+            android:background="@drawable/ease_chatto_bg"
             >
 
             <TextView
@@ -51,16 +52,16 @@
                 android:maxWidth="225.0dip"
                 android:textSize="15sp" />
         </RelativeLayout>
-        
-       <!--  <TextView
+
+         <TextView
             android:id="@+id/tv_userid"
-            android:visibility="gone"
+            android:visibility="visible"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:text="xxx" /> -->
+            android:text="xxx" />
 
         <ImageView
             android:id="@+id/msg_status"

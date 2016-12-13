@@ -150,4 +150,26 @@ public class PhotoWallslistModel {
     public void setPhotoWallCommendsList(List<CommentModel> photoWallCommendsList) {
         PhotoWallCommendsList = photoWallCommendsList;
     }
+
+    @Override
+    public String toString() {
+        return "PhotoWallslistModel{" +
+                "Accountid='" + Accountid + '\'' +
+                ", UserName='" + UserName + '\'' +
+                ", UserPhoto='" + UserPhoto + '\'' +
+                ", UserThPhoto='" + UserThPhoto + '\'' +
+                ", HealtId='" + HealtId + '\'' +
+                ", Content='" + Content + '\'' +
+                ", Createdate='" + Createdate + '\'' +
+                ", IsHasTheme=" + IsHasTheme +
+                ", IsPraise=" + IsPraise +
+                ", PraiseNum=" + PraiseNum +
+                ", PraiseNameList=" + PraiseNameList +
+                ", IsFocus=" + IsFocus +
+                ", PhotoList=" + PhotoList +
+                ", ThumbnailPhotoList=" + ThumbnailPhotoList +
+                ", CommendsNum=" + CommendsNum +
+                ", PhotoWallCommendsList=" + PhotoWallCommendsList +
+                '}';
+    }
 }

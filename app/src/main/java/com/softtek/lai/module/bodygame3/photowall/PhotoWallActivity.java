@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +21,7 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -45,13 +48,18 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.CommentModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
+import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
+import com.softtek.lai.module.community.model.DoZan;
+import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
+import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -78,6 +86,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     PullToRefreshListView ptrlv;
     @InjectView(R.id.empty)
     FrameLayout empty;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.iv_email)
@@ -97,14 +107,18 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     List<PhotoWallslistModel> photoWallItemModels = new ArrayList<>();
     int pageIndex = 1;
     int totalPage = 0;
-    HeadService headService;
+    PhotoWallService photoWallService;
+    private CommunityService service;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int OPEN_SENDER_REQUEST = 1;
     private static final int CAMERA_PREMISSION = 100;
     private ImageFileSelector imageFileSelector;
 
+    private String classId;//班级id
+
     @Override
     protected void initViews() {
+        classId=getIntent().getStringExtra("classId");
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
         iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.camera));
@@ -127,17 +141,28 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                Intent intent = new Intent(PhotoWallActivity.this, PublishDyActivity.class);//跳转到发布动态界面
-                UploadImage image = new UploadImage();
-                image.setImage(new File(file));
-                image.setUri(Uri.fromFile(new File(file)));
-                intent.putExtra("uploadImage", image);
-                startActivityForResult(intent, OPEN_SENDER_REQUEST);
+//                Intent intent = new Intent(PhotoWallActivity.this, PublishDyActivity.class);//跳转到发布动态界面
+//                UploadImage image = new UploadImage();
+//                image.setImage(new File(file));
+//                image.setUri(Uri.fromFile(new File(file)));
+//                intent.putExtra("uploadImage", image);
+//                startActivityForResult(intent, OPEN_SENDER_REQUEST);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-
+                Intent intent=new Intent(PhotoWallActivity.this,PublishDyActivity.class);//跳转到发布动态界面
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                for (int i=files.size()-1;i>=0;i--){
+                    UploadImage image=new UploadImage();
+                    File file=new File(files.get(i));
+                    image.setImage(file);
+                    image.setUri(Uri.fromFile(file));
+                    uploadImages.add(image);
+                }
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
+                intent.putExtra("classId",classId);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 
             @Override
@@ -169,18 +194,45 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                closeSoftInput();
+                final PhotoWallslistModel model= (PhotoWallslistModel) view.getTag();
+                Log.i(model.toString());
+                String commentContent=et_input.getText().toString();
+                List<CommentModel> comments=model.getPhotoWallCommendsList();
+                CommentModel comment=new CommentModel();
+                comment.setCommentUserName(UserInfoModel.getInstance().getUser().getNickname());
+                comment.setCommnets(commentContent);
+                comments.add(comment);
+                model.setPhotoWallCommendsList(comments);
+                adapter.notifyDataSetChanged();
+                photoWallService.commitComment(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        model.getHealtId(),
+                        commentContent,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
 
+                            }
+                        });
+            }
+        });
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
 
     @Override
     protected void initDatas() {
-        headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
+        photoWallService = ZillaApi.NormalRestAdapter.create(PhotoWallService.class);
+        service=ZillaApi.NormalRestAdapter.create(CommunityService.class);
         doGetData();
         adapter = new EasyAdapter<PhotoWallslistModel>(this, photoWallItemModels, R.layout.photowall_list_item) {
             @Override
-            public void convert(ViewHolder holder, final PhotoWallslistModel data, int position) {
+            public void convert(ViewHolder holder, final PhotoWallslistModel data, final int position) {
                 TextView tv_name = holder.getView(R.id.tv_name);
                 tv_name.setText(data.getUserName());//用户名
                 CircleImageView civ_header_image = holder.getView(R.id.civ_header_image);
@@ -195,11 +247,84 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                             .into(civ_header_image);
                 }
                 TextView tv_content = holder.getView(R.id.tv_content);
+                String content=data.getContent();
+                if(data.getIsHasTheme()==1){
+
+                }
                 tv_content.setText(data.getContent());//正文
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
-                cb_focus.setChecked(1 == data.getIsFocus());//是否关注
+                boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
+                if(isMine){
+                    cb_focus.setVisibility(View.GONE);
+                }else {
+                    cb_focus.setVisibility(View.VISIBLE);
+                    cb_focus.setChecked(1 == data.getIsFocus());//是否关注
+                    //关注点击事件
+                    cb_focus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (cb_focus.isChecked()) {
+                                service.focusAccount(UserInfoModel.getInstance().getToken(),
+                                        UserInfoModel.getInstance().getUserId(),
+                                        Long.parseLong(data.getAccountid()),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                int status = responseData.getStatus();
+                                                switch (status) {
+                                                    case 200:
+                                                        Util.toastMsg(responseData.getMsg());
+                                                        refreshList(data.getAccountid(), 1);
+                                                        break;
+                                                    default:
+                                                        cb_focus.setChecked(false);
+                                                        Util.toastMsg(responseData.getMsg());
+                                                        break;
+                                                }
+                                            }
+                                        });
+                            } else {
+                                service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
+                                        UserInfoModel.getInstance().getUserId(),
+                                        Long.parseLong(data.getAccountid()),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                int status = responseData.getStatus();
+                                                switch (status) {
+                                                    case 200:
+                                                        Util.toastMsg(responseData.getMsg());
+                                                        refreshList(data.getAccountid(), 0);
+                                                        break;
+                                                    default:
+                                                        cb_focus.setChecked(true);
+                                                        Util.toastMsg(responseData.getMsg());
+                                                        break;
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
+                    });
+                }
                 TextView tv_date = holder.getView(R.id.tv_date);
-                tv_date.setText(data.getCreatedate());//日期
+                long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
+                String time;
+                if(days[0]==0){//今天
+                    if (days[3]<60){//小于1分钟
+                        time="刚刚";
+                    }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
+                        time=days[2]+"分钟前";
+                    }else {//大于一小时
+                        time=days[1]+"小时前";
+                    }
+                }else if(days[0]==1) {//昨天
+                    time="昨天";
+                }else {
+                    time=days[0]+"天前";
+                }
+                tv_date.setText(time);//日期
                 LinearLayout ll_dianzan = holder.getView(R.id.ll_dianzan);
                 TextView tv_zan_name = holder.getView(R.id.tv_zan_name);
                 if (!data.getPraiseNameList().isEmpty()) {
@@ -224,7 +349,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this));
                 //添加评论
                 LinearLayout ll_comment = holder.getView(R.id.ll_comment);
-                if (data.getCommendsNum() > 0) {
+                if (!data.getPhotoWallCommendsList().isEmpty()) {
+                    ll_comment.removeAllViews();
                     ll_comment.setVisibility(View.VISIBLE);
                     for (int i = 0, j = data.getPhotoWallCommendsList().size(); i < j; i++) {
                         CommentModel comment = data.getPhotoWallCommendsList().get(i);
@@ -232,7 +358,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         tv.setTextColor(0xFF333333);
                         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
                         int px = DisplayUtil.dip2px(PhotoWallActivity.this, 5);
-                        tv.setPadding(px, px, 0, px);
+                        tv.setPadding(px, px, 0, 0);
                         SpannableString ss = new SpannableString(comment.getCommentUserName() + "：");
                         ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                         tv.setText(ss);
@@ -242,6 +368,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 } else {
                     ll_comment.setVisibility(View.GONE);
                 }
+                //照片列表点击事件
                 photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -252,69 +379,62 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         ActivityCompat.startActivity(PhotoWallActivity.this, in, optionsCompat.toBundle());
                     }
                 });
-                cb_focus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (cb_focus.isChecked()) {
-                            headService.doFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), Long.parseLong("3399"), new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-                                    int status = responseData.getStatus();
-                                    switch (status) {
-                                        case 200:
-                                            Util.toastMsg(responseData.getMsg());
-                                            refreshList(data.getAccountid(), 1);
-                                            break;
-                                        default:
-                                            cb_focus.setChecked(false);
-                                            Util.toastMsg(responseData.getMsg());
-                                            break;
-                                    }
-                                }
-                            });
-                        } else {
-                            headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), Long.parseLong("3399"), new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-                                    int status = responseData.getStatus();
-                                    switch (status) {
-                                        case 200:
-                                            Util.toastMsg(responseData.getMsg());
-                                            refreshList(data.getAccountid(), 0);
-                                            break;
-                                        default:
-                                            cb_focus.setChecked(true);
-                                            Util.toastMsg(responseData.getMsg());
-                                            break;
-                                    }
-                                }
-                            });
 
-                        }
-                    }
-                });
                 final View itemBottom = holder.getView(R.id.item_bottom);
                 //弹出popwindow
                 final PopupWindow popupWindow = new PopupWindow(PhotoWallActivity.this);
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(DisplayUtil.dip2px(PhotoWallActivity.this,30));
                 popupWindow.setAnimationStyle(R.style.operation_anim_style);
                 popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(PhotoWallActivity.this, R.drawable.opteration_drawable));
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
-                View pop = LayoutInflater.from(PhotoWallActivity.this).inflate(R.layout.pop_operator, null);
-                TextView tv_zan = (TextView) pop.findViewById(R.id.tv_oper_zan);
+                final View contentView = LayoutInflater.from(PhotoWallActivity.this).inflate(R.layout.pop_operator, null);
+                TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
+                //点击点赞按钮
+                tv_zan.setEnabled(data.getIsPraise()!=1);
                 tv_zan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         popupWindow.dismiss();
-                    }
+                        final UserInfoModel infoModel = UserInfoModel.getInstance();
+                        data.setPraiseNum(data.getPraiseNum() + 1);
+                        data.setIsPraise(1);
+                        List<String> praiseName=data.getPraiseNameList();
+                        praiseName.add(infoModel.getUser().getNickname());
+                        data.setPraiseNameList(praiseName);
+                        //向服务器提交
+                        String token = infoModel.getToken();
+                        service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
+                                        data.setPraiseNum(priase);
+                                        data.setIsPraise(0);
+                                        List<String> praise=data.getPraiseNameList();
+                                        praise.remove(praise.size()-1);
+                                        data.setPraiseNameList(praise);
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                        notifyDataSetChanged();
+                        }
+
+
                 });
-                TextView tv_comment = (TextView) pop.findViewById(R.id.tv_oper_comment);
+                TextView tv_comment = (TextView) contentView.findViewById(R.id.tv_oper_comment);
+                //点击评论按钮
                 tv_comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         popupWindow.dismiss();
+                        btn_send.setTag(data);
                         rl_send.setVisibility(View.VISIBLE);
                         et_input.setFocusable(true);
                         et_input.setFocusableInTouchMode(true);
@@ -328,30 +448,61 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         rl_send.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                int[] position1 = new int[2];
-                                itemBottom.getLocationOnScreen(position1);
-                                int[] position2 = new int[2];
-                                rl_send.getLocationOnScreen(position2);
-                                ptrlv.getRefreshableView().scrollBy(0, position1[1] - position2[1]);
+                                if(position<photoWallItemModels.size()-1){
+                                    int[] position1 = new int[2];
+                                    itemBottom.getLocationOnScreen(position1);
+                                    int[] position2 = new int[2];
+                                    rl_send.getLocationOnScreen(position2);
+                                    ptrlv.getRefreshableView().scrollBy(0, position1[1] - position2[1]);
+                                }
                             }
                         }, 1000);
                     }
                 });
-                TextView tv_jubao = (TextView) pop.findViewById(R.id.tv_oper_jubao);
+                TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
+                //点击举报按钮
                 tv_jubao.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         popupWindow.dismiss();
                     }
                 });
-                TextView tv_delete = (TextView) pop.findViewById(R.id.tv_oper_delete);
-                tv_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                    }
-                });
-                popupWindow.setContentView(pop);
+                TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
+                //点击删除按钮
+                if(isMine){
+                    tv_delete.setVisibility(View.VISIBLE);
+                    tv_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                            new AlertDialog.Builder(PhotoWallActivity.this).setTitle("温馨提示").setMessage("确定删除吗？")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            service.deleteHealth(UserInfoModel.getInstance().getToken(),
+                                                    data.getHealtId(),
+                                                    new RequestCallback<ResponseData>() {
+                                                        @Override
+                                                        public void success(ResponseData responseData, Response response) {
+                                                            if (responseData.getStatus() == 200) {
+                                                                photoWallItemModels.remove(data);
+                                                                notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).create().show();
+                        }
+                    });
+                }else {
+                    tv_delete.setVisibility(View.GONE);
+                }
+                contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                popupWindow.setContentView(contentView);
                 //操作按钮
                 ImageView iv_operator = holder.getView(R.id.iv_operator);
                 iv_operator.setOnClickListener(new View.OnClickListener() {
@@ -359,7 +510,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     public void onClick(View view) {
                         int[] location = new int[2];
                         view.getLocationOnScreen(location);
-                        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, DisplayUtil.getMobileWidth(PhotoWallActivity.this) - location[0] + view.getWidth(), location[1]);
+                        int width=popupWindow.getContentView().getMeasuredWidth();
+                        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
                     }
                 });
 
@@ -369,20 +521,22 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                int[] position2 = new int[2];
-                rl_send.getLocationOnScreen(position2);
-                SoftInputUtil.hidden(PhotoWallActivity.this);
-                ptrlv.getRefreshableView().scrollBy(0, position2[1]);
-                rl_send.setVisibility(View.GONE);
+                if(rl_send.getVisibility()==View.VISIBLE){
+//                    int[] position2 = new int[2];
+//                    rl_send.getLocationOnScreen(position2);
+                    SoftInputUtil.hidden(PhotoWallActivity.this);
+                    //ptrlv.getRefreshableView().scrollBy(0, position2[1]);
+                    rl_send.setVisibility(View.GONE);
+                }
                 return false;
             }
         });
     }
 
     private void doGetData() {
-        headService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                classId,
                 pageIndex,
                 10,
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
@@ -417,9 +571,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        headService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                classId,
                 pageIndex,
                 10,
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
@@ -453,9 +607,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex ++;
-        headService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                classId,
                 pageIndex,
                 10,
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
@@ -493,6 +647,14 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== -1&&requestCode==OPEN_SENDER_REQUEST){//result_ok
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrlv.setRefreshing();
+                    }
+                },400);
+        }
 
     }
 
@@ -518,7 +680,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_right:
-//                startActivity(new Intent(this,PublishDyActivity.class));
+                closeSoftInput();
                 //弹出dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -548,5 +710,25 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 }).create().show();
                 break;
         }
+    }
+
+    private void closeSoftInput(){
+        if(rl_send.getVisibility()==View.VISIBLE){
+//            int[] position2 = new int[2];
+//            rl_send.getLocationOnScreen(position2);
+//            ptrlv.getRefreshableView().scrollBy(0, -position2[1]);
+            rl_send.setVisibility(View.GONE);
+            SoftInputUtil.hidden(PhotoWallActivity.this);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
+            rl_send.setVisibility(View.GONE);
+            SoftInputUtil.hidden(this);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

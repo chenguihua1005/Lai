@@ -30,6 +30,7 @@ class ImagePickHelper {
     private WeakReference<Fragment> mFragmentWeakReference;
 
     private boolean isMutilSelected;//是否是多选
+    private int limit;
 
     public ImagePickHelper(Context context) {
         mContext = context;
@@ -56,7 +57,7 @@ class ImagePickHelper {
     }
 
     public void selectorImage(Activity activity) {
-        if (Build.VERSION.SDK_INT >= 16) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 //申请WRITE_EXTERNAL_STORAGE权限
@@ -73,23 +74,59 @@ class ImagePickHelper {
     }
 
     public void selectorMutilImage(Fragment fragment,int limit) {
-        if(limit<=1){
-            isMutilSelected=false;
-            selectImage(fragment);
-        }else {
-            isMutilSelected=true;
-            fragment.startActivityForResult(new Intent(fragment.getContext(),
-                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                this.limit=limit;
+                mFragmentWeakReference = new WeakReference<>(fragment);
+                fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+
+            } else {
+                doSelect(fragment,limit);
+            }
+        } else {
+            doSelect(fragment,limit);
         }
+
     }
 
     public void selectorMutilImage(Activity activity,int limit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                //申请WRITE_EXTERNAL_STORAGE权限
+                this.limit=limit;
+                mActivityWeakReference = new WeakReference<>(activity);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+
+            } else {
+                doSelect(activity,limit);
+            }
+        } else {
+            doSelect(activity,limit);
+        }
+
+    }
+
+    private void doSelect(Activity activity,int limit){
         if(limit<=1){
             isMutilSelected=false;
             selectorImage(activity);
         }else {
             isMutilSelected=true;
             activity.startActivityForResult(new Intent(activity,
+                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+        }
+    }
+    private void doSelect(Fragment fragment,int limit){
+        if(limit<=1){
+            isMutilSelected=false;
+            selectImage(fragment);
+        }else {
+            isMutilSelected=true;
+            fragment.startActivityForResult(new Intent(fragment.getContext(),
                     ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
         }
     }
@@ -139,12 +176,12 @@ class ImagePickHelper {
                 if (mFragmentWeakReference != null) {
                     Fragment fragment = mFragmentWeakReference.get();
                     if (fragment != null) {
-                        doSelect(fragment);
+                        doSelect(fragment,limit);
                     }
                 } else if (mActivityWeakReference != null) {
                     Activity activity = mActivityWeakReference.get();
                     if (activity != null) {
-                        doSelect(activity);
+                        doSelect(activity,limit);
                     }
                 } else if (mCallback != null) {
                     mCallback.onError();

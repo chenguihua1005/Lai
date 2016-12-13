@@ -145,17 +145,7 @@ public interface HeadService {
             Callback<ResponseData>callback
     );
 
-    //请求路径:Api/V1/HealthyCircle/GetPhotoWalls
-    //照片墙
-    @GET("/V1/HealthyCircle/GetPhotoWalls")
-    void doGetPhotoWalls(
-            @Header("token")String token,
-            @Query("Loginaccid")long Loginaccid,//用户id
-            @Query("ClassId")String ClassId,//班级id
-            @Query("PageIndex")int PageIndex,//第几页
-            @Query("PageSize")int PageSize,//一页几条
-            Callback<ResponseData<PhotoWallListModel>>callback
-    );
+
     //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
     //照片墙主题列表
     @GET("/V1/HealthyCircle/GetPhWallTheme")
@@ -233,7 +223,7 @@ public interface HeadService {
             Callback<ResponseData>callback
             );
     //请求路径:Api/V1/HerbalifeClass/GetClassDetial
-    //获取班级详情数据
+    //获取班级详情数据(用户学员获取复测、初始数据信息)
     @GET("/V1/HerbalifeClass/GetClassDetial")
     void doGetClassDetial(
             @Header("token") String token,
