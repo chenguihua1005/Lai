@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +52,10 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @Required(order = 1)
     @InjectView(R.id.et_value)
@@ -69,6 +74,14 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
         flag = intent.getIntExtra("flag", 0);
         classId = intent.getStringExtra("classId");
         et_value.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        tv_right.setText("确认");
+        fl_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SoftInputUtil.hidden(EditorTextOlineActivity.this);
+                validateLife.validate();
+            }
+        });
         switch (flag) {
             case UPDATE_CLASS_NAME:
                 tv_title.setText("班级名称");
@@ -80,7 +93,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 Selection.setSelection(etext, etext.length());
                 break;
             case UPDATE_GROUP_NAME:
-                tv_title.setText("修改组名");
+                tv_title.setText("修改小组名称");
                 et_value.setHint("小组名称");
                 et_value.setText(intent.getStringExtra("name"));
                 Editable etext1 = et_value.getText();

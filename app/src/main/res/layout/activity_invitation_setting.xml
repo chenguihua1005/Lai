@@ -123,7 +123,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="15dp"
-                    android:text="开办时间"
+                    android:text="开班时间"
                     android:textColor="#666666"
                     android:textSize="15sp" />
 
@@ -168,7 +168,7 @@
                     android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/bodygame3_arrow"
-                    android:text="A组"
+                    android:text="请选择"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -203,7 +203,7 @@
                     android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/bodygame3_arrow"
-                    android:text="教练"
+                    android:text="请选择"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>

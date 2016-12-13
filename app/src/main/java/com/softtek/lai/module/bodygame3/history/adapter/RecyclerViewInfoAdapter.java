@@ -37,6 +37,7 @@ import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -57,10 +58,8 @@ import zilla.libcore.file.AddressManager;
 public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<PhotoWallslistModel> myItems = new ArrayList<>();
     private ItemListener myListener;
-    private CommentListener mCommentListener;
     private Context mContext;
     private View mPopView;
-    private int width;
 
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
@@ -73,8 +72,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         myListener = listener;
         mContext = context;
         mPopView = popView;
-        width = DisplayUtil.getMobileWidth(mContext);
-//        mCommentListener = commentListener;
     }
 
     @Override
@@ -121,10 +118,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onItemClick(PhotoWallslistModel item, int pos);
     }
 
-    public interface CommentListener {
-        void onCommentClick();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public PhotoWallslistModel item;
         private ImageView mPopImg;
@@ -140,7 +133,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private String path = AddressManager.get("photoHost");
         private boolean isMyselfFocus;
         private boolean isFocus;
-        private EasyAdapter<String> gridAdapter;
         private HistoryService service;
         private boolean hasZaned = false;
 
@@ -183,7 +175,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             if (isMyselfFocus) {
                 mIsFocus.setVisibility(View.INVISIBLE);
             } else if (isFocus) {
-//            if (isFocus) {
                 mIsFocus.setChecked(true);
             }
             mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -244,14 +235,31 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
 
             //日期
-            mDate.setText(item.getCreatedate());
+            long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
+            String time;
+            if (days[0] == 0) {//今天
+                if (days[3] < 60) {//小于1分钟
+                    time = "刚刚";
+                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+                    time = days[2] + "分钟前";
+                } else {//大于一小时
+                    time = days[1] + "小时前";
+                }
+            } else if (days[0] == 1) {//昨天
+                time = "昨天";
+            } else {
+                time = days[0] + "天前";
+            }
+            mDate.setText(time);
 
             //发表留言内容
             if (item.getIsHasTheme() == 1) {
                 String content = item.getContent();
+//                String theme = content.substring(0,7);
                 SpannableString ss = new SpannableString(content);
                 ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
                 mContent.setText(ss);
+//                mContent.append(content.substring(7,content.length()));
             } else {
                 mContent.setText(item.getContent());
             }

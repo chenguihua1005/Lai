@@ -227,7 +227,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         int afterDay = currentDay + 1;
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
-        clazz.setStartDate(currentDate);
+        clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate, DateUtil.yyyy_MM_dd));
         service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
             @Override
             public void success(ResponseData<List<SmallRegion>> data, Response response) {

@@ -299,6 +299,9 @@ public class ClassMemberActivity extends BaseActivity {
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(lv.getCheckedItemPosition()==-1){
+                    return;
+                }
                 final ClassGroup group = groups.get(lv.getCheckedItemPosition());
                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                         .turnToAnotherGroup(

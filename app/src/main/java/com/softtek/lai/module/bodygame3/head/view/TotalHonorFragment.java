@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +22,6 @@ import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.SimpleButton;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,14 +45,25 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
     private String SortTimeType = "ByTotal";
     private Long UID = 333L;
-    private int WhichTime = 7;
+    private int WhichTime = 1;
 
     @InjectView(R.id.list_honorrank)
     PullToRefreshListView listHonorrank;//列表
-    @InjectView(R.id.sb_weight_per)
-    SimpleButton sb_weight_per;
-    @InjectView(R.id.sb_fat_per)
-    SimpleButton sb_fat_per;
+    @InjectView(R.id.ll_weight_per)
+    LinearLayout ll_weight_per;
+    @InjectView(R.id.ll_fat_per)
+    LinearLayout ll_fat_per;
+    @InjectView(R.id.iv_weight_per)
+    ImageView iv_weight_per;
+    @InjectView(R.id.iv_fat_per)
+    ImageView iv_fat_per;
+    @InjectView(R.id.tv_weight_per)
+    TextView tv_weight_per;
+    @InjectView(R.id.tv_fat_per)
+    TextView tv_fat_per;
+    @InjectView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+
 
     EasyAdapter<ListGroupModel> honorGroupRankAdapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();
@@ -77,8 +89,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
-        sb_weight_per.setProgress(1);
-        sb_fat_per.setProgress(0);
+        selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
             public void convert(ViewHolder holder, ListGroupModel data, int position) {
@@ -122,14 +133,14 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(),GroupRankingActivity.class);
-                intent.putExtra("ClassId",ClassId);
-                intent.putExtra("ByWhichRatio",ByWhichRatio);
-                intent.putExtra("SortTimeType",SortTimeType);
-                intent.putExtra("WhichTime",WhichTime);
-                intent.putExtra("GroupId",honorRankModel.getList_group().get(i-2).getGroupId());
+                Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                intent.putExtra("ClassId", ClassId);
+                intent.putExtra("ByWhichRatio", ByWhichRatio);
+                intent.putExtra("SortTimeType", SortTimeType);
+                intent.putExtra("WhichTime", WhichTime);
+                intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
 //                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
-                intent.putExtra("ListGroupModel",honorRankModel.getList_group().get(i-2));
+                intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
                 startActivity(intent);
             }
         });
@@ -154,34 +165,44 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setRefreshing();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        lazyLoad();
+    }
+
 
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        if (model == null) {
-            return;
-        }
-        honorRankModel = model;
-        groupModelList.clear();
-        groupModelList.addAll(model.getList_group());
-        honorGroupRankAdapter.notifyDataSetChanged();
-        for (ListTopModel topModel : model.getList_top3()) {
-            switch (topModel.getRanking()) {
-                case "1":
-                    tv_top1_name.setText(topModel.getUserName());
-                    tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                    setImage(civ_top1, topModel.getUserIconUrl());
-                    break;
-                case "2":
-                    tv_top2_name.setText(topModel.getUserName());
-                    tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                    setImage(civ_top1, topModel.getUserIconUrl());
-                    break;
-                case "3":
-                    tv_top3_name.setText(topModel.getLossPer());
-                    tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                    setImage(civ_top1, topModel.getUserIconUrl());
-                    break;
+        if (model == null || model.getList_top3() == null || model.getList_top3().size() == 0) {
+            ll_no_data.setVisibility(View.VISIBLE);
+            listHonorrank.setVisibility(View.GONE);
+        } else {
+            ll_no_data.setVisibility(View.GONE);
+            listHonorrank.setVisibility(View.VISIBLE);
+            honorRankModel = model;
+            groupModelList.clear();
+            groupModelList.addAll(model.getList_group());
+            honorGroupRankAdapter.notifyDataSetChanged();
+            for (ListTopModel topModel : model.getList_top3()) {
+                switch (topModel.getRanking()) {
+                    case "1":
+                        tv_top1_name.setText(topModel.getUserName());
+                        tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                        setImage(civ_top1, topModel.getUserIconUrl());
+                        break;
+                    case "2":
+                        tv_top2_name.setText(topModel.getUserName());
+                        tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                        setImage(civ_top1, topModel.getUserIconUrl());
+                        break;
+                    case "3":
+                        tv_top3_name.setText(topModel.getLossPer());
+                        tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                        setImage(civ_top1, topModel.getUserIconUrl());
+                        break;
+                }
             }
         }
     }
@@ -194,26 +215,34 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
 
-    @OnClick({R.id.sb_weight_per, R.id.sb_fat_per})
+    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
     public void onClick(View view) {
-        restoreState();
         switch (view.getId()) {
-            case R.id.sb_weight_per:
-                sb_weight_per.setProgress(1);
+            case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
                 lazyLoad();
+                selectWeight();
                 break;
-            case R.id.sb_fat_per:
-                sb_fat_per.setProgress(1);
+            case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
                 lazyLoad();
+                selectFat();
                 break;
         }
     }
 
-    private void restoreState() {
-        sb_weight_per.setProgress(0);
-        sb_fat_per.setProgress(0);
+    private void selectWeight() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_select);
+        iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.orange));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.grey_honor));
+    }
+
+    private void selectFat() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
+        iv_fat_per.setImageResource(R.drawable.fat_per_select);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.grey_honor));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.orange));
     }
 }
 
