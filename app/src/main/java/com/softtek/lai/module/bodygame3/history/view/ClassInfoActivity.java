@@ -2,26 +2,26 @@ package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amap.api.services.proguard.s;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -37,6 +37,7 @@ import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
@@ -44,7 +45,6 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +55,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_class_history)
 public class ClassInfoActivity extends BaseActivity {
@@ -95,11 +96,13 @@ public class ClassInfoActivity extends BaseActivity {
     @InjectView(R.id.ll_history)
     RelativeLayout mHistoryView;
     @InjectView(R.id.ll_comment_layout)
-    LinearLayout mComment;
+    LinearLayout mCommentLayout;
     @InjectView(R.id.et_comment_content)
-    TextView mCommentContent;
+    TextView mEdtComment;
     @InjectView(R.id.btn_comment_submit)
     Button mCommentSubmit;
+    @InjectView(R.id.cl_content)
+    CoordinatorLayout mCLContent;
 
     private ArrayList<Fragment> classmates;
     private MyFragmentPagerAdapter mViewpagerAdapter;
@@ -115,7 +118,7 @@ public class ClassInfoActivity extends BaseActivity {
     private HistoryService service;
     private int page = 1;
     private static final int LOADCOUNT = 6;
-    private int dialogHigh;
+    private CoordinatorLayout.Behavior appbarBehavior;
 
     private void init() {
         initAppbarAndPull();
@@ -143,32 +146,10 @@ public class ClassInfoActivity extends BaseActivity {
                 initDatas();
             }
         });
+
     }
 
     private void initRecyclerView() {
-//        mHistoryView.getViewTreeObserver(). addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                Rect r = new Rect();
-//                // r will be populated with the coordinates of your view that area still visible.
-//                mHistoryView.getWindowVisibleDisplayFrame(r);
-//                int screenHeight = myLayout.getRootView().getHeight();
-//                int heightDiff = screenHeight - (r.bottom - r.top);
-//                int statusBarHeight=0;
-//                if (heightDiff > DisplayUtil.dip2px(ClassInfoActivity.this,50))
-//                try {
-//                    Class<?> c = Class.forName("com.android.internal.R$dimen");
-//                    Object obj = c.newInstance();
-//                    Field field = c.getField("status_bar_height");
-//                    int x = Integer.parseInt(field.get(obj).toString());
-//                    statusBarHeight =getResources().getDimensionPixelSize(x);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                dialogHigh = heightDiff - statusBarHeight;
-//            }
-//    });
-
         final View popView = this.getLayoutInflater().inflate(R.layout.history_popup_window, null);
         mInfoAdapter = new RecyclerViewInfoAdapter(wallsList, new RecyclerViewInfoAdapter.ItemListener() {
             @Override
@@ -202,7 +183,7 @@ public class ClassInfoActivity extends BaseActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideSoftInput(view.getWindowToken());
-                mComment.setVisibility(View.GONE);
+                mCommentLayout.setVisibility(View.GONE);
                 return false;
             }
         });
@@ -226,9 +207,18 @@ public class ClassInfoActivity extends BaseActivity {
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
                     @Override
                     public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
-                        if (responseData.getStatus() == 200 && responseData.getData().getPhotoWallslist() != null) {
-                            wallsList.addAll(responseData.getData().getPhotoWallslist());
-                            mInfoAdapter.notifyDataSetChanged();
+                        if (responseData.getStatus() == 200) {
+                            if (responseData.getData().getPhotoWallslist() != null) {
+                                if (!responseData.getData().getPhotoWallslist().isEmpty()) {
+                                    wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                    mInfoAdapter.notifyDataSetChanged();
+                                } else {
+                                    page--;
+                                }
+                            }
+
+                        } else {
+                            Util.toastMsg(responseData.getMsg());
                         }
                     }
 
@@ -348,7 +338,6 @@ public class ClassInfoActivity extends BaseActivity {
                             } else {
                                 initFailedView();
                             }
-
                         }
                     }
 
@@ -421,37 +410,72 @@ public class ClassInfoActivity extends BaseActivity {
 
     @Subscribe
     public void doComment(final CommentEvent event) {
-        mComment.setVisibility(View.VISIBLE);
-//        InputMethodManager imm = (InputMethodManager) ClassInfoActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        mCommentContent.setEnabled(true);
-        mCommentContent.setFocusable(true);
+        View itemView = event.getView();
+        final LinearLayout mPersonCommentLayout = (LinearLayout) itemView.findViewById(R.id.ll_comment_person);
+        final View mItemBottom = (View) itemView.findViewById(R.id.item_bottom);
+        mCommentLayout.setVisibility(View.VISIBLE);
+        mEdtComment.setFocusable(true);
+        mEdtComment.setFocusableInTouchMode(true);
+        mEdtComment.requestFocus();
+        mEdtComment.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SoftInputUtil.showInputAsView(ClassInfoActivity.this, mEdtComment);
+            }
+        }, 400);
+        mCommentLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int[] position1 = new int[2];
+                mItemBottom.getLocationOnScreen(position1);
+                int[] position2 = new int[2];
+                mCommentLayout.getLocationOnScreen(position2);
+                appbarBehavior = ((CoordinatorLayout.LayoutParams) mAppbar.getLayoutParams()).getBehavior();
+//                int appbarWidth = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//                int appbarHeight = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//                mAppbar.measure(appbarWidth, appbarHeight);
+//                int appbarHigh = (int)mRecyclerView.getY() - (int)mAppbar.getY();
+//                int appbarHigh = mAppbar.getTotalScrollRange();
+                int appbarHigh = mAppbar.getTotalScrollRange();
+                int trueHigh = (int)mAppbar.getY() + appbarHigh;
+                if (trueHigh > position1[1] - position2[1]){
+                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,position1[1] - position2[1], new int[]{0, 0});
+                }else {
+                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,trueHigh, new int[]{0, 0});
+                    mRecyclerView.scrollBy(0, position1[1] - position2[1] - trueHigh);
+                }
+//                appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,, new int[]{0, 0});
+//                mRecyclerView.scrollBy(0, position1[1] - position2[1]);
+            }
+        }, 1000);
         mCommentSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mComment.setVisibility(View.GONE);
+                mCommentLayout.setVisibility(View.GONE);
                 hideSoftInput(view.getWindowToken());
                 service.postCommnents(
                         UserInfoModel.getInstance().getToken(),
                         event.getHealthId(),
                         event.getAccountId(),
-                        mCommentContent.getText().toString(),
+                        mEdtComment.getText().toString(),
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 if (responseData.getStatus() == 200) {
-                                    mCommentSubmit.setText("");
                                     TextView commentText = new TextView(ClassInfoActivity.this);
                                     String commentName = UserInfoModel.getInstance().getUser().getNickname();
-                                    commentText.setText(commentName + ":" + mCommentContent.getText().toString());
-                                    event.getView().addView(commentText);
+                                    SpannableString ss = new SpannableString(commentName + "：");
+                                    ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                    commentText.setText(ss);
+                                    commentText.append(mEdtComment.getText().toString());
+                                    mPersonCommentLayout.addView(commentText);
+                                    mEdtComment.setText("");
                                 }
-                                Toast.makeText(ClassInfoActivity.this, "成功", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                mCommentSubmit.setText("");
+                                mEdtComment.setText("");
                                 Log.d("comment---------------", error.toString());
                                 super.failure(error);
                             }

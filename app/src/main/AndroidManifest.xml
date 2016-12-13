@@ -368,7 +368,7 @@
             android:name=".module.message2.view.MessageConfirmActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.history.view.ClassInfoActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize"/>
 
 
         <!-- Rich push 核心功能 since 2.0.6 -->
