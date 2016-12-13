@@ -753,6 +753,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
+            android:configChanges="screenSize" />
+
+        <activity android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"/>
         <activity android:name=".module.bodygame3.activity.view.ActTextActivity"

@@ -6,19 +6,22 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.SetLoveStuActivity">
-<include layout="@layout/toolbar"
-    android:id="@+id/toolbar"/>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <EditText
         android:id="@+id/et_phone"
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/edit_bg"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/toolbar"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_bg"
+        android:hint="请输入手机号"
         android:padding="5dp"
-        android:textSize="14sp"
-        android:hint="请输入手机号"/>
+        android:textSize="14sp" />
 
 </RelativeLayout>
