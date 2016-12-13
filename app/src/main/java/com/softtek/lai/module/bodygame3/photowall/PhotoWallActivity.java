@@ -86,6 +86,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     PullToRefreshListView ptrlv;
     @InjectView(R.id.empty)
     FrameLayout empty;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.iv_email)
@@ -159,6 +161,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     uploadImages.add(image);
                 }
                 intent.putParcelableArrayListExtra("uploadImages",uploadImages);
+                intent.putExtra("classId",classId);
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 
@@ -212,6 +215,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 
                             }
                         });
+            }
+        });
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
