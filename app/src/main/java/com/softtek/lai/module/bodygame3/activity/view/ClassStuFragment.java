@@ -554,6 +554,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 break;
             case R.id.ll_chuDate:
                 Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
+                chuDate.putExtra("typeDate", typeDate);
                 chuDate.putExtra("classId", classid);
                 startActivity(chuDate);
                 break;
