@@ -51,7 +51,7 @@ public class GroupRankingManager {
                     public void failure(RetrofitError error) {
                         if (callback != null)
                             callback.getModel(null);
-                        ZillaApi.dealNetError(error);
+//                        ZillaApi.dealNetError(error);
                     }
                 });
 

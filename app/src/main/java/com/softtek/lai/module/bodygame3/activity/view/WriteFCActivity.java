@@ -2,24 +2,13 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -41,11 +30,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.PhotModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -54,15 +41,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
@@ -176,7 +155,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     Context context;
     String files;
     InitComitModel initComitModel;
-    String photoname;
+    String photourl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,7 +297,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",initDataModel);
-                intent.putExtra("isState",isState);
+                intent.putExtra("type",1);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
@@ -514,9 +493,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 {
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    photoname=initDataModel.getImgThumbnail();
-
-
+                    photourl=initDataModel.getImgThumbnail();
+                    Log.i("看看图片地址是什么"+photourl);
                 }
                 tv_write_class.setText(initDataModel.getClassName());//班级名
                 tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周

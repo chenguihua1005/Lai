@@ -87,7 +87,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 Selection.setSelection(etext1, etext1.length());
                 break;
             case ADD_GROUP_NAME:
-                tv_title.setText("添加小组");
+                tv_title.setText("添加新小组");
                 et_value.setHint("小组名称");
                 break;
             case Edit_AIXIN_PHONE:

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
+import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.softtek.lai.R;
@@ -48,13 +49,20 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             ClassRole = activitydataModel.getClassRole();
                             if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-
-                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, NoClassFragment.getInstance(ActivityFragment.this)).commit();
+                                NoClassFragment fragment=NoClassFragment.getInstance(ActivityFragment.this);
+                                 Bundle bundle=new Bundle();
+                                bundle.putInt("classrole",ClassRole);
+                                fragment.setArguments(bundle);
+                                getChildFragmentManager().beginTransaction().replace(R.id.contain_act, fragment).commit();
                             } else {
                                 if (ClassRole == Constants.STUDENT) {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, ClassStuFragment.getInstance(ActivityFragment.this)).commit();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act,ClassStuFragment.getInstance(ActivityFragment.this)).commit();
                                 } else {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, ClassedFragment.getInstance(ActivityFragment.this)).commit();
+                                    ClassedFragment classedFragment=ClassedFragment.getInstance(ActivityFragment.this);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putInt("classrole",ClassRole);
+                                    classedFragment.setArguments(bundle);
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_act, classedFragment).commit();
                                 }
                             }
                         }

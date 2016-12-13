@@ -7,8 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity">
 
-
-
     <com.softtek.lai.module.bodygame3.activity.view.MyScrollview
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,7 +53,7 @@
                         android:layout_marginTop="10dp"
                         android:drawableLeft="@drawable/lable"
                         android:gravity="center"
-                        android:text="点击编辑标签"
+                        android:text="点击编辑签名"
                         android:textColor="#999999"
                         android:textSize="10sp" />
 
@@ -83,13 +81,15 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
+                <CheckBox
                     android:id="@+id/im_guanzhu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:visibility="gone"
-                    android:background="@drawable/add_guanzhu_icon" />
+                    android:button="@null"
+                    android:background="@drawable/cb_guanzhuperson_bg"
+                    android:checked="false"
+                    />
             </RelativeLayout>
 
             <View
@@ -325,7 +325,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
-                android:visibility="gone"
                 android:background="#eeeeee" />
             </LinearLayout>
             <Button

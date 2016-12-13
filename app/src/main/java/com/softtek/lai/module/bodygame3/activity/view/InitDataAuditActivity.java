@@ -35,7 +35,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;

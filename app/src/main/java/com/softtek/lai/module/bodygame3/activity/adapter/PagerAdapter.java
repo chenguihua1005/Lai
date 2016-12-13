@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.adapter;
+package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.app.Activity;
 import android.content.Intent;

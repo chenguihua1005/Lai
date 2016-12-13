@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.view;
+package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygamest.adapter.PagerAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.PagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

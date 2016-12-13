@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,14 +16,11 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
-import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
+import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -87,10 +83,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     RelativeLayout ll_retest_doleggirth;
 
     private InitDataModel initDataModel;
+    private MeasureStModel measureStModel;
     private RetestPre retestPre;
     MeasureModel measureModel;
     String img="";
-
+    int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,20 +111,38 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("添加记录");
-        initDataModel= (InitDataModel) getIntent().getSerializableExtra("retestWrite");
-        try {
-            if (initDataModel!=null) {
-                tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum()) ? "" : initDataModel.getCircum());
-                tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline()) ? "" : initDataModel.getWaistline());
-                tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie()) ? "" : initDataModel.getHiplie());
-                tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth()) ? "" : initDataModel.getUpArmGirth());
-                tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth()) ? "" : initDataModel.getUpLegGirth());
-                tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth()) ? "" : initDataModel.getDoLegGirth());
+        type = getIntent().getIntExtra("type",0);
+        if (type==1) {
+            initDataModel = (InitDataModel) getIntent().getSerializableExtra("retestWrite");
+            try {
+                if (initDataModel != null) {
+                    tv_retest_circum.setText(TextUtils.isEmpty(initDataModel.getCircum()) ? "" : initDataModel.getCircum());
+                    tv_retest_waistline.setText(TextUtils.isEmpty(initDataModel.getWaistline()) ? "" : initDataModel.getWaistline());
+                    tv_retest_hiplie.setText(TextUtils.isEmpty(initDataModel.getHiplie()) ? "" : initDataModel.getHiplie());
+                    tv_retest_uparmgirth.setText(TextUtils.isEmpty(initDataModel.getUpArmGirth()) ? "" : initDataModel.getUpArmGirth());
+                    tv_retest_upleggirth.setText(TextUtils.isEmpty(initDataModel.getUpLegGirth()) ? "" : initDataModel.getUpLegGirth());
+                    tv_retest_doleggirth.setText(TextUtils.isEmpty(initDataModel.getDoLegGirth()) ? "" : initDataModel.getDoLegGirth());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
+        else if (type==2)
+        {
+            measureStModel=(MeasureStModel)getIntent().getSerializableExtra("retestWrite");
+            if (measureStModel!=null)
+            {
+                tv_retest_circum.setText(TextUtils.isEmpty(measureStModel.getCircum()) ? "" : measureStModel.getCircum());
+                tv_retest_waistline.setText(TextUtils.isEmpty(measureStModel.getWaistline()) ? "" : measureStModel.getWaistline());
+                tv_retest_hiplie.setText(TextUtils.isEmpty(measureStModel.getHiplie()) ? "" : measureStModel.getHiplie());
+                tv_retest_uparmgirth.setText(TextUtils.isEmpty(measureStModel.getUpArmGirth()) ? "" : measureStModel.getUpArmGirth());
+                tv_retest_upleggirth.setText(TextUtils.isEmpty(measureStModel.getUpLegGirth()) ? "" : measureStModel.getUpLegGirth());
+                tv_retest_doleggirth.setText(TextUtils.isEmpty(measureStModel.getDoLegGirth()) ? "" : measureStModel.getDoLegGirth());
+            }
+        }
+        else {
+            tv_right.setText("");
+        }
 
     }
 
@@ -163,18 +178,32 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 break;
             //保存记录......
             case R.id.btn_retest_save:
-
-                initDataModel=new InitDataModel();
-                initDataModel.setCircum(tv_retest_circum.getText().toString());//胸围
-                initDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
-                initDataModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
-                initDataModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围
-                initDataModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());//大腿围
-                initDataModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());//小腿围
-                Intent intent=new Intent();
-                intent.putExtra("retestWrite",initDataModel);
-                setResult(RESULT_OK,intent);
-                finish();
+                if (type==1) {
+                    initDataModel = new InitDataModel();
+                    initDataModel.setCircum(tv_retest_circum.getText().toString());//胸围
+                    initDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
+                    initDataModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
+                    initDataModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围
+                    initDataModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());//大腿围
+                    initDataModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());//小腿围
+                    Intent intent = new Intent();
+                    intent.putExtra("retestWrite", initDataModel);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else if (type==2)
+                {
+                    measureStModel = new MeasureStModel();
+                    measureStModel.setCircum(tv_retest_circum.getText().toString());//胸围
+                    measureStModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
+                    measureStModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
+                    measureStModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围
+                    measureStModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());//大腿围
+                    measureStModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());//小腿围
+                    Intent intent = new Intent();
+                    intent.putExtra("retestWrite", measureStModel);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
 
 //                  Log.i("-------------------retestWrite----------------------"+retestWrite+"");
                 break;

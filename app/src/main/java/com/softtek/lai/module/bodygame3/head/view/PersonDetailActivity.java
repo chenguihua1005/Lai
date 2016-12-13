@@ -1,14 +1,17 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +29,8 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
+import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
@@ -55,13 +60,15 @@ import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_person_detail)
-public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener,AdapterView.OnItemClickListener {
+public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = "PersonDetailActivity";
     private int[] mImgIds;
     private LayoutInflater mInflater;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -115,7 +122,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     TextView tv_no_dy;
 
     @InjectView(R.id.im_guanzhu)
-    ImageView im_guanzhu;
+    CheckBox im_guanzhu;
     private List<NewsTopFourModel> newsTopFourModels = new ArrayList<NewsTopFourModel>();
     EasyAdapter<NewsTopFourModel> easyAdapter;
     //定义标题栏弹窗按钮
@@ -128,8 +135,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String UserName;
     private String AFriendId;//好友关系id
     private String ClassId;
-    ArrayList<String> images=new ArrayList<>();
+    ArrayList<String> images = new ArrayList<>();
 
+    private static final int GET_Sian=1;//发布签名
 
     @Override
     protected void initViews() {
@@ -137,6 +145,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         ll_left.setOnClickListener(this);
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
+        im_guanzhu.setOnClickListener(this);
+        tv_title.setText("个人详情");
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -151,13 +161,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         mInflater = LayoutInflater.from(this);
-        easyAdapter=new EasyAdapter<NewsTopFourModel>(this,newsTopFourModels,R.layout.activity_index_gallery_item) {
+        easyAdapter = new EasyAdapter<NewsTopFourModel>(this, newsTopFourModels, R.layout.activity_index_gallery_item) {
             @Override
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
-                ImageView img=holder.getView(R.id.img);
-                if (!TextUtils.isEmpty(data.getThumbnailImgUrl()))
-                {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost")+data.getThumbnailImgUrl()).fit().into(img);
+                ImageView img = holder.getView(R.id.img);
+                if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().into(img);
                 }
             }
         };
@@ -180,35 +189,35 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_chat.setOnClickListener(this);
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        tv_personlityName.setOnClickListener(this);
 
         doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
     }
 
-    private void doGetService(final long userid, long accountid, String classid, String HXAccountId) {
+    private void doGetService(final long userid, long AccountId, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
-        headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
-            @Override
-            public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
-                int status = memberInfoModelResponseData.getStatus();
-                try {
-                    switch (status) {
-                        case 200:
-                            memberInfoModel = memberInfoModelResponseData.getData();
-                            doGetData();
-                            break;
-                        default:
-                            Util.toastMsg(memberInfoModelResponseData.getMsg());
-                            break;
+            headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+                @Override
+                public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
+                    int status = memberInfoModelResponseData.getStatus();
+                    try {
+                        switch (status) {
+                            case 200:
+                                memberInfoModel = memberInfoModelResponseData.getData();
+                                doGetData();
+                                break;
+                            default:
+                                Util.toastMsg(memberInfoModelResponseData.getMsg());
+                                break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-        }
-    else {
-            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, accountid,classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            });
+        } else {
+            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
                     int status = memberInfoModelResponseData.getStatus();
@@ -236,11 +245,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             if (memberInfoModel != null) {
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    String url=AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
+                    String url = AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
                     Picasso.with(getParent()).load(url).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
+                HXAccountId=memberInfoModel.getHXAccountId();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
@@ -248,6 +258,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                        tv_personlityName.setCompoundDrawables(null, null, null, null);
                     }
                     ll_chart.setVisibility(View.VISIBLE);
                     if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
@@ -255,11 +266,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         iv_email.setVisibility(View.GONE);
                     }
+                    im_guanzhu.setVisibility(View.GONE);
 
                 } else {
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
+                        tv_personlityName.setClickable(false);
                         tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
                     } else {
                         tv_personlityName.setText("暂无个性签名");
@@ -281,10 +294,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
-                        im_guanzhu.setVisibility(View.VISIBLE);
+                        im_guanzhu.setChecked(false);
                     } else {
-                        im_guanzhu.setVisibility(View.VISIBLE);
-                        im_guanzhu.setBackground(getResources().getDrawable(R.drawable.add_yiguanzhu));
+                        im_guanzhu.setChecked(true);
+
                     }
                 }
                 newsTopFourModels.addAll(memberInfoModel.getNewsTopFour());
@@ -292,12 +305,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
-                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight()+"斤");//减重d
+                        tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight() + "斤");//减重d
                     } else {
-                        tv_Lossweight.setText("-"+memberInfoModel.getTotalLossWeight()+"斤");//减重
+                        tv_Lossweight.setText("-" + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight())?"暂未录入数据":memberInfoModel.getInitWeight());//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight())?"暂未复测":memberInfoModel.getCurrentWeight());//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂未录入数据" : memberInfoModel.getInitWeight());//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "暂未复测" : memberInfoModel.getCurrentWeight());//现在体重
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
                         Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
@@ -320,18 +333,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doGetPhotoView() {
-        if (newsTopFourModels.size()!=0)
-        {
+        if (newsTopFourModels.size() != 0) {
             hlist_dy.setVisibility(View.VISIBLE);
             tv_no_dy.setVisibility(View.GONE);
-            for (int n=0;n<newsTopFourModels.size();n++)
-            {
-                images.add(n,newsTopFourModels.get(n).getImgUrl());
+            for (int n = 0; n < newsTopFourModels.size(); n++) {
+                images.add(n, newsTopFourModels.get(n).getImgUrl());
             }
             easyAdapter.notifyDataSetChanged();
-        }
-        else
-        {
+        } else {
             hlist_dy.setVisibility(View.GONE);
             tv_no_dy.setVisibility(View.VISIBLE);
         }
@@ -340,8 +349,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_personlityName:
+                Intent intent1=new Intent(this,EditSignaActivity.class);
+                intent1.putExtra("sina",tv_personlityName.getText().toString());
+                startActivityForResult(intent1,GET_Sian);
+                break;
             case R.id.tv_dynamic:
-                if (userid == accountid) {
+                if (userid == AccountId) {
                     Intent personal = new Intent(this, PersionalActivity.class);
                     personal.putExtra("isFocus", memberInfoModel.getIsFocus());
                     personal.putExtra("personalId", userid);
@@ -379,6 +393,48 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.fl_right:
 //                removeFriend();
                 titlePopup.show(view);
+                break;
+            case R.id.im_guanzhu:
+                headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
+                if (im_guanzhu.isChecked())
+                {
+                    Log.i("关注");
+                    headService.doFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                            int status=responseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    break;
+                                default:
+                                    im_guanzhu.setChecked(true);
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        }
+                    });
+                }
+                else {
+                    Log.i("取消关注");
+
+                    headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                            int status=responseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    break;
+                                default:
+                                    im_guanzhu.setChecked(false);
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        }
+                    });
+
+                }
                 break;
         }
     }
@@ -420,7 +476,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     public void run() {
                                         progressDialog.dismiss();
                                         String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                                        Toast.makeText(getApplicationContext(), s2 + responseData.getMsg(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -432,8 +488,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     progressDialog.dismiss();
-                                    String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                                    Toast.makeText(getApplicationContext(), s2 + error.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -444,8 +499,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     runOnUiThread(new Runnable() {
                         public void run() {
                             progressDialog.dismiss();
-                            String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -533,6 +587,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             doGetService(userid, AccountId, ClassId, HXAccountId);
             titlePopup.cleanAction();
         }
+        if (requestCode==GET_Sian&&resultCode==RESULT_OK)
+        {
+            tv_personlityName.setText(data.getStringExtra("sina"));
+            tv_personlityName.setCompoundDrawables(null, null, null, null);
+        }
     }
 
     //POPMenu监听
@@ -556,9 +615,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent1=new Intent(this, PictureActivity.class);
-        intent1.putExtra("images",images);
-        intent1.putExtra("position",i);
+        Intent intent1 = new Intent(this, PictureActivity.class);
+        intent1.putExtra("images", images);
+        intent1.putExtra("position", i);
         startActivity(intent1);
     }
 }

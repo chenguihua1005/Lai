@@ -29,7 +29,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.PhotModel;
-import com.softtek.lai.module.bodygamest.view.GuideActivity;
+import com.softtek.lai.module.bodygame3.activity.view.GuideActivity;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.LaichModel;

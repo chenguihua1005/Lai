@@ -12,12 +12,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.bodygame3.head.view.SearchClassActivity;
@@ -35,16 +40,19 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_no_class_fragment)
-public class NoClassFragment extends LazyBaseFragment {
+public class NoClassFragment extends LazyBaseFragment implements View.OnClickListener{
     //    @InjectView(R.id.spinner_title1)
 //    ArrowSpinner3 spinner_title;
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
-    @InjectView(R.id.pull)
-    MySwipRefreshView pull;
     private AddClass addClass;
     @InjectView(R.id.spinner_title1)
     ArrowSpinner3 spinner_title1;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    private int classrole;
 
     public void setAddClass(AddClass addClass) {
         this.addClass = addClass;
@@ -60,12 +68,21 @@ public class NoClassFragment extends LazyBaseFragment {
     protected void lazyLoad() {
 
 
-
     }
 
     @Override
     protected void initViews() {
-    spinner_title1.setText("尚未开班");
+        spinner_title1.setVisibility(View.GONE);
+        tv_title.setText("尚未开班");
+        Bundle bundle = getArguments();
+        classrole = bundle.getInt("classrole");
+        if (classrole == Constants.HEADCOACH) {
+            fl_right.setVisibility(View.VISIBLE);
+        } else {
+            fl_right.setVisibility(View.GONE);
+        }
+        ll_left.setOnClickListener(this);
+
     }
 
     @Override
@@ -82,6 +99,15 @@ public class NoClassFragment extends LazyBaseFragment {
                 addClass.addclass(clazz.getModel().getClassRole());
             }
 
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_left:
+                getActivity().finish();
+                break;
         }
     }
 

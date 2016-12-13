@@ -3,13 +3,13 @@ package com.softtek.lai.module.bodygame3.photowall.model;
 /**
  * Created by lareina.qiao on 12/3/2016.
  */
-public class PhotoWallComListModel {
+public class CommentModel {
     private String Commnets;
     private String CommentUserName;
 
     @Override
     public String toString() {
-        return "PhotoWallComListModel{" +
+        return "CommentModel{" +
                 "Commnets='" + Commnets + '\'' +
                 ", CommentUserName='" + CommentUserName + '\'' +
                 '}';
