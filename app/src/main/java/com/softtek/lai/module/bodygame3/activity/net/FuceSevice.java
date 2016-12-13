@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
+import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
@@ -86,10 +87,17 @@ public interface FuceSevice {
             @Query("typeDate")String typeDate,
             Callback<ResponseData<MeasureStModel>>callback
             );
-
-
-
-
+    //学员基础信息
+    ///v1/MeasuredRecordLog/GetPreMeasureData
+    @GET("/v1/MeasuredRecordLog/GetPreMeasureData")
+    void doGetPreMeasureData(
+            @Header("token")String token,
+            @Query("accountId")Long accountId,
+            @Query("classId")String classId,
+            @Query("typeDate")String typeDate,
+            @Query("type")String type,
+            Callback<ResponseData<FcStDataModel>>callback
+            );
 
 
 }
