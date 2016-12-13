@@ -39,7 +39,7 @@ public class HonorGroupRankModel {
     }
 
     @Override
-    public String toString() {
+    public String toString() {   
         return "HonorGroupRankModel{" +
                 "StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
