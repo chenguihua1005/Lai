@@ -57,6 +57,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.ll_left)
@@ -77,14 +78,9 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-//                    isClick=true;
-//                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
-//                    btn_joinclass.setEnabled(true);
+                    isClick=true;
                 } else {
                     isClick=false;
-//                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
-//                    btn_joinclass.setEnabled(false);
-//                    Util.toastMsg("请勾选");
                 }
             }
         });
@@ -148,7 +144,6 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 {
                     case 200:
                         finish();
-                        Util.toastMsg(responseData.getMsg());
                         break;
                     default:
                         Util.toastMsg(responseData.getMsg());
