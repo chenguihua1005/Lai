@@ -144,12 +144,15 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
         tv_group_name.setText(show.getCGName());
 
-        if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
-            tv_aixin_phone.setText(show.getIntroducerMobile());
-        }
         if (show.getMsgStatus() == 0) {
             btn_yes.setVisibility(View.VISIBLE);
             btn_no.setVisibility(View.VISIBLE);
+        }else {
+            if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
+                tv_aixin_phone.setText(show.getIntroducerMobile());
+            }else {
+                tv_aixin_phone.setText("无");
+            }
         }
 
     }

@@ -72,7 +72,7 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                     SoftInputUtil.hidden(SearchContactActivity.this);
                     if(edit.length()==0){
                         edit.requestFocus();
-                        edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入用户名/手机号/资格证号</font>"));
+                        edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号/资格证号</font>"));
                         return false;
                     }
                     pb.setVisibility(View.VISIBLE);

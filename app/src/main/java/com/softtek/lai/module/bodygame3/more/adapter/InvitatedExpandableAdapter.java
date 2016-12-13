@@ -111,7 +111,7 @@ public class InvitatedExpandableAdapter extends BaseExpandableListAdapter {
         tv_role.setText(role==1?"(总教练)":role==2?"(教练)":role==3?"(助教)":role==4?"(学员)":"");
         TextView tv_status= (TextView) view.findViewById(R.id.tv_status);
         int status=contact.getInviterStatus();
-        tv_status.setText(status==0?"已发送":status==1?"已接受":status==2?"拒绝":status==3?"删除":"");
+        tv_status.setText(status==0?"已发送":status==1?"已接受":status==2?"已拒绝":status==3?"删除":"");
         return view;
     }
 
