@@ -247,6 +247,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId=memberInfoModel.getHXAccountId();
+                UserName = memberInfoModel.getUserName();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
@@ -367,6 +368,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //查看曲线图
                 break;
             case R.id.btn_chat:
+                Log.i(TAG,"userId = " + HXAccountId  +" UserName = " + UserName);
+
+
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);

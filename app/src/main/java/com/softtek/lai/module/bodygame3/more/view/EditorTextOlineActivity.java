@@ -71,7 +71,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
         et_value.setImeOptions(EditorInfo.IME_ACTION_SEND);
         switch (flag) {
             case UPDATE_CLASS_NAME:
-                tv_title.setText("编辑班级名称");
+                tv_title.setText("班级名称");
                 et_value.setHint("班级名称");
                 et_value.setText(intent.getStringExtra("name"));
                 et_value.setMaxEms(10);

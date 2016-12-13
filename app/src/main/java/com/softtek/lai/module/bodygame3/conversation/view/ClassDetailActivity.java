@@ -105,12 +105,14 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             long CoachId = classModel.getCoachId();
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
-            if (CoachId == UserInfoModel.getInstance().getUserId()){
+            if (CoachId == UserInfoModel.getInstance().getUserId()) {
                 btn_dismissclass.setVisibility(View.VISIBLE);
-                if (StringToDate(end_date).before(getNowDate())){
+                if (StringToDate(end_date).before(getNowDate())) {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
-                }else{
+                    btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
+                } else {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
+                    btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                     btn_dismissclass.setEnabled(false);
                 }
             }
@@ -157,12 +159,14 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 //                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
 //                                    btn_dismissclass.setVisibility(View.VISIBLE);
 //                                }
-                                if (CoachId == UserInfoModel.getInstance().getUserId()){
+                                if (CoachId == UserInfoModel.getInstance().getUserId()) {
                                     btn_dismissclass.setVisibility(View.VISIBLE);
-                                    if (StringToDate(end_date).before(getNowDate())){
+                                    if (StringToDate(end_date).before(getNowDate())) {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
-                                    }else{
+                                        btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
+                                    } else {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
+                                        btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                                         btn_dismissclass.setEnabled(false);
                                     }
                                 }

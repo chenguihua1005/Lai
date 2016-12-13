@@ -223,7 +223,7 @@ public interface HeadService {
             Callback<ResponseData>callback
             );
     //请求路径:Api/V1/HerbalifeClass/GetClassDetial
-    //获取班级详情数据
+    //获取班级详情数据(用户学员获取复测、初始数据信息)
     @GET("/V1/HerbalifeClass/GetClassDetial")
     void doGetClassDetial(
             @Header("token") String token,
@@ -231,5 +231,5 @@ public interface HeadService {
             @Query("classid")String classid,
             Callback<ResponseData<ClassDetailModel>>callback
             );
- 
+
 }
