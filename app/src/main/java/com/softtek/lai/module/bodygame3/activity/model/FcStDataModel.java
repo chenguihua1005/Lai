@@ -28,6 +28,43 @@ public class FcStDataModel implements Serializable {
     private String DoLegGirth;//小腿围
     private String Img;//图片
     private String ImgThumbnail;//图片缩略图
+    private String Status;
+
+    @Override
+    public String toString() {
+        return "FcStDataModel{" +
+                "UserName='" + UserName + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", ClassName='" + ClassName + '\'' +
+                ", StartDate='" + StartDate + '\'' +
+                ", EndDate='" + EndDate + '\'' +
+                ", WeekNum='" + WeekNum + '\'' +
+                ", MeasureDate='" + MeasureDate + '\'' +
+                ", InitWeight='" + InitWeight + '\'' +
+                ", Weight='" + Weight + '\'' +
+                ", Pysical='" + Pysical + '\'' +
+                ", Fat='" + Fat + '\'' +
+                ", Circum='" + Circum + '\'' +
+                ", Waistline='" + Waistline + '\'' +
+                ", Hiplie='" + Hiplie + '\'' +
+                ", UpArmGirth='" + UpArmGirth + '\'' +
+                ", UpLegGirth='" + UpLegGirth + '\'' +
+                ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", Img='" + Img + '\'' +
+                ", ImgThumbnail='" + ImgThumbnail + '\'' +
+                ", Status='" + Status + '\'' +
+                '}';
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
 
     public String getUserName() {
         return UserName;

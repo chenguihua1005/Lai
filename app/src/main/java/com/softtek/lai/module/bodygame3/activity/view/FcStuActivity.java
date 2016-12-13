@@ -27,8 +27,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
-import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
+import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -112,8 +111,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     LinearLayout ll_left;
 
     FuceSevice fuceSevice;
-    InitDataModel initDataModel;
-    MeasureStModel measureStModel;
+    FcStDataModel fcStDataModel;
     String gender="0";
     String classId,typeDate;
     private Long userId;
@@ -172,34 +170,35 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         userId=UserInfoModel.getInstance().getUserId();
         doData();
         multipartTypedOutput=new MultipartTypedOutput();
-        if (measureStModel!=null)
+        if (fcStDataModel!=null)
         {
-            tv_write_chu_weight.setText(measureStModel.getInitWeight());//初始体重
-            tv_retestWrite_nowweight.setText(measureStModel.getWeight());//现在体重
-            tv_retestWrite_tizhi.setText(measureStModel.getPysical());//体脂
-            tv_retestWrite_neizhi.setText(measureStModel.getFat());//内脂
-            gender=measureStModel.getGender();
+            tv_write_chu_weight.setText(fcStDataModel.getInitWeight());//初始体重
+            tv_retestWrite_nowweight.setText(fcStDataModel.getWeight());//现在体重
+            tv_retestWrite_tizhi.setText(fcStDataModel.getPysical());//体脂
+            tv_retestWrite_neizhi.setText(fcStDataModel.getFat());//内脂
+            gender=fcStDataModel.getGender();
         }
 
     }
 
     private void doData() {
-       fuceSevice.doGetMeasuredData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, new RequestCallback<ResponseData<MeasureStModel>>() {
-           @Override
-           public void success(ResponseData<MeasureStModel> measureStModelResponseData, Response response) {
-               int status=measureStModelResponseData.getStatus();
-               switch (status)
-               {
-                   case 200:
-                       measureStModel=measureStModelResponseData.getData();
-                       doSetData();
-                       break;
-                   default:
-                       Util.toastMsg(measureStModelResponseData.getMsg());
-                       break;
-               }
-           }
-       });
+        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, "2", new RequestCallback<ResponseData<FcStDataModel>>() {
+            @Override
+            public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
+                int status=fcStDataModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        fcStDataModel=fcStDataModelResponseData.getData();
+                        doSetData();
+                        break;
+                    default:
+                        Util.toastMsg(fcStDataModelResponseData.getMsg());
+                        break;
+                }
+            }
+        });
+
     }
 
 
@@ -244,7 +243,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(this, BodyweiduActivity.class);
-                intent.putExtra("retestWrite",measureStModel);
+                intent.putExtra("retestWrite",fcStDataModel);
                 intent.putExtra("type",2);
                 startActivityForResult(intent,GET_BODY);
                 break;
@@ -337,37 +336,37 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     void doSetData()
     {
         try {
-            if (measureStModel!=null) {
-                if (!TextUtils.isEmpty(measureStModel.getPhoto())) {
-                    Picasso.with(this).load(AddressManager.get("photoHost")+measureStModel.getPhoto()).fit().into(iv_write_head);
+            if (fcStDataModel!=null) {
+                if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
+                    Picasso.with(this).load(AddressManager.get("photoHost")+fcStDataModel.getPhoto()).fit().into(iv_write_head);
                 }
-                gender=measureStModel.getGender();
-                tv_write_nick.setText(measureStModel.getUserName());
-                tv_write_phone.setText(measureStModel.getMobile());
-                tv_write_class.setText(measureStModel.getClassName());
-                tv_retest_write_weekth.setText(measureStModel.getWeekNum());
-                if (!TextUtils.isEmpty(measureStModel.getStartDate())) {
-                    String[] stardata = measureStModel.getStartDate().split("-");
+                gender=fcStDataModel.getGender();
+                tv_write_nick.setText(fcStDataModel.getUserName());
+                tv_write_phone.setText(fcStDataModel.getMobile());
+                tv_write_class.setText(fcStDataModel.getClassName());
+                tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());
+                if (!TextUtils.isEmpty(fcStDataModel.getStartDate())) {
+                    String[] stardata = fcStDataModel.getStartDate().split("-");
                     String[] stardata1 = stardata[2].split(" ");
                     tv_write_starm.setText(stardata[1]);
                     tv_write_stard.setText(stardata1[0]);
                 }
-                if (!TextUtils.isEmpty(measureStModel.getEndDate())) {
-                    String[] enddata = measureStModel.getEndDate().split("-");
+                if (!TextUtils.isEmpty(fcStDataModel.getEndDate())) {
+                    String[] enddata = fcStDataModel.getEndDate().split("-");
                     String[] enddata1 = enddata[2].split(" ");
                     tv_write_endm.setText(enddata[1]);
                     tv_write_endd.setText(enddata1[0]);
                 }
-                if (!TextUtils.isEmpty(measureStModel.getImgThumbnail()))
+                if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail()))
                 {
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(AddressManager.get("photoHost")+measureStModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+                    Picasso.with(this).load(AddressManager.get("photoHost")+fcStDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
 
                 }
-                tv_write_chu_weight.setText("0.0".equals(measureStModel.getInitWeight())?"":measureStModel.getInitWeight());
-                tv_retestWrite_nowweight.setText("0.0".equals(measureStModel.getWeight())?"":measureStModel.getWeight());
-                tv_retestWrite_tizhi.setText("0.0".equals(measureStModel.getPysical())?"":measureStModel.getPysical());
-                tv_retestWrite_neizhi.setText("0.0".equals(measureStModel.getFat())?"":measureStModel.getFat());
+                tv_write_chu_weight.setText("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight());
+                tv_retestWrite_nowweight.setText("0.0".equals(fcStDataModel.getWeight())?"":fcStDataModel.getWeight());
+                tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical());
+                tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -382,12 +381,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
         multipartTypedOutput.addPart("weight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
-        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(measureStModel.getCircum())?"":measureStModel.getCircum().toString()));//胸围
-        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(measureStModel.getWaistline())?"":measureStModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(measureStModel.getHiplie())?"":measureStModel.getHiplie().toString()));//臀围
-        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(measureStModel.getUpArmGirth())?"":measureStModel.getUpArmGirth().toString()));//上臂围
-        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(measureStModel.getUpLegGirth())?"":measureStModel.getUpLegGirth().toString()));//大腿围
-        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(measureStModel.getDoLegGirth())?"":measureStModel.getDoLegGirth().toString()));//小腿围
+        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum())?"":fcStDataModel.getCircum().toString()));//胸围
+        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline())?"":fcStDataModel.getWaistline().toString()));//腰围
+        multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie())?"":fcStDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth())?"":fcStDataModel.getUpArmGirth().toString()));//上臂围
+        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth())?"":fcStDataModel.getUpLegGirth().toString()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth())?"":fcStDataModel.getDoLegGirth().toString()));//小腿围
         Log.i("上传数据" + multipartTypedOutput.getPartCount());
         doPostInitData();
     }
@@ -416,8 +415,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
-            measureStModel=(MeasureStModel) data.getSerializableExtra("retestWrite");
-            Log.i("新学员录入围度:retestWrite"+measureStModel);
+            fcStDataModel=(FcStDataModel) data.getSerializableExtra("retestWrite");
+            Log.i("新学员录入围度:retestWrite"+fcStDataModel);
         }
         if (requestCode==BODY&&resultCode==RESULT_OK){
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
