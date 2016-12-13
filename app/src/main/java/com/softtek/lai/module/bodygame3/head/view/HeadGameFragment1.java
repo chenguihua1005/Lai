@@ -87,6 +87,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     //toolbar标题
     @InjectView(R.id.re_photowall)
     RelativeLayout re_photowall;
+    @InjectView(R.id.no_photowalll)
+    TextView no_photowalll;
     @InjectView(R.id.honor_lin)
     LinearLayout honor_lin;
     @InjectView(R.id.spinner_title1)
@@ -140,6 +142,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     HorizontalListView grid_list;
     @InjectView(R.id.week_rel)
     RelativeLayout week_rel;
+    @InjectView(R.id.lin_pinlun)
+    LinearLayout lin_pinlun;
     @InjectView(R.id.re_search_bottom)
     RelativeLayout re_search_bottom;
     private List<PartnersModel> partnersModels = new ArrayList<>();
@@ -550,6 +554,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                     //照片墙
                     if (classinfoModel.getPhotoWall() != null) {
+                        grid_list.setVisibility(View.VISIBLE);
+                        no_photowalll.setVisibility(View.GONE);
                         ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                         if (StringUtils.isNotEmpty(zhaopianModel.getUserPhoto())) {
                             Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
@@ -596,6 +602,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             gengxin.setText("暂无更新");
                         }
 //                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
+                    }else {
+                        grid_list.setVisibility(View.GONE);
+                        no_photowalll.setVisibility(View.VISIBLE);
+                        lin_pinlun.setVisibility(View.GONE);
                     }
 
 
