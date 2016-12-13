@@ -118,9 +118,9 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
             EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
 
-            if (group != null) {
-                Log.i(TAG, "group.getGroupName() = " + group.getGroupName());
-            }
+//            if (group != null) {
+//                Log.i(TAG, "group.getGroupName() = " + group.getGroupName());
+//            }
 
             Log.i(TAG, "username = " + username);//this question
             holder.name.setText(group != null ? group.getGroupName() : username);

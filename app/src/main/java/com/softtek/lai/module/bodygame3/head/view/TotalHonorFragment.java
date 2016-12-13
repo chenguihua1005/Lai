@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private TextView tv_top1_per;
     private TextView tv_top2_per;
     private TextView tv_top3_per;
+    private HonorRankModel honorRankModel;
 
 
     public static TotalHonorFragment getInstance() {
@@ -120,7 +122,15 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(getContext(),GroupRankingActivity.class);
+                intent.putExtra("ClassId",ClassId);
+                intent.putExtra("ByWhichRatio",ByWhichRatio);
+                intent.putExtra("SortTimeType",SortTimeType);
+                intent.putExtra("WhichTime",WhichTime);
+                intent.putExtra("GroupId",honorRankModel.getList_group().get(i-2).getGroupId());
+//                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
+                intent.putExtra("ListGroupModel",honorRankModel.getList_group().get(i-2));
+                startActivity(intent);
             }
         });
 
@@ -148,9 +158,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        if (model==null){
+        if (model == null) {
             return;
         }
+        honorRankModel = model;
         groupModelList.clear();
         groupModelList.addAll(model.getList_group());
         honorGroupRankAdapter.notifyDataSetChanged();
@@ -179,7 +190,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
             Picasso.with(getContext()).load(basePath + endUrl).into(civ);
-    }
+        }
     }
 
 

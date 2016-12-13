@@ -586,7 +586,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         if (requestCode==GET_Sian&&resultCode==RESULT_OK)
         {
             tv_personlityName.setText(data.getStringExtra("sina"));
-            tv_personlityName.setClickable(false);
             tv_personlityName.setCompoundDrawables(null, null, null, null);
         }
     }

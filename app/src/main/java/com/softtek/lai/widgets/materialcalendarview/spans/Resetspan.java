@@ -27,24 +27,28 @@ public class Resetspan implements LineBackgroundSpan {
     public Resetspan(Context context, int mode, int radius) {
         this.mContext = context;
         this.mode = mode;
-        this.color = Color.rgb(0, 0, 0);
+
         if (this.mode == Constants.ACTIVITY) {
+            this.color = Color.rgb(0, 0, 0);
             this.mText = "活动";
             this.radius = radius;
             this.rediuscolor = Color.rgb(237, 118, 108);
 //            this.radius=DEFAULT_RADIUS;
 //            this.color=0;
         } else if (this.mode == Constants.CREATECLASS) {
+            this.color = Color.rgb(0, 0, 0);
             this.mText = "开班";
 //            this.radius=DEFAULT_RADIUS;
 //            this.color=0;
         } else if (this.mode == Constants.RESET) {
+            this.color = Color.rgb(0, 0, 0);
             this.mText = "复测";
             this.radius = radius;
-            this.rediuscolor = Color.rgb(135,199,67);
+            this.rediuscolor = Color.rgb(135, 199, 67);
 //            this.radius=DEFAULT_RADIUS;1
 //            this.color=0;
         } else if (this.mode == Constants.FREE) {
+            this.color = Color.rgb(204, 204, 204);
             this.mText = "空闲";
 //            this.radius=DEFAULT_RADIUS;
 //            this.color=0;

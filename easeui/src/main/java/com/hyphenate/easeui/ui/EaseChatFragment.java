@@ -289,7 +289,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     }
 
-    protected void onMessageListInit() {
+    protected void onMessageListInit() {//key
         //jessica
         String names = fragmentArgs.getString("name");
         String photos = fragmentArgs.getString("photo");

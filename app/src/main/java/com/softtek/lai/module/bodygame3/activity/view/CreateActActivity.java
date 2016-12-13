@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TimePicker;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -59,16 +61,20 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     LinearLayout ll_left;
     @InjectView(R.id.rl_activity_time)
     RelativeLayout rl_activity_time;
+
     @InjectView(R.id.tv_activity_time)
     TextView tv_activity_time;
     @InjectView(R.id.rl_activity_type)
     RelativeLayout rl_activity_type;
+
     @InjectView(R.id.tv_activity_name)
     TextView tv_activity_name;
     @InjectView(R.id.rl_activity_name)
     RelativeLayout rl_activity_name;
+
     @InjectView(R.id.rl_activity_mark)
     RelativeLayout rl_activity_mark;
+
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
     @InjectView(R.id.tv_activity_type)
@@ -110,8 +116,9 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     CircleImageView image = holder.getView(R.id.head_image);
                     String path = AddressManager.get("photoHost");
                     if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
-//                    Picasso.with(context).load(basePath + model.getStuImg()).into(viewHolder.head_img);
-                        Picasso.with(CreateActActivity.this).load(path + data.getActivityTypeIcon()).into(image);
+                        Log.e("address", path + data.getActivityTypeIcon());
+                        Picasso.with(CreateActActivity.this).load(path + data.getActivityTypeIcon()).fit().error(R.drawable.default_icon_square)
+                                .placeholder(R.drawable.default_icon_square).into(image);
                     }
 
                 }
@@ -120,7 +127,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         }
 
 
-//        Log.e("activity", activityModel.toString());
     }
 
     @Override
@@ -233,7 +239,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 classActivityId = acttypeModel.getActivityTypeId();
                 tv_activity_type.setText(acttypeModel.getActivityTypeName());
                 String path = AddressManager.get("photoHost");
-                Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).into(type_iv);
+                Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).fit().error(R.drawable.default_icon_square)
+                        .placeholder(R.drawable.default_icon_square).into(type_iv);
                 builder.dismiss();
 //                }
             }

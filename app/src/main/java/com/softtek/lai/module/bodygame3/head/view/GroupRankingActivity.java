@@ -1,0 +1,174 @@
+package com.softtek.lai.module.bodygame3.head.view;
+
+import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.ggx.widgets.adapter.EasyAdapter;
+import com.ggx.widgets.adapter.ViewHolder;
+import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
+import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
+import com.softtek.lai.module.bodygame3.head.model.ListGroupRankingModel;
+import com.softtek.lai.module.bodygame3.head.presenter.GroupRankingManager;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
+import zilla.libcore.ui.InjectLayout;
+
+
+@InjectLayout(R.layout.activity_group_ranking)
+public class GroupRankingActivity extends BaseActivity implements GroupRankingManager.GroupRankingCallback {
+
+    private String ByWhichRatio = "ByWeightRatio";
+    private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
+    private String SortTimeType = "ByWeek";
+    private int WhichTime = 7;
+    private String GroupId;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.list_group_ranking)
+    ListView list_group_ranking;//列表
+    @InjectView(R.id.tv_ranking_date)
+    TextView tv_ranking_date;
+    @InjectView(R.id.tv_group_name)
+    TextView tv_group_name;
+    @InjectView(R.id.tv_rank_number)
+    TextView tv_rank_number;
+    @InjectView(R.id.civ_trainer_header)
+    CircleImageView civ_trainer_header;
+    @InjectView(R.id.tv_trainer_name)
+    TextView tv_trainer_name;
+    @InjectView(R.id.tv_per_number)
+    TextView tv_per_number;
+    @InjectView(R.id.tv_by_which)
+    TextView tv_by_which;
+
+    EasyAdapter<ListGroupRankingModel> honorGroupRankAdapter;
+    private List<ListGroupRankingModel> groupRankingModelList = new ArrayList<>();
+
+    private GroupRankingManager groupRankingManager;
+    private ListGroupModel listGroupModel;
+
+
+    @Override
+    protected void initViews() {
+        honorGroupRankAdapter = new EasyAdapter<ListGroupRankingModel>(this, groupRankingModelList, R.layout.item_group_ranking) {
+            @Override
+            public void convert(ViewHolder holder, ListGroupRankingModel data, int position) {
+                TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
+                tv_rank_number.setText(data.getNum());
+                ImageView iv_gender = holder.getView(R.id.iv_gender);
+                setImage2(iv_gender, data.getPhoto());
+                TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
+                tv_trainer_name.setText(data.getUserName());
+                TextView tv_group_name = holder.getView(R.id.tv_group_name);
+                tv_group_name.setText("(" + listGroupModel.getGroupName() + ")");
+                TextView tv_init_weight = holder.getView(R.id.tv_init_weight);
+                String initWeight = data.getInitWeight();
+                if (!TextUtils.isEmpty(initWeight)) {
+                    String weight = String.format("%.0f", Double.valueOf(initWeight));
+                    tv_init_weight.setText("初始体重" + weight + "斤");
+                }
+                TextView tv_per_number = holder.getView(R.id.tv_per_number);
+                tv_per_number.setText(data.getLossPer());
+                TextView tv_by_which = holder.getView(R.id.tv_by_which);
+                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
+            }
+        };
+        list_group_ranking.setAdapter(honorGroupRankAdapter);
+        list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void initDatas() {
+        String token = UserInfoModel.getInstance().getToken();
+        Intent intent = getIntent();
+        ClassId = intent.getStringExtra("ClassId");
+        ByWhichRatio = intent.getStringExtra("ByWhichRatio");
+        SortTimeType = intent.getStringExtra("SortTimeType");
+        WhichTime = intent.getIntExtra("WhichTime", 1);
+        GroupId = intent.getStringExtra("GroupId");
+        listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
+        if (StringUtils.isEmpty(token)) {
+
+        } else {
+            groupRankingManager = new GroupRankingManager(this);
+        }
+        groupRankingManager.getWeekHonnorInfo(ClassId, ByWhichRatio, SortTimeType, WhichTime, GroupId);
+
+
+        tv_group_name.setText(listGroupModel.getGroupName());
+        if ("ByWeek".equals(SortTimeType)) {
+            tv_title.setText("组内排名(第" + WhichTime + "周)");
+            tv_rank_number.setText("本周第" + listGroupModel.getRanking() + "名");
+        } else if ("ByMonth".equals(SortTimeType)) {
+            tv_title.setText("组内排名(第" + WhichTime + "月)");
+            tv_rank_number.setText("本月第" + listGroupModel.getRanking() + "名");
+        } else if ("ByTotal".equals(SortTimeType)) {
+            tv_title.setText("组内排名(总排名)");
+        }
+        setImage(civ_trainer_header, listGroupModel.getCoachIco());
+        Log.e("curry", "success: " + listGroupModel.toString());
+        tv_trainer_name.setText(listGroupModel.getCoachName());
+        tv_per_number.setText(listGroupModel.getLossPer());
+        tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
+
+    }
+
+
+    @Override
+    public void getModel(HonorGroupRankModel model) {
+        if (model == null || model.getGrouplist() == null) {
+            return;
+        }
+        groupRankingModelList.clear();
+        groupRankingModelList.addAll(model.getGrouplist());
+        honorGroupRankAdapter.notifyDataSetChanged();
+        tv_ranking_date.setText("榜单日期" + model.getStartDate() + "～" + model.getEndDate());
+
+
+    }
+
+    private void setImage(CircleImageView civ, String endUrl) {
+        String basePath = AddressManager.get("photoHost");
+        if (StringUtils.isNotEmpty(endUrl)) {
+            Picasso.with(this).load(basePath + endUrl).into(civ);
+        }
+    }
+
+    private void setImage2(ImageView iv, String flag) {
+        iv.setVisibility(View.VISIBLE);
+        switch (flag) {
+            case "0":
+                iv.setImageResource(R.drawable.male_iv);
+                break;
+            case "1":
+                iv.setImageResource(R.drawable.female_iv);
+                break;
+            case "2":
+                iv.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+}
