@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.File;
 
@@ -64,14 +65,14 @@ class ImageCompressRetrofit {
 
         @Override
         protected String doInBackground(ImageFile... params) {
-            AppLogger.i(TAG, "------------------ start compress file ------------------");
+            Log.i(TAG, "------------------ start compress file ------------------");
             ImageFile srcFileInfo = params[0];
 
             Bitmap.CompressFormat format = mCompressFormat;
             if (format == null) {
                 format = CompressFormatUtils.parseFormat(srcFileInfo.mSrcFilePath);
             }
-            AppLogger.i(TAG, "use compress format:" + format.name());
+            Log.i(TAG, "use compress format:" + format.name());
 
             File outputFile = CommonUtils.generateExternalImageCacheFile(mContext, CompressFormatUtils.getExt(format));
             File srcFile = new File(srcFileInfo.mSrcFilePath);
@@ -108,9 +109,9 @@ class ImageCompressRetrofit {
      */
     public static boolean compressImageFile(String srcFile, String dstFile, int maxWidth, int maxHeight, int quality, Bitmap.CompressFormat compressFormat) {
 
-        AppLogger.i(TAG, "compress file:" + srcFile);
-        AppLogger.i(TAG, "file length:" + (int) (new File(srcFile).length() / 1024d) + "kb");
-        AppLogger.i(TAG, "output size:(" + maxWidth + ", " + maxHeight + ")");
+        Log.i(TAG, "compress file:" + srcFile);
+        Log.i(TAG, "file length:" + (int) (new File(srcFile).length() / 1024d) + "kb");
+        Log.i(TAG, "output size:(" + maxWidth + ", " + maxHeight + ")");
 
         BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
         decodeOptions.inJustDecodeBounds = true;
@@ -119,10 +120,10 @@ class ImageCompressRetrofit {
         int actualWidth = decodeOptions.outWidth;
         int actualHeight = decodeOptions.outHeight;
 
-        AppLogger.i(TAG, "input size:(" + actualWidth + ", " + actualHeight + ")");
+        Log.i(TAG, "input size:(" + actualWidth + ", " + actualHeight + ")");
 
         if (actualWidth < maxWidth && actualHeight < maxHeight) {
-            AppLogger.w(TAG, "stop compress: input size < output size");
+            Log.w(TAG, "stop compress: input size < output size");
             return rotateImage(srcFile, dstFile, quality, compressFormat);
         }
 
@@ -139,7 +140,7 @@ class ImageCompressRetrofit {
             sampleSize = (int) (actualHeight / (double) maxHeight);
         }
 
-        AppLogger.i(TAG, "in simple size:" + sampleSize);
+        Log.i(TAG, "in simple size:" + sampleSize);
 
         decodeOptions.inJustDecodeBounds = false;
         decodeOptions.inSampleSize = sampleSize;
@@ -151,27 +152,27 @@ class ImageCompressRetrofit {
             bitmap = BitmapFactory.decodeFile(srcFile, decodeOptions);
         } catch (OutOfMemoryError error) {
             error.printStackTrace();
-            AppLogger.e(TAG, "OutOfMemoryError:" + srcFile + ", size(" + actualWidth + ", " + actualHeight + ")");
+            Log.e(TAG, "OutOfMemoryError:" + srcFile + ", size(" + actualWidth + ", " + actualHeight + ")");
         }
 
         if (bitmap == null) {
-            AppLogger.e(TAG, "stop compress:decode file error");
+            Log.e(TAG, "stop compress:decode file error");
             return false;
         }
 
-        AppLogger.i(TAG, "origin bitmap size:(" + bitmap.getWidth() + ", " + bitmap.getHeight() + ")");
+        Log.i(TAG, "origin bitmap size:(" + bitmap.getWidth() + ", " + bitmap.getHeight() + ")");
 
         if (bitmap.getWidth() > maxWidth || bitmap.getHeight() > maxHeight) {
             Bitmap tempBitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
             bitmap.recycle();
             bitmap = tempBitmap;
-            AppLogger.i(TAG, "scale down:(" + bitmap.getWidth() + ", " + bitmap.getHeight() + ")");
+            Log.i(TAG, "scale down:(" + bitmap.getWidth() + ", " + bitmap.getHeight() + ")");
         }
 
 
         int degree = ImageUtils.getExifOrientation(srcFile);
         if (degree != 0) {
-            AppLogger.i(TAG, "rotate image from:" + degree);
+            Log.i(TAG, "rotate image from:" + degree);
             Bitmap rotate = ImageUtils.rotateImage(degree, bitmap);
             bitmap.recycle();
             bitmap = rotate;
@@ -179,15 +180,15 @@ class ImageCompressRetrofit {
 
         ImageUtils.saveBitmap(bitmap, dstFile, compressFormat, quality);
 
-        AppLogger.i(TAG, "output file length:" + (int) (new File(dstFile).length() / 1024d) + "kb");
-        AppLogger.i(TAG, "------------------ compress file complete ---------------");
+        Log.i(TAG, "output file length:" + (int) (new File(dstFile).length() / 1024d) + "kb");
+        Log.i(TAG, "------------------ compress file complete ---------------");
         return true;
     }
 
     private static boolean rotateImage(String imageFile, String outputFile, int quality, Bitmap.CompressFormat compressFormat) {
         int degree = ImageUtils.getExifOrientation(imageFile);
         if (degree != 0) {
-            AppLogger.i(TAG, "rotate image from:" + degree);
+            Log.i(TAG, "rotate image from:" + degree);
             Bitmap origin = BitmapFactory.decodeFile(imageFile);
             Bitmap rotate = ImageUtils.rotateImage(degree, origin);
             if (rotate != null) {
@@ -196,8 +197,8 @@ class ImageCompressRetrofit {
                 origin.recycle();
                 return true;
             } else {
-                AppLogger.e(TAG, "rotate image failed:" + imageFile);
-                AppLogger.e(TAG, "use origin image");
+                Log.e(TAG, "rotate image failed:" + imageFile);
+                Log.e(TAG, "use origin image");
             }
             origin.recycle();
         }

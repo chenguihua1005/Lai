@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 
@@ -122,49 +123,49 @@ public class ImageCropper {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == CROP_PHOTO_SMALL) {
             if (mTempFile != null && mTempFile.exists()) {
-                AppLogger.i(TAG, "delete temp file:" + mTempFile.getPath());
+                Log.i(TAG, "delete temp file:" + mTempFile.getPath());
                 mTempFile.delete();
             }
             File outFile = null;
             if (mOutFile != null && mOutFile.exists()) {
-                AppLogger.i(TAG, "use output file:" + mOutFile.getPath());
+                Log.i(TAG, "use output file:" + mOutFile.getPath());
                 outFile = mOutFile;
             } else if (data.getData() != null) {
                 String outFilePath = Compatibility.getPath(getContext(), data.getData());
-                AppLogger.i(TAG, "get output file from uri:" + outFilePath);
+                Log.i(TAG, "get output file from uri:" + outFilePath);
                 if (!TextUtils.isEmpty(outFilePath)) {
                     outFile = new File(outFilePath);
-                    AppLogger.i(TAG, "output file exists:" + outFile.getPath());
+                    Log.i(TAG, "output file exists:" + outFile.getPath());
                 }
             } else {
                 outFile = CommonUtils.generateExternalImageCacheFile(getContext(), ".jpg");
                 Bitmap bitmap = data.getParcelableExtra("data");
                 if (bitmap != null) {
-                    AppLogger.i(TAG, "create output file from data:" + outFile.getPath());
+                    Log.i(TAG, "create output file from data:" + outFile.getPath());
                     ImageUtils.saveBitmap(bitmap, outFile.getPath(), CompressFormat.JPEG, 80);
                 }
             }
             if (outFile != null && outFile.exists()) {
-                AppLogger.i(TAG, "crop file success, output file:" + outFile.getPath());
+                Log.i(TAG, "crop file success, output file:" + outFile.getPath());
                 if (mCallback != null) {
                     mCallback.onCropperCallback(CropperResult.success, mSrcFile, mOutFile);
                 }
             } else {
-                AppLogger.i(TAG, "crop file error: output file not exists");
+                Log.i(TAG, "crop file error: output file not exists");
                 if (mCallback != null) {
                     mCallback.onCropperCallback(CropperResult.error_illegal_out_file, mSrcFile, null);
                 }
             }
-            AppLogger.i(TAG, "------------------ end crop file ---------------");
+            Log.i(TAG, "------------------ end crop file ---------------");
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void cropImage(File srcFile) {
 
-        AppLogger.i(TAG, "------------------ start crop file ---------------");
+        Log.i(TAG, "------------------ start crop file ---------------");
         if (!(srcFile != null && srcFile.exists())) {
-            AppLogger.i(TAG, "input file null or not exists ");
+            Log.i(TAG, "input file null or not exists ");
             if (mCallback != null) {
                 mCallback.onCropperCallback(CropperResult.error_illegal_input_file, srcFile, null);
             }
@@ -172,7 +173,7 @@ public class ImageCropper {
         }
 
         File outFile = CommonUtils.generateExternalImageCacheFile(getContext(), ".jpg");
-        AppLogger.i(TAG, "output file:" + outFile.getPath());
+        Log.i(TAG, "output file:" + outFile.getPath());
         if (outFile.exists()) {
             outFile.delete();
         }
@@ -191,7 +192,7 @@ public class ImageCropper {
             mTempFile = CommonUtils.generateExternalImageCacheFile(getContext(), ext);
             CommonUtils.copy(srcFile, mTempFile);
             uri = Uri.fromFile(mTempFile);
-            AppLogger.w(TAG, "use temp file:" + mTempFile.getPath());
+            Log.w(TAG, "use temp file:" + mTempFile.getPath());
         }
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");

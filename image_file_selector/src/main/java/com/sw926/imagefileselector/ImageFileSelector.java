@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ImageFileSelector {
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
             @Override
             public void onSuccess(String file) {
-                AppLogger.d(TAG, "select image from sdcard: " + file);
+                Log.i(TAG, "select image from sdcard: " + file);
                 handleResult(file, false);
             }
 
@@ -44,7 +45,7 @@ public class ImageFileSelector {
         mImageTaker.setCallback(new ImageCaptureHelper.Callback() {
             @Override
             public void onSuccess(String file) {
-                AppLogger.d(TAG, "select image from camera: " + file);
+                Log.i(TAG,"select image from camera: " + file);
                 handleResult(file, true);
             }
 
@@ -58,7 +59,7 @@ public class ImageFileSelector {
         mImageCompressHelper.setCallback(new ImageCompressHelper.CompressCallback() {
             @Override
             public void onCallBack(String outFile) {
-                AppLogger.d(TAG, "compress image output: " + outFile);
+                Log.i(TAG, "compress image output: " + outFile);
                 if (mCallback != null) {
                     mCallback.onSuccess(outFile);
                 }
@@ -71,10 +72,6 @@ public class ImageFileSelector {
                 }
             }
         });
-    }
-
-    public static void setDebug(boolean debug) {
-        AppLogger.DEBUG = debug;
     }
 
     /**
@@ -159,6 +156,7 @@ public class ImageFileSelector {
         File file = new File(fileName);
         if (file.exists()) {
             mImageCompressHelper.compress(fileName, deleteSrc);
+
         } else {
             if (mCallback != null) {
                 mCallback.onSuccess(null);

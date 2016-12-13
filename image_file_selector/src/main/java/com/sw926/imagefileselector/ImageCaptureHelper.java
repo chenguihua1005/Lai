@@ -1,18 +1,16 @@
 package com.sw926.imagefileselector;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,9 +48,13 @@ class ImageCaptureHelper {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CHOOSE_PHOTO_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
+            Log.i("dsada","拍照返回啦。。。。。。");
             if (mOutFile != null && mOutFile.exists()) {
+                Log.i("dsada","文件存在。。。。。。");
                 saveImageToGallery(mOutFile);
+                Log.i("dsada","相册更新完成。。。。。。");
                 if (mCallback != null) {
+                    Log.i("dsada","拍照返回啦。。。。。。");
                     mCallback.onSuccess(mOutFile.getPath());
                 }
             } else {
@@ -68,7 +70,7 @@ class ImageCaptureHelper {
         try {
             activity.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
-            AppLogger.printStackTrace(e);
+            e.printStackTrace();
             if (mCallback != null) {
                 mCallback.onError();
             }
@@ -105,7 +107,7 @@ class ImageCaptureHelper {
         try {
             fragment.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
-            AppLogger.printStackTrace(e);
+            e.printStackTrace();
             if (mCallback != null) {
                 mCallback.onError();
             }
@@ -114,7 +116,9 @@ class ImageCaptureHelper {
 
     private Intent createIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mOutFile));
+        Uri out= FileProvider.getUriForFile(mFragmentWeakReference.get().getContext().getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return intent;
     }
 

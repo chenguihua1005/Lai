@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ImageFileCropSelector {
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
             @Override
             public void onSuccess(String file) {
-                AppLogger.d(TAG, "select image from sdcard: " + file);
+                Log.i(TAG, "select image from sdcard: " + file);
                 handleResult(file, false);
             }
 
@@ -87,9 +88,6 @@ public class ImageFileCropSelector {
         });
     }
 
-    public static void setDebug(boolean debug) {
-        AppLogger.DEBUG = debug;
-    }
 
     public void setOutPut(int width, int height) {
        mImageCropperHelper.setOutPut(width, height);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
@@ -110,9 +111,9 @@ public class ImageCropHelper {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void cropImage(File srcFile) {
 
-        AppLogger.i(TAG, "------------------ start crop file ---------------");
+        Log.i(TAG, "------------------ start crop file ---------------");
         if (!(srcFile != null && srcFile.exists())) {
-            AppLogger.i(TAG, "input file null or not exists ");
+            Log.i(TAG, "input file null or not exists ");
             if (mCallback != null) {
                 mCallback.onCropperCallback(CropperResult.error_illegal_input_file, srcFile, null,null);
             }
@@ -120,7 +121,7 @@ public class ImageCropHelper {
         }
 
         File outFile = CommonUtils.generateExternalImageCacheFile(getContext(), ".jpg");
-        AppLogger.i(TAG, "output file:" + outFile.getPath());
+        Log.i(TAG, "output file:" + outFile.getPath());
         if (outFile.exists()) {
             outFile.delete();
         }
@@ -139,7 +140,7 @@ public class ImageCropHelper {
             mTempFile = CommonUtils.generateExternalImageCacheFile(getContext(), ext);
             CommonUtils.copy(srcFile, mTempFile);
             uri = Uri.fromFile(mTempFile);
-            AppLogger.w(TAG, "use temp file:" + mTempFile.getPath());
+            Log.w(TAG, "use temp file:" + mTempFile.getPath());
         }
         UCrop.Options options=new UCrop.Options();
         options.setShowCropGrid(false);

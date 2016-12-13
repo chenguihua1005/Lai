@@ -122,12 +122,12 @@ public class HealthyFragment extends LazyBaseFragment {
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-//                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
-//                UploadImage image=new UploadImage();
-//                image.setImage(new File(file));
-//                image.setUri(Uri.fromFile(new File(file)));
-//                intent.putExtra("uploadImage",image);
-//                startActivityForResult(intent,OPEN_SENDER_REQUEST);
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                UploadImage image=new UploadImage();
+                image.setImage(new File(file));
+                image.setUri(Uri.fromFile(new File(file)));
+                intent.putExtra("uploadImage",image);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 
             @Override
@@ -160,7 +160,6 @@ public class HealthyFragment extends LazyBaseFragment {
         imageFileSelector.onActivityResult(requestCode,resultCode,data);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
-                Log.i("dsadasd");
                 tab_content.setCurrentItem(0);
                 int size=fragments.size();
                 if(size>=1){
