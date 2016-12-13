@@ -105,6 +105,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     TextView reset_time;//未复测、已复测
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
+
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
@@ -126,6 +127,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private int lastVisitableItem;
     private String typeDate;//复测日期
     private String createDate;//开班日期
+    private int resetstatus;//复测状态
     SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
     String strDate = sf.format(new Date());
 
@@ -273,6 +275,17 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                                 typeDate = calendarModels.get(i).getMonthDate();
                                             }
 
+                                            resetstatus = activitydataModel.getRetestStatus();
+                                            if (resetstatus == 1) {//已过去的复测日
+                                                ll_fuce.setEnabled(true);
+                                            } else if (resetstatus == 2) {//进行中的复测日
+                                                ll_fuce.setEnabled(true);
+                                            } else if (resetstatus == 3) {//未开始的复测日
+                                                ll_fuce.setEnabled(false);
+                                            } else {
+                                                ll_fuce.setVisibility(View.GONE);
+                                            }
+
                                         } else {
                                             ll_fuce.setVisibility(View.GONE);
                                         }
@@ -411,6 +424,17 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                             typeDate = calendarModels.get(i).getMonthDate();
                                         }
 
+                                        resetstatus = activitydataModel.getRetestStatus();
+                                        if (resetstatus == 1) {//已过去的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 2) {//进行中的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 3) {//未开始的复测日
+                                            ll_fuce.setEnabled(false);
+                                        } else {
+                                            ll_fuce.setVisibility(View.GONE);
+                                        }
+
                                     } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
@@ -543,6 +567,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
                     typeDate = dates;
+                    if (resetstatus == 1) {//已过去的复测日
+                        ll_fuce.setEnabled(true);
+                    } else if (resetstatus == 2) {//进行中的复测日
+                        ll_fuce.setEnabled(true);
+                    } else if (resetstatus == 3) {//未开始的复测日
+                        ll_fuce.setEnabled(false);
+                    } else {
+                        ll_fuce.setVisibility(View.GONE);
+                    }
                     if (todayactModels != null) {
                         list_activity.setVisibility(View.VISIBLE);
 //                        scrollview.setVisibility(View.GONE);
@@ -599,6 +632,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             case R.id.ll_chuDate:
                 Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
                 chuDate.putExtra("typeDate", typeDate);
+                chuDate.putExtra("resetstatus", resetstatus);
                 chuDate.putExtra("classId", classid);
                 startActivity(chuDate);
                 break;
@@ -609,6 +643,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 Log.e("classde", classid + typeDate);
                 Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
                 fuce.putExtra("classId", classid);
+                fuce.putExtra("resetstatus", resetstatus);
                 fuce.putExtra("typeDate", typeDate);
                 startActivity(fuce);
                 break;
