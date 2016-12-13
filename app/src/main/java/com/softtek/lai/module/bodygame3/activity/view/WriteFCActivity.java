@@ -149,7 +149,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     FuceSevice service;
     private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
-    InitDataModel initDataModel;
     MultipartTypedOutput multipartTypedOutput;
     Long userId;//用户id
     String classId=" ";//班级id

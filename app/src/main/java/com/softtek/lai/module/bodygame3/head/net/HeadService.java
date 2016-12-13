@@ -229,8 +229,6 @@ public interface HeadService {
             @Header("token") String token,
             @Query("accountid")Long accountid,
             @Query("classid")String classid,
-            @Query("typeDate")String typeDate,//日期
-            @Query("type")String type,//查看类型
             Callback<ResponseData<ClassDetailModel>>callback
             );
 
