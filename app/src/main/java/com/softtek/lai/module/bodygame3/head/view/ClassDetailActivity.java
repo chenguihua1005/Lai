@@ -16,6 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.model.ClassDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.login.model.UserModel;
@@ -60,44 +61,26 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     HeadService headService;
 
     ClasslistModel classlistModel;
+    ClassDetailModel classDetailModel;
+    boolean isClick=true;
     @Override
     protected void initViews() {
         tv_zhiqing.setOnClickListener(this);
         btn_joinclass.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_title.setText("班级推荐");
-        classlistModel=getIntent().getParcelableExtra("ClasslistModel");
-        try {
-            if (!TextUtils.isEmpty(classlistModel.getClassMasterPhoto()))
-            {
-                //教练头像
-                Picasso.with(this).load(AddressManager.get("photoHost")+classlistModel.getClassMasterPhoto()).fit().error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(cir_img);
-                Log.i("教练头像",AddressManager.get("photoHost")+classlistModel.getClassMasterPhoto());
-            }else{
-                Picasso.with(this).load(R.drawable.img_default).into(cir_img);
-            }
-            tv_coach_name.setText(classlistModel.getClassMasterName());//总教练名称
-            tv_classname.setText(classlistModel.getClassName());//班级名称
-            tv_classid.setText(classlistModel.getClassCode());//班级编号
-            if (!TextUtils.isEmpty(classlistModel.getClassStart())) {
-                String[] date = classlistModel.getClassStart().split("-");
-                String[] date1 = date[2].split(" ");
-                tv_StaClassDate.setText(date[0] + "年" + Long.parseLong(date[1]) + "月" + Long.parseLong(date1[0]) + "日");//开班日期
-            }
-            tv_classPerNum.setText(classlistModel.getClassMemberNum()+"人");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
-                    btn_joinclass.setEnabled(true);
+//                    isClick=true;
+//                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
+//                    btn_joinclass.setEnabled(true);
                 } else {
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
-                    btn_joinclass.setEnabled(false);
+                    isClick=false;
+//                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
+//                    btn_joinclass.setEnabled(false);
+//                    Util.toastMsg("请勾选");
                 }
             }
         });
@@ -105,6 +88,28 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
+        classlistModel=getIntent().getParcelableExtra("ClasslistModel");//接受对象
+        if (classlistModel!=null) {
+            headService.doGetClassDetial(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData<ClassDetailModel>>() {
+                @Override
+                public void success(ResponseData<ClassDetailModel> classDetailModelResponseData, Response response) {
+                    int status=classDetailModelResponseData.getStatus();
+                    switch (status)
+                    {
+                        case 200:
+                            classDetailModel=classDetailModelResponseData.getData();
+                            doSetData();
+                            break;
+                        default:
+                            Util.toastMsg(classDetailModelResponseData.getMsg());
+                            break;
+                    }
+                }
+            });
+        }
+
+
 
     }
 
@@ -116,7 +121,13 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_joinclass:
-                doJoinClass();
+                if (isClick)
+                {
+                    doJoinClass();
+                }
+                else {
+                    Util.toastMsg("请勾选已阅读《康宝莱知情书》");
+                }
                 break;
             case R.id.ll_left:
                 finish();
@@ -125,12 +136,45 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doJoinClass() {
-        headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
         headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Util.toastMsg(responseData.getMsg());
             }
         });
+    }
+    private void doSetData() {
+        if (classDetailModel != null) {
+            try {
+                if (!TextUtils.isEmpty(classDetailModel.getClassMasterPhoto())) {
+                    //教练头像
+                    Picasso.with(this).load(AddressManager.get("photoHost") + classDetailModel.getClassMasterPhoto()).fit().error(R.drawable.img_default)
+                            .placeholder(R.drawable.img_default).into(cir_img);
+                    Log.i("教练头像", AddressManager.get("photoHost") + classDetailModel.getClassMasterPhoto());
+                } else {
+                    Picasso.with(this).load(R.drawable.img_default).into(cir_img);
+                }
+                tv_coach_name.setText(classDetailModel.getClassMasterName());//总教练名称
+                tv_classname.setText(classDetailModel.getClassName());//班级名称
+                tv_classid.setText(classDetailModel.getClassCode());//班级编号
+                if (!TextUtils.isEmpty(classDetailModel.getClassStart())) {
+                    String[] date = classDetailModel.getClassStart().split("-");
+                    String[] date1 = date[2].split(" ");
+                    tv_StaClassDate.setText(date[0] + "年" + Long.parseLong(date[1]) + "月" + Long.parseLong(date1[0]) + "日");//开班日期
+                }
+                tv_classPerNum.setText(classDetailModel.getClassMemberNum() + "人");
+                if ("1".equals(classDetailModel.getIsSendMsg()))
+                {
+                    btn_joinclass.setEnabled(false);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
+                }
+                else {
+                    btn_joinclass.setEnabled(true);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

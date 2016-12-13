@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.EditSignaModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
+import com.softtek.lai.module.bodygame3.head.model.ClassDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
@@ -219,6 +220,14 @@ public interface HeadService {
             @Body EditSignaModel editSignaModel,
             Callback<ResponseData>callback
             );
-
+    //请求路径:Api/V1/HerbalifeClass/GetClassDetial
+    //获取班级详情数据
+    @GET("/V1/HerbalifeClass/GetClassDetial")
+    void doGetClassDetial(
+            @Header("token") String token,
+            @Query("accountid")Long accountid,
+            @Query("classid")String classid,
+            Callback<ResponseData<ClassDetailModel>>callback
+            );
 
 }

@@ -218,7 +218,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             case R.id.rl_setting:
 //                startActivity(new Intent(getContext(), SettingsActivity.class));
-                startActivity(new Intent(getContext(), PhotoWallActivity.class));
+                startActivity(new Intent(getContext(), WriteFCActivity.class));
                 break;
             case R.id.rl_dynamic:
                 Intent personal=new Intent(getContext(), PersionalActivity.class);
