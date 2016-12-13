@@ -3,9 +3,11 @@ package com.softtek.lai.module.bodygame3.head.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.EditSignaModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
+import com.softtek.lai.module.bodygame3.head.model.ClassDetailModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
+import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
@@ -122,6 +124,17 @@ public interface HeadService {
             @Query("IsFirst") boolean IsFirst,
             Callback<ResponseData<HonorRankModel>>callback
             );
+    //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)
+    @GET("/V1/ClassHonor/GetHonorGroupList")
+    void doGetHonorGroup(
+            @Header("token") String token,
+            @Query("ClassId") String ClassId,
+            @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
+            @Query("SortTimeType")String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("WhichTime") int WhichTime,
+            @Query("GroupId") String GroupId,
+            Callback<ResponseData<HonorGroupRankModel>>callback
+    );
     //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
     //申请加入班级
     @GET("/V1/MsgCenter/ApplyJoinClass")
@@ -219,6 +232,14 @@ public interface HeadService {
             @Body EditSignaModel editSignaModel,
             Callback<ResponseData>callback
             );
-
-
+    //请求路径:Api/V1/HerbalifeClass/GetClassDetial
+    //获取班级详情数据
+    @GET("/V1/HerbalifeClass/GetClassDetial")
+    void doGetClassDetial(
+            @Header("token") String token,
+            @Query("accountid")Long accountid,
+            @Query("classid")String classid,
+            Callback<ResponseData<ClassDetailModel>>callback
+            );
+ 
 }

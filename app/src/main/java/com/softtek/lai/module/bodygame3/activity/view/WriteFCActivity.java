@@ -155,7 +155,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     Context context;
     String files;
     InitComitModel initComitModel;
-    String photoname;
+    String photourl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -297,7 +297,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",initDataModel);
-                intent.putExtra("isState",isState);
+                intent.putExtra("type",1);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
@@ -493,9 +493,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 {
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+initDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    photoname=initDataModel.getImgThumbnail();
-
-
+                    photourl=initDataModel.getImgThumbnail();
+                    Log.i("看看图片地址是什么"+photourl);
                 }
                 tv_write_class.setText(initDataModel.getClassName());//班级名
                 tv_retest_write_weekth.setText(initDataModel.getWeekNum());//当前周
