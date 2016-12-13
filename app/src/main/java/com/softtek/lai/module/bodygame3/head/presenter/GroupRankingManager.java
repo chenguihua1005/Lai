@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
+import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 
 import retrofit.Callback;
@@ -13,30 +13,30 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
 /**
- * Created by curry.zhang on 12/7/2016.
+ * Created by curry.zhang on 12/12/2016.
  */
 
-public class WeekHonorManager {
-
-    private WeekHonnorCallback callback;
+public class GroupRankingManager {
+    private GroupRankingCallback callback;
     private final HeadService service;
 
 
-    public WeekHonorManager(WeekHonnorCallback callback) {
+    public GroupRankingManager(GroupRankingManager.GroupRankingCallback callback) {
         this.callback = callback;
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
     }
 
-    public void getWeekHonnorInfo(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
-        String token = UserInfoModel.getInstance().getToken();
-        service.doGetHonorRoll(token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
-                new Callback<ResponseData<HonorRankModel>>() {
+    public void getWeekHonnorInfo(String classId, String byWhichRatio, String sortTimeType, int whichTime, String GroupId) {
+        final String token = UserInfoModel.getInstance().getToken();
+        service.doGetHonorGroup(token, classId, byWhichRatio, sortTimeType, whichTime, GroupId,
+                new Callback<ResponseData<HonorGroupRankModel>>() {
                     @Override
-                    public void success(ResponseData<HonorRankModel> honorRankModelResponseData, Response response) {
-                        int status = honorRankModelResponseData.getStatus();
+                    public void success(ResponseData<HonorGroupRankModel> honorGroupRankModelData, Response response) {
+                        int status = honorGroupRankModelData.getStatus();
                         switch (status) {
                             case 200:
-                                HonorRankModel honorRankModel = honorRankModelResponseData.getData();
+                                HonorGroupRankModel honorRankModel = honorGroupRankModelData.getData();
+                                Log.e("curry", token);
                                 if (callback != null)
                                     callback.getModel(honorRankModel);
                                 break;
@@ -58,7 +58,7 @@ public class WeekHonorManager {
 
     }
 
-    public interface WeekHonnorCallback {
-        void getModel(HonorRankModel model);
+    public interface GroupRankingCallback {
+        void getModel(HonorGroupRankModel model);
     }
 }

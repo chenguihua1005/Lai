@@ -1,6 +1,8 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -66,6 +68,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private TextView tv_top2_per;
     private TextView tv_top3_per;
     private ArrowSpinner2 spinner;
+    private HonorRankModel honorRankModel;
 
     public static WeekHonorFragment getInstance() {
         WeekHonorFragment fragment = new WeekHonorFragment();
@@ -122,7 +125,16 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(getContext(),GroupRankingActivity.class);
+                intent.putExtra("ClassId",ClassId);
+                intent.putExtra("ByWhichRatio",ByWhichRatio);
+                intent.putExtra("SortTimeType",SortTimeType);
+                intent.putExtra("WhichTime",WhichTime);
+                intent.putExtra("GroupId",honorRankModel.getList_group().get(i-2).getGroupId());
+//                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
+                intent.putExtra("ListGroupModel",honorRankModel.getList_group().get(i-2));
+                startActivity(intent);
+                Log.e("curry", "onItemClick: "+i );
             }
         });
 
@@ -191,6 +203,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         if (model==null){
             return;
         }
+        honorRankModel = model;
         groupModelList.clear();
         groupModelList.addAll(model.getList_group());
         honorGroupRankAdapter.notifyDataSetChanged();

@@ -761,7 +761,8 @@
         <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity" />
         <activity android:name=".module.message2.view.ActionActivity" />
         <activity android:name=".module.bodygame3.photowall.PublishDyActivity" />
-        <activity android:name=".module.bodygame3.head.view.EditSignaActivity"></activity>
+        <activity android:name=".module.bodygame3.head.view.EditSignaActivity" />
+        <activity android:name=".module.bodygame3.head.view.GroupRankingActivity"/>
     </application>
 
 </manifest>
