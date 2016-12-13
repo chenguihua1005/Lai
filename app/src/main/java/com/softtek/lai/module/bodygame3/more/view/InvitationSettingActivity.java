@@ -301,6 +301,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     BottomSheetDialog dialog;
     private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_trans_view, null);
+        TextView tv_title= (TextView) view.findViewById(R.id.tv);
+        tv_title.setText(isGroup?"选择小组":"选择角色");
         final ListView lv = (ListView) view.findViewById(R.id.lv);
         View footer = LayoutInflater.from(this).inflate(R.layout.trans_group_footer, null);
         lv.addFooterView(footer);
