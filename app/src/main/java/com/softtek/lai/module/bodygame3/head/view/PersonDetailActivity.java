@@ -1,10 +1,8 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +27,6 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
-import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
@@ -590,7 +586,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         if (requestCode==GET_Sian&&resultCode==RESULT_OK)
         {
             tv_personlityName.setText(data.getStringExtra("sina"));
-            tv_personlityName.setClickable(false);
             tv_personlityName.setCompoundDrawables(null, null, null, null);
         }
     }

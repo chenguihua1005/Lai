@@ -4,7 +4,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
+import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.retest.model.MeasureModel;
 
 import java.util.List;
 
@@ -74,8 +76,16 @@ public interface FuceSevice {
             @Query("acmId")String acmId,
             Callback<ResponseData<MeasuredDetailsModel>>callback
     );
-
-
+    ///v1/MeasuredRecordLog/GetMeasuredDataByAcmid
+    //获取个人复测信息
+    @GET("/v1/MeasuredRecordLog/GetMeasuredDataByAcmid")
+    void doGetMeasuredData(
+            @Header("token")String token,
+            @Query("accountId")Long accountId,
+            @Query("classId")String classId,
+            @Query("typeDate")String typeDate,
+            Callback<ResponseData<MeasureStModel>>callback
+            );
 
 
 

@@ -114,7 +114,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     private int page = 1;
     private int lastVisitableItem;
     private String typeDate;//复测日期
-
+    private int resetstatus;//复测状态
     SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
     String strDate = sf.format(new Date());
 
@@ -252,12 +252,24 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                             typeDate = calendarModels.get(i).getMonthDate();
                                         }
 
-                                    }else {
+                                        resetstatus = activitydataModel.getRetestStatus();
+                                        if (resetstatus == 1) {//已过去的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 2) {//进行中的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 3) {//未开始的复测日
+                                            ll_fuce.setEnabled(false);
+                                        } else {
+                                            ll_fuce.setVisibility(View.GONE);
+                                        }
+
+                                    } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
                                 }
 
                             }
+
 
                             if (Constants.STUDENT == (activitydataModel.getClassRole())) {
                                 ll_fuce.setBackgroundResource(R.drawable.reset_back);
@@ -363,8 +375,19 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                                         if (calendarModels.get(i).getMonthDate() == strDate) {
                                             typeDate = calendarModels.get(i).getMonthDate();
                                         }
+                                        resetstatus = activitydataModel.getRetestStatus();
+                                        if (resetstatus == 1) {//已过去的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 2) {//进行中的复测日
+                                            ll_fuce.setEnabled(true);
+                                        } else if (resetstatus == 3) {//未开始的复测日
+                                            ll_fuce.setEnabled(false);
+                                        } else {
+                                            ll_fuce.setVisibility(View.GONE);
+                                        }
 
-                                    }else {
+
+                                    } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
                                 }
@@ -374,9 +397,9 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
                             //是否进行过初始数据录入
                             if (activitydataModel.getFirst()) {
-                                ll_chuDate.setVisibility(View.GONE);
-                            } else {
                                 ll_chuDate.setVisibility(View.VISIBLE);
+                            } else {
+                                ll_chuDate.setVisibility(View.GONE);
                             }
 
                             ll_fuce.setBackgroundResource(R.drawable.reset_back);
@@ -475,7 +498,16 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                    typeDate=dates;
+                    typeDate = dates;
+                    if (resetstatus == 1) {//已过去的复测日
+                        ll_fuce.setEnabled(true);
+                    } else if (resetstatus == 2) {//进行中的复测日
+                        ll_fuce.setEnabled(true);
+                    } else if (resetstatus == 3) {//未开始的复测日
+                        ll_fuce.setEnabled(false);
+                    } else {
+                        ll_fuce.setVisibility(View.GONE);
+                    }
                     list_activity.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
@@ -521,17 +553,17 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 //                startActivity(intent);
                 break;
             case R.id.ll_chuDate:
-                Intent chuDate=new Intent(getContext(), WriteFCActivity.class);
-                chuDate.putExtra("classId",classid);
+                Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
+                chuDate.putExtra("classId", classid);
                 startActivity(chuDate);
                 break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
             case R.id.ll_fuce:
-                Intent fuce=new Intent(getContext(), FcStuActivity.class);
-                fuce.putExtra("typeDate",typeDate);
-                fuce.putExtra("classId",classid);
+                Intent fuce = new Intent(getContext(), FcStuActivity.class);
+                fuce.putExtra("typeDate", typeDate);
+                fuce.putExtra("classId", classid);
                 startActivity(fuce);
                 break;
         }

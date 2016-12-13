@@ -110,14 +110,17 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     protected void initDatas() {
         doGetTopic();
         manager=new PublicDynamicManager(images, this);
-        UploadImage image= getIntent().getParcelableExtra("uploadImage");
-        if(image!=null){
-            try {
-                image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        ArrayList<UploadImage> uploadImages= getIntent().getParcelableArrayListExtra("uploadImages");
+        if(uploadImages!=null&&!uploadImages.isEmpty()){
+            limit-=uploadImages.size();
+            for (UploadImage image:uploadImages){
+                try {
+                    image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                images.add(image);
             }
-            images.add(image);
         }
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);

@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import java.io.Serializable;
+
 /**
  * Created by 87356 on 2016/12/3.
  */
-public class ListGroupModel {
+public class ListGroupModel implements Serializable{
     private String GroupId;//小组id
     private String GroupName;//小组名
     private String CoachId;//教练id

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,6 +81,8 @@ import static android.app.Activity.RESULT_OK;
 public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
     MySwipRefreshView refresh;
+    @InjectView(R.id.scrollview)
+    NestedScrollView scrollview;
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
     @InjectView(R.id.fl_right)
@@ -100,8 +103,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     TextView reset_name;//复测录入/复测审核
     @InjectView(R.id.reset_time)
     TextView reset_time;//未复测、已复测
-    @InjectView(R.id.reseticon)
-    ImageView reseticon;
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
     private CalendarMode mode = CalendarMode.WEEKS;
@@ -124,7 +125,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private int page = 1;
     private int lastVisitableItem;
     private String typeDate;//复测日期
-
+    private String createDate;//开班日期
     SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
     String strDate = sf.format(new Date());
 
@@ -237,7 +238,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         list_activity.setAdapter(actRecyclerAdapter);
         //获取初始数据
         getalldatafirst();
-//活动跳转到活动详情
+        //活动跳转到活动详情
         actRecyclerAdapter.setOnItemClickListener(new ActRecyclerAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -254,7 +255,8 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classid = classModels.get(i).getClassId();
                 classrole = classModels.get(i).getClassRole();
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
                         calendarModels.clear();
@@ -273,6 +275,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
                                 } else {
                                     ll_fuce.setVisibility(View.GONE);
+                                }
+
+                                if (calendarModels.get(i).getDateType() == Constants.CREATECLASS) {
+                                    createDate = calendarModels.get(i).getMonthDate();
                                 }
                             }
                             if (classrole == Constants.HEADCOACH) {
@@ -325,20 +331,25 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             for (int n = 0; n < calendarModels.size(); n++) {
                                 if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
                                     if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
+//                                        scrollview.setVisibility(View.GONE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.VISIBLE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
                                         if (todayactModels != null && todayactModels.size() > 0) {
+//                                            scrollview.setVisibility(View.GONE);
                                             list_activity.setVisibility(View.VISIBLE);
                                         } else {
+//                                            scrollview.setVisibility(View.VISIBLE);
                                             list_activity.setVisibility(View.GONE);
                                         }
 
                                         ll_fuce.setVisibility(View.VISIBLE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
+//                                        scrollview.setVisibility(View.VISIBLE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.GONE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
+//                                        scrollview.setVisibility(View.VISIBLE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.GONE);
                                     }
@@ -473,20 +484,26 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             for (int n = 0; n < calendarModels.size(); n++) {
                                 if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
                                     if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
+//                                        scrollview.setVisibility(View.GONE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.VISIBLE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
                                         if (todayactModels != null && !todayactModels.isEmpty()) {
+//                                            scrollview.setVisibility(View.GONE);
                                             list_activity.setVisibility(View.VISIBLE);
                                         } else {
+//                                            scrollview.setVisibility(View.VISIBLE);
                                             list_activity.setVisibility(View.GONE);
+
                                         }
 
                                         ll_fuce.setVisibility(View.VISIBLE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
+//                                        scrollview.setVisibility(View.VISIBLE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.GONE);
                                     } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
+//                                        scrollview.setVisibility(View.VISIBLE);
                                         ll_fuce.setVisibility(View.GONE);
                                         list_activity.setVisibility(View.GONE);
                                     }
@@ -514,23 +531,35 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         int DD = date.getCalendar().get(Calendar.DATE);
 
         dateStr = YY + "-" + MM + "-" + DD;
+
+
         for (int i = 0; i < calendarModels.size(); i++) {
             String dates = calendarModels.get(i).getMonthDate();
             if (java.sql.Date.valueOf(dateStr).equals(java.sql.Date.valueOf(dates))) {
                 if (calendarModels.get(i).getDateType() == Constants.ACTIVITY) {
+                    scrollview.setVisibility(View.GONE);
                     ll_fuce.setVisibility(View.GONE);
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
                     typeDate = dates;
-                    list_activity.setVisibility(View.VISIBLE);
+                    if (todayactModels != null) {
+                        list_activity.setVisibility(View.VISIBLE);
+//                        scrollview.setVisibility(View.GONE);
+                    } else {
+                        list_activity.setVisibility(View.GONE);
+//                        scrollview.setVisibility(View.VISIBLE);
+                    }
+
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.FREE) {
+                    scrollview.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.GONE);
                     list_activity.setVisibility(View.GONE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.CREATECLASS) {
+                    scrollview.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.GONE);
                     list_activity.setVisibility(View.GONE);
                 }
@@ -539,6 +568,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         todayactModels.clear();
         actRecyclerAdapter.notifyDataSetChanged();
         gettodaydata(dateStr);
+
     }
 
     private void gettodaydata(String datestr2) {
