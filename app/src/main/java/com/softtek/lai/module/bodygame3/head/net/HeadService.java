@@ -241,5 +241,5 @@ public interface HeadService {
             @Query("classid")String classid,
             Callback<ResponseData<ClassDetailModel>>callback
             );
-
+ 
 }
