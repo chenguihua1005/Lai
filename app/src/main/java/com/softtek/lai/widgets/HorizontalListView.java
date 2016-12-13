@@ -53,10 +53,11 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         mScroller = new Scroller(getContext());
         mGesture = new GestureDetector(getContext(), mOnGesture);
     }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        getParent().requestDisallowInterceptTouchEvent(true);
         return super.onInterceptTouchEvent(ev) && mGesture.onTouchEvent(ev);
+
     }
 
     @Override

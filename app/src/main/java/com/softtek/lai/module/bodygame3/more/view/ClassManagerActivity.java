@@ -254,8 +254,8 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.rl_closs_class:{
                 new AlertDialog.Builder(this)
-                        .setTitle("解散班级")
-                        .setMessage("此操作将会解散班级")
+                        .setTitle("温馨提示")
+                        .setMessage("您确定关闭当前班级？")
                         .setNegativeButton("取消",null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override

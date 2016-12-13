@@ -52,9 +52,9 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
     protected void initViews() {
         Log.e("000012", UserInfoModel.getInstance().getUser().getDoingClass() + "");
         if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
         }else {
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
         }
 
 

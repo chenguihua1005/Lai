@@ -312,7 +312,6 @@ public class ClassInfoActivity extends BaseActivity {
         mMostFatNull.setVisibility(View.VISIBLE);
         mMostWeight.setVisibility(View.GONE);
         mMostWeightNull.setVisibility(View.VISIBLE);
-//        mRecyclerView.setVisibility(View.GONE);
         mLossFatValue.setVisibility(View.INVISIBLE);
         mLossWeightValue.setVisibility(View.INVISIBLE);
     }
@@ -331,7 +330,7 @@ public class ClassInfoActivity extends BaseActivity {
                             initViewpager(responseData.getData());
                             if (responseData.getData().getList_Top1() != null) {
                                 if (responseData.getData().getList_Top1().size() > 2) {
-                                    initTop(responseData.getData().getList_Top1());
+                                    initHonor(responseData.getData().getList_Top1());
                                 } else {
                                     initFailedView();
                                 }
@@ -344,12 +343,13 @@ public class ClassInfoActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         initViewpager(new HistoryDetailsBean());
+                        initFailedView();
                         super.failure(error);
                     }
                 });
     }
 
-    private void initTop(List<HistoryDetailsBean.ListTop1Bean> list) {
+    private void initHonor(List<HistoryDetailsBean.ListTop1Bean> list) {
         Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto()).placeholder(R.drawable.default_icon_rect)
                 .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
         Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto()).placeholder(R.drawable.default_icon_rect)
@@ -365,7 +365,6 @@ public class ClassInfoActivity extends BaseActivity {
                 UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 historyClassModel.getClassId(),
-//                "00a46548-339f-4768-bd6b-4cca15f57249",
                 "1",
                 "6",
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
@@ -431,17 +430,12 @@ public class ClassInfoActivity extends BaseActivity {
                 int[] position2 = new int[2];
                 mCommentLayout.getLocationOnScreen(position2);
                 appbarBehavior = ((CoordinatorLayout.LayoutParams) mAppbar.getLayoutParams()).getBehavior();
-//                int appbarWidth = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//                int appbarHeight = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//                mAppbar.measure(appbarWidth, appbarHeight);
-//                int appbarHigh = (int)mRecyclerView.getY() - (int)mAppbar.getY();
-//                int appbarHigh = mAppbar.getTotalScrollRange();
                 int appbarHigh = mAppbar.getTotalScrollRange();
-                int trueHigh = (int)mAppbar.getY() + appbarHigh;
-                if (trueHigh > position1[1] - position2[1]){
-                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,position1[1] - position2[1], new int[]{0, 0});
-                }else {
-                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,trueHigh, new int[]{0, 0});
+                int trueHigh = (int) mAppbar.getY() + appbarHigh;
+                if (trueHigh > position1[1] - position2[1]) {
+                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0, position1[1] - position2[1], new int[]{0, 0});
+                } else {
+                    appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0, trueHigh, new int[]{0, 0});
                     mRecyclerView.scrollBy(0, position1[1] - position2[1] - trueHigh);
                 }
 //                appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,, new int[]{0, 0});

@@ -116,6 +116,7 @@
                 android:background="@color/view_gray"></View>
 
             <LinearLayout
+                android:id="@+id/honor_lin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -433,58 +434,75 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:orientation="vertical"
+                android:paddingRight="7dp"
                 android:paddingTop="10dp"
                 android:visibility="visible">
 
-                <HorizontalScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                <!--<HorizontalScrollView-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:scrollbars="none">-->
 
-                    <LinearLayout
-                        android:id="@+id/grally"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <com.softtek.lai.widgets.CustomGridView
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/grally"-->
+                        <!--android:layout_width="fill_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:orientation="horizontal">-->
+                        <com.softtek.lai.widgets.HorizontalListView
                             android:id="@+id/photos"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:columnWidth="110dp"
-                            android:gravity="center"
-                            android:horizontalSpacing="3dp"
-                            android:numColumns="3"
-                            android:scrollbars="none"
-                            android:stretchMode="none"
-                            android:verticalSpacing="3dp" />
+                            android:visibility="visible">
 
-                        <GridView
-                            android:id="@+id/grid_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="75dp"
-                            android:columnWidth="110dp"
-                            android:gravity="center"
-                            android:horizontalSpacing="15dp"
-                            android:numColumns="3"
-                            android:stretchMode="spacingWidthUniform"
-                            android:visibility="gone" />
-                    </LinearLayout>
-                </HorizontalScrollView>
+                        </com.softtek.lai.widgets.HorizontalListView>
+                <TextView
+                    android:id="@+id/no_photowalll"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="暂无动态"
+                    android:visibility="visible" />
+
+
+                        <!--<com.softtek.lai.widgets.CustomGridView-->
+                            <!--android:id="@+id/photos"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:columnWidth="110dp"-->
+                            <!--android:gravity="center"-->
+                            <!--android:horizontalSpacing="3dp"-->
+                            <!--android:numColumns="3"-->
+                            <!--android:scrollbars="none"-->
+                            <!--android:stretchMode="none"-->
+                            <!--android:verticalSpacing="3dp" />-->
+
+                        <!--<GridView-->
+                            <!--android:id="@+id/grid_list"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="75dp"-->
+                            <!--android:columnWidth="110dp"-->
+                            <!--android:gravity="center"-->
+                            <!--android:horizontalSpacing="15dp"-->
+                            <!--android:numColumns="3"-->
+                            <!--android:stretchMode="spacingWidthUniform"-->
+                            <!--android:visibility="gone" />-->
+                    <!--</LinearLayout>-->
+                <!--</HorizontalScrollView>-->
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lin_pinlun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center_vertical"
+             android:paddingTop="12dp"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -528,6 +546,8 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"

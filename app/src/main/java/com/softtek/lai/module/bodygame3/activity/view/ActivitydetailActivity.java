@@ -65,10 +65,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     Button delete_activity;
     @InjectView(R.id.signup_activity)
     Button signup_activity;
+    @InjectView(R.id.no_partner)
+    TextView no_partner;
     private List<UseredModel> useredModels = new ArrayList<UseredModel>();
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
     private int classrole;//班级角色
+
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -90,8 +93,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             delete_activity.setVisibility(View.GONE);
         }
         activityId = getIntent().getStringExtra("activityId");
-        classrole=getIntent().getExtras().getInt("classrole");
-        Log.e("classrole",classrole+"");
+        classrole = getIntent().getExtras().getInt("classrole");
+        Log.e("classrole", classrole + "");
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -100,9 +103,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 activity_name.setText(data.getUserName());
                 ImageView detail_head = holder.getView(R.id.head_image);
                 String path = AddressManager.getHost();
-                if(TextUtils.isEmpty(data.getUserIcon())){
+                if (TextUtils.isEmpty(data.getUserIcon())) {
                     Picasso.with(ActivitydetailActivity.this).load(R.drawable.img_default).into(detail_head);
-                }else{
+                } else {
                     Picasso.with(ActivitydetailActivity.this).load(path + data.getUserIcon())
                             .fit().placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(detail_head);
@@ -118,65 +121,70 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactdetail(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 activityId, new RequestCallback<ResponseData<ActdetailModel>>() {
-            @Override
-            public void success(ResponseData<ActdetailModel> actdetailModelResponseData, Response response) {
-                if (actdetailModelResponseData.getData() != null) {
-                    ActdetailModel actdetailModel = actdetailModelResponseData.getData();
-                    if(classrole== Constants.HEADCOACH){
-                        if(actdetailModel.getSign()){
-                          signup_activity.setVisibility(View.GONE);
-                            delete_activity.setVisibility(View.VISIBLE);
-                            exit_lin.setVisibility(View.GONE);
-                        }else {
-                            signup_activity.setVisibility(View.VISIBLE);
-                            delete_activity.setVisibility(View.VISIBLE);
-                             exit_lin.setVisibility(View.GONE);
-                        }
-                    }else if(classrole==Constants.COACH){
-                        if(actdetailModel.getSign()){
-                            signup_activity.setVisibility(View.GONE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.VISIBLE);
-                        }else{
-                            signup_activity.setVisibility(View.VISIBLE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.GONE);
-                        }
-                    }else if(classrole==Constants.ASSISTANT){
-                        if(actdetailModel.getSign()){
-                            signup_activity.setVisibility(View.GONE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.VISIBLE);
-                        }else{
-                            signup_activity.setVisibility(View.VISIBLE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.GONE);
-                        }
-                    }else if(classrole==Constants.STUDENT){
-                        if(actdetailModel.getSign()){
-                            signup_activity.setVisibility(View.GONE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.VISIBLE);
-                        }else{
-                            signup_activity.setVisibility(View.VISIBLE);
-                            delete_activity.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.GONE);
+                    @Override
+                    public void success(ResponseData<ActdetailModel> actdetailModelResponseData, Response response) {
+                        if (actdetailModelResponseData.getData() != null) {
+                            ActdetailModel actdetailModel = actdetailModelResponseData.getData();
+                            if (classrole == Constants.HEADCOACH) {
+                                if (actdetailModel.getSign()) {
+                                    signup_activity.setVisibility(View.GONE);
+                                    delete_activity.setVisibility(View.VISIBLE);
+                                    exit_lin.setVisibility(View.GONE);
+                                } else {
+                                    signup_activity.setVisibility(View.VISIBLE);
+                                    delete_activity.setVisibility(View.VISIBLE);
+                                    exit_lin.setVisibility(View.GONE);
+                                }
+                            } else if (classrole == Constants.COACH) {
+                                if (actdetailModel.getSign()) {
+                                    signup_activity.setVisibility(View.GONE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.VISIBLE);
+                                } else {
+                                    signup_activity.setVisibility(View.VISIBLE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.GONE);
+                                }
+                            } else if (classrole == Constants.ASSISTANT) {
+                                if (actdetailModel.getSign()) {
+                                    signup_activity.setVisibility(View.GONE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.VISIBLE);
+                                } else {
+                                    signup_activity.setVisibility(View.VISIBLE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.GONE);
+                                }
+                            } else if (classrole == Constants.STUDENT) {
+                                if (actdetailModel.getSign()) {
+                                    signup_activity.setVisibility(View.GONE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.VISIBLE);
+                                } else {
+                                    signup_activity.setVisibility(View.VISIBLE);
+                                    delete_activity.setVisibility(View.GONE);
+                                    exit_lin.setVisibility(View.GONE);
+                                }
+                            }
+
+                            detail_activity_name.setText(actdetailModel.getTitle());
+                            detail_activity_time.setText(actdetailModel.getStartTime());
+                            detail_activity_mark.setText(actdetailModel.getContent());
+                            useredModels.clear();
+                            if (actdetailModel.getUsers() != null && !actdetailModel.getUsers().isEmpty()) {
+                                detail_view.setVisibility(View.VISIBLE);
+                                no_partner.setVisibility(View.GONE);
+                                useredModels.addAll(actdetailModel.getUsers());
+                                count_sign.setText("(" + useredModels.size() + ")");
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                detail_view.setVisibility(View.GONE);
+                                no_partner.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     }
-
-                    detail_activity_name.setText(actdetailModel.getTitle());
-                    detail_activity_time.setText(actdetailModel.getStartTime());
-                    detail_activity_mark.setText(actdetailModel.getContent());
-                    useredModels.clear();
-                    if (actdetailModel.getUsers() != null) {
-                        useredModels.addAll(actdetailModel.getUsers());
-                        count_sign.setText("(" + useredModels.size() + ")");
-                        adapter.notifyDataSetChanged();
-                    }
-
-                }
-            }
-        });
+                });
     }
 
     @Override
@@ -188,14 +196,32 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     public void success(ResponseData responseData, Response response) {
                         if (200 == responseData.getStatus()) {
                             Util.toastMsg(responseData.getMsg());
-                            sign_lin.setVisibility(View.GONE);
-                            exit_lin.setVisibility(View.VISIBLE);
+                            if (classrole == Constants.HEADCOACH) {
+                                signup_activity.setVisibility(View.GONE);
+                                delete_activity.setVisibility(View.VISIBLE);
+                                exit_lin.setVisibility(View.GONE);
+                            } else if (classrole == Constants.COACH) {
+                                signup_activity.setVisibility(View.GONE);
+                                delete_activity.setVisibility(View.GONE);
+                                exit_lin.setVisibility(View.VISIBLE);
+                            } else if (classrole == Constants.ASSISTANT) {
+                                signup_activity.setVisibility(View.GONE);
+                                delete_activity.setVisibility(View.GONE);
+                                exit_lin.setVisibility(View.VISIBLE);
+                            } else if (classrole == Constants.STUDENT) {
+                                signup_activity.setVisibility(View.GONE);
+                                delete_activity.setVisibility(View.GONE);
+                                exit_lin.setVisibility(View.VISIBLE);
+                            }
+
+                            ;
                             getalldetail();
                         } else {
                             Util.toastMsg(responseData.getMsg());
                         }
 
                     }
+
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);

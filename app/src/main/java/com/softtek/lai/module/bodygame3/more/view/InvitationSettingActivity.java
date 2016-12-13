@@ -150,12 +150,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             tv_role.setCompoundDrawables(null, null, null, null);
             tv_invitation.setVisibility(View.GONE);
         } else {
-
-            tv_group_name.setText(group.getCGName());
-            tv_role.setText(role.getRoleName());
-            this.invitation.setClassGroupId(group.getCGId());
-            this.invitation.setClassRole(role.getRoleId());
             tv_invitation.setVisibility(View.VISIBLE);
+
             rl_group.setOnClickListener(this);
             rl_role.setOnClickListener(this);
         }
@@ -181,14 +177,6 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         tv.setText(data.getCGName());
                     }
                 });
-//                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, R.layout.textview) {
-//
-//                    @Override
-//                    public void convert(ViewHolder holder, ClassGroup data, int position) {
-//                        TextView tv = holder.getView(R.id.tv);
-//                        tv.setText(data.getCGName());
-//                    }
-//                });
                 break;
             case R.id.rl_role:
                 showGroupName(false,new EasyAdapter<ClassRole>(this, classRole, android.R.layout.simple_list_item_single_choice) {
@@ -198,16 +186,15 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         tv.setText(data.getRoleName());
                     }
                 });
-//                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, R.layout.textview) {
-//
-//                    @Override
-//                    public void convert(ViewHolder holder, ClassRole data, int position) {
-//                        TextView tv = holder.getView(R.id.tv);
-//                        tv.setText(data.getRoleName());
-//                    }
-//                });
                 break;
             case R.id.tv_invitation:
+                if(TextUtils.isEmpty(invitation.getClassGroupId())){
+                    Util.toastMsg("请选择小组！");
+                    return;
+                }else if(invitation.getClassRole()==0){
+                    Util.toastMsg("请选择角色！");
+                    return;
+                }
                 if (TextUtils.isEmpty(inviterHXId)) {
                     Util.toastMsg("无法邀请此用户！");
                     return;
@@ -299,6 +286,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         }
     }
     BottomSheetDialog dialog;
+    int checkedGroup;
+    int checkedRole;
     private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_trans_view, null);
         TextView tv_title= (TextView) view.findViewById(R.id.tv);
@@ -307,6 +296,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         View footer = LayoutInflater.from(this).inflate(R.layout.trans_group_footer, null);
         lv.addFooterView(footer);
         lv.setAdapter(adapter);
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lv.setItemChecked(isGroup?checkedGroup:checkedRole,true);
         lv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -329,16 +320,20 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             @Override
             public void onClick(View view) {
                 int checkedPosition=lv.getCheckedItemPosition();
-                if(isGroup){
-                    ClassGroup group = classGroupList.get(checkedPosition);
-                    tv_group_name.setText(group.getCGName());
-                    invitation.setClassGroupId(group.getCGId());
-                }else {
-                    ClassRole role = classRole.get(checkedPosition);
-                    tv_role.setText(role.getRoleName());
-                    invitation.setClassRole(role.getRoleId());
+                if(checkedPosition!=-1){
+                    if(isGroup){
+                        checkedGroup=checkedPosition;
+                        ClassGroup group = classGroupList.get(checkedPosition);
+                        tv_group_name.setText(group.getCGName());
+                        invitation.setClassGroupId(group.getCGId());
+                    }else {
+                        checkedRole=checkedPosition;
+                        ClassRole role = classRole.get(checkedPosition);
+                        tv_role.setText(role.getRoleName());
+                        invitation.setClassRole(role.getRoleId());
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
         TextView tv_cancel = (TextView) footer.findViewById(R.id.tv_cancel);
@@ -359,62 +354,5 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             }
         });
     }
-
-    /*private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
-        final ListView lv = new ListView(this);
-        lv.setDivider(new ColorDrawable(0xFFE1E1E1));
-        lv.setDividerHeight(1);
-        lv.setAdapter(adapter);
-        TextView title = new TextView(this);
-        title.setText(isGroup ? "选择组" : "选择角色");
-        title.setTextColor(0xFF999999);
-        title.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics()));
-        title.setWidth(DisplayUtil.getMobileWidth(this));
-        title.setHeight(DisplayUtil.dip2px(this, 40));
-        title.setPadding(DisplayUtil.dip2px(this, 15), 0, 0, 0);
-        title.setGravity(Gravity.CENTER | Gravity.LEFT);
-        lv.addHeaderView(title);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (isGroup) {
-                    ClassGroup group = classGroupList.get(i - 1);
-                    tv_group_name.setText(group.getCGName());
-                    invitation.setClassGroupId(group.getCGId());
-                } else {
-                    ClassRole role = classRole.get(i - 1);
-                    tv_role.setText(role.getRoleName());
-                    invitation.setClassRole(role.getRoleId());
-                }
-                dialog.dismiss();
-            }
-        });
-        lv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (lv.getFirstVisiblePosition() != 0) {
-                            lv.getParent().requestDisallowInterceptTouchEvent(true);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                return false;
-            }
-        });
-        dialog = new BottomSheetDialog(this);
-        dialog.setContentView(lv);
-        dialog.show();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                dialog = null;
-            }
-        });
-    }*/
 
 }
