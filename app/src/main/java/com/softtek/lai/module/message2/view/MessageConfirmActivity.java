@@ -6,7 +6,6 @@
 package com.softtek.lai.module.message2.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;

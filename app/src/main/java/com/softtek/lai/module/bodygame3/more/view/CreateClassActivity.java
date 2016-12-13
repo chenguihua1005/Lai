@@ -59,7 +59,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_create_class)
 public class CreateClassActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -437,10 +436,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         dialogDissmiss();
-                                        Util.toastMsg(data.getMsg());
                                     }
                                 });
-                                Util.toastMsg(data.getMsg());
                             }
 
                             @Override

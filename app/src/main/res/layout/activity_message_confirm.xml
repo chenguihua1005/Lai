@@ -297,7 +297,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/bg_no_btn"
-                android:text="取消"
+                android:text="忽略"
                 android:visibility="gone"
                 android:textColor="#FFA200"
                 android:textSize="@dimen/textSize5" />

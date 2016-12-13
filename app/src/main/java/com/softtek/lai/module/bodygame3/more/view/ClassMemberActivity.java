@@ -97,10 +97,13 @@ public class ClassMemberActivity extends BaseActivity {
                 //侧滑操作
                 final HorizontalScrollView hsv = holder.getView(R.id.hsv);
                 TextView tv_trans_group = holder.getView(R.id.tv_trans_group);
-                if (data.getClassRole() == 2) {//教练不可以被转组
+                TextView tv_delete = holder.getView(R.id.tv_delete);
+                if (data.getClassRole() == 2) {//教练不可以被转组移除
                     tv_trans_group.setVisibility(View.GONE);
+                    tv_delete.setVisibility(View.GONE);
                 } else {
                     tv_trans_group.setVisibility(View.VISIBLE);
+                    tv_delete.setVisibility(View.VISIBLE);
                     tv_trans_group.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -112,25 +115,21 @@ public class ClassMemberActivity extends BaseActivity {
                                 }
                             });
                             chooseGroup(position);
-
+                        }
+                    });
+                    tv_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            hsv.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hsv.smoothScrollTo(0, 0);
+                                }
+                            });
+                            removeMember(members.get(position));
                         }
                     });
                 }
-
-                TextView tv_delete = holder.getView(R.id.tv_delete);
-                tv_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        hsv.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                hsv.smoothScrollTo(0, 0);
-                            }
-                        });
-                        removeMember(members.get(position));
-                    }
-                });
-
                 RelativeLayout container = holder.getView(R.id.rl_container);
                 ViewGroup.LayoutParams params = container.getLayoutParams();
                 params.width = DisplayUtil.getMobileWidth(ClassMemberActivity.this);
