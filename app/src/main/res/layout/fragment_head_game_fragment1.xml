@@ -400,6 +400,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/re_photowall"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:layout_marginTop="10dp"
