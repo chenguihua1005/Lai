@@ -448,7 +448,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         * 获取初始基本数据
         * */
     private void doGetInfo() {
-        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, "0", new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, "2016-12-13", "0", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();
@@ -474,6 +474,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         if (fcStDataModel!=null)
         {
             try {
+                if ("3".equals(fcStDataModel.getStatus()))
+                {
+                    tv_right.setText("");
+                    tv_right.setEnabled(false);
+                }
                 final String url= AddressManager.get("photoHost");
                 tv_write_nick.setText(fcStDataModel.getUserName());//设置用户名
                 tv_write_phone.setText(fcStDataModel.getMobile());//手机号
@@ -512,7 +517,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     void doSetPostData()
     {Log.i("身体维度上传"+"胸围"+fcStDataModel.getCircum()+"腰围 "+fcStDataModel.getWaistline()+"臀围"+fcStDataModel.getHiplie()+"上臂围"+fcStDataModel.getUpArmGirth()+"大腿围"+fcStDataModel.getUpLegGirth()+"小腿围"+fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId",new TypedString(userId+""));
-        multipartTypedOutput.addPart("classId",new TypedString("72ccdb79-9342-4f31-9737-fe4c8508f189"));
+        multipartTypedOutput.addPart("classId",new TypedString(classId));
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂

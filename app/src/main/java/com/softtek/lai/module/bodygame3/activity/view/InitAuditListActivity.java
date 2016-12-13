@@ -66,7 +66,7 @@ public class InitAuditListActivity extends BaseActivity{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-//        Log.i("班级编号"+classId+"C4E8E179-FD99-4955-8BF9-CF470898788B");
+
         doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 2);
 
     }

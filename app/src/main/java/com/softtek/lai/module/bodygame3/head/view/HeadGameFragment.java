@@ -91,6 +91,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     TextView pc_tv;
     @InjectView(R.id.sp_tv)
     TextView sp_tv;
+    @InjectView(R.id.classed_tv)
+    TextView classed_tv;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.lin_nostart)
@@ -125,27 +127,17 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-//        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (verticalOffset >= 0) {
-//                    pull.setEnabled(true);
-//                } else {
-//                    pull.setEnabled(false);
-//                }
-//            }
-//        });
-
         if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
-            if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                lin_nostart.setVisibility(View.VISIBLE);
-                sp_tv.setVisibility(View.GONE);
-                pc_tv.setVisibility(View.GONE);
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(this);
-            }
-            if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-                lin_nostart.setVisibility(View.GONE);
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”, 查看新班级并开始邀请小伙伴.");
+                    sp_tv.setVisibility(View.GONE);
+                    pc_tv.setVisibility(View.GONE);
+                    button.setVisibility(View.VISIBLE);
+                    button.setOnClickListener(this);
+                }
+            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+
                 sp_tv.setVisibility(View.VISIBLE);
                 pc_tv.setVisibility(View.GONE);
                 button.setVisibility(View.VISIBLE);
@@ -153,21 +145,19 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             }
 
         } else {
-            if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                lin_nostart.setVisibility(View.VISIBLE);
-                sp_tv.setVisibility(View.GONE);
-                pc_tv.setVisibility(View.VISIBLE);
-                button.setVisibility(View.GONE);
-            }
-            if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-
-                lin_nostart.setVisibility(View.GONE);
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”， 查看新班级.");
+                    sp_tv.setVisibility(View.GONE);
+                    pc_tv.setVisibility(View.GONE);
+                    button.setVisibility(View.GONE);
+                }
+            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
                 sp_tv.setVisibility(View.GONE);
                 pc_tv.setVisibility(View.VISIBLE);
                 button.setVisibility(View.GONE);
             }
         }
-
         pull.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
         search_btn.setOnClickListener(this);
@@ -381,15 +371,16 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
         } else if (clazz.getModel().getClassStatus() == 0) {
             if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
-                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                    lin_nostart.setVisibility(View.VISIBLE);
-                    sp_tv.setVisibility(View.GONE);
-                    pc_tv.setVisibility(View.GONE);
-                    button.setVisibility(View.VISIBLE);
-                    button.setOnClickListener(this);
-                }
-                if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-                    lin_nostart.setVisibility(View.GONE);
+                if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                    if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”,\n 查看新班级并开始邀请小伙伴.\"");
+                        sp_tv.setVisibility(View.GONE);
+                        pc_tv.setVisibility(View.GONE);
+                        button.setVisibility(View.VISIBLE);
+                        button.setOnClickListener(this);
+                    }
+                } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+
                     sp_tv.setVisibility(View.VISIBLE);
                     pc_tv.setVisibility(View.GONE);
                     button.setVisibility(View.VISIBLE);
@@ -397,14 +388,14 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 }
 
             } else {
-                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                    lin_nostart.setVisibility(View.VISIBLE);
-                    sp_tv.setVisibility(View.GONE);
-                    pc_tv.setVisibility(View.VISIBLE);
-                    button.setVisibility(View.GONE);
-                }
-                if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-                    lin_nostart.setVisibility(View.GONE);
+                if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                    if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”，\n 查看新班级.");
+                        sp_tv.setVisibility(View.GONE);
+                        pc_tv.setVisibility(View.GONE);
+                        button.setVisibility(View.GONE);
+                    }
+                } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
                     sp_tv.setVisibility(View.GONE);
                     pc_tv.setVisibility(View.VISIBLE);
                     button.setVisibility(View.GONE);

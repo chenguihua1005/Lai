@@ -39,6 +39,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by lareina.qiao on 11/24/2016.
  */
@@ -51,6 +53,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId) {
@@ -128,8 +131,17 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         Intent InitdataAudit=new Intent(getContext(),InitDataAuditActivity.class);
         InitdataAudit.putExtra("ACMID",memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId",classid);
-        startActivity(InitdataAudit);
+        startActivityForResult(InitdataAudit,ChuAudit);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ChuAudit && requestCode==RESULT_OK) {
+            plv_audit.setRefreshing();
+        }
+    }
+
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

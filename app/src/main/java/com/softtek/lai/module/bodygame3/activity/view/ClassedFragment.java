@@ -105,7 +105,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     TextView reset_time;//未复测、已复测
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
-
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private List<ActCalendarModel> calendarModels = new ArrayList<ActCalendarModel>();
@@ -270,11 +269,11 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                                     }
                                     for (int i = 0; i < calendarModels.size(); i++) {
-                                        if (calendarModels.get(i).getDateType() == Constants.RESET) {
+
                                             if (calendarModels.get(i).getMonthDate() == strDate) {
                                                 typeDate = calendarModels.get(i).getMonthDate();
                                             }
-
+                                        if(calendarModels.get(i).getDateType()==Constants.RESET){
                                             resetstatus = activitydataModel.getRetestStatus();
                                             if (resetstatus == 1) {//已过去的复测日
                                                 ll_fuce.setEnabled(true);
@@ -344,25 +343,20 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     for (int n = 0; n < calendarModels.size(); n++) {
                                         if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
                                             if (calendarModels.get(n).getDateType() == Constants.ACTIVITY) {
-//                                        scrollview.setVisibility(View.GONE);
                                                 ll_fuce.setVisibility(View.GONE);
                                                 list_activity.setVisibility(View.VISIBLE);
                                             } else if (calendarModels.get(n).getDateType() == Constants.RESET) {
                                                 if (todayactModels != null && todayactModels.size() > 0) {
-//                                            scrollview.setVisibility(View.GONE);
                                                     list_activity.setVisibility(View.VISIBLE);
                                                 } else {
-//                                            scrollview.setVisibility(View.VISIBLE);
                                                     list_activity.setVisibility(View.GONE);
                                                 }
 
                                                 ll_fuce.setVisibility(View.VISIBLE);
                                             } else if (calendarModels.get(n).getDateType() == Constants.FREE) {
-//                                        scrollview.setVisibility(View.VISIBLE);
                                                 ll_fuce.setVisibility(View.GONE);
                                                 list_activity.setVisibility(View.GONE);
                                             } else if (calendarModels.get(n).getDateType() == Constants.CREATECLASS) {
-//                                        scrollview.setVisibility(View.VISIBLE);
                                                 ll_fuce.setVisibility(View.GONE);
                                                 list_activity.setVisibility(View.GONE);
                                             }
@@ -419,10 +413,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 material_calendar.removeDecorators();
                                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                                 for (int i = 0; i < calendarModels.size(); i++) {
+                                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                                        typeDate = calendarModels.get(i).getMonthDate();
+                                    }
                                     if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                                        if (calendarModels.get(i).getMonthDate() == strDate) {
-                                            typeDate = calendarModels.get(i).getMonthDate();
-                                        }
 
                                         resetstatus = activitydataModel.getRetestStatus();
                                         if (resetstatus == 1) {//已过去的复测日
@@ -556,7 +550,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
         dateStr = YY + "-" + MM + "-" + DD;
 
-
+         typeDate=dateStr;
         for (int i = 0; i < calendarModels.size(); i++) {
             String dates = calendarModels.get(i).getMonthDate();
             if (java.sql.Date.valueOf(dateStr).equals(java.sql.Date.valueOf(dates))) {
@@ -566,7 +560,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
-                    typeDate = dates;
+
                     if (resetstatus == 1) {//已过去的复测日
                         ll_fuce.setEnabled(true);
                     } else if (resetstatus == 2) {//进行中的复测日
@@ -655,8 +649,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (resultCode == 0) {
-
+            if (requestCode == 0) {
                 getalldatafirst();
             }
         }
