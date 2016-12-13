@@ -80,12 +80,34 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_dynamic"
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/rv_dynamic"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:transcriptMode="normal"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="" />
+                </android.support.v4.widget.NestedScrollView>
+<!---->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_dynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:transcriptMode="normal" />
+            </FrameLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 
@@ -96,10 +118,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:background="@drawable/edit_text_style"
         android:gravity="center_vertical"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:visibility="gone">
 
         <EditText
@@ -107,16 +129,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
-            android:enabled="false"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_comment_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="确定"/>
+            android:text="确定" />
     </LinearLayout>
 
 </RelativeLayout>
