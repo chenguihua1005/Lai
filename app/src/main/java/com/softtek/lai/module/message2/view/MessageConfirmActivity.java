@@ -198,6 +198,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 model.setClassRole(show.getClassRole());
                                                 model.setClassMasterName(show.getClassMasterName());
                                                 model.setClassStatus(show.getClassStatus());
+                                                model.setCGName(show.getCGName());
+                                                model.setCGId(show.getCGId());
                                                 EventBus.getDefault().post(new UpdateClass(1, model));
                                                 setResult(RESULT_OK);
                                                 finish();

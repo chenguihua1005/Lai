@@ -55,8 +55,6 @@ import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
-import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
@@ -141,12 +139,15 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-//                Intent intent = new Intent(PhotoWallActivity.this, PublishDyActivity.class);//跳转到发布动态界面
-//                UploadImage image = new UploadImage();
-//                image.setImage(new File(file));
-//                image.setUri(Uri.fromFile(new File(file)));
-//                intent.putExtra("uploadImage", image);
-//                startActivityForResult(intent, OPEN_SENDER_REQUEST);
+                Intent intent = new Intent(PhotoWallActivity.this, PublishDyActivity.class);//跳转到发布动态界面
+                UploadImage image = new UploadImage();
+                image.setImage(new File(file));
+                image.setUri(Uri.fromFile(new File(file)));
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                uploadImages.add(image);
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
+                intent.putExtra("classId",classId);
+                startActivityForResult(intent, OPEN_SENDER_REQUEST);
             }
 
             @Override

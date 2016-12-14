@@ -436,15 +436,13 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
-        int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
         if (userInfoModel.hasPower(position)) {
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-//                    startActivity(new Intent(getContext(), WriteFCActivity.class));
                     startActivity(new Intent(getContext(), BodyGameActivity.class));
-//                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
+                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
@@ -464,7 +462,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
         } else {
             //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
-            AlertDialog.Builder information_dialog = null;
+            AlertDialog.Builder information_dialog;
             switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
                 case Constants.VR:
                     //游客若没有此功能，可能是未登录，提示请先登录

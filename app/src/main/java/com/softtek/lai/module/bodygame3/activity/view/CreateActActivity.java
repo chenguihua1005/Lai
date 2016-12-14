@@ -88,7 +88,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout.LayoutParams parm;
     private String date;
     EasyAdapter<ActtypeModel> adapter;
-    private List<ActtypeModel> acttypeModels = new ArrayList<ActtypeModel>();
+    private List<ActtypeModel> acttypeModels = new ArrayList<>();
     private String classid;
     private ActivityModel activityModel;
     private int classActivityId;//活动类型Id

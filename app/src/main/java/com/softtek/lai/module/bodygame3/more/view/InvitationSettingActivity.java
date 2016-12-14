@@ -44,7 +44,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_invitation_setting)
 public class InvitationSettingActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "InvitationSettingActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -109,7 +108,11 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                 dialogDissmiss();
                                 Log.i("数据=" + data);
                                 if (data.getStatus() == 200 || data.getStatus() == 201) {
-                                    onResult(data.getData(), data.getStatus());
+                                    try {
+                                        onResult(data.getData(), data.getStatus());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 
@@ -206,9 +209,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             String[] inviterHXIds = {inviterHXId};
 
                             try {//群主加人调用此方法
-                                Log.i(TAG, "邀请信息 GroupHxId = " + classInvitater.getClassGroupHxId() + "  inviterHXId =" + inviterHXId);
                                 EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-//                          EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);//需异步处理
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                                         .sendInviter(UserInfoModel.getInstance().getToken(),

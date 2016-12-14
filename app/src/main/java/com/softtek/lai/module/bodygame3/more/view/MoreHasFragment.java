@@ -72,7 +72,11 @@ public class MoreHasFragment extends Fragment {
             int role = model.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
             //添加小组名字
-            //。。。。。。
+            if(role!=1){
+                tv_role_name.append("(");
+                tv_role_name.append(model.getCGName());
+                tv_role_name.append(")");
+            }
             tv_number.setText(model.getClassCode());
             choosePanel(role);
 
@@ -133,6 +137,12 @@ public class MoreHasFragment extends Fragment {
                 arrow.setSelected(i);
                 int role = model.getClassRole();
                 tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                //添加小组名字
+                if(role!=1){
+                    tv_role_name.append("(");
+                    tv_role_name.append(model.getCGName());
+                    tv_role_name.append(")");
+                }
                 tv_number.setText(model.getClassCode());
                 choosePanel(role);
             }
@@ -203,6 +213,15 @@ public class MoreHasFragment extends Fragment {
             }else {
                 arrow.setSelected(0);
                 this.model=classModels.get(0);
+                int role = model.getClassRole();
+                tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                //添加小组名字
+                if(role!=1){
+                    tv_role_name.append("(");
+                    tv_role_name.append(model.getCGName());
+                    tv_role_name.append(")");
+                }
+                tv_number.setText(model.getClassCode());
                 choosePanel(this.model.getClassRole());
             }
         }
