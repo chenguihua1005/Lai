@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="43dp">
+    android:layout_height="43dp"
+    android:id="@+id/rl_bg">
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp" />
     <TextView
         android:id="@+id/tv_role_name"
         android:layout_width="wrap_content"
@@ -51,5 +52,13 @@
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/more_select"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:layout_marginRight="15dp"/>
 </RelativeLayout>
