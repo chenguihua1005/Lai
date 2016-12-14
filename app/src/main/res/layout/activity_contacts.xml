@@ -5,11 +5,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
     <include layout="@layout/toolbar"/>
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#e6e6e6">
+
+            <LinearLayout
+                android:id="@+id/ll_search"
+                android:layout_width="345dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/border"
+                android:gravity="center|left">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:src="@drawable/contact_search" />
+
+                <TextView
+                    android:id="@+id/search_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:text="通过姓名、手机号或康宝莱资格证号邀请"
+                    android:textColor="#57000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tip_search"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:background="#fafafa"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="从您的体管赛通讯录中直接邀请"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+    </LinearLayout>
     <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
         android:id="@+id/elv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/search_layout"
         android:dividerHeight="0.5dp"
         android:groupIndicator="@null"
         android:overScrollMode="never"
@@ -37,5 +85,13 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/tv_nomessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="您的体管赛通讯录中还没有好友, 请通过搜索的方式邀请吧"/>
 
 </RelativeLayout>

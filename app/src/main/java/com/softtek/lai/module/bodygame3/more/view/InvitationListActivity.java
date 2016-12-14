@@ -168,6 +168,8 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData<List<InvitatedContact>> data, Response response) {
                                 lv.onRefreshComplete();
                                 if(data.getStatus()==200){
+                                    groups.clear();
+                                    datas.clear();
                                     onResult(data.getData());
                                 }
                             }
