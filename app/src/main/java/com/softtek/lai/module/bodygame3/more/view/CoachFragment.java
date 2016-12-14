@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CoachFragment extends Fragment implements View.OnClickListener{
     private RelativeLayout rl_invitation;
+    private RelativeLayout rl_honor;
 
     public CoachFragment() {
         // Required empty public constructor
@@ -35,15 +38,22 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
         rl_invitation= (RelativeLayout) view.findViewById(R.id.rl_invitation);
         rl_invitation.setOnClickListener(this);
+        rl_honor= (RelativeLayout) view.findViewById(R.id.rl_honor);
+        rl_honor.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        ClassModel model=getArguments().getParcelable("class");
         switch (view.getId()){
             case R.id.rl_invitation: {
                 Intent intent = new Intent(getContext(), InvitationListActivity.class);
-                intent.putExtra("class", getArguments().getParcelable("class"));
+                intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
+            }
+            break;
+            case R.id.rl_honor:{
+                HonorActivity.startHonorActivity(getContext(),model.getClassId());
             }
             break;
         }

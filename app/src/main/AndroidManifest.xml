@@ -367,9 +367,9 @@
         <activity
             android:name=".module.message2.view.MessageConfirmActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.history.view.ClassInfoActivity"
-            android:windowSoftInputMode="adjustResize"/>
-
+        <activity
+            android:name=".module.bodygame3.history.view.ClassInfoActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -754,26 +754,34 @@
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
             android:configChanges="screenSize" />
-
-        <activity android:name=".module.bodygame3.head.view.GroupRankingActivity"
+        <activity
+            android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.activity.view.ActTextActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.photowall.PhotoWallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.activity.view.ActTextActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.photowall.PhotoWallActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".module.message2.view.NoticeServerActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message2.view.NoticeFCActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.head.view.SetLoveStuActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message2.view.ActionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.photowall.PublishDyActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.head.view.EditSignaActivity"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".module.message2.view.NoticeServerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.NoticeFCActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.head.view.SetLoveStuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message2.view.ActionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.photowall.PublishDyActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.head.view.EditSignaActivity" />
+        <activity android:name=".module.bodygame3.more.view.SearchClassActivity"></activity>
     </application>
 
 </manifest>

@@ -67,7 +67,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
                 <LinearLayout
-                    android:id="@+id/ll_honor"
+                    android:id="@+id/ll_join_class"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -76,8 +76,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="荣誉榜"
-                        android:drawableTop="@drawable/more_honor"
+                        android:text="加入新班级"
+                        android:drawableTop="@drawable/more_kaiban"
                         android:drawablePadding="5dp"/>
                 </LinearLayout>
                 <View
