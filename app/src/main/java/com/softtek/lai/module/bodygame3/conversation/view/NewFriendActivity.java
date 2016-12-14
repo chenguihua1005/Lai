@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.FriendAdapter;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_newfriend)
 public class NewFriendActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "NewFriendActivity";
-//    @InjectView(R.id.toolbar)
+    //    @InjectView(R.id.toolbar)
 //    Toolbar toolbar;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -123,10 +125,20 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
+                setResult(ContactFragment.REFRESH_UI);
                 finish();
                 break;
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            setResult(ContactFragment.REFRESH_UI);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     //获取新朋友列表
@@ -149,4 +161,6 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
+
 }

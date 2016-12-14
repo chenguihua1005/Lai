@@ -1,13 +1,12 @@
 package com.softtek.lai.module.message2.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +31,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_editor_text)
 public class EditorPhoneActivity extends BaseActivity implements Validator.ValidationListener{
@@ -44,6 +42,10 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @Required(order=1,message = "请填写手机号")
     @Regex(order = 2, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
@@ -58,8 +60,15 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
     protected void initViews() {
         tv_title.setText("添加爱心学员");
         et_value.setHint("输入爱心学员手机号");
+        tv_right.setText("确认");
         et_value.setInputType(InputType.TYPE_CLASS_PHONE);
-
+        fl_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SoftInputUtil.hidden(EditorPhoneActivity.this);
+                validateLife.validate();
+            }
+        });
 
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override

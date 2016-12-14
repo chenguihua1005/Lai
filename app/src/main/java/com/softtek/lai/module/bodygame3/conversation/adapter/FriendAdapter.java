@@ -111,10 +111,19 @@ public class FriendAdapter extends BaseAdapter {
                 classRole_name = "组别助教";
             } else if (4 == classRole) {
                 classRole_name = "学员";
+            } else {
+                classRole_name = "未知";
             }
 
             holder.tv_role.setText("(" + classRole_name + ")");
-            holder.tv_classname.setText(friendModel.getClassName());
+
+            String className = "";
+            if (TextUtils.isEmpty(friendModel.getClassName())) {
+                className = "未知";
+            } else {
+                className = friendModel.getClassName();
+            }
+            holder.tv_classname.setText(className);
 
             int status = friendModel.getStatus();
             if (0 == status) {
@@ -261,6 +270,18 @@ public class FriendAdapter extends BaseAdapter {
             }
         });
 
+        holder.touch_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.hsv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        holder.hsv.smoothScrollTo(0, 0);
+                    }
+                });
+            }
+        });
+
         return convertView;
     }
 
@@ -282,6 +303,7 @@ public class FriendAdapter extends BaseAdapter {
         private TextView tv_delete;
         LinearLayout container;//左边固定的
         LinearLayout ll_operation;
+        LinearLayout touch_linear;//左边点击区域
 
         public ViewHolder(View view) {
             this.head_img = (ImageView) view.findViewById(R.id.head_img);
@@ -299,6 +321,8 @@ public class FriendAdapter extends BaseAdapter {
             this.tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             this.container = (LinearLayout) view.findViewById(R.id.rl_container);
             this.ll_operation = (LinearLayout) view.findViewById(R.id.ll_operation);
+
+            this.touch_linear = (LinearLayout) view.findViewById(R.id.touch_linear);
         }
     }
 }
