@@ -63,6 +63,7 @@ public class MemberAdapter extends BaseAdapter {
             /**得到各个控件的对象*/
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
+            holder.group_name = (TextView) convertView.findViewById(R.id.group_name);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -78,11 +79,13 @@ public class MemberAdapter extends BaseAdapter {
             Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
         }
 
-        if (TextUtils.isEmpty(model.getCGName())) {
-            holder.text_name.setText(model.getUserName());
-        } else {
-            holder.text_name.setText(model.getUserName() + "(" + model.getCGName() + ")");
+        holder.text_name.setText(model.getUserName());
 
+        if (TextUtils.isEmpty(model.getCGName())) {
+            holder.group_name.setVisibility(View.GONE);
+        } else {
+            holder.group_name.setVisibility(View.VISIBLE);
+            holder.group_name.setText("(" + model.getCGName() + ")");
         }
         return convertView;
     }
@@ -92,6 +95,7 @@ public class MemberAdapter extends BaseAdapter {
      */
     public class ViewHolder {
         public TextView text_name;
+        public TextView group_name;
         public ImageView img;
     }
 }
