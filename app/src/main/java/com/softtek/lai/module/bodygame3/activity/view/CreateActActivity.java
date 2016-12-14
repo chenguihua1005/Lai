@@ -299,18 +299,12 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-//                dateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//                dateAndTime.set(Calendar.MINUTE, minute);
                 dateAndTime.set(Calendar.HOUR_OF_DAY, i);//时
                 dateAndTime.set(Calendar.MINUTE, i1);//分
-//                String.format("%d:%d",hourOfDay,minute)
-
 
                 tv_activity_time.setText(date+""+new StringBuilder()
                         .append(i < 10 ? "0" + i : i).append(":")
                         .append(i1 < 10 ? "0" + i1 : i1));
-             ;
-//                tv_activity_time.setText(date + "" + String.format("%d:%d", i, i1));
 
             }
         }, dateAndTime.get(Calendar.HOUR_OF_DAY),
