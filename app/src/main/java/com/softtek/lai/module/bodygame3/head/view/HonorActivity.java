@@ -69,7 +69,13 @@ public class HonorActivity extends BaseActivity {
 
     }
 
-    public static void startHonorActivity(Context context, String classId, boolean isPast) {
+    public static void startHonorActivity(Context context, String classId) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        context.startActivity(intent);
+    }
+
+    public static void startHonorActivity2(Context context, String classId, boolean isPast) {
         Intent intent = new Intent(context, HonorActivity.class);
         intent.putExtra("classId", classId);
         intent.putExtra("isPast", isPast);
