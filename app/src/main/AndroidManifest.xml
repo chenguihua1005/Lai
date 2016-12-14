@@ -781,6 +781,8 @@
             android:name=".module.bodygame3.photowall.PublishDyActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.head.view.EditSignaActivity" />
+        <activity android:name=".module.bodygame3.head.view.HonorRuleActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".module.bodygame3.more.view.SearchClassActivity"></activity>
     </application>
 

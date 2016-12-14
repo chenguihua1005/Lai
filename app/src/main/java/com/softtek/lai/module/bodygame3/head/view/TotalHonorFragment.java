@@ -80,9 +80,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private HonorRankModel honorRankModel;
 
 
-    public static TotalHonorFragment getInstance() {
+    public static TotalHonorFragment getInstance(String classId) {
         TotalHonorFragment fragment = new TotalHonorFragment();
         Bundle data = new Bundle();
+        data.putString("classId", classId);
         fragment.setArguments(data);
         return fragment;
     }

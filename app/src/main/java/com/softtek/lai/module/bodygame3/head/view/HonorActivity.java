@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_honorranking)
@@ -44,22 +45,22 @@ public class HonorActivity extends BaseActivity {
     protected void initViews() {
         Intent intent = getIntent();
         String classId = intent.getStringExtra("classId");
-        tv_title.setText(R.string.honorRank);
+        boolean isPast = intent.getBooleanExtra("isPast", false);
+        if (isPast) {
+            tv_title.setText(R.string.past_ranking);
+        } else {
+            tv_title.setText(R.string.honorRank);
+        }
+
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance(classId));
         fragments.add(MonthHonorFragment.getInstance(classId));
-        fragments.add(TotalHonorFragment.getInstance());
+        fragments.add(TotalHonorFragment.getInstance(classId));
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
-        ll_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
     }
 
@@ -74,4 +75,22 @@ public class HonorActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    public static void startHonorActivity2(Context context, String classId, boolean isPast) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        intent.putExtra("isPast", isPast);
+        context.startActivity(intent);
+    }
+
+    @OnClick({R.id.ll_left, R.id.tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            case R.id.tv_right:
+                startActivity(new Intent(this, HonorRuleActivity.class));
+                break;
+        }
+    }
 }

@@ -212,18 +212,34 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        //放在外面，因为第一次给true的时候只传回来list_date,其他list为空
-        if (model != null && model.getList_date() != null && model.getList_date().size() != 0) {
+        //请求不到数据的时候全屏显示“暂无数据”
+        if (model == null) {
+            //            ptflv_no_data.setVisibility(View.VISIBLE);
+            ll_no_data.setVisibility(View.VISIBLE);
+            listHonorrank.setVisibility(View.GONE);
+            return;
+        }
+        //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
+        if ( model.getList_date() != null && model.getList_date().size() != 0) {
             spinnerData = model.getList_date();
             for (int i = 0; i <spinnerData.size(); i++) {
                 spinnerData2.add(spinnerData.get(i).getDateName());
             }
             spinner.attachCustomSource(spinnerAdapter);
         }
-        //
-        if (model == null || model.getList_top3() == null || model.getList_top3().size() == 0) {
-            ll_no_data.setVisibility(View.VISIBLE);
-            listHonorrank.setVisibility(View.GONE);
+        //不为null，list数据为零，显示“虚位以待”
+        if (model.getList_top3() == null || model.getList_top3().size() == 0) {
+            civ_top1.setImageResource(R.drawable.img_default);
+            civ_top2.setImageResource(R.drawable.img_default);
+            civ_top3.setImageResource(R.drawable.img_default);
+            tv_top1_name.setText("");
+            tv_top2_name.setText("");
+            tv_top3_name.setText("");
+            tv_top1_per.setText("虚位以待");
+            tv_top2_per.setText("虚位以待");
+            tv_top3_per.setText("虚位以待");
+            groupModelList.clear();
+            honorGroupRankAdapter.notifyDataSetChanged();
         } else {
             ll_no_data.setVisibility(View.GONE);
             listHonorrank.setVisibility(View.VISIBLE);
