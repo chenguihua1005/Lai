@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -40,11 +42,13 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        Intent intent = getIntent();
+        String classId = intent.getStringExtra("classId");
         tv_title.setText(R.string.honorRank);
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
-        fragments.add(WeekHonorFragment.getInstance());
-        fragments.add(MonthHonorFragment.getInstance());
+        fragments.add(WeekHonorFragment.getInstance(classId));
+        fragments.add(MonthHonorFragment.getInstance(classId));
         fragments.add(TotalHonorFragment.getInstance());
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);
@@ -61,5 +65,13 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
+
     }
+
+    public static void startHonorActivity(Context context, String classId) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        context.startActivity(intent);
+    }
+
 }

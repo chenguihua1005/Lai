@@ -53,7 +53,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.lv)
     PullToRefreshExpandableListView lv;
     InvitatedExpandableAdapter adapter;
-    private ClassModel model;
+    private String classId;
 
     private int pageIndex;
     @Override
@@ -68,7 +68,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        model=getIntent().getParcelableExtra("class");
+        classId=getIntent().getStringExtra("classId");
         adapter=new InvitatedExpandableAdapter(this,datas,groups);
         lv.getRefreshableView().setAdapter(adapter);
 
@@ -86,7 +86,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 .getInvitatedContactList(
                         UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
-                        model.getClassId(),
+                        classId,
                         20, pageIndex,
                         new RequestCallback<ResponseData<List<InvitatedContact>>>() {
                             @Override
@@ -136,7 +136,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             case R.id.fl_right:{
                 //跳转邀请小伙伴
                 Intent intent=new Intent(this,ContactsActivity.class);
-                intent.putExtra("classId",model.getClassId());
+                intent.putExtra("classId",classId);
                 startActivity(intent);
             }
                 break;
@@ -161,13 +161,15 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 .getInvitatedContactList(
                         UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
-                        model.getClassId(),
+                        classId,
                         20, pageIndex,
                         new RequestCallback<ResponseData<List<InvitatedContact>>>() {
                             @Override
                             public void success(ResponseData<List<InvitatedContact>> data, Response response) {
                                 lv.onRefreshComplete();
                                 if(data.getStatus()==200){
+                                    groups.clear();
+                                    datas.clear();
                                     onResult(data.getData());
                                 }
                             }
@@ -179,6 +181,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         InvitatedContact contact=intent.getParcelableExtra("invitater");
+        classId=intent.getStringExtra("classId");
         String groupName=contact.getJoinGroupName();
         if(datas.containsKey(groupName)){
             datas.get(groupName).add(contact);
@@ -201,7 +204,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                 .getInvitatedContactList(
                         UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
-                        model.getClassId(),
+                        classId,
                         20, pageIndex,
                         new RequestCallback<ResponseData<List<InvitatedContact>>>() {
                             @Override

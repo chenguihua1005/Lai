@@ -240,6 +240,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                             contact.setJoinGroupName(tv_group_name.getText().toString());
                                                             Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
                                                             intent.putExtra("invitater", contact);
+                                                            intent.putExtra("classId",invitation.getClassId());
                                                             startActivity(intent);
                                                         } else {
                                                             runOnUiThread(new Runnable() {

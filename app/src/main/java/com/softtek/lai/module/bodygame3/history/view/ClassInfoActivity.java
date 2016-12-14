@@ -120,10 +120,6 @@ public class ClassInfoActivity extends BaseActivity {
     private static final int LOADCOUNT = 6;
     private CoordinatorLayout.Behavior appbarBehavior;
 
-    private void init() {
-        initAppbarAndPull();
-    }
-
     private void initAppbarAndPull() {
         mAppbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -299,7 +295,7 @@ public class ClassInfoActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        init();
+        initAppbarAndPull();
     }
 
     @OnClick(R.id.iv_left)
@@ -320,8 +316,8 @@ public class ClassInfoActivity extends BaseActivity {
         service.getHistoryInfo(
                 UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
-//                historyClassModel.getClassId(),
-                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                historyClassModel.getClassId(),
+//                "C4E8E179-FD99-4955-8BF9-CF470898788B",
                 new RequestCallback<ResponseData<HistoryDetailsBean>>() {
                     @SuppressLint("LongLogTag")
                     @Override
@@ -377,7 +373,7 @@ public class ClassInfoActivity extends BaseActivity {
 
                         } else if (responseData.getMsg().equals("暂无数据")) {
                             initFailedView();
-                            initRecyclerView();
+//                            initRecyclerView();
                         }
                     }
 
