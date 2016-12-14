@@ -81,15 +81,18 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private ArrowSpinner2 spinner;
     private HonorRankModel honorRankModel;
 
-    public static WeekHonorFragment getInstance() {
+    public static WeekHonorFragment getInstance(String classId) {
         WeekHonorFragment fragment = new WeekHonorFragment();
         Bundle data = new Bundle();
+        data.putString("classId", classId);
         fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        ClassId = bundle.getString("classId");
         selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
@@ -141,7 +144,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 intent.putExtra("SortTimeType", SortTimeType);
                 intent.putExtra("WhichTime", WhichTime);
                 intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-//                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
                 intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
                 startActivity(intent);
                 Log.e("curry", "onItemClick: " + i);
@@ -206,7 +208,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
         listHonorrank.setRefreshing();
     }
 
@@ -226,6 +228,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             ll_no_data.setVisibility(View.GONE);
             listHonorrank.setVisibility(View.VISIBLE);
             honorRankModel = model;
+//            Log.e("curryddd", "getModel: " + model.getList_date().t);
             groupModelList.clear();
             groupModelList.addAll(model.getList_group());
             honorGroupRankAdapter.notifyDataSetChanged();

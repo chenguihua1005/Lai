@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -33,7 +32,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
@@ -47,13 +45,11 @@ import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
-import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -72,7 +68,6 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -651,7 +646,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.re_honor:
-                startActivity(new Intent(getContext(), HonorActivity.class));
+                HonorActivity.startHonorActivity(getContext(),classId_first);
                 break;
             case R.id.re_search_bottom:
                 break;

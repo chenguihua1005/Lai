@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -48,8 +47,10 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     ChooseView chooseView;
     @InjectView(R.id.tv_perview)
     TextView tv_perview;
+    @InjectView(R.id.tv_nomessage)
+    TextView tv_nomessage;
 
-
+    @InjectView(R.id.ll_search)
     LinearLayout ll_search;
 
     @InjectView(R.id.elv)
@@ -70,10 +71,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         }
         elv.setOnRefreshListener(this);
         elv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        View head= LayoutInflater.from(this).inflate(R.layout.expandable_head_contact,null);
-        ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
+        elv.setEmptyView(tv_nomessage);
+        //View head= LayoutInflater.from(this).inflate(R.layout.expandable_head_contact,null);
+        //ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
         ll_search.setOnClickListener(this);
-        elv.getRefreshableView().addHeaderView(head);
+        //elv.getRefreshableView().addHeaderView(head);
         adapter=new ContactExpandableAdapter(this,datas,groups);
         elv.getRefreshableView().setAdapter(adapter);
         elv.getRefreshableView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {

@@ -89,6 +89,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        ClassId = bundle.getString("classId");
         selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
