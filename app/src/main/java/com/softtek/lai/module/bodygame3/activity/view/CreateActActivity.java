@@ -173,6 +173,10 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
+                if (classActivityId <= 0) {
+                    Util.toastMsg("请输入活动类型");
+                    return;
+                }
 
                 activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
                 activityModel.setClassId(classid);
@@ -306,13 +310,13 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
-              String  dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-                int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated,currentDate);
-                Log.e("132",compare+"");
-                if(compare<0){
-                       tv_activity_time.setText(str);
-                }else{
+                String dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
+                Log.e("132", compare + "");
+                if (compare < 0) {
+                    tv_activity_time.setText(str);
+                } else {
 
                     showTimeDialog();
                 }
