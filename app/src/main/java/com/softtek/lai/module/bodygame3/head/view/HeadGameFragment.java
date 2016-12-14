@@ -195,6 +195,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
+                pull.setRefreshing(false);
                 if (responseData.getData() != null) {
                     NewsModel newsModel = responseData.getData();
                     int has = newsModel.getNum();

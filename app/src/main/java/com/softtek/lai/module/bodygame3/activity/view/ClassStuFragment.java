@@ -2,10 +2,10 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -37,7 +37,6 @@ import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
-import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -59,7 +58,6 @@ import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -68,9 +66,9 @@ import static android.app.Activity.RESULT_OK;
 
 
 @InjectLayout(R.layout.fragment_class_stu)
-public class ClassStuFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-    @InjectView(R.id.pull)
-    MySwipRefreshView refresh;
+public class ClassStuFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener {
+//    @InjectView(R.id.pull)
+//    MySwipRefreshView refresh;
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
     @InjectView(R.id.fl_right)
@@ -116,6 +114,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
     private int lastVisitableItem;
     private String typeDate;//复测日期
     private int resetstatus;//复测状态
+    private ActivitydataModel activitydataModel;
     SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
     String strDate = sf.format(new Date());
 
@@ -135,10 +134,10 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
-        material_calendar.removeDecorators();
-        refresh.setRefreshing(true);
-        classModels.clear();
-        getalldatafirst();
+//        material_calendar.removeDecorators();
+//        refresh.setRefreshing(true);
+//        classModels.clear();
+//        getalldatafirst();
     }
 
     @Override
@@ -150,21 +149,7 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 //刷新
-        refresh.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= 0) {
-                    refresh.setEnabled(true);
-                } else {
-                    refresh.setEnabled(false);
-                }
-            }
-        });
-        refresh.setOnRefreshListener(this);
+//
         list_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -206,9 +191,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                 .setMaximumDate(instance2.getTime())
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
-//设置日历的长和宽间距
-//        material_calendar.setTileWidthDp(50);
-//        material_calendar.setTileHeightDp(38);
         material_calendar.removeDecorators();
         material_calendar.setShowOtherDates(0);
 
@@ -216,11 +198,15 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initDatas() {
-        material_calendar.removeDecorators();
         actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
         list_activity.setAdapter(actRecyclerAdapter);
-        //获取初始数据
-        getalldatafirst();
+        activitydataModel = new ActivitydataModel();
+        Bundle bundle = getArguments();
+        activitydataModel = bundle.getParcelable("activitydatemodel");
+        getallfirst();     //获取初始数据
+        material_calendar.removeDecorators();
+
+
 //活动跳转到活动详情
         actRecyclerAdapter.setOnItemClickListener(new ActRecyclerAdapter.OnRecyclerViewItemClickListener() {
             @Override
@@ -307,6 +293,137 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
         EventBus.getDefault().register(this);
     }
 
+    //获得初始数据
+    private void getallfirst() {
+        calendarModels.clear();
+        if (activitydataModel != null) {
+            reset_name.setText("复测录入");
+            resetstatus = activitydataModel.getRetestStatus();
+            switch (resetstatus) {
+                case 1://已过去的复测日
+                    ll_fuce.setEnabled(true);
+                    if (!activitydataModel.getRetest()) {
+                        reset_time.setText("未复测");
+                    } else {
+                        reset_time.setText("已复测");
+                    }
+                    break;
+                case 2://进行中的复测日
+                    ll_fuce.setEnabled(true);
+                    break;
+                case 3://未开始的复测日
+                    ll_fuce.setEnabled(false);
+                    reset_time.setText("未开始");
+                    break;
+                default:
+                    break;
+            }
+            if (activitydataModel.getList_ActCalendar() != null) {
+                calendarModels.addAll(activitydataModel.getList_ActCalendar());
+                material_calendar.removeDecorators();
+                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+
+                for (int i = 0; i < calendarModels.size(); i++) {
+                    if (calendarModels.get(i).getMonthDate() == strDate) {
+                        typeDate = calendarModels.get(i).getMonthDate();
+                    }
+                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
+
+                        resetstatus = activitydataModel.getRetestStatus();
+                        if (resetstatus == 1) {//已过去的复测日
+                            ll_fuce.setEnabled(true);
+                        } else if (resetstatus == 2) {//进行中的复测日
+                            ll_fuce.setEnabled(true);
+                        } else if (resetstatus == 3) {//未开始的复测日
+                            ll_fuce.setEnabled(false);
+                        } else {
+                            ll_fuce.setVisibility(View.GONE);
+                        }
+
+
+                    } else {
+                        ll_fuce.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            //是否进行过初始数据录入
+            if (activitydataModel.getFirst()) {
+                ll_chuDate.setVisibility(View.VISIBLE);
+            } else {
+                ll_chuDate.setVisibility(View.GONE);
+            }
+
+            ll_fuce.setBackgroundResource(R.drawable.reset_back);
+            fl_right.setEnabled(false);
+            iv_right.setVisibility(View.GONE);
+            //加载班级
+            classModels.clear();
+            if (activitydataModel.getList_Class() != null) {
+                classModels.addAll(activitydataModel.getList_Class());
+                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                    @Override
+                    public void convert(ViewHolder holder, ClassModel data, int position) {
+                        ImageView iv_icon = holder.getView(R.id.iv_icon);
+                        boolean selected = tv_title.getSelectedIndex() == position;
+                        int icon;
+                        switch (data.getClassRole()) {
+                            case 1:
+                                icon = selected ? R.drawable.class_zongjiaolian_re : R.drawable.class_zongjiaolian;
+                                break;
+                            case 2:
+                                icon = selected ? R.drawable.class_jiaolian_re : R.drawable.class_jiaolian;
+                                break;
+                            case 3:
+                                icon = selected ? R.drawable.class_zhujiao_re : R.drawable.class_zhujiao;
+                                break;
+                            default:
+                                icon = selected ? R.drawable.class_xueyuan_re : R.drawable.class_xueyuan;
+                                break;
+                        }
+                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                        int color = selected ? 0xFF000000 : 0xFFFFFFFF;
+                        TextView tv_role = holder.getView(R.id.tv_role_name);
+                        int role = data.getClassRole();
+                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                        tv_role.setTextColor(color);
+                        TextView tv_number = holder.getView(R.id.tv_number);
+                        tv_number.setText(data.getClassCode());
+                        tv_number.setTextColor(color);
+                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                        tv_class_name.setText(data.getClassName());
+                        tv_class_name.setTextColor(color);
+                        ImageView iv_sel = holder.getView(R.id.iv_select);
+                        iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+                        RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
+                        rl_bg.setBackgroundColor(selected ? 0xFFFFFFFF : 0x00FFFFFF);
+                    }
+
+                    @Override
+                    public String getText(int position) {
+                        if (classModels != null && !classModels.isEmpty()) {
+                            classid = classModels.get(position).getClassId();
+                            classrole = classModels.get(position).getClassRole();
+                            return classModels.get(position).getClassName();
+                        } else {
+                            return "尚未开班";
+                        }
+                    }
+                });
+
+            }
+            //获取今天的活动
+            todayactModels.clear();
+            if (activitydataModel.getList_Activity() != null) {
+                todayactModels.addAll(activitydataModel.getList_Activity());
+                actRecyclerAdapter.notifyDataSetChanged();
+            }
+
+//复测与活动的显示
+            displaydata();
+        }
+    }
+
     private void displaydata() {
         for (int n = 0; n < calendarModels.size(); n++) {
             if (java.sql.Date.valueOf(calendarModels.get(n).getMonthDate()).equals(getNowDate())) {
@@ -355,163 +472,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
         return date_now;
     }
 
-    private void getalldatafirst() {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                "",
-                new RequestCallback<ResponseData<ActivitydataModel>>() {
-                    @Override
-                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
-                        refresh.setRefreshing(false);
-                        calendarModels.clear();
-                        if (activitydataModelResponseData.getData() != null) {
-                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
-                            reset_name.setText("复测录入");
-                            resetstatus = activitydataModel.getRetestStatus();
-                            switch (resetstatus) {
-                                case 1://已过去的复测日
-                                    ll_fuce.setEnabled(true);
-                                    if(!activitydataModel.getRetest()){
-                                        reset_time.setText("未复测");
-                                    }else{
-                                        reset_time.setText("已复测");
-                                    }
-                                    break;
-                                case 2://进行中的复测日
-                                    ll_fuce.setEnabled(true);
-                                    break;
-                                case 3://未开始的复测日
-                                    ll_fuce.setEnabled(false);
-                                    reset_time.setText("未开始");
-                                    break;
-                                default:
-                                    break;
-                            }
-                            if (activitydataModel.getList_ActCalendar() != null) {
-                                calendarModels.addAll(activitydataModel.getList_ActCalendar());
-                                material_calendar.removeDecorators();
-                                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
-
-                                for (int i = 0; i < calendarModels.size(); i++) {
-                                    if (calendarModels.get(i).getMonthDate() == strDate) {
-                                        typeDate = calendarModels.get(i).getMonthDate();
-                                    }
-                                    if (calendarModels.get(i).getDateType() == Constants.RESET) {
-
-                                        resetstatus = activitydataModel.getRetestStatus();
-                                        if (resetstatus == 1) {//已过去的复测日
-                                            ll_fuce.setEnabled(true);
-                                        } else if (resetstatus == 2) {//进行中的复测日
-                                            ll_fuce.setEnabled(true);
-                                        } else if (resetstatus == 3) {//未开始的复测日
-                                            ll_fuce.setEnabled(false);
-                                        } else {
-                                            ll_fuce.setVisibility(View.GONE);
-                                        }
-
-
-                                    } else {
-                                        ll_fuce.setVisibility(View.GONE);
-                                    }
-                                }
-
-
-                            }
-
-                            //是否进行过初始数据录入
-                            if (activitydataModel.getFirst()) {
-                                ll_chuDate.setVisibility(View.VISIBLE);
-                            } else {
-                                ll_chuDate.setVisibility(View.GONE);
-                            }
-
-                            ll_fuce.setBackgroundResource(R.drawable.reset_back);
-
-                            fl_right.setEnabled(false);
-                            iv_right.setVisibility(View.GONE);
-//                            if (!activitydataModel.getRetest()) {
-//                                reset_time.setText("未复测");
-//                            } else {
-//                                reset_time.setText("已复测");
-//                            }
-
-
-                            //加载班级
-                            classModels.clear();
-                            if (activitydataModel.getList_Class() != null) {
-                                classModels.addAll(activitydataModel.getList_Class());
-                                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                                    @Override
-                                    public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        ImageView iv_icon = holder.getView(R.id.iv_icon);
-                                        boolean selected=tv_title.getSelectedIndex()==position;
-                                        int icon;
-                                        switch (data.getClassRole()) {
-                                            case 1:
-                                                icon = selected?R.drawable.class_zongjiaolian_re:R.drawable.class_zongjiaolian;
-                                                break;
-                                            case 2:
-                                                icon = selected?R.drawable.class_jiaolian_re:R.drawable.class_jiaolian;
-                                                break;
-                                            case 3:
-                                                icon = selected?R.drawable.class_zhujiao_re:R.drawable.class_zhujiao;
-                                                break;
-                                            default:
-                                                icon = selected?R.drawable.class_xueyuan_re:R.drawable.class_xueyuan;
-                                                break;
-                                        }
-                                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                        int color=selected?0xFF000000:0xFFFFFFFF;
-                                        TextView tv_role = holder.getView(R.id.tv_role_name);
-                                        int role = data.getClassRole();
-                                        tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-                                        tv_role.setTextColor(color);
-                                        TextView tv_number = holder.getView(R.id.tv_number);
-                                        tv_number.setText(data.getClassCode());
-                                        tv_number.setTextColor(color);
-                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                        tv_class_name.setText(data.getClassName());
-                                        tv_class_name.setTextColor(color);
-                                        ImageView iv_sel=holder.getView(R.id.iv_select);
-                                        iv_sel.setVisibility(selected?View.VISIBLE:View.INVISIBLE);
-                                        RelativeLayout rl_bg=holder.getView(R.id.rl_bg);
-                                        rl_bg.setBackgroundColor(selected?0xFFFFFFFF:0x00FFFFFF);
-                                    }
-
-                                    @Override
-                                    public String getText(int position) {
-                                        if (classModels != null && !classModels.isEmpty()) {
-                                            classid = classModels.get(position).getClassId();
-                                            classrole = classModels.get(position).getClassRole();
-                                            return classModels.get(position).getClassName();
-                                        } else {
-                                            return "尚未开班";
-                                        }
-                                    }
-                                });
-
-                            }
-                            //获取今天的活动
-                            todayactModels.clear();
-                            if (activitydataModel.getList_Activity() != null) {
-                                todayactModels.addAll(activitydataModel.getList_Activity());
-                                actRecyclerAdapter.notifyDataSetChanged();
-                            }
-
-//复测与活动的显示
-                            displaydata();
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        refresh.setRefreshing(false);
-                        super.failure(error);
-                    }
-                });
-
-    }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -561,9 +521,9 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                             switch (resetstatus) {
                                 case 1://已过去的复测日
                                     ll_fuce.setEnabled(true);
-                                    if(!model.getRetest()){
+                                    if (!model.getRetest()) {
                                         reset_time.setText("未复测");
-                                    }else{
+                                    } else {
                                         reset_time.setText("已复测");
                                     }
                                     break;
@@ -622,18 +582,12 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
         if (resultCode == RESULT_OK) {
             if (resultCode == 0) {
                 progressDialogs.show();
-                getalldatafirst();
+
             }
         }
 
     }
 
-    @Override
-    public void onRefresh() {
-        refresh.setRefreshing(true);
-        classModels.clear();
-        getalldatafirst();
-    }
 
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
