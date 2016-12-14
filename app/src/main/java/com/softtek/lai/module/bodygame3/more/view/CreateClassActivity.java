@@ -453,7 +453,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         });
 
 
-                    } catch (HyphenateException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         runOnUiThread(new Runnable() {
                             public void run() {
