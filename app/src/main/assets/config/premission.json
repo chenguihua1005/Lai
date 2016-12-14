@@ -1,6 +1,6 @@
 {
   "vr": {
-    "bodyGame":true,
+    "bodyGame":false,
     "laiYunDong":false,
     "laiClass":true,
     "laiExcel":true,
