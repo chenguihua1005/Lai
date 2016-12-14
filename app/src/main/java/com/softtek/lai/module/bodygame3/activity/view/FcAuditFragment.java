@@ -48,11 +48,15 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    Long userid;
+    String classid,typedata;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId,String typeDate) {
         FcAuditFragment fragment=new FcAuditFragment();
         Bundle data=new Bundle();
+        data.putString("classid",classId);
+        data.putString("typedata",typeDate);
         fragment.setArguments(data);
         return fragment;
     }
@@ -93,6 +97,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        userid=UserInfoModel.getInstance().getUserId();
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
@@ -128,16 +133,16 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(Long.parseLong("5"), "C4E8E179-FD99-4955-8BF9-CF470898788B", "2016-11-22", pageIndex, 10);
+            doGetData();
     }
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(Long.parseLong("5"),"C4E8E179-FD99-4955-8BF9-CF470898788B","2016-11-22",++pageIndex,10);
+        doGetData();
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid,String typeDate,  final int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid,typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+    private void doGetData() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,"2016-12-14", pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();

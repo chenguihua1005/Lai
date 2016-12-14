@@ -409,17 +409,20 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                         if (activitydataModelResponseData.getData() != null) {
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
                             reset_name.setText("复测审核");
-                            reset_time.setText("待审核" + activitydataModel.getNum());
+
                             resetstatus = activitydataModel.getRetestStatus();
                             switch (resetstatus) {
                                 case 1://已过去的复测日
                                     ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + activitydataModel.getNum());
                                     break;
                                 case 2://进行中的复测日
                                     ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + activitydataModel.getNum());
                                     break;
                                 case 3://未开始的复测日
                                     ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
                                     break;
                             }
                             if (activitydataModel.getList_ActCalendar() != null) {
@@ -601,12 +604,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             switch (resetstatus) {
                                 case 1://已过去的复测日
                                     ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + model.getNum());
                                     break;
                                 case 2://进行中的复测日
                                     ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + model.getNum());
                                     break;
                                 case 3://未开始的复测日
                                     ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
                                     break;
                             }
                             if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
