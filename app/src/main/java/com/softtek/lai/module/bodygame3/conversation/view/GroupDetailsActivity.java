@@ -134,24 +134,28 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
         Log.i(TAG, "token = " + token);
         Log.i(TAG, "classId = " + classId);
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
-            @Override
-            public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
+        try {
+            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+            service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
+                @Override
+                public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
 
-                Log.i(TAG, "listResponseData = " + new Gson().toJson(listResponseData));
-                classListInfoModel = listResponseData.getData();
-                if (classListInfoModel != null) {
-                    members.addAll(classListInfoModel.getContactList());
+                    Log.i(TAG, "listResponseData = " + new Gson().toJson(listResponseData));
+                    classListInfoModel = listResponseData.getData();
+                    if (classListInfoModel != null) {
+                        members.addAll(classListInfoModel.getContactList());
+                    }
+                    memberAdapter.updateData(members);
                 }
-                memberAdapter.updateData(members);
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    ZillaApi.dealNetError(error);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
