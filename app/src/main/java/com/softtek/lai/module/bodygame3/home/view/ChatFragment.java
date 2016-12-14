@@ -29,6 +29,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 import com.softtek.lai.LaiApplication;
@@ -253,10 +254,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 HomeFragment.timer.cancel();
             }
 
-            Log.i(TAG,"hxid = "+ hxid +"  model.getHXAccountId() = " + model.getHXAccountId());
+            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
             if (hxid.equals(model.getHXAccountId())) {
 
-                Log.i(TAG," 环信帐号验证通过....加载会话列表....");
+                Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
@@ -275,7 +276,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                         .commit();
             } else {
-                Log.i(TAG," 环信帐号验证failed ....加载会话列表....");
+                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
                 if ("-1".equals(hxid)) {
                     loginPresenter.getEMChatAccount(progressDialog);
                 } else {
@@ -456,9 +457,22 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                 msgIntent.putExtra("count", unreadMsgCountTotal);
                 getContext().sendBroadcast(msgIntent);
-                Log.i(TAG,"发送未读消息数 = " + unreadMsgCountTotal);
+                Log.i(TAG, "发送未读消息数 = " + unreadMsgCountTotal);
 
                 EMClient.getInstance().chatManager().loadAllConversations();
+
+                //从服务器加改人的所有群组
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
                 handler.sendEmptyMessage(2);
                 if (progressDialog != null) {
                     progressDialog.dismiss();
@@ -515,7 +529,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //            EMChatManager.getInstance().reconnect();
 //            EMClient.getInstance().chatManager().
 //            EMClient.getInstance().
-            Log.i(TAG,"环信服务器重连......");
+            Log.i(TAG, "环信服务器重连......");
         }
     }
 
@@ -570,7 +584,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
                 // in background, do not refresh UI, notify it in notification bar
 //                if(!easeUI.hasForegroundActivies()){
-                    ChatHelper.getInstance().getNotifier().onNewMsg(message);
+                ChatHelper.getInstance().getNotifier().onNewMsg(message);
 //                }
             }
             // 提示新消息
@@ -611,7 +625,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 //获取扩展属性 此处省略
                 //maybe you need get extension of your message
                 //message.getStringAttribute("");
-                EMLog.d(TAG, String.format("Command：action:%s,message:%s", action,message.toString()));
+                EMLog.d(TAG, String.format("Command：action:%s,message:%s", action, message.toString()));
             }
 
             refreshUIWithMessage();

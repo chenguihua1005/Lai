@@ -1,24 +1,17 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -32,18 +25,15 @@ import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
-import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +45,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@linkHeadGameFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@linkHeadGameFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 @InjectLayout(R.layout.noclass_fragment)
 public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     //    @InjectView(R.id.appbar)
@@ -99,8 +81,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     LinearLayout lin_nostart;
     Animation roate;
     HeadService service;
-    private List<ClasslistModel> classlistModels = new ArrayList<ClasslistModel>();
-    private List<ClasslistModel> classlistModels_temp = new ArrayList<ClasslistModel>();
+
     private AddClass addClass;
 
     public static HeadGameFragment getInstance(AddClass addClass) {
@@ -205,7 +186,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
-//                Util.toastMsg(headModel2ResponseData.getMsg());
                 if (headModel2ResponseData.getData() != null) {
                     HeadModel2 model2 = headModel2ResponseData.getData();
                     tv_totalperson.setText(model2.getTotalPerson() + "");
@@ -306,30 +286,16 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                             text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                                 @Override
                                 public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-
+                                    dialogDissmiss();
                                     if (data.getStatus() == 200) {
-                                        boolean hasThisItem = false;//
-                                        classlistModels.clear();
-                                        classlistModels_temp.clear();
-                                        classlistModels.addAll(data.getData());
-                                        for (int i = 0; i < classlistModels.size(); i++) {
-                                            ClasslistModel model = classlistModels.get(i);
-                                            if (model.getClassName().contains(text)) {
-                                                classlistModels_temp.add(model);
-                                            }
-                                        }
-                                        if (classlistModels_temp.size() > 0) {
+                                        if (data.getData()!=null&&!data.getData().isEmpty()) {
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);
                                             Bundle bundle = new Bundle();
-                                            bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>) classlistModels_temp);
+                                            bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>)data.getData());
                                             intent.putExtras(bundle);
                                             startActivity(intent);
-                                            dialogDissmiss();
-
                                         }
-
                                     } else if (data.getStatus() == 100) {
-                                        dialogDissmiss();
                                         Util.toastMsg(data.getMsg());
                                     }
                                 }

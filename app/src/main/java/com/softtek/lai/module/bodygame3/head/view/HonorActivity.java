@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_honorranking)
@@ -40,26 +43,54 @@ public class HonorActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        tv_title.setText(R.string.honorRank);
+        Intent intent = getIntent();
+        String classId = intent.getStringExtra("classId");
+        boolean isPast = intent.getBooleanExtra("isPast", false);
+        if (isPast) {
+            tv_title.setText(R.string.past_ranking);
+        } else {
+            tv_title.setText(R.string.honorRank);
+        }
+
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
-        fragments.add(WeekHonorFragment.getInstance());
-        fragments.add(MonthHonorFragment.getInstance());
-        fragments.add(TotalHonorFragment.getInstance());
+        fragments.add(WeekHonorFragment.getInstance(classId));
+        fragments.add(MonthHonorFragment.getInstance(classId));
+        fragments.add(TotalHonorFragment.getInstance(classId));
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
-        ll_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
     }
 
     @Override
     protected void initDatas() {
+
+    }
+
+    public static void startHonorActivity(Context context, String classId) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        context.startActivity(intent);
+    }
+
+    public static void startHonorActivity2(Context context, String classId, boolean isPast) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        intent.putExtra("isPast", isPast);
+        context.startActivity(intent);
+    }
+
+    @OnClick({R.id.ll_left, R.id.tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            case R.id.tv_right:
+                startActivity(new Intent(this, HonorRuleActivity.class));
+                break;
+        }
     }
 }

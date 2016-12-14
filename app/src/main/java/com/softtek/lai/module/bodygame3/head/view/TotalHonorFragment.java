@@ -80,15 +80,18 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private HonorRankModel honorRankModel;
 
 
-    public static TotalHonorFragment getInstance() {
+    public static TotalHonorFragment getInstance(String classId) {
         TotalHonorFragment fragment = new TotalHonorFragment();
         Bundle data = new Bundle();
+        data.putString("classId", classId);
         fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        ClassId = bundle.getString("classId");
         selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
@@ -154,8 +157,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void lazyLoad() {
-
         String token = UserInfoModel.getInstance().getToken();
+        UID = UserInfoModel.getInstance().getUserId();
         if (StringUtils.isEmpty(token)) {
 
         } else {
@@ -195,12 +198,12 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     case "2":
                         tv_top2_name.setText(topModel.getUserName());
                         tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top1, topModel.getUserIconUrl());
+                        setImage(civ_top2, topModel.getUserIconUrl());
                         break;
                     case "3":
                         tv_top3_name.setText(topModel.getLossPer());
                         tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top1, topModel.getUserIconUrl());
+                        setImage(civ_top3, topModel.getUserIconUrl());
                         break;
                 }
             }

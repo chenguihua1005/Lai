@@ -23,6 +23,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
+import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -47,7 +48,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
     private String SortTimeType = "ByMonth";
     private Long UID = 333L;
-    private int WhichTime = 7;
+    private int WhichTime = 1;
 
     @InjectView(R.id.list_honorrank)
     PullToRefreshListView listHonorrank;//列表
@@ -82,16 +83,24 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private ArrowSpinner2 spinner;
     private HonorRankModel honorRankModel;
 
+    List<ListdateModel> spinnerData = new ArrayList<>();
+    List<String> spinnerData2 = new ArrayList<>();
+    private ArrowSpinnerAdapter spinnerAdapter;
+    private boolean is_first = true;
 
-    public static MonthHonorFragment getInstance() {
+
+    public static MonthHonorFragment getInstance(String classId) {
         MonthHonorFragment fragment = new MonthHonorFragment();
         Bundle data = new Bundle();
+        data.putString("classId", classId);
         fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        ClassId = bundle.getString("classId");
         selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
@@ -154,11 +163,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initDatas() {
-        final List<String> datas = new ArrayList<>();
-        datas.add(getString(R.string.physical_manage_month1));
-        datas.add(getString(R.string.physical_manage_month2));
-        datas.add(getString(R.string.physical_manage_month3));
-        spinner.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
+        //根据position返回当前值给标题
+        spinnerAdapter = new ArrowSpinnerAdapter<String>(getContext(), spinnerData2, R.layout.class_title) {
             @Override
             public void convert(ViewHolder holder, String data, int position) {
                 TextView tv_class_name = holder.getView(R.id.tv_classed);
@@ -168,10 +174,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             @Override
             public String getText(int position) {
                 //根据position返回当前值给标题
-                return datas.get(position);
+                return spinnerData2 == null || spinnerData2.size() == 0 ? "" : spinnerData2.get(position);
             }
 
-        });
+        };
+        spinner.attachCustomSource(spinnerAdapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -189,12 +197,15 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     protected void lazyLoad() {
         String token = UserInfoModel.getInstance().getToken();
+        UID = UserInfoModel.getInstance().getUserId();
         if (StringUtils.isEmpty(token)) {
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
         listHonorrank.setRefreshing();
+        //首次后设置为false
+        is_first = false;
     }
 
     @Override
@@ -207,9 +218,34 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        if (model == null || model.getList_top3() == null || model.getList_top3().size() == 0) {
+        //请求不到数据的时候全屏显示“暂无数据”
+        if (model == null) {
+            //            ptflv_no_data.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.VISIBLE);
             listHonorrank.setVisibility(View.GONE);
+            return;
+        }
+        //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
+        if ( model.getList_date() != null && model.getList_date().size() != 0) {
+            spinnerData = model.getList_date();
+            for (int i = 0; i <spinnerData.size(); i++) {
+                spinnerData2.add(spinnerData.get(i).getDateName());
+            }
+            spinner.attachCustomSource(spinnerAdapter);
+        }
+        //不为null，list数据为零，显示“虚位以待”
+        if (model.getList_top3() == null || model.getList_top3().size() == 0) {
+            civ_top1.setImageResource(R.drawable.img_default);
+            civ_top2.setImageResource(R.drawable.img_default);
+            civ_top3.setImageResource(R.drawable.img_default);
+            tv_top1_name.setText("");
+            tv_top2_name.setText("");
+            tv_top3_name.setText("");
+            tv_top1_per.setText("虚位以待");
+            tv_top2_per.setText("虚位以待");
+            tv_top3_per.setText("虚位以待");
+            groupModelList.clear();
+            honorGroupRankAdapter.notifyDataSetChanged();
         } else {
             ll_no_data.setVisibility(View.GONE);
             listHonorrank.setVisibility(View.VISIBLE);
@@ -217,6 +253,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             groupModelList.clear();
             groupModelList.addAll(model.getList_group());
             honorGroupRankAdapter.notifyDataSetChanged();
+            //list中显示减脂还是减重
             for (ListTopModel topModel : model.getList_top3()) {
                 switch (topModel.getRanking()) {
                     case "1":
@@ -227,12 +264,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     case "2":
                         tv_top2_name.setText(topModel.getUserName());
                         tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top1, topModel.getUserIconUrl());
+                        setImage(civ_top2, topModel.getUserIconUrl());
                         break;
                     case "3":
                         tv_top3_name.setText(topModel.getLossPer());
                         tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top1, topModel.getUserIconUrl());
+                        setImage(civ_top3, topModel.getUserIconUrl());
                         break;
                 }
             }

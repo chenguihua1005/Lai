@@ -394,6 +394,18 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 EMClient.getInstance().updateCurrentUserNick(model.getNickname());
                 EMClient.getInstance().chatManager().loadAllConversations();
 
+                //从服务器加载和该用户相关的所有群组
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
                 if (timer != null) {
                     timer.cancel();
                 }

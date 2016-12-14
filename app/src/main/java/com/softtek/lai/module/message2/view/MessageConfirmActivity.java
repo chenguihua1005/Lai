@@ -27,7 +27,6 @@ import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.net.Message2Service;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -147,7 +146,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         if (show.getMsgStatus() == 0) {
             btn_yes.setVisibility(View.VISIBLE);
             btn_no.setVisibility(View.VISIBLE);
+            cb_term.setEnabled(true);
         }else {
+            cb_term.setEnabled(false);
             if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
                 tv_aixin_phone.setText(show.getIntroducerMobile());
             }else {
