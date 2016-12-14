@@ -206,7 +206,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void lazyLoad() {
         String token = UserInfoModel.getInstance().getToken();
-        UID=UserInfoModel.getInstance().getUserId();
+        UID = UserInfoModel.getInstance().getUserId();
         if (StringUtils.isEmpty(token)) {
 
         } else {
@@ -227,30 +227,54 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        //放在外面，因为第一次给true的时候只传回来list_date,其他list为空
-        if (model != null && model.getList_date() != null && model.getList_date().size() != 0) {
-            spinnerData = model.getList_date();
-            for (int i = spinnerData.size() - 1; i >= 0; i--) {
-                spinnerData2.add(spinnerData.get(i).getDateName());
-            }
-            spinner.attachCustomSource(spinnerAdapter);
-        }
-        //
-        if (model == null || model.getList_top3() == null || model.getList_top3().size() == 0) {
-//            ptflv_no_data.setVisibility(View.VISIBLE);
+        //请求不到数据的时候全屏显示“暂无数据”
+        if (model == null) {
+            //            ptflv_no_data.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.VISIBLE);
             listHonorrank.setVisibility(View.GONE);
+            return;
+        }
+        //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
+        if (model.getList_date() != null) {
+            //周数list的size不等于0，有周数，默认请求第一周的，减重的
+            if (model.getList_date().size() != 0) {
+                spinnerData = model.getList_date();
+                for (int i = spinnerData.size() - 1; i >= 0; i--) {
+                    spinnerData2.add(spinnerData.get(i).getDateName());
+                }
+                spinner.attachCustomSource(spinnerAdapter);
+                //没有周数，全屏显示“暂无数据”
+            } else {
+                //            ptflv_no_data.setVisibility(View.VISIBLE);
+                ll_no_data.setVisibility(View.VISIBLE);
+                listHonorrank.setVisibility(View.GONE);
+                return;
+            }
+
+        }
+        //不为null，list数据为零，显示“虚位以待”
+        if (model.getList_top3() == null || model.getList_top3().size() == 0) {
+            civ_top1.setImageResource(R.drawable.img_default);
+            civ_top2.setImageResource(R.drawable.img_default);
+            civ_top3.setImageResource(R.drawable.img_default);
+            tv_top1_name.setText("");
+            tv_top2_name.setText("");
+            tv_top3_name.setText("");
+            tv_top1_per.setText("虚位以待");
+            tv_top2_per.setText("虚位以待");
+            tv_top3_per.setText("虚位以待");
+            groupModelList.clear();
+            honorGroupRankAdapter.notifyDataSetChanged();
+
         } else {
 //            ptflv_no_data.setVisibility(View.GONE);
             ll_no_data.setVisibility(View.GONE);
             listHonorrank.setVisibility(View.VISIBLE);
             honorRankModel = model;
-
+            //更新list数据
             groupModelList.clear();
             groupModelList.addAll(model.getList_group());
             honorGroupRankAdapter.notifyDataSetChanged();
-            //
-
             //list中显示减脂还是减重
             for (ListTopModel topModel : model.getList_top3()) {
                 switch (topModel.getRanking()) {
@@ -265,7 +289,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                         setImage(civ_top2, topModel.getUserIconUrl());
                         break;
                     case "3":
-                        tv_top3_name.setText(topModel.getLossPer());
+                        tv_top3_name.setText(topModel.getUserName());
                         tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
                         setImage(civ_top3, topModel.getUserIconUrl());
                         break;
