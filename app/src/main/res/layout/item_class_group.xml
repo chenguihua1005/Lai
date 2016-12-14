@@ -63,7 +63,7 @@
                 android:id="@+id/tv_editor"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:background="#FFA200"
+                android:background="#FFC200"
                 android:gravity="center"
                 android:text="编辑"
                 android:textColor="#FFFFFF" />

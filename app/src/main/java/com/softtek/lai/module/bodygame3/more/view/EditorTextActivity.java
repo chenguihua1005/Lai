@@ -65,7 +65,7 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
                 Selection.setSelection(etext,etext.length());
                 break;
             case UPDATE_GROUP_NAME:
-                tv_title.setText("修改组名");
+                tv_title.setText("小组名称");
                 et_value.setHint("小组名称");
                 et_value.setText(intent.getStringExtra("name"));
                 groups=intent.getStringArrayListExtra("groups");

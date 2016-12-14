@@ -93,7 +93,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 Selection.setSelection(etext, etext.length());
                 break;
             case UPDATE_GROUP_NAME:
-                tv_title.setText("修改小组名称");
+                tv_title.setText("小组名称");
                 et_value.setHint("小组名称");
                 et_value.setText(intent.getStringExtra("name"));
                 Editable etext1 = et_value.getText();
