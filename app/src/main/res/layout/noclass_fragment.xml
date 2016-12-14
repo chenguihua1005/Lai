@@ -200,15 +200,14 @@
                             android:id="@+id/search_btn"
                             android:layout_width="60dp"
                             android:layout_height="40dp"
-                            android:layout_alignBaseline="@+id/re_search_bottom"
-                            android:layout_alignBottom="@+id/re_search_bottom"
-                            android:layout_alignParentEnd="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
                             android:text="搜索"
                             android:background="@drawable/btn_searth"
                             android:textColor="@color/word"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_alignTop="@+id/re_search_bottom"
+                            android:layout_alignParentEnd="true" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -282,6 +281,7 @@
                         android:layout_marginRight="15dp"
                         android:background="@drawable/btn_dismissclass"
                         android:text="开班"
+                        android:layout_marginBottom="15dp"
                         android:textColor="@color/white"
                         android:visibility="visible" />
 

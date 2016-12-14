@@ -15,6 +15,7 @@
         <ImageView
             android:id="@+id/activityicon"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
 
         <TextView

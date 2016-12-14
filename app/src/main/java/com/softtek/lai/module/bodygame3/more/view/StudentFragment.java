@@ -18,6 +18,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -62,6 +63,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         rl_media.setOnClickListener(this);
         RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
         rl_exit.setOnClickListener(this);
+        RelativeLayout rl_honor= (RelativeLayout) view.findViewById(R.id.rl_honor);
+        rl_honor.setOnClickListener(this);
 
     }
 
@@ -75,6 +78,10 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             break;
             case R.id.rl_media: {
                 startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
+            }
+            break;
+            case R.id.rl_honor:{
+                HonorActivity.startHonorActivity(getContext(),model.getClassId());
             }
             break;
             case rl_exit: {

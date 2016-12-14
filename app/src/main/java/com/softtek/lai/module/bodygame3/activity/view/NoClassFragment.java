@@ -79,11 +79,8 @@ public class NoClassFragment extends LazyBaseFragment implements View.OnClickLis
     protected void initViews() {
         //日历
 //        material_calendar.setDatepageChangeListener(this);
-        material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
-
         final Calendar instance = Calendar.getInstance();
         material_calendar.setSelectedDate(instance.getTime());
-        material_calendar.removeDecorators();
         Calendar instance1 = Calendar.getInstance();
         instance1.set(instance1.get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
 
@@ -95,6 +92,7 @@ public class NoClassFragment extends LazyBaseFragment implements View.OnClickLis
                 .setMaximumDate(instance2.getTime())
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
+        material_calendar.setShowOtherDates(0);
 
         spinner_title1.setVisibility(View.GONE);
         tv_title.setText("尚未开班");

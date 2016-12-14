@@ -148,7 +148,9 @@ public class MoreHasFragment extends Fragment {
                 getChildFragmentManager().beginTransaction().replace(R.id.container, coachFragment).commitAllowingStateLoss();
                 break;
             case 3://助教
-                getChildFragmentManager().beginTransaction().replace(R.id.container, new AssistantFragment()).commitAllowingStateLoss();
+                AssistantFragment assistantFragment = new AssistantFragment();
+                assistantFragment.setArguments(bundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.container, assistantFragment).commitAllowingStateLoss();
                 break;
             case 4://学员
                 StudentFragment studentFragment = new StudentFragment();

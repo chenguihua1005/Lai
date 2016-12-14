@@ -17,6 +17,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.SearchClassActivity;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -65,8 +66,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     LinearLayout ll_saikuang;
     @InjectView(R.id.ll_history)
     LinearLayout ll_history;
-    @InjectView(R.id.ll_honor)
-    LinearLayout ll_honor;
+    @InjectView(R.id.ll_join_class)
+    LinearLayout ll_join_class;
 
 
     public MoreFragment() {
@@ -149,10 +150,10 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                 getActivity().finish();
             }
         });
-        ll_honor.setOnClickListener(new View.OnClickListener() {
+        ll_join_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), HonorActivity.class));
+                startActivity(new Intent(getContext(), SearchClassActivity.class));
             }
         });
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_pantner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/toolbar"></include>
+
+    <LinearLayout
+        android:id="@+id/ll_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/pantner_search_bottom"
+            android:layout_width="280dp"
+            android:layout_height="31dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toStartOf="@+id/search_btn"
+            android:background="@drawable/btn_search"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/im_search_bottom"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/light" />
+
+            <EditText
+                android:id="@+id/pantnerContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/im_search_bottom"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:gravity="center_vertical"
+                android:hint="请输入班级名称或班级编号"
+                android:maxLines="1"
+                android:textSize="14sp"
+
+                />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/search_partner"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="搜索"
+            android:layout_gravity="center"
+            android:textColor="@color/word"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/pantner_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_lin"
+        android:divider="#e1e1e1"
+        android:dividerHeight="0.5dp"
+        android:overScrollMode="never"></ListView>
+
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>
