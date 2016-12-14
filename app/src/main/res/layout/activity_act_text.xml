@@ -37,12 +37,13 @@
         <com.softtek.lai.module.bodygame3.head.view.ClearEditText
             android:id="@+id/et_mark"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColorHint="#999999"
-            android:layout_marginLeft="8dp"
             android:textSize="12sp"
             android:gravity="top"
+            android:minLines="8"
+            android:layout_marginLeft="8dp"
             android:maxLength="300"
             android:background="@drawable/border_none"/>
 
@@ -91,13 +92,13 @@
             android:background="@drawable/border_none"/>
 
 
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_del"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right|center"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:src="@drawable/bodygame3_delete" />-->
+        <ImageView
+            android:id="@+id/iv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/bodygame3_delete" />
     </FrameLayout>
 
     <TextView

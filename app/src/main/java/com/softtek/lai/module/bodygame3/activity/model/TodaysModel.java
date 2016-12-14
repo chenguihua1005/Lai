@@ -10,13 +10,15 @@ public class TodaysModel {
     private int ClassRole;
     private int Num;
     private Boolean IsRetest;
+    private int RetestStatus;
     private List<TodayactModel> list_Activity;
 
-    public TodaysModel(int classRole, int num, Boolean isRetest, List<TodayactModel> list_Activity) {
-        ClassRole = classRole;
-        Num = num;
-        IsRetest = isRetest;
-        this.list_Activity = list_Activity;
+    public int getRetestStatus() {
+        return RetestStatus;
+    }
+
+    public void setRetestStatus(int retestStatus) {
+        RetestStatus = retestStatus;
     }
 
     public int getClassRole() {

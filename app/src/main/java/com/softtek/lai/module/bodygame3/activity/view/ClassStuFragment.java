@@ -364,6 +364,27 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                         calendarModels.clear();
                         if (activitydataModelResponseData.getData() != null) {
                             ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
+                            reset_name.setText("复测录入");
+                            resetstatus = activitydataModel.getRetestStatus();
+                            switch (resetstatus) {
+                                case 1://已过去的复测日
+                                    ll_fuce.setEnabled(true);
+                                    if(!activitydataModel.getRetest()){
+                                        reset_time.setText("未复测");
+                                    }else{
+                                        reset_time.setText("已复测");
+                                    }
+                                    break;
+                                case 2://进行中的复测日
+                                    ll_fuce.setEnabled(true);
+                                    break;
+                                case 3://未开始的复测日
+                                    ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
+                                    break;
+                                default:
+                                    break;
+                            }
                             if (activitydataModel.getList_ActCalendar() != null) {
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
@@ -403,14 +424,14 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                             }
 
                             ll_fuce.setBackgroundResource(R.drawable.reset_back);
-                            reset_name.setText("复测录入");
+
                             fl_right.setEnabled(false);
                             iv_right.setVisibility(View.GONE);
-                            if (!activitydataModel.getRetest()) {
-                                reset_time.setText("未复测");
-                            } else {
-                                reset_time.setText("已复测");
-                            }
+//                            if (!activitydataModel.getRetest()) {
+//                                reset_time.setText("未复测");
+//                            } else {
+//                                reset_time.setText("已复测");
+//                            }
 
 
                             //加载班级
@@ -499,16 +520,6 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
-
-                    if (resetstatus == 1) {//已过去的复测日
-                        ll_fuce.setEnabled(true);
-                    } else if (resetstatus == 2) {//进行中的复测日
-                        ll_fuce.setEnabled(true);
-                    } else if (resetstatus == 3) {//未开始的复测日
-                        ll_fuce.setEnabled(false);
-                    } else {
-                        ll_fuce.setVisibility(View.GONE);
-                    }
                     list_activity.setVisibility(View.VISIBLE);
                     ll_fuce.setVisibility(View.VISIBLE);
                 }
@@ -535,6 +546,27 @@ public class ClassStuFragment extends LazyBaseFragment implements OnDateSelected
                         todayactModels.clear();
                         if (todaysModelResponseData.getData() != null) {
                             TodaysModel model = todaysModelResponseData.getData();
+                            resetstatus = model.getRetestStatus();
+                            switch (resetstatus) {
+                                case 1://已过去的复测日
+                                    ll_fuce.setEnabled(true);
+                                    if(!model.getRetest()){
+                                        reset_time.setText("未复测");
+                                    }else{
+                                        reset_time.setText("已复测");
+                                    }
+                                    break;
+                                case 2://进行中的复测日
+                                    ll_fuce.setEnabled(true);
+                                    break;
+                                case 3://未开始的复测日
+                                    ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
+                                    break;
+                                default:
+                                    break;
+                            }
+
                             if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
                                 todayactModels.addAll(model.getList_Activity());
                                 actRecyclerAdapter.notifyDataSetChanged();

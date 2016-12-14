@@ -77,7 +77,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     LinearLayout rl_activity_name;
 
     @InjectView(R.id.rl_activity_mark)
-    RelativeLayout rl_activity_mark;
+    LinearLayout rl_activity_mark;
 
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
