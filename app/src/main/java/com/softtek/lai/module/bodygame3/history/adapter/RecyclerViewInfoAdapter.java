@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,20 +24,16 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
-import com.softtek.lai.module.bodygame3.history.view.ClassInfoActivity;
-import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
@@ -60,6 +55,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ItemListener myListener;
     private Context mContext;
     private View mPopView;
+    private CommentListener mCommentListener;
 
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
@@ -67,9 +63,11 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public RecyclerViewInfoAdapter(List<PhotoWallslistModel> items,
                                    ItemListener listener,
+                                   CommentListener commentListener,
                                    Context context, View popView) {
         myItems = items;
         myListener = listener;
+        mCommentListener = commentListener;
         mContext = context;
         mPopView = popView;
     }
@@ -116,6 +114,10 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public interface ItemListener {
         void onItemClick(PhotoWallslistModel item, int pos);
+    }
+
+    public interface CommentListener {
+        void onCommentClick(CommentEvent event);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -181,42 +183,50 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (!mIsFocus.isChecked()) {
-                        service.doCancleFocusAccount(
-                                UserInfoModel.getInstance().getToken(),
-                                UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong(item.getAccountid()),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        if (responseData.getStatus() != 200) {
-                                            mIsFocus.setChecked(true);
+                        try {
+                            service.doCancleFocusAccount(
+                                    UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    Long.parseLong(item.getAccountid()),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() != 200) {
+                                                mIsFocus.setChecked(true);
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        super.failure(error);
-                                    }
-                                });
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            super.failure(error);
+                                        }
+                                    });
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        service.doFocusAccount(
-                                UserInfoModel.getInstance().getToken(),
-                                UserInfoModel.getInstance().getUserId(),
-                                Long.parseLong(item.getAccountid()),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        if (responseData.getStatus() != 200) {
-                                            mIsFocus.setChecked(false);
+                        try {
+                            service.doFocusAccount(
+                                    UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    Long.parseLong(item.getAccountid()),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() != 200) {
+                                                mIsFocus.setChecked(false);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            super.failure(error);
                                         }
                                     }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        super.failure(error);
-                                    }
-                                }
-                        );
+                            );
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -362,28 +372,30 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 name = name.substring(1, name.length());
                             }
                             mZanName.append(name);
-                            service.postZan(UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    UserInfoModel.getInstance().getUser().getNickname(),
-                                    model.getHealtId(),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
+                            try {
+                                service.postZan(UserInfoModel.getInstance().getToken(),
+                                        UserInfoModel.getInstance().getUserId(),
+                                        UserInfoModel.getInstance().getUser().getNickname(),
+                                        model.getHealtId(),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
 
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            hasZaned = false;
-                                            if (item.getPraiseNameList().isEmpty()) {
-                                                mZanLayout.setVisibility(View.GONE);
-                                                mZanName.setText("");
                                             }
-                                            super.failure(error);
-                                        }
-                                    });
 
-
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                hasZaned = false;
+                                                if (item.getPraiseNameList().isEmpty()) {
+                                                    mZanLayout.setVisibility(View.GONE);
+                                                    mZanName.setText("");
+                                                }
+                                                super.failure(error);
+                                            }
+                                        });
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -393,12 +405,14 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             mComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     popupWindow.dismiss();
                     CommentEvent event = new CommentEvent();
                     event.setAccountId(UserInfoModel.getInstance().getUserId());
                     event.setHealthId(model.getHealtId());
                     event.setView(itemView);
-                    EventBus.getDefault().post(event);
+                    mCommentListener.onCommentClick(event);
+//                    EventBus.getDefault().post(event);
                 }
             });
 
@@ -409,7 +423,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
         }
-
     }
 
     public class FooterHolder extends RecyclerView.ViewHolder {

@@ -26,6 +26,24 @@ public class ApplyConfirm {
     private String ClassRoleName;
     private List<ClassGroup> ClassGroups;
     private List<ClassRole> ClassRoles;
+    private String ClassName;
+    private String ClassCode;
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
+    }
+
+    public String getClassCode() {
+        return ClassCode;
+    }
+
+    public void setClassCode(String classCode) {
+        ClassCode = classCode;
+    }
 
     public String getClassGroupName() {
         return ClassGroupName;

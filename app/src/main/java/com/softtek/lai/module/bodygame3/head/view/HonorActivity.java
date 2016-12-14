@@ -47,12 +47,18 @@ public class HonorActivity extends BaseActivity {
     protected void initViews() {
         Intent intent = getIntent();
         String classId = intent.getStringExtra("classId");
-        tv_title.setText(R.string.honorRank);
+        boolean isPast = intent.getBooleanExtra("isPast", false);
+        if (isPast) {
+            tv_title.setText(R.string.past_ranking);
+        } else {
+            tv_title.setText(R.string.honorRank);
+        }
+
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance(classId));
         fragments.add(MonthHonorFragment.getInstance(classId));
-        fragments.add(TotalHonorFragment.getInstance());
+        fragments.add(TotalHonorFragment.getInstance(classId));
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);
         tab.setupWithViewPager(content);
@@ -68,6 +74,13 @@ public class HonorActivity extends BaseActivity {
     public static void startHonorActivity(Context context, String classId) {
         Intent intent = new Intent(context, HonorActivity.class);
         intent.putExtra("classId", classId);
+        context.startActivity(intent);
+    }
+
+    public static void startHonorActivity2(Context context, String classId, boolean isPast) {
+        Intent intent = new Intent(context, HonorActivity.class);
+        intent.putExtra("classId", classId);
+        intent.putExtra("isPast", isPast);
         context.startActivity(intent);
     }
 
