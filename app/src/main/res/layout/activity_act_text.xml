@@ -14,63 +14,90 @@
         android:id="@+id/frag1"
         android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="120dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/et_border2">
 
-        <EditText
+        <!--<EditText-->
+            <!--android:id="@+id/et_mark"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/border_none"-->
+            <!--android:imeOptions="actionSend"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textColor="#333333"-->
+            <!--android:maxLength="300"-->
+            <!--android:textColorHint="#c0c0c0"-->
+            <!--android:textCursorDrawable="@drawable/color_cursor"-->
+            <!--android:textSize="16sp" />-->
+
+
+        <com.softtek.lai.module.bodygame3.head.view.ClearEditText
             android:id="@+id/et_mark"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_none"
-            android:imeOptions="actionSend"
-            android:paddingLeft="10dp"
-            android:textColor="#333333"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="#999999"
+            android:layout_marginLeft="8dp"
+            android:textSize="12sp"
+            android:gravity="top"
             android:maxLength="300"
-            android:textColorHint="#c0c0c0"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp" />
+            android:background="@drawable/border_none"/>
 
-        <ImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/bodygame3_delete" />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_delete"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right|center"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/bodygame3_delete" />-->
     </FrameLayout>
     <FrameLayout
         android:id="@+id/frag2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="120dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/et_border2">
 
-        <EditText
+        <!--<EditText-->
+            <!--android:id="@+id/et_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@drawable/border_none"-->
+            <!--android:imeOptions="actionSend"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textColor="#333333"-->
+            <!--android:maxLength="30"-->
+            <!--android:textColorHint="#c0c0c0"-->
+            <!--android:textCursorDrawable="@drawable/color_cursor"-->
+            <!--android:textSize="16sp" />-->
+
+
+        <com.softtek.lai.module.bodygame3.head.view.ClearEditText
             android:id="@+id/et_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_none"
-            android:imeOptions="actionSend"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="#333333"
+            android:layout_height="120dp"
+            android:textColorHint="#999999"
+            android:textSize="12sp"
+           android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:gravity="top"
             android:maxLength="30"
-            android:textColorHint="#c0c0c0"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp" />
+            android:background="@drawable/border_none"/>
 
-        <ImageView
-            android:id="@+id/iv_del"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/bodygame3_delete" />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_del"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right|center"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/bodygame3_delete" />-->
     </FrameLayout>
 
     <TextView
@@ -80,4 +107,16 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_dismissclass"/>
+
 </LinearLayout>

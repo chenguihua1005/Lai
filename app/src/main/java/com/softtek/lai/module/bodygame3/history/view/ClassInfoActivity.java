@@ -2,6 +2,8 @@ package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,14 +29,15 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
+import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.history.adapter.MyFragmentPagerAdapter;
 import com.softtek.lai.module.bodygame3.history.adapter.RecyclerViewInfoAdapter;
+import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -48,6 +51,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
@@ -103,6 +107,10 @@ public class ClassInfoActivity extends BaseActivity {
     Button mCommentSubmit;
     @InjectView(R.id.cl_content)
     CoordinatorLayout mCLContent;
+    @InjectView(R.id.tv_recycler_no_data)
+    TextView mRecyclerNoData;
+    @InjectView(R.id.honors)
+    LinearLayout mGotoHonors;
 
     private ArrayList<Fragment> classmates;
     private MyFragmentPagerAdapter mViewpagerAdapter;
@@ -147,11 +155,21 @@ public class ClassInfoActivity extends BaseActivity {
 
     private void initRecyclerView() {
         final View popView = this.getLayoutInflater().inflate(R.layout.history_popup_window, null);
-        mInfoAdapter = new RecyclerViewInfoAdapter(wallsList, new RecyclerViewInfoAdapter.ItemListener() {
-            @Override
-            public void onItemClick(PhotoWallslistModel item, int pos) {
-            }
-        }, this, popView);
+        mInfoAdapter = new RecyclerViewInfoAdapter(
+                wallsList,
+                new RecyclerViewInfoAdapter.ItemListener() {
+                    @Override
+                    public void onItemClick(PhotoWallslistModel item, int pos) {
+                    }
+                },
+                new RecyclerViewInfoAdapter.CommentListener() {
+                    @Override
+                    public void onCommentClick(final CommentEvent event) {
+                       doComment(event);
+                    }
+                },
+                this,
+                popView);
         mRecyclerView.setAdapter(mInfoAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -194,39 +212,43 @@ public class ClassInfoActivity extends BaseActivity {
     }
 
     private void updateRecyclerView(int pageIndex, int pageCount) {
-        service.getClassDynamic(
-                UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                historyClassModel.getClassId(),
-                pageIndex + "",
-                pageCount + "",
-                new RequestCallback<ResponseData<PhotoWallListModel>>() {
-                    @Override
-                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
-                        if (responseData.getStatus() == 200) {
-                            if (responseData.getData().getPhotoWallslist() != null) {
-                                if (!responseData.getData().getPhotoWallslist().isEmpty()) {
-                                    wallsList.addAll(responseData.getData().getPhotoWallslist());
-                                    mInfoAdapter.notifyDataSetChanged();
-                                } else {
-                                    page--;
+        try {
+            service.getClassDynamic(
+                    UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
+                    historyClassModel.getClassId(),
+                    pageIndex + "",
+                    pageCount + "",
+                    new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                        @Override
+                        public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                            if (responseData.getStatus() == 200) {
+                                if (responseData.getData().getPhotoWallslist() != null) {
+                                    if (!responseData.getData().getPhotoWallslist().isEmpty()) {
+                                        wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                        mInfoAdapter.notifyDataSetChanged();
+                                    } else {
+                                        page--;
+                                    }
                                 }
+
+                            } else {
+                                Util.toastMsg(responseData.getMsg());
                             }
+                        }
 
-                        } else {
-                            Util.toastMsg(responseData.getMsg());
+                        @Override
+                        public void failure(RetrofitError error) {
+                            if (mPull.isRefreshing()) {
+                                mPull.setRefreshing(false);
+                            }
+                            super.failure(error);
                         }
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (mPull.isRefreshing()) {
-                            mPull.setRefreshing(false);
-                        }
-                        super.failure(error);
-                    }
-                }
-        );
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initViewpager(HistoryDetailsBean bean) {
@@ -261,6 +283,18 @@ public class ClassInfoActivity extends BaseActivity {
             }
             mLlPoint.addView(mImageView, params);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.inject(this);
+    }
+
+    @OnClick(R.id.honors)
+    public void onClick() {
+        startActivity(new Intent(ClassInfoActivity.this, HonorActivity.class));
     }
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -313,98 +347,43 @@ public class ClassInfoActivity extends BaseActivity {
     }
 
     private void getHistoryInfo() {
-        service.getHistoryInfo(
-                UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                historyClassModel.getClassId(),
-//                "C4E8E179-FD99-4955-8BF9-CF470898788B",
-                new RequestCallback<ResponseData<HistoryDetailsBean>>() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void success(ResponseData<HistoryDetailsBean> responseData, Response response) {
-                        if (responseData.getStatus() == 200) {
-                            initViewpager(responseData.getData());
-                            if (responseData.getData().getList_Top1() != null) {
-                                if (responseData.getData().getList_Top1().size() > 2) {
-                                    initHonor(responseData.getData().getList_Top1());
+        try {
+            service.getHistoryInfo(
+                    UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
+                    historyClassModel.getClassId(),
+    //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                    new RequestCallback<ResponseData<HistoryDetailsBean>>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void success(ResponseData<HistoryDetailsBean> responseData, Response response) {
+                            if (responseData.getStatus() == 200) {
+                                initViewpager(responseData.getData());
+                                if (responseData.getData().getList_Top1() != null) {
+                                    if (responseData.getData().getList_Top1().size() > 2) {
+                                        initHonor(responseData.getData().getList_Top1());
+                                    } else {
+                                        initFailedView();
+                                    }
                                 } else {
                                     initFailedView();
                                 }
-                            } else {
-                                initFailedView();
                             }
                         }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        initViewpager(new HistoryDetailsBean());
-                        initFailedView();
-                        super.failure(error);
-                    }
-                });
-    }
-
-    private void initHonor(List<HistoryDetailsBean.ListTop1Bean> list) {
-        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto()).placeholder(R.drawable.default_icon_rect)
-                .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
-        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto()).placeholder(R.drawable.default_icon_rect)
-                .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
-        mLossFat.setText(list.get(0).getUserName());
-        mLossWeight.setText(list.get(1).getUserName());
-        mLossFatValue.setText("减重" + list.get(0).getLoss() + "斤");
-        mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
-    }
-
-    private void getClassDynamicInfo() {
-        service.getClassDynamic(
-                UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                historyClassModel.getClassId(),
-                "1",
-                "6",
-                new RequestCallback<ResponseData<PhotoWallListModel>>() {
-                    @Override
-                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
-                        mPull.setRefreshing(false);
-                        if (responseData.getStatus() == 200) {
-                            wallsList.addAll(responseData.getData().getPhotoWallslist());
-                            mInfoAdapter.notifyDataSetChanged();
-
-                        } else if (responseData.getMsg().equals("暂无数据")) {
+                        @Override
+                        public void failure(RetrofitError error) {
+                            initViewpager(new HistoryDetailsBean());
                             initFailedView();
-//                            initRecyclerView();
+                            super.failure(error);
                         }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (mPull.isRefreshing()) {
-                            mPull.setRefreshing(false);
-                        }
-                        super.failure(error);
-                    }
-                });
-    }
-
-    @Override
-    protected void initDatas() {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        classmates = new ArrayList<>();
-        wallsList.clear();
-        initRecyclerView();
-        mBrokenViewPager.setOffscreenPageLimit(2);
-        service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
-        historyClassModel = (HistoryClassModel) getIntent().getSerializableExtra("classData");
-        mInfoTitle.setText(historyClassModel.getClassName());
-        getClassDynamicInfo();
-        getHistoryInfo();
     }
 
-    @Subscribe
-    public void doComment(final CommentEvent event) {
+    private void doComment(final CommentEvent event){
         View itemView = event.getView();
         final LinearLayout mPersonCommentLayout = (LinearLayout) itemView.findViewById(R.id.ll_comment_person);
         final View mItemBottom = (View) itemView.findViewById(R.id.item_bottom);
@@ -443,40 +422,104 @@ public class ClassInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 mCommentLayout.setVisibility(View.GONE);
                 hideSoftInput(view.getWindowToken());
-                service.postCommnents(
-                        UserInfoModel.getInstance().getToken(),
-                        event.getHealthId(),
-                        event.getAccountId(),
-                        mEdtComment.getText().toString(),
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                                if (responseData.getStatus() == 200) {
-                                    TextView commentText = new TextView(ClassInfoActivity.this);
-                                    String commentName = UserInfoModel.getInstance().getUser().getNickname();
-                                    SpannableString ss = new SpannableString(commentName + "：");
-                                    ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                    commentText.setText(ss);
-                                    commentText.append(mEdtComment.getText().toString());
-                                    mPersonCommentLayout.addView(commentText);
-                                    mEdtComment.setText("");
+                try {
+                    service.postCommnents(
+                            UserInfoModel.getInstance().getToken(),
+                            event.getHealthId(),
+                            event.getAccountId(),
+                            mEdtComment.getText().toString(),
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    if (responseData.getStatus() == 200) {
+                                        TextView commentText = new TextView(ClassInfoActivity.this);
+                                        String commentName = UserInfoModel.getInstance().getUser().getNickname();
+                                        SpannableString ss = new SpannableString(commentName + "：");
+                                        ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                        commentText.setText(ss);
+                                        commentText.append(mEdtComment.getText().toString());
+                                        mPersonCommentLayout.addView(commentText);
+                                        mEdtComment.setText("");
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                mEdtComment.setText("");
-                                Log.d("comment---------------", error.toString());
-                                super.failure(error);
-                            }
-                        });
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    mEdtComment.setText("");
+                                    Log.d("comment---------------", error.toString());
+                                    super.failure(error);
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    private void initHonor(List<HistoryDetailsBean.ListTop1Bean> list) {
+        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto()).placeholder(R.drawable.default_icon_rect)
+                .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
+        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto()).placeholder(R.drawable.default_icon_rect)
+                .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
+        mLossFat.setText(list.get(0).getUserName());
+        mLossWeight.setText(list.get(1).getUserName());
+        mLossFatValue.setText("减重" + list.get(0).getLoss() + "斤");
+        mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
+    }
+
+    private void getClassDynamicInfo() {
+        service.getClassDynamic(
+                UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(),
+                historyClassModel.getClassId(),
+                "1",
+                "6",
+                new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                        mPull.setRefreshing(false);
+                        if (responseData.getStatus() == 200) {
+                            wallsList.addAll(responseData.getData().getPhotoWallslist());
+                            mInfoAdapter.notifyDataSetChanged();
+
+                        } else if (responseData.getMsg().equals("暂无数据")) {
+                            initFailedView();
+                            mRecyclerNoData.setVisibility(View.VISIBLE);
+//                            initRecyclerView();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (mPull.isRefreshing()) {
+                            mPull.setRefreshing(false);
+                        }
+                        mRecyclerNoData.setVisibility(View.VISIBLE);
+                        super.failure(error);
+                    }
+                });
+    }
+
+    @Override
+    protected void initDatas() {
+//        if (!EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().register(this);
+//        }
+        classmates = new ArrayList<>();
+        wallsList.clear();
+        initRecyclerView();
+        mBrokenViewPager.setOffscreenPageLimit(2);
+        service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
+        historyClassModel = (HistoryClassModel) getIntent().getSerializableExtra("classData");
+        mInfoTitle.setText(historyClassModel.getClassName());
+        getClassDynamicInfo();
+        getHistoryInfo();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 }

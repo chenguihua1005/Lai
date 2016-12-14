@@ -37,8 +37,11 @@ public class WeekHonorManager {
                         switch (status) {
                             case 200:
                                 HonorRankModel honorRankModel = honorRankModelResponseData.getData();
-                                if (callback != null)
+                                if (callback != null) {
                                     callback.getModel(honorRankModel);
+                                    Log.e("curryddd", "getModel: " + honorRankModel.toString());
+                                    Log.e("curryddd", "getModel: " + honorRankModel.getList_date().toString());
+                                }
                                 break;
                             default:
                                 if (callback != null)

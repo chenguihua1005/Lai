@@ -20,13 +20,14 @@
         android:background="#fafafa"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_activity_name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/ll_selector_grey"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
@@ -39,28 +40,26 @@
                 android:textColor="#666666"
                 android:textSize="15sp" />
 
+
+            <TextView
+                android:id="@+id/tv_activity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text=""
+                android:layout_weight="1"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
             <ImageView
                 android:id="@+id/iv_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
                 android:src="@drawable/bodygame3_arrow" />
-
-            <TextView
-                android:id="@+id/tv_activity_name"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/iv_arrow"
-
-                android:gravity="right"
-                android:singleLine="true"
-                android:textColor="#333333"
-                android:textSize="15sp" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

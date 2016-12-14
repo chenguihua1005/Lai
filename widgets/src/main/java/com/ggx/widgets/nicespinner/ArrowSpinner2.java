@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -172,7 +171,10 @@ public class ArrowSpinner2 extends LinearLayout{
 
         isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner2_hideArrow2, false);
         if (!isArrowHide) {
-            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_black);
+            //刷新图
+//            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_black);
+            //三角图
+            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow);
             int resId = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -27,16 +28,13 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
     EditText et_mark;
     @InjectView(R.id.et_title)
     EditText et_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.btn)
+    Button tv_right;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.iv_delete)
-    ImageView iv_delete;
-    @InjectView(R.id.iv_del)
-    ImageView iv_del;
+
     @InjectView(R.id.frag1)
     FrameLayout frag1;
     @InjectView(R.id.frag2)
@@ -53,8 +51,8 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
             case ADD_MARK:
                 frag2.setVisibility(View.GONE);
                 tv_count.setText("仅限300个字");
-                tv_title.setText("编辑活动说明");
-                et_mark.setHint("活动说明");
+                tv_title.setText("活动说明");
+                et_mark.setHint("活动说明...");
                 et_mark.setText(intent.getStringExtra("name_value"));
                 Editable etext1 = et_mark.getText();
                 Selection.setSelection(etext1, etext1.length());
@@ -63,8 +61,8 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                 tv_count.setText("仅限30个字");
                 frag1.setVisibility(View.GONE);
                 et_mark.setSingleLine();
-                tv_title.setText("编辑活动标题");
-                et_title.setHint("活动标题");
+                tv_title.setText("活动标题");
+                et_title.setHint("活动标题...");
                 et_title.setText(intent.getStringExtra("name_value"));
                 Editable etext2 = et_title.getText();
                 Selection.setSelection(etext2, etext2.length());
@@ -74,8 +72,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
         tv_right.setText("确定");
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        iv_del.setOnClickListener(this);
-        iv_delete.setOnClickListener(this);
+
     }
 
     @Override
@@ -86,7 +83,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_right:
+            case R.id.btn:
                 switch (flag) {
                     case ADD_ACTIVITY_NAME:
                         if (!TextUtils.isEmpty(et_title.getText().toString())) {
@@ -151,12 +148,12 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.iv_delete:
-                et_mark.setText("");
-                break;
-            case R.id.iv_del:
-                et_title.setText("");
-                break;
+//            case R.id.iv_delete:
+//                et_mark.setText("");
+//                break;
+//            case R.id.iv_del:
+//                et_title.setText("");
+//                break;
         }
     }
 

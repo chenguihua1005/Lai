@@ -342,7 +342,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             tv_no_dy.setVisibility(View.VISIBLE);
         }
     }
-
+    private int PERSONDY=3;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -352,13 +352,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(intent1,GET_Sian);
                 break;
             case R.id.tv_dynamic:
-                if (userid == AccountId) {
                     Intent personal = new Intent(this, PersionalActivity.class);
-                    personal.putExtra("isFocus", memberInfoModel.getIsFocus());
-                    personal.putExtra("personalId", userid);
-                    personal.putExtra("personalName", memberInfoModel.getUserName());
-                    startActivity(personal);
-                }
+                    personal.putExtra("personalId", AccountId+"");
+                    personal.putExtra("personalName",memberInfoModel.getUserName());
+                    personal.putExtra("isFocus",Integer.parseInt("true".equals(memberInfoModel.getIsFocus())?"1":"0"));
+                    startActivityForResult(personal,PERSONDY);
                 break;
             case R.id.tv_chart:
                 Intent graph = new Intent(this, GraphActivity.class);
@@ -369,8 +367,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_chat:
                 Log.i(TAG,"userId = " + HXAccountId  +" UserName = " + UserName);
-
-
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
@@ -406,6 +402,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             switch (status)
                             {
                                 case 200:
+                                    memberInfoModel.setIsFocus("true");
                                     break;
                                 default:
                                     im_guanzhu.setChecked(true);
@@ -425,6 +422,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             switch (status)
                             {
                                 case 200:
+                                    memberInfoModel.setIsFocus("false");
                                     break;
                                 default:
                                     im_guanzhu.setChecked(false);
@@ -591,6 +589,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         {
             tv_personlityName.setText(data.getStringExtra("sina"));
             tv_personlityName.setCompoundDrawables(null, null, null, null);
+        }
+        if (requestCode==PERSONDY&&resultCode==RESULT_OK)
+        {
+            int isFocus=data.getIntExtra("isFocus",0);
+            if (isFocus==1) {
+                im_guanzhu.setChecked(true);
+                memberInfoModel.setIsFocus("true");
+            }
+            else {
+                im_guanzhu.setChecked(false);
+                memberInfoModel.setIsFocus("false");
+            }
         }
     }
 

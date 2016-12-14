@@ -97,9 +97,13 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/tv_recycler_no_data"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="" />
+                        android:text="暂无数据"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:visibility="invisible"/>
                 </android.support.v4.widget.NestedScrollView>
 <!---->
                 <android.support.v7.widget.RecyclerView
