@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.history.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
@@ -18,20 +19,23 @@ import retrofit.http.Query;
  */
 
 public interface HistoryService {
+    //班级照片墙
     @GET("/V1/HealthyCircle/GetPhotoWalls")
     void getClassDynamic(@Header("token") String token,
                          @Query("Loginaccid") long LoginaccId,
                          @Query("ClassId") String classId,
                          @Query("PageIndex") String pageIndex,
                          @Query("PageSize") String pageSize,
-                         RequestCallback<ResponseData<PhotoWallListModel>> callback);
+                         RequestCallback<ResponseData<DynamicBean>> callback);
 
+    //班级详情
     @GET("/V1/HistoryClass/GetHistoryClassDetails")
     void getHistoryInfo(@Header("token") String token,
                         @Query("AccountId") long accountId,
                         @Query("ClassId") String classId,
                         RequestCallback<ResponseData<HistoryDetailsBean>> callback);
 
+    //post评论
     @FormUrlEncoded
     @POST("/V1/HealthyCircle/CommitComments")
     void postCommnents(@Header("token") String token,
@@ -40,6 +44,7 @@ public interface HistoryService {
                        @Field("Comments") String comments,
                        RequestCallback<ResponseData> callback);
 
+    //点赞
     @FormUrlEncoded
     @POST("/HealthyCircle/InsertThumbUp")
     void postZan(@Header("token") String token,

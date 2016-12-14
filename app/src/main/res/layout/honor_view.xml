@@ -78,7 +78,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="减肥最多的学员"
+                        android:text="减重比最多的学员"
                         android:gravity="center"
                         android:textColor="@color/white"/>
                 </LinearLayout>
@@ -154,7 +154,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="减脂最多的学员"
+                        android:text="减脂比最多的学员"
                         android:gravity="center"
                         android:textColor="@color/white"/>
                 </LinearLayout>
