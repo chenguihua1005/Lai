@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -303,8 +304,14 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 dateAndTime.set(Calendar.HOUR_OF_DAY, i);//时
                 dateAndTime.set(Calendar.MINUTE, i1);//分
 //                String.format("%d:%d",hourOfDay,minute)
-                Log.e("time", date + "" + String.format("%d:%d", i, i1));
-                tv_activity_time.setText(date + "" + String.format("%d:%d", i, i1));
+
+
+                tv_activity_time.setText(date+""+new StringBuilder()
+                        .append(i < 10 ? "0" + i : i).append(":")
+                        .append(i1 < 10 ? "0" + i1 : i1));
+             ;
+//                tv_activity_time.setText(date + "" + String.format("%d:%d", i, i1));
+
             }
         }, dateAndTime.get(Calendar.HOUR_OF_DAY),
                 dateAndTime.get(Calendar.MINUTE), true).show();
