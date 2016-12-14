@@ -96,8 +96,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void lazyLoad() {
-        pull.setRefreshing(true);
-        onRefresh();
+        Log.i("没有班级数据是否刷新了");
+
     }
 
     @Override
@@ -146,6 +146,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        Log.i("initView没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
 
@@ -153,6 +154,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     protected void initDatas() {
         roate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
         EventBus.getDefault().register(this);
+        pull.setRefreshing(true);
+        onRefresh();
+        Log.i("initData没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
     @Override

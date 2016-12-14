@@ -129,7 +129,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
             }
         });
 
-        list = new ArrayList<ChatContactModel>();
+        list = new ArrayList<>();
 
         adapter = new ContactExpandableAdapter(getContext(), datas, groups);
         list_contant.getRefreshableView().setAdapter(adapter);
