@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ggx.widgets.view.ChooseView;
@@ -47,7 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_contact)
-public class ContactFragment extends LazyBaseFragment implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
+public class ContactFragment extends LazyBaseFragment implements View.OnClickListener {
     private static final String TAG = "ContactFragment";
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -89,6 +88,8 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     public static Map<String, List<ChatContactModel>> datas = new HashMap<>();
     private List<String> groups = new ArrayList<>();
 
+    public static final int REFRESH_UI = 0x001;
+
 
     @Override
     protected void initViews() {
@@ -105,12 +106,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         //顶上几个菜单列表
         menuAdapter = new ContactMenuAdapter(getActivity());
         menu_gridview.setAdapter(menuAdapter);
-
-
         menu_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
                 boolean isLogin = EMClient.getInstance().isLoggedInBefore();
                 if (isLogin) {
                     if (0 == position) {
@@ -118,7 +116,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                         startActivity(intent);
                     } else if (1 == position) {//新朋友
                         Intent intent = new Intent(getActivity(), NewFriendActivity.class);//群聊列表
-                        startActivity(intent);
+                        startActivityForResult(intent, REFRESH_UI);
                     } else if (2 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                         intent.putExtra("list", (Serializable) list);
@@ -134,12 +132,21 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         list = new ArrayList<ChatContactModel>();
 
         adapter = new ContactExpandableAdapter(getContext(), datas, groups);
-//        adapter = new ChatContantAdapter(getContext(), list);
         list_contant.getRefreshableView().setAdapter(adapter);
         list_contant.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        list_contant.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                Log.i(TAG, "刷新......");
+                getDataAndUpdate();
 
+            }
 
-//        list_contant.setOnRefreshListener(this);
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+
+            }
+        });
 
         chooseView.setChooseListener(new ChooseView.OnChooseListener() {
             @Override
@@ -200,10 +207,13 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         loadingData();
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        loadingData();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REFRESH_UI) {
+            loadingData();
+        }
     }
 
     @Override
@@ -275,7 +285,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                         adapter.notifyDataSetChanged();
 
                         Log.i(TAG, "groups = " + new Gson().toJson(groups));
-                        Log.i(TAG,"datas = " + new Gson().toJson(datas));
+                        Log.i(TAG, "datas = " + new Gson().toJson(datas));
                         for (int i = 0; i < groups.size(); i++) {
                             list_contant.getRefreshableView().expandGroup(i);
                             chooseView.buildCharaset(groups.get(i));
@@ -308,14 +318,4 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     }
 
-
-    @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getDataAndUpdate();
-    }
-
-    @Override
-    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
-    }
 }
