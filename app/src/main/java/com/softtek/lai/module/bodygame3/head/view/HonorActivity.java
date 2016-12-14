@@ -48,7 +48,7 @@ public class HonorActivity extends BaseActivity {
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance(classId));
-        fragments.add(MonthHonorFragment.getInstance());
+        fragments.add(MonthHonorFragment.getInstance(classId));
         fragments.add(TotalHonorFragment.getInstance());
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);

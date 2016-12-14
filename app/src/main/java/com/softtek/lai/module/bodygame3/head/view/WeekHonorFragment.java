@@ -23,6 +23,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
+import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -47,7 +48,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
     private String SortTimeType = "ByWeek";
     private Long UID = 333L;
-    private int WhichTime = 7;
+    private int WhichTime = 1;
+    private boolean is_first = true;
 
     @InjectView(R.id.list_honorrank)
     PullToRefreshListView listHonorrank;//列表
@@ -63,6 +65,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     TextView tv_weight_per;
     @InjectView(R.id.tv_fat_per)
     TextView tv_fat_per;
+    //    @InjectView(R.id.ptflv_no_data)
+//    PullToRefreshListView ptflv_no_data;
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;
 
@@ -80,6 +84,10 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private TextView tv_top3_per;
     private ArrowSpinner2 spinner;
     private HonorRankModel honorRankModel;
+
+    List<ListdateModel> spinnerData = new ArrayList<>();
+    List<String> spinnerData2 = new ArrayList<>();
+    private ArrowSpinnerAdapter spinnerAdapter;
 
     public static WeekHonorFragment getInstance(String classId) {
         WeekHonorFragment fragment = new WeekHonorFragment();
@@ -131,9 +139,15 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, 7, false);
+                lazyLoad();
             }
         });
+//        ptflv_no_data.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+//            @Override
+//            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
+//            }
+//        });
 
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -154,21 +168,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     @Override
     protected void initDatas() {
-        //初始化选择周的spinner
-        final List<String> datas = new ArrayList<>();
-        datas.add(getString(R.string.physical_manage1));
-        datas.add(getString(R.string.physical_manage2));
-        datas.add(getString(R.string.physical_manage3));
-        datas.add(getString(R.string.physical_manage4));
-        datas.add(getString(R.string.physical_manage5));
-        datas.add(getString(R.string.physical_manage6));
-        datas.add(getString(R.string.physical_manage7));
-        datas.add(getString(R.string.physical_manage8));
-        datas.add(getString(R.string.physical_manage9));
-        datas.add(getString(R.string.physical_manage10));
-        datas.add(getString(R.string.physical_manage11));
-        datas.add(getString(R.string.physical_manage12));
-        spinner.attachCustomSource(new ArrowSpinnerAdapter<String>(getContext(), datas, R.layout.class_title) {
+        //根据position返回当前值给标题
+        spinnerAdapter = new ArrowSpinnerAdapter<String>(getContext(), spinnerData2, R.layout.class_title) {
             @Override
             public void convert(ViewHolder holder, String data, int position) {
                 TextView tv_class_name = holder.getView(R.id.tv_classed);
@@ -178,15 +179,17 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             @Override
             public String getText(int position) {
                 //根据position返回当前值给标题
-                return datas.get(position);
+                return spinnerData2 == null || spinnerData2.size() == 0 ? "" : spinnerData2.get(position);
             }
 
-        });
+        };
+        spinner.attachCustomSource(spinnerAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = i + 1;
+                Log.e("curryaaaa", "onItemSelected: " + i);
                 lazyLoad();
             }
 
@@ -203,13 +206,16 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void lazyLoad() {
         String token = UserInfoModel.getInstance().getToken();
+        UID=UserInfoModel.getInstance().getUserId();
         if (StringUtils.isEmpty(token)) {
 
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
         listHonorrank.setRefreshing();
+        //首次后设置为false
+        is_first = false;
     }
 
     @Override
@@ -221,17 +227,30 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
-        if (model == null) {
+        //放在外面，因为第一次给true的时候只传回来list_date,其他list为空
+        if (model != null && model.getList_date() != null && model.getList_date().size() != 0) {
+            spinnerData = model.getList_date();
+            for (int i = spinnerData.size() - 1; i >= 0; i--) {
+                spinnerData2.add(spinnerData.get(i).getDateName());
+            }
+            spinner.attachCustomSource(spinnerAdapter);
+        }
+        //
+        if (model == null || model.getList_top3() == null || model.getList_top3().size() == 0) {
+//            ptflv_no_data.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.VISIBLE);
             listHonorrank.setVisibility(View.GONE);
         } else {
+//            ptflv_no_data.setVisibility(View.GONE);
             ll_no_data.setVisibility(View.GONE);
             listHonorrank.setVisibility(View.VISIBLE);
             honorRankModel = model;
-//            Log.e("curryddd", "getModel: " + model.getList_date().t);
+
             groupModelList.clear();
             groupModelList.addAll(model.getList_group());
             honorGroupRankAdapter.notifyDataSetChanged();
+            //
+
             //list中显示减脂还是减重
             for (ListTopModel topModel : model.getList_top3()) {
                 switch (topModel.getRanking()) {
