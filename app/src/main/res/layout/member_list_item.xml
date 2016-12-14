@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="@color/word4"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
     </RelativeLayout>

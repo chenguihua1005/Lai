@@ -244,8 +244,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
             }
         }).start();
-
-
     }
 
     private void setChildProgress(int position, float progress) {

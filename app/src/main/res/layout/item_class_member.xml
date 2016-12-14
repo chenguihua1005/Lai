@@ -59,7 +59,7 @@
                 android:id="@+id/tv_trans_group"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:background="#FFA200"
+                android:background="#FFC200"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:text="转组"

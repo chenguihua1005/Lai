@@ -34,11 +34,6 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
 
     @Override
     protected void lazyLoad() {
-
-    }
-
-    @Override
-    protected void initViews() {
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 "",
@@ -50,7 +45,7 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
                             ClassRole = activitydataModel.getClassRole();
                             if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
                                 NoClassFragment fragment=NoClassFragment.getInstance(ActivityFragment.this);
-                                 Bundle bundle=new Bundle();
+                                Bundle bundle=new Bundle();
                                 bundle.putInt("classrole",ClassRole);
                                 fragment.setArguments(bundle);
                                 getChildFragmentManager().beginTransaction().replace(R.id.contain_act, fragment).commitAllowingStateLoss();
@@ -68,6 +63,11 @@ public class ActivityFragment extends LazyBaseFragment implements ClassedFragmen
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void initViews() {
+
     }
 
     @Override

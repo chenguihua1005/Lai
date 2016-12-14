@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,7 +16,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.module.bodygame3.head.view.SearchClassActivity;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
@@ -38,13 +38,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_more)
-public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass{
+public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass,SwipeRefreshLayout.OnRefreshListener{
+    @InjectView(R.id.refresh)
+    SwipeRefreshLayout refresh;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -78,32 +81,18 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     protected void lazyLoad() {
-        ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
-                        , new RequestCallback<ResponseData<List<ClassModel>>>() {
-                            @Override
-                            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-                                if (listResponseData.getData() != null
-                                        && !listResponseData.getData().isEmpty()) {
-                                    MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
-                                    classCount=listResponseData.getData().size();
-                                    Bundle bundle=new Bundle();
-                                    bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
-                                    fragment.setArguments(bundle);
-                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
-                                }else {
-                                    //没有班级的样式
-                                    classCount=0;
-                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
-                                }
-                            }
-                        });
+        refresh.setRefreshing(true);
+        onRefresh();
     }
 
     @Override
     protected void initViews() {
         tv_title.setText("更多");
-
+        refresh.setOnRefreshListener(this);
+        refresh.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
@@ -194,5 +183,36 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         }else if(clazz.getStatus()==2){
             classCount=classCount-1<0?0:classCount-1;
          }
+    }
+
+    @Override
+    public void onRefresh() {
+        ZillaApi.NormalRestAdapter.create(MoreService.class)
+                .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
+                        , new RequestCallback<ResponseData<List<ClassModel>>>() {
+                            @Override
+                            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
+                                refresh.setRefreshing(false);
+                                if (listResponseData.getData() != null
+                                        && !listResponseData.getData().isEmpty()) {
+                                    MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
+                                    classCount=listResponseData.getData().size();
+                                    Bundle bundle=new Bundle();
+                                    bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
+                                    fragment.setArguments(bundle);
+                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
+                                }else {
+                                    //没有班级的样式
+                                    classCount=0;
+                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                refresh.setRefreshing(false);
+                                super.failure(error);
+                            }
+                        });
     }
 }

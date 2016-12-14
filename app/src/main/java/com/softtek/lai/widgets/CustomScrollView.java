@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 
 public class CustomScrollView extends ScrollView {
     private GestureDetector mGestureDetector;
-    View.OnTouchListener mGestureListener;
 
     public CustomScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);

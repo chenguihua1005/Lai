@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -148,6 +149,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     protected void lazyLoad() {
         material_calendar.removeDecorators();
         refresh.setRefreshing(true);
+        classModels.clear();
         getalldatafirst();
     }
 
@@ -456,30 +458,39 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                     @Override
                                     public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                        tv_class_name.setText(data.getClassName());
                                         ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        boolean selected=tv_title.getSelectedIndex()==position;
                                         int icon;
                                         switch (data.getClassRole()) {
                                             case 1:
-                                                icon = R.drawable.class_zongjiaolian;
+                                                icon = selected?R.drawable.class_zongjiaolian_re:R.drawable.class_zongjiaolian;
                                                 break;
                                             case 2:
-                                                icon = R.drawable.class_jiaolian;
+                                                icon = selected?R.drawable.class_jiaolian_re:R.drawable.class_jiaolian;
                                                 break;
                                             case 3:
-                                                icon = R.drawable.class_zhujiao;
+                                                icon = selected?R.drawable.class_zhujiao_re:R.drawable.class_zhujiao;
                                                 break;
                                             default:
-                                                icon = R.drawable.class_xueyuan;
+                                                icon = selected?R.drawable.class_xueyuan_re:R.drawable.class_xueyuan;
                                                 break;
                                         }
                                         iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        int color=selected?0xFF000000:0xFFFFFFFF;
                                         TextView tv_role = holder.getView(R.id.tv_role_name);
                                         int role = data.getClassRole();
                                         tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        tv_role.setTextColor(color);
                                         TextView tv_number = holder.getView(R.id.tv_number);
                                         tv_number.setText(data.getClassCode());
+                                        tv_number.setTextColor(color);
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        tv_class_name.setTextColor(color);
+                                        ImageView iv_sel=holder.getView(R.id.iv_select);
+                                        iv_sel.setVisibility(selected?View.VISIBLE:View.INVISIBLE);
+                                        RelativeLayout rl_bg=holder.getView(R.id.rl_bg);
+                                        rl_bg.setBackgroundColor(selected?0xFFFFFFFF:0x00FFFFFF);
                                     }
 
                                     @Override
@@ -675,6 +686,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     @Override
     public void onRefresh() {
         refresh.setRefreshing(true);
+        classModels.clear();
         getalldatafirst();
     }
 
