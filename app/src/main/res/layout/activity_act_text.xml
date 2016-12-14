@@ -75,8 +75,9 @@
 
     <TextView
         android:id="@+id/tv_count"
-        android:layout_width="match_parent"
+        android:layout_width="357dp"
         android:text="仅限十五个字"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content" />
 </LinearLayout>
