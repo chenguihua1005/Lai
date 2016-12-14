@@ -92,6 +92,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        ClassId = bundle.getString("classId");
         selectWeight();
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
@@ -154,6 +156,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initDatas() {
+
         final List<String> datas = new ArrayList<>();
         datas.add(getString(R.string.physical_manage_month1));
         datas.add(getString(R.string.physical_manage_month2));
