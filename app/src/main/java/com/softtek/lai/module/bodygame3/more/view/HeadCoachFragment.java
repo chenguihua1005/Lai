@@ -42,16 +42,16 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        ClassModel model=getArguments().getParcelable("class");
         switch (view.getId()){
             case R.id.rl_invitation: {
                 Intent intent = new Intent(getContext(), InvitationListActivity.class);
-                intent.putExtra("class", getArguments().getParcelable("class"));
+                intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
             }
                 break;
             case R.id.rl_class_manager: {
                 Intent intent = new Intent(getContext(), ClassManagerActivity.class);
-                ClassModel model=getArguments().getParcelable("class");
                 intent.putExtra("class",model);
                 startActivity(intent);
             }

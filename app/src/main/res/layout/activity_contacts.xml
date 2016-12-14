@@ -92,6 +92,6 @@
         android:gravity="center"
         android:textSize="12sp"
         android:visibility="gone"
-        android:text="您的体管赛通讯录中还没有好友, 请通过搜索的方式邀请吧"/>
+        android:text="您的体管赛通讯录中还没有好友，请通过搜索的方式邀请吧"/>
 
 </RelativeLayout>
