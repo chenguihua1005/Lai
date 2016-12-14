@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;

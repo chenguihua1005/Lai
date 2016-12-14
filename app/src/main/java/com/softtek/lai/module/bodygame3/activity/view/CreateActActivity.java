@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivityModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomDialog;
@@ -38,6 +40,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,7 +74,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_activity_name)
     TextView tv_activity_name;
     @InjectView(R.id.rl_activity_name)
-    RelativeLayout rl_activity_name;
+    LinearLayout rl_activity_name;
 
     @InjectView(R.id.rl_activity_mark)
     RelativeLayout rl_activity_mark;
@@ -280,18 +283,44 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+    String str = formatter.format(curDate);
 
     private void showDateDialog() {
-        Calendar c = Calendar.getInstance();
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                int month = monthOfYear + 1;
-                date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (dayOfMonth < 10 ? ("0" + dayOfMonth) : dayOfMonth) + "日";
-                showTimeDialog();
-            }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        final Calendar c = Calendar.getInstance();
 
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DatePicker datePicker = datePickerDialog.getDatePicker();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1;
+                int day = datePicker.getDayOfMonth();
+                date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
+              String  dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+                int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated,currentDate);
+                Log.e("132",compare+"");
+                if(compare<0){
+                       tv_activity_time.setText(str);
+                }else{
+
+                    showTimeDialog();
+                }
+
+            }
+        });
+
+        datePickerDialog.show();
     }
 
     private void showTimeDialog() {
@@ -301,8 +330,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 dateAndTime.set(Calendar.HOUR_OF_DAY, i);//时
                 dateAndTime.set(Calendar.MINUTE, i1);//分
-
-                tv_activity_time.setText(date+""+new StringBuilder()
+                tv_activity_time.setText(date + "" + new StringBuilder()
                         .append(i < 10 ? "0" + i : i).append(":")
                         .append(i1 < 10 ? "0" + i1 : i1));
 

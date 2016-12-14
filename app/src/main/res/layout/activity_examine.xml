@@ -182,7 +182,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="15dp"
             android:text="选择角色"
-            android:textColor="#333333"
+            android:textColor="#666666"
             android:textSize="16sp" />
 
         <TextView

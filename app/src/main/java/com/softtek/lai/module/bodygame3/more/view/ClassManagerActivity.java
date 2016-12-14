@@ -255,7 +255,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
             case R.id.rl_closs_class:{
                 new AlertDialog.Builder(this)
                         .setTitle("温馨提示")
-                        .setMessage("您确定关闭当前班级？")
+                        .setMessage("是否确定要关闭当前班级？班级关闭后将无法再次开启哦!")
                         .setNegativeButton("取消",null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override

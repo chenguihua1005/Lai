@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_honorranking)
@@ -48,18 +49,12 @@ public class HonorActivity extends BaseActivity {
         tv_right.setText(R.string.rule);
         fragments = new ArrayList<>();
         fragments.add(WeekHonorFragment.getInstance(classId));
-        fragments.add(MonthHonorFragment.getInstance());
+        fragments.add(MonthHonorFragment.getInstance(classId));
         fragments.add(TotalHonorFragment.getInstance());
         content.setAdapter(new HonorRankAdapter(getSupportFragmentManager(), fragments));
         content.setOffscreenPageLimit(3);
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
-        ll_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
     }
 
@@ -74,4 +69,15 @@ public class HonorActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @OnClick({R.id.ll_left, R.id.tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            case R.id.tv_right:
+                startActivity(new Intent(this, HonorRuleActivity.class));
+                break;
+        }
+    }
 }
