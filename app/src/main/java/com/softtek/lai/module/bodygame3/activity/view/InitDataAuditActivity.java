@@ -153,10 +153,10 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     private ImageFileCropSelector imageFileCropSelector;
     FcStDataModel fcStDataModel;
     MultipartTypedOutput multipartTypedOutput;
-    Long userId;//用户id
+    Long AccountId;//用户id
     String classId=" ";//班级id
     Context context;
-    String files;
+    String files,ACMId;
     String photoname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +187,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         title.setText("初始数据录入");//设置标题栏标题
         tv_right.setText("保存");//保存数据
         classId=getIntent().getStringExtra("classId");
-        userId=UserInfoModel.getInstance().getUserId();
+        AccountId=getIntent().getLongExtra("AccountId",0);
+        ACMId=getIntent().getStringExtra("ACMId");
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         //获取数据接口
         doGetInfo();
@@ -447,7 +448,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         * 获取初始基本数据
         * */
     private void doGetInfo() {
-        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, "2016-12-13", "0", new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), AccountId, classId, "2016-12-13", "0", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();
@@ -522,16 +523,17 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
     /*l录入*/
     void doSetPostData()
-    {Log.i("身体维度上传"+"胸围"+fcStDataModel.getCircum()+"腰围 "+fcStDataModel.getWaistline()+"臀围"+fcStDataModel.getHiplie()+"上臂围"+fcStDataModel.getUpArmGirth()+"大腿围"+fcStDataModel.getUpLegGirth()+"小腿围"+fcStDataModel.getDoLegGirth());
-        multipartTypedOutput.addPart("accountId",new TypedString(userId+""));
+    {Log.i("AccountId"+AccountId+"classId"+classId+"ACMId"+ACMId+"身体维度上传"+"胸围"+fcStDataModel.getCircum()+"腰围 "+fcStDataModel.getWaistline()+"臀围"+fcStDataModel.getHiplie()+"上臂围"+fcStDataModel.getUpArmGirth()+"大腿围"+fcStDataModel.getUpLegGirth()+"小腿围"+fcStDataModel.getDoLegGirth());
+        multipartTypedOutput.addPart("accountId",new TypedString(AccountId+""));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
+        multipartTypedOutput.addPart("ACMId",new TypedString(ACMId));
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-        multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//现在体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum())?"":fcStDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline())?"":fcStDataModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hipline",new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie())?"":fcStDataModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie())?"":fcStDataModel.getHiplie().toString()));//臀围
         multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth())?"":fcStDataModel.getUpArmGirth().toString()));//上臂围
         multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth())?"":fcStDataModel.getUpLegGirth().toString()));//大腿围
         multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth())?"":fcStDataModel.getDoLegGirth().toString()));//小腿围
