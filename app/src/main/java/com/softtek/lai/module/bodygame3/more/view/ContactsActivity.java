@@ -48,6 +48,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     ChooseView chooseView;
     @InjectView(R.id.tv_perview)
     TextView tv_perview;
+    @InjectView(R.id.tv_nomessage)
+    TextView tv_nomessage;
 
 
     LinearLayout ll_search;
@@ -74,6 +76,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
         ll_search.setOnClickListener(this);
         elv.getRefreshableView().addHeaderView(head);
+        elv.setEmptyView(tv_nomessage);
         adapter=new ContactExpandableAdapter(this,datas,groups);
         elv.getRefreshableView().setAdapter(adapter);
         elv.getRefreshableView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
