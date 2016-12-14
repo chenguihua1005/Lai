@@ -448,7 +448,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         * 获取初始基本数据
         * */
     private void doGetInfo() {
-        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), AccountId, classId, "2016-12-13", "0", new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), AccountId, classId, "2016-12-14", "0", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();

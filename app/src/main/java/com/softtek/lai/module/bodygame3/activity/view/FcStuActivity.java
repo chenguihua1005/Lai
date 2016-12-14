@@ -218,13 +218,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
-                if (gender.equals("1")) {
-                    show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
-                }
-                else
-                {
-                    show_information("初始体重（斤）", 600, 150, 50, 9, 0, 0, 0);
-                }
+
                 break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
@@ -292,14 +286,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.fl_right:
-                if (TextUtils.isEmpty(tv_write_chu_weight.getText()))
-                {
-                    String message = "初始体重为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                }
-                else if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText()))
+               if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText()))
             {
                 String message = "现在体重为必填项，请选择";
                 new AlertDialog.Builder(this)
@@ -380,7 +367,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-        multipartTypedOutput.addPart("weight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("weight", new TypedString(tv_retestWrite_nowweight.getText().toString()));//现在体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum())?"":fcStDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline())?"":fcStDataModel.getWaistline().toString()));//腰围
         multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie())?"":fcStDataModel.getHiplie().toString()));//臀围

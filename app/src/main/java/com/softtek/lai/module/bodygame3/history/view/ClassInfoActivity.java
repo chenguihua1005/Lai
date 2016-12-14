@@ -294,7 +294,7 @@ public class ClassInfoActivity extends BaseActivity {
 
     @OnClick(R.id.honors)
     public void onClick() {
-        startActivity(new Intent(ClassInfoActivity.this, HonorActivity.class));
+        HonorActivity.startHonorActivity2(ClassInfoActivity.this,historyClassModel.getClassId(),true);
     }
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {

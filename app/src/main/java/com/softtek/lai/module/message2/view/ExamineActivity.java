@@ -70,6 +70,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     TextView tv_group_name;
     @InjectView(R.id.tv_role_name)
     TextView tv_role_name;
+    @InjectView(R.id.tv_class_name)
+    TextView tv_class_name;
+    @InjectView(R.id.tv_class_code)
+    TextView tv_class_code;
 
     @InjectView(R.id.btn_yes)
     Button btn_yes;
@@ -136,6 +140,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         tv_phone.setText(apply.getApplyMobile());
         tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert()) ? "未认证" : apply.getApplyCert());
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
+        tv_class_code.setText(apply.getClassCode());
+        tv_class_name.setText(apply.getClassName());
         classGroupList = apply.getClassGroups();
         classRole = apply.getClassRoles();
         if (apply.getMsgStatus() == 0) {
