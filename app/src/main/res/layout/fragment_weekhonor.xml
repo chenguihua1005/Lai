@@ -18,7 +18,6 @@
             android:background="#ffffff"
             android:scrollbars="none" />
 
-
         <LinearLayout
             android:id="@+id/ll_no_data"
             android:layout_width="match_parent"
