@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -78,13 +79,16 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     private static final int LOADCOUNT=5;
     private int lastVisitableItem;
     private boolean isLoading=false;
-
+    int isFocus;
     private int total;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.putExtra("isFocus",isFocus );
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -157,7 +161,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         adapter=new DynamicRecyclerViewAdapter(this,dynamics,isMine);
         recyclerView.setAdapter(adapter);
 
-        int isFocus=getIntent().getIntExtra("isFocus",0);
+        isFocus=getIntent().getIntExtra("isFocus",0);
         if(isFocus==0){
             cb_attention.setChecked(false);
         }else {
@@ -192,6 +196,13 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                                         new RequestCallback<ResponseData>() {
                                             @Override
                                             public void success(ResponseData responseData, Response response) {
+                                                int status=responseData.getStatus();
+                                                switch (status)
+                                                {
+                                                    case 200:
+                                                        isFocus=1;
+                                                        break;
+                                                }
                                             }
                                         });
 
@@ -205,6 +216,13 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                                         new RequestCallback<ResponseData>() {
                                             @Override
                                             public void success(ResponseData responseData, Response response) {
+                                                int status=responseData.getStatus();
+                                                switch (status)
+                                                {
+                                                    case 200:
+                                                        isFocus=0;
+                                                        break;
+                                                }
                                             }
                                         });
                     }
@@ -267,4 +285,18 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             e.printStackTrace();
         }
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            //do something...
+            Intent intent=new Intent();
+            intent.putExtra("isFocus",isFocus );
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
