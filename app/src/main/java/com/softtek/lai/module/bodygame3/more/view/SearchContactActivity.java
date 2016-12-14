@@ -29,6 +29,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -86,6 +87,13 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                             if(data.getStatus()==200){
                                                 if(data.getData()!=null&&!data.getData().isEmpty()){
                                                     contacts.clear();
+                                                    Iterator<Contact> itr=data.getData().iterator();
+                                                    while (itr.hasNext()){
+                                                        Contact contact=itr.next();
+                                                        if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
+                                                            itr.remove();
+                                                        }
+                                                    }
                                                     contacts.addAll(data.getData());
                                                     adapter.notifyDataSetChanged();
                                                 }
