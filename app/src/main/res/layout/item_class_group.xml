@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hsv"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@color/white"
     android:overScrollMode="never"
-    android:scrollbars="none">
+    android:scrollbars="none">-->
 
     <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -33,6 +34,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -47,9 +49,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:layout_toRightOf="@id/tv"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="30dp"
-                android:text="A组"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text=""
                 android:textColor="#999999"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -79,4 +85,5 @@
         </LinearLayout>
 
     </LinearLayout>
-</HorizontalScrollView>
+<!--
+</HorizontalScrollView>-->

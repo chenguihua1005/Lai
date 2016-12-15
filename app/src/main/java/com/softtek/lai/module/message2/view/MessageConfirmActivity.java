@@ -327,7 +327,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200 && resultCode == 100) {
+        if (requestCode == 200 && resultCode == RESULT_OK) {
             introducerId = data.getLongExtra("accountId", 0);
             String phone=data.getStringExtra("phone");
             tv_aixin_phone.setText(phone);
