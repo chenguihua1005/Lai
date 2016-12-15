@@ -37,7 +37,9 @@ import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
+import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
+import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
@@ -316,6 +318,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             tag.date=datestr;
                             if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
                                 ll_fuce.setBackgroundResource(R.drawable.reset_back);
+                                reset_name.setText("复测录入");
                                 switch (resetstatus) {
                                     case 1://已过去的复测日
                                         ll_fuce.setVisibility(View.VISIBLE);
@@ -348,6 +351,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_fuce.setTag(tag);
                             } else {//非学员
                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);
+                                reset_name.setText("复测审核");
                                 switch (resetstatus) {
                                     case 1://已过去的复测日
                                         ll_fuce.setVisibility(View.VISIBLE);
@@ -395,12 +399,21 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (tag == null) {
                     return;
                 }
-                com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
-                Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
-                chuDate.putExtra("typeDate", tag.date);
-                chuDate.putExtra("resetstatus", tag.status);
-                chuDate.putExtra("classId", classid);
-                startActivity(chuDate);
+                if(tag.role==Constants.STUDENT){//WriteFCActivity
+                    Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
+                    chuDate.putExtra("typeDate", tag.date);
+                    chuDate.putExtra("resetstatus", tag.status);
+                    chuDate.putExtra("classId", classid);
+                    startActivity(chuDate);
+                }else{
+                    com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
+                    Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
+                    chuDate.putExtra("typeDate", tag.date);
+                    chuDate.putExtra("resetstatus", tag.status);
+                    chuDate.putExtra("classId", classid);
+                    startActivity(chuDate);
+                }
+
             }
                 break;
             case R.id.ll_left:
@@ -412,12 +425,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (tag == null) {
                     return;
                 }
-                com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
-                Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
-                fuce.putExtra("classId", classid);
-                fuce.putExtra("resetstatus", tag.status);
-                fuce.putExtra("typeDate", tag.date);
-                startActivity(fuce);
+                if(tag.role==Constants.STUDENT){
+                    Intent fuce = new Intent(getContext(), FcStuActivity.class);
+                    fuce.putExtra("classId", classid);
+                    fuce.putExtra("resetstatus", tag.status);
+                    fuce.putExtra("typeDate", tag.date);
+                    startActivity(fuce);
+                }else {
+                    com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
+                    Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
+                    fuce.putExtra("classId", classid);
+                    fuce.putExtra("resetstatus", tag.status);
+                    fuce.putExtra("typeDate", tag.date);
+                    startActivity(fuce);
+                }
             }
                 break;
 
