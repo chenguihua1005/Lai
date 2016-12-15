@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
+import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;

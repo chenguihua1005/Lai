@@ -28,6 +28,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.view.ContactsActivity;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +42,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_pantner)
 public class PantnerActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
@@ -105,34 +107,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
         pantnerContent.addTextChangedListener(this);
     }
 
-//    private void getpantners() {
-//        ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
-//                "", classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
-//                    @Override
-//                    public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {
-//                        pb.setVisibility(View.GONE);
-//                        if (200 == pantnerpageModelResponseData.getStatus()) {
-//                            if (pantnerpageModelResponseData.getData() != null) {
-//                                PantnerpageModel pantnerpageModel = pantnerpageModelResponseData.getData();
-//                                if (pantnerpageModel.getPartnersList() != null) {
-//                                    partnerlistModels.clear();
-//                                    partnerlistModels.addAll(pantnerpageModel.getPartnersList());
-//                                    adapter.notifyDataSetChanged();
-//                                }
-//                            }
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        pb.setVisibility(View.GONE);
-//                        super.failure(error);
-//                    }
-//                });
 
-//    }
 
     @Override
     public void onClick(View view) {
@@ -142,32 +117,39 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.search_partner:
                 String content_searc = pantnerContent.getText().toString();
-                pb.setVisibility(View.VISIBLE);
-                ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
-                        content_searc, classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
-                            @Override
-                            public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {
-                                pb.setVisibility(View.GONE);
-                                if (200 == pantnerpageModelResponseData.getStatus()) {
-                                    if (pantnerpageModelResponseData.getData() != null) {
-                                        PantnerpageModel pantnerpageModel = pantnerpageModelResponseData.getData();
-                                        if (pantnerpageModel.getPartnersList() != null) {
-                                            partnerlistModels.clear();
-                                            partnerlistModels.addAll(pantnerpageModel.getPartnersList());
-                                            adapter.notifyDataSetChanged();
+                if(!TextUtils.isEmpty(content_searc)) {
+                    pb.setVisibility(View.VISIBLE);
+                    ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
+                            content_searc, classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
+                                @Override
+                                public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {
+                                    pb.setVisibility(View.GONE);
+                                    if (200 == pantnerpageModelResponseData.getStatus()) {
+                                        if (pantnerpageModelResponseData.getData() != null) {
+                                            PantnerpageModel pantnerpageModel = pantnerpageModelResponseData.getData();
+                                            if (pantnerpageModel.getPartnersList() != null) {
+                                                partnerlistModels.clear();
+                                                partnerlistModels.addAll(pantnerpageModel.getPartnersList());
+                                                adapter.notifyDataSetChanged();
+                                            }
                                         }
+
+                                    } else {
+                                        pantnerpageModelResponseData.getMsg();
                                     }
 
                                 }
 
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                pb.setVisibility(View.GONE);
-                                super.failure(error);
-                            }
-                        });
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    pb.setVisibility(View.GONE);
+                                    super.failure(error);
+                                }
+                            });
+                }else{
+                    com.github.snowdream.android.util.Log.e("搜索内容为空。。。。。。。。。。。。。。。。。");
+                    Util.toastMsg("请输入搜索内容");
+                }
                 break;
         }
     }
@@ -180,6 +162,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         String inputstr = charSequence.toString();
+        pb.setVisibility(View.VISIBLE);
         ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
                 inputstr, classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
                     @Override
@@ -195,7 +178,10 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                                 }
                             }
 
+                        } else {
+                            Util.toastMsg(pantnerpageModelResponseData.getMsg());
                         }
+
 
                     }
 
