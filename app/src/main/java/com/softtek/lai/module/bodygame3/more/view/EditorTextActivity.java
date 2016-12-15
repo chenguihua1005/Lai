@@ -107,7 +107,7 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
 
     @Override
     public void onValidationSucceeded() {
-        if (StringUtil.length(et_value.getText().toString())>12){
+        if (StringUtil.length(et_value.getText().toString())>24){
             String message="";
             switch (flag){
                 case UPDATE_CLASS_NAME:
