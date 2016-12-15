@@ -329,6 +329,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 200 && resultCode == 100) {
             introducerId = data.getLongExtra("accountId", 0);
+            String phone=data.getStringExtra("phone");
+            tv_aixin_phone.setText(phone);
         }
     }
 }

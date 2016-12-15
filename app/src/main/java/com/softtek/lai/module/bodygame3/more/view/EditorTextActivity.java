@@ -121,7 +121,13 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
             et_value.requestFocus();
             et_value.setError(Html.fromHtml("<font color=#FFFFFF>" + message + "</font>"));
         }else {
-            if(flag==UPDATE_GROUP_NAME||flag==ADD_GROUP_NAME){
+            if(flag==UPDATE_GROUP_NAME){
+                if(groups.size()!=1&&groups.contains(et_value.getText().toString().trim())){
+                    et_value.requestFocus();
+                    et_value.setError(Html.fromHtml("<font color=#FFFFFF>小组名称已存在</font>"));
+                    return;
+                }
+            }else if(flag==ADD_GROUP_NAME){
                 if(groups.contains(et_value.getText().toString().trim())){
                     et_value.requestFocus();
                     et_value.setError(Html.fromHtml("<font color=#FFFFFF>小组名称已存在</font>"));

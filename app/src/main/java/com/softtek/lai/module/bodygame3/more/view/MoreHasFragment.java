@@ -68,7 +68,16 @@ public class MoreHasFragment extends Fragment {
         ButterKnife.inject(this,view);
         classModels=getArguments().getParcelableArrayList("class");
         if (classModels != null && !classModels.isEmpty()) {
-            model = classModels.get(0);
+            if(model!=null){
+                for (ClassModel model:classModels){
+                    if(model.getClassCode().equals(this.model.getClassCode())){
+                        this.model=model;
+                        break;
+                    }
+                }
+            }else {
+                model = classModels.get(0);
+            }
             int role = model.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
             //添加小组名字

@@ -53,7 +53,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initViews() {
         overridePendingTransition(0, 0);
-        tv_title.setText("搜索");
+        tv_title.setText("加入新班级");
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
     }
