@@ -116,10 +116,9 @@
             <!---->
             <ImageView
                 android:id="@+id/type_iv"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/default_icon_square"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/iv_arrowtype" />
         </RelativeLayout>

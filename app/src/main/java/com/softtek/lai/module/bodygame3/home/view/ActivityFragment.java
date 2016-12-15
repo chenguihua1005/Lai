@@ -122,6 +122,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private List<ClassModel> classModels = new ArrayList<>();
     private List<TodayactModel> todayactModels = new ArrayList<>();
     private String dateStr;
+    private int classrole;
     private ActRecyclerAdapter actRecyclerAdapter;
     private ClassModel classModel;
     private static final int LOADCOUNT = 10;
@@ -219,8 +220,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 TodayactModel todayactModel = todayactModels.get(position);
                 String activityId = todayactModel.getActivityId();
                 Intent intent = new Intent(getContext(), ActivitydetailActivity.class);
-//                intent.putExtra("classrole", classrole);
-//                intent.putExtra("activityId", activityId);
+                intent.putExtra("classrole",classrole);
+                intent.putExtra("activityId", activityId);
                 startActivity(intent);
             }
         });
@@ -277,6 +278,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classid = classModels.get(i).getClassId();
+                classrole=classModels.get(i).getClassRole();
                 lazyLoad();
             }
         });
@@ -473,11 +475,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             ActivitydataModel activitydataModel = data.getData();
                             //加载班级
                             if (activitydataModel.getList_Class() != null&&!activitydataModel.getList_Class().isEmpty()) {
+                                ll_chuDate.setVisibility(View.VISIBLE);
                                 classModels.clear();
                                 classModels.addAll(activitydataModel.getList_Class());
                                 tv_title.getAdapter().notifyDataSetChanged();
                                 if(TextUtils.isEmpty(classid)){
                                     classid=classModels.get(0).getClassId();
+                                   classrole=classModels.get(0).getClassRole();
                                     tv_title.setSelected(0);
                                 }else {
                                     for (int i=0,j=classModels.size();i<j;i++){
