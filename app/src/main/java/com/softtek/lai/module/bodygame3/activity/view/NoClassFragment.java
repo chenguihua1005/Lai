@@ -78,7 +78,6 @@ public class NoClassFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void initViews() {
         //日历
-//        material_calendar.setDatepageChangeListener(this);
         final Calendar instance = Calendar.getInstance();
         material_calendar.setSelectedDate(instance.getTime());
         Calendar instance1 = Calendar.getInstance();
@@ -95,7 +94,7 @@ public class NoClassFragment extends LazyBaseFragment implements View.OnClickLis
         material_calendar.setShowOtherDates(0);
 
         spinner_title1.setVisibility(View.GONE);
-        tv_title.setText("尚未开班");
+        tv_title.setText("暂无班级");
         Bundle bundle = getArguments();
         classrole = bundle.getInt("classrole");
         if (classrole == Constants.HEADCOACH) {
@@ -118,6 +117,7 @@ public class NoClassFragment extends LazyBaseFragment implements View.OnClickLis
             //添加新班级
             Log.i("新增班级接受通知。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
             if (addClass != null) {
+                Log.e("role",clazz.getModel().getClassCode());
                 addClass.addclass(clazz.getModel().getClassRole());
             }
 

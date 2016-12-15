@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.softtek.lai.widgets.MySwipRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pull"
     android:layout_width="match_parent"
@@ -6,11 +6,11 @@
     android:addStatesFromChildren="true">
 
     <!-- TODO: Update blank fragment layout -->
-    <!--<include layout="@layout/toolbar_bodygame"/>-->
+   
 
-    <FrameLayout
-        android:id="@+id/contain_act"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        <FrameLayout
+            android:id="@+id/contain_act"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
 
-</FrameLayout>
+</com.softtek.lai.widgets.MySwipRefreshView>
