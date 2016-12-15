@@ -166,7 +166,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RecyclerViewInfoAdapter.CommentListener() {
                     @Override
                     public void onCommentClick(final CommentEvent event) {
-                       doComment(event);
+                        doComment(event);
                     }
                 },
                 this,
@@ -225,17 +225,14 @@ public class ClassInfoActivity extends BaseActivity {
                         public void success(ResponseData<DynamicBean> responseData, Response response) {
                             if (responseData.getStatus() == 200) {
                                 if (responseData.getData().getPhotoWallslist() != null) {
-                                    if (!responseData.getData().getPhotoWallslist().isEmpty()) {
-                                        wallsList.addAll(responseData.getData().getPhotoWallslist());
-                                        mInfoAdapter.notifyDataSetChanged();
-                                    } else {
-                                        page--;
-                                    }
+                                    wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                    mInfoAdapter.notifyDataSetChanged();
                                 }
-
                             } else {
-                                if (responseData.getMsg().equals("暂无数据")){
+                                page--;
+                                if (responseData.getMsg().equals("暂无数据")) {
                                     Util.toastMsg("暂无更多数据");
+                                    mInfoAdapter.setFootGone(true);
                                     mInfoAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -298,7 +295,7 @@ public class ClassInfoActivity extends BaseActivity {
 
     @OnClick(R.id.honors)
     public void onClick() {
-        HonorActivity.startHonorActivity2(ClassInfoActivity.this,historyClassModel.getClassId(),true);
+        HonorActivity.startHonorActivity2(ClassInfoActivity.this, historyClassModel.getClassId(), true);
     }
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -356,7 +353,7 @@ public class ClassInfoActivity extends BaseActivity {
                     UserInfoModel.getInstance().getToken(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
-    //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                    //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
                     new RequestCallback<ResponseData<HistoryDetailsBean>>() {
                         @SuppressLint("LongLogTag")
                         @Override
@@ -387,7 +384,7 @@ public class ClassInfoActivity extends BaseActivity {
         }
     }
 
-    private void doComment(final CommentEvent event){
+    private void doComment(final CommentEvent event) {
         View itemView = event.getView();
         final LinearLayout mPersonCommentLayout = (LinearLayout) itemView.findViewById(R.id.ll_comment_person);
         final View mItemBottom = (View) itemView.findViewById(R.id.item_bottom);

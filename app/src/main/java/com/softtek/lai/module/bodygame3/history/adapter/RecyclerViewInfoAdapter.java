@@ -62,6 +62,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int FOOTER = 2;
     private static final int EMPTY = 3;
 
+    private boolean isFootGone = false;
+
     public RecyclerViewInfoAdapter(List<DynamicBean.PhotoWallslistBean> items,
                                    ItemListener listener,
                                    CommentListener commentListener,
@@ -98,10 +100,18 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         int type;
         if (position + 1 == getItemCount()) {
             type = getItemCount() < 6 ? EMPTY : FOOTER;
+            if (isFootGone){
+                type = EMPTY;
+                isFootGone = false;
+            }
         } else {
             type = ITEM;
         }
         return type;
+    }
+
+    public void setFootGone(boolean isGone){
+        isFootGone = isGone;
     }
 
 
@@ -308,6 +318,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //评论
             if (!item.getPhotoWallCommendsList().isEmpty()) {
+                mCommentLayout.removeAllViews();
                 for (int i = 0; i < item.getPhotoWallCommendsList().size(); i++) {
                     TextView commendText = new TextView(mContext);
                     String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
