@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -101,7 +102,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();     //提交的话取消注释
-//        ClassId = bundle.getString("classId");
+        ClassId = bundle.getString("classId");
         selectWeight();
         newAdapter();
         ListView refreshableView = listHonorrank.getRefreshableView();
@@ -221,8 +222,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         }
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
         listHonorrank.setRefreshing();
-//首次后设置为false
-        is_first = false;
+
     }
 
     @Override
@@ -245,21 +245,32 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         if (model.getList_date() != null) {
             //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
             if (model.getList_date().size() != 0) {
-//                lazyLoad();
-                spinnerData = model.getList_date();
-                for (int i = spinnerData.size() - 1; i >= 0; i--) {
-                    spinnerData2.add(spinnerData.get(i).getDateName());
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lazyLoad();
+                    }
+                },500);
+                //不加判断，下面的数据添加两边
+                if (is_first){
+                    spinnerData = model.getList_date();
+                    for (int i = spinnerData.size() - 1; i >= 0; i--) {
+                        spinnerData2.add(spinnerData.get(i).getDateName());
+                    }
+                    spinner.attachCustomSource(spinnerAdapter);
                 }
-                spinner.attachCustomSource(spinnerAdapter);
+                //首次后设置为false
+                is_first = false;
                 //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
             } else {
-//                if (is_first){
-//
-////                    ptfsc_no_data.setVisibility(View.VISIBLE);
-//                ll_no_data.setVisibility(View.VISIBLE);
-//                    listHonorrank.setVisibility(View.GONE);
-//                    return;
-//                }
+                if (is_first) {
+
+                    groupModelList.clear();
+                    newAdapter();
+                    listHonorrank.setAdapter(honorGroupRankAdapter);
+                    return;
+                }
             }
 
         }
