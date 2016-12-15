@@ -26,6 +26,8 @@ import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import retrofit.Callback;
@@ -92,11 +94,21 @@ public class FriendAdapter extends BaseAdapter {
         Log.i(TAG, "friendModel = " + new Gson().toJson(friendModel));
         String photo = friendModel.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(photo)) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.head_img);
+//        if ("".equals(photo)) {
+//            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.head_img);
+//        } else {
+//            Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.head_img);
+//        }
+
+        int px = DisplayUtil.dip2px(context, 100);
+        if (StringUtils.isNotEmpty(photo)) {
+            Picasso.with(context).load(AddressManager.get("photoHost") + photo).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.head_img);
         } else {
-            Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.head_img);
+            Picasso.with(context).load(R.drawable.img_default).into(holder.head_img);
         }
+
+
         if (friendModel != null) {
             if (!TextUtils.isEmpty(friendModel.getUserName())) {
                 holder.tv_name.setText(friendModel.getUserName());
@@ -104,11 +116,11 @@ public class FriendAdapter extends BaseAdapter {
             int classRole = friendModel.getClassRole();//班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
             String classRole_name = "";
             if (1 == classRole) {
-                classRole_name = "开班教练";
+                classRole_name = "总教练";
             } else if (2 == classRole) {
-                classRole_name = "组别教练";
+                classRole_name = "教练";
             } else if (3 == classRole) {
-                classRole_name = "组别助教";
+                classRole_name = "助教";
             } else if (4 == classRole) {
                 classRole_name = "学员";
             } else {
@@ -127,15 +139,18 @@ public class FriendAdapter extends BaseAdapter {
 
             int status = friendModel.getStatus();
             if (0 == status) {
-                holder.status_linear.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.GONE);
+//                holder.status_linear.setVisibility(View.GONE);
                 holder.agree_linear.setVisibility(View.VISIBLE);
                 holder.btn_agree.setText("同意");
             } else if (1 == status) {
-                holder.status_linear.setVisibility(View.VISIBLE);
+//                holder.status_linear.setVisibility(View.VISIBLE);
+                holder.tv_status.setVisibility(View.VISIBLE);
                 holder.agree_linear.setVisibility(View.GONE);
                 holder.tv_status.setText("已同意");
             } else if (-1 == status) {
-                holder.status_linear.setVisibility(View.VISIBLE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+//                holder.status_linear.setVisibility(View.VISIBLE);
                 holder.agree_linear.setVisibility(View.GONE);
                 holder.tv_status.setText("已拒绝");
             }
@@ -293,10 +308,12 @@ public class FriendAdapter extends BaseAdapter {
         private TextView tv_name;//姓名
         private TextView tv_role;//角色
         private TextView tv_classname;//班级名称
-        public TextView tv_status;//是否同意状态
-        public LinearLayout status_linear;//
+        private TextView tv_status;//是否同意状态
+//        private LinearLayout status_linear;//
+
+        //        private TextView tv_status
         //同意按钮
-        public LinearLayout agree_linear;
+        private LinearLayout agree_linear;
         private TextView btn_agree;
 
         private HorizontalScrollView hsv;
@@ -311,7 +328,7 @@ public class FriendAdapter extends BaseAdapter {
             this.tv_role = (TextView) view.findViewById(R.id.tv_role);
             this.tv_classname = (TextView) view.findViewById(R.id.tv_classname);
             this.tv_status = (TextView) view.findViewById(R.id.tv_status);
-            this.status_linear = (LinearLayout) view.findViewById(R.id.status_linear);
+//            this.status_linear = (LinearLayout) view.findViewById(R.id.status_linear);
 
             //同意按钮
             this.agree_linear = (LinearLayout) view.findViewById(R.id.agree_linear);

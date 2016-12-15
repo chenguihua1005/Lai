@@ -29,6 +29,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
+import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
@@ -51,7 +52,7 @@ import zilla.libcore.file.AddressManager;
 
 
 public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<PhotoWallslistModel> myItems = new ArrayList<>();
+    private List<DynamicBean.PhotoWallslistBean> myItems = new ArrayList<>();
     private ItemListener myListener;
     private Context mContext;
     private View mPopView;
@@ -61,7 +62,9 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int FOOTER = 2;
     private static final int EMPTY = 3;
 
-    public RecyclerViewInfoAdapter(List<PhotoWallslistModel> items,
+    private boolean isFootGone = false;
+
+    public RecyclerViewInfoAdapter(List<DynamicBean.PhotoWallslistBean> items,
                                    ItemListener listener,
                                    CommentListener commentListener,
                                    Context context, View popView) {
@@ -97,10 +100,18 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         int type;
         if (position + 1 == getItemCount()) {
             type = getItemCount() < 6 ? EMPTY : FOOTER;
+            if (isFootGone){
+                type = EMPTY;
+                isFootGone = false;
+            }
         } else {
             type = ITEM;
         }
         return type;
+    }
+
+    public void setFootGone(boolean isGone){
+        isFootGone = isGone;
     }
 
 
@@ -113,7 +124,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface ItemListener {
-        void onItemClick(PhotoWallslistModel item, int pos);
+        void onItemClick(DynamicBean.PhotoWallslistBean item, int pos);
     }
 
     public interface CommentListener {
@@ -121,7 +132,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public PhotoWallslistModel item;
+        public DynamicBean.PhotoWallslistBean item;
         private ImageView mPopImg;
         private LinearLayout mZanLayout;
         private LinearLayout mCommentLayout;
@@ -166,8 +177,9 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
         }
 
-        private void setData(final PhotoWallslistModel item) {
-            isMyselfFocus = item.getAccountid().equals(UserInfoModel.getInstance().getUser().getUserid());
+        private void setData(final DynamicBean.PhotoWallslistBean item) {
+//            isMyselfFocus = item.getAccountid().equals(UserInfoModel.getInstance().getUser().getUserid());
+            isMyselfFocus = (item.getAccountid() == UserInfoModel.getInstance().getUserId());
             isFocus = item.getIsFocus() == 1;
             service = ZillaApi.NormalRestAdapter.create(HistoryService.class);
 
@@ -187,7 +199,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                             service.doCancleFocusAccount(
                                     UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(item.getAccountid()),
+                                    (long)(item.getAccountid()),
+//                                    Long.parseLong(item.getAccountid()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
@@ -209,7 +222,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                             service.doFocusAccount(
                                     UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(item.getAccountid()),
+//                                    Long.parseLong(item.getAccountid()),
+                                    (long)(item.getAccountid()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
@@ -275,7 +289,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
             //点赞的人
             if (!item.getPraiseNameList().isEmpty()) {
-                hasZaned = item.getPraiseNameList().contains(UserInfoModel.getInstance().getUser().getNickname());
+                hasZaned = item.getIsPraise() == 1;
                 mZanLayout.setVisibility(View.VISIBLE);//显示点赞人
                 for (int i = 0; i < item.getPraiseNameList().size(); i++) {
                     if (i == 0) {
@@ -304,7 +318,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //评论
             if (!item.getPhotoWallCommendsList().isEmpty()) {
-                Log.i("评论=============================================================");
+                mCommentLayout.removeAllViews();
                 for (int i = 0; i < item.getPhotoWallCommendsList().size(); i++) {
                     TextView commendText = new TextView(mContext);
                     String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
@@ -333,7 +347,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
 
-        private void initPopupWindow(View v, View popView, final PhotoWallslistModel model) {
+        private void initPopupWindow(View v, View popView, final DynamicBean.PhotoWallslistBean model) {
             final LinearLayout mZan = (LinearLayout) popView.findViewById(R.id.ll_zan);
             final LinearLayout mComment = (LinearLayout) popView.findViewById(R.id.ll_comment);
             final LinearLayout mReport = (LinearLayout) popView.findViewById(R.id.ll_report);

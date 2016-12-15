@@ -33,6 +33,7 @@ import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.history.adapter.MyFragmentPagerAdapter;
 import com.softtek.lai.module.bodygame3.history.adapter.RecyclerViewInfoAdapter;
 import com.softtek.lai.module.bodygame3.history.model.CommentEvent;
+import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
@@ -120,7 +121,7 @@ public class ClassInfoActivity extends BaseActivity {
 
     private RecyclerViewInfoAdapter mInfoAdapter;
 
-    private List<PhotoWallslistModel> wallsList = new ArrayList<>();
+    private List<DynamicBean.PhotoWallslistBean> wallsList = new ArrayList<>();
 
     private HistoryClassModel historyClassModel;
     private HistoryService service;
@@ -159,13 +160,13 @@ public class ClassInfoActivity extends BaseActivity {
                 wallsList,
                 new RecyclerViewInfoAdapter.ItemListener() {
                     @Override
-                    public void onItemClick(PhotoWallslistModel item, int pos) {
+                    public void onItemClick(DynamicBean.PhotoWallslistBean item, int pos) {
                     }
                 },
                 new RecyclerViewInfoAdapter.CommentListener() {
                     @Override
                     public void onCommentClick(final CommentEvent event) {
-                       doComment(event);
+                        doComment(event);
                     }
                 },
                 this,
@@ -219,21 +220,21 @@ public class ClassInfoActivity extends BaseActivity {
                     historyClassModel.getClassId(),
                     pageIndex + "",
                     pageCount + "",
-                    new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                    new RequestCallback<ResponseData<DynamicBean>>() {
                         @Override
-                        public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                        public void success(ResponseData<DynamicBean> responseData, Response response) {
                             if (responseData.getStatus() == 200) {
                                 if (responseData.getData().getPhotoWallslist() != null) {
-                                    if (!responseData.getData().getPhotoWallslist().isEmpty()) {
-                                        wallsList.addAll(responseData.getData().getPhotoWallslist());
-                                        mInfoAdapter.notifyDataSetChanged();
-                                    } else {
-                                        page--;
-                                    }
+                                    wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                    mInfoAdapter.notifyDataSetChanged();
                                 }
-
                             } else {
-                                Util.toastMsg(responseData.getMsg());
+                                page--;
+                                if (responseData.getMsg().equals("暂无数据")) {
+                                    Util.toastMsg("暂无更多数据");
+                                    mInfoAdapter.setFootGone(true);
+                                    mInfoAdapter.notifyDataSetChanged();
+                                }
                             }
                         }
 
@@ -294,7 +295,7 @@ public class ClassInfoActivity extends BaseActivity {
 
     @OnClick(R.id.honors)
     public void onClick() {
-        HonorActivity.startHonorActivity2(ClassInfoActivity.this,historyClassModel.getClassId(),true);
+        HonorActivity.startHonorActivity2(ClassInfoActivity.this, historyClassModel.getClassId(), true);
     }
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -352,7 +353,7 @@ public class ClassInfoActivity extends BaseActivity {
                     UserInfoModel.getInstance().getToken(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
-    //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
+                    //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
                     new RequestCallback<ResponseData<HistoryDetailsBean>>() {
                         @SuppressLint("LongLogTag")
                         @Override
@@ -383,7 +384,7 @@ public class ClassInfoActivity extends BaseActivity {
         }
     }
 
-    private void doComment(final CommentEvent event){
+    private void doComment(final CommentEvent event) {
         View itemView = event.getView();
         final LinearLayout mPersonCommentLayout = (LinearLayout) itemView.findViewById(R.id.ll_comment_person);
         final View mItemBottom = (View) itemView.findViewById(R.id.item_bottom);
@@ -475,9 +476,9 @@ public class ClassInfoActivity extends BaseActivity {
                 historyClassModel.getClassId(),
                 "1",
                 "6",
-                new RequestCallback<ResponseData<PhotoWallListModel>>() {
+                new RequestCallback<ResponseData<DynamicBean>>() {
                     @Override
-                    public void success(ResponseData<PhotoWallListModel> responseData, Response response) {
+                    public void success(ResponseData<DynamicBean> responseData, Response response) {
                         mPull.setRefreshing(false);
                         if (responseData.getStatus() == 200) {
                             wallsList.addAll(responseData.getData().getPhotoWallslist());

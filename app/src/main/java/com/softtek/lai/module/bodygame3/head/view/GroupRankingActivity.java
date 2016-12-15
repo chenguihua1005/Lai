@@ -64,6 +64,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
     private GroupRankingManager groupRankingManager;
     private ListGroupModel listGroupModel;
+    private HonorGroupRankModel honorGroupRankModel;
 
 
     @Override
@@ -95,7 +96,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
+                intent.putExtra("ClassId", ClassId);
+                intent.putExtra("AccountId", honorGroupRankModel.getGrouplist().get(i).getAccountId());
+                startActivity(intent);
             }
         });
     }
@@ -118,21 +122,23 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         groupRankingManager.getWeekHonnorInfo(ClassId, ByWhichRatio, SortTimeType, WhichTime, GroupId);
 
 
-        tv_group_name.setText(listGroupModel.getGroupName());
-        if ("ByWeek".equals(SortTimeType)) {
-            tv_title.setText("组内排名(第" + WhichTime + "周)");
-            tv_rank_number.setText("本周第" + listGroupModel.getRanking() + "名");
-        } else if ("ByMonth".equals(SortTimeType)) {
-            tv_title.setText("组内排名(第" + WhichTime + "月)");
-            tv_rank_number.setText("本月第" + listGroupModel.getRanking() + "名");
-        } else if ("ByTotal".equals(SortTimeType)) {
-            tv_title.setText("组内排名(总排名)");
+        if (listGroupModel != null) {
+            tv_group_name.setText(listGroupModel.getGroupName());
+            if ("ByWeek".equals(SortTimeType)) {
+                tv_title.setText("组内排名(第" + WhichTime + "周)");
+                tv_rank_number.setText("本周第" + listGroupModel.getRanking() + "名");
+            } else if ("ByMonth".equals(SortTimeType)) {
+                tv_title.setText("组内排名(第" + WhichTime + "月)");
+                tv_rank_number.setText("本月第" + listGroupModel.getRanking() + "名");
+            } else if ("ByTotal".equals(SortTimeType)) {
+                tv_title.setText("组内排名(总排名)");
+            }
+            setImage(civ_trainer_header, listGroupModel.getCoachIco());
+            Log.e("curry", "success: " + listGroupModel.toString());
+            tv_trainer_name.setText(listGroupModel.getCoachName());
+            tv_per_number.setText(listGroupModel.getLossPer());
+            tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
         }
-        setImage(civ_trainer_header, listGroupModel.getCoachIco());
-        Log.e("curry", "success: " + listGroupModel.toString());
-        tv_trainer_name.setText(listGroupModel.getCoachName());
-        tv_per_number.setText(listGroupModel.getLossPer());
-        tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
 
     }
 
@@ -142,6 +148,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         if (model == null || model.getGrouplist() == null) {
             return;
         }
+        honorGroupRankModel = model;
         groupRankingModelList.clear();
         groupRankingModelList.addAll(model.getGrouplist());
         honorGroupRankAdapter.notifyDataSetChanged();

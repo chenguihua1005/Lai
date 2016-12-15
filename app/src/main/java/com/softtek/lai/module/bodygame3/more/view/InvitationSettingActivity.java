@@ -16,6 +16,7 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -173,7 +174,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 finish();
                 break;
             case R.id.rl_group:
-                showGroupName(true,new EasyAdapter<ClassGroup>(this, classGroupList, android.R.layout.simple_list_item_single_choice) {
+                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassGroup data, int position) {
                         CheckedTextView tv = holder.getView(android.R.id.text1);
@@ -182,7 +183,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 });
                 break;
             case R.id.rl_role:
-                showGroupName(false,new EasyAdapter<ClassRole>(this, classRole, android.R.layout.simple_list_item_single_choice) {
+                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassRole data, int position) {
                         CheckedTextView tv = holder.getView(android.R.id.text1);
@@ -191,10 +192,10 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 });
                 break;
             case R.id.tv_invitation:
-                if(TextUtils.isEmpty(invitation.getClassGroupId())){
+                if (TextUtils.isEmpty(invitation.getClassGroupId())) {
                     Util.toastMsg("请选择小组！");
                     return;
-                }else if(invitation.getClassRole()==0){
+                } else if (invitation.getClassRole() == 0) {
                     Util.toastMsg("请选择角色！");
                     return;
                 }
@@ -209,6 +210,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             String[] inviterHXIds = {inviterHXId};
 
                             try {//群主加人调用此方法
+                                //根据群组ID从服务器获取群组基本信息
+                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());//很奇怪为什么要先获取群信息
                                 EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -241,7 +244,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                             contact.setJoinGroupName(tv_group_name.getText().toString());
                                                             Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
                                                             intent.putExtra("invitater", contact);
-                                                            intent.putExtra("classId",invitation.getClassId());
+                                                            intent.putExtra("classId", invitation.getClassId());
                                                             startActivity(intent);
                                                         } else {
                                                             runOnUiThread(new Runnable() {
@@ -287,19 +290,21 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 break;
         }
     }
+
     BottomSheetDialog dialog;
     int checkedGroup;
     int checkedRole;
+
     private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_trans_view, null);
-        TextView tv_title= (TextView) view.findViewById(R.id.tv);
-        tv_title.setText(isGroup?"选择小组":"选择角色");
+        TextView tv_title = (TextView) view.findViewById(R.id.tv);
+        tv_title.setText(isGroup ? "选择小组" : "选择角色");
         final ListView lv = (ListView) view.findViewById(R.id.lv);
         View footer = LayoutInflater.from(this).inflate(R.layout.trans_group_footer, null);
         lv.addFooterView(footer);
         lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        lv.setItemChecked(isGroup?checkedGroup:checkedRole,true);
+        lv.setItemChecked(isGroup ? checkedGroup : checkedRole, true);
         lv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -321,15 +326,15 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int checkedPosition=lv.getCheckedItemPosition();
-                if(checkedPosition!=-1){
-                    if(isGroup){
-                        checkedGroup=checkedPosition;
+                int checkedPosition = lv.getCheckedItemPosition();
+                if (checkedPosition != -1) {
+                    if (isGroup) {
+                        checkedGroup = checkedPosition;
                         ClassGroup group = classGroupList.get(checkedPosition);
                         tv_group_name.setText(group.getCGName());
                         invitation.setClassGroupId(group.getCGId());
-                    }else {
-                        checkedRole=checkedPosition;
+                    } else {
+                        checkedRole = checkedPosition;
                         ClassRole role = classRole.get(checkedPosition);
                         tv_role.setText(role.getRoleName());
                         invitation.setClassRole(role.getRoleId());
