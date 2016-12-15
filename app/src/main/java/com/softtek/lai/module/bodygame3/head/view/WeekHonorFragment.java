@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,9 +101,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();     //提交的话取消注释
-        ClassId = bundle.getString("classId");
+//        ClassId = bundle.getString("classId");
         selectWeight();
-        setListAdapter();
+        newAdapter();
         ListView refreshableView = listHonorrank.getRefreshableView();
         View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank, null);
         civ_top1 = (CircleImageView) view.findViewById(R.id.civ_top1);
@@ -118,7 +119,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
         refreshableView.addHeaderView(view);
         listHonorrank.setAdapter(honorGroupRankAdapter);
-//        listHonorrank.setEmptyView(ll_no_data);
+        listHonorrank.setEmptyView(ll_no_data);
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -152,10 +153,14 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     }
 
-    private void setListAdapter() {
+    private void newAdapter() {
         honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
             @Override
             public void convert(ViewHolder holder, ListGroupModel data, int position) {
+                if (TextUtils.isEmpty(data.getRanking())) {
+                    holder.getConvertView().setVisibility(View.GONE);
+                    return;
+                }
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
@@ -231,10 +236,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.onRefreshComplete();
         //请求不到数据的时候全屏显示“暂无数据”
         if (model == null) {
-//            ptfsc_no_data.setVisibility(View.VISIBLE);
-            ll_no_data.setVisibility(View.VISIBLE);
-            listHonorrank.setVisibility(View.GONE);
-//            groupModelList.clear();
+            groupModelList.clear();
+            newAdapter();
+            listHonorrank.setAdapter(honorGroupRankAdapter);
             return;
         }
         //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
@@ -271,18 +275,17 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             tv_top2_per.setText("虚位以待");
             tv_top3_per.setText("虚位以待");
             groupModelList.clear();
+            groupModelList.add(new ListGroupModel());
             honorGroupRankAdapter.notifyDataSetChanged();
 
         } else {
-//            ptfsc_no_data.setVisibility(View.GONE);
-            ll_no_data.setVisibility(View.GONE);
-            listHonorrank.setVisibility(View.VISIBLE);
-
             honorRankModel = model;
             //更新list数据
             groupModelList.clear();
             groupModelList.addAll(model.getList_group());
-            honorGroupRankAdapter.notifyDataSetChanged();
+            newAdapter();
+            listHonorrank.setAdapter(honorGroupRankAdapter);
+//            honorGroupRankAdapter.notifyDataSetChanged();
             //list中显示减脂还是减重
             for (ListTopModel topModel : model.getList_top3()) {
                 switch (topModel.getRanking()) {
