@@ -10,13 +10,6 @@ import java.util.List;
 public class LossWeightAndFat {
 
 
-    /**
-     * WeightLevel : 1
-     * FatLevel : 0
-     * LossFatLevelList : [{"FatReachCount":0,"Level":1},{"FatReachCount":0,"Level":2},{"FatReachCount":0,"Level":3},{"FatReachCount":0,"Level":4},{"FatReachCount":0,"Level":5},{"FatReachCount":0,"Level":6},{"FatReachCount":0,"Level":7},{"FatReachCount":0,"Level":8},{"FatReachCount":0,"Level":9},{"FatReachCount":0,"Level":10}]
-     * LossWeightLevelList : [{"WeightReachCount":1,"Level":1},{"WeightReachCount":0,"Level":2},{"WeightReachCount":0,"Level":3},{"WeightReachCount":0,"Level":4},{"WeightReachCount":0,"Level":5},{"WeightReachCount":0,"Level":6},{"WeightReachCount":0,"Level":7},{"WeightReachCount":0,"Level":8},{"WeightReachCount":0,"Level":9},{"WeightReachCount":0,"Level":10}]
-     */
-
     private int WeightLevel;
     private int FatLevel;
     private List<LossFatLevel> LossFatLevelList;
