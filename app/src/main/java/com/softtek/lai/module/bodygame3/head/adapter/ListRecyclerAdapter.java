@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
@@ -40,6 +41,8 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM = 1;
     private static final int FOOTER = 2;
     private static final int EMPTY = 3;
+
+    private boolean isFootGone = false;
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
@@ -83,13 +86,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }
             ((ViewHolder) holder).group_tv.setText(partnersModel.getGroupName());
-            if (TextUtils.isEmpty(partnersModel.getStuThImg())) {
-                Picasso.with(context).load(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-            } else {
+            Log.e("photohost",AddressManager.get("photoHost") + partnersModel.getStuThImg());
                 Picasso.with(context).load(AddressManager.get("photoHost") + partnersModel.getStuThImg())
                         .fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-            }
+
             ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
             ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
             ((ViewHolder) holder).tv_bi.setText("减重比");
@@ -122,10 +123,18 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int type;
         if (position + 1 == getItemCount()) {
             type = getItemCount() < 10 ? EMPTY : FOOTER;
+            if (isFootGone){
+                type = EMPTY;
+                isFootGone = false;
+            }
         } else {
             type = ITEM;
         }
         return type;
+    }
+
+    public void setFootGone(boolean isGone){
+        isFootGone = isGone;
     }
 
 
