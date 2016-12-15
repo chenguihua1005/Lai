@@ -167,15 +167,26 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                     tv_StaClassDate.setText(date[0] + "年" + Long.parseLong(date[1]) + "月" + Long.parseLong(date1[0]) + "日");//开班日期
                 }
                 tv_classPerNum.setText(classDetailModel.getClassMemberNum() + "人");
-                if ("1".equals(classDetailModel.getIsSendMsg()))//是否已发送申请
-                {//是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本
-                    btn_joinclass.setVisibility(View.GONE);
-                    cb_term.setEnabled(false);
-                    tv_tip.setVisibility(View.VISIBLE);
+                int IsSend=Integer.parseInt(classDetailModel.getIsSendMsg());
+                switch (IsSend)
+                {
+                    case 0:
+                        break;
+                    case  1:
+                        //是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本
+                        btn_joinclass.setVisibility(View.GONE);
+                        cb_term.setEnabled(false);
+                        tv_tip.setVisibility(View.VISIBLE);
+                    break;
+                    case 2:
+                        //是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本:您已在班级中,无法再次加入
+                        btn_joinclass.setVisibility(View.GONE);
+                        cb_term.setEnabled(false);
+                        tv_tip.setVisibility(View.VISIBLE);
+                        tv_tip.setText("您已在班级中,无法再次加入");
+                        break;
                 }
-                else {
-
-                }
+               
             } catch (Exception e) {
                 e.printStackTrace();
             }

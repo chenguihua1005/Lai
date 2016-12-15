@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
@@ -49,14 +51,15 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     FuceSevice fuceSevice;
     int pageIndex=1;
     Long userid;
-    String classid,typedata;
+    private int FCAudit=1;
+    private static String classid,typedata;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId,String typeDate) {
         FcAuditFragment fragment=new FcAuditFragment();
         Bundle data=new Bundle();
-        data.putString("classid",classId);
-        data.putString("typedata",typeDate);
+        classid=classId;
+        typedata=typeDate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -96,6 +99,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        classid="323689f5-4740-49b1-947e-7c27e3bdf530";
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         userid=UserInfoModel.getInstance().getUserId();
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
@@ -105,8 +109,8 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 TextView tv_group=holder.getView(R.id.tv_group);
                 TextView tv_weight=holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim=holder.getView(R.id.cir_headim);
-                tv_group.setText(data.getGroupName());
-                tv_weight.setText("("+data.getWeight()+")");
+                tv_group.setText("("+data.getGroupName()+")");
+                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl()))
                 {
@@ -126,7 +130,13 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent FcAudit=new Intent(getContext(),FcAuditStuActivity.class);
+        FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
+        FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
+        FcAudit.putExtra("classId",classid);
+        startActivityForResult(FcAudit,FCAudit);
 
+//        startActivityForResult(InitdataAudit,ChuAudit);
     }
     //下拉刷新
     @Override
@@ -142,7 +152,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     }
     //获取审核列表数据
     private void doGetData() {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,"2016-12-14", pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,"2016-12-15", pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
@@ -161,8 +171,19 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
+
             }
-        });
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                        plv_audit.onRefreshComplete();
+
+                    }
+                }
+
+
+        );
     }
 
 

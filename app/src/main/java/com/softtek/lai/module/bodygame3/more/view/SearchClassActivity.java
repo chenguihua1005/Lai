@@ -88,7 +88,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                             @Override
                             public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                dialogDissmiss();
+                                pb.setVisibility(View.GONE);
                                 if (data.getStatus() == 200) {
                                     classlistModels.clear();
                                     classlistModels.addAll(data.getData());
@@ -101,7 +101,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
                             @Override
                             public void failure(RetrofitError error) {
-                                dialogDissmiss();
+                                pb.setVisibility(View.GONE);
                                 super.failure(error);
                             }
                         });

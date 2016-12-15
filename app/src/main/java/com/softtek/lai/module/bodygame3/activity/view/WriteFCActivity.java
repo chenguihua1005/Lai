@@ -298,7 +298,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",fcStDataModel);
-                intent.putExtra("type",1);
+                intent.putExtra("Audited",3);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:

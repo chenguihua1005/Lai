@@ -182,7 +182,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, "2016-12-14", "1", new RequestCallback<ResponseData<FcStDataModel>>() {
+        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, "323689f5-4740-49b1-947e-7c27e3bdf530", "2016-12-15", "1", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();
@@ -361,7 +361,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
     void doSetPostData()
     {
-
+        classId="323689f5-4740-49b1-947e-7c27e3bdf530";
         multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
