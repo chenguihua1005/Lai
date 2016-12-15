@@ -85,7 +85,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (partnersModel.getStuGender().equals("2")) {
 
             }
-            ((ViewHolder) holder).group_tv.setText(partnersModel.getGroupName());
+            ((ViewHolder) holder).group_tv.setText("("+partnersModel.getGroupName()+")");
             Log.e("photohost",AddressManager.get("photoHost") + partnersModel.getStuThImg());
                 Picasso.with(context).load(AddressManager.get("photoHost") + partnersModel.getStuThImg())
                         .fit().error(R.drawable.img_default)
