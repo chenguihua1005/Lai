@@ -57,7 +57,7 @@ public interface HeadService {
             Callback<ResponseData<List<ClasslistModel>>> callback
     );
 
-    //    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
+
     //检索小伙伴
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(

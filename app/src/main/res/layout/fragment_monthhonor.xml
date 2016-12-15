@@ -23,7 +23,8 @@
             android:layout_height="match_parent"
             android:background="#fafafa"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -39,7 +40,6 @@
                 android:textSize="15dp" />
 
         </LinearLayout>
-
 
     </RelativeLayout>
 

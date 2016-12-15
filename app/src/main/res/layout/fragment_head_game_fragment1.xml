@@ -176,7 +176,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="A组"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -192,7 +192,7 @@
                                 android:id="@+id/jianzhongbi_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="总减重29斤"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
                         </LinearLayout>
@@ -246,7 +246,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="小米"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -262,7 +262,7 @@
                                 android:id="@+id/student_jianzhong"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="减重29斤"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
 
@@ -271,7 +271,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:text="减脂4%"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
 

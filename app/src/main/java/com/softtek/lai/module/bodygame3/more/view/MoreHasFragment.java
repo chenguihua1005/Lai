@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class MoreHasFragment extends Fragment {
             //添加小组名字
             if(role!=1){
                 tv_role_name.append("(");
-                tv_role_name.append(model.getCGName());
+                tv_role_name.append(TextUtils.isEmpty(model.getCGName())?"未知":model.getCGName());
                 tv_role_name.append(")");
             }
             tv_number.setText(model.getClassCode());

@@ -503,7 +503,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     if (classinfoModel.getHonor() != null) {
                         RongyuModel rongyuModel = classinfoModel.getHonor();
                         group_name.setText(rongyuModel.getGroupName());
-                        jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "斤");
+                        if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
+                            jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "斤");
+                        } else {
+                            jianzhongbi_tv.setText("总减重比" + " 斤");
+                        }
                         student_tv.setText(rongyuModel.getStuName());
 
                         if (!TextUtils.isEmpty(rongyuModel.getStuPhoto())) {
@@ -515,8 +519,15 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         }
                         if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                             student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
+                        } else {
+                            student_jianzhong.setText("减重" + " 斤");
                         }
-                        student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
+                        if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
+                            student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
+                        } else {
+                            student_jianzhi.setText("减脂" + " %");
+                        }
+
                     }
 
                     //班级赛况
@@ -636,10 +647,15 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
                     @Override
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
-                        PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
-                        if (partnertotalModel.getPartnersList() != null) {
-                            partnersModels.clear();
-                            partnersModels.addAll(partnertotalModel.getPartnersList());
+                        if (200 == partnersModelResponseData.getStatus()) {
+                            PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
+                            if (partnertotalModel.getPartnersList() != null) {
+                                partnersModels.clear();
+                                partnersModels.addAll(partnertotalModel.getPartnersList());
+                                partneradapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            partneradapter.setFootGone(true);
                             partneradapter.notifyDataSetChanged();
                         }
                     }

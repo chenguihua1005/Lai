@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Selection;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -88,7 +88,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 et_value.setHint("班级名称");
                 et_value.setText(intent.getStringExtra("name"));
                 et_value.setMaxEms(10);
-                classHXId=intent.getStringExtra("classHxId");
+                classHXId = intent.getStringExtra("classHxId");
                 Editable etext = et_value.getText();
                 Selection.setSelection(etext, etext.length());
                 break;
@@ -142,20 +142,21 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
-        if(flag==Edit_AIXIN_PHONE){
-            if(et_value.getText().length()!=11){
+        if (flag == Edit_AIXIN_PHONE) {
+            if (et_value.getText().length() != 11) {
                 et_value.requestFocus();
                 et_value.setError(Html.fromHtml("<font color=#FFFFFF>请输入11位手机号码</font>"));
             }
         } else if (StringUtil.length(et_value.getText().toString()) > 24) {
             String message="";
             switch (flag){
+
                 case UPDATE_CLASS_NAME:
-                    message="班级名称不能超过12个汉字";
+                    message = "班级名称不能超过12个汉字";
                     break;
                 case ADD_GROUP_NAME:
                 case UPDATE_GROUP_NAME:
-                    message="小组名称不能超过12个汉字";
+                    message = "小组名称不能超过12个汉字";
                     break;
             }
             et_value.requestFocus();
@@ -164,13 +165,14 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
             switch (flag) {
                 case UPDATE_CLASS_NAME: {
                     final String value = et_value.getText().toString();
+                    Log.i("EditorTextOlineActivity","classHXId = " + classHXId +" changedGroupName =  " + value);
                     //环信群组名称修改
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            String changedGroupName = value;
+//                            String changedGroupName = value;
                             try {
-                                EMClient.getInstance().groupManager().changeGroupName(classHXId, changedGroupName);//需异步处理
+                                EMClient.getInstance().groupManager().changeGroupName(classHXId, value);//需异步处理
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                                         .updateClassName(UserInfoModel.getInstance().getToken(),
@@ -196,7 +198,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                                                     }
                                                 });
 
-                            } catch (HyphenateException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -266,17 +268,17 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        String message="";
-        switch (flag){
+        String message = "";
+        switch (flag) {
             case UPDATE_CLASS_NAME:
-                message="请输入班级名称";
+                message = "请输入班级名称";
                 break;
             case ADD_GROUP_NAME:
             case UPDATE_GROUP_NAME:
-                message="请输入小组名称";
+                message = "请输入小组名称";
                 break;
             case Edit_AIXIN_PHONE:
-                message="请输入手机号码";
+                message = "请输入手机号码";
                 break;
         }
         if (failedView instanceof EditText) {

@@ -6,32 +6,34 @@
     android:background="@color/common_bg"
     android:orientation="vertical">
 
-	<com.hyphenate.easeui.widget.EaseTitleBar
-	    android:id="@+id/title_bar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    hyphenate:titleBarTitle="@string/session"
-	    />
-
-    <include layout="@layout/ease_search_bar"
-        android:visibility="gone"/>
-
-    <FrameLayout
+    <com.hyphenate.easeui.widget.EaseTitleBar
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        hyphenate:titleBarTitle="@string/session" />
+
+    <include
+        layout="@layout/ease_search_bar"
+        android:visibility="gone" />
+
+    <FrameLayout
         android:id="@+id/fl_error_item"
-        >
-    </FrameLayout>
-
-
-    <com.hyphenate.easeui.widget.EaseConversationList
-        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="#00000000"
-        android:divider="@null"
-        hyphenate:cvsListPrimaryTextSize="16sp"
-         />
+        android:layout_height="wrap_content"></FrameLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chat_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.hyphenate.easeui.widget.EaseConversationList
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            hyphenate:cvsListPrimaryTextSize="16sp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

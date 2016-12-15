@@ -3,8 +3,10 @@ package com.hyphenate.easeui.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,6 +48,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
     protected EaseConversationList conversationListView; // 会话列表数据
     protected FrameLayout errorItemContainer;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
 
     protected boolean isConflict;
 
@@ -74,6 +78,10 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     protected void initView() {
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.chat_swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
+                R.color.holo_orange_light, R.color.holo_red_light);
+
         query = (EditText) getView().findViewById(R.id.query);
         // button to clear content in search bar
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
@@ -128,6 +136,35 @@ public class EaseConversationListFragment extends EaseBaseFragment {
             public boolean onTouch(View v, MotionEvent event) {
                 hideSoftKeyboard();
                 return false;
+            }
+        });
+
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("EaseConversationList", "刷新......");
+//从服务器获取自己加入的和创建的群组列表，此api获取的群组sdk会自动保存到内存和db。
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
+                            conversationList.clear();
+                            conversationList.addAll(loadConversationList());
+                            conversationListView.refresh();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                }).start();
+
+                swipeRefreshLayout.setRefreshing(false);
+
+
             }
         });
     }
