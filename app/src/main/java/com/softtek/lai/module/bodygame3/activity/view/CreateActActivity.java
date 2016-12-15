@@ -77,7 +77,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     LinearLayout rl_activity_name;
 
     @InjectView(R.id.rl_activity_mark)
-    RelativeLayout rl_activity_mark;
+    LinearLayout rl_activity_mark;
 
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
@@ -88,7 +88,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout.LayoutParams parm;
     private String date;
     EasyAdapter<ActtypeModel> adapter;
-    private List<ActtypeModel> acttypeModels = new ArrayList<ActtypeModel>();
+    private List<ActtypeModel> acttypeModels = new ArrayList<>();
     private String classid;
     private ActivityModel activityModel;
     private int classActivityId;//活动类型Id
@@ -171,6 +171,10 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 }
                 if (TextUtils.isEmpty(mark)) {
                     Util.toastMsg("请输入活动说明");
+                    return;
+                }
+                if (classActivityId <= 0) {
+                    Util.toastMsg("请输入活动类型");
                     return;
                 }
 
@@ -306,13 +310,13 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
-              String  dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-                int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated,currentDate);
-                Log.e("132",compare+"");
-                if(compare<0){
-                       tv_activity_time.setText(str);
-                }else{
+                String dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
+                Log.e("132", compare + "");
+                if (compare < 0) {
+                    tv_activity_time.setText(str);
+                } else {
 
                     showTimeDialog();
                 }

@@ -126,7 +126,9 @@ public class HealthyFragment extends LazyBaseFragment {
                 UploadImage image=new UploadImage();
                 image.setImage(new File(file));
                 image.setUri(Uri.fromFile(new File(file)));
-                intent.putExtra("uploadImage",image);
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                uploadImages.add(image);
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 

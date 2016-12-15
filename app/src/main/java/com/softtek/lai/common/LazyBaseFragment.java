@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.snowdream.android.util.Log;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
@@ -51,8 +52,10 @@ public abstract class LazyBaseFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         isCreatedView=true;
         initDatas();
+        Log.i("onViewCreated结束开始判断是否可以浴加载。。。。。。。。。。。");
         //如果当前的frgment可见且没有加载过数据则 正常加载数据
         if(isVisible&&!isPrepared){
+            Log.i("判断可以预加载所以开始加载数据。。。。。。。。。。。。。。。。。。。。。。。。。。"+getClass().getSimpleName());
             isPrepared=true;
             lazyLoad();
         }

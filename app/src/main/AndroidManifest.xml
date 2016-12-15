@@ -263,15 +263,11 @@
         <activity
             android:name=".module.retest.view.QueryActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.StudentHonorActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.bodygame3.more.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.StudentScoreActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
@@ -298,12 +294,7 @@
         <activity
             android:name=".module.bodygamest.view.BodyweidustActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.SelectPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.PhotoDetailActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
@@ -521,9 +512,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.PhotoViewActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".stepcount.service.StepService" />

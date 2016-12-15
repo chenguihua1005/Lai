@@ -77,7 +77,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':social_project')
-    compile project(':image_file_selector')
+    compile project(':takePhoto')
     compile project(':easeui')
     compile project(':widgets')
     compile 'com.rainim:libzilla:1.0.59'

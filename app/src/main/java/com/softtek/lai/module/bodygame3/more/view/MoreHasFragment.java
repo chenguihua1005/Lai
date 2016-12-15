@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -70,37 +71,53 @@ public class MoreHasFragment extends Fragment {
             model = classModels.get(0);
             int role = model.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+            //添加小组名字
+            if(role!=1){
+                tv_role_name.append("(");
+                tv_role_name.append(model.getCGName());
+                tv_role_name.append(")");
+            }
             tv_number.setText(model.getClassCode());
             choosePanel(role);
 
         }
+
         arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
             @Override
             public void convert(ViewHolder holder, ClassModel data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                tv_class_name.setText(data.getClassName());
                 ImageView iv_icon = holder.getView(R.id.iv_icon);
+                boolean selected=arrow.getSelectedIndex()==position;
                 int icon;
                 switch (data.getClassRole()) {
                     case 1:
-                        icon = R.drawable.class_zongjiaolian;
+                        icon = selected?R.drawable.class_zongjiaolian_re:R.drawable.class_zongjiaolian;
                         break;
                     case 2:
-                        icon = R.drawable.class_jiaolian;
+                        icon = selected?R.drawable.class_jiaolian_re:R.drawable.class_jiaolian;
                         break;
                     case 3:
-                        icon = R.drawable.class_zhujiao;
+                        icon = selected?R.drawable.class_zhujiao_re:R.drawable.class_zhujiao;
                         break;
                     default:
-                        icon = R.drawable.class_xueyuan;
+                        icon = selected?R.drawable.class_xueyuan_re:R.drawable.class_xueyuan;
                         break;
                 }
                 iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                int color=selected?0xFF000000:0xFFFFFFFF;
                 TextView tv_role = holder.getView(R.id.tv_role_name);
                 int role = data.getClassRole();
                 tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                tv_role.setTextColor(color);
                 TextView tv_number = holder.getView(R.id.tv_number);
                 tv_number.setText(data.getClassCode());
+                tv_number.setTextColor(color);
+                TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                tv_class_name.setText(data.getClassName());
+                tv_class_name.setTextColor(color);
+                ImageView iv_sel=holder.getView(R.id.iv_select);
+                iv_sel.setVisibility(selected?View.VISIBLE:View.INVISIBLE);
+                RelativeLayout rl_bg=holder.getView(R.id.rl_bg);
+                rl_bg.setBackgroundColor(selected?0xFFFFFFFF:0x00FFFFFF);
             }
 
             @Override
@@ -117,8 +134,15 @@ public class MoreHasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 model = classModels.get(i);
+                arrow.setSelected(i);
                 int role = model.getClassRole();
                 tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                //添加小组名字
+                if(role!=1){
+                    tv_role_name.append("(");
+                    tv_role_name.append(model.getCGName());
+                    tv_role_name.append(")");
+                }
                 tv_number.setText(model.getClassCode());
                 choosePanel(role);
             }
@@ -189,6 +213,15 @@ public class MoreHasFragment extends Fragment {
             }else {
                 arrow.setSelected(0);
                 this.model=classModels.get(0);
+                int role = model.getClassRole();
+                tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                //添加小组名字
+                if(role!=1){
+                    tv_role_name.append("(");
+                    tv_role_name.append(model.getCGName());
+                    tv_role_name.append(")");
+                }
+                tv_number.setText(model.getClassCode());
                 choosePanel(this.model.getClassRole());
             }
         }

@@ -192,17 +192,12 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         };
         spinner.attachCustomSource(spinnerAdapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = i + 1;
                 Log.e("curryaaaa", "onItemSelected: " + i);
                 lazyLoad();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }

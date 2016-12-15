@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
@@ -62,7 +62,6 @@ import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -78,9 +77,9 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 @InjectLayout(R.layout.fragment_classed)
-public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener {
     @InjectView(R.id.pull)
-    MySwipRefreshView refresh;
+    MySwipRefreshView pull;
     @InjectView(R.id.scrollview)
     NestedScrollView scrollview;
     @InjectView(R.id.appbar)
@@ -129,7 +128,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     private int resetstatus;//复测状态
     SimpleDateFormat sf = new SimpleDateFormat("yy-mm-DD");
     String strDate = sf.format(new Date());
-
+   private ActivitydataModel activitydataModel;
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
     }
@@ -146,9 +145,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
     @Override
     protected void lazyLoad() {
-        material_calendar.removeDecorators();
-        refresh.setRefreshing(true);
-        getalldatafirst();
     }
 
     @Override
@@ -167,22 +163,17 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-//刷新
-        refresh.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
+
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset >= 0) {
-                    refresh.setEnabled(true);
+                    pull.setEnabled(true);
                 } else {
-                    refresh.setEnabled(false);
+                    pull.setEnabled(false);
                 }
             }
         });
-        refresh.setOnRefreshListener(this);
         list_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -208,7 +199,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
         //日历
         material_calendar.setOnDateChangedListener(this);
-//        material_calendar.setDatepageChangeListener(this);
+
         material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 
         final Calendar instance = Calendar.getInstance();
@@ -225,9 +216,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 .setMaximumDate(instance2.getTime())
                 .setCalendarDisplayMode(CalendarMode.MONTHS)//周模式(WEEKS)或月模式（MONTHS）
                 .commit();
-//设置日历的长和宽间距
-//        material_calendar.setTileWidthDp(50);
-//        material_calendar.setTileHeightDp(38);
+
         material_calendar.setShowOtherDates(0);
 
     }
@@ -237,6 +226,9 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         material_calendar.removeDecorators();
         actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
         list_activity.setAdapter(actRecyclerAdapter);
+        activitydataModel = new ActivitydataModel();
+        Bundle bundle = getArguments();
+        activitydataModel = bundle.getParcelable("activitydatemodel");
         //获取初始数据
         getalldatafirst();
         //活动跳转到活动详情
@@ -270,10 +262,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     }
                                     for (int i = 0; i < calendarModels.size(); i++) {
 
-                                            if (calendarModels.get(i).getMonthDate() == strDate) {
-                                                typeDate = calendarModels.get(i).getMonthDate();
-                                            }
-                                        if(calendarModels.get(i).getDateType()==Constants.RESET){
+                                        if (calendarModels.get(i).getMonthDate() == strDate) {
+                                            typeDate = calendarModels.get(i).getMonthDate();
+                                        }
+                                        if (calendarModels.get(i).getDateType() == Constants.RESET) {
                                             resetstatus = activitydataModel.getRetestStatus();
                                             if (resetstatus == 1) {//已过去的复测日
                                                 ll_fuce.setEnabled(true);
@@ -398,16 +390,24 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
     }
 
     private void getalldatafirst() {
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                "",
-                new RequestCallback<ResponseData<ActivitydataModel>>() {
-                    @Override
-                    public void success(ResponseData<ActivitydataModel> activitydataModelResponseData, Response response) {
-                        refresh.setRefreshing(false);
                         calendarModels.clear();
-                        if (activitydataModelResponseData.getData() != null) {
-                            ActivitydataModel activitydataModel = activitydataModelResponseData.getData();
+                        if (activitydataModel != null) {
+                            reset_name.setText("复测审核");
+                            resetstatus = activitydataModel.getRetestStatus();
+                            switch (resetstatus) {
+                                case 1://已过去的复测日
+                                    ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + activitydataModel.getNum());
+                                    break;
+                                case 2://进行中的复测日
+                                    ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + activitydataModel.getNum());
+                                    break;
+                                case 3://未开始的复测日
+                                    ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
+                                    break;
+                            }
                             if (activitydataModel.getList_ActCalendar() != null) {
                                 calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                 material_calendar.removeDecorators();
@@ -418,32 +418,15 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                     }
                                     if (calendarModels.get(i).getDateType() == Constants.RESET) {
 
-                                        resetstatus = activitydataModel.getRetestStatus();
-                                        if (resetstatus == 1) {//已过去的复测日
-                                            ll_fuce.setEnabled(true);
-                                        } else if (resetstatus == 2) {//进行中的复测日
-                                            ll_fuce.setEnabled(true);
-                                        } else if (resetstatus == 3) {//未开始的复测日
-                                            ll_fuce.setEnabled(false);
-                                        } else {
-                                            ll_fuce.setVisibility(View.GONE);
-                                        }
 
                                     } else {
                                         ll_fuce.setVisibility(View.GONE);
                                     }
                                 }
-
                             }
-
-
                             ll_fuce.setBackgroundResource(R.drawable.reset_update);
                             fl_right.setVisibility(View.VISIBLE);
                             fl_right.setEnabled(true);
-                            reset_name.setText("复测审核");
-                            reset_time.setText("待审核" + activitydataModel.getNum());
-
-
                             //加载班级
                             classModels.clear();
                             if (activitydataModel.getList_Class() != null) {
@@ -451,30 +434,39 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                                 tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                     @Override
                                     public void convert(ViewHolder holder, ClassModel data, int position) {
-                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                        tv_class_name.setText(data.getClassName());
                                         ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                        boolean selected = tv_title.getSelectedIndex() == position;
                                         int icon;
                                         switch (data.getClassRole()) {
                                             case 1:
-                                                icon = R.drawable.class_zongjiaolian;
+                                                icon = selected ? R.drawable.class_zongjiaolian_re : R.drawable.class_zongjiaolian;
                                                 break;
                                             case 2:
-                                                icon = R.drawable.class_jiaolian;
+                                                icon = selected ? R.drawable.class_jiaolian_re : R.drawable.class_jiaolian;
                                                 break;
                                             case 3:
-                                                icon = R.drawable.class_zhujiao;
+                                                icon = selected ? R.drawable.class_zhujiao_re : R.drawable.class_zhujiao;
                                                 break;
                                             default:
-                                                icon = R.drawable.class_xueyuan;
+                                                icon = selected ? R.drawable.class_xueyuan_re : R.drawable.class_xueyuan;
                                                 break;
                                         }
                                         iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                        int color = selected ? 0xFF000000 : 0xFFFFFFFF;
                                         TextView tv_role = holder.getView(R.id.tv_role_name);
                                         int role = data.getClassRole();
                                         tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                        tv_role.setTextColor(color);
                                         TextView tv_number = holder.getView(R.id.tv_number);
                                         tv_number.setText(data.getClassCode());
+                                        tv_number.setTextColor(color);
+                                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                        tv_class_name.setText(data.getClassName());
+                                        tv_class_name.setTextColor(color);
+                                        ImageView iv_sel = holder.getView(R.id.iv_select);
+                                        iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+                                        RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
+                                        rl_bg.setBackgroundColor(selected ? 0xFFFFFFFF : 0x00FFFFFF);
                                     }
 
                                     @Override
@@ -529,14 +521,6 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                             }
                         }
 
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        refresh.setRefreshing(false);
-                        super.failure(error);
-                    }
-                });
 
     }
 
@@ -550,7 +534,10 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
 
         dateStr = YY + "-" + MM + "-" + DD;
 
-         typeDate=dateStr;
+        typeDate = dateStr;
+        todayactModels.clear();
+        actRecyclerAdapter.notifyDataSetChanged();
+        gettodaydata(dateStr);
         for (int i = 0; i < calendarModels.size(); i++) {
             String dates = calendarModels.get(i).getMonthDate();
             if (java.sql.Date.valueOf(dateStr).equals(java.sql.Date.valueOf(dates))) {
@@ -560,25 +547,13 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                     list_activity.setVisibility(View.VISIBLE);
                 }
                 if (calendarModels.get(i).getDateType() == Constants.RESET) {
-
-                    if (resetstatus == 1) {//已过去的复测日
-                        ll_fuce.setEnabled(true);
-                    } else if (resetstatus == 2) {//进行中的复测日
-                        ll_fuce.setEnabled(true);
-                    } else if (resetstatus == 3) {//未开始的复测日
-                        ll_fuce.setEnabled(false);
-                    } else {
-                        ll_fuce.setVisibility(View.GONE);
-                    }
-                    if (todayactModels != null) {
-                        list_activity.setVisibility(View.VISIBLE);
-//                        scrollview.setVisibility(View.GONE);
-                    } else {
-                        list_activity.setVisibility(View.GONE);
-//                        scrollview.setVisibility(View.VISIBLE);
-                    }
-
+//                    if (todayactModels != null) {
                     ll_fuce.setVisibility(View.VISIBLE);
+                    list_activity.setVisibility(View.VISIBLE);
+//                    } else {
+//                        list_activity.setVisibility(View.GONE);
+//                    }
+
                 }
                 if (calendarModels.get(i).getDateType() == Constants.FREE) {
                     scrollview.setVisibility(View.VISIBLE);
@@ -592,9 +567,7 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                 }
             }
         }
-        todayactModels.clear();
-        actRecyclerAdapter.notifyDataSetChanged();
-        gettodaydata(dateStr);
+
 
     }
 
@@ -606,9 +579,31 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
                         todayactModels.clear();
                         if (todaysModelResponseData.getData() != null) {
                             TodaysModel model = todaysModelResponseData.getData();
+                            resetstatus = model.getRetestStatus();
+                            switch (resetstatus) {
+                                case 1://已过去的复测日
+                                    ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + model.getNum());
+                                    break;
+                                case 2://进行中的复测日
+                                    ll_fuce.setEnabled(true);
+                                    reset_time.setText("待审核" + model.getNum());
+                                    break;
+                                case 3://未开始的复测日
+                                    ll_fuce.setEnabled(false);
+                                    reset_time.setText("未开始");
+                                    break;
+                            }
                             if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
                                 todayactModels.addAll(model.getList_Activity());
                                 actRecyclerAdapter.notifyDataSetChanged();
+
+                                if (!model.getRetest()) {//未复测
+
+                                } else {//已复测
+
+                                }
+
                             }
                         }
                     }
@@ -650,17 +645,13 @@ public class ClassedFragment extends LazyBaseFragment implements OnDateSelectedL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                getalldatafirst();
+//                getalldatafirst();
             }
         }
 
     }
 
-    @Override
-    public void onRefresh() {
-        refresh.setRefreshing(true);
-        getalldatafirst();
-    }
+
 
     private SchelDecorator decorator;
     private SchelDecorator decorator_act;

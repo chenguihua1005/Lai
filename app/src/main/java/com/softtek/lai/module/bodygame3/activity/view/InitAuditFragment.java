@@ -132,7 +132,6 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         InitdataAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId",classid);
         InitdataAudit.putExtra("AccountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
-
         startActivityForResult(InitdataAudit,ChuAudit);
     }
 
@@ -140,7 +139,17 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ChuAudit && requestCode==RESULT_OK) {
-            plv_audit.setRefreshing();
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+                @Override
+
+                public void run() {
+
+                    plv_audit.setRefreshing();
+
+                }
+
+            }, 300);
         }
     }
 

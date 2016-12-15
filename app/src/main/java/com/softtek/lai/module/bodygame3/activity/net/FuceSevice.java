@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitAuditPModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
@@ -34,13 +35,6 @@ public interface FuceSevice {
             Callback<ResponseData<InitDataModel>> callback
     );
 
-    //    提交初始数据接口
-    @POST("/v1/MeasuredRecordLog/PostInitData")
-    void doPostInitData(
-            @Header("token") String token,
-            @Body MultipartTypedOutput multipartTypedOutput,
-            Callback<ResponseData> callback
-    );
 
     //    获取复测审核列表
     @GET("/v1/MeasuredRecordLog/GetMeasureReviewedList")
@@ -98,6 +92,20 @@ public interface FuceSevice {
             @Query("type")String type,
             Callback<ResponseData<FcStDataModel>>callback
             );
+    //    提交初始数据接口
+    @POST("/v1/MeasuredRecordLog/PostInitData")
+    void doPostInitData(
+            @Header("token") String token,
+            @Body MultipartTypedOutput multipartTypedOutput,
+            Callback<ResponseData> callback
+    );
 
+    //初始数据审核提交
+    @POST("/v1/MeasuredRecordLog/ReviewInitData")
+    void doReviewInitData(
+            @Header("token") String token,
+            @Body InitAuditPModel initAuditPModel,
+            Callback<ResponseData>callback
+            );
 
 }
