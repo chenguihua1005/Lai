@@ -20,6 +20,24 @@ public class ClassModel implements Parcelable{
     private String HXGroupId;
     private int ClassStatus;//0未开始 1进行中
     private List<String> ClassMeasureDateList;
+    private String CGId;
+    private String CGName;
+
+    public String getCGId() {
+        return CGId;
+    }
+
+    public void setCGId(String CGId) {
+        this.CGId = CGId;
+    }
+
+    public String getCGName() {
+        return CGName;
+    }
+
+    public void setCGName(String CGName) {
+        this.CGName = CGName;
+    }
 
     public ClassModel() {
     }
@@ -33,6 +51,8 @@ public class ClassModel implements Parcelable{
         ClassMeasureDateList = in.createStringArrayList();
         HXGroupId=in.readString();
         ClassStatus=in.readInt();
+        CGId=in.readString();
+        CGName=in.readString();
     }
 
     public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
@@ -140,5 +160,7 @@ public class ClassModel implements Parcelable{
         parcel.writeStringList(ClassMeasureDateList);
         parcel.writeString(HXGroupId);
         parcel.writeInt(ClassStatus);
+        parcel.writeString(CGId);
+        parcel.writeString(CGName);
     }
 }

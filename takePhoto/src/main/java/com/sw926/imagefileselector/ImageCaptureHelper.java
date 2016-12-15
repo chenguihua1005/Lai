@@ -48,13 +48,9 @@ class ImageCaptureHelper {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CHOOSE_PHOTO_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
-            Log.i("dsada","拍照返回啦。。。。。。");
             if (mOutFile != null && mOutFile.exists()) {
-                Log.i("dsada","文件存在。。。。。。");
                 saveImageToGallery(mOutFile);
-                Log.i("dsada","相册更新完成。。。。。。");
                 if (mCallback != null) {
-                    Log.i("dsada","拍照返回啦。。。。。。");
                     mCallback.onSuccess(mOutFile.getPath());
                 }
             } else {
@@ -68,7 +64,11 @@ class ImageCaptureHelper {
         mOutFile = CommonUtils.generateExternalImageCacheFile(activity, ".jpg");
         mActivityWeakReference=new WeakReference(activity);
         try {
-            activity.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri out= FileProvider.getUriForFile(activity.getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            activity.startActivityForResult(intent, CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             if (mCallback != null) {
@@ -105,21 +105,17 @@ class ImageCaptureHelper {
         mOutFile = CommonUtils.generateExternalImageCacheFile(fragment.getContext(), ".jpg");
         mFragmentWeakReference=new WeakReference(fragment);
         try {
-            fragment.startActivityForResult(createIntent(), CHOOSE_PHOTO_FROM_CAMERA);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri out= FileProvider.getUriForFile(fragment.getContext().getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fragment.startActivityForResult(intent, CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             if (mCallback != null) {
                 mCallback.onError();
             }
         }
-    }
-
-    private Intent createIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri out= FileProvider.getUriForFile(mFragmentWeakReference.get().getContext().getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        return intent;
     }
 
     public interface Callback {

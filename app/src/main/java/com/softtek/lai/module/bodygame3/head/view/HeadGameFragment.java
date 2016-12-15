@@ -45,10 +45,10 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+
 @InjectLayout(R.layout.noclass_fragment)
 public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-    //    @InjectView(R.id.appbar)
-//    AppBarLayout appbar;
+
     @InjectView(R.id.tv_totalperson)
     TextView tv_totalperson;
     @InjectView(R.id.tv_total_loss)
@@ -96,8 +96,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void lazyLoad() {
-        pull.setRefreshing(true);
-        secondhead2();
+        Log.i("没有班级数据是否刷新了");
+
     }
 
     @Override
@@ -146,15 +146,17 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        Log.i("initView没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
 
     @Override
     protected void initDatas() {
         roate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
-        hasemail();
-        secondhead2();
         EventBus.getDefault().register(this);
+        pull.setRefreshing(true);
+        onRefresh();
+        Log.i("initData没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
     @Override
@@ -163,29 +165,12 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         EventBus.getDefault().unregister(this);
     }
 
-    private void hasemail() {
-        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
-            @Override
-            public void success(ResponseData<NewsModel> responseData, Response response) {
-                if (responseData.getData() != null) {
-                    NewsModel newsModel = responseData.getData();
-                    int has = newsModel.getNum();
-                    if (has == 0) {
-                        iv_email.setImageResource(R.drawable.email);
-                    } else {
-                        iv_email.setImageResource(R.drawable.has_email);
-                    }
-                }
-            }
-        });
-    }
-
-    private void secondhead2() {
-        pull.setRefreshing(false);
-
+    @Override
+    public void onRefresh() {
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
+                pull.setRefreshing(false);
                 if (headModel2ResponseData.getData() != null) {
                     HeadModel2 model2 = headModel2ResponseData.getData();
                     tv_totalperson.setText(model2.getTotalPerson() + "");
@@ -203,17 +188,25 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
             @Override
             public void failure(RetrofitError error) {
+                pull.setRefreshing(false);
                 super.failure(error);
             }
         });
-    }
-
-
-    @Override
-    public void onRefresh() {
-        secondhead2();
-        pull.setRefreshing(false);
-
+        service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
+            @Override
+            public void success(ResponseData<NewsModel> responseData, Response response) {
+                pull.setRefreshing(false);
+                if (responseData.getData() != null) {
+                    NewsModel newsModel = responseData.getData();
+                    int has = newsModel.getNum();
+                    if (has == 0) {
+                        iv_email.setImageResource(R.drawable.email);
+                    } else {
+                        iv_email.setImageResource(R.drawable.has_email);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -286,16 +279,20 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                             text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                                 @Override
                                 public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                    dialogDissmiss();
+
                                     if (data.getStatus() == 200) {
-                                        if (data.getData()!=null&&!data.getData().isEmpty()) {
+                                        if (data.getData() != null && !data.getData().isEmpty()) {
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);
                                             Bundle bundle = new Bundle();
-                                            bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>)data.getData());
+                                            bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>) data.getData());
                                             intent.putExtras(bundle);
                                             startActivity(intent);
+                                            dialogDissmiss();
+
                                         }
+
                                     } else if (data.getStatus() == 100) {
+                                        dialogDissmiss();
                                         Util.toastMsg(data.getMsg());
                                     }
                                 }

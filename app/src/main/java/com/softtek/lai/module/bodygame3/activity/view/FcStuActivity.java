@@ -182,7 +182,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, "2016-12-15", "1", new RequestCallback<ResponseData<FcStDataModel>>() {
+        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, "2016-12-14", "1", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();

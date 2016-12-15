@@ -125,8 +125,9 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent InitdataAudit=new Intent(getContext(),InitDataAuditActivity.class);
-        InitdataAudit.putExtra("ACMID",memberListModels.get(i).getAcmId());
+        InitdataAudit.putExtra("ACMID",memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId",classid);
+        InitdataAudit.putExtra("Audited",1);
         startActivity(InitdataAudit);
     }
     //下拉刷新

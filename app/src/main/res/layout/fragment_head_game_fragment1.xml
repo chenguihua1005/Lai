@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll|snap">
+                app:layout_scrollFlags="scroll">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

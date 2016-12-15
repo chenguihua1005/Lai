@@ -73,7 +73,7 @@ public class FcAuditListActivity extends BaseActivity{
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid,typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid,"2016-12-14", pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
