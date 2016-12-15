@@ -58,6 +58,7 @@
             android:id="@+id/choose"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:paddingLeft="15dp">
             <TextView
                 android:id="@+id/tip"
@@ -67,6 +68,12 @@
                 android:text="所有图片"
                 android:textSize="16sp"
                 android:textColor="#ffffff"/>
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jiao"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

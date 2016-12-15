@@ -63,7 +63,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="#333333"
-            android:text="体馆赛等级"/>
+            android:text="减重等级"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
