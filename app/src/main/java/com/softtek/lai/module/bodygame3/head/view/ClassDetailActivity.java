@@ -186,7 +186,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                         tv_tip.setText("您已在班级中,无法再次加入");
                         break;
                 }
-               
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -436,6 +436,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }else {
                     com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
+                    String str=classid+tag.status+tag.date;
                     fuce.putExtra("classId", classid);
                     fuce.putExtra("resetstatus", tag.status);
                     fuce.putExtra("typeDate", tag.date);
@@ -509,6 +510,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 BtnTag tag=new BtnTag();
                                 tag.role=activitydataModel.getClassRole();
                                 tag.status=activitydataModel.getFirst()?-1:1;//0表示学员还没有初始录入，1表示已经录入过了
+                                tag.date=now;
                                 ll_chuDate.setTag(tag);
                             }else {//非学员
                                 tv_initData_Name.setText("初始数据审核");

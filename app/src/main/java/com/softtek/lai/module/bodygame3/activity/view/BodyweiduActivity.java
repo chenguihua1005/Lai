@@ -86,7 +86,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 
     private FcStDataModel fcStDataModel;
     private MeasuredDetailsModel measuredDetailsModel;
-    int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入，3学员初始数据录入
+    int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入、学员初始数据录入,3复测未审核，4复测已审核
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,37 +114,58 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         fcStDataModel = (FcStDataModel) getIntent().getSerializableExtra("retestWrite");
         measuredDetailsModel=(MeasuredDetailsModel)getIntent().getSerializableExtra("initaudit") ;
         Audited=getIntent().getIntExtra("Audited",0);
-        if (Audited==1)
+        switch (Audited)
         {
-            btn_retest_save.setVisibility(View.GONE);
-        }
-        if (Audited==3) {
-            try {
-                if (fcStDataModel != null) {
-                    tv_retest_circum.setText(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum());
-                    tv_retest_waistline.setText(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline());
-                    tv_retest_hiplie.setText(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie());
-                    tv_retest_uparmgirth.setText(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth());
-                    tv_retest_upleggirth.setText(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth());
-                    tv_retest_doleggirth.setText(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth());
+            //初始数据未审核
+            case 0:
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                if (measuredDetailsModel != null) {
-                    tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
-                    tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
-                    tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
-                    tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
-                    tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
-                    tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                break;
+            //初始数据已审核
+            case 1:
+                btn_retest_save.setVisibility(View.GONE);
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                break;
+            //学员复测数据、初始数据
+            case 2:
+                try {
+                    if (fcStDataModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
         }
 
 
@@ -154,36 +175,36 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_retest_circum:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
                     show_circum_dialog();
                 }
                 break;
             case R.id.ll_retest_waistline:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
 
                     show_waistline_dialog();
                 }
                 break;
             case R.id.ll_retest_hiplie:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
 
                     show_hiplie_dialog();
                 }
                 break;
             case R.id.ll_retest_uparmgirth:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
 
                     show_uparmgirth_dialog();
                 }
                 break;
             case R.id.ll_retest_upleggirth:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
 
                     show_upleggirth_dialog();
                 }
                 break;
             case R.id.ll_retest_doleggirth:
-                if (Audited!=1) {
+                if (Audited!=1&&Audited!=4) {
 
                     show_doleggirth_dialog();
                 }
@@ -198,7 +219,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 break;
             //保存记录......
             case R.id.btn_retest_save:
-                if (Audited==3) {
+                if (Audited==2) {
                     fcStDataModel = new FcStDataModel();
                     fcStDataModel.setCircum(tv_retest_circum.getText().toString());//胸围
                     fcStDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围

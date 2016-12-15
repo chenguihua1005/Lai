@@ -92,6 +92,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     private ImageFileCropSelector imageFileCropSelector;
     private static final int BODY=3;
     private static final int GET_BODY=1;
+    private int IsAudit;
 
     private CharSequence[] items={"拍照","从相册选择照片"};
 
@@ -138,6 +139,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         acmId=getIntent().getStringExtra("ACMId");
         accountId= getIntent().getLongExtra("accountId",0);
         classId=getIntent().getStringExtra("classId");
+        IsAudit=getIntent().getIntExtra("IsAudit",0);
         doData();
     }
     private void doData()
@@ -199,6 +201,33 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         }
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        //身体围度值传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
+            fcStDataModel=(FcStDataModel) data.getSerializableExtra("retestWrite");
+            Log.i("新学员录入围度:retestWrite"+fcStDataModel);
+        }
+        if (requestCode==BODY&&resultCode==RESULT_OK){
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+                    } else if (which == 1) {
+                        //照片
+                        imageFileCropSelector.selectImage(FcAuditStuActivity.this);
+                    }
+                }
+            }).create().show();
+            Log.d("debug", "不是第一次运行");
+        }
+    }
     private static final int CAMERA_PREMISSION=100;
 
 
@@ -221,7 +250,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",measuredDetailsModel);
-                intent.putExtra("Audited",3);
+                intent.putExtra("Audited",IsAudit==0?"3":"4");
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.im_retestwrite_takephoto:

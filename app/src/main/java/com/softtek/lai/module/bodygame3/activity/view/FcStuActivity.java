@@ -83,6 +83,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @Required(order = 2,message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;//内脂
+    @InjectView(R.id.tv_write)
+    TextView tv_write;
 
     @InjectView(R.id.ll_retestWrite_chu_weight)
     RelativeLayout ll_retestWrite_chu_weight;
@@ -128,6 +130,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_right.setText("保存");
+        tv_write.setText("初始体重");
         fl_right.setOnClickListener(this);
         im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -238,7 +241,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",fcStDataModel);
-                intent.putExtra("type",2);
+                intent.putExtra("Audited",2);
                 startActivityForResult(intent,GET_BODY);
                 break;
             //拍照事件

@@ -55,6 +55,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     int pageIndex=1;
     private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
+    int IsAudit;//0未审核
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId) {
         InitAuditFragment fragment=new InitAuditFragment();
@@ -129,8 +130,9 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent InitdataAudit=new Intent(getContext(),InitDataAuditActivity.class);
-        InitdataAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
+        InitdataAudit.putExtra("ACMID",memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId",classid);
+        InitdataAudit.putExtra("IsAudit",IsAudit);
         InitdataAudit.putExtra("AccountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
         startActivityForResult(InitdataAudit,ChuAudit);
     }
