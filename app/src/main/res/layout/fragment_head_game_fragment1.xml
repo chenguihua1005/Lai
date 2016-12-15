@@ -236,7 +236,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
+                            <com.softtek.lai.widgets.CircleImageView
                                 android:id="@+id/iv_studenticon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp" />
@@ -476,7 +476,7 @@
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingTop="12dp"
+                        android:paddingTop="3dp"
                         android:visibility="visible">
 
                         <com.softtek.lai.widgets.CircleImageView
@@ -484,7 +484,7 @@
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_marginLeft="10sp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="1dp"
                             android:src="@drawable/img_default" />
 
                         <TextView
@@ -538,7 +538,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:background="@color/white"
-
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
@@ -547,6 +546,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="班级赛况"
+                      android:layout_centerVertical="true"
                     android:textColor="@color/word"
                     android:textSize="13dp" />
 
@@ -555,12 +555,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/spinner_title"
-                    android:paddingTop="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/jianzhong_iv" />
 
                 <com.ggx.widgets.nicespinner.ArrowSpinner2
                     android:id="@+id/spinner_title"
                     android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
