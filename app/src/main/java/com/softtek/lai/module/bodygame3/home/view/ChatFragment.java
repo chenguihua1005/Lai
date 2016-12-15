@@ -475,7 +475,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         EaseUI.getInstance().getNotifier().reset();
         // if push service available, connect will be disconnected after app in background
         // after activity restore to foreground, reconnect
-        if (!EMClient.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {//？？？？？？？？？？？？？？？
+        if (!EMClient.getInstance().isConnected() && NetUtils.hasNetwork(getActivity())) {
 //            EMChatManager.getInstance().reconnect();
 //            EMClient.getInstance().chatManager().
 //            EMClient.getInstance().
