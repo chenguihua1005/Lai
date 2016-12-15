@@ -80,14 +80,7 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/rv_dynamic"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-
-
-            <FrameLayout
+                <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -100,7 +93,7 @@
                         android:id="@+id/tv_recycler_no_data"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="暂无数据"
+                        android:text="暂无动态"
                         android:textSize="20sp"
                         android:gravity="center"
                         android:visibility="invisible"/>
