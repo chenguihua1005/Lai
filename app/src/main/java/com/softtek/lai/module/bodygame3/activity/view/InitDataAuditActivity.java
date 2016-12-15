@@ -132,7 +132,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     View vi_noweight;
 
     String gender="1";//性别
-    private static final int GET_BODY=2;//身体维度
+    private static final int GET_BODY=1;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
@@ -143,9 +143,9 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     Long AccountId;//用户id
     String classId=" ";//班级id
     Context context;
-    String files,ACMId;
+    String files,ACMID;
     String photoname;
-    int Audited,type;
+    int IsAudit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,17 +176,16 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         tv_right.setText("保存");//保存数据
         classId=getIntent().getStringExtra("classId");
         AccountId=getIntent().getLongExtra("AccountId",0);
-        ACMId=getIntent().getStringExtra("ACMId");
-        Audited=getIntent().getIntExtra("Audited",0);
-        if (Audited==1)
+        ACMID=getIntent().getStringExtra("ACMID");
+        IsAudit=getIntent().getIntExtra("IsAudit",0);
+        if (IsAudit==1)
         {
             tv_right.setText("");
             tv_right.setEnabled(false);
-            type=3;
+            btn_retest_write_addbody.setText("查看身体围度");
         }
         else {
             tv_right.setText("保存");//保存数据
-            type=0;
         }
 
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -232,12 +231,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(InitDataAuditActivity.this, BodyweiduActivity.class);
                 intent.putExtra("initaudit",measuredDetailsModel);
-                intent.putExtra("Audited",Audited);
+                intent.putExtra("Audited",IsAudit);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
-                if (Audited!=1) {
-                    if (gender.equals("1")) {
+                if (IsAudit!=1) {
+                    if (gender.equals("0")) {
                         show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
                     } else {
                         show_information("初始体重（斤）", 600, 150, 50, 9, 0, 0, 0);
@@ -245,12 +244,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
             case R.id.ll_retestWrite_tizhi:
-                if (Audited!=1) {
+                if (IsAudit!=1) {
                     show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
                 }
                 break;
             case R.id.ll_retestWrite_neizhi:
-                if (Audited!=1) {
+                if (IsAudit!=1) {
                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                 }
                 break;
@@ -344,7 +343,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         * 获取初始基本数据
         * */
     private void doGetInfo() {
-        service.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(), ACMId, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
+        service.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(), ACMID, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
             @Override
             public void success(ResponseData<MeasuredDetailsModel> measuredDetailsModelResponseData, Response response) {
                 int status=measuredDetailsModelResponseData.getStatus();
@@ -423,9 +422,9 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
     /*l录入*/
     void doSetPostData()
-    {Log.i("AccountId"+AccountId+"classId"+classId+"ACMId"+ACMId+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
+    {Log.i("AccountId"+AccountId+"classId"+classId+"ACMID"+ACMID+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
         initAuditPModel=new InitAuditPModel();
-        initAuditPModel.setACMId(ACMId);
+        initAuditPModel.setACMId(ACMID);
         initAuditPModel.setReviewerId(UserInfoModel.getInstance().getUser().getUserid());
         initAuditPModel.setWeight(tv_write_chu_weight.getText().toString());//体重
         initAuditPModel.setPysical(tv_retestWrite_tizhi.getText().toString());//体脂

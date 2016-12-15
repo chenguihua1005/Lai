@@ -49,6 +49,8 @@ public class FcAuditListActivity extends BaseActivity{
     @Override
     protected void initViews() {
         tv_title.setText("复测审核");
+        classId=getIntent().getStringExtra("classId");
+        typeDate=getIntent().getStringExtra("typeDate");
         fragments=new ArrayList<>();
         fragments.add(FcAuditFragment.getInstance(classId,typeDate));
         fragments.add(FcAuditedFragment.getInstance(classId,typeDate));
@@ -66,15 +68,12 @@ public class FcAuditListActivity extends BaseActivity{
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        classId=getIntent().getStringExtra("classId");
-        typeDate=getIntent().getStringExtra("typeDate");
-        classId="323689f5-4740-49b1-947e-7c27e3bdf530";
-        doGetData(UserInfoModel.getInstance().getUserId(), classId,"2016-12-15", 1, 1);
+        doGetData();
 
     }
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), accountid, classid,"2016-12-15", pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+    private void doGetData() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId,typeDate, 1, 1, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();

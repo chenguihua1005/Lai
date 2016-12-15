@@ -52,7 +52,9 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     int pageIndex=1;
     Long userid;
     private int FCAudit=1;
-    private static String classid,typedata;
+    private int IsAudit=0;
+    private static String classid;
+    private static String typedata;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId,String typeDate) {
@@ -99,7 +101,6 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-        classid="323689f5-4740-49b1-947e-7c27e3bdf530";
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         userid=UserInfoModel.getInstance().getUserId();
         adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
@@ -134,9 +135,9 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
         FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
         FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
         FcAudit.putExtra("classId",classid);
+        FcAudit.putExtra("IsAudit",IsAudit);
         startActivityForResult(FcAudit,FCAudit);
 
-//        startActivityForResult(InitdataAudit,ChuAudit);
     }
     //下拉刷新
     @Override
@@ -152,7 +153,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     }
     //获取审核列表数据
     private void doGetData() {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,"2016-12-15", pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,typedata, pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();

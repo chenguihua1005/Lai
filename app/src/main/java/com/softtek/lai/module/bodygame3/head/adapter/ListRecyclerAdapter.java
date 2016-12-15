@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.model.PersonalListModel;
@@ -43,12 +44,16 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int EMPTY = 3;
 
     private boolean isFootGone = false;
-
+private int type;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<PartnersModel> partnersModels;
     private Context context;
     private int width;
+
+//    public void setType(int type) {
+//        this.type = type;
+//    }
 
     public ListRecyclerAdapter(Context mContext, List infos) {
         this.context = mContext;
@@ -93,7 +98,16 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
             ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
-            ((ViewHolder) holder).tv_bi.setText("减重比");
+//            if(type==0){//Int	排序类型：0:体重,1:减重比,2:体脂比
+//                ((ViewHolder) holder).tv_bi.setText("体重");
+//                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
+//            }else if(type==1) {
+//                ((ViewHolder) holder).tv_bi.setText("减重比");
+//                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+//            }else{
+                ((ViewHolder) holder).tv_bi.setText("体脂比");
+                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+//            }
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -147,7 +161,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView jianzhong_tv;
         TextView tv_bi;
         ImageView head_img;
-
+        TextView jianzhong_tv2;
         public ViewHolder(View view) {
             super(view);
             paiming = (TextView) itemView.findViewById(R.id.paiming);
@@ -158,6 +172,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             jianzhong_tv = (TextView) itemView.findViewById(R.id.jianzhong_tv);
             tv_bi = (TextView) itemView.findViewById(R.id.tv_bi);
             head_img = (ImageView) itemView.findViewById(R.id.head_img);
+            jianzhong_tv2=(TextView)itemView.findViewById(R.id.jianzhong_tv2);
         }
     }
 

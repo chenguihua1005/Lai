@@ -32,6 +32,8 @@ import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -117,7 +119,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.search_partner:
                 String content_searc = pantnerContent.getText().toString();
-                if(!TextUtils.isEmpty(content_searc)) {
+                if(StringUtils.isNotEmpty(content_searc)) {
                     pb.setVisibility(View.VISIBLE);
                     ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
                             content_searc, classId_first, 100, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
@@ -135,7 +137,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                                         }
 
                                     } else {
-                                        pantnerpageModelResponseData.getMsg();
+                                        Util.toastMsg(pantnerpageModelResponseData.getMsg());
                                     }
 
                                 }
