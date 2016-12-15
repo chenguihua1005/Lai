@@ -231,9 +231,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     protected void initDatas() {
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
-        TypeModel model1 = new TypeModel(0, "体重比");
+        TypeModel model1 = new TypeModel(0, "体重");
         datas.add(model1);
-        TypeModel model2 = new TypeModel(2, "体脂");
+        TypeModel model2 = new TypeModel(2, "体脂比");
         datas.add(model2);
         TypeModel model3 = new TypeModel(1, "减重比");
         datas.add(model3);
@@ -289,14 +289,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     if (classinfoModel.getHonor() != null) {
                                         RongyuModel rongyuModel = classinfoModel.getHonor();
                                         group_name.setText(rongyuModel.getGroupName());
-                                        jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "斤");
+                                        jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + " 斤");
                                         student_tv.setText(rongyuModel.getStuName());
 
                                         if (StringUtils.isNotEmpty(rongyuModel.getStuPhoto())) {
                                             Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto()).into(studenticon);
                                         }
-                                        student_jianzhong.setText("减重" + rongyuModel.getLossPre() + "斤");
-                                        student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + "%");
+                                        student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
+                                        student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
                                     }
 
                                     //班级赛况
@@ -351,6 +351,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                             pinglun.setText("0" + "条评论");
                                         }
                                         if (zhaopianModel.getPhotoThumbnailList() != null) {
+                                            photos.clear();
                                             photos.addAll(zhaopianModel.getPhotoThumbnailList());
                                             adapter.notifyDataSetChanged();
 
@@ -504,9 +505,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         RongyuModel rongyuModel = classinfoModel.getHonor();
                         group_name.setText(rongyuModel.getGroupName());
                         if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                            jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "斤");
+                            jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + "斤");
                         } else {
-                            jianzhongbi_tv.setText("总减重比" + " 斤");
+                            jianzhongbi_tv.setText("总减重" + " 斤");
                         }
                         student_tv.setText(rongyuModel.getStuName());
 
@@ -570,6 +571,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     }
 
                     //照片墙
+
                     if (classinfoModel.getPhotoWall() != null) {
                         grid_list.setVisibility(View.VISIBLE);
                         no_photowalll.setVisibility(View.GONE);
@@ -587,6 +589,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             pinglun.setText("0" + "条评论");
                         }
                         if (zhaopianModel.getPhotoThumbnailList() != null) {
+                            photos.clear();
                             photos.addAll(zhaopianModel.getPhotoThumbnailList());
 
 //                            doGetPhotos();
