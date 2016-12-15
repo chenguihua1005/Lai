@@ -151,9 +151,10 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 intent.putExtra("ByWhichRatio", ByWhichRatio);
                 intent.putExtra("SortTimeType", SortTimeType);
                 intent.putExtra("WhichTime", WhichTime);
-                intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-//                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
-                intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
+                    intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
+                    intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                }
                 startActivity(intent);
                 Log.e("curry", "onItemClick: " + i);
             }
@@ -226,9 +227,9 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             return;
         }
         //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
-        if ( model.getList_date() != null && model.getList_date().size() != 0) {
+        if (model.getList_date() != null && model.getList_date().size() != 0) {
             spinnerData = model.getList_date();
-            for (int i = 0; i <spinnerData.size(); i++) {
+            for (int i = 0; i < spinnerData.size(); i++) {
                 spinnerData2.add(spinnerData.get(i).getDateName());
             }
             spinner.attachCustomSource(spinnerAdapter);
