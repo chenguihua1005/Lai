@@ -19,6 +19,7 @@ import com.softtek.lai.common.BaseActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_act_text)
 public class ActTextActivity extends BaseActivity implements View.OnClickListener {
@@ -28,8 +29,8 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
     EditText et_mark;
     @InjectView(R.id.et_title)
     EditText et_title;
-    @InjectView(R.id.btn)
-    Button tv_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.ll_left)
@@ -45,12 +46,13 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        tv_right.setText("确定");
         Intent intent = getIntent();
         flag = intent.getIntExtra("value", 0);
         switch (flag) {
             case ADD_MARK:
                 frag2.setVisibility(View.GONE);
-                tv_count.setText("仅限300个字");
+                tv_count.setText("最多300字");
                 tv_title.setText("活动说明");
                 et_mark.setHint("活动说明...");
                 et_mark.setText(intent.getStringExtra("name_value"));
@@ -58,7 +60,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                 Selection.setSelection(etext1, etext1.length());
                 break;
             case ADD_ACTIVITY_NAME:
-                tv_count.setText("仅限30个字");
+                tv_count.setText("最多30字");
                 frag1.setVisibility(View.GONE);
                 et_mark.setSingleLine();
                 tv_title.setText("活动标题");
@@ -69,7 +71,6 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
 
-        tv_right.setText("确定");
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -83,7 +84,7 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn:
+            case R.id.tv_right:
                 switch (flag) {
                     case ADD_ACTIVITY_NAME:
                         if (!TextUtils.isEmpty(et_title.getText().toString())) {
@@ -103,14 +104,15 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                                 finish();
                             }
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
-                            builder.setMessage("请输入活动标题");
-                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogDissmiss();
-                                }
-                            }).show();
+                            Util.toastMsg("请输入活动标题");
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
+//                            builder.setMessage("请输入活动标题");
+//                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dialogDissmiss();
+//                                }
+//                            }).show();
                         }
 
                         break;
@@ -132,14 +134,15 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                                 finish();
                             }
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
-                            builder.setMessage("请输入活动说明");
-                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogDissmiss();
-                                }
-                            }).show();
+                            Util.toastMsg("请输入活动说明");
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
+//                            builder.setMessage("请输入活动说明");
+//                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dialogDissmiss();
+//                                }
+//                            }).show();
                         }
                         break;
                 }

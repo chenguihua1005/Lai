@@ -79,10 +79,9 @@ import static android.app.Activity.RESULT_OK;
 public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     //学员版的三个复测状态
-    private static final int FUCEING=1;
-    private static final int FUCE_FINISH=2;
+    private static final int FUCEING=2;
+    private static final int FUCE_FINISH=1;
     private static final int FUCE_NOT_START=3;
-
 
     @InjectView(R.id.pull)
     MySwipRefreshView pull;
@@ -110,7 +109,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     TextView reset_time;//未复测、已复测
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
-
 
     private CalendarMode mode = CalendarMode.WEEKS;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
@@ -327,7 +325,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         ll_fuce.setVisibility(View.VISIBLE);
                                         if (!model.getRetest()) {
                                             ll_fuce.setEnabled(false);
-
                                             reset_time.setText("未复测");
                                         } else {
                                             ll_fuce.setEnabled(true);
@@ -403,6 +400,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     return;
                 }
                 if(tag.role==Constants.STUDENT){//WriteFCActivity
+                    com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
                     Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
                     chuDate.putExtra("resetstatus", tag.status);
@@ -429,6 +427,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     return;
                 }
                 if(tag.role==Constants.STUDENT){
+                    com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcStuActivity.class);
                     fuce.putExtra("classId", classid);
                     fuce.putExtra("resetstatus", tag.status);
