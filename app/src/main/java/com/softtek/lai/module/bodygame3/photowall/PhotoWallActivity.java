@@ -206,6 +206,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 comments.add(comment);
                 model.setPhotoWallCommendsList(comments);
                 adapter.notifyDataSetChanged();
+                et_input.setText("");
                 photoWallService.commitComment(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
                         model.getHealtId(),
@@ -310,6 +311,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     });
                 }
                 TextView tv_date = holder.getView(R.id.tv_date);
+                Log.i("创建日期为===="+data.getCreatedate());
                 long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
                 String time;
                 if(days[0]==0){//今天
@@ -714,11 +716,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     }
 
     private void closeSoftInput(){
+        rl_send.setVisibility(View.GONE);
         if(rl_send.getVisibility()==View.VISIBLE){
 //            int[] position2 = new int[2];
 //            rl_send.getLocationOnScreen(position2);
 //            ptrlv.getRefreshableView().scrollBy(0, -position2[1]);
-            rl_send.setVisibility(View.GONE);
+
             SoftInputUtil.hidden(PhotoWallActivity.this);
         }
     }

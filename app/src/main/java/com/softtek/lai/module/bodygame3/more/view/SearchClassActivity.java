@@ -53,7 +53,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initViews() {
         overridePendingTransition(0, 0);
-        tv_title.setText("搜索");
+        tv_title.setText("加入新班级");
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
     }
@@ -88,7 +88,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                             @Override
                             public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                dialogDissmiss();
+                                pb.setVisibility(View.GONE);
                                 if (data.getStatus() == 200) {
                                     classlistModels.clear();
                                     classlistModels.addAll(data.getData());
@@ -101,7 +101,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
 
                             @Override
                             public void failure(RetrofitError error) {
-                                dialogDissmiss();
+                                pb.setVisibility(View.GONE);
                                 super.failure(error);
                             }
                         });

@@ -49,7 +49,7 @@ public class AlbumHelper {
         String[] projection = { MediaStore.Images.Thumbnails._ID, MediaStore.Images.Thumbnails.IMAGE_ID,
                 MediaStore.Images.Thumbnails.DATA };
         Cursor cursor=resolver.query(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
-                projection,null,null,null);
+                projection,null,null,MediaStore.Images.Thumbnails._ID+" desc");
         if(cursor.moveToFirst()){
             int _id;
             int image_id;
@@ -72,7 +72,7 @@ public class AlbumHelper {
         String[] projection = { Albums._ID,Albums.ALBUM, Albums.ALBUM_ART,
                 Albums.ALBUM_KEY, Albums.ARTIST, Albums.NUMBER_OF_SONGS };
         Cursor cursor = resolver.query(Albums.EXTERNAL_CONTENT_URI, projection, null,
-                null, null);
+                null, Albums._ID+" desc");
         if(cursor.moveToFirst()){
             int _id;
             String album ;
@@ -113,7 +113,8 @@ public class AlbumHelper {
         //先获取缩略图索引
         getThumbnail();
         //查询获取相册索引
-        String columns[] = new String[] { Media._ID,
+        String columns[] = new String[] {
+                Media._ID,
                 Media.BUCKET_ID,
                 Media.PICASA_ID,
                 Media.DATA,
@@ -122,7 +123,7 @@ public class AlbumHelper {
                 Media.SIZE,
                 Media.BUCKET_DISPLAY_NAME };
         Cursor cursor = resolver.query(Media.EXTERNAL_CONTENT_URI, columns, null, null,
-                null);
+                Media._ID+" desc");
         if (cursor.moveToFirst()){
             // 获取指定列的索引
             int photoIDIndex = cursor.getColumnIndexOrThrow(Media._ID);

@@ -104,9 +104,10 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
     @Override
     public void onValidationSucceeded() {
         dialogShow("验证手机号");
+        final String phone=et_value.getText().toString();
         ZillaApi.NormalRestAdapter.create(Message2Service.class)
                 .validatePhone(UserInfoModel.getInstance().getToken(),
-                        et_value.getText().toString(),
+                        phone,
                         new RequestCallback<ResponseData<AiXinStudent>>() {
                             @Override
                             public void success(ResponseData<AiXinStudent> data, Response response) {
@@ -114,6 +115,7 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
                                 if(data.getStatus()==200){
                                     Intent intent=getIntent();
                                     intent.putExtra("accountId",data.getData().AccountId);
+                                    intent.putExtra("phone",phone);
                                     setResult(RESULT_OK,intent);
                                     finish();
                                 }else if(data.getStatus()==202) {

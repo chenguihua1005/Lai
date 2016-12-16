@@ -147,9 +147,10 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 et_value.requestFocus();
                 et_value.setError(Html.fromHtml("<font color=#FFFFFF>请输入11位手机号码</font>"));
             }
-        } else if (StringUtil.length(et_value.getText().toString()) > 12) {
-            String message = "";
-            switch (flag) {
+        } else if (StringUtil.length(et_value.getText().toString()) > 24) {
+            String message="";
+            switch (flag){
+
                 case UPDATE_CLASS_NAME:
                     message = "班级名称不能超过12个汉字";
                     break;

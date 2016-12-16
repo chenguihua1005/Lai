@@ -37,6 +37,7 @@
                     android:src="@drawable/more_kaiban" />
 
                 <TextView
+                    android:id="@+id/iv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -61,8 +62,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:layout_toLeftOf="@id/iv_arrow"
-                    android:text="超级减重"
+                    android:layout_toRightOf="@id/iv1"
                     android:textColor="#666666"
                     android:textSize="15sp" />
             </RelativeLayout>

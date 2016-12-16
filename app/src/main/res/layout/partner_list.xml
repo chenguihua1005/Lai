@@ -29,9 +29,8 @@
             android:orientation="horizontal"
             android:paddingLeft="10dp">
 
-            <ImageView
+            <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/head_img"
-
                 android:layout_width="41dp"
                 android:layout_height="41dp" />
 
