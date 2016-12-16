@@ -1,33 +1,35 @@
 package com.softtek.lai.module.bodygame3.activity.model;
 
 /**
- * Created by lareina.qiao on 12/14/2016.
+ * Created by lareina.qiao on 12/16/2016.
  */
 
-public class InitAuditPModel {
-    private String ACMId;//记录ID
-    private String ReviewerId;//审核人Id
-    private String Weight;//
-    private String Pysical;
-    private String Fat;
-    private String Circum;
-    private String Waistline;
-    private String Hiplie;
-    private String UpArmGirth;
-    private String UpLegGirth;
-    private String DoLegGirth;
+public class FcAuditPostModel {
+private String ACMId;
+private String AccountId;
+private String ReviewerId;
+private String Weight;
+private String Pysical;
+private String Fat;
+private String Circum;
+private String Waistline;
+private String Hipline;
+private String UpArmGirth;
+private String UpLegGirth;
+private String DoLegGirth;
 
     @Override
     public String toString() {
-        return "InitAuditPModel{" +
+        return "FcAuditPostModel{" +
                 "ACMId='" + ACMId + '\'' +
+                ", AccountId='" + AccountId + '\'' +
                 ", ReviewerId='" + ReviewerId + '\'' +
                 ", Weight='" + Weight + '\'' +
                 ", Pysical='" + Pysical + '\'' +
                 ", Fat='" + Fat + '\'' +
                 ", Circum='" + Circum + '\'' +
                 ", Waistline='" + Waistline + '\'' +
-                ", Hiplie='" + Hiplie + '\'' +
+                ", Hipline='" + Hipline + '\'' +
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
@@ -40,6 +42,14 @@ public class InitAuditPModel {
 
     public void setACMId(String ACMId) {
         this.ACMId = ACMId;
+    }
+
+    public String getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(String accountId) {
+        AccountId = accountId;
     }
 
     public String getReviewerId() {
@@ -90,12 +100,12 @@ public class InitAuditPModel {
         Waistline = waistline;
     }
 
-    public String getHiplie() {
-        return Hiplie;
+    public String getHipline() {
+        return Hipline;
     }
 
-    public void setHiplie(String hiplie) {
-        Hiplie = hiplie;
+    public void setHipline(String hipline) {
+        Hipline = hipline;
     }
 
     public String getUpArmGirth() {
