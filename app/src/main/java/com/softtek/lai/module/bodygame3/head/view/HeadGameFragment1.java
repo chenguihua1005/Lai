@@ -95,7 +95,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.list_partner)
     RecyclerView list_partner;
     @InjectView(R.id.searchContent)
-    EditText searchContent;
+    TextView searchContent;
     @InjectView(R.id.group_name)
     TextView group_name;//组名
     @InjectView(R.id.jianzhongbi_tv)
@@ -233,11 +233,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         list_partner.setAdapter(partneradapter);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
-        TypeModel model1 = new TypeModel(0, "体重");
+        TypeModel model1 = new TypeModel(0, "按体重斤数");
         datas.add(model1);
-        TypeModel model2 = new TypeModel(2, "体脂比");
+        TypeModel model2 = new TypeModel(2, "按体脂比");
         datas.add(model2);
-        TypeModel model3 = new TypeModel(1, "减重比");
+        TypeModel model3 = new TypeModel(1, "按减重比");
         datas.add(model3);
 
         //类型（体重比，体脂，减重比）

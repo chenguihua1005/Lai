@@ -24,6 +24,7 @@ import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAd
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
@@ -89,6 +90,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private List<String> groups = new ArrayList<>();
 
     public static final int REFRESH_UI = 0x001;
+    public int count = 0;
 
 
     @Override
@@ -104,7 +106,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void initDatas() {
         //顶上几个菜单列表
-        menuAdapter = new ContactMenuAdapter(getActivity());
+        menuAdapter = new ContactMenuAdapter(getActivity(), count);
         menu_gridview.setAdapter(menuAdapter);
         menu_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -243,19 +245,24 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private void getDataAndUpdate() {
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
         String token = UserInfoModel.getInstance().getToken();
-
-        service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<List<ChatContactModel>>>() {
+        service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<ContactListModel>>() {
             @Override
-            public void success(ResponseData<List<ChatContactModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
+            public void success(ResponseData<ContactListModel> contactListModelResponseData, Response response) {
+                int status = contactListModelResponseData.getStatus();
                 dialogDissmiss();
-                switch (status) {
-                    case 200:
+                if (200 == status) {
+                    ContactListModel model = contactListModelResponseData.getData();
+
+                    Log.i(TAG, "数据 = " + new Gson().toJson(model));
+                    if (model != null) {
+                        int count = model.getCount();
+                        menuAdapter.updateCount(count);
+
                         list.clear();
-                        list = listResponseData.getData();
-                        Log.i(TAG, "获取通讯录数据 = " + new Gson().toJson(list));
+                        list.addAll(model.getContacts());
                         groups.clear();
                         datas.clear();
+
                         if (list != null) {
                             for (ChatContactModel contact : list) {
                                 String groupName;
@@ -290,20 +297,14 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                             list_contant.getRefreshableView().expandGroup(i);
                             chooseView.buildCharaset(groups.get(i));
                         }
-
-
-                        break;
-                    case 201:
-
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                    }
+                } else {
+                    Util.toastMsg(contactListModelResponseData.getMsg());
                 }
+
                 if (list_contant != null) {
                     list_contant.onRefreshComplete();
                 }
-
             }
 
             @Override
@@ -313,8 +314,81 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 }
                 dialogDissmiss();
                 ZillaApi.dealNetError(error);
+
             }
         });
+
+//        service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<List<ChatContactModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<ChatContactModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                dialogDissmiss();
+//                switch (status) {
+//                    case 200:
+//                        list.clear();
+//                        list = listResponseData.getData();
+//                        Log.i(TAG, "获取通讯录数据 = " + new Gson().toJson(list));
+//                        groups.clear();
+//                        datas.clear();
+//                        if (list != null) {
+//                            for (ChatContactModel contact : list) {
+//                                String groupName;
+//                                if (TextUtils.isEmpty(contact.getUserEn())) {
+//                                    groupName = "#";
+//                                } else {
+//                                    groupName = contact.getUserEn().substring(0, 1).toUpperCase();
+//                                }
+//                                if (!groups.contains(groupName)) {
+//                                    groups.add(groupName);
+//                                    List<ChatContactModel> invitatedContacts = new ArrayList<>();
+//                                    datas.put(groupName, invitatedContacts);
+//                                }
+//                                datas.get(groupName).add(contact);
+//                            }
+//                            if (groups.contains("#")) {
+//                                groups.remove(groups.indexOf("#"));
+//                                groups.add("#");
+//                            }
+//
+//                            //存入数据库,之前先清除之前的数据
+//                            ContactDao dao = new ContactDao(getContext());
+//                            dao.clearContactTab();
+//                            dao.insert(list);
+//
+//                        }
+//                        adapter.notifyDataSetChanged();
+//
+//                        Log.i(TAG, "groups = " + new Gson().toJson(groups));
+//                        Log.i(TAG, "datas = " + new Gson().toJson(datas));
+//                        for (int i = 0; i < groups.size(); i++) {
+//                            list_contant.getRefreshableView().expandGroup(i);
+//                            chooseView.buildCharaset(groups.get(i));
+//                        }
+//
+//
+//                        break;
+//                    case 201:
+//
+//                        break;
+//                    default:
+//                        Util.toastMsg(listResponseData.getMsg());
+//                        break;
+//                }
+//                if (list_contant != null) {
+//                    list_contant.onRefreshComplete();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                if (list_contant != null) {
+//                    list_contant.onRefreshComplete();
+//                }
+//                dialogDissmiss();
+//                ZillaApi.dealNetError(error);
+//            }
+//        });
 
     }
 

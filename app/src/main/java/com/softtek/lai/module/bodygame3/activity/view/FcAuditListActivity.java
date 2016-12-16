@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,12 +81,14 @@ public class FcAuditListActivity extends BaseActivity{
                 switch (status)
                 {
                     case 200:
-                        tabtitle[0]="未审核("+listResponseData.getData().get(0).getCount()+")";
-                        tabtitle[1]="已审核("+listResponseData.getData().get(1).getCount()+")";
-                        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
+
+                        tabtitle[0] = "未审核(" + (TextUtils.isEmpty(listResponseData.getData().get(0).getCount())?"0":listResponseData.getData().get(0).getCount()) + ")";
+                        tabtitle[1] = "已审核(" + (TextUtils.isEmpty(listResponseData.getData().get(1).getCount())?"0":listResponseData.getData().get(1).getCount()) + ")";
+                        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
                         tab.setupWithViewPager(content);
-                        Log.i("已审核("+tabtitle[1]+"count"+listResponseData.getData().get(1).getCount());
+                        Log.i("已审核(" + tabtitle[1] + "count" + listResponseData.getData().get(1).getCount());
                         break;
+
                     default:
                         break;
                 }

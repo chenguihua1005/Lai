@@ -15,7 +15,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <include layout="@layout/expandable_head_contact"/>
+    <include layout="@layout/expandable_head_contact" />
 
     <LinearLayout
         android:id="@+id/lin_group_send"
@@ -41,15 +41,13 @@
             android:textSize="15sp" />
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/grid_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/grey"
-        android:orientation="horizontal"
-        android:padding="3dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="30dp">
+        android:orientation="horizontal">
 
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/menu_gridview"

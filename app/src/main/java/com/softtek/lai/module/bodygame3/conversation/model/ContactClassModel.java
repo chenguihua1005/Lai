@@ -6,19 +6,7 @@ import java.io.Serializable;
  * Created by jessica.zhang on 2016/11/29.
  */
 
-public class ContactClassModel implements Serializable{
-//    "CoachId": 76343,
-//            "CoachName": "Bill", --总教练姓名
-//    "CoachPhoto": "201610111836338069575640.png",  --总教练照片
-//    "ClassId": "c37783eb-6161-44e6-9179-14a684a238ae",
-//            "ClassBanner": "",
-//            "ClassCode": "1611222824",  --班级编号
-//    "ClassName": "iosnewclass222",
-//            "Role": "开班教练",
-//            "StartDate": "2016-11-23",
-//            "EndDate": "2017-02-15",
-//            "Total": 1
-
+public class ContactClassModel implements Serializable {
 
     private long CoachId;//总教练Id
     private String CoachName;//总教练姓名
@@ -34,8 +22,9 @@ public class ContactClassModel implements Serializable{
     private String EndDate;
     private int Total;
     private String HXGroupId;
+    private int Status;//0 状态: 0:无解散班级权限， 1：有解散班级权限
 
-    public ContactClassModel(long coachId, String coachName, String coachPhoto, String classId, String classBanner, String className, String classCode, String role, String startDate, String endDate, int total, String HXGroupId) {
+    public ContactClassModel(long coachId, String coachName, String coachPhoto, String classId, String classBanner, String className, String classCode, String role, String startDate, String endDate, int total, String HXGroupId, int status) {
         CoachId = coachId;
         CoachName = coachName;
         CoachPhoto = coachPhoto;
@@ -48,6 +37,15 @@ public class ContactClassModel implements Serializable{
         EndDate = endDate;
         Total = total;
         this.HXGroupId = HXGroupId;
+        Status = status;
+    }
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
     }
 
     public String getHXGroupId() {

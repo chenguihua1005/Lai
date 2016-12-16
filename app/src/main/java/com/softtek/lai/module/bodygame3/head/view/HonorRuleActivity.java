@@ -1,13 +1,16 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_honor_rule)
@@ -18,6 +21,8 @@ public class HonorRuleActivity extends BaseActivity {
     TextView tv_title;
     @InjectView(R.id.wv_honor_rule)
     WebView wv_honor_rule;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @Override
     protected void initViews() {
@@ -42,6 +47,14 @@ public class HonorRuleActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
+    }
 
+    @OnClick({R.id.ll_left})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+        }
     }
 }
