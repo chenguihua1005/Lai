@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
@@ -176,8 +175,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 dialogShow();
-                final String str2 = getResources().getString(R.string.Has_agreed_to);
-                final String str3 = getResources().getString(R.string.Agree_with_failure);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -206,17 +203,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 EventBus.getDefault().post(new UpdateClass(1, model));
                                                 setResult(RESULT_OK);
                                                 finish();
-                                                (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Util.toastMsg(str2);
-                                                    }
-                                                });
                                             } else {// 此时需要环信剔除处理
                                                 (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        Util.toastMsg(str3 + responseData.getMsg());
+                                                        Util.toastMsg(responseData.getMsg());
                                                     }
                                                 });
                                                 try {
@@ -227,31 +218,27 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 }
                                             }
                                         }
-
                                         @Override
                                         public void failure(final RetrofitError error) {
-                                            dialogDissmiss();
-                                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
+                                            runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Util.toastMsg(str3 + error.getMessage());
+                                                    dialogDissmiss();
                                                 }
                                             });
                                             super.failure(error);
                                         }
                                     });
 
-
-                        } catch (final HyphenateException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
+                        } finally {
+                            runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Util.toastMsg(str3 + e.getMessage());
+                                    dialogDissmiss();
                                 }
                             });
-                        } finally {
-                            dialogDissmiss();
                         }
                     }
                 }).start();

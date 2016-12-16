@@ -352,7 +352,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             });
 
 
-                        } catch (HyphenateException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override
