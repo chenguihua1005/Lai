@@ -114,22 +114,25 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
+                loadData(true);
             }
         });
 
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                intent.putExtra("ClassId", ClassId);
-                intent.putExtra("ByWhichRatio", ByWhichRatio);
-                intent.putExtra("SortTimeType", SortTimeType);
-                intent.putExtra("WhichTime", WhichTime);
-                intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-//                intent.putStringArrayListExtra("ListGroupModel",honorRankModel.getList_group().get(i));
-                intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
-                startActivity(intent);
+                if (i != 1) {
+                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                    intent.putExtra("ClassId", ClassId);
+                    intent.putExtra("ByWhichRatio", ByWhichRatio);
+                    intent.putExtra("SortTimeType", SortTimeType);
+                    intent.putExtra("WhichTime", WhichTime);
+                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
+                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
+                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                    }
+                    startActivity(intent);
+                }
             }
         });
 
@@ -149,14 +152,12 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
-        listHonorrank.setRefreshing();
+        loadData(true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        lazyLoad();
+    private void loadData(boolean is_first) {
+        listHonorrank.setRefreshing();
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
     private void newAdapter() {
@@ -254,12 +255,12 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         switch (view.getId()) {
             case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
-                lazyLoad();
+                loadData(false);
                 selectWeight();
                 break;
             case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
-                lazyLoad();
+                loadData(false);
                 selectFat();
                 break;
         }
