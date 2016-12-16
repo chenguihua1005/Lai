@@ -323,9 +323,6 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(hxGroupId);
 
                             Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
-
-//                            EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);//需异步处理
-
                             Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
 
                             // 创建者调用add方法

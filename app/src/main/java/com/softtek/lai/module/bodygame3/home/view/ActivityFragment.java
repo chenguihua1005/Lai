@@ -90,7 +90,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     ImageView iv_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.spinner_title1)
+    @InjectView(R.id.spinner_title2)
     ArrowSpinner3 tv_title;
     @InjectView(R.id.list_activity)
     RecyclerView list_activity;
