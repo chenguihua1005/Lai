@@ -88,28 +88,36 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                     new RequestCallback<ResponseData<List<Contact>>>() {
                                         @Override
                                         public void success(ResponseData<List<Contact>> data, Response response) {
-                                            pb.setVisibility(View.GONE);
-                                            if(data.getStatus()==200){
-                                                if(data.getData()!=null&&!data.getData().isEmpty()){
-                                                    contacts.clear();
-                                                    Iterator<Contact> itr=data.getData().iterator();
-                                                    while (itr.hasNext()){
-                                                        Contact contact=itr.next();
-                                                        if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
-                                                            itr.remove();
+                                            try {
+                                                pb.setVisibility(View.GONE);
+                                                if(data.getStatus()==200){
+                                                    if(data.getData()!=null&&!data.getData().isEmpty()){
+                                                        contacts.clear();
+                                                        Iterator<Contact> itr=data.getData().iterator();
+                                                        while (itr.hasNext()){
+                                                            Contact contact=itr.next();
+                                                            if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
+                                                                itr.remove();
+                                                            }
                                                         }
+                                                        contacts.addAll(data.getData());
+                                                        adapter.notifyDataSetChanged();
+                                                    }else {
+                                                        Util.toastMsg(data.getMsg());
                                                     }
-                                                    contacts.addAll(data.getData());
-                                                    adapter.notifyDataSetChanged();
-                                                }else {
-                                                    Util.toastMsg(data.getMsg());
                                                 }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
                                             }
                                         }
 
                                         @Override
                                         public void failure(RetrofitError error) {
-                                            pb.setVisibility(View.GONE);
+                                            try {
+                                                pb.setVisibility(View.GONE);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                             super.failure(error);
                                         }
                                     });

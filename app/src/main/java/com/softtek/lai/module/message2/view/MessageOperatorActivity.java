@@ -207,10 +207,14 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     }
 
     private void onResult(List<OperateMsgModel> data){
-        tv_right.setText("编辑");
-        fl_right.setOnClickListener(this);
-        operatList.addAll(data);
-        adapter.notifyDataSetChanged();
+        try {
+            tv_right.setText("编辑");
+            fl_right.setOnClickListener(this);
+            operatList.addAll(data);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -283,10 +283,6 @@
             android:name=".module.counselor.view.GameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.FuceStActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name=".module.File.view.ExplainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -294,9 +290,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.activity.view.BodyweiduActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygamest.view.BodyweidustActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -725,9 +718,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.PastReviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygame3.more.view.HistoryClassActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.graph.GraphActivity"

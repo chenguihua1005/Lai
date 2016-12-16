@@ -32,6 +32,7 @@ import com.softtek.lai.widgets.BottomSheetDialog;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -106,7 +107,11 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     public void success(ResponseData<ApplyConfirm> data, Response response) {
                         dialogDissmiss();
                         if (data.getStatus() == 200) {
-                            onResult(data.getData());
+                            try {
+                                onResult(data.getData());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             Util.toastMsg(data.getMsg());
                         }
@@ -140,8 +145,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
         tv_class_code.setText(apply.getClassCode());
         tv_class_name.setText(apply.getClassName());
-        classGroupList = apply.getClassGroups();
-        classRole = apply.getClassRoles();
+        if(apply.getClassGroups()!=null){
+            classGroupList.clear();
+            classGroupList.addAll(apply.getClassGroups());
+        }
+        if (apply.getClassRoles()!=null){
+            classRole.clear();
+            classRole.addAll(apply.getClassRoles());
+        }
         if (apply.getMsgStatus() == 0) {
             btn_no.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.VISIBLE);
@@ -208,8 +219,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                         tv_role_name.setText(role.getRoleName());
                         model.classRole = role.getRoleId();
                     }
-                    dialog.dismiss();
                 }
+                dialog.dismiss();
             }
         });
         TextView tv_cancel = (TextView) footer.findViewById(R.id.tv_cancel);
@@ -232,8 +243,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    private List<ClassGroup> classGroupList;
-    private List<ClassRole> classRole;
+    private List<ClassGroup> classGroupList=new ArrayList<>();
+    private List<ClassRole> classRole=new ArrayList<>();
 
     @Override
     public void onClick(View view) {
@@ -341,7 +352,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             });
 
 
-                        } catch (HyphenateException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override
