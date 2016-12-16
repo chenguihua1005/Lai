@@ -226,6 +226,15 @@ public class ArrowSpinner2 extends LinearLayout{
 
     public void showDropDown() {
         int[] location=new int[2];
+
+
+
+
+
+
+
+
+
         getLocationOnScreen(location);
         //计算差值
         //int cha=popupWindow.getWidth()/2-getWidth()/2;
