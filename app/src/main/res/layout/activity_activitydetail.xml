@@ -34,11 +34,12 @@
             android:background="#fafafa"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_activity_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:background="@drawable/ll_selector_grey"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
@@ -52,13 +53,7 @@
                     android:textColor="#666666"
                     android:textSize="15sp" />
 
-                <ImageView
-                    android:id="@+id/iv_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/bodygame3_arrow" />
+
 
                 <TextView
                     android:id="@+id/detail_activity_name"
@@ -66,12 +61,13 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@id/iv_arrow"
+                    android:layout_weight="1"
+                    android:text=""
                     android:background="@null"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -96,13 +92,6 @@
                     android:textColor="#666666"
                     android:textSize="15sp" />
 
-                <ImageView
-                    android:id="@+id/iv_arrowtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/bodygame3_arrow" />
 
                 <TextView
                     android:id="@+id/detail_activity_time"
@@ -110,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@id/iv_arrowtime"
+
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
@@ -119,7 +108,7 @@
             <LinearLayout
                 android:id="@+id/rl_activity_mark"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/ll_selector_grey"
                 android:gravity="center_vertical"
@@ -128,10 +117,12 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:layout_weight="1"
+
+                    android:layout_marginBottom="10dp"
                     android:text="活动说明"
                     android:textColor="#666666"
                     android:textSize="15sp" />
@@ -141,19 +132,20 @@
                     android:id="@+id/detail_activity_mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@null"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:text=""
+                    android:layout_weight="1"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-                <ImageView
-                    android:id="@+id/iv_arrowmark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/bodygame3_arrow" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_arrowmark"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/bodygame3_arrow" />-->
             </LinearLayout>
 
             <LinearLayout

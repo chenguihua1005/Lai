@@ -81,8 +81,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
-    @InjectView(R.id.tv_activity_type)
-    TextView tv_activity_type;
+//    @InjectView(R.id.tv_activity_type)
+//    TextView tv_activity_type;
     @InjectView(R.id.type_iv)
     ImageView type_iv;
     private LinearLayout.LayoutParams parm;
@@ -245,7 +245,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 ActtypeModel acttypeModel = acttypeModels.get(i);
 //                if (acttypeModel.getActivityTypeId() == 2) {
                 classActivityId = acttypeModel.getActivityTypeId();
-                tv_activity_type.setText(acttypeModel.getActivityTypeName());
+//                tv_activity_type.setText(acttypeModel.getActivityTypeName());
                 String path = AddressManager.get("photoHost");
                 Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).fit().error(R.drawable.default_icon_square)
                         .placeholder(R.drawable.default_icon_square).into(type_iv);

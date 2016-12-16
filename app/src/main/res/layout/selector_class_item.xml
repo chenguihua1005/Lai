@@ -29,10 +29,20 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="5dp"/>
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/more_select"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:layout_marginRight="15dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/line"
+        android:layout_toLeftOf="@id/iv_select"
         android:gravity="center|left"
         android:layout_marginLeft="10dp"
         android:orientation="vertical">
@@ -44,7 +54,8 @@
             android:textSize="12sp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:maxEms="8" />
+            android:maxEms="8"
+            android:text="dsadsaadsadsadasdsadasdadasdadasdasd"/>
         <TextView
             android:id="@+id/tv_number"
             android:layout_width="wrap_content"
@@ -52,13 +63,5 @@
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/iv_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/more_select"
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true"
-        android:visibility="invisible"
-        android:layout_marginRight="15dp"/>
+
 </RelativeLayout>

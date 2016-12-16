@@ -126,7 +126,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     public void onResult(InvitationConfirmShow show) {
         this.show = show;
-        Log.i(show.toString());
         tv_invitater_name.setText(show.getSender());
         tv_head_coach_name.setText(show.getClassMasterName());
         if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
@@ -253,47 +252,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     }
                 }).start();
 
-
-//                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
-//                        msgId,
-//                        1,
-//                        introducerId,
-//                        new RequestCallback<ResponseData>() {
-//                            @Override
-//                            public void success(ResponseData responseData, Response response) {
-//
-//                                if (responseData.getStatus() == 200) {
-//                                    //换信加入群 show
-////                                    EMClient.getInstance().groupManager().joinGroup(groupid);
-////                                    EMClient.getInstance().groupManager().addUsersToGroup(show.getClassHxGroupId(), show.getClassMasterHxId());
-//                                    try {
-//                                        Log.i(TAG, "ClassHxGroupId = " + show.getClassHxGroupId() + "  show.getClassMasterHxId() = " + String.valueOf(show.getClassMasterHxId()));
-////                                        EMClient.getInstance().groupManager().joinGroup(String.valueOf(show.getClassHxGroupId()));
-////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-//                                        //需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
-////                                        EMClient.getInstance().groupManager().applyJoinToGroup(show.getClassHxGroupId(), "求加入");//需异步处理
-////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-//
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-//                                        setResult(RESULT_OK);
-//                                        finish();
-//                                    } catch (HyphenateException e) {
-//                                        Util.toastMsg("同意失败:" + e.getMessage());
-//                                        e.printStackTrace();
-//                                    }finally {
-//                                        dialogDissmiss();
-//                                    }
-//                                }else {
-//                                    dialogDissmiss();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void failure(RetrofitError error) {
-//                                dialogDissmiss();
-//                                super.failure(error);
-//                            }
-//                        });
                 break;
             case R.id.btn_no:
                 dialogShow();
@@ -327,8 +285,10 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200 && resultCode == 100) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
             introducerId = data.getLongExtra("accountId", 0);
+            String phone=data.getStringExtra("phone");
+            tv_aixin_phone.setText(phone);
         }
     }
 }

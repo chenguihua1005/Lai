@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -48,6 +49,8 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
     ImageView im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
+    private int FCAudit=1;
+    private int IsAudit=1;
     private static String classid;
     private static String typedate;
     EasyAdapter<MemberListModel> adapter;
@@ -125,7 +128,12 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Intent FcAudit=new Intent(getContext(),FcAuditStuActivity.class);
+        FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
+        FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
+        FcAudit.putExtra("classId",classid);
+        FcAudit.putExtra("IsAudit",IsAudit);
+        startActivityForResult(FcAudit,FCAudit);
     }
     //下拉刷新
     @Override

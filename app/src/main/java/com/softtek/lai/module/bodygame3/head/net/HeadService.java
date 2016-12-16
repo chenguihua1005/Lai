@@ -57,7 +57,7 @@ public interface HeadService {
             Callback<ResponseData<List<ClasslistModel>>> callback
     );
 
-    //    请求路径:Api/V1/ HerbalifeClass / GetSearchClassPartner
+
     //检索小伙伴
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(
@@ -201,11 +201,6 @@ public interface HeadService {
     void doCreatePhotoWall(
             @Header("token")String token,
             @Body PublicDyModel publicDyModel,
-//            @Query("Accountid")long Accountid,//登录id
-//            @Query("Content")String Content,//动态内容
-//            @Query("keywordId")String keywordId,//主题id
-//            @Query("ClassId")String ClassId,//班级id
-//            @Query("Photos")String Photos,//照片集合
             Callback<ResponseData>callback
     );
     //照片墙主题列表

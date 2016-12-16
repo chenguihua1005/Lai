@@ -19,6 +19,7 @@ import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 
@@ -84,6 +85,8 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     RelativeLayout ll_retest_doleggirth;
 
     private FcStDataModel fcStDataModel;
+    private MeasuredDetailsModel measuredDetailsModel;
+    int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入、学员初始数据录入,3复测未审核，4复测已审核
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +111,62 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("添加记录");
-
         fcStDataModel = (FcStDataModel) getIntent().getSerializableExtra("retestWrite");
-            try {
-                if (fcStDataModel != null) {
-                    tv_retest_circum.setText(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum());
-                    tv_retest_waistline.setText(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline());
-                    tv_retest_hiplie.setText(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie());
-                    tv_retest_uparmgirth.setText(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth());
-                    tv_retest_upleggirth.setText(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth());
-                    tv_retest_doleggirth.setText(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth());
+        measuredDetailsModel=(MeasuredDetailsModel)getIntent().getSerializableExtra("initaudit") ;
+        Audited=getIntent().getIntExtra("Audited",0);
+        switch (Audited)
+        {
+            //初始数据未审核
+            case 0:
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                break;
+            //初始数据已审核
+            case 1:
+                btn_retest_save.setVisibility(View.GONE);
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            //学员复测数据、初始数据
+            case 2:
+                try {
+                    if (fcStDataModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
 
 
     }
@@ -130,22 +175,39 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_retest_circum:
-                show_circum_dialog();
+                if (Audited!=1&&Audited!=4) {
+                    show_circum_dialog();
+                }
                 break;
             case R.id.ll_retest_waistline:
-                show_waistline_dialog();
+                if (Audited!=1&&Audited!=4) {
+
+                    show_waistline_dialog();
+                }
                 break;
             case R.id.ll_retest_hiplie:
-                show_hiplie_dialog();
+                if (Audited!=1&&Audited!=4) {
+
+                    show_hiplie_dialog();
+                }
                 break;
             case R.id.ll_retest_uparmgirth:
-                show_uparmgirth_dialog();
+                if (Audited!=1&&Audited!=4) {
+
+                    show_uparmgirth_dialog();
+                }
                 break;
             case R.id.ll_retest_upleggirth:
-                show_upleggirth_dialog();
+                if (Audited!=1&&Audited!=4) {
+
+                    show_upleggirth_dialog();
+                }
                 break;
             case R.id.ll_retest_doleggirth:
-                show_doleggirth_dialog();
+                if (Audited!=1&&Audited!=4) {
+
+                    show_doleggirth_dialog();
+                }
                 break;
             //填写说明
             case R.id.ll_retest_explain:
@@ -153,12 +215,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 break;
             //返回按钮
             case R.id.ll_left:
-                //startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 finish();
                 break;
             //保存记录......
             case R.id.btn_retest_save:
-
+                if (Audited==2) {
                     fcStDataModel = new FcStDataModel();
                     fcStDataModel.setCircum(tv_retest_circum.getText().toString());//胸围
                     fcStDataModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
@@ -170,9 +231,21 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("retestWrite", fcStDataModel);
                     setResult(RESULT_OK, intent);
                     finish();
+                }
+                else {
+                    measuredDetailsModel = new MeasuredDetailsModel();
+                    measuredDetailsModel.setCircum(tv_retest_circum.getText().toString());//胸围
+                    measuredDetailsModel.setWaistline(tv_retest_waistline.getText().toString());//腰围
+                    measuredDetailsModel.setHiplie(tv_retest_hiplie.getText().toString());//臀围
+                    measuredDetailsModel.setUpArmGirth(tv_retest_uparmgirth.getText().toString());//上臂围
+                    measuredDetailsModel.setUpLegGirth(tv_retest_upleggirth.getText().toString());//大腿围
+                    measuredDetailsModel.setDoLegGirth(tv_retest_doleggirth.getText().toString());//小腿围
+                    Intent intent = new Intent();
+                    intent.putExtra("retestWrite", measuredDetailsModel);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
 
-
-//                  Log.i("-------------------retestWrite----------------------"+retestWrite+"");
                 break;
         }
     }

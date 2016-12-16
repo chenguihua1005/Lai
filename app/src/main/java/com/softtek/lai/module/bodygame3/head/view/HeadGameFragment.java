@@ -111,7 +111,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
             if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
                 if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”, 查看新班级并开始邀请小伙伴.");
+                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”, 查看新班级并开始邀请小伙伴");
                     sp_tv.setVisibility(View.GONE);
                     pc_tv.setVisibility(View.GONE);
                     button.setVisibility(View.VISIBLE);
@@ -128,7 +128,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         } else {
             if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
                 if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”， 查看新班级.");
+                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”， 查看新班级");
                     sp_tv.setVisibility(View.GONE);
                     pc_tv.setVisibility(View.GONE);
                     button.setVisibility(View.GONE);
@@ -336,7 +336,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
                 if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
                     if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”,\n 查看新班级并开始邀请小伙伴.\"");
+                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”,\n 查看新班级并开始邀请小伙伴");
                         sp_tv.setVisibility(View.GONE);
                         pc_tv.setVisibility(View.GONE);
                         button.setVisibility(View.VISIBLE);
@@ -353,7 +353,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
             } else {
                 if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
                     if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”，\n 查看新班级.");
+                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”，\n 查看新班级");
                         sp_tv.setVisibility(View.GONE);
                         pc_tv.setVisibility(View.GONE);
                         button.setVisibility(View.GONE);
