@@ -188,7 +188,6 @@ class ImagePickHelper {
     }
 
     public interface Callback {
-        void onSuccess(String file);
 
         void onMutilSussess(List<String> imgs);
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
@@ -42,6 +43,7 @@ public class MoreHasFragment extends Fragment {
     private ClassModel model;
 
     private DeleteClass deleteClass;
+    private int selected;
 
     public MoreHasFragment() {
 
@@ -72,10 +74,20 @@ public class MoreHasFragment extends Fragment {
         model=getArguments().getParcelable("classModel");
         if (classModels != null && !classModels.isEmpty()) {
             if(model!=null){
-                for (ClassModel model:classModels){
+                Log.i("传递过来的mode参数="+model.toString());
+                boolean isExist=false;
+                for (int i=0;i<classModels.size();i++){
+                    ClassModel model=classModels.get(i);
                     if(model.getClassCode().equals(this.model.getClassCode())){
-                        this.model=model;
+                        selected=i;
+                        isExist=true;
                         break;
+                    }
+                }
+                if(!isExist){
+                    model=classModels.get(0);
+                    if(deleteClass!=null){
+                        deleteClass.doSelected(model);
                     }
                 }
             }else {
@@ -165,6 +177,9 @@ public class MoreHasFragment extends Fragment {
                 choosePanel(role);
             }
         });
+        if (model!=null){
+            arrow.setSelected(selected);
+        }
         EventBus.getDefault().register(this);
     }
 

@@ -24,11 +24,6 @@ public class ImageFileSelector {
     public ImageFileSelector(final Context context) {
         mImagePickHelper = new ImagePickHelper();
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                Log.i(TAG, "select image from sdcard: " + file);
-                handleResult(file, false);
-            }
 
             @Override
             public void onMutilSussess(List<String> imgs) {
@@ -159,7 +154,7 @@ public class ImageFileSelector {
 
         } else {
             if (mCallback != null) {
-                mCallback.onSuccess(null);
+                mCallback.onError();
             }
         }
     }

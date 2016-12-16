@@ -5,11 +5,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +48,7 @@ class ImageCaptureHelper {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CHOOSE_PHOTO_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
+            Log.i("aa","拍照返回啦啦啦啦啦");
             if (mOutFile != null && mOutFile.exists()) {
                 saveImageToGallery(mOutFile);
                 if (mCallback != null) {
@@ -63,10 +66,38 @@ class ImageCaptureHelper {
         mActivityWeakReference=new WeakReference(activity);
         try {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri out= FileProvider.getUriForFile(activity.getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri out;
+            if(Build.VERSION.SDK_INT<=23){
+                out=Uri.fromFile(mOutFile);
+            }else {
+                out= FileProvider.getUriForFile(activity.getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, out);
             activity.startActivityForResult(intent, CHOOSE_PHOTO_FROM_CAMERA);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            if (mCallback != null) {
+                mCallback.onError();
+            }
+        }
+    }
+
+    public void captureImage(Fragment fragment) {
+        mOutFile = CommonUtils.generateExternalImageCacheFile(fragment.getContext(), ".jpg");
+        mFragmentWeakReference=new WeakReference(fragment);
+        try {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri out;
+            if(Build.VERSION.SDK_INT<=23){
+                out=Uri.fromFile(mOutFile);
+            }else {
+                out= FileProvider.getUriForFile(fragment.getContext().getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, out);
+            fragment.startActivityForResult(intent, CHOOSE_PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             if (mCallback != null) {
@@ -96,23 +127,6 @@ class ImageCaptureHelper {
                 e.printStackTrace();
             }
             context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(mOutFile)));
-        }
-    }
-
-    public void captureImage(Fragment fragment) {
-        mOutFile = CommonUtils.generateExternalImageCacheFile(fragment.getContext(), ".jpg");
-        mFragmentWeakReference=new WeakReference(fragment);
-        try {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri out= FileProvider.getUriForFile(fragment.getContext().getApplicationContext(),"com.sw926.imagefileselector.fileprovider",mOutFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, /*Uri.fromFile(mOutFile)*/out);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            fragment.startActivityForResult(intent, CHOOSE_PHOTO_FROM_CAMERA);
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            if (mCallback != null) {
-                mCallback.onError();
-            }
         }
     }
 
