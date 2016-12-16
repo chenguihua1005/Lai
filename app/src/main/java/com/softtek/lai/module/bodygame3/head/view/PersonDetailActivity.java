@@ -239,10 +239,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetData() {
         try {
             if (memberInfoModel != null) {
+                String url=AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    String url = AddressManager.get("photoHost") + memberInfoModel.getUserPhoto();
-                    Picasso.with(getParent()).load(url).error(R.drawable.img_default).fit().into(cir_userimg);
+                    Picasso.with(getParent()).load(url+memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
@@ -310,12 +310,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "暂未复测" : memberInfoModel.getCurrentWeight());//现在体重
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
-                        Log.i("初始体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg());
-                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
+                        Picasso.with(getParent()).load(url+memberInfoModel.getInitThImg()).fit().into(im_InitImage);
                     }
                     if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(getParent()).load(AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                        Log.i("现在体重图片" + AddressManager.get("PhotoHost") + memberInfoModel.getCurttentThImg());
+                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
                     }
                 } else {
                     ll_chart.setVisibility(View.GONE);
@@ -335,6 +335,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             tv_no_dy.setVisibility(View.GONE);
             for (int n = 0; n < newsTopFourModels.size(); n++) {
                 images.add(n, newsTopFourModels.get(n).getImgUrl());
+                Log.i("图片测试",AddressManager.get("photoHost") + newsTopFourModels.get(n).getThumbnailImgUrl());
+
             }
             easyAdapter.notifyDataSetChanged();
         } else {

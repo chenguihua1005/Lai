@@ -8,6 +8,7 @@ import android.text.style.LineBackgroundSpan;
 import android.util.TypedValue;
 
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 
 /**
  * Span to draw a dot centered under a section of text
@@ -64,6 +65,7 @@ public class DotSpan implements LineBackgroundSpan {
      * @paramradius radius for the dot
      * @paramcolor  color of the dot
      */
+
 
     public DotSpan(Context context, int mode,float radius) {
         this.mContext = context;
