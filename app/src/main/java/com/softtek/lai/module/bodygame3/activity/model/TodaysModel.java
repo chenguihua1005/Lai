@@ -9,7 +9,7 @@ import java.util.List;
 public class TodaysModel {
     private int ClassRole;
     private int Num;
-    private Boolean IsRetest;
+    private int IsRetest;
     private int RetestStatus;
     private List<TodayactModel> list_Activity;
 
@@ -37,12 +37,12 @@ public class TodaysModel {
         Num = num;
     }
 
-    public Boolean getRetest() {
+    public int getIsRetest() {
         return IsRetest;
     }
 
-    public void setRetest(Boolean retest) {
-        IsRetest = retest;
+    public void setIsRetest(int isRetest) {
+        IsRetest = isRetest;
     }
 
     public List<TodayactModel> getList_Activity() {
