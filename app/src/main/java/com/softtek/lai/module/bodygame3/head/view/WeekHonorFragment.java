@@ -99,6 +99,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         return fragment;
     }
 
+    /**
+     * 每次切换都会执行
+     */
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();     //提交的话取消注释
@@ -125,29 +128,24 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                lazyLoad();
+                loadData(false);
             }
         });
-//        ptflv_no_data.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-//            @Override
-//            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
-//            }
-//        });
-
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                intent.putExtra("ClassId", ClassId);
-                intent.putExtra("ByWhichRatio", ByWhichRatio);
-                intent.putExtra("SortTimeType", SortTimeType);
-                intent.putExtra("WhichTime", WhichTime);
-                if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
-                    intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-                    intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                if (i!=1){
+                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                    intent.putExtra("ClassId", ClassId);
+                    intent.putExtra("ByWhichRatio", ByWhichRatio);
+                    intent.putExtra("SortTimeType", SortTimeType);
+                    intent.putExtra("WhichTime", WhichTime);
+                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
+                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
+                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                    }
+                    startActivity(intent);
                 }
-                startActivity(intent);
                 Log.e("curry", "onItemClick: " + i);
             }
         });
@@ -179,6 +177,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         };
     }
 
+    /**
+     * 每次切换都会执行
+     */
     @Override
     protected void initDatas() {
         //根据position返回当前值给标题
@@ -202,14 +203,13 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = i + 1;
-                Log.e("curryaaaa", "onItemSelected: " + i);
-                lazyLoad();
+                loadData(false);
             }
         });
     }
 
     /**
-     * 请求数据
+     * 请求数据，每次切换到时候也会执行(切换fragment的时候，数据应该不会丢失，所以请求一次周数就行了)
      */
     @Override
     protected void lazyLoad() {
@@ -220,15 +220,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-        listHonorrank.setRefreshing();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        lazyLoad();
+        loadData(is_first);
     }
 
     @Override
@@ -249,23 +241,21 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        lazyLoad();
+                        loadData(false);
                     }
-                },500);
+                }, 500);
                 //不加判断，下面的数据添加两边
-                if (is_first){
-                    spinnerData = model.getList_date();
-                    for (int i = spinnerData.size() - 1; i >= 0; i--) {
-                        spinnerData2.add(spinnerData.get(i).getDateName());
-                    }
-                    spinner.attachCustomSource(spinnerAdapter);
+                spinnerData.clear();
+                spinnerData = model.getList_date();
+                for (int i = spinnerData.size() - 1; i >= 0; i--) {
+                    spinnerData2.add(spinnerData.get(i).getDateName());
                 }
+                spinner.attachCustomSource(spinnerAdapter);
                 //首次后设置为false
                 is_first = false;
                 //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
             } else {
                 if (is_first) {
-
                     groupModelList.clear();
                     newAdapter();
                     listHonorrank.setAdapter(honorGroupRankAdapter);
@@ -321,6 +311,11 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     }
 
+    private void loadData(boolean is_first){
+        listHonorrank.setRefreshing();
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+    }
+
     private void setImage(CircleImageView civ, String endUrl) {
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
@@ -334,12 +329,12 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         switch (view.getId()) {
             case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
-                lazyLoad();
+                loadData(false);
                 selectWeight();
                 break;
             case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
-                lazyLoad();
+                loadData(false);
                 selectFat();
                 break;
         }

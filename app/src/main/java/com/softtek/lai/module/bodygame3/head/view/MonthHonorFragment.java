@@ -124,23 +124,25 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, false);
+                loadData(is_first);
             }
         });
 
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                intent.putExtra("ClassId", ClassId);
-                intent.putExtra("ByWhichRatio", ByWhichRatio);
-                intent.putExtra("SortTimeType", SortTimeType);
-                intent.putExtra("WhichTime", WhichTime);
-                if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
-                    intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-                    intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                if (i!=1){
+                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                    intent.putExtra("ClassId", ClassId);
+                    intent.putExtra("ByWhichRatio", ByWhichRatio);
+                    intent.putExtra("SortTimeType", SortTimeType);
+                    intent.putExtra("WhichTime", WhichTime);
+                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
+                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
+                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                    }
+                    startActivity(intent);
                 }
-                startActivity(intent);
                 Log.e("curry", "onItemClick: " + i);
             }
         });
@@ -169,7 +171,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = i + 1;
-                lazyLoad();
+                loadData(is_first);
             }
         });
     }
@@ -182,16 +184,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         } else {
             weekHonorManager = new WeekHonorManager(this);
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-        listHonorrank.setRefreshing();
-        //首次后设置为false
-        is_first = false;
+        loadData(is_first);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        lazyLoad();
+    private void loadData(boolean is_first){
+        listHonorrank.setRefreshing();
+        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
     private void newAdapter() {
@@ -244,13 +242,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 spinner.attachCustomSource(spinnerAdapter);
                 //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
             } else {
-//                if (is_first){
-//
-////                    ptfsc_no_data.setVisibility(View.VISIBLE);
-//                ll_no_data.setVisibility(View.VISIBLE);
-//                    listHonorrank.setVisibility(View.GONE);
-//                    return;
-//                }
+                if (is_first) {
+                    groupModelList.clear();
+                    newAdapter();
+                    listHonorrank.setAdapter(honorGroupRankAdapter);
+                    return;
+                }
             }
 
         }
@@ -311,12 +308,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         switch (view.getId()) {
             case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
-                lazyLoad();
+                loadData(is_first);
                 selectWeight();
                 break;
             case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
-                lazyLoad();
+                loadData(is_first);
                 selectFat();
                 break;
         }

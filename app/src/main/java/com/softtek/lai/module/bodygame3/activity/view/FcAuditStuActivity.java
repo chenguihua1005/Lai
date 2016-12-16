@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -32,8 +35,12 @@ import java.io.File;
 import butterknife.InjectView;
 import retrofit.client.Response;
 import retrofit.mime.MultipartTypedOutput;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -42,7 +49,7 @@ import zilla.libcore.util.Util;
  */
 
 @InjectLayout(R.layout.activity_initwrite)
-public class FcAuditStuActivity extends BaseActivity implements View.OnClickListener{
+public class FcAuditStuActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
     @InjectView(R.id.iv_write_head)
     ImageView iv_write_head;
     @InjectView(R.id.tv_write_nick)
@@ -67,6 +74,8 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     TextView tv_write_chu_weight;
     @InjectView(R.id.tv_retestWrite_nowweight)
     TextView tv_retestWrite_nowweight;
+    @Required(order = 1,message = "体脂为必填项，请选择")
+
     @InjectView(R.id.tv_retestWrite_tizhi)
     TextView tv_retestWrite_tizhi;
     @InjectView(R.id.tv_retestWrite_neizhi)
@@ -80,19 +89,24 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.btn_retest_write_addbody)
     Button btn_retest_write_addbody;
 
+    @LifeCircleInject
+    ValidateLife validateLife;
+
     @InjectView(R.id.tv_title)
-            TextView tv_title;
+    TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
-            TextView tv_right;
+    TextView tv_right;
 
     FuceSevice fuceSevice;
     MeasuredDetailsModel measuredDetailsModel;
     private ImageFileCropSelector imageFileCropSelector;
     private static final int BODY=3;
     private static final int GET_BODY=1;
-    private int IsAudit;
+    MultipartTypedOutput multipartTypedOutput;
+
+    private int IsAudit=0;
 
     private CharSequence[] items={"拍照","从相册选择照片"};
 
@@ -105,6 +119,15 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_write.setText("初始体重");
+        tv_right.setText("保存");
+        IsAudit=getIntent().getIntExtra("IsAudit",0);
+        if (IsAudit!=0)
+        {
+            tv_right.setVisibility(View.INVISIBLE);
+        }
+        else {
+            tv_right.setText("保存");
+        }
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
@@ -135,11 +158,12 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
+        multipartTypedOutput=new MultipartTypedOutput();
+
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         acmId=getIntent().getStringExtra("ACMId");
         accountId= getIntent().getLongExtra("accountId",0);
         classId=getIntent().getStringExtra("classId");
-        IsAudit=getIntent().getIntExtra("IsAudit",0);
         doData();
     }
     private void doData()
@@ -240,6 +264,16 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
             //保存
             case R.id.tv_right:
+                if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText()))
+                {
+                    String message = "现在体重为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                }
+                else {
+                    validateLife.validate();
+                }
                 break;
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
@@ -297,5 +331,65 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
                 break;
         }
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        if (!TextUtils.isEmpty(files)) {
+            doSetPostData();
+        }
+        else {
+            String message ="请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
+        String message = failedRule.getFailureMessage();
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .create().show();
+    }
+
+    private void doSetPostData()
+    {
+        multipartTypedOutput.addPart("accountId",new TypedString(accountId+""));
+        multipartTypedOutput.addPart("classId",new TypedString(classId));
+        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+        multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
+        multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
+        multipartTypedOutput.addPart("weight", new TypedString(tv_retestWrite_nowweight.getText().toString()));//现在体重
+        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum().toString()));//胸围
+        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline().toString()));//腰围
+        multipartTypedOutput.addPart("hiplie",new TypedString(TextUtils.isEmpty(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie().toString()));//臀围
+        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth().toString()));//上臂围
+        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth().toString()));//大腿围
+        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth().toString()));//小腿围
+        Log.i("上传数据" + multipartTypedOutput.getPartCount());
+        doPostInitData();
+    }
+    void doPostInitData()
+    {
+        fuceSevice.doPostMeasuredData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+        });
     }
 }
