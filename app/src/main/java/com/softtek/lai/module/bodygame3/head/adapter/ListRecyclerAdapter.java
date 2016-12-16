@@ -4,29 +4,18 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
-import com.softtek.lai.module.community.adapter.PhotosAdapter;
-import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.model.PersonalListModel;
-import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
-import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,21 +33,21 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int EMPTY = 3;
 
     private boolean isFootGone = false;
-private int type;
+    private int type;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private List<PartnersModel> partnersModels;
     private Context context;
     private int width;
 
-//    public void setType(int type) {
-//        this.type = type;
-//    }
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public ListRecyclerAdapter(Context mContext, List infos) {
         this.context = mContext;
         this.partnersModels = infos;
-        width= DisplayUtil.getMobileWidth(mContext);
+        width = DisplayUtil.getMobileWidth(mContext);
     }
 
     @Override
@@ -81,6 +70,12 @@ private int type;
         //绑定数据
         if (holder instanceof ViewHolder) {
             PartnersModel partnersModel = partnersModels.get(position);
+
+               Log.i("头像不为空啊。。。。。。",partnersModel.getStuImg());
+               Picasso.with(context).load(AddressManager.get("photoHost","http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
+                       .fit().error(R.drawable.img_default)
+                       .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
+
             ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
             ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());
             if (partnersModel.getStuGender().equals("1")) {
@@ -90,30 +85,26 @@ private int type;
             } else if (partnersModel.getStuGender().equals("2")) {
 
             }
-            ((ViewHolder) holder).group_tv.setText("("+partnersModel.getGroupName()+")");
-            Log.e("photohost",AddressManager.get("photoHost") + partnersModel.getStuThImg());
-                Picasso.with(context).load(AddressManager.get("photoHost") + partnersModel.getStuThImg())
-                        .fit().error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
+            ((ViewHolder) holder).group_tv.setText("(" + partnersModel.getGroupName() + ")");
 
             ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
             ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
-//            if(type==0){//Int	排序类型：0:体重,1:减重比,2:体脂比
-//                ((ViewHolder) holder).tv_bi.setText("体重");
-//                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
-//            }else if(type==1) {
-//                ((ViewHolder) holder).tv_bi.setText("减重比");
-//                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
-//            }else{
-                ((ViewHolder) holder).tv_bi.setText("体脂比");
+            if(type==0){//Int	排序类型：0:体重,1:减重比,2:体脂比
+                ((ViewHolder) holder).tv_bi.setText("体重");
+                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
+            }else if(type==1) {
+                ((ViewHolder) holder).tv_bi.setText("减重比");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
-//            }
+            }else{
+            ((ViewHolder) holder).tv_bi.setText("体脂比");
+            ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+            }
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      int position=holder.getAdapterPosition();
-                        mOnItemClickListener.onItemClick(holder.itemView,position);
+                        int position = holder.getAdapterPosition();
+                        mOnItemClickListener.onItemClick(holder.itemView, position);
                     }
                 });
             }
@@ -132,12 +123,13 @@ private int type;
     public int getItemCount() {
         return partnersModels.size() == 0 ? 0 : partnersModels.size() + 1;
     }
+
     @Override
     public int getItemViewType(int position) {
         int type;
         if (position + 1 == getItemCount()) {
             type = getItemCount() < 10 ? EMPTY : FOOTER;
-            if (isFootGone){
+            if (isFootGone) {
                 type = EMPTY;
                 isFootGone = false;
             }
@@ -147,7 +139,7 @@ private int type;
         return type;
     }
 
-    public void setFootGone(boolean isGone){
+    public void setFootGone(boolean isGone) {
         isFootGone = isGone;
     }
 
@@ -160,8 +152,9 @@ private int type;
         TextView weight_first;
         TextView jianzhong_tv;
         TextView tv_bi;
-        ImageView head_img;
+    CircleImageView head_img;
         TextView jianzhong_tv2;
+
         public ViewHolder(View view) {
             super(view);
             paiming = (TextView) itemView.findViewById(R.id.paiming);
@@ -171,8 +164,8 @@ private int type;
             weight_first = (TextView) itemView.findViewById(R.id.weight_first);
             jianzhong_tv = (TextView) itemView.findViewById(R.id.jianzhong_tv);
             tv_bi = (TextView) itemView.findViewById(R.id.tv_bi);
-            head_img = (ImageView) itemView.findViewById(R.id.head_img);
-            jianzhong_tv2=(TextView)itemView.findViewById(R.id.jianzhong_tv2);
+            head_img = (CircleImageView) itemView.findViewById(R.id.head_img);
+            jianzhong_tv2 = (TextView) itemView.findViewById(R.id.jianzhong_tv2);
         }
     }
 

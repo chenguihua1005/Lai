@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
@@ -62,9 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 
 import butterknife.InjectView;
@@ -669,7 +666,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
 
                 if (classModels.isEmpty()) {
-
+                
                 } else {
                     tv_title.setSelected(0);
                     this.classModel = classModels.get(0);
@@ -711,4 +708,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     '}';
         }
     }
+
+
+
 }

@@ -51,6 +51,7 @@ import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -104,7 +105,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.student_tv)
     TextView student_tv;//优秀学员名字
     @InjectView(R.id.iv_studenticon)
-    ImageView studenticon;//优秀学员头像
+    CircleImageView studenticon;//优秀学员头像
     @InjectView(R.id.student_jianzhong)
     TextView student_jianzhong;//优秀学员减重比
     @InjectView(R.id.student_jianzhi)
@@ -228,6 +229,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        partneradapter = new ListRecyclerAdapter(getContext(), partnersModels);
+        list_partner.setAdapter(partneradapter);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
         TypeModel model1 = new TypeModel(0, "体重");
@@ -248,21 +251,21 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public String getText(int position) {
                 //根据position返回当前值给标题
-                typecode=datas.get(position).getTypecode();
 
                 return datas.get(position).getTypename();
             }
         });
+        typecode=datas.get(0).getTypecode();
+        partneradapter.setType(typecode);
         spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 typecode = datas.get(i).getTypecode();
-//                partneradapter.setType(typecode);
+                 partneradapter.setType(typecode);
                 updatepartner(typecode, 10, 1);//按类型分页加载小伙伴
             }
         });
-        partneradapter = new ListRecyclerAdapter(getContext(), partnersModels);
-        list_partner.setAdapter(partneradapter);
+
 
         partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
             @Override
