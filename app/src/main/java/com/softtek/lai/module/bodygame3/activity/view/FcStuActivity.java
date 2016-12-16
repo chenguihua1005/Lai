@@ -126,6 +126,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
     String files;
+    int FcStatus,resetstatus;
     @Override
     protected void initViews() {
         tv_title.setText("复测录入");
@@ -171,6 +172,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         classId=getIntent().getStringExtra("classId");
         typeDate=getIntent().getStringExtra("typeDate");
         userId=UserInfoModel.getInstance().getUserId();
+        FcStatus=getIntent().getIntExtra("FcStatus",0);//接收数据审核状态
+        resetstatus=getIntent().getIntExtra("resetstatus",0);
         doData();
         multipartTypedOutput=new MultipartTypedOutput();
         if (fcStDataModel!=null)
@@ -185,7 +188,20 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, "323689f5-4740-49b1-947e-7c27e3bdf530", "2016-12-15", "1", new RequestCallback<ResponseData<FcStDataModel>>() {
+        //resetstatus=2,未当天复测日，可进行录入，type=1（复测录入）
+        //resetstatus=1,过去复测日，可进行查看，type=2（复测查看）
+        switch (resetstatus)
+        {
+            case 1:
+                tv_right.setVisibility(View.INVISIBLE);
+                fl_right.setEnabled(false);
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, resetstatus==2?"1":"2", new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();
@@ -364,7 +380,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
     void doSetPostData()
     {
-        classId="323689f5-4740-49b1-947e-7c27e3bdf530";
         multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
         multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
