@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -158,7 +159,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(FcAuditStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 files=file;
-
                 Log.i(files);
 //                retestPre.goGetPicture(file);
             }
@@ -366,6 +366,26 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+
+    }
+
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
