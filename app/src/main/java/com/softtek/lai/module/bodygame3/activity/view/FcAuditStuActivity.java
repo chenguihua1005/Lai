@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -80,6 +81,8 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     @InjectView(R.id.tv_retestWrite_tizhi)
     TextView tv_retestWrite_tizhi;
+    @Required(order = 2,message = "内脂为必填项，请选择")
+
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;
     @InjectView(R.id.im_retestwrite_takephoto)
@@ -91,11 +94,11 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.btn_retest_write_addbody)
     Button btn_retest_write_addbody;
     @InjectView(R.id.ll_retestWrite_nowweight)
-    LinearLayout ll_retestWrite_nowweight;
+    RelativeLayout ll_retestWrite_nowweight;
     @InjectView(R.id.ll_retestWrite_tizhi)
-    LinearLayout ll_retestWrite_tizhi;
+    RelativeLayout ll_retestWrite_tizhi;
     @InjectView(R.id.ll_retestWrite_neizhi)
-    LinearLayout ll_retestWrite_neizhi;
+    RelativeLayout ll_retestWrite_neizhi;
 
     @LifeCircleInject
     ValidateLife validateLife;
