@@ -255,7 +255,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                                     case 200:
                                         if (responseData.getData().getNum() > 0) {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
-
                                         } else {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         }
