@@ -232,45 +232,46 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
 
     @Subscribe
     public void onEvent(HonorModel honorModel) {
-        List<StudentHonorInfo> table1 = honorModel.getTable1();
-        List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
-        String type = table2.get(0).getIsHave();
-        if ("3".equals(type)) {
-            Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
-        }
-        for (int i = 0; i < table1.size(); i++) {
-            StudentHonorInfo studentHonorInfo = table1.get(i);
-            String honorType = studentHonorInfo.getHonorType().toString();
-            /*if ("0".equals(honorType)) {
-                jz_list.add(studentHonorInfo);
-            } else*/ if ("1".equals(honorType)) {
-                fc_list.add(studentHonorInfo);
-            } else if ("2".equals(honorType)) {
-                ygj_list.add(studentHonorInfo);
-            } else {
-                star_list.add(studentHonorInfo);
+        try {
+            List<StudentHonorInfo> table1 = honorModel.getTable1();
+            List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
+            String type = table2.get(0).getIsHave();
+            if ("3".equals(type)) {
+                Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
             }
-        }
+            for (int i = 0; i < table1.size(); i++) {
+                StudentHonorInfo studentHonorInfo = table1.get(i);
+                String honorType = studentHonorInfo.getHonorType().toString();
+                /*if ("0".equals(honorType)) {
+                    jz_list.add(studentHonorInfo);
+                } else*/ if ("1".equals(honorType)) {
+                    fc_list.add(studentHonorInfo);
+                } else if ("2".equals(honorType)) {
+                    ygj_list.add(studentHonorInfo);
+                } else {
+                    star_list.add(studentHonorInfo);
+                }
+            }
 
-        setGridView();
-        lin_fc_value.setVisibility(View.VISIBLE);
-        lin_fc_sm.setVisibility(View.GONE);
-        if (fc_list.size() == 0) {
-            lin_fc_value.setVisibility(View.GONE);
-            lin_fc_sm.setVisibility(View.VISIBLE);
-        } else {
-            String value = fc_list.get(0).getValue();
-            if ("1".equals(value)) {
-                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-            } else if ("2".equals(value)) {
-                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-                img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
-            } else if ("3".equals(value)) {
-                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-                img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
-                img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
+            setGridView();
+            lin_fc_value.setVisibility(View.VISIBLE);
+            lin_fc_sm.setVisibility(View.GONE);
+            if (fc_list.size() == 0) {
+                lin_fc_value.setVisibility(View.GONE);
+                lin_fc_sm.setVisibility(View.VISIBLE);
+            } else {
+                String value = fc_list.get(0).getValue();
+                if ("1".equals(value)) {
+                    img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+                } else if ("2".equals(value)) {
+                    img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+                    img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+                } else if ("3".equals(value)) {
+                    img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+                    img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+                    img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
+                }
             }
-        }
 //        if (jz_list.size() == 0) {
 //            lin_jz_value.setVisibility(View.GONE);
 //            lin_jz_sm.setVisibility(View.VISIBLE);
@@ -290,24 +291,27 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
 //            list_jz.setAdapter(jz_adapter);
 //        }
 
-        if (ygj_list.size() == 0) {
-            lin_ygj_value.setVisibility(View.GONE);
-            lin_ygj_sm.setVisibility(View.VISIBLE);
-        } else {
-            lin_ygj_value.setVisibility(View.VISIBLE);
-            lin_ygj_sm.setVisibility(View.GONE);
-            StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
-            list_ygj.setAdapter(ygj_adapter);
-        }
+            if (ygj_list.size() == 0) {
+                lin_ygj_value.setVisibility(View.GONE);
+                lin_ygj_sm.setVisibility(View.VISIBLE);
+            } else {
+                lin_ygj_value.setVisibility(View.VISIBLE);
+                lin_ygj_sm.setVisibility(View.GONE);
+                StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
+                list_ygj.setAdapter(ygj_adapter);
+            }
 
-        if (star_list.size() == 0) {
-            lin_star_value.setVisibility(View.GONE);
-            lin_star_sm.setVisibility(View.VISIBLE);
-        } else {
-            lin_star_value.setVisibility(View.VISIBLE);
-            lin_star_sm.setVisibility(View.GONE);
-            StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
-            list_star.setAdapter(star_adapter);
+            if (star_list.size() == 0) {
+                lin_star_value.setVisibility(View.GONE);
+                lin_star_sm.setVisibility(View.VISIBLE);
+            } else {
+                lin_star_value.setVisibility(View.VISIBLE);
+                lin_star_sm.setVisibility(View.GONE);
+                StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
+                list_star.setAdapter(star_adapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 //    private void setG(){

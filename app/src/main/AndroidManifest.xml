@@ -720,9 +720,6 @@
             android:name=".module.bodygame3.more.view.PastReviewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.more.view.HistoryClassActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygame3.graph.GraphActivity"
             android:screenOrientation="portrait" />
         <activity

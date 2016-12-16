@@ -100,13 +100,17 @@ public class PastReviewActivity extends BaseActivity {
                         new RequestCallback<ResponseData<List<HistoryClassModel>>>() {
                             @Override
                             public void success(ResponseData<List<HistoryClassModel>> data, Response response) {
-                                dialogDissmiss();
-                                if (data.getStatus() == 200) {
-                                    datas.clear();
-                                    datas.addAll(data.getData());
-                                    adapter.notifyDataSetChanged();
-                                } else {
-                                    Util.toastMsg(data.getMsg());
+                                try {
+                                    dialogDissmiss();
+                                    if (data.getStatus() == 200) {
+                                        datas.clear();
+                                        datas.addAll(data.getData());
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
 
                             }

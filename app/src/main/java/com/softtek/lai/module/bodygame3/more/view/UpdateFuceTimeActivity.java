@@ -138,9 +138,13 @@ public class UpdateFuceTimeActivity extends BaseActivity{
                             @Override
                             public void success(ResponseData<List<FuceDate>> data, Response response) {
                                 dialogDissmiss();
-                                if(data.getStatus()==200){
-                                    dates.addAll(data.getData());
-                                    adapter.notifyDataSetChanged();
+                                try {
+                                    if(data.getStatus()==200){
+                                        dates.addAll(data.getData());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
 
                             }
@@ -198,16 +202,20 @@ public class UpdateFuceTimeActivity extends BaseActivity{
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        if(responseData.getStatus()==200){
-                                            for (int i=position;i<dates.size();i++){
-                                                FuceDate fuceDate=dates.get(i);
-                                                fuceDate.setMeasureDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd)
-                                                        .jumpDateByDay(date,(i-position)*7));
+                                        try {
+                                            if(responseData.getStatus()==200){
+                                                for (int i=position;i<dates.size();i++){
+                                                    FuceDate fuceDate=dates.get(i);
+                                                    fuceDate.setMeasureDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd)
+                                                            .jumpDateByDay(date,(i-position)*7));
+                                                }
+                                                adapter.notifyDataSetChanged();
+                                                EventBus.getDefault().post(new UpdateFuce(classId,dates));
+                                            }else {
+                                                Util.toastMsg(responseData.getMsg());
                                             }
-                                            adapter.notifyDataSetChanged();
-                                            EventBus.getDefault().post(new UpdateFuce(classId,dates));
-                                        }else {
-                                            Util.toastMsg(responseData.getMsg());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
                                     }
 
