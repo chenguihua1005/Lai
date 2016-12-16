@@ -202,7 +202,7 @@ public class NiceSpinner extends TextView {
 
     /**
      * Set the default spinner item using its index
-     * 
+     *
      * @param position the item's position
      */
     public void setSelectedIndex(int position) {
@@ -233,8 +233,9 @@ public class NiceSpinner extends TextView {
     public void  attachCustomSource(BaseAdapter adapter){
         selectedIndex = 0;
         listView.setAdapter(adapter);
-        //setText(adapter.getItemInDataset(selectedIndex).toString());
+        setAdapterInternal(this.adapter);
     }
+
 
     public void setAdapter(@NonNull ListAdapter adapter) {
         this.adapter = new NiceSpinnerAdapterWrapper(getContext(), adapter, textColor, backgroundSelector);
