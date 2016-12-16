@@ -100,6 +100,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     LinearLayout ll_chuDate;//初始数据录入、审核
     @InjectView(R.id.tv_initData_Name)
     TextView tv_initData_Name;//初始按钮名称
+    @InjectView(R.id.tv_chustatus)
+    TextView tv_chustatus;//初始数据状态
     @InjectView(R.id.reset_name)
     TextView reset_name;//复测录入/复测审核
     @InjectView(R.id.reset_time)
@@ -320,19 +322,43 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 switch (resetstatus) {
                                     case 1://已过去的复测日
                                         ll_fuce.setVisibility(View.VISIBLE);
-                                        if (!model.getRetest()) {
+                                        if(model.getIsRetest()==1){
                                             ll_fuce.setEnabled(false);
                                             reset_time.setText("未复测");
-                                        } else {
+                                        }else if(model.getIsRetest()==2) {
                                             ll_fuce.setEnabled(true);
-                                            reset_time.setText("已复测");
+                                            reset_time.setText("未审核");
+                                        }else if(model.getIsRetest()==3) {
+                                            ll_fuce.setEnabled(true);
+                                            reset_time.setText("已审核");
                                             tag.status=FUCE_FINISH;
                                         }
+
+//                                        if (!model.getRetest()) {
+//                                            ll_fuce.setEnabled(false);
+//                                            reset_time.setText("未复测");
+//                                        } else {
+//                                            ll_fuce.setEnabled(true);
+//                                            reset_time.setText("已复测");
+//                                            tag.status=FUCE_FINISH;
+//                                        }
                                         break;
                                     case 2://进行中的复测日
                                         ll_fuce.setVisibility(View.VISIBLE);
                                         ll_fuce.setEnabled(true);
-                                        reset_time.setText("进行中");
+                                        if(model.getIsRetest()==1){
+                                            ll_fuce.setEnabled(false);
+                                            reset_time.setText("未复测");
+                                            tag.resetstatus=model.getRetestStatus();
+                                        }else if(model.getIsRetest()==2) {
+                                            ll_fuce.setEnabled(true);
+                                            reset_time.setText("未审核");
+                                            tag.resetstatus=model.getRetestStatus();
+                                        }else if(model.getIsRetest()==3) {
+                                            ll_fuce.setEnabled(true);
+                                            reset_time.setText("已审核");
+                                            tag.resetstatus=model.getRetestStatus();
+                                        }
                                         tag.status=FUCEING;
                                         break;
                                     case 3://未开始的复测日
@@ -400,14 +426,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
                     Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
-                    chuDate.putExtra("resetstatus", tag.status);
+                    chuDate.putExtra("firststatus", tag.isfirst);
                     chuDate.putExtra("classId", classid);
                     startActivity(chuDate);
                 }else{
                     com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
-                    chuDate.putExtra("resetstatus", tag.status);
                     chuDate.putExtra("classId", classid);
                     startActivity(chuDate);
                 }
@@ -427,7 +452,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcStuActivity.class);
                     fuce.putExtra("classId", classid);
-                    fuce.putExtra("resetstatus", tag.status);
+                    fuce.putExtra("resetstatus",tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
+                    fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
                     startActivity(fuce);
                 }else {
@@ -435,7 +461,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
                     String str=classid+tag.status+tag.date;
                     fuce.putExtra("classId", classid);
-                    fuce.putExtra("resetstatus", tag.status);
+                    fuce.putExtra("resetdatestatus", tag.status);
                     fuce.putExtra("typeDate", tag.date);
                     startActivity(fuce);
                 }
@@ -506,7 +532,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 tv_initData_Name.setText("初始数据录入");
                                 BtnTag tag=new BtnTag();
                                 tag.role=activitydataModel.getClassRole();
-                                tag.status=activitydataModel.getFirst()?-1:1;//0表示学员还没有初始录入，1表示已经录入过了
+                                if(activitydataModel.getIsFirst()==1){
+                                    tv_chustatus.setText("未录入");
+                                }else if(activitydataModel.getIsFirst()==2){
+                                    tv_chustatus.setText("未审核");
+                                }else if(activitydataModel.getIsFirst()==3){
+                                    tv_chustatus.setText("已审核");
+                                }
+                                tag.isfirst=activitydataModel.getIsFirst();//初始数据录入状态： 1：未录入 2：未审核 3：已审核
                                 tag.date=now;
                                 ll_chuDate.setTag(tag);
                             }else {//非学员
@@ -524,12 +557,23 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         if(activitydataModel.getClassRole()==Constants.STUDENT){//是学员
                                             reset_name.setText("复测录入");
                                             ll_fuce.setBackgroundResource(R.drawable.reset_back);//复测录入背景图
-                                            //学员复测的状态：进行中 已结束 未开始
-                                            reset_time.setText("进行中");
+                                            //学员复测的状态：未复测，未审核，已审核
                                             BtnTag tag=new BtnTag();
-                                            tag.role=activitydataModel.getClassRole();
-                                            tag.status=FUCEING;
-                                            tag.date=now;
+                                            if(activitydataModel.getRetestStatus()==2){//进行中
+                                                tag.role=activitydataModel.getClassRole();
+                                                tag.status=FUCEING;
+                                                tag.date=now;
+                                               if(activitydataModel.getIsRetest()==1){
+                                                   reset_time.setText("未复测");
+                                                   tag.resetstatus=activitydataModel.getIsRetest();
+                                               }else if(activitydataModel.getIsRetest()==2){
+                                                   reset_time.setText("未审核");
+                                                   tag.resetstatus=activitydataModel.getIsRetest();
+                                               }else if(activitydataModel.getIsRetest()==3){
+                                                   reset_time.setText("已审核");
+                                                   tag.resetstatus=activitydataModel.getIsRetest();
+                                               }
+                                            }
                                             ll_fuce.setTag(tag);
                                         }else {//非学员
                                             ll_fuce.setBackgroundResource(R.drawable.reset_update);//复测审核背景图
@@ -696,8 +740,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     static class BtnTag{
         public int role;
-        public int status;
+        public int status;//复测日状态
         public String date;
+        public int isfirst;//初始录入状态
+        public int resetstatus;//复测状态
 
         @Override
         public String toString() {
@@ -705,6 +751,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     "role=" + role +
                     ", status=" + status +
                     ", date='" + date + '\'' +
+                    ", isfirst=" + isfirst +
+                    ", resetstatus=" + resetstatus +
                     '}';
         }
     }

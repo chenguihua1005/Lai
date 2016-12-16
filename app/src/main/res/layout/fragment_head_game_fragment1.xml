@@ -47,17 +47,15 @@
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/light" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/searchContent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_toRightOf="@+id/im_search_bottom"
-                            android:background="@null"
-                            android:cursorVisible="true"
                             android:gravity="center_vertical"
-                            android:hint="输入手机号寻找小伙伴吧"
+                            android:hint="输入姓名或手机号搜索小伙伴吧"
                             android:singleLine="true"
                             android:textSize="12sp"
 
