@@ -301,10 +301,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_yes:
                 if (TextUtils.isEmpty(this.model.groupId)) {
-                    Util.toastMsg("请选择小组！");
+                    Util.toastMsg("请为用户分配小组");
                     return;
                 } else if (this.model.classRole==0) {
-                    Util.toastMsg("请选择角色！");
+                    Util.toastMsg("请为用户分配角色");
                     return;
                 }
                 //确定
