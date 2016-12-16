@@ -217,7 +217,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onError() {
-
+                Log.i("失败");
             }
         });
 
