@@ -22,7 +22,7 @@ public class ImageFileSelector {
     private ImageCompressHelper mImageCompressHelper;
 
     public ImageFileSelector(final Context context) {
-        mImagePickHelper = new ImagePickHelper(context);
+        mImagePickHelper = new ImagePickHelper();
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
             @Override
             public void onSuccess(String file) {

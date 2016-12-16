@@ -31,7 +31,7 @@ public class ImageFileCropSelector {
     }
 
     public ImageFileCropSelector(final Context context) {
-        mImagePickHelper = new ImagePickHelper(context);
+        mImagePickHelper = new ImagePickHelper();
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
             @Override
             public void onSuccess(String file) {
@@ -153,12 +153,12 @@ public class ImageFileCropSelector {
     }
 
     public void selectImage(Activity activity) {
-        mImagePickHelper.selectorImage(activity);
+        mImagePickHelper.selectorMutilImage(activity,1);
         mImageCropperHelper.imageCropper(activity);
     }
 
     public void selectImage(Fragment fragment) {
-        mImagePickHelper.selectImage(fragment);
+        mImagePickHelper.selectorMutilImage(fragment,1);
         mImageCropperHelper.imageCropper(fragment);
     }
 

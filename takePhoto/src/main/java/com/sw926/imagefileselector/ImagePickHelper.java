@@ -2,15 +2,12 @@ package com.sw926.imagefileselector;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.sw926.imagefileselector.ablum.ImageGridActivity;
 
@@ -24,54 +21,53 @@ class ImagePickHelper {
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 0x11;
 
     private Callback mCallback;
-    private Context mContext;
+//    private Context mContext;
 
     private WeakReference<Activity> mActivityWeakReference;
     private WeakReference<Fragment> mFragmentWeakReference;
 
-    private boolean isMutilSelected;//是否是多选
     private int limit;
 
-    public ImagePickHelper(Context context) {
-        mContext = context;
+    public ImagePickHelper() {
+
     }
 
     public void setCallback(Callback callback) {
         mCallback = callback;
     }
 
-    public void selectImage(Fragment fragment) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                mFragmentWeakReference = new WeakReference<>(fragment);
-                fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+//    public void selectImage(Fragment fragment) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                mFragmentWeakReference = new WeakReference<>(fragment);
+//                fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+//
+//            } else {
+//                doSelect(fragment);
+//            }
+//        } else {
+//            doSelect(fragment);
+//        }
+//    }
 
-            } else {
-                doSelect(fragment);
-            }
-        } else {
-            doSelect(fragment);
-        }
-    }
-
-    public void selectorImage(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                //申请WRITE_EXTERNAL_STORAGE权限
-                mActivityWeakReference = new WeakReference<>(activity);
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
-
-            } else {
-                doSelect(activity);
-            }
-        } else {
-            doSelect(activity);
-        }
-    }
+//    public void selectorImage(Activity activity) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                //申请WRITE_EXTERNAL_STORAGE权限
+//                mActivityWeakReference = new WeakReference<>(activity);
+//                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+//
+//            } else {
+//                doSelect(activity);
+//            }
+//        } else {
+//            doSelect(activity);
+//        }
+//    }
 
     public void selectorMutilImage(Fragment fragment,int limit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,23 +108,20 @@ class ImagePickHelper {
 
     private void doSelect(Activity activity,int limit){
         if(limit<=1){
-            isMutilSelected=false;
-            selectorImage(activity);
-        }else {
-            isMutilSelected=true;
-            activity.startActivityForResult(new Intent(activity,
-                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+            limit=1;
+            //selectorImage(activity);
         }
+        activity.startActivityForResult(new Intent(activity,
+                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+
     }
     private void doSelect(Fragment fragment,int limit){
         if(limit<=1){
-            isMutilSelected=false;
-            selectImage(fragment);
-        }else {
-            isMutilSelected=true;
-            fragment.startActivityForResult(new Intent(fragment.getContext(),
-                    ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
+            limit=1;
+//            selectImage(fragment);
         }
+        fragment.startActivityForResult(new Intent(fragment.getContext(),
+                ImageGridActivity.class).putExtra("limit",limit),SELECT_PIC);
     }
     private void doSelect(Activity activity) {
         Intent intent = createIntent();
@@ -153,20 +146,20 @@ class ImagePickHelper {
             return;
         }
         if (requestCode == SELECT_PIC) {
-            if(!isMutilSelected){
-                Uri uri = intent.getData();
-                String path = Compatibility.getPath(mContext, uri);
-                if (mCallback != null) {
-                    mCallback.onSuccess(path);
-                }
-
-            }else {//是多选
-                List<String> imgs=intent.getStringArrayListExtra("imgs");
-                Log.i("选择照片返回","返回回来啦。选择的相片数量为+++"+imgs.size());
-                if (mCallback != null) {
-                    mCallback.onMutilSussess(imgs);
-                }
+            List<String> imgs=intent.getStringArrayListExtra("imgs");
+            if (mCallback != null) {
+                mCallback.onMutilSussess(imgs);
             }
+//            if(!isMutilSelected){
+//                Uri uri = intent.getData();
+//                String path = Compatibility.getPath(mContext, uri);
+//                if (mCallback != null) {
+//                    mCallback.onSuccess(path);
+//                }
+//
+//            }else {//是多选
+//
+//            }
         }
     }
 
