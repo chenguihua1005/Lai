@@ -109,7 +109,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
         refreshableView.addHeaderView(view);
         listHonorrank.setAdapter(honorGroupRankAdapter);
-        listHonorrank.setEmptyView(ll_no_data);
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -194,6 +193,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             groupModelList.clear();
             newAdapter();
             listHonorrank.setAdapter(honorGroupRankAdapter);
+            listHonorrank.setEmptyView(ll_no_data);
             return;
         }
 
@@ -233,7 +233,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                         setImage(civ_top2, topModel.getUserIconUrl());
                         break;
                     case "3":
-                        tv_top3_name.setText(topModel.getLossPer());
+                        tv_top3_name.setText(topModel.getUserName());
                         tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
                         setImage(civ_top3, topModel.getUserIconUrl());
                         break;

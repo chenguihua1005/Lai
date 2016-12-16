@@ -87,7 +87,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     private FcStDataModel fcStDataModel;
     private MeasuredDetailsModel measuredDetailsModel;
     int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入、学员初始数据录入,3复测未审核，4复测已审核
-
+    boolean IsEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +114,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         fcStDataModel = (FcStDataModel) getIntent().getSerializableExtra("retestWrite");
         measuredDetailsModel=(MeasuredDetailsModel)getIntent().getSerializableExtra("initaudit") ;
         Audited=getIntent().getIntExtra("Audited",0);
+        IsEdit=getIntent().getBooleanExtra("IsEdit",false);
+        if (!IsEdit)
+        {
+            btn_retest_save.setVisibility(View.GONE);
+        }
         switch (Audited)
         {
             //初始数据未审核

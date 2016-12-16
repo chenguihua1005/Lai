@@ -126,7 +126,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
     String files;
-    int FcStatus,resetstatus;
+    int resetstatus,resetdatestatus;
+    boolean IsEdit=true;
     @Override
     protected void initViews() {
         tv_title.setText("复测录入");
@@ -172,8 +173,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         classId=getIntent().getStringExtra("classId");
         typeDate=getIntent().getStringExtra("typeDate");
         userId=UserInfoModel.getInstance().getUserId();
-        FcStatus=getIntent().getIntExtra("FcStatus",0);//接收数据审核状态
-        resetstatus=getIntent().getIntExtra("resetstatus",0);
+        resetstatus=getIntent().getIntExtra("resetstatus",0);//接收数据审核状态,//复测状态：1：未复测 2：未审核 3：已复测
+        resetdatestatus=getIntent().getIntExtra("resetdatestatus",0);//接收复测日状态//复测日状态  1:已过去 2：进行中 3：未开始
         doData();
         multipartTypedOutput=new MultipartTypedOutput();
         if (fcStDataModel!=null)
@@ -188,20 +189,58 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        //resetstatus=2,未当天复测日，可进行录入，type=1（复测录入）
-        //resetstatus=1,过去复测日，可进行查看，type=2（复测查看）
-        switch (resetstatus)
+        //resetdatestatus=2,未当天复测日，可进行录入，type=1（复测录入）
+        //resetdatestatus=1,过去复测日，可进行查看，type=2（复测查看）
+        //复测状态：1：未复测 2：未审核 3：已复测resetstatus
+        switch (resetdatestatus)
         {
             case 1:
+                switch (resetstatus)
+                {
+                    case 1:
+                    case 2:
+                        Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
+                        btn_retest_write_addbody.setVisibility(View.GONE);
+                        break;
+                    case 3:
+                        tv_right.setVisibility(View.INVISIBLE);
+                        fl_right.setEnabled(false);
+                        IsEdit=false;
+                        doGetDataService("0");
+                        break;
+                }
+
+                break;
+            case 2:
+                switch (resetstatus)
+                {
+                    case 1:
+                    case 2:
+                        doGetDataService("1");
+                        break;
+                    case 3:
+                        tv_right.setVisibility(View.INVISIBLE);
+                        IsEdit=false;
+                        fl_right.setEnabled(false);
+                        doGetDataService("0");
+                        break;
+                }
+                break;
+            default:
+                Util.toastMsg("当前复测日未开始不可查看录入数据");
+                btn_retest_write_addbody.setVisibility(View.GONE);
                 tv_right.setVisibility(View.INVISIBLE);
                 fl_right.setEnabled(false);
                 break;
-            case 2:
-                break;
-            default:
-                break;
         }
-        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, resetstatus==2?"1":"2", new RequestCallback<ResponseData<FcStDataModel>>() {
+
+
+
+    }
+
+    private void doGetDataService(String type)
+    {
+        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();
@@ -217,10 +256,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         });
-
     }
-
-
 
     @Override
     public void onClick(View view) {
@@ -258,6 +294,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 Intent intent=new Intent(this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",fcStDataModel);
                 intent.putExtra("Audited",2);
+                intent.putExtra("IsEdit",IsEdit);
                 startActivityForResult(intent,GET_BODY);
                 break;
             //拍照事件

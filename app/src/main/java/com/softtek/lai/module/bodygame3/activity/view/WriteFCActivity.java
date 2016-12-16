@@ -156,7 +156,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     String files,type;
     FcStDataModel fcStDataModel;
     String photourl,typeDate;
-    int resetstatus;
+    int firststatus;
+    boolean IsEdit=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,6 +175,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         context=this;
+        tv_right.setText("保存");
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
@@ -186,17 +188,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         title.setText("初始数据录入");//设置标题栏标题
         classId=getIntent().getStringExtra("classId");
         typeDate=getIntent().getStringExtra("typeDate");
-        resetstatus=getIntent().getIntExtra("resetstatus",0);
-        if (resetstatus==1)
-        {
-            type="3";
+        firststatus=getIntent().getIntExtra("firststatus",0);//接收数据审核状态,//初始数据状态：1：未录入 2：未审核 3：已复测
 
-        }
-        else if (resetstatus==2)
-        {
-            type="0";
-            tv_right.setText("保存");//保存数据
-        }
 
         userId=UserInfoModel.getInstance().getUserId();
         Log.i("classid"+classId+"typedata"+typeDate);
@@ -311,6 +304,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",fcStDataModel);
                 intent.putExtra("Audited",2);
+                intent.putExtra("IsEdit",IsEdit);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
@@ -460,6 +454,29 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         * 获取初始基本数据
         * */
     private void doGetInfo() {
+        //初始数据状态：1：未录入 2：未审核 3：firststatus
+        switch (firststatus)
+        {
+            case 1:
+                doGetDataService("0");
+                break;
+            case 2:
+                doGetDataService("0");
+                break;
+            default:
+                tv_right.setVisibility(View.INVISIBLE);
+                im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+                btn_retest_write_addbody.setText("查看身体围度");
+                IsEdit=false;
+                doGetDataService("3");
+                break;
+        }
+
+
+
+    }
+    private void doGetDataService(String type)
+    {
         service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
@@ -476,7 +493,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
-
     }
     /*
     * 获取数据值
@@ -486,11 +502,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         if (fcStDataModel!=null)
         {
             try {
-                if ("3".equals(fcStDataModel.getStatus()))
-                {
-                    tv_right.setText("");
-                    tv_right.setEnabled(false);
-                }
+
                 final String url= AddressManager.get("photoHost");
                 tv_write_nick.setText(fcStDataModel.getUserName());//设置用户名
                 tv_write_phone.setText(fcStDataModel.getMobile());//手机号
