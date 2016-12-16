@@ -138,7 +138,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 tv_hot_num.setText(data.getThemeHot());
                 CircleImageView cir_title=holder.getView(R.id.cir_title);
                 final CheckBox ck_select=holder.getView(R.id.ck_select);
-
+                ck_select.setEnabled(false);
                 RelativeLayout re_oc=holder.getView(R.id.re_oc);
                 if (!TextUtils.isEmpty(data.getThemePhoto()))
                 {
@@ -287,7 +287,16 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void onSuccess(String file) {
-
+        limit--;
+        UploadImage image=new UploadImage();
+        File outFile=new File(file);
+        image.setImage(outFile);
+        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+        images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
