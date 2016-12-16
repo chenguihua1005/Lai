@@ -103,14 +103,15 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         if (classModel != null) {
             String end_date = classModel.getEndDate();
             long CoachId = classModel.getCoachId();
+            int dismiss_status = classModel.getStatus();
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
             if (CoachId == UserInfoModel.getInstance().getUserId()) {
                 btn_dismissclass.setVisibility(View.VISIBLE);
-                if (StringToDate(end_date).before(getNowDate())) {
+                if (1 == dismiss_status) {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
                     btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
-                } else {
+                } else if (0 == dismiss_status) {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
                     btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                     btn_dismissclass.setEnabled(false);
@@ -144,7 +145,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             //从会话群进入 ,  需要调用环信群id查询班级信息
             if (!TextUtils.isEmpty(toChatUsername)) {
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, new Callback<ResponseData<ContactClassModel>>() {
+                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<ContactClassModel>>() {
                     @Override
                     public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
                         int status = contactClassModelResponseData.getStatus();
@@ -159,12 +160,13 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 //                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
 //                                    btn_dismissclass.setVisibility(View.VISIBLE);
 //                                }
+                                int dismiss_status = classModel.getStatus();
                                 if (CoachId == UserInfoModel.getInstance().getUserId()) {
                                     btn_dismissclass.setVisibility(View.VISIBLE);
-                                    if (StringToDate(end_date).before(getNowDate())) {
+                                    if (1 == dismiss_status) {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
                                         btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
-                                    } else {
+                                    } else if (0 == dismiss_status) {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
                                         btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                                         btn_dismissclass.setEnabled(false);

@@ -17,11 +17,12 @@ import com.softtek.lai.R;
 public class ContactMenuAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
+    private int count;
 
     private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
     private String[] menu_names = {"班级群", "新朋友", "群发消息"};
 
-    public ContactMenuAdapter(Context mContext) {
+    public ContactMenuAdapter(Context mContext, int count) {
         this.mContext = mContext;
         this.inflater = LayoutInflater.from(mContext);
     }
@@ -29,6 +30,11 @@ public class ContactMenuAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    public void updateCount(int count) {
+        this.count = count;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,7 +52,7 @@ public class ContactMenuAdapter extends BaseAdapter {
         ViewHolder holder = null;
 
         if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.contact_menu_item, null);
+            view = LayoutInflater.from(mContext).inflate(R.layout.contact_menu_itemmy, viewGroup, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
         } else {
@@ -55,6 +61,10 @@ public class ContactMenuAdapter extends BaseAdapter {
 
         holder.menu_icon.setImageResource(menu_icons[i]);
         holder.menu_name.setText(menu_names[i]);
+        if (1 == i) {
+            holder.unread_msg_number.setVisibility(View.VISIBLE);
+            holder.unread_msg_number.setText(String.valueOf(count));
+        }
         if (2 == i) {
             holder.shuxian.setVisibility(View.GONE);
         }
@@ -67,10 +77,12 @@ public class ContactMenuAdapter extends BaseAdapter {
             menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
             menu_name = (TextView) view.findViewById(R.id.menu_name);
             shuxian = view.findViewById(R.id.shuxian);
+            unread_msg_number = (TextView) view.findViewById(R.id.unread_msg_number);
         }
 
-        ImageView menu_icon;
-        TextView menu_name;
-        View shuxian;
+        private ImageView menu_icon;
+        private TextView menu_name;
+        private View shuxian;
+        private TextView unread_msg_number;
     }
 }
