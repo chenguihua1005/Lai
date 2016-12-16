@@ -347,7 +347,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         ll_fuce.setVisibility(View.VISIBLE);
                                         ll_fuce.setEnabled(true);
                                         if(model.getIsRetest()==1){
-                                            ll_fuce.setEnabled(false);
+                                            ll_fuce.setEnabled(true);
                                             reset_time.setText("未复测");
                                             tag.resetstatus=model.getRetestStatus();
                                         }else if(model.getIsRetest()==2) {
