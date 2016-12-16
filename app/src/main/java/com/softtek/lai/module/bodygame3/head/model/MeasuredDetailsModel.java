@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import java.io.Serializable;
+
 /**
  * Created by 87356 on 2016/12/3.
  */
-public class MeasuredDetailsModel {
+public class MeasuredDetailsModel implements Serializable{
     private String WeekNum;//周数
     private String TypeDate;//日期
     private String Image;//图片
@@ -22,6 +24,13 @@ public class MeasuredDetailsModel {
     private String UpArmGirth;//上臂围
     private String UpLegGirth;//大腿围
     private String DoLegGirth;//小腿围
+    private String AMStatus;
+    private String Gender;
+    private String StartDate;
+    private String EndDate;
+    private String MeasureDate;
+    private String Img;
+    private String ImgThumbnail;
 
     @Override
     public String toString() {
@@ -44,8 +53,82 @@ public class MeasuredDetailsModel {
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", AMStatus='" + AMStatus + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", StartDate='" + StartDate + '\'' +
+                ", EndDate='" + EndDate + '\'' +
+                ", MeasureDate='" + MeasureDate + '\'' +
+                ", Img='" + Img + '\'' +
+                ", ImgThumbnail='" + ImgThumbnail + '\'' +
+                ", Status='" + Status + '\'' +
                 '}';
     }
+
+    public String getAMStatus() {
+        return AMStatus;
+    }
+
+    public void setAMStatus(String AMStatus) {
+        this.AMStatus = AMStatus;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
+    }
+
+    public String getStartDate() {
+        return StartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
+
+    public String getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(String endDate) {
+        EndDate = endDate;
+    }
+
+    public String getMeasureDate() {
+        return MeasureDate;
+    }
+
+    public void setMeasureDate(String measureDate) {
+        MeasureDate = measureDate;
+    }
+
+    public String getImg() {
+        return Img;
+    }
+
+    public void setImg(String img) {
+        Img = img;
+    }
+
+    public String getImgThumbnail() {
+        return ImgThumbnail;
+    }
+
+    public void setImgThumbnail(String imgThumbnail) {
+        ImgThumbnail = imgThumbnail;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    private String Status;
 
     public String getWeekNum() {
         return WeekNum;

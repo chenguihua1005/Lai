@@ -1,27 +1,301 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
+import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.io.File;
+
+import butterknife.InjectView;
+import retrofit.client.Response;
+import retrofit.mime.MultipartTypedOutput;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by Terry on 2016/12/3.
  */
 
 @InjectLayout(R.layout.activity_initwrite)
-public class FcAuditStuActivity extends BaseActivity {
+public class FcAuditStuActivity extends BaseActivity implements View.OnClickListener{
+    @InjectView(R.id.iv_write_head)
+    ImageView iv_write_head;
+    @InjectView(R.id.tv_write_nick)
+    TextView tv_write_nick;
+    @InjectView(R.id.tv_write_phone)
+            TextView tv_write_phone;
+    @InjectView(R.id.tv_retest_write_weekth)
+            TextView tv_retest_write_weekth;
+    @InjectView(R.id.tv_write_starm)
+            TextView tv_write_starm;
+    @InjectView(R.id.tv_write_stard)
+    TextView tv_write_stard;
+    @InjectView(R.id.tv_write_endm)
+    TextView tv_write_endm;
+    @InjectView(R.id.tv_write_endd)
+    TextView tv_write_endd;
+    @InjectView(R.id.tv_write_class)
+    TextView tv_write_class;
+    @InjectView(R.id.tv_write)
+    TextView tv_write;
+    @InjectView(R.id.tv_write_chu_weight)
+    TextView tv_write_chu_weight;
+    @InjectView(R.id.tv_retestWrite_nowweight)
+    TextView tv_retestWrite_nowweight;
+    @InjectView(R.id.tv_retestWrite_tizhi)
+    TextView tv_retestWrite_tizhi;
+    @InjectView(R.id.tv_retestWrite_neizhi)
+    TextView tv_retestWrite_neizhi;
+    @InjectView(R.id.im_retestwrite_takephoto)
+    ImageView im_retestwrite_takephoto;
+    @InjectView(R.id.im_retestwrite_showphoto)
+    ImageView im_retestwrite_showphoto;
+    @InjectView(R.id.im_delete)
+    ImageView im_delete;
+    @InjectView(R.id.btn_retest_write_addbody)
+    Button btn_retest_write_addbody;
+
+    @InjectView(R.id.tv_title)
+            TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    @InjectView(R.id.tv_right)
+            TextView tv_right;
+
     FuceSevice fuceSevice;
+    MeasuredDetailsModel measuredDetailsModel;
+    private ImageFileCropSelector imageFileCropSelector;
+    private static final int BODY=3;
+    private static final int GET_BODY=1;
+    private int IsAudit;
+
+    private CharSequence[] items={"拍照","从相册选择照片"};
+
+
+    FcStDataModel fcStDataModel;
+    Long accountId;
+    String acmId,classId;
+    String files;
     @Override
     protected void initViews() {
+        tv_title.setText("复测录入");
+        tv_write.setText("初始体重");
+        ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
+        im_retestwrite_takephoto.setOnClickListener(this);
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        btn_retest_write_addbody.setOnClickListener(this);
+        imageFileCropSelector.setQuality(50);
+        imageFileCropSelector.setOutPutAspect(1,1);
+        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                im_delete.setVisibility(View.VISIBLE);
+                Picasso.with(FcAuditStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+                files=file;
 
+                Log.i(files);
+//                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-//        fuceSevice.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(),).
+        acmId=getIntent().getStringExtra("ACMId");
+        accountId= getIntent().getLongExtra("accountId",0);
+        classId=getIntent().getStringExtra("classId");
+        IsAudit=getIntent().getIntExtra("IsAudit",0);
+        doData();
+    }
+    private void doData()
+    {
+        fuceSevice.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(), acmId, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
+            @Override
+            public void success(ResponseData<MeasuredDetailsModel> measuredDetailsModelResponseData, Response response) {
+                int status=measuredDetailsModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        measuredDetailsModel=measuredDetailsModelResponseData.getData();
+                        doSetData();
+                        break;
+                    default:
+                        Util.toastMsg(measuredDetailsModelResponseData.getMsg());
+                        break;
+                }
+            }
+        });
+    }
+
+    private void doSetData()
+    {
+        if (measuredDetailsModel!=null) {
+            String url= AddressManager.getUrl("photoHost");
+            if (!TextUtils.isEmpty(measuredDetailsModel.getPhoto()))
+            {
+                Picasso.with(this).load(url+measuredDetailsModel.getPhoto()).fit().into(iv_write_head);
+            }
+            if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail()))
+            {
+                Picasso.with(this).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);
+            }
+
+            tv_write_class.setText(measuredDetailsModel.getClassName());
+            tv_write_nick.setText(measuredDetailsModel.getUserName());
+            tv_write_phone.setText(measuredDetailsModel.getMobile());
+            tv_retest_write_weekth.setText(measuredDetailsModel.getWeekNum());
+            if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate()))
+            {
+                String[] stardate=measuredDetailsModel.getStartDate().split("-");
+                String[] stardate1=stardate[2].split(" ");
+                tv_write_starm.setText(Long.parseLong(stardate[1])+"");
+                tv_write_stard.setText(Long.parseLong(stardate1[0])+"");
+            }
+            if (!TextUtils.isEmpty(measuredDetailsModel.getEndDate()))
+            {
+                String[] enddate=measuredDetailsModel.getEndDate().split("-");
+                String[] enddate1=enddate[2].split(" ");
+                tv_write_endm.setText(Long.parseLong(enddate[1])+"");
+                tv_write_endd.setText(Long.parseLong(enddate1[0])+"");
+            }
+            tv_write_chu_weight.setText("0.0".equals(measuredDetailsModel.getInitWeight())?"":measuredDetailsModel.getInitWeight());
+            tv_retestWrite_nowweight.setText("0.0".equals(measuredDetailsModel.getWeight())?"":measuredDetailsModel.getWeight());
+            tv_retestWrite_tizhi.setText("0.0".equals(measuredDetailsModel.getPysical())?"":measuredDetailsModel.getPysical());
+            tv_retestWrite_neizhi.setText("0.0".equals(measuredDetailsModel.getFat())?"":measuredDetailsModel.getFat());
+
+        }
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        //身体围度值传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
+            fcStDataModel=(FcStDataModel) data.getSerializableExtra("retestWrite");
+            Log.i("新学员录入围度:retestWrite"+fcStDataModel);
+        }
+        if (requestCode==BODY&&resultCode==RESULT_OK){
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+                    } else if (which == 1) {
+                        //照片
+                        imageFileCropSelector.selectImage(FcAuditStuActivity.this);
+                    }
+                }
+            }).create().show();
+            Log.d("debug", "不是第一次运行");
+        }
+    }
+    private static final int CAMERA_PREMISSION=100;
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.ll_left:
+                finish();
+                break;
+            //保存
+            case R.id.tv_right:
+                break;
+            case R.id.im_delete:
+                im_retestwrite_showphoto.setVisibility(View.GONE);
+                im_delete.setVisibility(View.GONE);
+                files="";
+                break;
+            //添加身体围度
+            case R.id.btn_retest_write_addbody:
+                Intent intent=new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
+                intent.putExtra("retestWrite",measuredDetailsModel);
+                intent.putExtra("Audited",IsAudit==0?"3":"4");
+                startActivityForResult(intent,GET_BODY);
+                break;
+            case R.id.im_retestwrite_takephoto:
+                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
+                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (isFirstRun)
+                {
+                    Intent intent1=new Intent(this,GuideActivity.class);
+                    startActivityForResult(intent1,BODY);
+                    Log.d("debug", "第一次运行");
+                    editor.putBoolean("isFirstRun", false);
+                    editor.commit();
+                } else
+                {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                if(ActivityCompat.checkSelfPermission(FcAuditStuActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                    if(ActivityCompat.shouldShowRequestPermissionRationale(FcAuditStuActivity.this,Manifest.permission.CAMERA)){
+                                        //允许弹出提示
+                                        ActivityCompat.requestPermissions(FcAuditStuActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                    }else{
+                                        //不允许弹出提示
+                                        ActivityCompat.requestPermissions(FcAuditStuActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                    }
+                                }else {
+                                    imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+                                }
+                            } else if (which == 1) {
+                                imageFileCropSelector.selectImage(FcAuditStuActivity.this);
+                            }
+                        }
+                    }).create().show();
+                    Log.d("debug", "不是第一次运行");
+                }
+
+
+                break;
+        }
     }
 }

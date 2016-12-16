@@ -233,7 +233,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                     List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
                     for (EMGroup group : grouplist) {
                         String groupId = group.getGroupId();
-                        Log.i(TAG, "groupId= " + groupId);
 //                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
 //                        Log.i(TAG, " 解散成功！" + groupId);
                     }

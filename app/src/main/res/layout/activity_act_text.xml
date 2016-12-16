@@ -104,20 +104,20 @@
     <TextView
         android:id="@+id/tv_count"
         android:layout_width="357dp"
-        android:text="仅限十五个字"
+        android:text=""
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content" />
 
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="确定"
-        android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_dismissclass"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="确定"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="15sp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@drawable/btn_dismissclass"/>-->
 
 </LinearLayout>

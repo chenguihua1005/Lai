@@ -153,9 +153,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     Long userId;//用户id
     String classId=" ";//班级id
     Context context;
-    String files;
+    String files,type;
     FcStDataModel fcStDataModel;
     String photourl,typeDate;
+    int resetstatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,9 +184,20 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initDatas() {
         title.setText("初始数据录入");//设置标题栏标题
-        tv_right.setText("保存");//保存数据
         classId=getIntent().getStringExtra("classId");
         typeDate=getIntent().getStringExtra("typeDate");
+        resetstatus=getIntent().getIntExtra("resetstatus",0);
+        if (resetstatus==1)
+        {
+            type="3";
+
+        }
+        else if (resetstatus==2)
+        {
+            type="0";
+            tv_right.setText("保存");//保存数据
+        }
+
         userId=UserInfoModel.getInstance().getUserId();
         Log.i("classid"+classId+"typedata"+typeDate);
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -298,7 +310,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteFCActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",fcStDataModel);
-                intent.putExtra("type",1);
+                intent.putExtra("Audited",2);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_retestWrite_chu_weight:
@@ -448,7 +460,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         * 获取初始基本数据
         * */
     private void doGetInfo() {
-        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, "0", new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status=fcStDataModelResponseData.getStatus();

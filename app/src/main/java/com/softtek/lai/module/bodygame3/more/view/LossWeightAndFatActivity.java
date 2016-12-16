@@ -55,7 +55,7 @@ public class LossWeightAndFatActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        tv_title.setText("体馆赛等级");
+        tv_title.setText("减重等级");
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +153,7 @@ public class LossWeightAndFatActivity extends BaseActivity {
         tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
         tv_fat_level.setText("Z");
         tv_fat_level.append(""+data.getFatLevel());
-        tv_fat_level_des.setText("当前减重等级为W"+data.getFatLevel());
+        tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
         List<LossWeightAndFat.LossWeightLevel> weightLevels=data.getLossWeightLevelList();
         List<LossWeightAndFat.LossFatLevel> fatLevels=data.getLossFatLevelList();
         for (int i=0;i<models.size();i++){
@@ -232,7 +232,7 @@ public class LossWeightAndFatActivity extends BaseActivity {
         model5.setFatLlevel(fat5);
         weight5.setLevel(5);
         fat5.setLevel(5);
-        models.add(model4);
+        models.add(model5);
 
         WeightAndFat model6=new WeightAndFat();
         LevelModel weight6=new LevelModel();

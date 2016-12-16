@@ -186,6 +186,11 @@ public class ArrowSpinner3 extends TextView{
     public void setSelected(int index){
         selectedIndex=index;
         setText(adapter.getText(index));
+        if(adapter.getCount()>0){
+            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        }else {
+            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

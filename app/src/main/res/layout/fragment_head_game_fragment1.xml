@@ -176,7 +176,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="A组"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -192,7 +192,7 @@
                                 android:id="@+id/jianzhongbi_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="总减重29斤"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
                         </LinearLayout>
@@ -236,7 +236,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
+                            <com.softtek.lai.widgets.CircleImageView
                                 android:id="@+id/iv_studenticon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp" />
@@ -246,7 +246,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="小米"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -262,7 +262,7 @@
                                 android:id="@+id/student_jianzhong"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="减重29斤"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
 
@@ -271,7 +271,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:text="减脂4%"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
 
@@ -441,19 +441,6 @@
                     android:paddingTop="10dp"
                     android:visibility="visible">
 
-                    <!--<HorizontalScrollView-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:scrollbars="none">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:id="@+id/grally"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:layout_marginRight="15dp"-->
-                    <!--android:orientation="horizontal">-->
                     <com.softtek.lai.widgets.HorizontalListView
                         android:id="@+id/photos"
                         android:layout_width="match_parent"
@@ -469,33 +456,7 @@
                         android:background="@color/white"
                         android:gravity="center"
                         android:text="暂无动态"
-                        android:visibility="visible" />
-
-
-                    <!--<com.softtek.lai.widgets.CustomGridView-->
-                    <!--android:id="@+id/photos"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:columnWidth="110dp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:horizontalSpacing="3dp"-->
-                    <!--android:numColumns="3"-->
-                    <!--android:scrollbars="none"-->
-                    <!--android:stretchMode="none"-->
-                    <!--android:verticalSpacing="3dp" />-->
-
-                    <!--<GridView-->
-                    <!--android:id="@+id/grid_list"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="75dp"-->
-                    <!--android:columnWidth="110dp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:horizontalSpacing="15dp"-->
-                    <!--android:numColumns="3"-->
-                    <!--android:stretchMode="spacingWidthUniform"-->
-                    <!--android:visibility="gone" />-->
-                    <!--</LinearLayout>-->
-                    <!--</HorizontalScrollView>-->
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -505,7 +466,7 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingTop="12dp"
+
                  >
 
                     <LinearLayout
@@ -515,7 +476,7 @@
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingTop="12dp"
+                        android:paddingTop="3dp"
                         android:visibility="visible">
 
                         <com.softtek.lai.widgets.CircleImageView
@@ -523,7 +484,7 @@
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_marginLeft="10sp"
-                            android:paddingBottom="8dp"
+                            android:layout_marginBottom="1dp"
                             android:src="@drawable/img_default" />
 
                         <TextView
@@ -553,6 +514,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=""
+                                android:layout_marginLeft="8dp"
                                 android:textColor="@color/word"
                                 android:textSize="11sp" />
                         </LinearLayout>
@@ -566,7 +528,7 @@
                         android:background="@color/white"
                         android:gravity="center"
                         android:text="暂无评论"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -576,7 +538,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:background="@color/white"
-
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
@@ -585,6 +546,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="班级赛况"
+                      android:layout_centerVertical="true"
                     android:textColor="@color/word"
                     android:textSize="13dp" />
 
@@ -593,12 +555,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/spinner_title"
-                    android:paddingTop="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/jianzhong_iv" />
 
                 <com.ggx.widgets.nicespinner.ArrowSpinner2
                     android:id="@+id/spinner_title"
                     android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
