@@ -117,6 +117,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         switch (Audited)
         {
             //初始数据未审核
+            case 3:
             case 0:
                 try {
                     if (measuredDetailsModel != null) {
@@ -132,6 +133,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             //初始数据已审核
+            case 4:
             case 1:
                 btn_retest_save.setVisibility(View.GONE);
                 try {
@@ -162,10 +164,8 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 break;
-            case 3:
-                break;
-            case 4:
-                break;
+
+
         }
 
 

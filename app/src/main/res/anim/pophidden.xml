@@ -4,12 +4,13 @@
   ~ Date:2016-03-31
   -->
 
-<set xmlns:android="http://schemas.android.com/apk/res/android">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_interpolator">
 
-    <!--<translate
+    <translate
             android:duration="500"
             android:fromXDelta="0"
-            android:toXDelta="50%p"/>-->
+            android:toXDelta="50%p"/>
 
     <alpha
             android:duration="500"

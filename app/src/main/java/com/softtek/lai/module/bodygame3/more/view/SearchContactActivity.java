@@ -39,6 +39,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_search_contact)
 public class SearchContactActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
@@ -75,6 +76,10 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号/资格证号</font>"));
                         return false;
+                    }else if(edit.getText().toString().equals(UserInfoModel.getInstance().getUser().getMobile())){
+                        edit.requestFocus();
+                        edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
+                        return false;
                     }
                     pb.setVisibility(View.VISIBLE);
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -96,6 +101,8 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                                     }
                                                     contacts.addAll(data.getData());
                                                     adapter.notifyDataSetChanged();
+                                                }else {
+                                                    Util.toastMsg(data.getMsg());
                                                 }
                                             }
                                         }

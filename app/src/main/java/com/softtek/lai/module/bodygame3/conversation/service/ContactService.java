@@ -1,9 +1,9 @@
 package com.softtek.lai.module.bodygame3.conversation.service;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public interface ContactService {
             @Header("token") String token,
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
-            Callback<ResponseData<List<ChatContactModel>>> callback
+            Callback<ResponseData<ContactListModel>> callback
     );
 
 
@@ -124,6 +124,7 @@ public interface ContactService {
     void getClassByHxGroupId(
             @Header("token") String token,
             @Query("hxGroupId") String hxGroupId,
+            @Query("accountId") long accountId,
             Callback<ResponseData<ContactClassModel>> callback
     );
 

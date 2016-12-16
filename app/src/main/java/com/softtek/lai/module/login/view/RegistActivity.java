@@ -186,11 +186,10 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             Util.toastMsg("请先勾选用户协议");
             return;
         }
+        btn_regist.setEnabled(false);
         final String phoneNum = et_phone.getText().toString();
         final String password = et_password.getText().toString();
 
-
-        Log.i(TAG, "HXAccountId =" + MD5.md5WithEncoder(phoneNum).toLowerCase());
         // 欢心环信注册
         new Thread(new Runnable() {
             @Override
@@ -198,11 +197,11 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 // call method in SDK
                 try {
                     EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
-                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify);
+                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                     if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
-                        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify);
+                        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
                     }
                 }
 

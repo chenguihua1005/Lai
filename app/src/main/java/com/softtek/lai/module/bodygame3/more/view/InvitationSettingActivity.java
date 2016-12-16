@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -85,7 +86,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
         ll_left.setOnClickListener(this);
-        tv_invitation.setOnClickListener(this);
+
     }
 
     @Override
@@ -108,9 +109,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             public void success(ResponseData<ClassInvitater> data, Response response) {
                                 dialogDissmiss();
                                 Log.i("数据=" + data);
-                                if (data.getStatus() == 200 || data.getStatus() == 201) {
+                                if (data.getStatus() == 200) {
                                     try {
-                                        onResult(data.getData(), data.getStatus());
+                                        onResult(data.getData());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -125,7 +126,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         });
     }
 
-    private void onResult(ClassInvitater invitater, int status) {
+    private void onResult(ClassInvitater invitater) {
         this.classInvitater = invitater;
         invitater.setClassId(invitater.getClassId());
         if (!TextUtils.isEmpty(invitater.getInviterPhoto())) {
@@ -143,19 +144,21 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         tv_class_name.setText(invitater.getClassName());
         tv_create_time.setText(invitater.getStartDate()/*DateUtil.getInstance(DateUtil.yyyy_MM_dd).convertDateStr(invitater.getStartDate(), "yyyy年MM月dd日")*/);
         tv_number.setText(invitater.getClassCode());
-        ClassGroup group = invitater.getClassGroupList().get(0);
-        ClassRole role = invitater.getClassRole().get(0);
-        if (status == 201) {
-            tv_group_name.setText(group.getCGName());
+        if (invitater.getIsCurrentClassMember() == 1) {//在当前班级
+            tv_group_name.setText(invitater.getCurrentClassGroup());
             tv_group_name.setCompoundDrawables(null, null, null, null);
-            this.invitation.setClassGroupId(group.getCGId());
-            tv_role.setText(role.getRoleName());
-            this.invitation.setClassRole(role.getRoleId());
+            tv_role.setText(invitater.getCurrentClassRole());
             tv_role.setCompoundDrawables(null, null, null, null);
-            tv_invitation.setVisibility(View.GONE);
-        } else {
+            tv_invitation.setEnabled(false);
+            tv_invitation.setText("小伙伴已经加入该班级");
             tv_invitation.setVisibility(View.VISIBLE);
-
+        } else if (invitater.getIsCurrentClassMember() == 0){//不再当前班级
+            tv_invitation.setEnabled(true);
+            tv_invitation.setOnClickListener(this);
+            tv_invitation.setVisibility(View.VISIBLE);
+            tv_invitation.setText("给小伙伴发送邀请吧");
+            tv_group_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
+            tv_role.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
             rl_group.setOnClickListener(this);
             rl_role.setOnClickListener(this);
         }

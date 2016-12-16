@@ -80,6 +80,10 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     private String toChatUsername;//环信群id 或者个人Id
 
 
+    private String HXGroupId = "";
+    private String ClassId = "";
+
+
     @Override
     protected void initViews() {
         if (DisplayUtil.getSDKInt() > 18) {
@@ -103,14 +107,20 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         if (classModel != null) {
             String end_date = classModel.getEndDate();
             long CoachId = classModel.getCoachId();
+            int dismiss_status = classModel.getStatus();
+
+            HXGroupId = classModel.getHXGroupId();
+            ClassId = classModel.getClassId();
+
+            Log.i(TAG,"HXGroupId = " +HXGroupId +" ClassId = " + ClassId);
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
             if (CoachId == UserInfoModel.getInstance().getUserId()) {
                 btn_dismissclass.setVisibility(View.VISIBLE);
-                if (StringToDate(end_date).before(getNowDate())) {
+                if (1 == dismiss_status) {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
                     btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
-                } else {
+                } else if (0 == dismiss_status) {
                     btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
                     btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                     btn_dismissclass.setEnabled(false);
@@ -144,7 +154,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             //从会话群进入 ,  需要调用环信群id查询班级信息
             if (!TextUtils.isEmpty(toChatUsername)) {
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, new Callback<ResponseData<ContactClassModel>>() {
+                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<ContactClassModel>>() {
                     @Override
                     public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
                         int status = contactClassModelResponseData.getStatus();
@@ -154,17 +164,23 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                             if (classModel != null) {
                                 String end_date = classModel.getEndDate();
                                 long CoachId = classModel.getCoachId();
-                                Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
+
+                                HXGroupId = toChatUsername;
+                                ClassId = classModel.getClassId();
+
+                                Log.i(TAG,"HXGroupId = " +HXGroupId +" ClassId = " + ClassId);
+
 
 //                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
 //                                    btn_dismissclass.setVisibility(View.VISIBLE);
 //                                }
+                                int dismiss_status = classModel.getStatus();
                                 if (CoachId == UserInfoModel.getInstance().getUserId()) {
                                     btn_dismissclass.setVisibility(View.VISIBLE);
-                                    if (StringToDate(end_date).before(getNowDate())) {
+                                    if (1 == dismiss_status) {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass);
                                         btn_dismissclass.setText(getResources().getString(R.string.please_dismiss_class));
-                                    } else {
+                                    } else if (0 == dismiss_status) {
                                         btn_dismissclass.setBackgroundResource(R.drawable.btn_dismissclass_gray);
                                         btn_dismissclass.setText(getResources().getString(R.string.please_close_class));
                                         btn_dismissclass.setEnabled(false);
@@ -254,17 +270,17 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     //解散班级
     private void dissolutionHxGroup() {
-        Log.i(TAG, "classModel.getClassId() = " + classModel.getClassId() + " classModel.getHXGroupId() = " + classModel.getHXGroupId());
+        Log.i(TAG, "ClassId() = " + ClassId + " classModel.getHXGroupId() = " + HXGroupId );
         final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
         dialogShow(getResources().getString(R.string.Is_sending_a_request));
 
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    EMClient.getInstance().groupManager().destroyGroup(classModel.getHXGroupId());//需异步处理
+                    EMClient.getInstance().groupManager().destroyGroup(HXGroupId);//需异步处理
 
                     ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                    service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), classModel.getClassId(), new Callback<ResponseData>() {
+                    service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), ClassId, new Callback<ResponseData>() {
                         @Override
                         public void success(final ResponseData responseData, Response response) {
                             int status = responseData.getStatus();

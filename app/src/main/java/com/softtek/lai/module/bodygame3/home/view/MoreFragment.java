@@ -78,7 +78,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     }
 
     private int classCount=0;
-
+    private ClassModel model;
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
@@ -167,6 +167,11 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         }
     }
 
+    @Override
+    public void doSelected(ClassModel model) {
+        this.model=model;
+    }
+
     @Subscribe
     public void updateClass(UpdateClass clazz) {
          if(classCount==0&&clazz.getStatus()==1){
@@ -199,6 +204,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                     classCount=listResponseData.getData().size();
                                     Bundle bundle=new Bundle();
                                     bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
+                                    if(model!=null){
+                                        bundle.putParcelable("classModel",model);
+                                    }
                                     fragment.setArguments(bundle);
                                     getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
                                 }else {

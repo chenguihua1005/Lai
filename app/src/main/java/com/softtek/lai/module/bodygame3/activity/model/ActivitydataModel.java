@@ -12,11 +12,11 @@ import java.util.List;
  */
 
 public class ActivitydataModel  {
-    private Boolean IsFirst;//是否录入过初始数据
+    private int IsFirst;//是否录入过初始数据
     private List<ActCalendarModel> list_ActCalendar;
     private int ClassRole;//角色
     private int Num;//人数
-    private Boolean IsRetest;//是否复测
+    private int IsRetest;//是否复测
     private int RetestStatus;
     private List<TodayactModel> list_Activity;
     private List<ClassModel> list_Class;
@@ -37,13 +37,7 @@ public class ActivitydataModel  {
         RetestStatus = retestStatus;
     }
 
-    public Boolean getFirst() {
-        return IsFirst;
-    }
 
-    public void setFirst(Boolean first) {
-        IsFirst = first;
-    }
 
     public List<ActCalendarModel> getList_ActCalendar() {
         return list_ActCalendar;
@@ -69,12 +63,20 @@ public class ActivitydataModel  {
         Num = num;
     }
 
-    public Boolean getRetest() {
+    public int getIsFirst() {
+        return IsFirst;
+    }
+
+    public void setIsFirst(int isFirst) {
+        IsFirst = isFirst;
+    }
+
+    public int getIsRetest() {
         return IsRetest;
     }
 
-    public void setRetest(Boolean retest) {
-        IsRetest = retest;
+    public void setIsRetest(int isRetest) {
+        IsRetest = isRetest;
     }
 
     public List<TodayactModel> getList_Activity() {

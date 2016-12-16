@@ -18,6 +18,42 @@ public class ClassInvitater {
     private String InviterName;
     private String InviterMobile;
     private String ClassGroupHxId;
+    private int IsCurrentClassMember;
+    private String CurrentClassGroup;
+    private String CurrentCGId;
+    private String CurrentClassRole;
+
+    public int getIsCurrentClassMember() {
+        return IsCurrentClassMember;
+    }
+
+    public void setIsCurrentClassMember(int isCurrentClassMember) {
+        IsCurrentClassMember = isCurrentClassMember;
+    }
+
+    public String getCurrentClassGroup() {
+        return CurrentClassGroup;
+    }
+
+    public void setCurrentClassGroup(String currentClassGroup) {
+        CurrentClassGroup = currentClassGroup;
+    }
+
+    public String getCurrentCGId() {
+        return CurrentCGId;
+    }
+
+    public void setCurrentCGId(String currentCGId) {
+        CurrentCGId = currentCGId;
+    }
+
+    public String getCurrentClassRole() {
+        return CurrentClassRole;
+    }
+
+    public void setCurrentClassRole(String currentClassRole) {
+        CurrentClassRole = currentClassRole;
+    }
 
     public String getClassGroupHxId() {
         return ClassGroupHxId;
