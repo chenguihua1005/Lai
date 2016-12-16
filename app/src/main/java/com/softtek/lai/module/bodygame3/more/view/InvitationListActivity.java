@@ -1,6 +1,8 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -79,30 +81,13 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             }
         });
         pageIndex=1;
-        dialogShow("加载中...");
-        ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getInvitatedContactList(
-                        UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        classId,
-                        20, pageIndex,
-                        new RequestCallback<ResponseData<List<InvitatedContact>>>() {
-                            @Override
-                            public void success(ResponseData<List<InvitatedContact>> data, Response response) {
-                                dialogDissmiss();
-                                lv.onRefreshComplete();
-                                if(data.getStatus()==200){
-                                    onResult(data.getData());
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                dialogDissmiss();
-                            }
-                        });
-
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (lv != null)
+                    lv.setRefreshing();
+            }
+        },400);
     }
     Map<String,List<InvitatedContact>> datas=new HashMap<>();
     private List<String> groups=new ArrayList<>();
@@ -164,11 +149,15 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                         new RequestCallback<ResponseData<List<InvitatedContact>>>() {
                             @Override
                             public void success(ResponseData<List<InvitatedContact>> data, Response response) {
-                                lv.onRefreshComplete();
-                                if(data.getStatus()==200){
-                                    groups.clear();
-                                    datas.clear();
-                                    onResult(data.getData());
+                                try {
+                                    lv.onRefreshComplete();
+                                    if(data.getStatus()==200){
+                                        groups.clear();
+                                        datas.clear();
+                                        onResult(data.getData());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
                         });
@@ -207,9 +196,13 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                         new RequestCallback<ResponseData<List<InvitatedContact>>>() {
                             @Override
                             public void success(ResponseData<List<InvitatedContact>> data, Response response) {
-                                lv.onRefreshComplete();
-                                if(data.getStatus()==200){
-                                    onResult(data.getData());
+                                try {
+                                    lv.onRefreshComplete();
+                                    if(data.getStatus()==200){
+                                        onResult(data.getData());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
                         });

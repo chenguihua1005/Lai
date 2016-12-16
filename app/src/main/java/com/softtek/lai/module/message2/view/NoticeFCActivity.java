@@ -201,10 +201,14 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void onResult(List<NoticeModel> data){
-        tv_right.setText("编辑");
-        fl_right.setOnClickListener(this);
-        operatList.addAll(data);
-        adapter.notifyDataSetChanged();
+        try {
+            tv_right.setText("编辑");
+            fl_right.setOnClickListener(this);
+            operatList.addAll(data);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

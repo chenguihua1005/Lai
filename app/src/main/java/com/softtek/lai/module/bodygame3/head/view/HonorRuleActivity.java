@@ -1,8 +1,10 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.ProgressDialog;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,9 +25,11 @@ public class HonorRuleActivity extends BaseActivity {
     WebView wv_honor_rule;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    private ProgressDialog dialog;
 
     @Override
     protected void initViews() {
+        dialog = ProgressDialog.show(this, null, "页面加载中，请稍后..");
         tv_title.setText(R.string.rule);
         wv_honor_rule.getSettings().setJavaScriptEnabled(true);// 开启jacascript
         wv_honor_rule.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);// 支持通过JS打开新窗口
@@ -43,6 +47,15 @@ public class HonorRuleActivity extends BaseActivity {
         //自适应屏幕
         wv_honor_rule.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         wv_honor_rule.getSettings().setLoadWithOverviewMode(true);
+
+        //
+        wv_honor_rule.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     @Override

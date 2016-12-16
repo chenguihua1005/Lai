@@ -125,7 +125,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new ContactFragment());
         fragments.add(new ActivityFragment());
         fragments.add(new MoreFragment());
-        content.setOffscreenPageLimit(4);
+        content.setOffscreenPageLimit(5);
         adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
 

@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
@@ -125,34 +124,38 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     }
 
     public void onResult(InvitationConfirmShow show) {
-        this.show = show;
-        tv_invitater_name.setText(show.getSender());
-        tv_head_coach_name.setText(show.getClassMasterName());
-        if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
-            Picasso.with(this).load(R.drawable.img_default).into(head_image);
-        } else {
-            Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).fit()
-                    .error(R.drawable.img_default)
-                    .placeholder(R.drawable.img_default).into(head_image);
-        }
-        tv_class_name.setText(show.getClassName());
-        tv_class_code.setText(show.getClassCode());
-        tv_first_time.setText(show.getClassStart());
-        int role = show.getClassRole();
-        tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-        tv_group_name.setText(show.getCGName());
-
-        if (show.getMsgStatus() == 0) {
-            btn_yes.setVisibility(View.VISIBLE);
-            btn_no.setVisibility(View.VISIBLE);
-            cb_term.setEnabled(true);
-        }else {
-            cb_term.setEnabled(false);
-            if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
-                tv_aixin_phone.setText(show.getIntroducerMobile());
-            }else {
-                tv_aixin_phone.setText("无");
+        try {
+            this.show = show;
+            tv_invitater_name.setText(show.getSender());
+            tv_head_coach_name.setText(show.getClassMasterName());
+            if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
+                Picasso.with(this).load(R.drawable.img_default).into(head_image);
+            } else {
+                Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).fit()
+                        .error(R.drawable.img_default)
+                        .placeholder(R.drawable.img_default).into(head_image);
             }
+            tv_class_name.setText(show.getClassName());
+            tv_class_code.setText(show.getClassCode());
+            tv_first_time.setText(show.getClassStart());
+            int role = show.getClassRole();
+            tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+            tv_group_name.setText(show.getCGName());
+
+            if (show.getMsgStatus() == 0) {
+                btn_yes.setVisibility(View.VISIBLE);
+                btn_no.setVisibility(View.VISIBLE);
+                cb_term.setEnabled(true);
+            }else {
+                cb_term.setEnabled(false);
+                if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
+                    tv_aixin_phone.setText(show.getIntroducerMobile());
+                }else {
+                    tv_aixin_phone.setText("无");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -172,8 +175,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 dialogShow();
-                final String str2 = getResources().getString(R.string.Has_agreed_to);
-                final String str3 = getResources().getString(R.string.Agree_with_failure);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -202,17 +203,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 EventBus.getDefault().post(new UpdateClass(1, model));
                                                 setResult(RESULT_OK);
                                                 finish();
-                                                (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Util.toastMsg(str2);
-                                                    }
-                                                });
                                             } else {// 此时需要环信剔除处理
                                                 (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        Util.toastMsg(str3 + responseData.getMsg());
+                                                        Util.toastMsg(responseData.getMsg());
                                                     }
                                                 });
                                                 try {
@@ -223,31 +218,27 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 }
                                             }
                                         }
-
                                         @Override
                                         public void failure(final RetrofitError error) {
-                                            dialogDissmiss();
-                                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
+                                            runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Util.toastMsg(str3 + error.getMessage());
+                                                    dialogDissmiss();
                                                 }
                                             });
                                             super.failure(error);
                                         }
                                     });
 
-
-                        } catch (final HyphenateException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            MessageConfirmActivity.this.runOnUiThread(new Runnable() {
+                        } finally {
+                            runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Util.toastMsg(str3 + e.getMessage());
+                                    dialogDissmiss();
                                 }
                             });
-                        } finally {
-                            dialogDissmiss();
                         }
                     }
                 }).start();

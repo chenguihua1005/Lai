@@ -10,13 +10,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
-@SuppressWarnings("unused")
 class ImageCaptureHelper {
 
     private static final String KEY_OUT_PUT_FILE = "key_out_put_file";

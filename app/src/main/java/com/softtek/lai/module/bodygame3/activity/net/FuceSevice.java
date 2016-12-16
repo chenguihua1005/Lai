@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
+import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitAuditPModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
@@ -105,6 +106,13 @@ public interface FuceSevice {
     void doReviewInitData(
             @Header("token") String token,
             @Body InitAuditPModel initAuditPModel,
+            Callback<ResponseData>callback
+            );
+    //复测数据提交审核
+    @POST("api/v1/MeasuredRecordLog/ReviewMeasuredRecord")
+    void doReviewMeasuredRecord(
+            @Header("token") String token,
+            @Body FcAuditPostModel fcAuditPostModel,
             Callback<ResponseData>callback
             );
 

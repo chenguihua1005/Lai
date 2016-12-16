@@ -9,23 +9,15 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -74,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        //设置显示系统菜单键
 //        try {
 //            getWindow().addFlags(WindowManager.LayoutParams.class.getField("FLAG_NEEDS_MENU_KEY").getInt(null));
 //        } catch (NoSuchFieldException e) {
@@ -82,7 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //            Log.w("feelyou.info", "Could not access FLAG_NEEDS_MENU_KEY in addLegacyOverflowButton()", e);
 //        }
         ButterKnife.inject(this);
-        LogManager.getManager(getApplicationContext()).registerActivity(this);
+        //LogManager.getManager(getApplicationContext()).registerActivity(this);
         initViews();
         initDatas();
         //有盟统计
@@ -151,7 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
-        LogManager.getManager(getApplicationContext()).unregisterActivity(this);
+        //LogManager.getManager(getApplicationContext()).unregisterActivity(this);
         super.onDestroy();
         //LaiApplication.getInstance().getContext().clear();
     }
@@ -201,34 +194,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void showPopupWindow() {
-
-        // 一个自定义的布局，作为显示的内容
-        View contentView = LayoutInflater.from(this).inflate(
-                R.layout.menu_pop, null);
-        // 设置按钮的点击事件
-        Button button = (Button) contentView.findViewById(R.id.btn);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(BaseActivity.this, "button is pressed",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        final PopupWindow popupWindow = new PopupWindow(contentView,
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setFocusable(true);
-
-        // 实例化一个ColorDrawable颜色为半透明
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x47000000));
-        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
-        popupWindow.showAtLocation(this.findViewById(android.R.id.content),
-                Gravity.BOTTOM, 0, 0);
-
-    }
 
 }

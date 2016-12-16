@@ -196,14 +196,14 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 break;
             case R.id.tv_invitation:
                 if (TextUtils.isEmpty(invitation.getClassGroupId())) {
-                    Util.toastMsg("请选择小组！");
+                    Util.toastMsg("请为用户分配小组");
                     return;
                 } else if (invitation.getClassRole() == 0) {
-                    Util.toastMsg("请选择角色！");
+                    Util.toastMsg("请为用户分配角色");
                     return;
                 }
                 if (TextUtils.isEmpty(inviterHXId)) {
-                    Util.toastMsg("无法邀请此用户！");
+                    Util.toastMsg("无法邀请此用户");
                     return;
                 } else {
                     dialogShow(getResources().getString(R.string.Is_sending_a_request));
