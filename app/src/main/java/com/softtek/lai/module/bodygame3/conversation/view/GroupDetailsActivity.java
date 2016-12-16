@@ -132,15 +132,11 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
         members.clear();
         String token = UserInfoModel.getInstance().getToken();
 
-        Log.i(TAG, "token = " + token);
-        Log.i(TAG, "classId = " + classId);
         try {
             ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
             service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
                 @Override
                 public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
-
-                    Log.i(TAG, "listResponseData = " + new Gson().toJson(listResponseData));
                     classListInfoModel = listResponseData.getData();
                     if (classListInfoModel != null) {
                         members.addAll(classListInfoModel.getContactList());

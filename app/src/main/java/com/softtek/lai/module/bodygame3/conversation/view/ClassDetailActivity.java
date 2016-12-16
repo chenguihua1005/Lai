@@ -112,7 +112,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             HXGroupId = classModel.getHXGroupId();
             ClassId = classModel.getClassId();
 
-            Log.i(TAG,"HXGroupId = " +HXGroupId +" ClassId = " + ClassId);
+            Log.i(TAG, "HXGroupId = " + HXGroupId + " ClassId = " + ClassId);
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
             if (CoachId == UserInfoModel.getInstance().getUserId()) {
@@ -127,14 +127,6 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 }
             }
 
-//            if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
-//                btn_dismissclass.setVisibility(View.VISIBLE);
-//            }
-//            else {
-//                btn_dismissclass.setVisibility(View.GONE);
-//            btn_dismissclass.setText("您尚未关闭班级");
-//            btn_dismissclass.setBackgroundResource(R.drawable.btn_disable);
-//            }
             coach_name.setText(classModel.getCoachName());
             tv_classname.setText(classModel.getClassName());
             tv_classNo.setText(classModel.getClassCode());
@@ -168,12 +160,8 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                 HXGroupId = toChatUsername;
                                 ClassId = classModel.getClassId();
 
-                                Log.i(TAG,"HXGroupId = " +HXGroupId +" ClassId = " + ClassId);
+                                Log.i(TAG, "HXGroupId = " + HXGroupId + " ClassId = " + ClassId);
 
-
-//                                if (CoachId == UserInfoModel.getInstance().getUserId() && StringToDate(end_date).before(getNowDate())) {
-//                                    btn_dismissclass.setVisibility(View.VISIBLE);
-//                                }
                                 int dismiss_status = classModel.getStatus();
                                 if (CoachId == UserInfoModel.getInstance().getUserId()) {
                                     btn_dismissclass.setVisibility(View.VISIBLE);
@@ -270,7 +258,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     //解散班级
     private void dissolutionHxGroup() {
-        Log.i(TAG, "ClassId() = " + ClassId + " classModel.getHXGroupId() = " + HXGroupId );
+        Log.i(TAG, "ClassId() = " + ClassId + " classModel.getHXGroupId() = " + HXGroupId);
         final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
         dialogShow(getResources().getString(R.string.Is_sending_a_request));
 
