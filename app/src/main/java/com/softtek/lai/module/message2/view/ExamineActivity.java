@@ -212,14 +212,18 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 if (checkedPosition != -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
-                        ClassGroup group = classGroupList.get(checkedPosition);
-                        tv_group_name.setText(group.getCGName());
-                        model.groupId = group.getCGId();
+                        if(checkedPosition<classGroupList.size()){
+                            ClassGroup group = classGroupList.get(checkedPosition);
+                            tv_group_name.setText(group.getCGName());
+                            model.groupId = group.getCGId();
+                        }
                     } else {
-                        checkedGroup = checkedPosition;
-                        ClassRole role = classRole.get(checkedPosition);
-                        tv_role_name.setText(role.getRoleName());
-                        model.classRole = role.getRoleId();
+                        checkedRole = checkedPosition;
+                        if(checkedPosition<classRole.size()){
+                            ClassRole role = classRole.get(checkedPosition);
+                            tv_role_name.setText(role.getRoleName());
+                            model.classRole = role.getRoleId();
+                        }
                     }
                 }
                 dialog.dismiss();
@@ -343,7 +347,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                         @Override
                                                         public void run() {
                                                             dialogDissmiss();
-                                                            Util.toastMsg("加人成功！");
+                                                            Util.toastMsg("加人成功");
                                                         }
                                                     });
 
@@ -358,7 +362,6 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                         @Override
                                                         public void run() {
                                                             dialogDissmiss();
-                                                            Util.toastMsg("加人成功！");
                                                         }
                                                     });
 
@@ -372,7 +375,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                 @Override
                                 public void run() {
                                     dialogDissmiss();
-                                    Util.toastMsg("加人失败！");
+                                    Util.toastMsg("加人失败");
                                 }
                             });
                         }
