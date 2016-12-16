@@ -29,6 +29,7 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.ggx.widgets.nicespinner.NiceSpinner;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -180,19 +181,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-        searchContent.setOnClickListener(this);
-        re_honor.setOnClickListener(this);
-        week_rel.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
-        ll_left.setOnClickListener(this);
-        honor_lin.setOnClickListener(this);
-        re_photowall.setOnClickListener(this);
-        re_search_bottom.setOnClickListener(this);
-        refresh.setOnRefreshListener(this);
-        service = ZillaApi.NormalRestAdapter.create(HeadService.class);
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        searchContent.setOnClickListener(this);
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -203,6 +191,18 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
+        searchContent.setOnClickListener(this);
+        re_honor.setOnClickListener(this);
+        week_rel.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        honor_lin.setOnClickListener(this);
+        re_photowall.setOnClickListener(this);
+        re_search_bottom.setOnClickListener(this);
+        refresh.setOnRefreshListener(this);
+        service = ZillaApi.NormalRestAdapter.create(HeadService.class);
+        searchContent.setOnClickListener(this);
+
 
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -251,7 +251,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public String getText(int position) {
                 //根据position返回当前值给标题
-
                 return datas.get(position).getTypename();
             }
         });
@@ -804,6 +803,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         classModels.clear();
         getallfirst();
         gethasemail();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
+        gethasemail();
+        getallfirst();
 
     }
 
