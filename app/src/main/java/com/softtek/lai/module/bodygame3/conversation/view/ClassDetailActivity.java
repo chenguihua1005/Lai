@@ -36,6 +36,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 2016/11/29.
@@ -105,6 +106,8 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         Log.i(TAG, "classModel = " + new Gson().toJson(classModel) + " toChatUsername = " + toChatUsername);
 
         if (classModel != null) {
+            dialogShow();
+
             String end_date = classModel.getEndDate();
             long CoachId = classModel.getCoachId();
             int dismiss_status = classModel.getStatus();
@@ -130,7 +133,11 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             coach_name.setText(classModel.getCoachName());
             tv_classname.setText(classModel.getClassName());
             tv_classNo.setText(classModel.getClassCode());
-            tv_classStart_time.setText(classModel.getStartDate());
+
+            if (!TextUtils.isEmpty(classModel.getStartDate())) {
+                String[] arr = classModel.getStartDate().split(" ");
+                tv_classStart_time.setText(arr[0]);
+            }
             tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
 
             String photo = classModel.getCoachPhoto();
@@ -141,15 +148,18 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 Picasso.with(this).load(path + photo).fit().error(R.drawable.img_default).into(coach_img);
             }
 
+            dialogDissmiss();
 
         } else {
             //从会话群进入 ,  需要调用环信群id查询班级信息
+            dialogShow();
             if (!TextUtils.isEmpty(toChatUsername)) {
                 ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
                 service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<ContactClassModel>>() {
                     @Override
                     public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
                         int status = contactClassModelResponseData.getStatus();
+
                         if (200 == status) {
                             classModel = contactClassModelResponseData.getData();
                             Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
@@ -186,14 +196,25 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                 coach_name.setText(classModel.getCoachName());
                                 tv_classname.setText(classModel.getClassName());
                                 tv_classNo.setText(classModel.getClassCode());
-                                tv_classStart_time.setText(classModel.getStartDate());
+//                                tv_classStart_time.setText(classModel.getStartDate());
+                                if (!TextUtils.isEmpty(classModel.getStartDate())) {
+                                    String[] arr = classModel.getStartDate().split(" ");
+                                    tv_classStart_time.setText(arr[0]);
+                                }
+
                                 tv_members_accout.setText(String.valueOf(classModel.getTotal()) + "人");
                             }
+
+                            dialogDissmiss();
+                        } else {
+                            Util.toastMsg(contactClassModelResponseData.getMsg());
+                            dialogDissmiss();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        dialogDissmiss();
                         ZillaApi.dealNetError(error);
                     }
                 });

@@ -5,7 +5,6 @@ package com.softtek.lai.module.bodygame3.conversation.database;
  */
 
 public class ContactTable {
-
     public static final String TABLE_NAME = "ContactTable";
     public static final String _ID = "_id";
     public static final String Mobile = "Mobile";
