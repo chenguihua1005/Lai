@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.home.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -142,6 +143,11 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_join_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole())
+                        &&classCount>0){
+                    new AlertDialog.Builder(getContext()).setMessage("您当前无法加入其他班级").setPositiveButton("确定",null).show();
+                    return;
+                }
                 startActivity(new Intent(getContext(), SearchClassActivity.class));
             }
         });
@@ -197,28 +203,36 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                         , new RequestCallback<ResponseData<List<ClassModel>>>() {
                             @Override
                             public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-                                refresh.setRefreshing(false);
-                                if (listResponseData.getData() != null
-                                        && !listResponseData.getData().isEmpty()) {
-                                    MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
-                                    classCount=listResponseData.getData().size();
-                                    Bundle bundle=new Bundle();
-                                    bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
-                                    if(model!=null){
-                                        bundle.putParcelable("classModel",model);
+                                try {
+                                    refresh.setRefreshing(false);
+                                    if (listResponseData.getData() != null
+                                            && !listResponseData.getData().isEmpty()) {
+                                        MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
+                                        classCount=listResponseData.getData().size();
+                                        Bundle bundle=new Bundle();
+                                        bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
+                                        if(model!=null){
+                                            bundle.putParcelable("classModel",model);
+                                        }
+                                        fragment.setArguments(bundle);
+                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
+                                    }else {
+                                        //没有班级的样式
+                                        classCount=0;
+                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
                                     }
-                                    fragment.setArguments(bundle);
-                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
-                                }else {
-                                    //没有班级的样式
-                                    classCount=0;
-                                    getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                refresh.setRefreshing(false);
+                                try {
+                                    refresh.setRefreshing(false);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 super.failure(error);
                             }
                         });

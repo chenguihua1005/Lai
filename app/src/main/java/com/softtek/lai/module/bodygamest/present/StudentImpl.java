@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.bodygamest.present;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -37,13 +36,8 @@ import zilla.libcore.util.Util;
 public class StudentImpl implements IStudentPresenter {
 
     private StudentService studentService;
-    private Context context;
     private BaseActivity base;
 
-    public StudentImpl(Context context) {
-        this.context = context;
-        studentService = ZillaApi.NormalRestAdapter.create(StudentService.class);
-    }
 
     public StudentImpl(BaseActivity context) {
         this.base = context;
