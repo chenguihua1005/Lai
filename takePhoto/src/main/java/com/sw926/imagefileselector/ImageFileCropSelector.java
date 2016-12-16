@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.io.File;
 import java.util.List;
@@ -31,13 +30,13 @@ public class ImageFileCropSelector {
     }
 
     public ImageFileCropSelector(final Context context) {
-        mImagePickHelper = new ImagePickHelper(context);
+        mImagePickHelper = new ImagePickHelper();
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                Log.i(TAG, "select image from sdcard: " + file);
-                handleResult(file, false);
-            }
+//            @Override
+//            public void onSuccess(String file) {
+//                Log.i(TAG, "select image from sdcard: " + file);
+//                handleResult(file, false);
+//            }
 
             @Override
             public void onMutilSussess(List<String> imgs) {
@@ -153,12 +152,12 @@ public class ImageFileCropSelector {
     }
 
     public void selectImage(Activity activity) {
-        mImagePickHelper.selectorImage(activity);
+        mImagePickHelper.selectorMutilImage(activity,1);
         mImageCropperHelper.imageCropper(activity);
     }
 
     public void selectImage(Fragment fragment) {
-        mImagePickHelper.selectImage(fragment);
+        mImagePickHelper.selectorMutilImage(fragment,1);
         mImageCropperHelper.imageCropper(fragment);
     }
 

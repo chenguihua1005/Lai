@@ -266,8 +266,12 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             }
                         });
                 break;
-            case R.id.rl_aixin:
-                startActivityForResult(new Intent(this, EditorPhoneActivity.class), 100);
+            case R.id.rl_aixin:{
+                Intent intent=new Intent(this, EditorPhoneActivity.class);
+                intent.putExtra("aixin",tv_aixin_phone.getText().toString());
+                startActivityForResult(intent, 100);
+
+            }
                 break;
 
         }

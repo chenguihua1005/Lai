@@ -72,10 +72,8 @@ public class ImageGridActivity extends AppCompatActivity {
             dataList.clear();
             albumList.get(0).isSelected=true;
             dataList.addAll(albumList.get(0).imageList);
-            tv_completed.setEnabled(true);
-        }else {
-            tv_completed.setEnabled(false);
         }
+        tv_completed.setEnabled(false);
         adapter=new ImageAdapter(this,dataList);
         gv_album.setAdapter(adapter);
         gv_album.setOnItemClickListener(new AdapterView.OnItemClickListener() {

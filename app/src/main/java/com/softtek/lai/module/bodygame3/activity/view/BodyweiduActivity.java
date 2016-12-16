@@ -114,10 +114,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         fcStDataModel = (FcStDataModel) getIntent().getSerializableExtra("retestWrite");
         measuredDetailsModel=(MeasuredDetailsModel)getIntent().getSerializableExtra("initaudit") ;
         Audited=getIntent().getIntExtra("Audited",0);
-        IsEdit=getIntent().getBooleanExtra("IsEdit",false);
-        if (!IsEdit)
-        {
-            btn_retest_save.setVisibility(View.GONE);
+        if (Audited==2) {
+            IsEdit = getIntent().getBooleanExtra("IsEdit", false);
+            if (!IsEdit) {
+                btn_retest_save.setVisibility(View.GONE);
+            }
         }
         switch (Audited)
         {

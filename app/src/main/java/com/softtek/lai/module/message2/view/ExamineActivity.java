@@ -147,11 +147,11 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
         tv_class_code.setText(apply.getClassCode());
         tv_class_name.setText(apply.getClassName());
-        if(apply.getClassGroups()!=null){
+        if (apply.getClassGroups() != null) {
             classGroupList.clear();
             classGroupList.addAll(apply.getClassGroups());
         }
-        if (apply.getClassRoles()!=null){
+        if (apply.getClassRoles() != null) {
             classRole.clear();
             classRole.addAll(apply.getClassRoles());
         }
@@ -245,8 +245,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    private List<ClassGroup> classGroupList=new ArrayList<>();
-    private List<ClassRole> classRole=new ArrayList<>();
+    private List<ClassGroup> classGroupList = new ArrayList<>();
+    private List<ClassRole> classRole = new ArrayList<>();
 
     @Override
     public void onClick(View view) {
@@ -303,10 +303,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_yes:
                 if (TextUtils.isEmpty(this.model.groupId)) {
-                    Util.toastMsg("请选择小组！");
+                    Util.toastMsg("请为用户分配小组");
                     return;
                 } else if (this.model.classRole == 0) {
-                    Util.toastMsg("请选择角色！");
+                    Util.toastMsg("请为用户分配角色");
                     return;
                 }
                 //确定
