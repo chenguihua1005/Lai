@@ -233,6 +233,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
+                        setResult(RESULT_OK);
                         finish();
                     }
 
@@ -249,6 +250,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 Util.toastMsg(responseData.getMsg());
+                                setResult(RESULT_OK);
                                 finish();
                             }
 
@@ -259,6 +261,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.ll_left:
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
