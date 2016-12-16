@@ -131,7 +131,6 @@ public class ArrowSpinner3 extends TextView{
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(DEFAULT_ELEVATION);
-
         }
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
 
@@ -195,6 +194,10 @@ public class ArrowSpinner3 extends TextView{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(adapter!=null&&adapter.getCount()>5){
+            int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 215, getContext().getResources().getDisplayMetrics());
+            popupWindow.setHeight(defPopWidthValue);
+        }
     }
 
     @Override

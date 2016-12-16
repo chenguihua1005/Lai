@@ -61,6 +61,8 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
         tv_title.setText("添加爱心学员");
         et_value.setHint("输入爱心学员手机号");
         tv_right.setText("确认");
+        String value=getIntent().getStringExtra("aixin");
+        et_value.setText(value);
         et_value.setInputType(InputType.TYPE_CLASS_PHONE);
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override

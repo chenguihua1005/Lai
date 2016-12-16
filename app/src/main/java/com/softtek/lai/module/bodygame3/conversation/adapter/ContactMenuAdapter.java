@@ -62,13 +62,16 @@ public class ContactMenuAdapter extends BaseAdapter {
         holder.menu_icon.setImageResource(menu_icons[i]);
         holder.menu_name.setText(menu_names[i]);
         if (1 == i) {
-            holder.unread_msg_number.setVisibility(View.VISIBLE);
-            holder.unread_msg_number.setText(String.valueOf(count));
+            if (count > 0) {
+                holder.unread_msg_number.setVisibility(View.VISIBLE);
+                holder.unread_msg_number.setText(String.valueOf(count));
+            } else {
+                holder.unread_msg_number.setVisibility(View.GONE);
+            }
         }
         if (2 == i) {
             holder.shuxian.setVisibility(View.GONE);
         }
-
         return view;
     }
 

@@ -66,7 +66,6 @@ class ImageCompressHelper {
             }
         } else {
             ImageFile srcImageFile = new ImageFile(fileName, deleteSrc);
-            Log.i("开始压缩","llalalalallalalal");
             new CompressTask().execute(srcImageFile);
         }
     }

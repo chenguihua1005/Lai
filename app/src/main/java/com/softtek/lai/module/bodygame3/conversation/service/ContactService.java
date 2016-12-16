@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
+import com.softtek.lai.module.bodygame3.conversation.model.CountModel;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 
 import java.util.List;
@@ -34,6 +35,15 @@ public interface ContactService {
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
             Callback<ResponseData<ContactListModel>> callback
+    );
+
+    //获取未处理好友申请数量
+
+    @GET("/v1/HerbUser/GetFriendPendingCount")
+    void getFriendPendingCount(
+            @Header("token") String token,
+            @Query("accountId") long accountId,
+            Callback<ResponseData<CountModel>> callback
     );
 
 

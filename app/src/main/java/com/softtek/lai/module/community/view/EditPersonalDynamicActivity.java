@@ -263,15 +263,16 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     public void onSuccess(String file) {
-//        UploadImage image=new UploadImage();
-//        File outFile=new File(file);
-//        image.setImage(outFile);
-//        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
-//        images.add(0, image);
-//        if(images.size()==10){
-//            images.remove(9);
-//        }
-//        adapter.notifyDataSetChanged();
+        limit--;
+        UploadImage image=new UploadImage();
+        File outFile=new File(file);
+        image.setImage(outFile);
+        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+        images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

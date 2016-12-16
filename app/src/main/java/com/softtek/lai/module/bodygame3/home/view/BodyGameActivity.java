@@ -29,8 +29,12 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassDao;
+import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -43,13 +47,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_bodygame3)
 public class BodyGameActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "BodyGameActivity";
+
+    List<ContactClassModel> classModels;
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -111,7 +122,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
-
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
@@ -243,6 +253,8 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
             }
         }).start();
+
+
     }
 
     private void setChildProgress(int position, float progress) {
@@ -299,6 +311,45 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initDatas() {
         registerMessageReceiver();
+
+        //此处获取群组信息，并缓存在本地
+//        getContactGroups();
+
+    }
+
+
+    /**
+     * 获取群聊列表信息（即班级列表）
+     */
+    private void getContactGroups() {
+//        ConatctDBHelper helper = new ConatctDBHelper(getApplicationContext());
+//        helper.deleteDatabase(getApplicationContext());
+
+        try {
+            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+            service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
+                @Override
+                public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
+                    int status = listResponseData.getStatus();
+                    if (200 == status) {
+                        classModels = listResponseData.getData();
+                        ClassDao classDao = new ClassDao(BodyGameActivity.this);
+                        classDao.clearClassTab();
+                        classDao.insert(classModels);
+                    } else {
+                        Util.toastMsg(listResponseData.getMsg());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    ZillaApi.dealNetError(error);
+                    error.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

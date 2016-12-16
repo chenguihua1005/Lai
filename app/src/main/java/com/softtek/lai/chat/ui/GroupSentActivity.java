@@ -128,9 +128,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                             LaiApplication.getInstance().startActivity(intent);
                         }
                     }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
+            Dialog dialog = builder.create();
+            if (!isFinishing()) {
+                if (dialog != null && !dialog.isShowing()) {
                     dialog.show();
                 }
             }
@@ -425,9 +425,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactModel model) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        if (chatUserModel != null) {
+            message.setAttribute("nickname", chatUserModel.getUserName());
+            message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+            message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        }
 
         //发送消息
 //        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
@@ -442,9 +444,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     protected void setProfile(EMConversation conversation, ChatContactModel model) {
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        String name = model.getUserName();
-        String photo = model.getPhoto();
-        conversation.setExtField(name + "," + path + photo);
+        if (model != null) {
+            String name = model.getUserName();
+            String photo = model.getPhoto();
+            conversation.setExtField(name + "," + path + photo);
+        }
     }
 
     /**

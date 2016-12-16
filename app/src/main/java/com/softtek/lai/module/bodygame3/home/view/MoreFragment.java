@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -182,7 +181,6 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     public void updateClass(UpdateClass clazz) {
          if(classCount==0&&clazz.getStatus()==1){
              classCount+=1;
-             Log.i("新班级添加了");
             //添加新班级
              MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
              Bundle bundle=new Bundle();
@@ -215,11 +213,11 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                             bundle.putParcelable("classModel",model);
                                         }
                                         fragment.setArguments(bundle);
-                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commit();
+                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commitAllowingStateLoss();
                                     }else {
                                         //没有班级的样式
                                         classCount=0;
-                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commit();
+                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commitAllowingStateLoss();
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
