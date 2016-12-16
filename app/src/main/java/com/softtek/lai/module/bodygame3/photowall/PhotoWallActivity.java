@@ -239,13 +239,13 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 tv_name.setText(data.getUserName());//用户名
                 CircleImageView civ_header_image = holder.getView(R.id.civ_header_image);
                 if (!TextUtils.isEmpty(data.getUserPhoto())) {//头像
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getUserPhoto())
+                    Picasso.with(PhotoWallActivity.this).load(AddressManager.get("photoHost") + data.getUserPhoto())
                             .fit()
                             .error(R.drawable.img_default)
                             .placeholder(R.drawable.img_default)
                             .into(civ_header_image);
                 } else {
-                    Picasso.with(getParent()).load(R.drawable.img_default)
+                    Picasso.with(PhotoWallActivity.this).load(R.drawable.img_default)
                             .into(civ_header_image);
                 }
                 TextView tv_content = holder.getView(R.id.tv_content);

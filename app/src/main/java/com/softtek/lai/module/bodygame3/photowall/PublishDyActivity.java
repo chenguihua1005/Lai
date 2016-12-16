@@ -104,7 +104,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         tv_title.setText("发布动态");
-        tv_right.setText("发送");
+        tv_right.setText("发布");
     }
 
     @Override
@@ -124,7 +124,9 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 images.add(image);
             }
         }
-        images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
+        if(limit>0){
+            images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
+        }
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
         topicAdapter =new EasyAdapter<TopicModel>(this, topicModels,R.layout.item_topic) {
@@ -152,7 +154,8 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                             String replace="#"+data.getWordKey()+"#";
                             String str=et_content.getText().toString();
                             et_content.setText(str.replace(replace,""));
-                            et_content.setSelection(start-replace.length());
+                            int selection=start-replace.length();
+                            et_content.setSelection(selection<0?0:selection);
                         }else {
                             ck_select.setChecked(true);
                             hasTheme=true;
@@ -273,7 +276,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 int position= data.getIntExtra("position", 0);
                 images.remove(position);
                 if(images.get(images.size()-1).getImage()!=null){
-                    images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+                    images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
                 }
             }
             adapter.notifyDataSetChanged();

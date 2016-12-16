@@ -51,6 +51,7 @@ public class MoreHasFragment extends Fragment {
         this.deleteClass = deleteClass;
     }
 
+
     public static MoreHasFragment getInstance(DeleteClass deleteClass){
         MoreHasFragment fragment=new MoreHasFragment();
         fragment.setDeleteClass(deleteClass);
@@ -68,6 +69,7 @@ public class MoreHasFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.inject(this,view);
         classModels=getArguments().getParcelableArrayList("class");
+        model=getArguments().getParcelable("classModel");
         if (classModels != null && !classModels.isEmpty()) {
             if(model!=null){
                 for (ClassModel model:classModels){
@@ -78,6 +80,9 @@ public class MoreHasFragment extends Fragment {
                 }
             }else {
                 model = classModels.get(0);
+                if(deleteClass!=null){
+                    deleteClass.doSelected(model);
+                }
             }
             int role = model.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
@@ -144,6 +149,9 @@ public class MoreHasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 model = classModels.get(i);
+                if(deleteClass!=null){
+                    deleteClass.doSelected(model);
+                }
                 arrow.setSelected(i);
                 int role = model.getClassRole();
                 tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
@@ -239,5 +247,7 @@ public class MoreHasFragment extends Fragment {
 
     public interface DeleteClass{
         void deletClass(int classCount);
+        void doSelected(ClassModel model);
     }
+
 }

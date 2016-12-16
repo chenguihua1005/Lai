@@ -96,7 +96,9 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 images.add(image);
             }
         }
-        images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+        if(limit>0){
+            images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+        }
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
 
