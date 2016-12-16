@@ -471,7 +471,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-
+                com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
+                lazyLoad();
             }
         }
 
