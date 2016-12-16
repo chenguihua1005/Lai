@@ -166,7 +166,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
         ll_retestWrite_nowweight.setVisibility(View.GONE);
-        im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+
     }
 
 
@@ -177,12 +177,13 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         classId=getIntent().getStringExtra("classId");
         AccountId=getIntent().getLongExtra("AccountId",0);
         ACMID=getIntent().getStringExtra("ACMID");
-        IsAudit=getIntent().getIntExtra("IsAudit",0);
+        IsAudit=getIntent().getIntExtra("Audited",1);
         if (IsAudit==1)
         {
             tv_right.setText("");
             tv_right.setEnabled(false);
             btn_retest_write_addbody.setText("查看身体围度");
+            im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
         }
         else {
             tv_right.setText("保存");//保存数据
@@ -382,8 +383,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
                     photoname=measuredDetailsModel.getImgThumbnail();
-                    SavePic savePic=new SavePic();
-                savePic.GetPicUrl(photoname);
+//                    SavePic savePic=new SavePic();
+//                savePic.GetPicUrl(photoname);
                 }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
