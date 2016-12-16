@@ -144,7 +144,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         }
         tv_phone.setText(apply.getApplyMobile());
         tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert()) ? "未认证" : apply.getApplyCert());
-        tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
+        tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无奶昔天使" : apply.getApplyMLName());
         tv_class_code.setText(apply.getClassCode());
         tv_class_name.setText(apply.getClassName());
         if (apply.getClassGroups() != null) {
@@ -323,9 +323,6 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(hxGroupId);
 
                             Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
-
-//                            EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);//需异步处理
-
                             Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
 
                             // 创建者调用add方法
