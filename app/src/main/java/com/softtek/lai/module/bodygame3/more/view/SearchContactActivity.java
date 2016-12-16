@@ -23,6 +23,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -72,11 +73,14 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                 if(i== EditorInfo.IME_ACTION_SEARCH){
                      /*隐藏软键盘*/
                     SoftInputUtil.hidden(SearchContactActivity.this);
+                    UserModel user=UserInfoModel.getInstance().getUser();
                     if(edit.length()==0){
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号/资格证号</font>"));
                         return false;
-                    }else if(edit.getText().toString().equals(UserInfoModel.getInstance().getUser().getMobile())){
+                    }else if(edit.getText().toString().equals(user.getMobile())||
+                            edit.getText().toString().equals(user.getNickname())||
+                            edit.getText().toString().equals(user.getCertification())){
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
                         return false;
@@ -88,28 +92,36 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                     new RequestCallback<ResponseData<List<Contact>>>() {
                                         @Override
                                         public void success(ResponseData<List<Contact>> data, Response response) {
-                                            pb.setVisibility(View.GONE);
-                                            if(data.getStatus()==200){
-                                                if(data.getData()!=null&&!data.getData().isEmpty()){
-                                                    contacts.clear();
-                                                    Iterator<Contact> itr=data.getData().iterator();
-                                                    while (itr.hasNext()){
-                                                        Contact contact=itr.next();
-                                                        if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
-                                                            itr.remove();
+                                            try {
+                                                pb.setVisibility(View.GONE);
+                                                if(data.getStatus()==200){
+                                                    if(data.getData()!=null&&!data.getData().isEmpty()){
+                                                        contacts.clear();
+                                                        Iterator<Contact> itr=data.getData().iterator();
+                                                        while (itr.hasNext()){
+                                                            Contact contact=itr.next();
+                                                            if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
+                                                                itr.remove();
+                                                            }
                                                         }
+                                                        contacts.addAll(data.getData());
+                                                        adapter.notifyDataSetChanged();
+                                                    }else {
+                                                        Util.toastMsg(data.getMsg());
                                                     }
-                                                    contacts.addAll(data.getData());
-                                                    adapter.notifyDataSetChanged();
-                                                }else {
-                                                    Util.toastMsg(data.getMsg());
                                                 }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
                                             }
                                         }
 
                                         @Override
                                         public void failure(RetrofitError error) {
-                                            pb.setVisibility(View.GONE);
+                                            try {
+                                                pb.setVisibility(View.GONE);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                             super.failure(error);
                                         }
                                     });

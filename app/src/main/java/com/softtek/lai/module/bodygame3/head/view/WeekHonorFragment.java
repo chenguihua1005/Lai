@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
+import com.ggx.widgets.nicespinner.ArrowSpinner4;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -27,6 +27,7 @@ import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
 import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +85,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private TextView tv_top1_per;
     private TextView tv_top2_per;
     private TextView tv_top3_per;
-    private ArrowSpinner2 spinner;
+    private ArrowSpinner4 spinner;
     private HonorRankModel honorRankModel;
 
     List<ListdateModel> spinnerData = new ArrayList<>();
@@ -105,7 +106,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();     //提交的话取消注释
-        ClassId = bundle.getString("classId");
+//        ClassId = bundle.getString("classId");
         selectWeight();
         newAdapter();
         ListView refreshableView = listHonorrank.getRefreshableView();
@@ -119,11 +120,11 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         tv_top1_per = (TextView) view.findViewById(R.id.tv_top1_per);
         tv_top2_per = (TextView) view.findViewById(R.id.tv_top2_per);
         tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
-        spinner = (ArrowSpinner2) view.findViewById(R.id.spinner);
+        spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
 
         refreshableView.addHeaderView(view);
         listHonorrank.setAdapter(honorGroupRankAdapter);
-        listHonorrank.setEmptyView(ll_no_data);
+
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -134,7 +135,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i!=1){
+                if (i != 1) {
                     Intent intent = new Intent(getContext(), GroupRankingActivity.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
@@ -231,6 +232,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             groupModelList.clear();
             newAdapter();
             listHonorrank.setAdapter(honorGroupRankAdapter);
+            listHonorrank.setEmptyView(ll_no_data);
             return;
         }
         //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
@@ -244,13 +246,21 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                         loadData(false);
                     }
                 }, 500);
-                //不加判断，下面的数据添加两边
                 spinnerData.clear();
                 spinnerData = model.getList_date();
                 for (int i = spinnerData.size() - 1; i >= 0; i--) {
                     spinnerData2.add(spinnerData.get(i).getDateName());
                 }
                 spinner.attachCustomSource(spinnerAdapter);
+                //动态设置下拉框的高度
+                switch (spinnerData.size()) {
+                    case 1:
+                        spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 38));
+                        break;
+                    case 2:
+                        spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 75));
+                        break;
+                }
                 //首次后设置为false
                 is_first = false;
                 //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
@@ -259,6 +269,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     groupModelList.clear();
                     newAdapter();
                     listHonorrank.setAdapter(honorGroupRankAdapter);
+                    listHonorrank.setEmptyView(ll_no_data);
                     return;
                 }
             }
@@ -311,7 +322,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     }
 
-    private void loadData(boolean is_first){
+    private void loadData(boolean is_first) {
         listHonorrank.setRefreshing();
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }

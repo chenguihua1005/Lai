@@ -199,10 +199,14 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                             @Override
                             public void success(ResponseData<List<ClassGroup2>> data, Response response) {
                                 if(data.getStatus()==200){
-                                    groups.addAll(data.getData());
-                                    adapter.notifyDataSetChanged();
-                                    int count=adapter.getCount();
-                                    setListViewHeight(count);
+                                    try {
+                                        groups.addAll(data.getData());
+                                        adapter.notifyDataSetChanged();
+                                        int count=adapter.getCount();
+                                        setListViewHeight(count);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         });
@@ -307,6 +311,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
             }else if(requestCode==101){
                 String value = data.getStringExtra("value");
                 tv_class_name.setText(value);
+                className=value;
                 classModel.setClassName(value);
                 EventBus.getDefault().post(new UpdateClass(0,classModel));
             }else if(requestCode==102){

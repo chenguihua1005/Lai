@@ -146,25 +146,29 @@ public class LossWeightAndFatActivity extends BaseActivity {
     }
 
     private void dealResult(LossWeightAndFat data){
-        weightLevel=data.getWeightLevel();
-        fatLevel=data.getFatLevel();
-        tv_weight_level.setText("W");
-        tv_weight_level.append(""+data.getWeightLevel());
-        tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
-        tv_fat_level.setText("Z");
-        tv_fat_level.append(""+data.getFatLevel());
-        tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
-        List<LossWeightAndFat.LossWeightLevel> weightLevels=data.getLossWeightLevelList();
-        List<LossWeightAndFat.LossFatLevel> fatLevels=data.getLossFatLevelList();
-        for (int i=0;i<models.size();i++){
-            LossWeightAndFat.LossWeightLevel weight=weightLevels.get(i);
-            LossWeightAndFat.LossFatLevel fat=fatLevels.get(i);
-            LevelModel weightLevel=models.get(i).getWeightLevel();
-            weightLevel.setReachCount(weight.getWeightReachCount());
-            LevelModel fatLevel=models.get(i).getFatLlevel();
-            fatLevel.setReachCount(fat.getFatReachCount());
+        try {
+            weightLevel=data.getWeightLevel();
+            fatLevel=data.getFatLevel();
+            tv_weight_level.setText("W");
+            tv_weight_level.append(""+data.getWeightLevel());
+            tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
+            tv_fat_level.setText("Z");
+            tv_fat_level.append(""+data.getFatLevel());
+            tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
+            List<LossWeightAndFat.LossWeightLevel> weightLevels=data.getLossWeightLevelList();
+            List<LossWeightAndFat.LossFatLevel> fatLevels=data.getLossFatLevelList();
+            for (int i=0;i<models.size();i++){
+                LossWeightAndFat.LossWeightLevel weight=weightLevels.get(i);
+                LossWeightAndFat.LossFatLevel fat=fatLevels.get(i);
+                LevelModel weightLevel=models.get(i).getWeightLevel();
+                weightLevel.setReachCount(weight.getWeightReachCount());
+                LevelModel fatLevel=models.get(i).getFatLlevel();
+                fatLevel.setReachCount(fat.getFatReachCount());
+            }
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        adapter.notifyDataSetChanged();
 
     }
 

@@ -55,7 +55,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     int pageIndex=1;
     private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
-    int IsAudit;//0未审核
+    int IsAudit=0;//0未审核
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
     public static Fragment getInstance(String classId) {
         InitAuditFragment fragment=new InitAuditFragment();
@@ -132,13 +132,13 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         Intent InitdataAudit=new Intent(getContext(),InitDataAuditActivity.class);
         InitdataAudit.putExtra("ACMID",memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId",classid);
-        InitdataAudit.putExtra("IsAudit",IsAudit);
+        InitdataAudit.putExtra("Audited",IsAudit);
         InitdataAudit.putExtra("AccountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
         startActivityForResult(InitdataAudit,ChuAudit);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ChuAudit && requestCode==RESULT_OK) {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -146,8 +146,17 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 @Override
 
                 public void run() {
-
-                    plv_audit.setRefreshing();
+//                    String ACMID=data.getStringExtra("ACMID");
+//                    int n;
+//                    for (int i=0;i<memberListModels.size();i++)
+//                    {
+//                        if ("memberListModels".equals(memberListModels.get(i).getAcmId()))
+//                        {
+//                            n=i;
+//                        }
+//                    }
+//                    memberListModels.set()
+                    doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
 
                 }
 

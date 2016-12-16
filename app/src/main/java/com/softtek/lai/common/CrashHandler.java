@@ -44,10 +44,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
     //程序的Context对象
     private Context mContext;
     //用来存储设备信息和异常信息
-    private Map<String, String> infos = new HashMap<String, String>();
+    private Map<String, String> infos = new HashMap<>();
 
     //用于格式化日期,作为日志文件名的一部分
-    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 保证只有一个CrashHandler实例
@@ -90,8 +90,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Log.e(TAG, "error : ", e);
             }
             //退出程序
-            //android.os.Process.killProcess(android.os.Process.myPid());
-            //System.exit(1);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
         }
     }
 
@@ -107,7 +107,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         }
         //收集设备参数信息
         collectDeviceInfo(mContext);
-
         //使用Toast来显示异常信息
         new Thread() {
             @Override
@@ -118,7 +117,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }
         }.start();
         //保存日志文件
-        //saveCatchInfo2File(ex);
+        saveCatchInfo2File(ex);
         ex.printStackTrace();
         return true;
     }
