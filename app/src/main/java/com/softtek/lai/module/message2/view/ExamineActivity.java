@@ -2,14 +2,13 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,12 +27,12 @@ import com.softtek.lai.module.bodygame3.more.model.ClassRole;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.ApplyModel;
 import com.softtek.lai.module.message2.net.Message2Service;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -108,7 +107,11 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     public void success(ResponseData<ApplyConfirm> data, Response response) {
                         dialogDissmiss();
                         if (data.getStatus() == 200) {
-                            onResult(data.getData());
+                            try {
+                                onResult(data.getData());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             Util.toastMsg(data.getMsg());
                         }
@@ -142,50 +145,46 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
         tv_class_code.setText(apply.getClassCode());
         tv_class_name.setText(apply.getClassName());
-        classGroupList = apply.getClassGroups();
-        classRole = apply.getClassRoles();
+        if(apply.getClassGroups()!=null){
+            classGroupList.clear();
+            classGroupList.addAll(apply.getClassGroups());
+        }
+        if (apply.getClassRoles()!=null){
+            classRole.clear();
+            classRole.addAll(apply.getClassRoles());
+        }
         if (apply.getMsgStatus() == 0) {
             btn_no.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.VISIBLE);
+            tv_group_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
+            tv_role_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
         } else {
+            btn_no.setVisibility(View.GONE);
+            btn_yes.setVisibility(View.GONE);
             //已经处理过的数据
             tv_group_name.setText(apply.getClassGroupName());
             tv_role_name.setText(apply.getClassRoleName());
+            tv_group_name.setCompoundDrawables(null,null, null,null);
+            tv_role_name.setCompoundDrawables(null,null, null,null);
         }
 
     }
 
+
     BottomSheetDialog dialog;
+    int checkedGroup;
+    int checkedRole;
 
     private void showGroupName(final boolean isGroup, EasyAdapter adapter) {
-        final ListView lv = new ListView(this);
-        lv.setDivider(new ColorDrawable(0xFFE1E1E1));
-        lv.setDividerHeight(1);
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_trans_view, null);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv);
+        tv_title.setText(isGroup ? "选择小组" : "选择角色");
+        final ListView lv = (ListView) view.findViewById(R.id.lv);
+        View footer = LayoutInflater.from(this).inflate(R.layout.trans_group_footer, null);
+        lv.addFooterView(footer);
         lv.setAdapter(adapter);
-        TextView title = new TextView(this);
-        title.setText(isGroup ? "选择组" : "选择角色");
-        title.setTextColor(0xFF999999);
-        title.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics()));
-        title.setWidth(DisplayUtil.getMobileWidth(this));
-        title.setHeight(DisplayUtil.dip2px(this, 40));
-        title.setPadding(DisplayUtil.dip2px(this, 15), 0, 0, 0);
-        title.setGravity(Gravity.CENTER | Gravity.LEFT);
-        lv.addHeaderView(title);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (isGroup) {
-                    ClassGroup group = classGroupList.get(i - 1);
-                    tv_group_name.setText(group.getCGName());
-                    model.groupId = group.getCGId();
-                } else {
-                    ClassRole role = classRole.get(i - 1);
-                    tv_role_name.setText(role.getRoleName());
-                    model.classRole = role.getRoleId();
-                }
-                dialog.dismiss();
-            }
-        });
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lv.setItemChecked(isGroup ? checkedGroup : checkedRole, true);
         lv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -203,9 +202,38 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 return false;
             }
         });
+        TextView tv_ok = (TextView) footer.findViewById(R.id.tv_ok);
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int checkedPosition = lv.getCheckedItemPosition();
+                if (checkedPosition != -1) {
+                    if (isGroup) {
+                        checkedGroup = checkedPosition;
+                        ClassGroup group = classGroupList.get(checkedPosition);
+                        tv_group_name.setText(group.getCGName());
+                        model.groupId = group.getCGId();
+                    } else {
+                        checkedGroup = checkedPosition;
+                        ClassRole role = classRole.get(checkedPosition);
+                        tv_role_name.setText(role.getRoleName());
+                        model.classRole = role.getRoleId();
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+        TextView tv_cancel = (TextView) footer.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog = new BottomSheetDialog(this);
-        dialog.setContentView(lv);
+        dialog.setContentView(view);
         dialog.show();
+
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -214,8 +242,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private List<ClassGroup> classGroupList;
-    private List<ClassRole> classRole;
+
+    private List<ClassGroup> classGroupList=new ArrayList<>();
+    private List<ClassRole> classRole=new ArrayList<>();
 
     @Override
     public void onClick(View view) {
@@ -227,10 +256,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 if (confirm == null || confirm.getMsgStatus() != 0) {
                     return;
                 }
-                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, R.layout.textview) {
+                showGroupName(true, new EasyAdapter<ClassGroup>(this, classGroupList, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassGroup data, int position) {
-                        TextView tv = holder.getView(R.id.tv);
+                        CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getCGName());
                     }
                 });
@@ -240,10 +269,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 if (confirm == null || confirm.getMsgStatus() != 0) {
                     return;
                 }
-                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, R.layout.textview) {
+                showGroupName(false, new EasyAdapter<ClassRole>(this, classRole, android.R.layout.simple_list_item_single_choice) {
                     @Override
                     public void convert(ViewHolder holder, ClassRole data, int position) {
-                        TextView tv = holder.getView(R.id.tv);
+                        CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getRoleName());
                     }
                 });
@@ -271,10 +300,16 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                 });
                 break;
             case R.id.btn_yes:
+                if (TextUtils.isEmpty(this.model.groupId)) {
+                    Util.toastMsg("请选择小组！");
+                    return;
+                } else if (this.model.classRole==0) {
+                    Util.toastMsg("请选择角色！");
+                    return;
+                }
                 //确定
                 dialogShow("审批确认");
                 model.status = 1;
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -317,7 +352,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             });
 
 
-                        } catch (HyphenateException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override

@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.bodygamest.present;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -14,12 +13,10 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
-import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
-import com.softtek.lai.utils.RequestCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,19 +28,12 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
-/**
- * Created by jarvis.liu on 3/22/2016.
- */
+
 public class StudentImpl implements IStudentPresenter {
 
     private StudentService studentService;
-    private Context context;
     private BaseActivity base;
 
-    public StudentImpl(Context context) {
-        this.context = context;
-        studentService = ZillaApi.NormalRestAdapter.create(StudentService.class);
-    }
 
     public StudentImpl(BaseActivity context) {
         this.base = context;
@@ -57,10 +47,8 @@ public class StudentImpl implements IStudentPresenter {
         studentService.getStudentHonours(token,new Callback<ResponseData<HnumsModel>>() {
             @Override
             public void success(ResponseData<HnumsModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 base.dialogDissmiss();
-                HnumsModel model = listResponseData.getData();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -86,7 +74,6 @@ public class StudentImpl implements IStudentPresenter {
         studentService.getTranscrip(token, classid, new Callback<ResponseData<List<StudentScripInfo>>>() {
             @Override
             public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 base.dialogDissmiss();
                 List<StudentScripInfo> list = listResponseData.getData();
@@ -194,17 +181,4 @@ public class StudentImpl implements IStudentPresenter {
         });
     }
 
-    public void hasClass(RequestCallback<ResponseData<HasClass>> callback) {
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.hasClass(token, callback);
-    }
-
-    public void hasClass2(RequestCallback<ResponseData<HasClass>> callback){
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.hasClass2(token, callback);
-    }
-    public void pcIsJoinClass(String accountid, RequestCallback<ResponseData<HasClass>> callback) {
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.pcIsJoinClass(token, accountid, callback);
-    }
 }

@@ -139,7 +139,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                             public void success(ResponseData<List<Contact>> data, Response response) {
                                 dialogDissmiss();
                                 if(data.getStatus()==200){
-                                    onResult(data.getData());
+                                    try {
+                                        onResult(data.getData());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 

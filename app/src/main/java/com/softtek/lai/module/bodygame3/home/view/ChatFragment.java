@@ -100,40 +100,43 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (msg.what == 0) {
-                if (builder != null) {
-                    return;
-                }
-                builder = new AlertDialog.Builder(getActivity())
-                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                builder = null;
-                                UserInfoModel.getInstance().loginOut();
-                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        }).setCancelable(false);
-                dialog = builder.create();
-                if (!getActivity().isFinishing()) {
-                    if (dialog != null && !dialog.isShowing()) {
-                        dialog.show();
+            try {
+                if (msg.what == 0) {
+                    if (builder != null) {
+                        return;
                     }
+                    builder = new AlertDialog.Builder(getActivity())
+                            .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                            .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    builder = null;
+                                    UserInfoModel.getInstance().loginOut();
+                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            }).setCancelable(false);
+                    dialog = builder.create();
+                    if (!getActivity().isFinishing()) {
+                        if (dialog != null && !dialog.isShowing()) {
+                            dialog.show();
+                        }
+                    }
+                } else if (msg.what == 1) {
+                    loginPresenter.getEMChatAccount(progressDialog);
+                } else if (msg.what == 2) {
+                    img_mo_message.setVisibility(View.GONE);
+                    conversationListFragment = new ConversationListFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
+                            .commit();
+                } else {
+                    Util.toastMsg("会话功能开通中，请稍后再试");
                 }
-            } else if (msg.what == 1) {
-                loginPresenter.getEMChatAccount(progressDialog);
-            } else if (msg.what == 2) {
-                img_mo_message.setVisibility(View.GONE);
-                conversationListFragment = new ConversationListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
-                        .commit();
-            } else {
-                Util.toastMsg("会话功能开通中，请稍后再试");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

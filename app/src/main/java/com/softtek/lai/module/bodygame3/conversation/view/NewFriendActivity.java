@@ -145,7 +145,6 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     private void getNewFriendList() {
         friendList.clear();
         ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        Log.i(TAG, (UserInfoModel.getInstance().getToken() + " ++++ " + UserInfoModel.getInstance().getUserId()));
         service.getFriendApplyList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<FriendModel>>>() {
             @Override
             public void success(ResponseData<List<FriendModel>> listResponseData, Response response) {

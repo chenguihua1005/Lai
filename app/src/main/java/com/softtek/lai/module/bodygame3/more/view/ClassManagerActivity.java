@@ -199,10 +199,14 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                             @Override
                             public void success(ResponseData<List<ClassGroup2>> data, Response response) {
                                 if(data.getStatus()==200){
-                                    groups.addAll(data.getData());
-                                    adapter.notifyDataSetChanged();
-                                    int count=adapter.getCount();
-                                    setListViewHeight(count);
+                                    try {
+                                        groups.addAll(data.getData());
+                                        adapter.notifyDataSetChanged();
+                                        int count=adapter.getCount();
+                                        setListViewHeight(count);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         });

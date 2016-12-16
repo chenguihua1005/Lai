@@ -187,9 +187,13 @@ public class ClassMemberActivity extends BaseActivity {
                             public void success(ResponseData<ClassMember> data, Response response) {
                                 dialogDissmiss();
                                 if (data.getStatus() == 200) {
-                                    groups = data.getData().getGroups();
-                                    members.addAll(data.getData().getMembers());
-                                    adapter.notifyDataSetChanged();
+                                    try {
+                                        groups = data.getData().getGroups();
+                                        members.addAll(data.getData().getMembers());
+                                        adapter.notifyDataSetChanged();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 } else {
                                     Util.toastMsg(data.getMsg());
                                 }
