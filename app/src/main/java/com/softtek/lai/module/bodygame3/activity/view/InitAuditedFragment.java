@@ -109,6 +109,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
                 if (!TextUtils.isEmpty(data.getUserIconUrl()))
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
+
                 }
             }
 

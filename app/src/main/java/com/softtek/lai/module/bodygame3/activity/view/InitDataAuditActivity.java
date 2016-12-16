@@ -382,6 +382,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
                     photoname=measuredDetailsModel.getImgThumbnail();
+                    SavePic savePic=new SavePic();
+                savePic.GetPicUrl(photoname);
                 }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
@@ -406,19 +408,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             }
         }
     }
-    private Handler handler = new Handler() {
 
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (msg.what == 0) {
-                Util.toastMsg("保存失败");
-            }else {
-                Util.toastMsg("保存成功");
-            }
-        }
-
-    };
 
     /*l录入*/
     void doSetPostData()
