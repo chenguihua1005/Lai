@@ -584,8 +584,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
-                        super.failure(error);
+                        try {
+                            ptrlv.onRefreshComplete();
+                            super.failure(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -605,14 +609,18 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         int status = photoWallListModelResponseData.getStatus();
                         switch (status) {
                             case 200:
-                                photoWallListModel = photoWallListModelResponseData.getData();
-                                if (photoWallListModel != null) {
-                                    if(!photoWallListModel.getPhotoWallslist().isEmpty()){
-                                        photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                        adapter.notifyDataSetChanged();
-                                    }else {
-                                        pageIndex--;
+                                try {
+                                    photoWallListModel = photoWallListModelResponseData.getData();
+                                    if (photoWallListModel != null) {
+                                        if(!photoWallListModel.getPhotoWallslist().isEmpty()){
+                                            photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                            adapter.notifyDataSetChanged();
+                                        }else {
+                                            pageIndex--;
+                                        }
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                                 break;
                             default:
@@ -623,8 +631,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     }
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
-                        super.failure(error);
+                        try {
+                            ptrlv.onRefreshComplete();
+                            super.failure(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
