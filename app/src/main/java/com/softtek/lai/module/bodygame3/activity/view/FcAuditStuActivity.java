@@ -90,6 +90,12 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     ImageView im_delete;
     @InjectView(R.id.btn_retest_write_addbody)
     Button btn_retest_write_addbody;
+    @InjectView(R.id.ll_retestWrite_nowweight)
+    LinearLayout ll_retestWrite_nowweight;
+    @InjectView(R.id.ll_retestWrite_tizhi)
+    LinearLayout ll_retestWrite_tizhi;
+    @InjectView(R.id.ll_retestWrite_neizhi)
+    LinearLayout ll_retestWrite_neizhi;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -132,9 +138,9 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-        tv_retestWrite_nowweight.setOnClickListener(this);
-        tv_retestWrite_tizhi.setOnClickListener(this);
-        tv_retestWrite_neizhi.setOnClickListener(this);
+        ll_retestWrite_nowweight.setOnClickListener(this);
+        ll_retestWrite_tizhi.setOnClickListener(this);
+        ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
         btn_retest_write_addbody.setOnClickListener(this);
