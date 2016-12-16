@@ -1314,6 +1314,7 @@ public class MaterialCalendarView extends ViewGroup {
         }
         dayViewDecorators.add(decorator);
         adapter.setDecorators(dayViewDecorators);
+        com.github.snowdream.android.util.Log.i("添加成功。。。。。。。。。。。。。。。。。。");
     }
 
     /**
@@ -1340,6 +1341,7 @@ public class MaterialCalendarView extends ViewGroup {
      */
     public void invalidateDecorators() {
         adapter.invalidateDecorators();
+        com.github.snowdream.android.util.Log.i("删除日历成功。。。。。。。。。。。。。。。。。。。");
     }
 
     /*
