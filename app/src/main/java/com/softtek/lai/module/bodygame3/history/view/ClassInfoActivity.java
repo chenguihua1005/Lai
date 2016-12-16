@@ -117,7 +117,6 @@ public class ClassInfoActivity extends BaseActivity {
     private MyFragmentPagerAdapter mViewpagerAdapter;
     private int brokenIndex = 0;
     private int lastVisitableItem;
-    private boolean isLoading = false;
 
     private RecyclerViewInfoAdapter mInfoAdapter;
 
@@ -333,7 +332,7 @@ public class ClassInfoActivity extends BaseActivity {
         initAppbarAndPull();
     }
 
-    @OnClick(R.id.iv_left)
+    @OnClick(R.id.ll_left)
     public void back() {
         finish();
     }
@@ -387,7 +386,7 @@ public class ClassInfoActivity extends BaseActivity {
     private void doComment(final CommentEvent event) {
         View itemView = event.getView();
         final LinearLayout mPersonCommentLayout = (LinearLayout) itemView.findViewById(R.id.ll_comment_person);
-        final View mItemBottom = (View) itemView.findViewById(R.id.item_bottom);
+        final View mItemBottom = itemView.findViewById(R.id.item_bottom);
         mCommentLayout.setVisibility(View.VISIBLE);
         mEdtComment.setFocusable(true);
         mEdtComment.setFocusableInTouchMode(true);
@@ -414,8 +413,6 @@ public class ClassInfoActivity extends BaseActivity {
                     appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0, trueHigh, new int[]{0, 0});
                     mRecyclerView.scrollBy(0, position1[1] - position2[1] - trueHigh);
                 }
-//                appbarBehavior.onNestedPreScroll(mCLContent, mAppbar, null, 0,, new int[]{0, 0});
-//                mRecyclerView.scrollBy(0, position1[1] - position2[1]);
             }
         }, 1000);
         mCommentSubmit.setOnClickListener(new View.OnClickListener() {
@@ -487,7 +484,6 @@ public class ClassInfoActivity extends BaseActivity {
                         } else if (responseData.getMsg().equals("暂无数据")) {
                             initFailedView();
                             mRecyclerNoData.setVisibility(View.VISIBLE);
-//                            initRecyclerView();
                         }
                     }
 
@@ -504,9 +500,6 @@ public class ClassInfoActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
-//        if (!EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().register(this);
-//        }
         classmates = new ArrayList<>();
         wallsList.clear();
         initRecyclerView();
@@ -521,6 +514,5 @@ public class ClassInfoActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
     }
 }

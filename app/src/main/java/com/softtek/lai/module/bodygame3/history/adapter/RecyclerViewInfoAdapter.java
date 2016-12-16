@@ -223,7 +223,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                     UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
 //                                    Long.parseLong(item.getAccountid()),
-                                    (long)(item.getAccountid()),
+                                    (item.getAccountid()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
