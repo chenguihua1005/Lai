@@ -88,21 +88,29 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                         text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                             @Override
                             public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                pb.setVisibility(View.GONE);
-                                if (data.getStatus() == 200) {
-                                    classlistModels.clear();
-                                    classlistModels.addAll(data.getData());
-                                    adapter.notifyDataSetChanged();
-                                } else if (data.getStatus() == 100) {
+                                try {
+                                    pb.setVisibility(View.GONE);
+                                    if (data.getStatus() == 200) {
+                                        classlistModels.clear();
+                                        classlistModels.addAll(data.getData());
+                                        adapter.notifyDataSetChanged();
+                                    } else if (data.getStatus() == 100) {
 
-                                    Util.toastMsg(data.getMsg());
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                pb.setVisibility(View.GONE);
-                                super.failure(error);
+                                try {
+                                    pb.setVisibility(View.GONE);
+                                    super.failure(error);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                 break;

@@ -177,10 +177,14 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
 
     }
     private void onResult(List<ActionNoticeModel> data){
-        tv_right.setText("编辑");
-        fl_right.setOnClickListener(this);
-        operatList.addAll(data);
-        adapter.notifyDataSetChanged();
+        try {
+            tv_right.setText("编辑");
+            fl_right.setOnClickListener(this);
+            operatList.addAll(data);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

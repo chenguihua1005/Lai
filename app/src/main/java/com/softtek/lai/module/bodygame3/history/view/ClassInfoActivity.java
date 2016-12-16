@@ -357,6 +357,9 @@ public class ClassInfoActivity extends BaseActivity {
                         @SuppressLint("LongLogTag")
                         @Override
                         public void success(ResponseData<HistoryDetailsBean> responseData, Response response) {
+                            if (mPull.isRefreshing()) {
+                                mPull.setRefreshing(false);
+                            }
                             if (responseData.getStatus() == 200) {
                                 initViewpager(responseData.getData());
                                 if (responseData.getData().getList_Top1() != null) {
@@ -373,6 +376,9 @@ public class ClassInfoActivity extends BaseActivity {
 
                         @Override
                         public void failure(RetrofitError error) {
+                            if (mPull.isRefreshing()) {
+                                mPull.setRefreshing(false);
+                            }
                             initViewpager(new HistoryDetailsBean());
                             initFailedView();
                             super.failure(error);
@@ -476,10 +482,14 @@ public class ClassInfoActivity extends BaseActivity {
                 new RequestCallback<ResponseData<DynamicBean>>() {
                     @Override
                     public void success(ResponseData<DynamicBean> responseData, Response response) {
+                        if (mPull.isRefreshing()){
+                            mPull.setRefreshing(false);
+                        }
                         mPull.setRefreshing(false);
                         if (responseData.getStatus() == 200) {
                             wallsList.addAll(responseData.getData().getPhotoWallslist());
                             mInfoAdapter.notifyDataSetChanged();
+
 
                         } else if (responseData.getMsg().equals("暂无数据")) {
                             initFailedView();

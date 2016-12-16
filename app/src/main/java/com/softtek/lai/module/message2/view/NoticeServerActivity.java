@@ -175,10 +175,14 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void onResult(List<NoticeModel> data){
-        tv_right.setText("编辑");
-        fl_right.setOnClickListener(this);
-        operatList.addAll(data);
-        adapter.notifyDataSetChanged();
+        try {
+            tv_right.setText("编辑");
+            fl_right.setOnClickListener(this);
+            operatList.addAll(data);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

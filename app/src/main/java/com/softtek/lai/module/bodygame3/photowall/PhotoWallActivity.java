@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -231,7 +232,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     protected void initDatas() {
         photoWallService = ZillaApi.NormalRestAdapter.create(PhotoWallService.class);
         service=ZillaApi.NormalRestAdapter.create(CommunityService.class);
-        doGetData();
         adapter = new EasyAdapter<PhotoWallslistModel>(this, photoWallItemModels, R.layout.photowall_list_item) {
             @Override
             public void convert(ViewHolder holder, final PhotoWallslistModel data, final int position) {
@@ -311,7 +311,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     });
                 }
                 TextView tv_date = holder.getView(R.id.tv_date);
-                Log.i("创建日期为===="+data.getCreatedate());
                 long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
                 String time;
                 if(days[0]==0){//今天
@@ -534,33 +533,17 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 return false;
             }
         });
-    }
 
-    private void doGetData() {
-        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
-                UserInfoModel.getInstance().getUserId(),
-                classId,
-                pageIndex,
-                10,
-                new RequestCallback<ResponseData<PhotoWallListModel>>() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
-            public void success(ResponseData<PhotoWallListModel> photoWallListModelResponseData, Response response) {
-                int status = photoWallListModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        photoWallListModel = photoWallListModelResponseData.getData();
-                        if (photoWallListModel != null) {
-                            photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    default:
-                        Util.toastMsg(photoWallListModelResponseData.getMsg());
-                        break;
+            public void run() {
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
                 }
             }
-        });
+        },500);
     }
+
 
     private void refreshList(String Accountid, int focus) {
         for (PhotoWallslistModel model : photoWallItemModels) {
@@ -601,8 +584,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
-                        super.failure(error);
+                        try {
+                            ptrlv.onRefreshComplete();
+                            super.failure(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -622,14 +609,18 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         int status = photoWallListModelResponseData.getStatus();
                         switch (status) {
                             case 200:
-                                photoWallListModel = photoWallListModelResponseData.getData();
-                                if (photoWallListModel != null) {
-                                    if(!photoWallListModel.getPhotoWallslist().isEmpty()){
-                                        photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                        adapter.notifyDataSetChanged();
-                                    }else {
-                                        pageIndex--;
+                                try {
+                                    photoWallListModel = photoWallListModelResponseData.getData();
+                                    if (photoWallListModel != null) {
+                                        if(!photoWallListModel.getPhotoWallslist().isEmpty()){
+                                            photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                            adapter.notifyDataSetChanged();
+                                        }else {
+                                            pageIndex--;
+                                        }
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                                 break;
                             default:
@@ -640,8 +631,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     }
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
-                        super.failure(error);
+                        try {
+                            ptrlv.onRefreshComplete();
+                            super.failure(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
