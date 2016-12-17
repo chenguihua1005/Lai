@@ -19,6 +19,7 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -212,14 +213,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
-                        if(checkedPosition<classGroupList.size()){
+                        if (checkedPosition < classGroupList.size()) {
                             ClassGroup group = classGroupList.get(checkedPosition);
                             tv_group_name.setText(group.getCGName());
                             model.groupId = group.getCGId();
                         }
                     } else {
                         checkedRole = checkedPosition;
-                        if(checkedPosition<classRole.size()){
+                        if (checkedPosition < classRole.size()) {
                             ClassRole role = classRole.get(checkedPosition);
                             tv_role_name.setText(role.getRoleName());
                             model.classRole = role.getRoleId();
@@ -345,7 +346,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    if (responseData.getStatus()==200){
+                                                    if (responseData.getStatus() == 200) {
                                                         setResult(RESULT_OK);
                                                         finish();
                                                         runOnUiThread(new Runnable() {
@@ -355,6 +356,13 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                                 Util.toastMsg("加入成功");
                                                             }
                                                         });
+                                                    } else {
+                                                        //如果后台加人失败，侧群组踢人
+                                                        try {
+                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
+                                                        } catch (HyphenateException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                     }
                                                 }
 
