@@ -396,7 +396,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         break;
                 }
             }
-
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);

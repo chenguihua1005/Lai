@@ -1,12 +1,15 @@
 package com.softtek.lai.module.bodygame3.conversation.view;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,10 @@ import com.softtek.lai.module.bodygame3.conversation.adapter.FriendAdapter;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
+import com.softtek.lai.widgets.com.baoyz.swipemenulistview.SwipeMenu;
+import com.softtek.lai.widgets.com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.softtek.lai.widgets.com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.softtek.lai.widgets.com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +36,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 2016/11/30.
@@ -44,7 +52,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.friend_list)
-    ListView friend_list;
+    SwipeMenuListView friend_list;
 
     private List<FriendModel> friendList;
 
@@ -95,6 +103,70 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         friendAdapter = new FriendAdapter(NewFriendActivity.this, friendList, handler);
         friend_list.setAdapter(friendAdapter);
 
+        // step 1. create a MenuCreator
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(dp2px(70));
+                // set item title
+                deleteItem.setTitle("删除");
+                // set item title fontsize
+                deleteItem.setTitleSize(13);
+                // set item title font color
+                deleteItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        // set creator
+        friend_list.setMenuCreator(creator);
+
+        friend_list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        //删除数据
+                        FriendModel friendModel = friendList.get(position);
+
+                        final ProgressDialog pd = new ProgressDialog(NewFriendActivity.this);
+                        String str1 = getResources().getString(R.string.Is_sending_a_request);
+                        pd.setMessage(str1);
+                        pd.setCanceledOnTouchOutside(false);
+                        pd.show();
+                        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+                        service.removeFriendApplyInfo(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), new Callback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                pd.dismiss();
+                                int status = responseData.getStatus();
+                                if (200 == status) {
+                                    friendList.remove(position);
+                                    friendAdapter.notifyDataSetChanged();
+                                } else {
+                                    Util.toastMsg(responseData.getMsg());
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                pd.dismiss();
+                                ZillaApi.dealNetError(error);
+                            }
+                        });
+                        break;
+                }
+                return false;
+            }
+        });
+
         getNewFriendList();//获取网络数据
 
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
@@ -119,6 +191,12 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         });
 
 
+    }
+
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
     }
 
     @Override
