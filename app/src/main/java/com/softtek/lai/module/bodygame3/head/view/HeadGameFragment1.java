@@ -147,6 +147,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     RelativeLayout re_search_bottom;
     @InjectView(R.id.iv_types)
     ImageView iv_types;
+    @InjectView(R.id.no_dongtai)
+    LinearLayout no_dongtai;
     private List<PartnersModel> partnersModels = new ArrayList<>();
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
@@ -266,11 +268,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
                 typecode = datas.get(i).getTypecode();
-                if(typecode==0){//减重斤数
-                iv_types.setImageResource(R.drawable.weightphoto);
-                }else if(typecode==1){//减重比
+                if (typecode == 0) {//减重斤数
+                    iv_types.setImageResource(R.drawable.weightphoto);
+                } else if (typecode == 1) {//减重比
                     iv_types.setImageResource(R.drawable.jianzhong_iv);
-                }else if(typecode==2){
+                } else if (typecode == 2) {
 //                    iv_types.setImageResource(R.drawable.);
                 }
                 partneradapter.setType(typecode);
@@ -467,6 +469,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
     //是否有消息
     private void gethasemail() {
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
@@ -484,6 +487,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             }
         });
     }
+
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
 //
@@ -593,6 +597,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onRefresh() {
         classModels.clear();
         refresh.setRefreshing(false);
+        getallfirst();
+        gethasemail();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
+        gethasemail();
+        getallfirst();
+
+    }
+
+    private void getallfirst() {
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
@@ -668,7 +686,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     .fit().error(R.drawable.img_default)
                                     .placeholder(R.drawable.img_default).into(studenticon);
                         } else {
-                            Picasso.with(getContext()).load(R.drawable.img_default).fit().error(R.drawable.img_default).placeholder(R.drawable.img_default).into(studenticon);
+                            Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
                         }
                         if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                             student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
@@ -742,27 +760,27 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                     if (classinfoModel.getPhotoWall() != null) {
                         grid_list.setVisibility(View.VISIBLE);
-                        no_photowalll.setVisibility(View.GONE);
+                        no_dongtai.setVisibility(View.GONE);
                         ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
-                        if (StringUtils.isNotEmpty(zhaopianModel.getUserPhoto())) {
-                            Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
-                                    fit().error(R.drawable.img_default)
-                                    .placeholder(R.drawable.img_default).into(head_images);
-                            Log.e("dddd", path + zhaopianModel.getUserPhoto());
-                        }
+                        Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
+                                fit().error(R.drawable.img_default)
+                                .placeholder(R.drawable.img_default).into(head_images);
+
+
                         name_user.setText(zhaopianModel.getUserName());
                         if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
                             pinglun.setText(zhaopianModel.getNum() + "条评论");
                         } else {
                             pinglun.setText("0" + "条评论");
                         }
-                        if (zhaopianModel.getPhotoThumbnailList() != null) {
+                        if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
                             photos.clear();
                             photos.addAll(zhaopianModel.getPhotoThumbnailList());
-
-//                            doGetPhotos();
                             adapter.notifyDataSetChanged();
 
+                        } else {
+                            grid_list.setVisibility(View.GONE);
+                            no_dongtai.setVisibility(View.VISIBLE);
                         }
                         //计算时间
                         if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
@@ -790,10 +808,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             gengxin.setText("暂无更新");
                         }
 //                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
-                    } else {
-                        grid_list.setVisibility(View.GONE);
-                        no_photowalll.setVisibility(View.VISIBLE);
-                        lin_pinlun.setVisibility(View.GONE);
                     }
 
 
@@ -807,16 +821,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 super.failure(error);
             }
         });
-        gethasemail();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
-        gethasemail();
-//        getallfirst();
-
     }
 
     public interface DeleteClass {
