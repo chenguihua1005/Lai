@@ -143,6 +143,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 case 1:
                     tv_right.setVisibility(View.INVISIBLE);
                     btn_retest_write_addbody.setText("查看身体围度");
+                    im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     break;
