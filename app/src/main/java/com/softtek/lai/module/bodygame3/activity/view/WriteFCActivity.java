@@ -153,7 +153,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    String isState="true";
     FuceSevice service;
     private ProgressDialog progressDialog;
     MultipartTypedOutput multipartTypedOutput;

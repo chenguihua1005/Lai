@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +42,7 @@ import zilla.libcore.util.Util;
  * Created by jerry.guan on 5/5/2016.
  */
 public class SavePic{
-Context context;
+
     String uri;
     private Handler handler = new Handler() {
 
@@ -67,8 +68,9 @@ Context context;
 
     private static int READ_WRITER=0X10;
 
-    public void GetPicUrl(final String url)
+    public void GetPicUrl(final Context context, final String url)
     {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -89,7 +91,7 @@ Context context;
 //                    @Override
 //                    public void run() {
 //                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-//                        saveImageToGallery(context,bitmap);
+//                        saveImageToGallery(,bitmap);
 //                    }
 //                }).start();
 //            } else {
@@ -128,12 +130,12 @@ Context context;
             e.printStackTrace();
         }
 
-        // 最后通知图库更新
-//        try {
-//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+         //最后通知图库更新
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);

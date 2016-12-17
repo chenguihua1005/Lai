@@ -7,10 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -44,6 +50,12 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +156,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     private static final int GET_BODY=1;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    String isState="true";
     FuceSevice service;
     private ProgressDialog progressDialog;
     InitAuditPModel initAuditPModel;
@@ -155,6 +166,20 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     String files,ACMID;
     String photoname;
     int IsAudit;
+    String uri;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                Util.toastMsg("保存失败");
+            }else {
+                Util.toastMsg("保存成功");
+            }
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +238,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
 
     private static final int CAMERA_PREMISSION=100;
+    private static int READ_WRITER=0X10;
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -381,6 +407,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     /*
     * 获取数据值
     * */
+
     void doSetData()
     {
         if (measuredDetailsModel!=null)
@@ -395,12 +422,48 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail()))
                 {
+                    Bitmap cache=im_retestwrite_showphoto.getDrawingCache();
+                    if(cache!=null&&!cache.isRecycled()){
+                        cache.recycle();
+                    }
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    photoname=measuredDetailsModel.getImgThumbnail();
-//                    SavePic savePic=new SavePic();
-//                savePic.GetPicUrl(photoname);
+                    File file=context.getApplicationContext().getCacheDir();
+                    Picasso.with(context).load(file).fit().into(im_retestwrite_showphoto);//图片
+
+                    uri=measuredDetailsModel.getImgThumbnail();
+
+
                 }
+
+//                    if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+//                            ||ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+//                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                                ||ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                            //允许弹出提示
+//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                                    ,READ_WRITER);
+//
+//                        } else {
+//                            //不允许弹出提示
+//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                                    ,READ_WRITER);
+//                        }
+//                    }else {
+//                        //保存
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+//                                saveImageToGallery(InitDataAuditActivity.this,bitmap);
+//                            }
+//                        }).start();
+//
+//                    }
+//                    SavePic savePic=new SavePic();
+//                    savePic.GetPicUrl(this,photoname);
+//                }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
                 tv_write_class.setText(measuredDetailsModel.getClassName());//班级名
@@ -425,7 +488,86 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(InitDataAuditActivity.this,bitmap);
+                    }
+                }).start();
+            } else {
 
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+    public Bitmap getHttpBitmap(String url)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            URL pictureUrl = new URL(url);
+            InputStream in = pictureUrl.openStream();
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    public  void saveImageToGallery(Context context, Bitmap bmp) {
+        if (bmp == null){
+            handler.sendEmptyMessage(0);
+            return;
+        }
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = uri;
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        } catch (IOException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }catch (Exception e){
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }
+
+        // 最后通知图库更新
+//        try {
+//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        handler.sendEmptyMessage(1);
+    }
     /*l录入*/
     void doSetPostData()
     {Log.i("AccountId"+AccountId+"classId"+classId+"ACMID"+ACMID+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
@@ -450,18 +592,22 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         service.doReviewInitData(UserInfoModel.getInstance().getToken(), initAuditPModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                int status=responseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Intent intent=new Intent();
-                        intent.putExtra("ACMID",ACMID);
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        break;
-                    default:
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    int status=responseData.getStatus();
+                    switch (status)
+                    {
+                        case 200:
+                            Intent intent=new Intent();
+                            intent.putExtra("ACMID",ACMID);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
