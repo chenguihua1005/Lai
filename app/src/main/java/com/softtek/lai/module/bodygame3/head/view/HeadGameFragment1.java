@@ -71,6 +71,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -212,6 +213,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
                     //加载更多数据
                     page++;
+                    Log.e("分页加载。。。。。。。", page + "");
+
                     updatepartner(typecode, 10, page);//按类型分页加载小伙伴
 
                 }
@@ -254,14 +257,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 return datas.get(position).getTypename();
             }
         });
-        typecode=datas.get(0).getTypecode();
+        typecode = datas.get(0).getTypecode();
         partneradapter.setType(typecode);
         spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                partnersModels.clear();
                 typecode = datas.get(i).getTypecode();
-                 partneradapter.setType(typecode);
-                updatepartner(typecode, 10, 1);//按类型分页加载小伙伴
+                partneradapter.setType(typecode);
+                page = 1;
+                updatepartner(typecode, 10, page);//按类型分页加载小伙伴
             }
         });
 
@@ -313,7 +318,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                             student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
                                         } else {
-                                            student_jianzhi.setText("减脂"+ " %");
+                                            student_jianzhi.setText("减脂" + " %");
                                         }
                                     }
 
@@ -478,7 +483,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
-
+                page = 1;
                 classModels.clear();
                 if (classinfoModelResponseData.getData() != null) {
                     final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
@@ -703,11 +708,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         if (200 == partnersModelResponseData.getStatus()) {
                             PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
                             if (partnertotalModel.getPartnersList() != null) {
-                                partnersModels.clear();
                                 partnersModels.addAll(partnertotalModel.getPartnersList());
                                 partneradapter.notifyDataSetChanged();
                             }
                         } else {
+                            Util.toastMsg(partnersModelResponseData.getMsg());
                             partneradapter.setFootGone(true);
                             partneradapter.notifyDataSetChanged();
                         }

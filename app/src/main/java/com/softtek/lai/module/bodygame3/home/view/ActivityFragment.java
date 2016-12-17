@@ -426,7 +426,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     chuDate.putExtra("typeDate", tag.date);
                     chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
                     chuDate.putExtra("classId", classid);
-                    startActivity(chuDate);
+                    startActivityForResult(chuDate,2);
+//                    startActivity(chuDate);
                 } else {
                     com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
@@ -477,8 +478,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
                 lazyLoad();
             }else if(requestCode==1){
+                todayactModels.clear();
                 com.github.snowdream.android.util.Log.i("活动更新啦啦啦啦。。。。。。。。。。。。。。");
                 lazyLoad();
+
             }
         }
 
