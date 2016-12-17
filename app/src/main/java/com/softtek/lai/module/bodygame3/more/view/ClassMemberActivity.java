@@ -319,9 +319,9 @@ public class ClassMemberActivity extends BaseActivity {
                                             member.setCGId(group.getCGId());
                                             member.setCGName(group.getCGName());
                                             adapter.notifyDataSetChanged();
-                                            Snackbar.make(tv_title, "转租成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
                                         } else {
-                                            Snackbar.make(tv_title, "转租失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
                                         }
                                     }
                                 }

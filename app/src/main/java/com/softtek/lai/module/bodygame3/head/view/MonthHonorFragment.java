@@ -221,99 +221,103 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     public void getModel(HonorRankModel model) {
-        listHonorrank.onRefreshComplete();
-        //请求不到数据的时候全屏显示“暂无数据”
-        if (model == null) {
-            groupModelList.clear();
-            newAdapter();
-            listHonorrank.setAdapter(honorGroupRankAdapter);
-            listHonorrank.setEmptyView(ll_no_data);
-            return;
-        }
-        //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
-        if (model.getList_date() != null) {
-            //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
-            if (model.getList_date().size() != 0) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadData(false);
+        try {
+            listHonorrank.onRefreshComplete();
+            //请求不到数据的时候全屏显示“暂无数据”
+            if (model == null) {
+                groupModelList.clear();
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+                listHonorrank.setEmptyView(ll_no_data);
+                return;
+            }
+            //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
+            if (model.getList_date() != null) {
+                //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
+                if (model.getList_date().size() != 0) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadData(false);
+                        }
+                    }, 500);
+                    spinnerData.clear();
+                    spinnerData = model.getList_date();
+    //                for (int i = spinnerData.size() - 1; i >= 0; i--) {
+    //                    spinnerData2.add(spinnerData.get(i).getDateName());
+    //                }
+                    for (int i = 0; i < spinnerData.size(); i++) {
+                        spinnerData2.add(spinnerData.get(i).getDateName());
                     }
-                }, 500);
-                spinnerData.clear();
-                spinnerData = model.getList_date();
-//                for (int i = spinnerData.size() - 1; i >= 0; i--) {
-//                    spinnerData2.add(spinnerData.get(i).getDateName());
-//                }
-                for (int i = 0; i < spinnerData.size(); i++) {
-                    spinnerData2.add(spinnerData.get(i).getDateName());
+                    spinner.attachCustomSource(spinnerAdapter);
+                    //动态设置下拉框的高度
+                    switch (spinnerData.size()) {
+                        case 1:
+                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 38));
+                            break;
+                        case 2:
+                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 75));
+                            break;
+                    }
+                    //首次后设置为false
+                    is_first = false;
+                    //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
+                } else {
+                    if (is_first) {
+                        groupModelList.clear();
+                        newAdapter();
+                        listHonorrank.setAdapter(honorGroupRankAdapter);
+                        listHonorrank.setEmptyView(ll_no_data);
+                        return;
+                    }
                 }
-                spinner.attachCustomSource(spinnerAdapter);
-                //动态设置下拉框的高度
-                switch (spinnerData.size()) {
-                    case 1:
-                        spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 38));
-                        break;
-                    case 2:
-                        spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 75));
-                        break;
-                }
-                //首次后设置为false
-                is_first = false;
-                //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
-            } else {
-                if (is_first) {
-                    groupModelList.clear();
-                    newAdapter();
-                    listHonorrank.setAdapter(honorGroupRankAdapter);
-                    listHonorrank.setEmptyView(ll_no_data);
-                    return;
-                }
-            }
 
-        }
-        //不为null，list数据为零，显示“虚位以待”
-        if (model.getList_top3() == null || model.getList_top3().size() == 0) {
-            civ_top1.setImageResource(R.drawable.img_default);
-            civ_top2.setImageResource(R.drawable.img_default);
-            civ_top3.setImageResource(R.drawable.img_default);
-            tv_top1_name.setText("");
-            tv_top2_name.setText("");
-            tv_top3_name.setText("");
-            tv_top1_per.setText("虚位以待");
-            tv_top2_per.setText("虚位以待");
-            tv_top3_per.setText("虚位以待");
-            groupModelList.clear();
-            groupModelList.add(new ListGroupModel());
-            honorGroupRankAdapter.notifyDataSetChanged();
-        } else {
-            honorRankModel = model;
-            //更新list数据
-            groupModelList.clear();
-            groupModelList.addAll(model.getList_group());
-            newAdapter();
-            listHonorrank.setAdapter(honorGroupRankAdapter);
-//            honorGroupRankAdapter.notifyDataSetChanged();
-            //list中显示减脂还是减重
-            for (ListTopModel topModel : model.getList_top3()) {
-                switch (topModel.getRanking()) {
-                    case "1":
-                        tv_top1_name.setText(topModel.getUserName());
-                        tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top1, topModel.getUserIconUrl());
-                        break;
-                    case "2":
-                        tv_top2_name.setText(topModel.getUserName());
-                        tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top2, topModel.getUserIconUrl());
-                        break;
-                    case "3":
-                        tv_top3_name.setText(topModel.getUserName());
-                        tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                        setImage(civ_top3, topModel.getUserIconUrl());
-                        break;
+            }
+            //不为null，list数据为零，显示“虚位以待”
+            if (model.getList_top3() == null || model.getList_top3().size() == 0) {
+                civ_top1.setImageResource(R.drawable.img_default);
+                civ_top2.setImageResource(R.drawable.img_default);
+                civ_top3.setImageResource(R.drawable.img_default);
+                tv_top1_name.setText("");
+                tv_top2_name.setText("");
+                tv_top3_name.setText("");
+                tv_top1_per.setText("虚位以待");
+                tv_top2_per.setText("虚位以待");
+                tv_top3_per.setText("虚位以待");
+                groupModelList.clear();
+                groupModelList.add(new ListGroupModel());
+                honorGroupRankAdapter.notifyDataSetChanged();
+            } else {
+                honorRankModel = model;
+                //更新list数据
+                groupModelList.clear();
+                groupModelList.addAll(model.getList_group());
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+    //            honorGroupRankAdapter.notifyDataSetChanged();
+                //list中显示减脂还是减重
+                for (ListTopModel topModel : model.getList_top3()) {
+                    switch (topModel.getRanking()) {
+                        case "1":
+                            tv_top1_name.setText(topModel.getUserName());
+                            tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            setImage(civ_top1, topModel.getUserIconUrl());
+                            break;
+                        case "2":
+                            tv_top2_name.setText(topModel.getUserName());
+                            tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            setImage(civ_top2, topModel.getUserIconUrl());
+                            break;
+                        case "3":
+                            tv_top3_name.setText(topModel.getUserName());
+                            tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            setImage(civ_top3, topModel.getUserIconUrl());
+                            break;
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

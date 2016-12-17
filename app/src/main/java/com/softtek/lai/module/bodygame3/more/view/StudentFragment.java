@@ -86,14 +86,13 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             break;
             case rl_exit: {
                 new AlertDialog.Builder(getContext())
-                        .setTitle("注意")
-                        .setMessage("此操作将会从当前班级中退出")
+                        .setTitle("温馨提示")
+                        .setMessage("您确定退出当前班级？")
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogShow("退出班级");
-
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
