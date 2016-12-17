@@ -329,13 +329,15 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
                             Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
 
+                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+
                             // 创建者调用add方法
-                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
-                            } else {
-                                // 一般成员调用invite方法
-                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
-                            }
+//                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
+//                            } else {
+//                                // 一般成员调用invite方法
+//                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
+//                            }
 //
                             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                                     .examine(UserInfoModel.getInstance().getToken(),
