@@ -205,8 +205,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 .commit();
 
         material_calendar.setShowOtherDates(0);
-        material_calendar.invalidateDecorators();
+//        material_calendar.invalidateDecorators();
     }
+
     @Override
     protected void initDatas() {
         actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
@@ -433,7 +434,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     chuDate.putExtra("classId", classid);
                     startActivity(chuDate);
                 }
-
             }
             break;
             case R.id.ll_left:
@@ -502,7 +502,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             pull.setRefreshing(false);
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
-                                classrole=activitydataModel.getClassRole();
+                                classrole = activitydataModel.getClassRole();
                                 //加载班级
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
@@ -530,8 +530,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 if (activitydataModel.getList_ActCalendar() != null && !activitydataModel.getList_ActCalendar().isEmpty()) {
                                     calendarModels.clear();
                                     calendarModels.addAll(activitydataModel.getList_ActCalendar());
-//                                    material_calendar.removeDecorators();
-                                    material_calendar.invalidateDecorators();
+                                    material_calendar.removeDecorators();
+//                                    material_calendar.invalidateDecorators();
                                     new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                                 }
                                 //判断是否显示初始数据录入根据此用户在该班级的角色
@@ -667,18 +667,19 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 return;
             }
             if (material_calendar != null) {
+                material_calendar.removeDecorators();
 //                material_calendar.removeDecorator(decorator);
 //                material_calendar.removeDecorator(decorator_act);
 //                material_calendar.removeDecorator(decorator_create);
 //                material_calendar.removeDecorator(decorator_free);
-                material_calendar.invalidateDecorators();
-                decorator = new EventDecorator(Constants.RESET, calendarModel_reset,classrole, getActivity());
+//                material_calendar.invalidateDecorators();
+                decorator = new EventDecorator(Constants.RESET, calendarModel_reset, classrole, getActivity());
                 material_calendar.addDecorator(decorator);
-                decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act,classrole, getActivity());
+                decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
                 material_calendar.addDecorator(decorator_act);
-                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create,classrole, getActivity());
+                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create, classrole, getActivity());
                 material_calendar.addDecorator(decorator_create);
-                decorator_free = new EventDecorator(Constants.FREE, calendarModel_free,classrole, getActivity());
+                decorator_free = new EventDecorator(Constants.FREE, calendarModel_free, classrole, getActivity());
                 material_calendar.addDecorator(decorator_free);
 
             }
@@ -761,7 +762,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
             }
             material_calendar.removeDecorator(decorator);
-            decorator = new EventDecorator(Constants.RESET, calendarModel_reset,classrole, getActivity());
+            decorator = new EventDecorator(Constants.RESET, calendarModel_reset, classrole, getActivity());
             material_calendar.addDecorator(decorator);
 
         }

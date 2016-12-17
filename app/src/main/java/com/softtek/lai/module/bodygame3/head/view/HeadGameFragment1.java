@@ -272,8 +272,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     iv_types.setImageResource(R.drawable.weightphoto);
                 } else if (typecode == 1) {//减重比
                     iv_types.setImageResource(R.drawable.jianzhong_iv);
-                } else if (typecode == 2) {
-//                    iv_types.setImageResource(R.drawable.);
+                } else if (typecode == 2) {//减脂比
+                    iv_types.setImageResource(R.drawable.jianzhiphoto);
                 }
                 partneradapter.setType(typecode);
                 page = 1;
@@ -757,7 +757,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     }
 
                     //照片墙
-
                     if (classinfoModel.getPhotoWall() != null) {
                         grid_list.setVisibility(View.VISIBLE);
                         no_dongtai.setVisibility(View.GONE);
@@ -765,8 +764,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
                                 fit().error(R.drawable.img_default)
                                 .placeholder(R.drawable.img_default).into(head_images);
-
-
                         name_user.setText(zhaopianModel.getUserName());
                         if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
                             pinglun.setText(zhaopianModel.getNum() + "条评论");
@@ -807,10 +804,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         } else {
                             gengxin.setText("暂无更新");
                         }
-//                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
                     }
-
-
                 }
 
             }
