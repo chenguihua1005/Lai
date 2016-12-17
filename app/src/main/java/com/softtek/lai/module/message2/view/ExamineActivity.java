@@ -209,7 +209,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 int checkedPosition = lv.getCheckedItemPosition();
-                if (checkedPosition != -1) {
+                if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
                         if(checkedPosition<classGroupList.size()){

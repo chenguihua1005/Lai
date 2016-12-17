@@ -6,7 +6,6 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,6 +132,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 if (!validate) {
                     return;
                 }
+                validateLife.validate();
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
