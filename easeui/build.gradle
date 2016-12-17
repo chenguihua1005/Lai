@@ -42,4 +42,5 @@ dependencies {
     //    compile files('libs/hyphenatechat_3.2.1.jar')
     //compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/MiPush_SDK_Client_2_2_19.jar')
+    compile project(path: ':takePhoto')
 }
