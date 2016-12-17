@@ -476,12 +476,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
                 if (responseData.getData() != null) {
-                    NewsModel newsModel = responseData.getData();
-                    int has = newsModel.getNum();
-                    if (has == 0) {
-                        iv_right.setImageResource(R.drawable.email);
-                    } else {
-                        iv_right.setImageResource(R.drawable.has_email);
+                    try {
+                        NewsModel newsModel = responseData.getData();
+                        int has = newsModel.getNum();
+                        if (has == 0) {
+                            iv_right.setImageResource(R.drawable.email);
+                        } else {
+                            iv_right.setImageResource(R.drawable.has_email);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -614,203 +618,207 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
-                page = 1;
-                classModels.clear();
-                if (classinfoModelResponseData.getData() != null) {
-                    final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
-                    //班级加载
-                    if (classinfoModel.getClassInfoList() != null) {
-                        classModels.addAll(classinfoModel.getClassInfoList());
-                        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                            @Override
-                            public void convert(ViewHolder holder, ClassModel data, int position) {
-                                ImageView iv_icon = holder.getView(R.id.iv_icon);
-                                boolean selected = tv_title.getSelectedIndex() == position;
-                                int icon;
-                                switch (data.getClassRole()) {
-                                    case 1:
-                                        icon = selected ? R.drawable.class_zongjiaolian_re : R.drawable.class_zongjiaolian;
-                                        break;
-                                    case 2:
-                                        icon = selected ? R.drawable.class_jiaolian_re : R.drawable.class_jiaolian;
-                                        break;
-                                    case 3:
-                                        icon = selected ? R.drawable.class_zhujiao_re : R.drawable.class_zhujiao;
-                                        break;
-                                    default:
-                                        icon = selected ? R.drawable.class_xueyuan_re : R.drawable.class_xueyuan;
-                                        break;
+                try {
+                    page = 1;
+                    classModels.clear();
+                    if (classinfoModelResponseData.getData() != null) {
+                        final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
+                        //班级加载
+                        if (classinfoModel.getClassInfoList() != null) {
+                            classModels.addAll(classinfoModel.getClassInfoList());
+                            tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                                @Override
+                                public void convert(ViewHolder holder, ClassModel data, int position) {
+                                    ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                    boolean selected = tv_title.getSelectedIndex() == position;
+                                    int icon;
+                                    switch (data.getClassRole()) {
+                                        case 1:
+                                            icon = selected ? R.drawable.class_zongjiaolian_re : R.drawable.class_zongjiaolian;
+                                            break;
+                                        case 2:
+                                            icon = selected ? R.drawable.class_jiaolian_re : R.drawable.class_jiaolian;
+                                            break;
+                                        case 3:
+                                            icon = selected ? R.drawable.class_zhujiao_re : R.drawable.class_zhujiao;
+                                            break;
+                                        default:
+                                            icon = selected ? R.drawable.class_xueyuan_re : R.drawable.class_xueyuan;
+                                            break;
+                                    }
+                                    iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                    int color = selected ? 0xFF000000 : 0xFFFFFFFF;
+                                    TextView tv_role = holder.getView(R.id.tv_role_name);
+                                    int role = data.getClassRole();
+                                    tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+                                    tv_role.setTextColor(color);
+                                    TextView tv_number = holder.getView(R.id.tv_number);
+                                    tv_number.setText(data.getClassCode());
+                                    tv_number.setTextColor(color);
+                                    TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                    tv_class_name.setText(data.getClassName());
+                                    tv_class_name.setTextColor(color);
+                                    ImageView iv_sel = holder.getView(R.id.iv_select);
+                                    iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+                                    RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
+                                    rl_bg.setBackgroundColor(selected ? 0xFFFFFFFF : 0x00FFFFFF);
                                 }
-                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                int color = selected ? 0xFF000000 : 0xFFFFFFFF;
-                                TextView tv_role = holder.getView(R.id.tv_role_name);
-                                int role = data.getClassRole();
-                                tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-                                tv_role.setTextColor(color);
-                                TextView tv_number = holder.getView(R.id.tv_number);
-                                tv_number.setText(data.getClassCode());
-                                tv_number.setTextColor(color);
-                                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                tv_class_name.setText(data.getClassName());
-                                tv_class_name.setTextColor(color);
-                                ImageView iv_sel = holder.getView(R.id.iv_select);
-                                iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
-                                RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
-                                rl_bg.setBackgroundColor(selected ? 0xFFFFFFFF : 0x00FFFFFF);
+
+                                @Override
+                                public String getText(int position) {
+                                    if (classModels != null && !classModels.isEmpty()) {
+                                        classId_first = classModels.get(position).getClassId();
+                                        return classModels.get(position).getClassName();
+                                    } else {
+                                        return "尚未开班";
+                                    }
+                                }
+                            });
+                        }
+                        //荣誉榜
+                        if (classinfoModel.getHonor() != null) {
+                            RongyuModel rongyuModel = classinfoModel.getHonor();
+                            group_name.setText(rongyuModel.getGroupName());
+                            if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
+                                jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + " 斤");
+                            } else {
+                                jianzhongbi_tv.setText("总减重" + " 斤");
+                            }
+                            student_tv.setText(rongyuModel.getStuName());
+
+                            if (!TextUtils.isEmpty(rongyuModel.getStuPhoto())) {
+                                Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto())
+                                        .fit().error(R.drawable.img_default)
+                                        .placeholder(R.drawable.img_default).into(studenticon);
+                            } else {
+                                Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
+                            }
+                            if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
+                                student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
+                            } else {
+                                student_jianzhong.setText("减重" + " 斤");
+                            }
+                            if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
+                                student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
+                            } else {
+                                student_jianzhi.setText("减脂" + " %");
                             }
 
-                            @Override
-                            public String getText(int position) {
-                                if (classModels != null && !classModels.isEmpty()) {
-                                    classId_first = classModels.get(position).getClassId();
-                                    return classModels.get(position).getClassName();
+                        }
+
+                        //班级赛况
+                        if (classinfoModel.getPartnersList() != null) {
+                            partnersModels.clear();
+                            Log.e("234", classinfoModel.getPartnersList().toString());
+                            partnersModels.addAll(classinfoModel.getPartnersList());
+                            partneradapter.notifyDataSetChanged();
+
+                        }
+
+    //                    //本周推荐
+                        if (classinfoModel.getListRec() != null) {
+                            tuijianModels.addAll(classinfoModel.getListRec());
+                            if (tuijianModels.size() >= 2) {
+                                video_type1.setText(tuijianModels.get(0).getVideoType());
+                                video_name1.setText(tuijianModels.get(0).getTitle());
+                                if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
+                                    iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
                                 } else {
-                                    return "尚未开班";
+                                    iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
+                                }
+                                iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent it = new Intent(Intent.ACTION_VIEW);
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        startActivity(it);
+                                    }
+                                });
+                                video_type2.setText(tuijianModels.get(1).getVideoType());
+                                video_name2.setText(tuijianModels.get(1).getTitle());
+                                if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
+                                    iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
+                                } else {
+                                    iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
+                                }
+                                iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent it = new Intent(Intent.ACTION_VIEW);
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        startActivity(it);
+                                    }
+                                });
+                            } else if (tuijianModels.size() == 1) {
+                                video_type1.setText(tuijianModels.get(0).getVideoType());
+                                video_name1.setText(tuijianModels.get(0).getTitle());
+                                if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
+                                    iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
+                                } else {
+                                    iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
                                 }
                             }
-                        });
-                    }
-                    //荣誉榜
-                    if (classinfoModel.getHonor() != null) {
-                        RongyuModel rongyuModel = classinfoModel.getHonor();
-                        group_name.setText(rongyuModel.getGroupName());
-                        if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                            jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + " 斤");
-                        } else {
-                            jianzhongbi_tv.setText("总减重" + " 斤");
-                        }
-                        student_tv.setText(rongyuModel.getStuName());
 
-                        if (!TextUtils.isEmpty(rongyuModel.getStuPhoto())) {
-                            Picasso.with(getContext()).load(path + rongyuModel.getStuPhoto())
-                                    .fit().error(R.drawable.img_default)
-                                    .placeholder(R.drawable.img_default).into(studenticon);
-                        } else {
-                            Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
-                        }
-                        if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
-                            student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
-                        } else {
-                            student_jianzhong.setText("减重" + " 斤");
-                        }
-                        if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
-                            student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
-                        } else {
-                            student_jianzhi.setText("减脂" + " %");
                         }
 
-                    }
+                        //照片墙
 
-                    //班级赛况
-                    if (classinfoModel.getPartnersList() != null) {
-                        partnersModels.clear();
-                        Log.e("234", classinfoModel.getPartnersList().toString());
-                        partnersModels.addAll(classinfoModel.getPartnersList());
-                        partneradapter.notifyDataSetChanged();
+                        if (classinfoModel.getPhotoWall() != null) {
+                            grid_list.setVisibility(View.VISIBLE);
+                            no_dongtai.setVisibility(View.GONE);
+                            ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
+                            Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
+                                    fit().error(R.drawable.img_default)
+                                    .placeholder(R.drawable.img_default).into(head_images);
 
-                    }
 
-//                    //本周推荐
-                    if (classinfoModel.getListRec() != null) {
-                        tuijianModels.addAll(classinfoModel.getListRec());
-                        if (tuijianModels.size() >= 2) {
-                            video_type1.setText(tuijianModels.get(0).getVideoType());
-                            video_name1.setText(tuijianModels.get(0).getTitle());
-                            if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
-                                iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
+                            name_user.setText(zhaopianModel.getUserName());
+                            if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
+                                pinglun.setText(zhaopianModel.getNum() + "条评论");
                             } else {
-                                iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
+                                pinglun.setText("0" + "条评论");
                             }
-                            iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent it = new Intent(Intent.ACTION_VIEW);
-                                    it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                    startActivity(it);
-                                }
-                            });
-                            video_type2.setText(tuijianModels.get(1).getVideoType());
-                            video_name2.setText(tuijianModels.get(1).getTitle());
-                            if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
-                                iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
+                            if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
+                                photos.clear();
+                                photos.addAll(zhaopianModel.getPhotoThumbnailList());
+                                adapter.notifyDataSetChanged();
+
                             } else {
-                                iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
+                                grid_list.setVisibility(View.GONE);
+                                no_dongtai.setVisibility(View.VISIBLE);
                             }
-                            iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent it = new Intent(Intent.ACTION_VIEW);
-                                    it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                    startActivity(it);
-                                }
-                            });
-                        } else if (tuijianModels.size() == 1) {
-                            video_type1.setText(tuijianModels.get(0).getVideoType());
-                            video_name1.setText(tuijianModels.get(0).getTitle());
-                            if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
-                                iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
-                            } else {
-                                iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
-                            }
-                        }
-
-                    }
-
-                    //照片墙
-
-                    if (classinfoModel.getPhotoWall() != null) {
-                        grid_list.setVisibility(View.VISIBLE);
-                        no_dongtai.setVisibility(View.GONE);
-                        ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
-                        Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
-                                fit().error(R.drawable.img_default)
-                                .placeholder(R.drawable.img_default).into(head_images);
-
-
-                        name_user.setText(zhaopianModel.getUserName());
-                        if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
-                            pinglun.setText(zhaopianModel.getNum() + "条评论");
-                        } else {
-                            pinglun.setText("0" + "条评论");
-                        }
-                        if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-                            photos.clear();
-                            photos.addAll(zhaopianModel.getPhotoThumbnailList());
-                            adapter.notifyDataSetChanged();
-
-                        } else {
-                            grid_list.setVisibility(View.GONE);
-                            no_dongtai.setVisibility(View.VISIBLE);
-                        }
-                        //计算时间
-                        if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
-                            long[] days = DateUtil.getInstance().getDaysForNow(zhaopianModel.getReleaseTime());
-                            String time = "";
-                            if (days[0] == 0) {//今天
-                                if (days[3] < 60) {//小于1分钟
-                                    time = "刚刚";
+                            //计算时间
+                            if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
+                                long[] days = DateUtil.getInstance().getDaysForNow(zhaopianModel.getReleaseTime());
+                                String time = "";
+                                if (days[0] == 0) {//今天
+                                    if (days[3] < 60) {//小于1分钟
+                                        time = "刚刚";
+                                        gengxin.setText("最后更新" + time);
+                                    } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+                                        time = days[2] + "分钟前";
+                                        gengxin.setText("最后更新" + time);
+                                    } else {//大于一小时
+                                        time = days[1] + "小时前";
+                                        gengxin.setText("最后更新" + time);
+                                    }
+                                } else if (days[0] == 1) {//昨天
+                                    time = "昨天";
                                     gengxin.setText("最后更新" + time);
-                                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                                    time = days[2] + "分钟前";
-                                    gengxin.setText("最后更新" + time);
-                                } else {//大于一小时
-                                    time = days[1] + "小时前";
+                                } else {
+                                    time = days[0] + "天前";
                                     gengxin.setText("最后更新" + time);
                                 }
-                            } else if (days[0] == 1) {//昨天
-                                time = "昨天";
-                                gengxin.setText("最后更新" + time);
                             } else {
-                                time = days[0] + "天前";
-                                gengxin.setText("最后更新" + time);
+                                gengxin.setText("暂无更新");
                             }
-                        } else {
-                            gengxin.setText("暂无更新");
+    //                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
                         }
-//                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
+
+
                     }
-
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

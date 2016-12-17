@@ -232,11 +232,13 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
             case R.id.fl_right:
                 if(!doOperator){
                     doOperator=true;
+                    lv.setMode(PullToRefreshBase.Mode.DISABLED);
                     tv_right.setText("完成");
                     cb_all.setChecked(false);
                     footer.setVisibility(View.VISIBLE);
                 }else {
                     doOperator=false;
+                    lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
                     tv_right.setText("编辑");
                     footer.setVisibility(View.GONE);
                 }
