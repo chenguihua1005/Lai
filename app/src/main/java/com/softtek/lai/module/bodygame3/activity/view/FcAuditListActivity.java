@@ -47,13 +47,15 @@ public class FcAuditListActivity extends BaseActivity{
     String[] tabtitle={"未审核","已审核"};
     String classId;
     String typeDate;
+    int resetdatestatus;
     @Override
     protected void initViews() {
         tv_title.setText("复测审核");
         classId=getIntent().getStringExtra("classId");
         typeDate=getIntent().getStringExtra("typeDate");
+        resetdatestatus=getIntent().getIntExtra("resetdatestatus",0);//接收复测日状态//复测日状态  1:已过去 2：进行中 3：未开始
         fragments=new ArrayList<>();
-        fragments.add(FcAuditFragment.getInstance(classId,typeDate));
+        fragments.add(FcAuditFragment.getInstance(classId,typeDate,resetdatestatus));
         fragments.add(FcAuditedFragment.getInstance(classId,typeDate));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
         tab.setupWithViewPager(content);

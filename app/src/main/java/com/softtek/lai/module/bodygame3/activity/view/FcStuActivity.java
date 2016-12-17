@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -131,6 +132,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
     int resetstatus,resetdatestatus;
+    ProgressDialog progressDialog;
     boolean IsEdit=true;
     String filest;
     File file;
