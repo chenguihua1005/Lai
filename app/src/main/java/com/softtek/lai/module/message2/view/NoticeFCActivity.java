@@ -214,35 +214,15 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                    .getMeasureMsgList(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            new RequestCallback<ResponseData<List<NoticeModel>>>() {
-                                @Override
-                                public void success(ResponseData<List<NoticeModel>> data, Response response) {
-                                    try {
-                                        lv.onRefreshComplete();
-                                        if(data.getStatus()==200){
-                                            onResult(data.getData());
-                                        }else {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(lv!=null){
+                        lv.setRefreshing();
+                    }
+                }
+            },400);
 
-                                            Util.toastMsg(data.getMsg());
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    try {
-                                        lv.onRefreshComplete();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    super.failure(error);
-                                }
-                            });
         }
     }
 
@@ -252,11 +232,13 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
             case R.id.fl_right:
                 if(!doOperator){
                     doOperator=true;
+                    lv.setMode(PullToRefreshBase.Mode.DISABLED);
                     tv_right.setText("完成");
                     cb_all.setChecked(false);
                     footer.setVisibility(View.VISIBLE);
                 }else {
                     doOperator=false;
+                    lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
                     tv_right.setText("编辑");
                     footer.setVisibility(View.GONE);
                 }

@@ -78,7 +78,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
-
         exit_tv.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -246,7 +245,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 Util.toastMsg(responseData.getMsg());
-                                setResult(RESULT_OK);
+                                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
                                 finish();
                             }
 
@@ -257,7 +256,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.ll_left:
-                setResult(RESULT_OK);
+                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
                 finish();
                 break;
         }

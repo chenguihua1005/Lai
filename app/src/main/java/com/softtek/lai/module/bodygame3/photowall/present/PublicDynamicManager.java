@@ -11,6 +11,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.UploadImageService;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;
@@ -128,9 +129,9 @@ public class PublicDynamicManager implements Runnable,UploadImageService.UploadI
     }
 
     @Override
-    public void getImageName(String imageName) {
+    public void getImageName(ImageResponse2 imageName) {
         if(imageName!=null){
-            photo.append(imageName);
+            photo.append(imageName.imgName);
             photo.append(",");
         }
         latch.countDown();
