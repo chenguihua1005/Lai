@@ -81,14 +81,21 @@ public class FcAuditListActivity extends BaseActivity{
                 switch (status)
                 {
                     case 200:
-
-                        tabtitle[0] = "未审核(" + (TextUtils.isEmpty(listResponseData.getData().get(0).getCount())?"0":listResponseData.getData().get(0).getCount()) + ")";
-                        tabtitle[1] = "已审核(" + (TextUtils.isEmpty(listResponseData.getData().get(1).getCount())?"0":listResponseData.getData().get(1).getCount()) + ")";
-                        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
-                        tab.setupWithViewPager(content);
-                        Log.i("已审核(" + tabtitle[1] + "count" + listResponseData.getData().get(1).getCount());
+                        if(listResponseData.getData().size()==0)
+                        {
+                            tabtitle[0] = "未审核(" + "0"+ ")";
+                            tabtitle[1] = "已审核(" + "0" + ")";
+                            content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
+                            tab.setupWithViewPager(content);
+                        }
+                        else {
+                            tabtitle[0] = "未审核(" + (TextUtils.isEmpty(listResponseData.getData().get(0).getCount())?"0":listResponseData.getData().get(0).getCount()) + ")";
+                            tabtitle[1] = "已审核(" + (TextUtils.isEmpty(listResponseData.getData().get(1).getCount())?"0":listResponseData.getData().get(1).getCount()) + ")";
+                            content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
+                            tab.setupWithViewPager(content);
+                            Log.i("已审核(" + tabtitle[1] + "count" + listResponseData.getData().get(1).getCount());
+                        }
                         break;
-
                     default:
                         break;
                 }

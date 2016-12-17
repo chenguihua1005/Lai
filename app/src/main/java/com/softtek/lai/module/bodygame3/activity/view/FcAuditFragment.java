@@ -21,6 +21,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
@@ -79,7 +80,6 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
             }
 
         }, 300);
-
 
     }
 
@@ -165,8 +165,11 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-                        adapter.notifyDataSetChanged();
+                        if(listResponseData.getData().size()!=0)
+                        {
+                            memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                            adapter.notifyDataSetChanged();
+                        }
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
