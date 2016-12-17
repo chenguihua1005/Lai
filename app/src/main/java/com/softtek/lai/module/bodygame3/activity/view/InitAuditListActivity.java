@@ -46,6 +46,8 @@ public class InitAuditListActivity extends BaseActivity{
     FuceSevice fuceSevice;
     String[] tabtitle={"未审核","已审核"};
     String classId;
+    int Auditnum=0;
+    int Auditednum=0;
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
@@ -68,7 +70,7 @@ public class InitAuditListActivity extends BaseActivity{
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
-        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 2);
+        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 1);
 
     }
     //获取审核列表数据
@@ -90,6 +92,8 @@ public class InitAuditListActivity extends BaseActivity{
                         else {
                             tabtitle[0] = "未审核(" + listResponseData.getData().get(0).getCount() + ")";
                             tabtitle[1] = "已审核(" + listResponseData.getData().get(1).getCount() + ")";
+                             Auditnum=Integer.parseInt(listResponseData.getData().get(1).getCount());
+                             Auditednum=Integer.parseInt(listResponseData.getData().get(1).getCount());
                             content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
                             tab.setupWithViewPager(content);
                             Log.i("已审核(" + tabtitle[1] + "count" + listResponseData.getData().get(1).getCount());
@@ -100,5 +104,10 @@ public class InitAuditListActivity extends BaseActivity{
                 }
             }
         });
+    }
+    public void getTab(){
+        tabtitle[0]="未审核(" + (Auditnum-1 )+ ")";
+        tabtitle[1]="已审核(" +(Auditednum -1) + ")";
+        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
     }
 }

@@ -211,12 +211,13 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         AccountId=getIntent().getLongExtra("AccountId",0);
         ACMID=getIntent().getStringExtra("ACMID");
         IsAudit=getIntent().getIntExtra("Audited",1);
+        im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
         if (IsAudit==1)
         {
             tv_right.setText("");
             tv_right.setEnabled(false);
             btn_retest_write_addbody.setText("查看身体围度");
-            im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+
         }
         else {
             tv_right.setText("保存");//保存数据
@@ -533,12 +534,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         initAuditPModel.setWeight(tv_write_chu_weight.getText().toString());//体重
         initAuditPModel.setPysical(tv_retestWrite_tizhi.getText().toString());//体脂
         initAuditPModel.setFat(tv_retestWrite_neizhi.getText().toString());//内脂
-        initAuditPModel.setCircum(measuredDetailsModel.getCircum().toString());//胸围
-        initAuditPModel.setHiplie(measuredDetailsModel.getHiplie().toString());//臀围
-        initAuditPModel.setWaistline(measuredDetailsModel.getWaistline().toString());//腰围
-        initAuditPModel.setUpArmGirth(measuredDetailsModel.getUpArmGirth().toString());
-        initAuditPModel.setUpArmGirth(measuredDetailsModel.getUpLegGirth().toString());
-        initAuditPModel.setDoLegGirth(measuredDetailsModel.getDoLegGirth());
+        initAuditPModel.setCircum(TextUtils.isEmpty(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());//胸围
+        initAuditPModel.setHiplie(TextUtils.isEmpty(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());//臀围
+        initAuditPModel.setWaistline(TextUtils.isEmpty(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());//腰围
+        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
+        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
+        initAuditPModel.setDoLegGirth(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
         Log.i("上传数据" +initAuditPModel.toString() );
         doPostInitData();
     }
