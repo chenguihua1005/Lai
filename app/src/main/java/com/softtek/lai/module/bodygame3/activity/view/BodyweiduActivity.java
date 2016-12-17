@@ -88,6 +88,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     private MeasuredDetailsModel measuredDetailsModel;
     int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入、学员初始数据录入,3复测未审核，4复测已审核
     boolean IsEdit;
+    private int resetdatestatus;//复测日状态
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

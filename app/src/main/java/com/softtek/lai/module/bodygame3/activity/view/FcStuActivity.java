@@ -132,7 +132,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
     int resetstatus,resetdatestatus;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     boolean IsEdit=true;
     String filest;
     File file;
@@ -143,6 +143,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         tv_title.setText("复测录入");
         tv_right.setText("保存");
         tv_write.setText("初始体重");
+        progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);
