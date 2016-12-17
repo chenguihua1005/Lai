@@ -297,7 +297,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                          * 哈哈哈哈 # 金 彩 踢 馆 赛 #
                          */
                         String theme="#"+data.getThemeName()+"#";
-                        ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFEC7166);
+                        ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
                         //先把
                         int from=0;
                         int lastIndex=content.lastIndexOf("#");

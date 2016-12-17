@@ -164,6 +164,12 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 progressDialog.show();
                 photoManager.doUploadPhoto(Userid,"1",file,progressDialog);
             }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+
+            }
+
             @Override
             public void onError() {
 

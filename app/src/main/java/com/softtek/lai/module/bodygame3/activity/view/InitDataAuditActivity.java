@@ -45,6 +45,7 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -192,6 +193,11 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
                 Log.i(files);
 //                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+
             }
 
             @Override

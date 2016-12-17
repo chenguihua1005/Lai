@@ -35,6 +35,8 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.util.List;
+
 import butterknife.InjectView;
 import uk.co.senab.photoview.PhotoView;
 import zilla.libcore.file.AddressManager;
@@ -90,6 +92,11 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
             public void onSuccess(String file) {
                 progressDialog.show();
                 presenter.modifyPictures(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+
             }
 
             @Override
