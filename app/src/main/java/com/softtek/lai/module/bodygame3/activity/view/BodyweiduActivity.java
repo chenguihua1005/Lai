@@ -125,6 +125,23 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         {
             //初始数据未审核
             case 3:
+                resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
+                if (resetdatestatus==1)
+                {
+                    btn_retest_save.setVisibility(View.GONE);
+                }
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             case 0:
                 try {
                     if (measuredDetailsModel != null) {

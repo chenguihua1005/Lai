@@ -63,8 +63,14 @@ public interface CommunityService {
     void uploadMutilpartImage(@Header("token")String token,
                               @Part("photo")TypedFile file,
                               RequestCallback<ResponseData<ImageResponse>> callback);
+    //上传单图接口
+    @Multipart
+    @POST("/V1/FileUpload/PostFile")
+    void uploadSingleImage(@Header("token")String token,
+                              @Part("photo")TypedFile file,
+                              RequestCallback<ResponseData<ImageResponse2>> callback);
 
-    //上传单图新接口
+    //上传多图新接口
     @Multipart
     @POST("/V1/FileUpload/PostFiles")
     void uploadImage(@Header("token")String token,
