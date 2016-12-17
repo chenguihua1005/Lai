@@ -123,7 +123,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                                             }
                                         }
                                     } else {
-                                        Util.toastMsg(pantnerpageModelResponseData.getMsg());
+                                        Util.toastMsg("未找到该小伙伴");
                                     }
                                 }
                                 @Override
@@ -133,7 +133,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                                 }
                             });
                 }else{
-                    Util.toastMsg("请输入搜索内容");
+                    Util.toastMsg("请输入姓名或者手机号");
                 }
                 break;
         }

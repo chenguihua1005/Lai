@@ -132,7 +132,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 if (!validate) {
                     return;
                 }
-                validateLife.validate();
+                et_password.setError(null);
+                et_repassword.setError(null);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
