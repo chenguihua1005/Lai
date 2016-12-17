@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -77,7 +78,6 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
             }
 
         }, 300);
-
 
     }
 
@@ -157,8 +157,12 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
-                        adapter.notifyDataSetChanged();
+                        Log.i("listResponseData.getData().size()!=0"+listResponseData.getData().size());
+                        if(listResponseData.getData().size()!=0)
+                        {
+                            memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
+                            adapter.notifyDataSetChanged();
+                        }
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
