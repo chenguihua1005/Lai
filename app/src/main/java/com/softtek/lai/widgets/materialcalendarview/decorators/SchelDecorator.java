@@ -18,9 +18,11 @@ public class SchelDecorator implements DayViewDecorator {
     private int mode;
     private HashSet<CalendarDay> dates;
     private Context context;
+    private int role;
 
-    public SchelDecorator(int mode, Collection<CalendarDay> dates, Context context) {
+    public SchelDecorator(int mode, Collection<CalendarDay> dates,int role, Context context) {
         this.mode = mode;
+        this.role=role;
         this.dates = new HashSet<>(dates);
         this.context = context;
 
@@ -33,7 +35,7 @@ public class SchelDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new Textspan(context,mode,4));
+        view.addSpan(new Textspan(context,mode,4,role));
 
     }
 }
