@@ -1,6 +1,8 @@
 package com.softtek.lai.module.message2.view;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -33,7 +38,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_message_operator)
-public class NoticeServerActivity extends BaseActivity implements View.OnClickListener {
+public class NoticeServerActivity extends BaseActivity implements View.OnClickListener ,PullToRefreshBase.OnRefreshListener<ListView>{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -44,7 +49,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.lv)
-    ListView lv;
+    PullToRefreshListView lv;
 
     @InjectView(R.id.footer)
     LinearLayout footer;
@@ -68,6 +73,12 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
         lin_select.setOnClickListener(this);
         tv_right.setText("编辑");
         fl_right.setOnClickListener(this);
+        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        ILoadingLayout startLabelse = lv.getLoadingLayoutProxy(true,false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        lv.setOnRefreshListener(this);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,34 +161,22 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        dialogShow("加载中");
-        ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                .getNoticeMsgList(UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        new RequestCallback<ResponseData<List<NoticeModel>>>() {
-                            @Override
-                            public void success(ResponseData<List<NoticeModel>> data, Response response) {
-                                dialogDissmiss();
-                                if(data.getStatus()==200){
-                                    onResult(data.getData());
-                                }else {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(lv!=null){
+                    lv.setRefreshing();
+                }
+            }
+        },400);
 
-                                    Util.toastMsg(data.getMsg());
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                dialogDissmiss();
-                                super.failure(error);
-                            }
-                        });
     }
 
     private void onResult(List<NoticeModel> data){
         try {
             tv_right.setText("编辑");
             fl_right.setOnClickListener(this);
+            operatList.clear();
             operatList.addAll(data);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
@@ -189,28 +188,14 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            dialogShow("加载中");
-            ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                    .getNoticeMsgList(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            new RequestCallback<ResponseData<List<NoticeModel>>>() {
-                                @Override
-                                public void success(ResponseData<List<NoticeModel>> data, Response response) {
-                                    dialogDissmiss();
-                                    if(data.getStatus()==200){
-                                        operatList.clear();
-                                        onResult(data.getData());
-                                    }else {
-                                        Util.toastMsg(data.getMsg());
-                                    }
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    dialogDissmiss();
-                                    super.failure(error);
-                                }
-                            });
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(lv!=null){
+                        lv.setRefreshing();
+                    }
+                }
+            },400);
         }
     }
 
@@ -220,11 +205,13 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
             case R.id.fl_right:
                 if(!doOperator){
                     doOperator=true;
+                    lv.setMode(PullToRefreshBase.Mode.DISABLED);
                     tv_right.setText("完成");
                     cb_all.setChecked(false);
                     footer.setVisibility(View.VISIBLE);
                 }else {
                     doOperator=false;
+                    lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
                     tv_right.setText("编辑");
                     footer.setVisibility(View.GONE);
                 }
@@ -304,5 +291,37 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                .getNoticeMsgList(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        new RequestCallback<ResponseData<List<NoticeModel>>>() {
+                            @Override
+                            public void success(ResponseData<List<NoticeModel>> data, Response response) {
+                                try {
+                                    lv.onRefreshComplete();
+                                    if(data.getStatus()==200){
+                                        onResult(data.getData());
+                                    }else {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                try {
+                                    lv.onRefreshComplete();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                super.failure(error);
+                            }
+                        });
     }
 }
