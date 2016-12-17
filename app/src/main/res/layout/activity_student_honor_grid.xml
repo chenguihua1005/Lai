@@ -159,15 +159,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin"
-                    android:layout_marginRight="@dimen/margin"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop3"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="@string/studentHonorFC"
                     android:textSize="@dimen/studentHonorTextSize" />
 
@@ -175,9 +174,7 @@
                     android:id="@+id/lin_fc_value"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop4"
-                    android:background="@color/white"
-                    >
+                    android:background="@color/white">
 
                     <LinearLayout
                         android:id="@+id/lin_fc"
@@ -190,7 +187,7 @@
 
                         <ImageView
                             android:id="@+id/img_fc_1"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -258,15 +255,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin"
-                    android:layout_marginRight="@dimen/margin"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop1"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="@string/studentHonorYGJ"
                     android:textSize="@dimen/studentHonorTextSize" />
 
@@ -274,7 +270,6 @@
                     android:id="@+id/lin_ygj_value"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
                     <RelativeLayout
@@ -395,17 +390,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop1"
-                    android:layout_marginLeft="@dimen/margin"
-                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="全国减重明星"
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
                     android:id="@+id/lin_star_value"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="155dip"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
                     <RelativeLayout

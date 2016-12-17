@@ -62,6 +62,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     protected void lazyLoad() {
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 
             @Override

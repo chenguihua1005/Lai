@@ -79,8 +79,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
 
         }, 300);
 
-
     }
+
 
     @Override
     protected void initViews() {
@@ -96,6 +96,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+
     }
 
     @Override
@@ -146,17 +148,22 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 @Override
 
                 public void run() {
-//                    String ACMID=data.getStringExtra("ACMID");
-//                    int n;
-//                    for (int i=0;i<memberListModels.size();i++)
-//                    {
-//                        if ("memberListModels".equals(memberListModels.get(i).getAcmId()))
-//                        {
-//                            n=i;
-//                        }
-//                    }
-//                    memberListModels.set()
-                    doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+                    String ACMID=data.getStringExtra("ACMID");
+                    String n="";
+                    for (int i=0;i<memberListModels.size();i++)
+                    {
+                        if ("memberListModels".equals(memberListModels.get(i).getAcmId()))
+                        {
+                            n=i+"";
+                        }
+                    }
+                    if (!"".equals(n)) {
+                        memberListModels.remove(Integer.parseInt(n));
+                        adapter.notifyDataSetChanged();
+//                        ((InitDataAuditActivity)getActivity()).getT;
+//                        getTab()
+                    }
+//                    doGetData(UserInfoModel.getInstance().getUserId(),classid ,  1, 10);
 
                 }
 
