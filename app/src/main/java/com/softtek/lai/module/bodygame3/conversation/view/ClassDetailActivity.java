@@ -116,6 +116,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             ClassId = classModel.getClassId();
 
             Log.i(TAG, "HXGroupId = " + HXGroupId + " ClassId = " + ClassId);
+            Log.i(TAG,"class info = " + new Gson().toJson(classModel));
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
             if (CoachId == UserInfoModel.getInstance().getUserId()) {
