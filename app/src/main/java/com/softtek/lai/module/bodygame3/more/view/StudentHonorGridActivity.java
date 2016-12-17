@@ -54,7 +54,6 @@ import zilla.libcore.util.Util;
 @InjectLayout(R.layout.activity_student_honor_grid)
 public class StudentHonorGridActivity extends BaseActivity implements View.OnClickListener{
 
-
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
@@ -73,29 +72,15 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.img_fc_3)
     ImageView img_fc_3;
 
-//    @InjectView(R.id.lin_fc)
-//    LinearLayout lin_fc;
 
     @InjectView(R.id.list_ygj)
     GridView list_ygj;
-//    @InjectView(R.id.rel)
-//    RelativeLayout rel;
 
-//    @InjectView(R.id.hs_jz)
-//    HorizontalScrollView hs_jz;
     @InjectView(R.id.hs_ygj)
     HorizontalScrollView hs_ygj;
     @InjectView(R.id.hs_star)
     HorizontalScrollView hs_star;
 
-//    @InjectView(R.id.list_jz)
-//    GridView list_jz;
-
-//    @InjectView(R.id.lin_jz_left)
-//    LinearLayout lin_jz_left;
-
-//    @InjectView(R.id.lin_jz_right)
-//    LinearLayout lin_jz_right;
 
     @InjectView(R.id.lin_ygj_left)
     LinearLayout lin_ygj_left;
@@ -109,19 +94,10 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.lin_star_right)
     LinearLayout lin_star_right;
 
-//    @InjectView(R.id.lin_jz_value)
-//    LinearLayout lin_jz_value;
-//    @InjectView(R.id.lin_jz_sm)
-//    RelativeLayout lin_jz_sm;
-//    @InjectView(R.id.text_jz)
-//    TextView text_jz;
-
     @InjectView(R.id.lin_fc_value)
     RelativeLayout lin_fc_value;
     @InjectView(R.id.lin_fc_sm)
     RelativeLayout lin_fc_sm;
-//    @InjectView(R.id.text_fc)
-//    TextView text_fc;
 
     @InjectView(R.id.lin_ygj_value)
     LinearLayout lin_ygj_value;
@@ -146,7 +122,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     private IStudentPresenter studentHonorPresenter;
     int widthPosition;
 
-    //private List<StudentHonorInfo> jz_list = new ArrayList<>();
     private List<StudentHonorInfo> fc_list = new ArrayList<>();
     private List<StudentHonorInfo> ygj_list = new ArrayList<>();
     private List<StudentHonorInfo> star_list = new ArrayList<>();
@@ -156,8 +131,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        //lin_jz_left.setOnClickListener(this);
-        //lin_jz_right.setOnClickListener(this);
         lin_ygj_left.setOnClickListener(this);
         lin_ygj_right.setOnClickListener(this);
         lin_star_left.setOnClickListener(this);
@@ -242,9 +215,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             for (int i = 0; i < table1.size(); i++) {
                 StudentHonorInfo studentHonorInfo = table1.get(i);
                 String honorType = studentHonorInfo.getHonorType().toString();
-                /*if ("0".equals(honorType)) {
-                    jz_list.add(studentHonorInfo);
-                } else*/ if ("1".equals(honorType)) {
+                if ("1".equals(honorType)) {
                     fc_list.add(studentHonorInfo);
                 } else if ("2".equals(honorType)) {
                     ygj_list.add(studentHonorInfo);
@@ -272,25 +243,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
                     img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
                 }
             }
-//        if (jz_list.size() == 0) {
-//            lin_jz_value.setVisibility(View.GONE);
-//            lin_jz_sm.setVisibility(View.VISIBLE);
-//        } else {
-//            lin_jz_value.setVisibility(View.VISIBLE);
-//            lin_jz_sm.setVisibility(View.GONE);
-//            String value=jz_list.get(jz_list.size()-1).getValue();
-//            if(Integer.parseInt(value)>=50){
-//                text_jz.setText("加油! 你离下一枚减重奖章只差10斤了哦");
-//            }else {
-//                text_jz.setText("加油! 你离下一枚减重奖章只差5斤了哦");
-//            }
-//            StudentHonorInfo StudentHonorInfo=new StudentHonorInfo("future","");
-//            jz_list.add(StudentHonorInfo);
-//            setG();
-//            StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
-//            list_jz.setAdapter(jz_adapter);
-//        }
-
             if (ygj_list.size() == 0) {
                 lin_ygj_value.setVisibility(View.GONE);
                 lin_ygj_sm.setVisibility(View.VISIBLE);
@@ -314,24 +266,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             e.printStackTrace();
         }
     }
-//    private void setG(){
-//
-//        int size = jz_list.size();
-//        int length = 100;
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        float density = dm.density;
-//        int gridviewWidth = (int) (size * (length + 4) * density);
-//        int itemWidth = (int) (length * density);
-//        widthPosition = itemWidth;
-//
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                gridviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
-//        list_jz.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
-//        list_jz.setColumnWidth(itemWidth); // 设置列表项宽
-//        list_jz.setStretchMode(GridView.NO_STRETCH);
-//        list_jz.setNumColumns(size); // 设置列数量=列表集合数
-//    }
+
     /**
      * 设置GirdView参数，绑定数据
      */
@@ -403,17 +338,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
                 hs_ygj.getScrollX();
                 hs_ygj.smoothScrollTo(hs_ygj.getScrollX() + widthPosition, 0);
                 break;
-
-//            case R.id.lin_jz_left:
-//                hs_jz.getScrollX();
-//                hs_jz.smoothScrollTo(hs_jz.getScrollX() - widthPosition, 0);
-//                break;
-//
-//            case R.id.lin_jz_right:
-//                hs_jz.getScrollX();
-//                hs_jz.smoothScrollTo(hs_jz.getScrollX() + widthPosition, 0);
-//                break;
-
             case R.id.lin_star_left:
                 hs_star.getScrollX();
                 hs_star.smoothScrollTo(hs_star.getScrollX() - widthPosition, 0);

@@ -1,11 +1,14 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -34,10 +37,13 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
@@ -125,14 +131,19 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     MultipartTypedOutput multipartTypedOutput;
     @LifeCircleInject
     ValidateLife validateLife;
-    String files;
     int resetstatus,resetdatestatus;
+    private ProgressDialog progressDialog;
     boolean IsEdit=true;
+    String filest;
+    File file;
+    private ImageFileSelector imageFileSelector;
+
     @Override
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_right.setText("保存");
         tv_write.setText("初始体重");
+        progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -142,21 +153,29 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1,1);
-        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
-        imageFileCropSelector.setOutPut(px,px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+        int px=DisplayUtil.dip2px(this,300);
+        //*************************
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageFileSelector.setQuality(60);
+        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(FcStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                files=file;
+                filest=file;
 
-                Log.i(files);
-//                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                im_delete.setVisibility(View.VISIBLE);
+                file=new File(files.get(0));
+                Picasso.with(FcStuActivity.this).load(file).fit().into(im_retestwrite_showphoto);
+                filest=file.toString();
+
             }
 
             @Override
@@ -269,7 +288,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
-                files="";
+                filest="";
                 break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
@@ -311,31 +330,33 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     editor.commit();
                 } else
                 {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //拍照
+                                if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                     //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(FcStuActivity.this,Manifest.permission.CAMERA)){
+                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                                         //允许弹出提示
-                                        ActivityCompat.requestPermissions(FcStuActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                    }else{
+                                    } else {
                                         //不允许弹出提示
-                                        ActivityCompat.requestPermissions(FcStuActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                     }
-                                }else {
-                                    imageFileCropSelector.takePhoto(FcStuActivity.this);
+                                } else {
+                                    imageFileSelector.takePhoto(FcStuActivity.this);
                                 }
                             } else if (which == 1) {
-                                imageFileCropSelector.selectImage(FcStuActivity.this);
+                                //照片
+                                imageFileSelector.selectMutilImage(FcStuActivity.this,1);
                             }
                         }
                     }).create().show();
+
                     Log.d("debug", "不是第一次运行");
                 }
 
@@ -366,15 +387,22 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 switch (status)
                 {
                     case 200:
+                        progressDialog.dismiss();
                         finish();
                         break;
                     default:
+                        progressDialog.dismiss();
                         Util.toastMsg(responseData.getMsg());
                         break;
                 }
             }
-
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                        progressDialog.dismiss();
+                    }
+                }
+        );
     }
     void doSetData()
     {
@@ -419,7 +447,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     {
         multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
-        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
         multipartTypedOutput.addPart("weight", new TypedString(tv_retestWrite_nowweight.getText().toString()));//现在体重
@@ -440,7 +468,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(FcStuActivity.this);
+                imageFileSelector.takePhoto(FcStuActivity.this);
 
             } else {
 
@@ -448,12 +476,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 // functionality that depends on this permission.
             }
         }
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
@@ -463,13 +491,26 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         if (requestCode==BODY&&resultCode==RESULT_OK){
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setItems(items, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(FcStuActivity.this);
+                        if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                //允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+
+                            } else {
+                                //不允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                            }
+                        } else {
+                            imageFileSelector.takePhoto(FcStuActivity.this);
+                        }
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(FcStuActivity.this);
+                        imageFileSelector.selectImage(FcStuActivity.this);
                     }
                 }
             }).create().show();
@@ -526,7 +567,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-        if (!TextUtils.isEmpty(files)) {
+        if (!TextUtils.isEmpty(filest)) {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
             doSetPostData();
         }
         else {

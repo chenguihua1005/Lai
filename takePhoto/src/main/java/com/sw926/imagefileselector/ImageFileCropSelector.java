@@ -32,15 +32,10 @@ public class ImageFileCropSelector {
     public ImageFileCropSelector(final Context context) {
         mImagePickHelper = new ImagePickHelper();
         mImagePickHelper.setCallback(new ImagePickHelper.Callback() {
-//            @Override
-//            public void onSuccess(String file) {
-//                Log.i(TAG, "select image from sdcard: " + file);
-//                handleResult(file, false);
-//            }
 
             @Override
             public void onMutilSussess(List<String> imgs) {
-
+                handleMutilResult(imgs,false);
             }
 
 
@@ -74,7 +69,9 @@ public class ImageFileCropSelector {
 
             @Override
             public void onMutilCallBack(List<String> outFiles) {
-
+                if (mCallback != null) {
+                    mCallback.onMutilSuccess(outFiles);
+                }
             }
         });
         mImageCropperHelper =new ImageCropHelper();
@@ -179,7 +176,16 @@ public class ImageFileCropSelector {
             }
         } else {
             if (mCallback != null) {
-                mCallback.onSuccess(null);
+                mCallback.onError();
+            }
+        }
+    }
+    private void handleMutilResult(List<String> fileName, boolean deleteSrc) {
+        if (!fileName.isEmpty()) {
+            mImageCompressHelper.compressMutil(fileName, deleteSrc);
+        } else {
+            if (mCallback != null) {
+                mCallback.onError();
             }
         }
     }
@@ -192,7 +198,7 @@ public class ImageFileCropSelector {
 
     public interface Callback {
         void onSuccess(String file);
-
+        void onMutilSuccess(List<String> files);
         void onError();
     }
 

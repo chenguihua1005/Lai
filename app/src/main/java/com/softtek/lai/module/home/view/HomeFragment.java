@@ -238,14 +238,13 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         super.onResume();
         rhv_adv.startRoll();
         model = UserInfoModel.getInstance().getUser();
-        Log.i(TAG, "用戶信息model = " + new Gson().toJson(model));
-
         if (model == null) {
             return;
         }
         String userrole = model.getUserrole();
         if (!String.valueOf(Constants.VR).equals(userrole)) {
             ZillaApi.NormalRestAdapter.create(Message2Service.class).getMessageRead(UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
                     new Callback<ResponseData<UnReadMsg>>() {
                         @Override
                         public void success(ResponseData<UnReadMsg> responseData, Response response) {
@@ -273,7 +272,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         }
                     });
 
-            Log.i(TAG, new Gson().toJson(model));
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
             chatUserModel.setUserName(model.getNickname());

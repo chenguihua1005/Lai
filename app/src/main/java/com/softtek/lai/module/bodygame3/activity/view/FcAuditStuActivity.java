@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -32,8 +34,10 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.client.Response;
@@ -108,18 +112,20 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     FuceSevice fuceSevice;
     MeasuredDetailsModel measuredDetailsModel;
     FcAuditPostModel fcAuditPostModel;
-    private ImageFileCropSelector imageFileCropSelector;
     private static final int BODY = 3;
     private static final int GET_BODY = 1;
+    private ImageFileSelector imageFileSelector;
 
     private int IsAudit = 0;
     String gender = "0";
+    int resetdatestatus=1;
 
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
     Long accountId;
     String acmId, classId;
-    String files;
+    String filest;
+    File file;
 
     @Override
     protected void initViews() {
@@ -130,7 +136,20 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
         } else {
-            tv_right.setText("保存");
+            resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
+            switch (resetdatestatus)
+            {
+                //过去复测日，只能查看
+                case 1:
+                    tv_right.setVisibility(View.INVISIBLE);
+                    btn_retest_write_addbody.setText("查看身体围度");
+                    im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+                    break;
+                case 2:
+                    break;
+
+            }
+
         }
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -139,21 +158,30 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
-        imageFileCropSelector = new ImageFileCropSelector(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1, 1);
-        int px = Math.min(DisplayUtil.getMobileHeight(this), DisplayUtil.getMobileWidth(this));
-        imageFileCropSelector.setOutPut(px, px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+        int px=DisplayUtil.dip2px(this,300);
+        //*************************
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageFileSelector.setQuality(60);
+        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(FcAuditStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                files = file;
-                Log.i(files);
-//                retestPre.goGetPicture(file);
+                filest=file;
+
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                im_delete.setVisibility(View.VISIBLE);
+                file=new File(files.get(0));
+                Picasso.with(FcAuditStuActivity.this).load(file).fit().into(im_retestwrite_showphoto);
+                filest=file.toString();
+
             }
 
             @Override
@@ -229,8 +257,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
@@ -238,15 +265,28 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             Log.i("新学员录入围度:initaudit" + measuredDetailsModel);
         }
         if (requestCode == BODY && resultCode == RESULT_OK) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setItems(items, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+                        if (ActivityCompat.checkSelfPermission(FcAuditStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                //允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+
+                            } else {
+                                //不允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                            }
+                        } else {
+                            imageFileSelector.takePhoto(FcAuditStuActivity.this);
+                        }
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(FcAuditStuActivity.this);
+                        imageFileSelector.selectImage(FcAuditStuActivity.this);
                     }
                 }
             }).create().show();
@@ -298,13 +338,14 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
-                files = "";
+                filest = "";
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
                 Intent intent = new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
                 intent.putExtra("initaudit", measuredDetailsModel);
                 intent.putExtra("Audited", IsAudit == 0 ? 3 : 4);
+                intent.putExtra("resetdatestatus", resetdatestatus);
                 startActivityForResult(intent, GET_BODY);
                 break;
             case R.id.im_retestwrite_takephoto:
@@ -320,26 +361,27 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
+                                //拍照
                                 if (ActivityCompat.checkSelfPermission(FcAuditStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                     //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if (ActivityCompat.shouldShowRequestPermissionRationale(FcAuditStuActivity.this, Manifest.permission.CAMERA)) {
+                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                                         //允许弹出提示
-                                        ActivityCompat.requestPermissions(FcAuditStuActivity.this,
-                                                new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
                                     } else {
                                         //不允许弹出提示
-                                        ActivityCompat.requestPermissions(FcAuditStuActivity.this,
-                                                new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                     }
                                 } else {
-                                    imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
+                                    imageFileSelector.takePhoto(FcAuditStuActivity.this);
                                 }
                             } else if (which == 1) {
-                                imageFileCropSelector.selectImage(FcAuditStuActivity.this);
+                                //照片
+                                imageFileSelector.selectMutilImage(FcAuditStuActivity.this,1);
                             }
                         }
                     }).create().show();
@@ -359,8 +401,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(FcAuditStuActivity.this);
-
+                imageFileSelector.takePhoto(FcAuditStuActivity.this);
 
             } else {
 
@@ -368,7 +409,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 // functionality that depends on this permission.
             }
         }
-
     }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -415,7 +455,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onValidationSucceeded() {
-        if (!TextUtils.isEmpty(files)) {
+        if (!TextUtils.isEmpty(filest)) {
             doSetPostData();
         } else {
             String message = "请上传图片";

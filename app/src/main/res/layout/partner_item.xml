@@ -31,7 +31,8 @@
         android:layout_marginTop="13dp"
         android:layout_toRightOf="@id/tv_name"
         android:text="("
-        android:textColor="#999999" />
+        android:textColor="#999999"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/image_iv"
@@ -45,7 +46,7 @@
         android:id="@+id/tv_certificate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="14dp"
         android:layout_toRightOf="@id/image_iv"
         android:text="122"
         android:textColor="#999999"
@@ -55,6 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
+        android:textColor="#999999"
+        android:textSize="12sp"
         android:layout_toRightOf="@id/tv_certificate"
         android:text=")" />
 

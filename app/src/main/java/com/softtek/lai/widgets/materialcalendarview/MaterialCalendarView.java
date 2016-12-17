@@ -1341,7 +1341,7 @@ public class MaterialCalendarView extends ViewGroup {
      */
     public void invalidateDecorators() {
         adapter.invalidateDecorators();
-        com.github.snowdream.android.util.Log.i("删除日历成功。。。。。。。。。。。。。。。。。。。");
+        com.github.snowdream.android.util.Log.i("清楚标注成功。。。。。。。。。。。。。。。。。。。");
     }
 
     /*

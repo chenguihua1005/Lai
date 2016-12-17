@@ -23,11 +23,6 @@ public interface ILoginPresenter {
     //资格认证
     void alidateCertification(String memberId, String password, String accountId, ProgressDialog progressDialog);
 
-    //修改头像
-    void modifyPicture(String memberId, String upimg, ProgressDialog dialog, ImageView imgV);
-
-    //修改头像
-    void modifyPictures(String memberId, String upimg, ProgressDialog dialog);
 
     //修改昵称
     void getUpdateName(String accountId, String userName, ProgressDialog dialog);

@@ -7,10 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -44,7 +50,14 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -143,7 +156,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     private static final int GET_BODY=1;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    String isState="true";
     FuceSevice service;
     private ProgressDialog progressDialog;
     InitAuditPModel initAuditPModel;
@@ -154,7 +166,20 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     String files,ACMID;
     String photoname;
     int IsAudit;
-    private ImageFileCropSelector imageFileCropSelector;
+    String uri;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                Util.toastMsg("保存失败");
+            }else {
+                Util.toastMsg("保存成功");
+            }
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,28 +202,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
         ll_retestWrite_nowweight.setVisibility(View.GONE);
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1,1);
-        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
-        imageFileCropSelector.setOutPut(px,px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(InitDataAuditActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                files=file;
 
-                Log.i(files);
-//                retestPre.goGetPicture(file);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
 
     }
 
@@ -211,12 +215,13 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         AccountId=getIntent().getLongExtra("AccountId",0);
         ACMID=getIntent().getStringExtra("ACMID");
         IsAudit=getIntent().getIntExtra("Audited",1);
+        im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
         if (IsAudit==1)
         {
             tv_right.setText("");
             tv_right.setEnabled(false);
             btn_retest_write_addbody.setText("查看身体围度");
-            im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+
         }
         else {
             tv_right.setText("保存");//保存数据
@@ -233,6 +238,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
 
     private static final int CAMERA_PREMISSION=100;
+    private static int READ_WRITER=0X10;
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -294,102 +300,23 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
-            //拍照事件
-            case R.id.im_retestwrite_takephoto:
-                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
-                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (isFirstRun)
-                {
-                    Intent takePhoto=new Intent(this,GuideActivity.class);
-                    startActivityForResult(takePhoto,BODY);
-                    Log.d("debug", "第一次运行");
-                    editor.putBoolean("isFirstRun", false);
-                    editor.commit();
-                } else
-                {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this,Manifest.permission.CAMERA)){
-                                        //允许弹出提示
-                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-
-                                    }else{
-                                        //不允许弹出提示
-                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-                                    }
-                                }else {
-                                    imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
-                                }
-                            } else if (which == 1) {
-                                imageFileCropSelector.selectImage(InitDataAuditActivity.this);
-                            }
-                        }
-                    }).create().show();
-                    Log.d("debug", "不是第一次运行");
-                }
-
-
-                break;
 
 
         }
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-
-        }
-
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
             measuredDetailsModel=(MeasuredDetailsModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite"+measuredDetailsModel);
         }
-        if (requestCode==BODY&&resultCode==RESULT_OK){
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
-                    } else if (which == 1) {
-                        //照片
-                        imageFileCropSelector.selectImage(InitDataAuditActivity.this);
-                    }
-                }
-            }).create().show();
-            Log.d("debug", "不是第一次运行");
-        }
+
 
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -441,6 +368,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onValidationSucceeded() {
         //验证成功
+
         doSetPostData();
     }
 
@@ -479,6 +407,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     /*
     * 获取数据值
     * */
+
     void doSetData()
     {
         if (measuredDetailsModel!=null)
@@ -493,12 +422,48 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail()))
                 {
+                    Bitmap cache=im_retestwrite_showphoto.getDrawingCache();
+                    if(cache!=null&&!cache.isRecycled()){
+                        cache.recycle();
+                    }
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    photoname=measuredDetailsModel.getImgThumbnail();
-//                    SavePic savePic=new SavePic();
-//                savePic.GetPicUrl(photoname);
+                    File file=context.getApplicationContext().getCacheDir();
+                    Picasso.with(context).load(file).fit().into(im_retestwrite_showphoto);//图片
+
+                    uri=measuredDetailsModel.getImgThumbnail();
+
+
                 }
+
+//                    if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+//                            ||ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+//                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                                ||ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                            //允许弹出提示
+//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                                    ,READ_WRITER);
+//
+//                        } else {
+//                            //不允许弹出提示
+//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                                    ,READ_WRITER);
+//                        }
+//                    }else {
+//                        //保存
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+//                                saveImageToGallery(InitDataAuditActivity.this,bitmap);
+//                            }
+//                        }).start();
+//
+//                    }
+//                    SavePic savePic=new SavePic();
+//                    savePic.GetPicUrl(this,photoname);
+//                }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
                 tv_write_class.setText(measuredDetailsModel.getClassName());//班级名
@@ -523,7 +488,86 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(InitDataAuditActivity.this,bitmap);
+                    }
+                }).start();
+            } else {
 
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+    public Bitmap getHttpBitmap(String url)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            URL pictureUrl = new URL(url);
+            InputStream in = pictureUrl.openStream();
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    public  void saveImageToGallery(Context context, Bitmap bmp) {
+        if (bmp == null){
+            handler.sendEmptyMessage(0);
+            return;
+        }
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = uri;
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        } catch (IOException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }catch (Exception e){
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }
+
+        // 最后通知图库更新
+//        try {
+//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        handler.sendEmptyMessage(1);
+    }
     /*l录入*/
     void doSetPostData()
     {Log.i("AccountId"+AccountId+"classId"+classId+"ACMID"+ACMID+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
@@ -533,12 +577,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         initAuditPModel.setWeight(tv_write_chu_weight.getText().toString());//体重
         initAuditPModel.setPysical(tv_retestWrite_tizhi.getText().toString());//体脂
         initAuditPModel.setFat(tv_retestWrite_neizhi.getText().toString());//内脂
-        initAuditPModel.setCircum(measuredDetailsModel.getCircum().toString());//胸围
-        initAuditPModel.setHiplie(measuredDetailsModel.getHiplie().toString());//臀围
-        initAuditPModel.setWaistline(measuredDetailsModel.getWaistline().toString());//腰围
-        initAuditPModel.setUpArmGirth(measuredDetailsModel.getUpArmGirth().toString());
-        initAuditPModel.setUpArmGirth(measuredDetailsModel.getUpLegGirth().toString());
-        initAuditPModel.setDoLegGirth(measuredDetailsModel.getDoLegGirth());
+        initAuditPModel.setCircum(TextUtils.isEmpty(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());//胸围
+        initAuditPModel.setHiplie(TextUtils.isEmpty(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());//臀围
+        initAuditPModel.setWaistline(TextUtils.isEmpty(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());//腰围
+        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
+        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
+        initAuditPModel.setDoLegGirth(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
         Log.i("上传数据" +initAuditPModel.toString() );
         doPostInitData();
     }
@@ -548,18 +592,22 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         service.doReviewInitData(UserInfoModel.getInstance().getToken(), initAuditPModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                int status=responseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Intent intent=new Intent();
-                        intent.putExtra("ACMID",ACMID);
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        break;
-                    default:
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    int status=responseData.getStatus();
+                    switch (status)
+                    {
+                        case 200:
+                            Intent intent=new Intent();
+                            intent.putExtra("ACMID",ACMID);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

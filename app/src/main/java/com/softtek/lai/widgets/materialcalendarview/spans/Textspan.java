@@ -16,18 +16,18 @@ import com.softtek.lai.contants.Constants;
  * Created by shellybaby on 2016/9/26.
  */
 public class Textspan implements LineBackgroundSpan {
-    public static final float DEFAULT_RADIUS = 3;
     private int mode;
-    //    public static final float DEFAULT_RADIUS = 3;
     private float radius;
     private int rediuscolor;
     private Context mContext;
     private int color;
     private String mText;
+    private int role;
 
-    public Textspan(Context context, int mode, int radius) {
+    public Textspan(Context context, int mode, int radius, int roles) {
         this.mContext = context;
         this.mode = mode;
+        this.role = roles;
         if (this.mode == Constants.ACTIVITY) {
             this.color = Color.rgb(0, 0, 0);
             this.mText = "活动";
@@ -42,8 +42,11 @@ public class Textspan implements LineBackgroundSpan {
             this.color = Color.rgb(0, 0, 0);
             this.mText = "复测";
             this.radius = radius;
-            this.rediuscolor = Color.rgb(247, 171, 38);
-
+            if (role == Constants.STUDENT) {
+                this.rediuscolor = Color.rgb(135, 199, 67);
+            } else {
+                this.rediuscolor = Color.rgb(247, 171, 38);
+            }
         } else if (this.mode == Constants.FREE) {
             this.color = Color.rgb(204, 204, 204);
             this.mText = "空闲";

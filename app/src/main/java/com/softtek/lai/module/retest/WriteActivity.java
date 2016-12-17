@@ -51,6 +51,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -203,6 +204,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(WriteActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+
             }
 
             @Override

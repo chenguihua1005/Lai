@@ -6,11 +6,9 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -159,39 +157,39 @@ public class FriendAdapter extends BaseAdapter {
         }
 
         //移除好友申请信息
-        holder.tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(TAG, "token =" + UserInfoModel.getInstance().getToken() + "friendModel.getApplyId() = " + friendModel.getApplyId());
-                final ProgressDialog pd = new ProgressDialog(context);
-                String str1 = context.getResources().getString(R.string.Is_sending_a_request);
-                pd.setMessage(str1);
-                pd.setCanceledOnTouchOutside(false);
-                pd.show();
-                ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                service.removeFriendApplyInfo(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), new Callback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        pd.dismiss();
-                        int status = responseData.getStatus();
-                        if (200 == status) {
-                            Util.toastMsg("success");
-                            handler.sendEmptyMessage(0);
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        ZillaApi.dealNetError(error);
-                        Util.toastMsg("error");
-                    }
-                });
-
-
-            }
-        });
+//        holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i(TAG, "token =" + UserInfoModel.getInstance().getToken() + "friendModel.getApplyId() = " + friendModel.getApplyId());
+//                final ProgressDialog pd = new ProgressDialog(context);
+//                String str1 = context.getResources().getString(R.string.Is_sending_a_request);
+//                pd.setMessage(str1);
+//                pd.setCanceledOnTouchOutside(false);
+//                pd.show();
+//                ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//                service.removeFriendApplyInfo(UserInfoModel.getInstance().getToken(), friendModel.getApplyId(), new Callback<ResponseData>() {
+//                    @Override
+//                    public void success(ResponseData responseData, Response response) {
+//                        pd.dismiss();
+//                        int status = responseData.getStatus();
+//                        if (200 == status) {
+//                            Util.toastMsg("success");
+//                            handler.sendEmptyMessage(0);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        pd.dismiss();
+//                        ZillaApi.dealNetError(error);
+//                        Util.toastMsg("error");
+//                    }
+//                });
+//
+//
+//            }
+//        });
 
         holder.agree_linear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,61 +240,6 @@ public class FriendAdapter extends BaseAdapter {
             }
         });
 
-        ViewGroup.LayoutParams params = holder.container.getLayoutParams();
-        params.width = DisplayUtil.getMobileWidth(context);
-        holder.container.setLayoutParams(params);
-
-        holder.hsv.setOnTouchListener(new View.OnTouchListener() {
-            int dx;
-            int lastX;
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        lastX = (int) motionEvent.getX();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        dx = (int) motionEvent.getX() - lastX;
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        int width = holder.ll_operation.getWidth() / 2;
-                        boolean show = dx < 0 ? dx <= -width : !(dx >= width);
-                        if (show) {
-                            holder.hsv.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.hsv.smoothScrollTo(holder.hsv.getMaxScrollAmount(), 0);
-                                }
-                            });
-
-                        } else {
-                            holder.hsv.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.hsv.smoothScrollTo(0, 0);
-                                }
-                            });
-
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
-
-        holder.touch_linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.hsv.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        holder.hsv.smoothScrollTo(0, 0);
-                    }
-                });
-            }
-        });
-
         return convertView;
     }
 
@@ -316,11 +259,9 @@ public class FriendAdapter extends BaseAdapter {
         private LinearLayout agree_linear;
         private TextView btn_agree;
 
-        private HorizontalScrollView hsv;
         private TextView tv_delete;
         LinearLayout container;//左边固定的
         LinearLayout ll_operation;
-        LinearLayout touch_linear;//左边点击区域
 
         public ViewHolder(View view) {
             this.head_img = (ImageView) view.findViewById(R.id.head_img);
@@ -334,12 +275,10 @@ public class FriendAdapter extends BaseAdapter {
             this.agree_linear = (LinearLayout) view.findViewById(R.id.agree_linear);
             this.btn_agree = (TextView) view.findViewById(R.id.btn_agree);
 
-            this.hsv = (HorizontalScrollView) view.findViewById(R.id.hsv);
             this.tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             this.container = (LinearLayout) view.findViewById(R.id.rl_container);
             this.ll_operation = (LinearLayout) view.findViewById(R.id.ll_operation);
 
-            this.touch_linear = (LinearLayout) view.findViewById(R.id.touch_linear);
         }
     }
 }

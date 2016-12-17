@@ -19,6 +19,7 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -209,17 +210,17 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 int checkedPosition = lv.getCheckedItemPosition();
-                if (checkedPosition >-1) {
+                if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
-                        if(checkedPosition<classGroupList.size()){
+                        if (checkedPosition < classGroupList.size()) {
                             ClassGroup group = classGroupList.get(checkedPosition);
                             tv_group_name.setText(group.getCGName());
                             model.groupId = group.getCGId();
                         }
                     } else {
                         checkedRole = checkedPosition;
-                        if(checkedPosition<classRole.size()){
+                        if (checkedPosition < classRole.size()) {
                             ClassRole role = classRole.get(checkedPosition);
                             tv_role_name.setText(role.getRoleName());
                             model.classRole = role.getRoleId();
@@ -329,13 +330,15 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
                             Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
 
+                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+
                             // 创建者调用add方法
-                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
-                            } else {
-                                // 一般成员调用invite方法
-                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
-                            }
+//                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
+//                            } else {
+//                                // 一般成员调用invite方法
+//                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
+//                            }
 //
                             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                                     .examine(UserInfoModel.getInstance().getToken(),
@@ -343,16 +346,24 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            dialogDissmiss();
-                                                            Util.toastMsg("加人成功");
+                                                    if (responseData.getStatus() == 200) {
+                                                        setResult(RESULT_OK);
+                                                        finish();
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg("加入成功");
+                                                            }
+                                                        });
+                                                    } else {
+                                                        //如果后台加人失败，侧群组踢人
+                                                        try {
+                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
+                                                        } catch (HyphenateException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                    });
-
-                                                    setResult(RESULT_OK);
-                                                    finish();
+                                                    }
                                                 }
 
                                                 @Override
@@ -371,13 +382,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialogDissmiss();
-                                    Util.toastMsg("加人失败");
-                                }
-                            });
+
                         }
 
 

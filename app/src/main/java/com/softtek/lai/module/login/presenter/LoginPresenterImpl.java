@@ -116,77 +116,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void modifyPicture(String accountId, final String upimg, final ProgressDialog dialog, final ImageView imgV) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
-            @Override
-            public void success(ResponseData<PhotoModel> responseData, Response response) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                System.out.println("responseData:" + responseData);
-                int status = responseData.getStatus();
-                switch (status) {
-                    case 200:
-                        PhotoModel photoModel = responseData.getData();
-                        File files = new File(upimg);
-                        Picasso.with(context).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(imgV);
-                        UserModel userModel = UserInfoModel.getInstance().getUser();
-                        userModel.setPhoto(photoModel.getImg());
-                        UserInfoModel.getInstance().saveUserCache(userModel);
-                        break;
-                    default:
-                        Util.toastMsg(responseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
-
-    @Override
-    public void modifyPictures(String accountId, final String upimg, final ProgressDialog dialog) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
-            @Override
-            public void success(ResponseData<PhotoModel> responseData, Response response) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                System.out.println("responseData:" + responseData);
-                int status = responseData.getStatus();
-                switch (status) {
-                    case 200:
-                        PhotoModel photoModel = responseData.getData();
-                        UserModel userModel = UserInfoModel.getInstance().getUser();
-                        userModel.setPhoto(photoModel.getImg());
-                        UserInfoModel.getInstance().saveUserCache(userModel);
-                        ((AppCompatActivity) context).finish();
-                        break;
-                    default:
-                        Util.toastMsg(responseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
-
-    @Override
     public void getEMChatAccount(final ProgressDialog dialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.getEMChatAccount(token, new Callback<ResponseData<EMChatAccountModel>>() {
@@ -195,7 +124,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:

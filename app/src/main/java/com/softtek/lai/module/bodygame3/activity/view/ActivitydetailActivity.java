@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -77,7 +78,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
-
         exit_tv.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -102,17 +102,11 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 TextView activity_name = holder.getView(R.id.text);
                 activity_name.setText(data.getUserName());
                 ImageView detail_head = holder.getView(R.id.head_image);
-                String path = AddressManager.getHost();
-                if (TextUtils.isEmpty(data.getUserIcon())) {
-                    Picasso.with(ActivitydetailActivity.this).load(R.drawable.img_default).into(detail_head);
-                } else {
+                String path = AddressManager.get("photoHost");
                     Picasso.with(ActivitydetailActivity.this).load(path + data.getUserIcon())
                             .fit().placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(detail_head);
-                }
-
             }
-
         };
         detail_view.setAdapter(adapter);
     }
@@ -233,7 +227,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
-                        setResult(RESULT_OK);
+                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
+
                         finish();
                     }
 
@@ -250,7 +245,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 Util.toastMsg(responseData.getMsg());
-                                setResult(RESULT_OK);
+                                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
                                 finish();
                             }
 
@@ -261,7 +256,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.ll_left:
-                setResult(RESULT_OK);
+                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
                 finish();
                 break;
         }

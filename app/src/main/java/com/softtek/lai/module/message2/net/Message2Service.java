@@ -33,6 +33,7 @@ import retrofit.http.Query;
 public interface Message2Service {
     @GET("/V1/MsgCenter/IsHasUnReadMsg")
     void getMessageRead(@Header("token") String token,
+                        @Query("accountid")long accountId,
                         Callback<ResponseData<UnReadMsg>> callback);
 
     @GET("/V1/MsgCenter/UnReadMsgCnt")

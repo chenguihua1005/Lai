@@ -116,4 +116,22 @@ public class OperateMsgModel implements Serializable {
     public void setIsDo(int isDo) {
         IsDo = isDo;
     }
+
+    @Override
+    public String toString() {
+        return "OperateMsgModel{" +
+                "Msgtype=" + Msgtype +
+                ", Msgid='" + Msgid + '\'' +
+                ", Recevid='" + Recevid + '\'' +
+                ", Senderid='" + Senderid + '\'' +
+                ", MsgContent='" + MsgContent + '\'' +
+                ", Classid='" + Classid + '\'' +
+                ", SendTime='" + SendTime + '\'' +
+                ", IsRead=" + IsRead +
+                ", IsDo=" + IsDo +
+                ", MsgStatus=" + MsgStatus +
+                ", SenderPhoto='" + SenderPhoto + '\'' +
+                ", isSelected=" + isSelected +
+                '}';
+    }
 }
