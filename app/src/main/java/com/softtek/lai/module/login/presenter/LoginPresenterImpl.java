@@ -116,15 +116,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void modifyPicture(String accountId, final String upimg, final ProgressDialog dialog, final ImageView imgV) {
+    public void modifyPicture(long accountId, final String upimg, final ProgressDialog dialog, final ImageView imgV) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
+        service.modifyPicture(token, accountId, new TypedFile("image/*", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
             @Override
             public void success(ResponseData<PhotoModel> responseData, Response response) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:
@@ -132,7 +131,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         File files = new File(upimg);
                         Picasso.with(context).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(imgV);
                         UserModel userModel = UserInfoModel.getInstance().getUser();
-                        userModel.setPhoto(photoModel.getImg());
+                        userModel.setPhoto(photoModel.ThubImg);
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         break;
                     default:
@@ -152,21 +151,20 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void modifyPictures(String accountId, final String upimg, final ProgressDialog dialog) {
+    public void modifyPictures(long accountId, final String upimg, final ProgressDialog dialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
+        service.modifyPicture(token, accountId, new TypedFile("image/*", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
             @Override
             public void success(ResponseData<PhotoModel> responseData, Response response) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:
                         PhotoModel photoModel = responseData.getData();
                         UserModel userModel = UserInfoModel.getInstance().getUser();
-                        userModel.setPhoto(photoModel.getImg());
+                        userModel.setPhoto(photoModel.ThubImg);
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((AppCompatActivity) context).finish();
                         break;
@@ -195,7 +193,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:

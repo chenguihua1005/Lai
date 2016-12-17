@@ -88,14 +88,14 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                progressDialog.show();
-                presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog, img);
+                dialogShow("上传图片");
+                presenter.modifyPicture(UserInfoModel.getInstance().getUserId(), file, progressDialog, img);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                progressDialog.show();
-                presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(), files.get(0), progressDialog, img);
+                dialogShow("上传图片");
+                presenter.modifyPicture(UserInfoModel.getInstance().getUserId(), files.get(0), progressDialog, img);
             }
 
             @Override

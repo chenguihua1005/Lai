@@ -87,11 +87,12 @@ public interface LoginService {
             Callback<ResponseData<RoleInfo>> callback);
 
     //上传图片
-    @POST("/MyBasicInformation/ModifyPicture")
+    //@POST("/MyBasicInformation/ModifyPicture")
+    @POST("/V1/FileUpload/ModifyPicture")
     @Multipart
     void modifyPicture(
             @Header("token") String token,
-            @Query("AccountId") String accountId,
+            @Query("AccountId") long accountId,
             @Part("photo") TypedFile photo,
             Callback<ResponseData<PhotoModel>> callback);
 
