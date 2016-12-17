@@ -68,6 +68,9 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void lazyLoad() {
+//        memberListModels.clear();
+//        pageIndex = 1;
+//        doGetData();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 
             @Override
