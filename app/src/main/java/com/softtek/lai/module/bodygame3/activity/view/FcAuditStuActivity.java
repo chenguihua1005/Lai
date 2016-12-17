@@ -157,6 +157,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
+        btn_retest_write_addbody.setOnClickListener(this);
         int px=DisplayUtil.dip2px(this,300);
         //*************************
         imageFileSelector=new ImageFileSelector(this);
@@ -343,6 +344,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 Intent intent = new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
                 intent.putExtra("initaudit", measuredDetailsModel);
                 intent.putExtra("Audited", IsAudit == 0 ? 3 : 4);
+                intent.putExtra("resetdatestatus", resetdatestatus);
                 startActivityForResult(intent, GET_BODY);
                 break;
             case R.id.im_retestwrite_takephoto:

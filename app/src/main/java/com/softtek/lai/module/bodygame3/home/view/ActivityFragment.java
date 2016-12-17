@@ -195,6 +195,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         instance1.set(instance1.get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
         Calendar instance2 = Calendar.getInstance();
         instance2.set(instance2.get(Calendar.YEAR) + 1, Calendar.DECEMBER, 31);
+        material_calendar.setSelectionColor(getResources().getColor(R.color.yellow));
+//        material_calendar.setTileHeight(90);
+        material_calendar.setTileHeightDp(55);
         material_calendar.state().edit()
                 .setMinimumDate(instance1.getTime())
                 .setMaximumDate(instance2.getTime())
@@ -204,10 +207,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.setShowOtherDates(0);
         material_calendar.invalidateDecorators();
     }
-
     @Override
     protected void initDatas() {
-//        material_calendar.removeDecorators();
         actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
         list_activity.setAdapter(actRecyclerAdapter);
         //活动跳转到活动详情
@@ -485,10 +486,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     }
 
-    private SchelDecorator decorator;
-    private SchelDecorator decorator_act;
-    private SchelDecorator decorator_free;
-    private SchelDecorator decorator_create;
+    private EventDecorator decorator;
+    private EventDecorator decorator_act;
+    private EventDecorator decorator_free;
+    private EventDecorator decorator_create;
     String now = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
 
     @Override
@@ -501,6 +502,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             pull.setRefreshing(false);
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
+                                classrole=activitydataModel.getClassRole();
                                 //加载班级
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
@@ -670,13 +672,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 //                material_calendar.removeDecorator(decorator_create);
 //                material_calendar.removeDecorator(decorator_free);
                 material_calendar.invalidateDecorators();
-                decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
+                decorator = new EventDecorator(Constants.RESET, calendarModel_reset,classrole, getActivity());
                 material_calendar.addDecorator(decorator);
-                decorator_act = new SchelDecorator(Constants.ACTIVITY, calendarModel_act, getActivity());
+                decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act,classrole, getActivity());
                 material_calendar.addDecorator(decorator_act);
-                decorator_create = new SchelDecorator(Constants.CREATECLASS, calendarModel_create, getActivity());
+                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create,classrole, getActivity());
                 material_calendar.addDecorator(decorator_create);
-                decorator_free = new SchelDecorator(Constants.FREE, calendarModel_free, getActivity());
+                decorator_free = new EventDecorator(Constants.FREE, calendarModel_free,classrole, getActivity());
                 material_calendar.addDecorator(decorator_free);
 
             }
@@ -759,7 +761,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
             }
             material_calendar.removeDecorator(decorator);
-            decorator = new SchelDecorator(Constants.RESET, calendarModel_reset, getActivity());
+            decorator = new EventDecorator(Constants.RESET, calendarModel_reset,classrole, getActivity());
             material_calendar.addDecorator(decorator);
 
         }
