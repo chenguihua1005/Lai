@@ -342,11 +342,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        Intent intent=new Intent();
-        intent.putExtra("ACMID",ACMID);
-        setResult(RESULT_OK,intent);
-        finish();
-//        doSetPostData();
+
+        doSetPostData();
     }
 
     @Override
@@ -457,7 +454,10 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 switch (status)
                 {
                     case 200:
-
+                        Intent intent=new Intent();
+                        intent.putExtra("ACMID",ACMID);
+                        setResult(RESULT_OK,intent);
+                        finish();
                         break;
                     default:
                         Util.toastMsg(responseData.getMsg());
