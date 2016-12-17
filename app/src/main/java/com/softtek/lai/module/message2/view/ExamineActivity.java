@@ -382,13 +382,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialogDissmiss();
-                                    Util.toastMsg("加人失败");
-                                }
-                            });
+
                         }
 
 
