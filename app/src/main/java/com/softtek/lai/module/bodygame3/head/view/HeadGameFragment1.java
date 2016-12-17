@@ -703,7 +703,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             } else {
                                 student_jianzhi.setText("减脂" + " %");
                             }
-
                         }
                         //照片墙
                         if (classinfoModel.getPhotoWall() != null) {
@@ -728,7 +727,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                                 }
 
-                                //                    //本周推荐
+                                //本周推荐
                                 if (classinfoModel.getListRec() != null) {
                                     tuijianModels.addAll(classinfoModel.getListRec());
                                     if (tuijianModels.size() >= 2) {
@@ -826,7 +825,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     } else {
                                         gengxin.setText("暂无更新");
                                     }
-                                    //                        ea2226fc-dfe6-4b36-8ad7-95650bcc96dd
                                 }
 
                             }
