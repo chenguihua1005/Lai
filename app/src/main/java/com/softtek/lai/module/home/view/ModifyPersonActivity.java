@@ -32,6 +32,8 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.util.List;
+
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
@@ -88,6 +90,12 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
             public void onSuccess(String file) {
                 progressDialog.show();
                 presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog, img);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                progressDialog.show();
+                presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(), files.get(0), progressDialog, img);
             }
 
             @Override

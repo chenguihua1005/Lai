@@ -216,8 +216,8 @@ public class ClassMemberActivity extends BaseActivity {
 
     private void removeMember(final Member member) {
         new AlertDialog.Builder(this)
-                .setTitle("移除")
-                .setMessage("此操作将会删除该人员")
+                .setTitle("温馨提示")
+                .setMessage("此操作将会删除该人员改为您确定要移除该成员")
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -240,7 +240,6 @@ public class ClassMemberActivity extends BaseActivity {
 
                                                     //环信移除个人
                                                     //把username从群组里删除
-
                                                     new Thread(new Runnable() {
                                                         @Override
                                                         public void run() {

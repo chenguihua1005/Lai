@@ -145,6 +145,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     LinearLayout lin_pinlun;
     @InjectView(R.id.re_search_bottom)
     RelativeLayout re_search_bottom;
+    @InjectView(R.id.iv_types)
+    ImageView iv_types;
     private List<PartnersModel> partnersModels = new ArrayList<>();
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
@@ -236,11 +238,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         list_partner.setAdapter(partneradapter);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
-        TypeModel model1 = new TypeModel(0, "按体重斤数");
+        TypeModel model1 = new TypeModel(0, "按减重斤数");
         datas.add(model1);
-        TypeModel model2 = new TypeModel(2, "按体脂比");
+        TypeModel model2 = new TypeModel(1, "按减重比");
         datas.add(model2);
-        TypeModel model3 = new TypeModel(1, "按减重比");
+        TypeModel model3 = new TypeModel(2, "按体脂比");
         datas.add(model3);
 
         //类型（体重比，体脂，减重比）
@@ -264,6 +266,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
                 typecode = datas.get(i).getTypecode();
+                if(typecode==0){//减重斤数
+                iv_types.setImageResource(R.drawable.weightphoto);
+                }else if(typecode==1){//减重比
+                    iv_types.setImageResource(R.drawable.jianzhong_iv);
+                }else if(typecode==2){
+//                    iv_types.setImageResource(R.drawable.);
+                }
                 partneradapter.setType(typecode);
                 page = 1;
                 updatepartner(typecode, 10, page);//按类型分页加载小伙伴
@@ -458,7 +467,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
-
     //是否有消息
     private void gethasemail() {
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
@@ -476,9 +484,114 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             }
         });
     }
+    //按类型分页加载小伙伴
+    private void updatepartner(int sorttype, int pagesize, int pageindex) {
+//
+        service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
+                pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
+                    @Override
+                    public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
+                        if (200 == partnersModelResponseData.getStatus()) {
+                            PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
+                            if (partnertotalModel.getPartnersList() != null) {
+                                partnersModels.addAll(partnertotalModel.getPartnersList());
+                                partneradapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Util.toastMsg(partnersModelResponseData.getMsg());
+                            partneradapter.setFootGone(true);
+                            partneradapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+    }
 
-    //初始加载数据接口
-    private void getallfirst() {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.searchContent:
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                Intent intent = new Intent(getContext(), PantnerActivity.class);
+                intent.putExtra("classId_first", classId_first);
+                startActivity(intent);
+                break;
+            case R.id.re_honor:
+                HonorActivity.startHonorActivity(getContext(), classId_first);
+                break;
+            case R.id.re_search_bottom:
+                break;
+            case R.id.week_rel:
+                Intent intent1 = new Intent(getContext(), VideomoreActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.fl_right:
+                Intent intent2 = new Intent(getContext(), Message2Activity.class);
+                startActivity(intent2);
+                break;
+            case R.id.ll_left:
+                getActivity().finish();
+                break;
+            case R.id.re_photowall:
+                Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
+                photowall.putExtra("classId", classId_first);
+                startActivity(photowall);
+                break;
+            case R.id.honor_lin:
+                Intent honor = new Intent(getContext(), HonorActivity.class);
+                honor.putExtra("classId", classId_first);
+                startActivity(honor);
+                break;
+
+        }
+    }
+
+    @Subscribe
+    public void updateClass(UpdateClass clazz) {
+        if (clazz.getStatus() == 0) {
+            //更新班级姓名
+            ClassModel model = new ClassModel();
+            model.setClassId(clazz.getModel().getClassId());
+            model.setClassCode(clazz.getModel().getClassCode());
+            model.setClassName(clazz.getModel().getClassName());
+            model.setClassRole(clazz.getModel().getClassRole());
+            tv_title.setText(model.getClassName());
+            tv_title.getAdapter().notifyDataSetChanged();
+        } else if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+            //添加新班级
+            ClassModel model = new ClassModel();
+            model.setClassId(clazz.getModel().getClassId());
+            model.setClassCode(clazz.getModel().getClassCode());
+            model.setClassName(clazz.getModel().getClassName());
+            model.setClassRole(clazz.getModel().getClassRole());
+            this.classModels.add(model);
+            tv_title.getAdapter().notifyDataSetChanged();
+        } else if (clazz.getStatus() == 2) {
+            //删除班级
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    this.classModels.remove(model);
+                    tv_title.getAdapter().notifyDataSetChanged();
+                    break;
+                }
+            }
+
+            if (!classModels.isEmpty()) {
+                tv_title.setSelected(0);
+            } else {
+                if (deleteClass != null) {
+
+                    deleteClass.deletClass();
+                }
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onRefresh() {
+        classModels.clear();
         refresh.setRefreshing(false);
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
@@ -694,119 +807,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 super.failure(error);
             }
         });
-
-
-    }
-
-    //按类型分页加载小伙伴
-    private void updatepartner(int sorttype, int pagesize, int pageindex) {
-//
-        service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
-                pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
-                    @Override
-                    public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
-                        if (200 == partnersModelResponseData.getStatus()) {
-                            PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
-                            if (partnertotalModel.getPartnersList() != null) {
-                                partnersModels.addAll(partnertotalModel.getPartnersList());
-                                partneradapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            Util.toastMsg(partnersModelResponseData.getMsg());
-                            partneradapter.setFootGone(true);
-                            partneradapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.searchContent:
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                Intent intent = new Intent(getContext(), PantnerActivity.class);
-                intent.putExtra("classId_first", classId_first);
-                startActivity(intent);
-                break;
-            case R.id.re_honor:
-                HonorActivity.startHonorActivity(getContext(), classId_first);
-                break;
-            case R.id.re_search_bottom:
-                break;
-            case R.id.week_rel:
-                Intent intent1 = new Intent(getContext(), VideomoreActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.fl_right:
-                Intent intent2 = new Intent(getContext(), Message2Activity.class);
-                startActivity(intent2);
-                break;
-            case R.id.ll_left:
-                getActivity().finish();
-                break;
-            case R.id.re_photowall:
-                Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
-                photowall.putExtra("classId", classId_first);
-                startActivity(photowall);
-                break;
-            case R.id.honor_lin:
-                Intent honor = new Intent(getContext(), HonorActivity.class);
-                honor.putExtra("classId", classId_first);
-                startActivity(honor);
-                break;
-
-        }
-    }
-
-    @Subscribe
-    public void updateClass(UpdateClass clazz) {
-        if (clazz.getStatus() == 0) {
-            //更新班级姓名
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            tv_title.setText(model.getClassName());
-            tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
-            //添加新班级
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 2) {
-            //删除班级
-            for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                    this.classModels.remove(model);
-                    tv_title.getAdapter().notifyDataSetChanged();
-                    break;
-                }
-            }
-
-            if (!classModels.isEmpty()) {
-                tv_title.setSelected(0);
-            } else {
-                if (deleteClass != null) {
-
-                    deleteClass.deletClass();
-                }
-            }
-
-        }
-
-    }
-
-    @Override
-    public void onRefresh() {
-        classModels.clear();
-        getallfirst();
         gethasemail();
     }
 
@@ -815,7 +815,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         super.onResume();
         com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
         gethasemail();
-        getallfirst();
+//        getallfirst();
 
     }
 

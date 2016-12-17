@@ -37,6 +37,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager;
+import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager2;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
 import com.softtek.lai.module.picture.model.UploadImage;
@@ -93,11 +94,11 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     private ImageFileSelector imageFileSelector;
     CommunityPhotoGridViewAdapter adapter;
     HeadService headService;
-    PublicDynamicManager manager;
+    PublicDynamicManager2 manager;
 
     private int limit=9;
     private String classId;
-    private boolean hasTheme;
+    private boolean hasTheme=false;
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -110,7 +111,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     protected void initDatas() {
         doGetTopic();
-        manager=new PublicDynamicManager(images, this);
+        manager=new PublicDynamicManager2(images, this);
         classId=getIntent().getStringExtra("classId");
         ArrayList<UploadImage> uploadImages= getIntent().getParcelableArrayListExtra("uploadImages");
         if(uploadImages!=null&&!uploadImages.isEmpty()){
@@ -150,12 +151,13 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                         if(ck_select.isChecked()){
                             ck_select.setChecked(false);
                             hasTheme=false;
+                            //获取当前光标的所在位置
                             int start=et_content.getSelectionStart();
                             String replace="#"+data.getWordKey()+"#";
                             String str=et_content.getText().toString();
                             et_content.setText(str.replace(replace,""));
                             int selection=start-replace.length();
-                            et_content.setSelection(selection<0?0:selection);
+                            et_content.setSelection(selection<0?et_content.length()-1:selection);
                         }else {
                             ck_select.setChecked(true);
                             hasTheme=true;
@@ -188,8 +190,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             public void success(ResponseData<List<TopicModel>> listResponseData, Response response) {
                 dialogDissmiss();
                 int status=listResponseData.getStatus();
-                switch (status)
-                {
+                switch (status) {
                     case 200:
                         topicModels.addAll(listResponseData.getData());
                         topicAdapter.notifyDataSetChanged();

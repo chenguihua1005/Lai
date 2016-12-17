@@ -228,7 +228,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
-                        setResult(RESULT_OK);
+                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
 
                         finish();
                     }

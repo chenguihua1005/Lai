@@ -94,6 +94,9 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                                         classlistModels.clear();
                                         classlistModels.addAll(data.getData());
                                         adapter.notifyDataSetChanged();
+                                        if(data.getData().isEmpty()){
+                                            Util.toastMsg("暂无班级");
+                                        }
                                     } else if (data.getStatus() == 100) {
 
                                         Util.toastMsg(data.getMsg());
