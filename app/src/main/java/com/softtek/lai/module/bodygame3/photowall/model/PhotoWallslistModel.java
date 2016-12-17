@@ -14,6 +14,7 @@ public class PhotoWallslistModel {
     private String Content;//内容
     private String Createdate;//发表日期
     private int IsHasTheme;//是否有主题，1有
+    private String ThemeName;//主题名称
     private int IsPraise;//是否点赞动态，1是
     private int PraiseNum;//点赞数
     private List<String> PraiseNameList;//点赞姓名数组
@@ -22,6 +23,14 @@ public class PhotoWallslistModel {
     private List<String> ThumbnailPhotoList;//照片列表缩略图
     private int CommendsNum;//评论数
     private List<CommentModel> PhotoWallCommendsList;
+
+    public String getThemeName() {
+        return ThemeName;
+    }
+
+    public void setThemeName(String themeName) {
+        ThemeName = themeName;
+    }
 
     public String getAccountid() {
         return Accountid;

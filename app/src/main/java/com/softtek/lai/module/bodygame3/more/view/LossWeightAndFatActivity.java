@@ -91,7 +91,7 @@ public class LossWeightAndFatActivity extends BaseActivity {
                 tvLossWeight.append("斤");
                 TextView tvNationWeightPerson=holder.getView(R.id.tv_nation_weight_person);
                 tvNationWeightPerson.setText(String.valueOf(data.getWeightLevel().getReachCount()));
-                tvNationWeightPerson.append("人达标");
+                tvNationWeightPerson.append("人达成");
                 if(data.getWeightLevel().getLevel()<=weightLevel){
                     tvWeightLevelName.setTextColor(0XFF333333);
                     tvLossWeight.setTextColor(0XFF333333);
@@ -110,7 +110,7 @@ public class LossWeightAndFatActivity extends BaseActivity {
                 tvLossFat.append("%");
                 TextView tvNationFatPerson=holder.getView(R.id.tv_nation_fat_person);
                 tvNationFatPerson.setText(String.valueOf(data.getFatLlevel().getReachCount()));
-                tvNationFatPerson.append("人达标");
+                tvNationFatPerson.append("人达成");
                 if(data.getFatLlevel().getLevel()<=fatLevel){
                     tvFatLevelName.setTextColor(0XFF333333);
                     tvLossFat.setTextColor(0XFF333333);

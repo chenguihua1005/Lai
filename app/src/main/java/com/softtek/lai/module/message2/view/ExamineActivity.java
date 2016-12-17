@@ -209,7 +209,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 int checkedPosition = lv.getCheckedItemPosition();
-                if (checkedPosition != -1) {
+                if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
                         if(checkedPosition<classGroupList.size()){
@@ -345,16 +345,17 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            dialogDissmiss();
-                                                            Util.toastMsg("加人成功");
-                                                        }
-                                                    });
-
-                                                    setResult(RESULT_OK);
-                                                    finish();
+                                                    if (responseData.getStatus()==200){
+                                                        setResult(RESULT_OK);
+                                                        finish();
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg("加入成功");
+                                                            }
+                                                        });
+                                                    }
                                                 }
 
                                                 @Override

@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -79,8 +80,11 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.view.View.GONE;
+
 @InjectLayout(R.layout.activity_photo_wall)
-public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener {
+public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener,View.OnLayoutChangeListener{
+
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
     @InjectView(R.id.empty)
@@ -115,8 +119,16 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 
     private String classId;//班级id
 
+    //屏幕高度
+    private int screenHeight = 0;
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
+
     @Override
     protected void initViews() {
+        screenHeight=DisplayUtil.getMobileHeight(this);
+        //阀值设置为屏幕高度的1/3
+        keyHeight = screenHeight/3;
         classId=getIntent().getStringExtra("classId");
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
@@ -226,6 +238,32 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 finish();
             }
         });
+        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(rl_send.getVisibility()==View.VISIBLE){
+//                    int[] position2 = new int[2];
+//                    rl_send.getLocationOnScreen(position2);
+                    //ptrlv.getRefreshableView().scrollBy(0, position2[1]);
+                    rl_send.setVisibility(GONE);
+                    SoftInputUtil.hidden(PhotoWallActivity.this);
+                }
+                return false;
+            }
+        });
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        rl_send.addOnLayoutChangeListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        rl_send.removeOnLayoutChangeListener(this);
     }
 
     @Override
@@ -249,15 +287,39 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                             .into(civ_header_image);
                 }
                 TextView tv_content = holder.getView(R.id.tv_content);
-                String content=data.getContent();
-                if(data.getIsHasTheme()==1){
-
-                }
-                tv_content.setText(data.getContent());//正文
+                //SpannableStringBuilder builder= (SpannableStringBuilder) tv_content.getTag();
+                //if(builder==null){
+                    String content=data.getContent();
+                    SpannableStringBuilder builder=new SpannableStringBuilder(content);
+                    if(data.getIsHasTheme()==1){
+                        /**
+                         * 0  1 2 3 4 5   6 7  8  9 10
+                         * 哈哈哈哈 # 金 彩 踢 馆 赛 #
+                         */
+                        String theme="#"+data.getThemeName()+"#";
+                        ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
+                        //先把
+                        int from=0;
+                        int lastIndex=content.lastIndexOf("#");
+                        do {
+                            int firstIndex=content.indexOf("#",from);
+                            int nextIndex=firstIndex+data.getThemeName().length()+1;
+                            if(nextIndex<=lastIndex){
+                                String sub=content.substring(firstIndex,nextIndex+1);
+                                if(sub.equals(theme)){
+                                    builder.setSpan(colorSpan,firstIndex,nextIndex+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                }
+                            }
+                            from=nextIndex;
+                        }while (from<lastIndex);
+                    }
+                   // tv_content.setTag(builder);
+                //}
+                tv_content.setText(builder);//正文
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
                 if(isMine){
-                    cb_focus.setVisibility(View.GONE);
+                    cb_focus.setVisibility(GONE);
                 }else {
                     cb_focus.setVisibility(View.VISIBLE);
                     cb_focus.setChecked(1 == data.getIsFocus());//是否关注
@@ -311,21 +373,25 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     });
                 }
                 TextView tv_date = holder.getView(R.id.tv_date);
-                long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
-                String time;
-                if(days[0]==0){//今天
-                    if (days[3]<60){//小于1分钟
-                        time="刚刚";
-                    }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
-                        time=days[2]+"分钟前";
-                    }else {//大于一小时
-                        time=days[1]+"小时前";
+                //String time= (String) tv_date.getTag();
+                //if(time==null){
+                String time="";
+                    long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
+                    if(days[0]==0){//今天
+                        if (days[3]<60){//小于1分钟
+                            time="刚刚";
+                        }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
+                            time=days[2]+"分钟前";
+                        }else {//大于一小时
+                            time=days[1]+"小时前";
+                        }
+                    }else if(days[0]==1) {//昨天
+                        time="昨天";
+                    }else {
+                        time=days[0]+"天前";
                     }
-                }else if(days[0]==1) {//昨天
-                    time="昨天";
-                }else {
-                    time=days[0]+"天前";
-                }
+                    //tv_date.setTag(time);
+                //}
                 tv_date.setText(time);//日期
                 LinearLayout ll_dianzan = holder.getView(R.id.ll_dianzan);
                 TextView tv_zan_name = holder.getView(R.id.tv_zan_name);
@@ -340,14 +406,10 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 
                     }
                 } else {
-                    ll_dianzan.setVisibility(View.GONE);//显示点赞人
+                    ll_dianzan.setVisibility(GONE);//显示点赞人
                 }
 
                 CustomGridView photos = holder.getView(R.id.photos);
-                final ArrayList<String> list = new ArrayList<>();
-                for (int i = 0; i < data.getPhotoList().size(); i++) {
-                    list.add(data.getPhotoList().get(i));
-                }
                 photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this));
                 //添加评论
                 LinearLayout ll_comment = holder.getView(R.id.ll_comment);
@@ -368,14 +430,14 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         ll_comment.addView(tv);
                     }
                 } else {
-                    ll_comment.setVisibility(View.GONE);
+                    ll_comment.setVisibility(GONE);
                 }
                 //照片列表点击事件
                 photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         Intent in = new Intent(PhotoWallActivity.this, PictureMoreActivity.class);
-                        in.putStringArrayListExtra("images", list);
+                        in.putStringArrayListExtra("images", (ArrayList<String>) data.getPhotoList());
                         in.putExtra("position", position);
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
                         ActivityCompat.startActivity(PhotoWallActivity.this, in, optionsCompat.toBundle());
@@ -383,128 +445,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 });
 
                 final View itemBottom = holder.getView(R.id.item_bottom);
-                //弹出popwindow
-                final PopupWindow popupWindow = new PopupWindow(PhotoWallActivity.this);
-                popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(DisplayUtil.dip2px(PhotoWallActivity.this,30));
-                popupWindow.setAnimationStyle(R.style.operation_anim_style);
-                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(PhotoWallActivity.this, R.drawable.opteration_drawable));
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setFocusable(true);
-                final View contentView = LayoutInflater.from(PhotoWallActivity.this).inflate(R.layout.pop_operator, null);
-                TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
-                //点击点赞按钮
-                tv_zan.setEnabled(data.getIsPraise()!=1);
-                tv_zan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                        final UserInfoModel infoModel = UserInfoModel.getInstance();
-                        data.setPraiseNum(data.getPraiseNum() + 1);
-                        data.setIsPraise(1);
-                        List<String> praiseName=data.getPraiseNameList();
-                        praiseName.add(infoModel.getUser().getNickname());
-                        data.setPraiseNameList(praiseName);
-                        //向服务器提交
-                        String token = infoModel.getToken();
-                        service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        super.failure(error);
-                                        int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
-                                        data.setPraiseNum(priase);
-                                        data.setIsPraise(0);
-                                        List<String> praise=data.getPraiseNameList();
-                                        praise.remove(praise.size()-1);
-                                        data.setPraiseNameList(praise);
-                                        notifyDataSetChanged();
-                                    }
-                                });
-                        notifyDataSetChanged();
-                        }
-
-
-                });
-                TextView tv_comment = (TextView) contentView.findViewById(R.id.tv_oper_comment);
-                //点击评论按钮
-                tv_comment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                        btn_send.setTag(data);
-                        rl_send.setVisibility(View.VISIBLE);
-                        et_input.setFocusable(true);
-                        et_input.setFocusableInTouchMode(true);
-                        et_input.requestFocus();
-                        et_input.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                SoftInputUtil.showInputAsView(PhotoWallActivity.this, et_input);
-                            }
-                        }, 400);
-                        rl_send.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(position<photoWallItemModels.size()-1){
-                                    int[] position1 = new int[2];
-                                    itemBottom.getLocationOnScreen(position1);
-                                    int[] position2 = new int[2];
-                                    rl_send.getLocationOnScreen(position2);
-                                    ptrlv.getRefreshableView().scrollBy(0, position1[1] - position2[1]);
-                                }
-                            }
-                        }, 1000);
-                    }
-                });
-                TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
-                //点击举报按钮
-                tv_jubao.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                    }
-                });
-                TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
-                //点击删除按钮
-                if(isMine){
-                    tv_delete.setVisibility(View.VISIBLE);
-                    tv_delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            popupWindow.dismiss();
-                            new AlertDialog.Builder(PhotoWallActivity.this).setTitle("温馨提示").setMessage("确定删除吗？")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            service.deleteHealth(UserInfoModel.getInstance().getToken(),
-                                                    data.getHealtId(),
-                                                    new RequestCallback<ResponseData>() {
-                                                        @Override
-                                                        public void success(ResponseData responseData, Response response) {
-                                                            if (responseData.getStatus() == 200) {
-                                                                photoWallItemModels.remove(data);
-                                                                notifyDataSetChanged();
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            }).create().show();
-                        }
-                    });
-                }else {
-                    tv_delete.setVisibility(View.GONE);
-                }
-                contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                popupWindow.setContentView(contentView);
                 //操作按钮
                 ImageView iv_operator = holder.getView(R.id.iv_operator);
                 iv_operator.setOnClickListener(new View.OnClickListener() {
@@ -512,6 +452,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     public void onClick(View view) {
                         int[] location = new int[2];
                         view.getLocationOnScreen(location);
+                        PopupWindow popupWindow=createPop(data,itemBottom,position);
                         int width=popupWindow.getContentView().getMeasuredWidth();
                         popupWindow.showAtLocation(view, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
                     }
@@ -520,19 +461,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
             }
         };
         ptrlv.setAdapter(adapter);
-        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(rl_send.getVisibility()==View.VISIBLE){
-//                    int[] position2 = new int[2];
-//                    rl_send.getLocationOnScreen(position2);
-                    SoftInputUtil.hidden(PhotoWallActivity.this);
-                    //ptrlv.getRefreshableView().scrollBy(0, position2[1]);
-                    rl_send.setVisibility(View.GONE);
-                }
-                return false;
-            }
-        });
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -542,6 +470,132 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 }
             }
         },500);
+    }
+
+    private PopupWindow createPop( final PhotoWallslistModel data, final View itemBottom, final int position){
+        //弹出popwindow
+        final PopupWindow popupWindow = new PopupWindow(PhotoWallActivity.this);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(DisplayUtil.dip2px(PhotoWallActivity.this,30));
+        popupWindow.setAnimationStyle(R.style.operation_anim_style);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(PhotoWallActivity.this, R.drawable.opteration_drawable));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        final View contentView = LayoutInflater.from(PhotoWallActivity.this).inflate(R.layout.pop_operator, null);
+        TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
+        //点击点赞按钮
+        tv_zan.setEnabled(data.getIsPraise()!=1);
+        tv_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                final UserInfoModel infoModel = UserInfoModel.getInstance();
+                data.setPraiseNum(data.getPraiseNum() + 1);
+                data.setIsPraise(1);
+                List<String> praiseName=data.getPraiseNameList();
+                praiseName.add(infoModel.getUser().getNickname());
+                data.setPraiseNameList(praiseName);
+                //向服务器提交
+                String token = infoModel.getToken();
+                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
+                                data.setPraiseNum(priase);
+                                data.setIsPraise(0);
+                                List<String> praise=data.getPraiseNameList();
+                                praise.remove(praise.size()-1);
+                                data.setPraiseNameList(praise);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                adapter.notifyDataSetChanged();
+            }
+
+
+        });
+        TextView tv_comment = (TextView) contentView.findViewById(R.id.tv_oper_comment);
+        //点击评论按钮
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                btn_send.setTag(data);
+                rl_send.setVisibility(View.VISIBLE);
+                et_input.setFocusable(true);
+                et_input.setFocusableInTouchMode(true);
+                et_input.requestFocus();
+                et_input.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SoftInputUtil.showInputAsView(PhotoWallActivity.this, et_input);
+                    }
+                }, 400);
+                rl_send.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(position<photoWallItemModels.size()-1){
+                            int[] position1 = new int[2];
+                            itemBottom.getLocationOnScreen(position1);
+                            int[] position2 = new int[2];
+                            rl_send.getLocationOnScreen(position2);
+                            ptrlv.getRefreshableView().scrollBy(0, position1[1] - position2[1]);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+        TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
+        //点击举报按钮
+        tv_jubao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
+        //点击删除按钮
+        if(Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
+            tv_delete.setVisibility(View.VISIBLE);
+            tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.dismiss();
+                    new AlertDialog.Builder(PhotoWallActivity.this).setTitle("温馨提示").setMessage("确定删除吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    service.deleteHealth(UserInfoModel.getInstance().getToken(),
+                                            data.getHealtId(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    if (responseData.getStatus() == 200) {
+                                                        photoWallItemModels.remove(data);
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+            });
+        }else {
+            tv_delete.setVisibility(GONE);
+        }
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popupWindow.setContentView(contentView);
+        return popupWindow;
     }
 
 
@@ -711,23 +765,36 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     }
 
     private void closeSoftInput(){
-        rl_send.setVisibility(View.GONE);
+
         if(rl_send.getVisibility()==View.VISIBLE){
 //            int[] position2 = new int[2];
 //            rl_send.getLocationOnScreen(position2);
 //            ptrlv.getRefreshableView().scrollBy(0, -position2[1]);
-
             SoftInputUtil.hidden(PhotoWallActivity.this);
+            rl_send.setVisibility(GONE);
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
-            rl_send.setVisibility(View.GONE);
+            rl_send.setVisibility(GONE);
             SoftInputUtil.hidden(this);
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        Log.i("旧的="+oldBottom);
+        Log.i("新的="+bottom);
+        if(rl_send.getVisibility()==View.VISIBLE){
+            if(oldBottom-bottom<0){
+                //键盘收起来
+                rl_send.setVisibility(GONE);
+            }
+
+        }
     }
 }
