@@ -19,11 +19,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -40,15 +37,10 @@ import java.util.List;
 import butterknife.InjectView;
 import uk.co.senab.photoview.PhotoView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_modify_photo)
-public class ModifyPhotoActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class ModifyPhotoActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -72,7 +64,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
     private ImageFileCropSelector imageFileCropSelector;
 
     private ILoginPresenter presenter;
-    private ProgressDialog progressDialog;
 
 
     @Override
@@ -90,13 +81,14 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                progressDialog.show();
-                presenter.modifyPictures(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog);
+                dialogShow("上传图片");
+                presenter.modifyPictures(UserInfoModel.getInstance().getUserId(), file, progressDialog);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-
+                dialogShow("上传图片");
+                presenter.modifyPictures(UserInfoModel.getInstance().getUserId(), files.get(0), progressDialog);
             }
 
             @Override
@@ -186,15 +178,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
-    }
     private static final int CAMERA_PREMISSION=100;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

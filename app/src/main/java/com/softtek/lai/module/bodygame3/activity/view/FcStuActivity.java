@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -131,6 +132,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
     int resetstatus,resetdatestatus;
+    private ProgressDialog progressDialog;
     boolean IsEdit=true;
     String filest;
     File file;
@@ -141,6 +143,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         tv_title.setText("复测录入");
         tv_right.setText("保存");
         tv_write.setText("初始体重");
+        progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);

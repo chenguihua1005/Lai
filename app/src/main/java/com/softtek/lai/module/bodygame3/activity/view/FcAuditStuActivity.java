@@ -118,6 +118,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     private int IsAudit = 0;
     String gender = "0";
+    int resetdatestatus=1;
 
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
@@ -135,7 +136,19 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
         } else {
-            tv_right.setText("保存");
+            resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
+            switch (resetdatestatus)
+            {
+                //过去复测日，只能查看
+                case 1:
+                    tv_right.setVisibility(View.INVISIBLE);
+                    btn_retest_write_addbody.setText("查看身体围度");
+                    break;
+                case 2:
+                    break;
+
+            }
+
         }
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -144,6 +157,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
+        btn_retest_write_addbody.setOnClickListener(this);
         int px=DisplayUtil.dip2px(this,300);
         //*************************
         imageFileSelector=new ImageFileSelector(this);
@@ -330,6 +344,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 Intent intent = new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
                 intent.putExtra("initaudit", measuredDetailsModel);
                 intent.putExtra("Audited", IsAudit == 0 ? 3 : 4);
+                intent.putExtra("resetdatestatus", resetdatestatus);
                 startActivityForResult(intent, GET_BODY);
                 break;
             case R.id.im_retestwrite_takephoto:

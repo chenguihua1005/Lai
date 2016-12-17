@@ -155,7 +155,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     String files,ACMID;
     String photoname;
     int IsAudit;
-    private ImageFileCropSelector imageFileCropSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,33 +177,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
         ll_retestWrite_nowweight.setVisibility(View.GONE);
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1,1);
-        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
-        imageFileCropSelector.setOutPut(px,px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(InitDataAuditActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                files=file;
 
-                Log.i(files);
-//                retestPre.goGetPicture(file);
-            }
-
-            @Override
-            public void onMutilSuccess(List<String> files) {
-
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
 
     }
 
@@ -301,102 +274,23 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
-            //拍照事件
-            case R.id.im_retestwrite_takephoto:
-                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
-                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (isFirstRun)
-                {
-                    Intent takePhoto=new Intent(this,GuideActivity.class);
-                    startActivityForResult(takePhoto,BODY);
-                    Log.d("debug", "第一次运行");
-                    editor.putBoolean("isFirstRun", false);
-                    editor.commit();
-                } else
-                {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this,Manifest.permission.CAMERA)){
-                                        //允许弹出提示
-                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-
-                                    }else{
-                                        //不允许弹出提示
-                                        ActivityCompat.requestPermissions(InitDataAuditActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-                                    }
-                                }else {
-                                    imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
-                                }
-                            } else if (which == 1) {
-                                imageFileCropSelector.selectImage(InitDataAuditActivity.this);
-                            }
-                        }
-                    }).create().show();
-                    Log.d("debug", "不是第一次运行");
-                }
-
-
-                break;
 
 
         }
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-
-        }
-
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
             measuredDetailsModel=(MeasuredDetailsModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite"+measuredDetailsModel);
         }
-        if (requestCode==BODY&&resultCode==RESULT_OK){
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        imageFileCropSelector.takePhoto(InitDataAuditActivity.this);
-                    } else if (which == 1) {
-                        //照片
-                        imageFileCropSelector.selectImage(InitDataAuditActivity.this);
-                    }
-                }
-            }).create().show();
-            Log.d("debug", "不是第一次运行");
-        }
+
 
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -448,6 +342,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onValidationSucceeded() {
         //验证成功
+
         doSetPostData();
     }
 

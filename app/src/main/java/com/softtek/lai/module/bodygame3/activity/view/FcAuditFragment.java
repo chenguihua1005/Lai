@@ -56,13 +56,15 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     private int IsAudit=0;
     private static String classid;
     private static String typedata;
+    private static int resetdatestatus=1;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance(String classId,String typeDate) {
+    public static Fragment getInstance(String classId,String typeDate,int type) {
         FcAuditFragment fragment=new FcAuditFragment();
         Bundle data=new Bundle();
         classid=classId;
         typedata=typeDate;
+        resetdatestatus=type;
         fragment.setArguments(data);
         return fragment;
     }
@@ -139,6 +141,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
         FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
         FcAudit.putExtra("classId",classid);
         FcAudit.putExtra("IsAudit",IsAudit);
+        FcAudit.putExtra("resetdatestatus",resetdatestatus);
         startActivityForResult(FcAudit,FCAudit);
 
     }
@@ -161,10 +164,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-                if (pageIndex==1)
-                {
-                    listResponseData.getData().get(0).getCount();
-                }
+
                 switch (status)
                 {
                     case 200:

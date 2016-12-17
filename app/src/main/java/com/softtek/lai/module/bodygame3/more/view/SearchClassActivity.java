@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -28,11 +31,17 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_search_class2)
-public class SearchClassActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener{
+public class SearchClassActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener,Validator.ValidationListener{
+
+
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     @InjectView(R.id.pantner_list)
     ListView lv_class;
@@ -40,6 +49,7 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @Required(order = 1,message = "请输入班级名称或班级编号")
     @InjectView(R.id.pantnerContent)
     EditText pantnerContent;
     @InjectView(R.id.search_partner)
@@ -82,40 +92,8 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.search_partner:
-                String text = pantnerContent.getText().toString();
-                pb.setVisibility(View.VISIBLE);
-                ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
-                        text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
-                            @Override
-                            public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-                                try {
-                                    pb.setVisibility(View.GONE);
-                                    if (data.getStatus() == 200) {
-                                        classlistModels.clear();
-                                        classlistModels.addAll(data.getData());
-                                        adapter.notifyDataSetChanged();
-                                        if(data.getData().isEmpty()){
-                                            Util.toastMsg("暂无班级");
-                                        }
-                                    } else if (data.getStatus() == 100) {
+                validateLife.validate();
 
-                                        Util.toastMsg(data.getMsg());
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                try {
-                                    pb.setVisibility(View.GONE);
-                                    super.failure(error);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
                 break;
         }
     }
@@ -126,5 +104,44 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
         Intent intent = new Intent(this, ClassDetailActivity.class);
         intent.putExtra("ClasslistModel", classlistModel);
         startActivity(intent);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        String text = pantnerContent.getText().toString();
+        pb.setVisibility(View.VISIBLE);
+        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(),
+                text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
+                    @Override
+                    public void success(ResponseData<List<ClasslistModel>> data, Response response) {
+                        try {
+                            pb.setVisibility(View.GONE);
+                            if (data.getStatus() == 200) {
+                                classlistModels.clear();
+                                classlistModels.addAll(data.getData());
+                                adapter.notifyDataSetChanged();
+                            } else if (data.getStatus() == 100) {
+                                Util.toastMsg(data.getMsg());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        try {
+                            pb.setVisibility(View.GONE);
+                            super.failure(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView,failedRule);
     }
 }

@@ -7,18 +7,22 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.view.MyPkListActivity;
 import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
-import com.softtek.lai.module.message2.model.ActionNoticeModel;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
 import com.softtek.lai.module.message2.presenter.MessageMainManager;
 
@@ -32,7 +36,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis.liu on 3/22/2016.
  */
 @InjectLayout(R.layout.activity_message2)
-public class Message2Activity extends BaseActivity implements View.OnClickListener, MessageMainManager.GetUnreadMsgCallBack {
+public class Message2Activity extends BaseActivity implements View.OnClickListener, MessageMainManager.GetUnreadMsgCallBack ,PullToRefreshBase.OnRefreshListener{
 
 
     @InjectView(R.id.ll_left)
@@ -83,6 +87,9 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.text_unread_count_pk)
     TextView text_unread_count_pk;
 
+    @InjectView(R.id.ptrsv)
+    PullToRefreshScrollView ptrsv;
+
     private MessageMainManager manager;
 
     @Override
@@ -102,15 +109,26 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         rel_gs.setOnClickListener(this);
         rel_act.setOnClickListener(this);
         rel_pk.setOnClickListener(this);
-
+        ptrsv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        ptrsv.setOnRefreshListener(this);
+        ILoadingLayout startLabelse = ptrsv.getLoadingLayoutProxy(true,false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
     }
 
 
     @Override
     protected void initDatas() {
         manager = new MessageMainManager(this);
-        dialogShow("加载中");
-        manager.doGetUnreadMsg(UserInfoModel.getInstance().getUserId()+"");
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ptrsv!=null){
+                    ptrsv.setRefreshing();
+                }
+            }
+        },400);
     }
 
     @Override
@@ -144,15 +162,21 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100&&resultCode==RESULT_OK){
-            dialogShow("加载中");
-            manager.doGetUnreadMsg(UserInfoModel.getInstance().getUserId()+"");
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(ptrsv!=null){
+                        ptrsv.setRefreshing();
+                    }
+                }
+            },400);
         }
     }
 
     @Override
     public void getUnreadMsg(String type, UnreadMsgModel unreadMsgModel) {
-        dialogDissmiss();
         try {
+            ptrsv.onRefreshComplete();
             if ("true".equals(type)) {
                 String noticeMsg = unreadMsgModel.getNoticeMsg();
                 if (!TextUtils.isEmpty(noticeMsg)) {
@@ -244,5 +268,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase refreshView) {
+        manager.doGetUnreadMsg(UserInfoModel.getInstance().getUserId()+"");
     }
 }
