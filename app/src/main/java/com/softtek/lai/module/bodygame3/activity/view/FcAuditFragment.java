@@ -161,10 +161,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-                if (pageIndex==1)
-                {
-                    listResponseData.getData().get(0).getCount();
-                }
+
                 switch (status)
                 {
                     case 200:
