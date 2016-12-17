@@ -145,6 +145,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     LinearLayout lin_pinlun;
     @InjectView(R.id.re_search_bottom)
     RelativeLayout re_search_bottom;
+    @InjectView(R.id.iv_types)
+    ImageView iv_types;
     private List<PartnersModel> partnersModels = new ArrayList<>();
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
@@ -238,9 +240,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         onRefresh();//获取初始数据
         TypeModel model1 = new TypeModel(0, "按减重斤数");
         datas.add(model1);
-        TypeModel model2 = new TypeModel(2, "按体脂比");
+        TypeModel model2 = new TypeModel(1, "按减重比");
         datas.add(model2);
-        TypeModel model3 = new TypeModel(1, "按减重比");
+        TypeModel model3 = new TypeModel(2, "按体脂比");
         datas.add(model3);
 
         //类型（体重比，体脂，减重比）
@@ -264,6 +266,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
                 typecode = datas.get(i).getTypecode();
+                if(typecode==0){//减重斤数
+                iv_types.setImageResource(R.drawable.weightphoto);
+                }else if(typecode==1){//减重比
+                    iv_types.setImageResource(R.drawable.jianzhong_iv);
+                }else if(typecode==2){
+//                    iv_types.setImageResource(R.drawable.);
+                }
                 partneradapter.setType(typecode);
                 page = 1;
                 updatepartner(typecode, 10, page);//按类型分页加载小伙伴
