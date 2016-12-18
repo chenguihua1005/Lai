@@ -14,10 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.NiceSpinner;
@@ -93,7 +90,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.spinner_title1)
     ArrowSpinner3 tv_title;
     @InjectView(R.id.spinner_title)
-    ArrowSpinner2 spinner_title;
+    NiceSpinner spinner_title;
     @InjectView(R.id.list_partner)
     RecyclerView list_partner;
     @InjectView(R.id.searchContent)
@@ -246,21 +243,21 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         datas.add(model2);
         TypeModel model3 = new TypeModel(2, "按体脂比");
         datas.add(model3);
-
+        spinner_title.attachDataSource(datas);
         //类型（体重比，体脂，减重比）
-        spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
-            @Override
-            public void convert(ViewHolder holder, TypeModel data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_classed);
-                tv_class_name.setText(data.getTypename());
-            }
-
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return datas.get(position).getTypename();
-            }
-        });
+//        spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
+//            @Override
+//            public void convert(ViewHolder holder, TypeModel data, int position) {
+//                TextView tv_class_name = holder.getView(R.id.tv_classed);
+//                tv_class_name.setText(data.getTypename());
+//            }
+//
+//            @Override
+//            public String getText(int position) {
+//                //根据position返回当前值给标题
+//                return datas.get(position).getTypename();
+//            }
+//        });
         typecode = datas.get(0).getTypecode();
         partneradapter.setType(typecode);
         spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
