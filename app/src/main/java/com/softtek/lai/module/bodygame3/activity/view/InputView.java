@@ -1,0 +1,67 @@
+package com.softtek.lai.module.bodygame3.activity.view;
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
+import com.squareup.picasso.Picasso;
+
+import zilla.libcore.file.AddressManager;
+
+/**
+ * Created by shelly.xu on 12/17/2016.
+ */
+
+public class InputView extends LinearLayout {
+    private int role;
+    private TodayactModel todayactModel;
+    private Context mcontext;
+    private TextView activity_name;
+    private TextView activity_time;
+    private LinearLayout onclick_lin;
+    private ImageView activityicon;
+    private String activityid;
+    public InputView(Context context, TodayactModel todayactModel,int classrole) {
+        super(context);
+        this.mcontext = context;
+        this.todayactModel = todayactModel;
+        this.role=classrole;
+
+
+        initView();
+        initData();
+    }
+
+    private void initView() {
+        inflate(mcontext, R.layout.activity_list, this);
+        activity_name = (TextView) findViewById(R.id.activity_name);
+        activity_time = (TextView) findViewById(R.id.activity_time);
+        activityicon=(ImageView)findViewById(R.id.activityicon);
+        onclick_lin=(LinearLayout)findViewById(R.id.onclick_lin);
+    }
+
+    private void initData() {
+        Log.i("1233.",todayactModel.toString());
+        activity_name.setText(todayactModel.getActivityName());
+        activity_time.setText("集合时间"+todayactModel.getActivityStartDate());
+        Picasso.with(mcontext).load(AddressManager.get("photoHost")+todayactModel.getActivityIcon())
+               .into(activityicon);
+        activityid=todayactModel.getActivityId();
+        onclick_lin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mcontext,ActivitydetailActivity.class);
+                intent.putExtra("activityId",activityid);
+                intent.putExtra("classrole",role);
+                mcontext.startActivity(intent);
+            }
+        });
+    }
+
+}

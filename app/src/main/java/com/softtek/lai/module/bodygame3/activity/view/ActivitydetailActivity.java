@@ -1,10 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +12,11 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
-import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.utils.RequestCallback;
@@ -32,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -227,7 +220,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
-                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
+//                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
 
                         finish();
                     }
@@ -245,7 +238,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 Util.toastMsg(responseData.getMsg());
-                                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
+//                                setResult(RESULT_OK);
                                 finish();
                             }
 

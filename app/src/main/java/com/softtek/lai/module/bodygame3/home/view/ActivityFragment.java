@@ -4,14 +4,12 @@ package com.softtek.lai.module.bodygame3.home.view;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,26 +32,23 @@ import com.softtek.lai.module.bodygame3.activity.model.ActscalendarModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
-import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
+import com.softtek.lai.module.bodygame3.activity.view.InputView;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
 import com.softtek.lai.widgets.materialcalendarview.OnDateSelectedListener;
 import com.softtek.lai.widgets.materialcalendarview.decorators.EventDecorator;
-import com.softtek.lai.widgets.materialcalendarview.decorators.OneDayDecorator;
-import com.softtek.lai.widgets.materialcalendarview.decorators.SchelDecorator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,7 +60,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -84,8 +78,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @InjectView(R.id.pull)
     MySwipRefreshView pull;
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
+
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.iv_right)
@@ -94,8 +87,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title2)
     ArrowSpinner3 tv_title;
-    @InjectView(R.id.list_activity)
-    RecyclerView list_activity;
+    //    @InjectView(R.id.list_activity)
+//    RecyclerView list_activity;
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
     @InjectView(R.id.ll_chuDate)
@@ -110,6 +103,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     TextView reset_time;//未复测、已复测
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
+    @InjectView(R.id.ll_task)
+    LinearLayout ll_task;
 
     private CalendarMode mode = CalendarMode.WEEKS;
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
@@ -145,46 +140,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         } else {
             fl_right.setVisibility(View.GONE);
         }
-        list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
+//        list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= 0) {
-                    pull.setEnabled(true);
-                } else {
-                    pull.setEnabled(false);
-                }
-            }
-        });
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-//        list_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                int count = actRecyclerAdapter.getItemCount();
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
-//                    //加载更多数据
-//                    page++;
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                lastVisitableItem = llm.findLastVisibleItemPosition();
-//            }
-//        });
         //日历
         material_calendar.setOnDateChangedListener(this);
         material_calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
@@ -210,21 +175,21 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initDatas() {
-        actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
-        list_activity.setAdapter(actRecyclerAdapter);
+//        actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
+//        list_activity.setAdapter(actRecyclerAdapter);
         //活动跳转到活动详情
-        actRecyclerAdapter.setOnItemClickListener(new ActRecyclerAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                TodayactModel todayactModel = todayactModels.get(position);
-                String activityId = todayactModel.getActivityId();
-                Intent intent = new Intent(getContext(), ActivitydetailActivity.class);
-                intent.putExtra("classrole", classrole);
-                intent.putExtra("activityId", activityId);
-//                startActivity(intent);
-                startActivityForResult(intent, 1);
-            }
-        });
+//        actRecyclerAdapter.setOnItemClickListener(new ActRecyclerAdapter.OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                TodayactModel todayactModel = todayactModels.get(position);
+//                String activityId = todayactModel.getActivityId();
+//                Intent intent = new Intent(getContext(), ActivitydetailActivity.class);
+//                intent.putExtra("classrole", classrole);
+//                intent.putExtra("activityId", activityId);
+////                startActivity(intent);
+//                startActivityForResult(intent, 1);
+//            }
+//        });
         //班级列表
         tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
             @Override
@@ -300,8 +265,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         //根据点击的日期查询该天的活动列表
         dateStr = year + "-" + month + "-" + day;
         ll_fuce.setVisibility(View.GONE);
-        todayactModels.clear();
-        actRecyclerAdapter.notifyDataSetChanged();
+
+//        actRecyclerAdapter.notifyDataSetChanged();
         gettodaydata(dateStr);
 
 
@@ -394,9 +359,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 }
                                 ll_fuce.setTag(tag);
+                                ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
+                                    todayactModels.clear();
+
                                     todayactModels.addAll(model.getList_Activity());
-                                    actRecyclerAdapter.notifyDataSetChanged();
+                                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    View view = null;
+                                    for (int i = 0; i < todayactModels.size(); i++) {
+                                        TodayactModel model1 = todayactModels.get(i);
+                                        view = new InputView(getContext(), model1, classrole);
+                                        if (ll_task != null) {
+                                            ll_task.addView(view, lp);
+                                        }
+                                    }
                                 }
                             }
                         } catch (Exception e) {
@@ -475,15 +451,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             if (requestCode == 0) {
                 com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
                 lazyLoad();
-            } else if (requestCode == 1) {
-                com.github.snowdream.android.util.Log.i("活动更新啦啦啦啦。。。。。。。。。。。。。。");
-                todayactModels.remove(data.getStringExtra("activityId"));
-                actRecyclerAdapter.notifyDataSetChanged();
-                lazyLoad();
-
             }
+
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        lazyLoad();
     }
 
     private EventDecorator decorator;
@@ -592,21 +569,40 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 tag.date = now;
                                                 ll_fuce.setTag(tag);
                                             }
-
+                                            ll_task.removeAllViews();
                                             if (activitydataModel != null && !activitydataModel.getList_Activity().isEmpty()) {
-                                                //有活动
                                                 todayactModels.clear();
+
+                                                //有活动
                                                 todayactModels.addAll(activitydataModel.getList_Activity());
-                                                actRecyclerAdapter.notifyDataSetChanged();
+                                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                View view = null;
+                                                for (int i = 0; i < todayactModels.size(); i++) {
+                                                    TodayactModel model1 = todayactModels.get(i);
+                                                    view = new InputView(getContext(), model1, classrole);
+                                                    if (ll_task != null) {
+                                                        ll_task.addView(view, lp);
+                                                    }
+                                                }
                                             }
                                         }
                                         //如果是活动类型
+                                        ll_task.removeAllViews();
                                         if (model.getDateType() == 1 &&
                                                 activitydataModel != null && !activitydataModel.getList_Activity().isEmpty()) {
-                                            //有活动
                                             todayactModels.clear();
+
+                                            //有活动
                                             todayactModels.addAll(activitydataModel.getList_Activity());
-                                            actRecyclerAdapter.notifyDataSetChanged();
+                                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                            View view = null;
+                                            for (int i = 0; i < todayactModels.size(); i++) {
+                                                TodayactModel model1 = todayactModels.get(i);
+                                                view = new InputView(getContext(), model1, classrole);
+                                                if (ll_task != null) {
+                                                    ll_task.addView(view, lp);
+                                                }
+                                            }
                                         }
                                         break;
                                     }
@@ -629,6 +625,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     }
                 });
     }
+
+
+
+
+
 
     //日历上活动信息展示
     public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
