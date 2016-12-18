@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -46,6 +45,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
@@ -173,9 +173,9 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             if (msg.what == 0) {
-                Util.toastMsg("保存失败");
+                Log.i("保存失败");
             }else {
-                Util.toastMsg("保存成功");
+                Log.i("保存成功");
             }
         }
 
@@ -294,10 +294,11 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this, PictureActivity.class);
-                ArrayList<String> images=new ArrayList<>();
-                intent1.putExtra("images",images);
-                intent1.putExtra("position",0);
+                Intent intent1=new Intent(this, PreViewPicActivity.class);
+//                ArrayList<String> images=new ArrayList<>();
+                intent1.putExtra("images",files);
+                intent1.putExtra("photoname",photoname);
+                intent1.putExtra("position",1);
                 startActivity(intent1);
                 break;
 
@@ -427,43 +428,49 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                         cache.recycle();
                     }
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-                    File file=context.getApplicationContext().getCacheDir();
-                    Picasso.with(context).load(file).fit().into(im_retestwrite_showphoto);//图片
 
+                    Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+//                    File file=new File("/data/data/com.softtek.lai/cache/picasso-cache/ecebc5eb0a87a4bbbd3cfd7f3ec02922.0");
+//
+//                    Picasso.with(context).load(file).fit().into(im_retestwrite_showphoto);//图片
+//
                     uri=measuredDetailsModel.getImgThumbnail();
 
 
-                }
+//                }
 
-//                    if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
-//                            ||ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-//                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-//                        if (ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-//                                ||ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                            //允许弹出提示
-//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
-//                                    ,READ_WRITER);
-//
-//                        } else {
-//                            //不允许弹出提示
-//                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
-//                                    ,READ_WRITER);
-//                        }
-//                    }else {
-//                        //保存
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-//                                saveImageToGallery(InitDataAuditActivity.this,bitmap);
-//                            }
-//                        }).start();
-//
-//                    }
+                    if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                            ||ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                ||ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            //允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+
+                        } else {
+                            //不允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+                        }
+                    }else {
+                        //保存
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                                saveImageToGallery(InitDataAuditActivity.this,bitmap);
+                            }
+                        }).start();
+
+                    }
 //                    SavePic savePic=new SavePic();
 //                    savePic.GetPicUrl(this,photoname);
-//                }
+                }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
                 tv_write_class.setText(measuredDetailsModel.getClassName());//班级名
@@ -487,6 +494,13 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             }
         }
     }
+//    private void loadImageCache() {
+//         final String imageCacheDir = /* 自定义目录 */+"image";
+//        Picasso picasso = new Picasso.Builder(this).downloader(
+//         new OkHttpDownloader(new File(imageCacheDir))).build();
+//        Picasso.setSingletonInstance(picasso);
+//         }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -539,12 +553,14 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             appDir.mkdir();
         }
         String fileName = uri;
-        File file = new File(appDir, fileName);
+        photoname=appDir+fileName;
+                File file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
+            files=file+"";
         } catch (FileNotFoundException e) {
             handler.sendEmptyMessage(0);
             e.printStackTrace();

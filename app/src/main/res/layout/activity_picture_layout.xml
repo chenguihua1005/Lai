@@ -22,6 +22,7 @@
         android:textSize="24sp"
         android:text="1/2"
         />
+
     <!--<include layout="@layout/toolbar" />-->
 </RelativeLayout>
 

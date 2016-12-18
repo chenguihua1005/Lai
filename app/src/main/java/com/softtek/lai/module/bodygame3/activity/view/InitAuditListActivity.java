@@ -70,7 +70,7 @@ public class InitAuditListActivity extends BaseActivity{
     protected void initDatas() {
         fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
-        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 1);
+        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
 
     }
     //获取审核列表数据

@@ -44,6 +44,7 @@ import zilla.libcore.util.Util;
 public class SavePic{
 
     String uri;
+Context context;
     private Handler handler = new Handler() {
 
         @Override
@@ -58,18 +59,37 @@ public class SavePic{
 
     };
 
-//    public static SavePic getInstance(String path_image){
-//        fragment=new SavePic();
-//        Bundle bundle=new Bundle();
-//        bundle.putString("image_path",path_image);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
+
 
     private static int READ_WRITER=0X10;
 
     public void GetPicUrl(final Context context, final String url)
     {
+//        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+//                ||ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+//            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    ||ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                //允许弹出提示
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                        ,READ_WRITER);
+//
+//            } else {
+//                //不允许弹出提示
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+//                        ,READ_WRITER);
+//            }
+//        }else {
+//            //保存
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+//                    saveImageToGallery(getContext(),bitmap);
+//                }
+//            }).start();
+
+//        }
 
         new Thread(new Runnable() {
             @Override
@@ -80,27 +100,27 @@ public class SavePic{
         }).start();
     }
 
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if(requestCode==READ_WRITER) {
-//            if (grantResults.length > 0
-//                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // permission was granted, yay! Do the
-//                // contacts-related task you need to do.
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-//                        saveImageToGallery(,bitmap);
-//                    }
-//                }).start();
-//            } else {
-//
-//                // permission denied, boo! Disable the
-//                // functionality that depends on this permission.
-//            }
-//        }
-//    }
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(context,bitmap);
+                    }
+                }).start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
 
     public  void saveImageToGallery(Context context,Bitmap bmp) {
         if (bmp == null){

@@ -136,12 +136,10 @@
         <activity
             android:name=".module.login.view.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.welcome.view.GuidePageActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.welcome.view.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -155,40 +153,33 @@
         <activity
             android:name=".chat.ui.ConversationListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".chat.ui.ChatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".chat.ui.GroupSentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".chat.ui.SeceltGroupSentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".chat.ui.ContantListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".chat.ui.ContextMenuActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <!-- 显示下载大图页面 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            />
+            android:theme="@style/horizontal_slide" />
         <activity
             android:name=".module.login.view.RegistActivity"
             android:screenOrientation="portrait"
@@ -200,173 +191,131 @@
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.File.view.CreatFlleActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ValidateCertificationActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.PersonDetailActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPhotoActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyNameActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPasswordActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.SettingsActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.AboutMeActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.File.view.DimensionRecordActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.sportchart.view.ChartActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.retest.WriteActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame3.activity.view.WriteFCActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame3.activity.view.FcAuditStuActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame3.activity.view.InitDataAuditActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.bodygame3.activity.view.FcStuActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.laisportmine.view.MySystemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.AuditActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.view.RetestActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.login.view.TermActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.retest.view.QueryActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.StudentHonorGridActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.counselor.view.SearchContantActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            />
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.counselor.view.GameActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.File.view.ExplainActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.message2.view.ZQSActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.activity.view.BodyweiduActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.JoinGroupActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupSecActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupThirdActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupFouthActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupFifthActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupSearchActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.act.view.ActListActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.act.view.ActActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.act.view.ActGroupPersonActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -382,38 +331,30 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".module.health.view.HealthyRecordActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.EditPersonalDynamicActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.healthrecords.view.HealthEntryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.community.view.PreviewImageActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.HealthyDetailActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.message2.view.Message2Activity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.message2.view.MessageConfirmActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.history.view.ClassInfoActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -524,8 +465,7 @@
 
         <activity
             android:name=".module.historydate.view.HistoryDataActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.historydate.view.HistoryDataDetailActivity"
             android:screenOrientation="portrait" />
@@ -739,8 +679,9 @@
         <activity
             android:name=".module.bodygame3.head.view.SearchClassActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.ClassMemberActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.bodygame3.more.view.ClassMemberActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.conversation.view.GroupsActivity"
             android:screenOrientation="portrait" />
@@ -794,7 +735,7 @@
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
             android:configChanges="screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
@@ -821,12 +762,18 @@
         <activity
             android:name=".module.bodygame3.photowall.PublishDyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.head.view.EditSignaActivity"
+        <activity
+            android:name=".module.bodygame3.head.view.EditSignaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.head.view.HonorRuleActivity"
+        <activity
+            android:name=".module.bodygame3.head.view.HonorRuleActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.SearchClassActivity"
+        <activity
+            android:name=".module.bodygame3.more.view.SearchClassActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.activity.view.PreViewPicActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>
