@@ -42,6 +42,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by lareina.qiao on 11/24/2016.
  */
@@ -147,6 +149,30 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
         startActivityForResult(FcAudit,FCAudit);
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FCAudit && requestCode==RESULT_OK) {
+            String ACMID = data.getStringExtra("ACMID");
+            String n = "";
+            for (int i = 0; i < memberListModels.size(); i++) {
+                if (ACMID.equals(memberListModels.get(i).getAcmId())) {
+                    n = i + "";
+                }
+            }
+            if (!"".equals(n)) {
+                memberListModels.remove(Integer.parseInt(n));
+                adapter.notifyDataSetChanged();
+//                        ((InitDataAuditActivity)getActivity()).getT;
+//                        getTab()
+            }
+//            memberListModels.clear();
+//            pageIndex = 1;
+//            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+        }
+    }
+
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

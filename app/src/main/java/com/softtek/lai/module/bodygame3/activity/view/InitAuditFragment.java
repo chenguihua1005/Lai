@@ -145,24 +145,24 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ChuAudit && requestCode==RESULT_OK) {
-//                    String ACMID=data.getStringExtra("ACMID");
-//                    String n="";
-//                    for (int i=0;i<memberListModels.size();i++)
-//                    {
-//                        if (ACMID.equals(memberListModels.get(i).getAcmId()))
-//                        {
-//                            n=i+"";
-//                        }
-//                    }
-//                    if (!"".equals(n)) {
-//                        memberListModels.remove(Integer.parseInt(n));
-//                        adapter.notifyDataSetChanged();
+                    String ACMID=data.getStringExtra("ACMID");
+                    String n="";
+                    for (int i=0;i<memberListModels.size();i++)
+                    {
+                        if (ACMID.equals(memberListModels.get(i).getAcmId()))
+                        {
+                            n=i+"";
+                        }
+                    }
+                    if (!"".equals(n)) {
+                        memberListModels.remove(Integer.parseInt(n));
+                        adapter.notifyDataSetChanged();
 //                        ((InitDataAuditActivity)getActivity()).getT;
 //                        getTab()
-//                    }
-            memberListModels.clear();
-            pageIndex = 1;
-            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+                    }
+//            memberListModels.clear();
+//            pageIndex = 1;
+//            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
 
         }
 
