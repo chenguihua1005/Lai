@@ -95,7 +95,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         if("0".equals(data.getSourcetype())){
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));
-        }else if("1".equals(data.getSourcetype())){
+        }else if("1".equals(data.getSourcetype())||"4".equals(data.getSourcetype())){
             //复测
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.history_data_fuce));
         }else if("2".equals(data.getSourcetype())){

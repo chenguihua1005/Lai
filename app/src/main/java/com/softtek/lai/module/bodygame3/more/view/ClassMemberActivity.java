@@ -93,6 +93,9 @@ public class ClassMemberActivity extends BaseActivity {
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText("(");
                 tv_group_name.append(data.getCGName());
+                tv_group_name.append(" ");
+                int role = data.getClassRole();
+                tv_group_name.append(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "未知");
                 tv_group_name.append(")");
                 //侧滑操作
                 final HorizontalScrollView hsv = holder.getView(R.id.hsv);
