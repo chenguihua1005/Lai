@@ -22,7 +22,6 @@
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Joy"
         android:textStyle="bold"
         android:textSize="14sp"
         android:textColor="#333333"
@@ -33,9 +32,10 @@
             android:id="@+id/tv_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(第3组)"
             android:textColor="#999999"
             android:layout_toRightOf="@+id/tv_username"
+            android:maxEms="6"
+            android:singleLine="true"
             android:layout_centerVertical="true"
             android:textSize="14sp"/>
         <RelativeLayout

@@ -138,7 +138,7 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initViews() {
         tv_title.setText("个人头像");
-        iv_email.setImageResource(R.drawable.more_title);
+        iv_email.setImageResource(R.drawable.more_menu);
         iv_email.setVisibility(View.VISIBLE);
     }
 

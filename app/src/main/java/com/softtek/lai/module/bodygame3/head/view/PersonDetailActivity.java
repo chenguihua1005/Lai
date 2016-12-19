@@ -301,7 +301,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 doGetPhotoView();//展示图片
                 if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
-                    if (Long.parseLong(memberInfoModel.getTotalLossWeight()) > 0) {
+                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) > 0) {
                         tv_Lossweight.setText("+" + memberInfoModel.getTotalLossWeight() + "斤");//减重d
                     } else {
                         tv_Lossweight.setText("-" + memberInfoModel.getTotalLossWeight() + "斤");//减重

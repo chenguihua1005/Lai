@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
@@ -189,6 +190,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                         @Override
                                         public void success(final ResponseData responseData, Response response) {
                                             dialogDissmiss();
+                                            Log.i(responseData.toString());
                                             if (responseData.getStatus() == 200) {
                                                 ClassModel model = new ClassModel();
                                                 model.setClassId(show.getClassId());
@@ -232,11 +234,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                        } finally {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     dialogDissmiss();
+                                    Util.toastMsg("环信异常");
                                 }
                             });
                         }

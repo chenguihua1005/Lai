@@ -109,7 +109,7 @@ public interface FuceSevice {
             Callback<ResponseData>callback
             );
     //复测数据提交审核
-    @POST("api/v1/MeasuredRecordLog/ReviewMeasuredRecord")
+    @POST("/v1/MeasuredRecordLog/ReviewMeasuredRecord")
     void doReviewMeasuredRecord(
             @Header("token") String token,
             @Body FcAuditPostModel fcAuditPostModel,
