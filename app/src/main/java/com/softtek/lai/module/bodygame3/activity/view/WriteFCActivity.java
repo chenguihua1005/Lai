@@ -7,9 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -50,6 +55,12 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,6 +177,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     int firststatus;
     boolean IsEdit=true;
     private ImageFileSelector imageFileSelector;
+    String uri,photoname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -352,23 +364,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileSelector.takePhoto(WriteFCActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -526,6 +522,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+    private static int READ_WRITER=0X10;
+
     /*
     * 获取数据值
     * */
@@ -549,6 +547,36 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     Picasso.with(context).load(url+fcStDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
                     photourl=fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么"+photourl);
+                    uri=fcStDataModel.getImgThumbnail();
+                    if(ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                            ||ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                ||ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            //允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+
+                        } else {
+                            //不允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+                        }
+                    }else {
+                        //保存
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                                saveImageToGallery(WriteFCActivity.this,bitmap);
+                            }
+                        }).start();
+
+                    }
                 }
                 tv_write_class.setText(fcStDataModel.getClassName());//班级名
                 tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());//当前周
@@ -615,6 +643,101 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(WriteFCActivity.this,bitmap);
+                    }
+                }).start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+    public Bitmap getHttpBitmap(String url)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            URL pictureUrl = new URL(url);
+            InputStream in = pictureUrl.openStream();
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    public  void saveImageToGallery(Context context, Bitmap bmp) {
+        if (bmp == null){
+            handler.sendEmptyMessage(0);
+            return;
+        }
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = uri;
+        photoname=appDir+fileName;
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            filest=file+"";
+        } catch (FileNotFoundException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        } catch (IOException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }catch (Exception e){
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }
+
+        // 最后通知图库更新
+//        try {
+//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        handler.sendEmptyMessage(1);
+    }
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                Log.i("保存失败");
+            }else {
+                Log.i("保存成功");
+            }
+        }
+
+    };
 
     /**
      * 点击屏幕隐藏软键盘
