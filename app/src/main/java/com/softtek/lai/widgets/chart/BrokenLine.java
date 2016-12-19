@@ -54,6 +54,7 @@ public class BrokenLine extends View{
         textPaint.setAntiAlias(true);
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.WHITE);
+
         textPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 12,getContext().getResources().getDisplayMetrics()));
         aTextPaint=new Paint();
@@ -175,5 +176,7 @@ public class BrokenLine extends View{
         postInvalidate();
     }
 
-
+    public void setxTextSize(float xTextSize) {
+        textPaint.setTextSize(xTextSize);
+    }
 }

@@ -73,6 +73,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     private List<OperateMsgModel> operatList=new ArrayList<>();
     @Override
     protected void initViews() {
+
         tv_title.setText("小助手");
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
@@ -173,7 +174,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                         }else {
                             cb_all.setChecked(false);
                         }
-
                     }
                     adapter.notifyDataSetChanged();
                     return;

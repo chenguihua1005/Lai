@@ -93,6 +93,9 @@ public class ClassMemberActivity extends BaseActivity {
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText("(");
                 tv_group_name.append(data.getCGName());
+                tv_group_name.append(" ");
+                int role = data.getClassRole();
+                tv_group_name.append(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "未知");
                 tv_group_name.append(")");
                 //侧滑操作
                 final HorizontalScrollView hsv = holder.getView(R.id.hsv);
@@ -306,27 +309,31 @@ public class ClassMemberActivity extends BaseActivity {
                     return;
                 }
                 final ClassGroup group = groups.get(lv.getCheckedItemPosition());
-                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                        .turnToAnotherGroup(
-                                UserInfoModel.getInstance().getToken(),
-                                member.getAccountId(),
-                                classId,
-                                group.getCGId(),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        if (responseData.getStatus() == 200) {
-                                            member.setCGId(group.getCGId());
-                                            member.setCGName(group.getCGName());
-                                            adapter.notifyDataSetChanged();
-                                            Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
-                                        } else {
-                                            Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                if(group.getCGId().equals(member.getCGId())){
+                    Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                }else {
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .turnToAnotherGroup(
+                                    UserInfoModel.getInstance().getToken(),
+                                    member.getAccountId(),
+                                    classId,
+                                    group.getCGId(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                                member.setCGId(group.getCGId());
+                                                member.setCGName(group.getCGName());
+                                                adapter.notifyDataSetChanged();
+                                                Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            } else {
+                                                Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            }
                                         }
                                     }
-                                }
 
-                        );
+                            );
+                }
                 dialog.dismiss();
             }
         });

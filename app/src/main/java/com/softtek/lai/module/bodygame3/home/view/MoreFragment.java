@@ -118,6 +118,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
             public void onClick(View view) {
                 Intent intent=new Intent(getContext(), PersonDetailActivity.class);
                 intent.putExtra("AccountId",UserInfoModel.getInstance().getUserId());
+                if(model!=null){
+                    intent.putExtra("ClassId",model.getClassId());
+                }
                 startActivity(intent);
             }
         });

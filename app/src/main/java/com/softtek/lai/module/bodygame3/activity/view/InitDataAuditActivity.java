@@ -69,7 +69,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_initwrite)
+@InjectLayout(R.layout.activity_initaudit)
 public class InitDataAuditActivity extends BaseActivity implements View.OnClickListener,
         Validator.ValidationListener/*,ImageFileSelector.Callback*/{
     //标题栏
@@ -79,12 +79,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.btn_retest_write_addbody)
-    Button btn_retest_write_addbody;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-    @InjectView(R.id.im_retestwrite_takephoto)
-    ImageView im_retestwrite_takephoto;
     //显示照片
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
@@ -101,6 +97,18 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     //内脂
     @InjectView(R.id.ll_retestWrite_neizhi)
     RelativeLayout ll_retestWrite_neizhi;
+    @InjectView(R.id.ll_retestWrite_crium)
+    RelativeLayout ll_retestWrite_crium;
+    @InjectView(R.id.ll_retestWrite_waisline)
+    RelativeLayout ll_retestWrite_waisline;
+    @InjectView(R.id.ll_retestWrite_hiplie)
+    RelativeLayout ll_retestWrite_hiplie;
+    @InjectView(R.id.ll_retestWrite_Uparm)
+    RelativeLayout ll_retestWrite_Uparm;
+    @InjectView(R.id.ll_retestWrite_UpLeg)
+    RelativeLayout ll_retestWrite_UpLeg;
+    @InjectView(R.id.ll_retestWrite_doleg)
+    RelativeLayout ll_retestWrite_doleg;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -116,6 +124,19 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Required(order = 3,message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;
+    @InjectView(R.id.tv_retestWrite_crium)
+    TextView tv_retestWrite_crium;
+    @InjectView(R.id.tv_retestWrite_waisline)
+    TextView tv_retestWrite_waisline;
+    @InjectView(R.id.tv_retestWrite_hiplie)
+    TextView tv_retestWrite_hiplie;
+    @InjectView(R.id.tv_retestWrite_Uparm)
+    TextView tv_retestWrite_Uparm;
+    @InjectView(R.id.tv_retestWrite_UpLeg)
+    TextView tv_retestWrite_UpLeg;
+    @InjectView(R.id.tv_retestWrite_doleg)
+    TextView tv_retestWrite_doleg;
+
 
     //昵称
     @InjectView(R.id.tv_write_nick)
@@ -187,8 +208,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
-        btn_retest_write_addbody.setOnClickListener(this);
-        im_retestwrite_takephoto.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
@@ -202,6 +221,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
         ll_retestWrite_nowweight.setVisibility(View.GONE);
+        ll_retestWrite_crium.setOnClickListener(this);
+        ll_retestWrite_waisline.setOnClickListener(this);
+        ll_retestWrite_hiplie.setOnClickListener(this);
+        ll_retestWrite_Uparm.setOnClickListener(this);
+        ll_retestWrite_UpLeg.setOnClickListener(this);
+        ll_retestWrite_doleg.setOnClickListener(this);
 
 
     }
@@ -209,18 +234,16 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        title.setText("初始数据录入");//设置标题栏标题
+        title.setText("初始数据审核");//设置标题栏标题
         tv_right.setText("保存");//保存数据
         classId=getIntent().getStringExtra("classId");
         AccountId=getIntent().getLongExtra("AccountId",0);
         ACMID=getIntent().getStringExtra("ACMID");
         IsAudit=getIntent().getIntExtra("Audited",1);
-        im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
         if (IsAudit==1)
         {
             tv_right.setText("");
             tv_right.setEnabled(false);
-            btn_retest_write_addbody.setText("查看身体围度");
 
         }
         else {
@@ -236,9 +259,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
     }
 
-
-    private static final int CAMERA_PREMISSION=100;
-    private static int READ_WRITER=0X10;
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -267,13 +287,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
-            //添加身体围度
-            case R.id.btn_retest_write_addbody:
-                Intent intent=new Intent(InitDataAuditActivity.this, BodyweiduActivity.class);
-                intent.putExtra("initaudit",measuredDetailsModel);
-                intent.putExtra("Audited",IsAudit);
-                startActivityForResult(intent,GET_BODY);
-                break;
+
             case R.id.ll_retestWrite_chu_weight:
                 if (IsAudit!=1) {
                     if (gender.equals("0")) {
@@ -291,6 +305,37 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             case R.id.ll_retestWrite_neizhi:
                 if (IsAudit!=1) {
                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                }
+                break;
+            case R.id.ll_retestWrite_crium:
+                if (IsAudit!=1) {
+                    //最大值，默认值，最小值；最大值，默认值，最小值
+                    show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                }
+                break;
+            case R.id.ll_retestWrite_waisline:
+                if (IsAudit!=1) {
+                    show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                }
+                break;
+            case R.id.ll_retestWrite_hiplie:
+                if (IsAudit!=1) {
+                    show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                }
+                break;
+            case R.id.ll_retestWrite_Uparm:
+                if (IsAudit!=1) {
+                    show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                }
+                break;
+            case R.id.ll_retestWrite_UpLeg:
+                if (IsAudit!=1) {
+                    show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                }
+                break;
+            case R.id.ll_retestWrite_doleg:
+                if (IsAudit!=1) {
+                    show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
                 }
                 break;
             case R.id.im_retestwrite_showphoto:
@@ -353,6 +398,36 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 else if(num==3)
                 {
                     tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==4)
+                {
+                    tv_retestWrite_crium.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==5)
+                {
+                    tv_retestWrite_waisline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==6)
+                {
+                    tv_retestWrite_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==7)
+                {
+                    tv_retestWrite_Uparm.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==8)
+                {
+                    tv_retestWrite_UpLeg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==9)
+                {
+                    tv_retestWrite_doleg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
                 }
             }
@@ -423,53 +498,23 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail()))
                 {
-                    Bitmap cache=im_retestwrite_showphoto.getDrawingCache();
-                    if(cache!=null&&!cache.isRecycled()){
-                        cache.recycle();
-                    }
+
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
 
-                    Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
-//                    File file=new File("/data/data/com.softtek.lai/cache/picasso-cache/ecebc5eb0a87a4bbbd3cfd7f3ec02922.0");
-//
-//                    Picasso.with(context).load(file).fit().into(im_retestwrite_showphoto);//图片
-//
-                    uri=measuredDetailsModel.getImgThumbnail();
+                    Picasso.with(context).load(url+measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+                    Log.i("加载图片啦"+url+measuredDetailsModel.getImgThumbnail());
 
+                }
+                else if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
+                {
 
-//                }
+                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
 
-                    if(ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
-                            ||ActivityCompat.checkSelfPermission(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                                ||ActivityCompat.shouldShowRequestPermissionRationale(InitDataAuditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            //允许弹出提示
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                                        ,READ_WRITER);
-                            }
-
-                        } else {
-                            //不允许弹出提示
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                                        ,READ_WRITER);
-                            }
-                        }
-                    }else {
-                        //保存
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-                                saveImageToGallery(InitDataAuditActivity.this,bitmap);
-                            }
-                        }).start();
-
-                    }
-//                    SavePic savePic=new SavePic();
-//                    savePic.GetPicUrl(this,photoname);
+                    Picasso.with(context).load(url+measuredDetailsModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+                }
+                if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
+                {
+                    photoname =measuredDetailsModel.getImg();
                 }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
@@ -488,6 +533,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 tv_write_chu_weight.setText("0.0".equals(measuredDetailsModel.getWeight())?"":measuredDetailsModel.getWeight());//初始体重
                 tv_retestWrite_tizhi.setText("0.0".equals(measuredDetailsModel.getPysical())?"":measuredDetailsModel.getPysical());//体脂
                 tv_retestWrite_neizhi.setText("0.0".equals(measuredDetailsModel.getFat())?"":measuredDetailsModel.getFat());//内脂
+                tv_retestWrite_crium.setText("0.0".equals(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());
+                tv_retestWrite_waisline.setText("0.0".equals(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());
+                tv_retestWrite_hiplie.setText("0.0".equals(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());
+                tv_retestWrite_Uparm.setText("0.0".equals(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
+                tv_retestWrite_UpLeg.setText("0.0".equals(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
+                tv_retestWrite_doleg.setText("0.0".equals(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
                 gender=measuredDetailsModel.getGender();
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -502,104 +553,24 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 //         }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==READ_WRITER) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
-                        saveImageToGallery(InitDataAuditActivity.this,bitmap);
-                    }
-                }).start();
-            } else {
 
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-    }
-    public Bitmap getHttpBitmap(String url)
-    {
-        Bitmap bitmap = null;
-        try
-        {
-            URL pictureUrl = new URL(url);
-            InputStream in = pictureUrl.openStream();
-            bitmap = BitmapFactory.decodeStream(in);
-            in.close();
-        } catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-    public  void saveImageToGallery(Context context, Bitmap bmp) {
-        if (bmp == null){
-            handler.sendEmptyMessage(0);
-            return;
-        }
-        // 首先保存图片
-        File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        String fileName = uri;
-        photoname=appDir+fileName;
-                File file = new File(appDir, fileName);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-            files=file+"";
-        } catch (FileNotFoundException e) {
-            handler.sendEmptyMessage(0);
-            e.printStackTrace();
-        } catch (IOException e) {
-            handler.sendEmptyMessage(0);
-            e.printStackTrace();
-        }catch (Exception e){
-            handler.sendEmptyMessage(0);
-            e.printStackTrace();
-        }
-
-        // 最后通知图库更新
-//        try {
-//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(file);
-        intent.setData(uri);
-        context.sendBroadcast(intent);
-        handler.sendEmptyMessage(1);
-    }
     /*l录入*/
     void doSetPostData()
-    {Log.i("AccountId"+AccountId+"classId"+classId+"ACMID"+ACMID+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
+    {
         initAuditPModel=new InitAuditPModel();
         initAuditPModel.setACMId(ACMID);
         initAuditPModel.setReviewerId(UserInfoModel.getInstance().getUser().getUserid());
         initAuditPModel.setWeight(tv_write_chu_weight.getText().toString());//体重
         initAuditPModel.setPysical(tv_retestWrite_tizhi.getText().toString());//体脂
         initAuditPModel.setFat(tv_retestWrite_neizhi.getText().toString());//内脂
-        initAuditPModel.setCircum(TextUtils.isEmpty(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());//胸围
-        initAuditPModel.setHiplie(TextUtils.isEmpty(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());//臀围
-        initAuditPModel.setWaistline(TextUtils.isEmpty(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());//腰围
-        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
-        initAuditPModel.setUpArmGirth(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
-        initAuditPModel.setDoLegGirth(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
+        initAuditPModel.setCircum(tv_retestWrite_crium.getText().toString());//胸围
+        initAuditPModel.setHiplie(tv_retestWrite_hiplie.getText().toString());//臀围
+        initAuditPModel.setWaistline(tv_retestWrite_waisline.getText().toString());//腰围
+        initAuditPModel.setUpArmGirth(tv_retestWrite_Uparm.getText().toString());
+        initAuditPModel.setUpLegGirth(tv_retestWrite_UpLeg.getText().toString());
+        initAuditPModel.setDoLegGirth(tv_retestWrite_doleg.getText().toString());
         Log.i("上传数据" +initAuditPModel.toString() );
+        Log.i("AccountId"+AccountId+"classId"+classId+"ACMID"+ACMID+"身体维度上传"+"胸围"+measuredDetailsModel.getCircum()+"腰围 "+measuredDetailsModel.getWaistline()+"臀围"+measuredDetailsModel.getHiplie()+"上臂围"+measuredDetailsModel.getUpArmGirth()+"大腿围"+measuredDetailsModel.getUpLegGirth()+"小腿围"+measuredDetailsModel.getDoLegGirth());
         doPostInitData();
     }
     //录入请求

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
@@ -52,7 +54,7 @@ import zilla.libcore.util.Util;
  * Created by Terry on 2016/12/3.
  */
 
-@InjectLayout(R.layout.activity_initwrite)
+@InjectLayout(R.layout.activity_initaudit)
 public class FcAuditStuActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
     @InjectView(R.id.iv_write_head)
     ImageView iv_write_head;
@@ -84,20 +86,40 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @Required(order = 2, message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;
-    @InjectView(R.id.im_retestwrite_takephoto)
-    ImageView im_retestwrite_takephoto;
+    @InjectView(R.id.tv_retestWrite_crium)
+    TextView tv_retestWrite_crium;
+    @InjectView(R.id.tv_retestWrite_waisline)
+    TextView tv_retestWrite_waisline;
+    @InjectView(R.id.tv_retestWrite_hiplie)
+    TextView tv_retestWrite_hiplie;
+    @InjectView(R.id.tv_retestWrite_Uparm)
+    TextView tv_retestWrite_Uparm;
+    @InjectView(R.id.tv_retestWrite_UpLeg)
+    TextView tv_retestWrite_UpLeg;
+    @InjectView(R.id.tv_retestWrite_doleg)
+    TextView tv_retestWrite_doleg;
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
     @InjectView(R.id.im_delete)
     ImageView im_delete;
-    @InjectView(R.id.btn_retest_write_addbody)
-    Button btn_retest_write_addbody;
     @InjectView(R.id.ll_retestWrite_nowweight)
     RelativeLayout ll_retestWrite_nowweight;
     @InjectView(R.id.ll_retestWrite_tizhi)
     RelativeLayout ll_retestWrite_tizhi;
     @InjectView(R.id.ll_retestWrite_neizhi)
     RelativeLayout ll_retestWrite_neizhi;
+    @InjectView(R.id.ll_retestWrite_crium)
+    RelativeLayout ll_retestWrite_crium;
+    @InjectView(R.id.ll_retestWrite_waisline)
+    RelativeLayout ll_retestWrite_waisline;
+    @InjectView(R.id.ll_retestWrite_hiplie)
+    RelativeLayout ll_retestWrite_hiplie;
+    @InjectView(R.id.ll_retestWrite_Uparm)
+    RelativeLayout ll_retestWrite_Uparm;
+    @InjectView(R.id.ll_retestWrite_UpLeg)
+    RelativeLayout ll_retestWrite_UpLeg;
+    @InjectView(R.id.ll_retestWrite_doleg)
+    RelativeLayout ll_retestWrite_doleg;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -108,13 +130,12 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    ProgressDialog progressDialog;
 
     FuceSevice fuceSevice;
     MeasuredDetailsModel measuredDetailsModel;
     FcAuditPostModel fcAuditPostModel;
-    private static final int BODY = 3;
     private static final int GET_BODY = 1;
-    private ImageFileSelector imageFileSelector;
 
     private int IsAudit = 0;
     String gender = "0";
@@ -124,14 +145,22 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     Long accountId;
     String acmId, classId;
-    String filest;
+    String filest,photoname;
     File file;
 
     @Override
     protected void initViews() {
-        tv_title.setText("复测录入");
-        tv_write.setText("初始体重");
+        tv_title.setText("复测审核");
+        tv_write.setText("初始体重：");
         tv_right.setText("保存");
+        progressDialog =new ProgressDialog(this);
+        ll_retestWrite_crium.setOnClickListener(this);
+        ll_retestWrite_waisline.setOnClickListener(this);
+        ll_retestWrite_hiplie.setOnClickListener(this);
+        ll_retestWrite_Uparm.setOnClickListener(this);
+        ll_retestWrite_UpLeg.setOnClickListener(this);
+        ll_retestWrite_doleg.setOnClickListener(this);
+        im_retestwrite_showphoto.setOnClickListener(this);
         IsAudit = getIntent().getIntExtra("IsAudit", 0);
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -142,8 +171,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 //过去复测日，只能查看
                 case 1:
                     tv_right.setVisibility(View.INVISIBLE);
-                    btn_retest_write_addbody.setText("查看身体围度");
-                    im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     break;
@@ -157,38 +184,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
-        im_retestwrite_takephoto.setOnClickListener(this);
-        btn_retest_write_addbody.setOnClickListener(this);
-        int px=DisplayUtil.dip2px(this,300);
-        //*************************
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(px,px);
-        imageFileSelector.setQuality(60);
-        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
-            @Override
-            public void onSuccess(String file) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(FcAuditStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                filest=file;
 
-            }
-
-            @Override
-            public void onMutilSuccess(List<String> files) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                file=new File(files.get(0));
-                Picasso.with(FcAuditStuActivity.this).load(file).fit().into(im_retestwrite_showphoto);
-                filest=file.toString();
-
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
     }
 
     @Override
@@ -220,13 +216,24 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     private void doSetData() {
         if (measuredDetailsModel != null) {
-            String url = AddressManager.getUrl("photoHost");
+            String url = AddressManager.get("photoHost");
             gender = measuredDetailsModel.getGender();
             if (!TextUtils.isEmpty(measuredDetailsModel.getPhoto())) {
                 Picasso.with(this).load(url + measuredDetailsModel.getPhoto()).fit().into(iv_write_head);
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail())) {
-                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);
+                Log.i("图片测试啦"+url+measuredDetailsModel.getImgThumbnail());
+            }
+            else if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
+            {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);
+            }
+            if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
+            {
+                photoname=measuredDetailsModel.getImg();
             }
 
             tv_write_class.setText(measuredDetailsModel.getClassName());
@@ -249,6 +256,12 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             tv_retestWrite_nowweight.setText("0.0".equals(measuredDetailsModel.getWeight()) ? "" : measuredDetailsModel.getWeight());
             tv_retestWrite_tizhi.setText("0.0".equals(measuredDetailsModel.getPysical()) ? "" : measuredDetailsModel.getPysical());
             tv_retestWrite_neizhi.setText("0.0".equals(measuredDetailsModel.getFat()) ? "" : measuredDetailsModel.getFat());
+            tv_retestWrite_crium.setText("0.0".equals(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());
+            tv_retestWrite_waisline.setText("0.0".equals(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());
+            tv_retestWrite_hiplie.setText("0.0".equals(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());
+            tv_retestWrite_Uparm.setText("0.0".equals(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
+            tv_retestWrite_UpLeg.setText("0.0".equals(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
+            tv_retestWrite_doleg.setText("0.0".equals(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
 
         }
 
@@ -257,45 +270,14 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
             measuredDetailsModel = (MeasuredDetailsModel) data.getSerializableExtra("initaudit");
             Log.i("新学员录入围度:initaudit" + measuredDetailsModel);
         }
-        if (requestCode == BODY && resultCode == RESULT_OK) {
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        if (ActivityCompat.checkSelfPermission(FcAuditStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                //允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                            } else {
-                                //不允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                            }
-                        } else {
-                            imageFileSelector.takePhoto(FcAuditStuActivity.this);
-                        }
-                    } else if (which == 1) {
-                        //照片
-                        imageFileSelector.selectImage(FcAuditStuActivity.this);
-                    }
-                }
-            }).create().show();
-            Log.d("debug", "不是第一次运行");
-        }
     }
-
-    private static final int CAMERA_PREMISSION = 100;
-
 
     @Override
     public void onClick(View view) {
@@ -340,76 +322,49 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 im_delete.setVisibility(View.GONE);
                 filest = "";
                 break;
-            //添加身体围度
-            case R.id.btn_retest_write_addbody:
-                Intent intent = new Intent(FcAuditStuActivity.this, BodyweiduActivity.class);
-                intent.putExtra("initaudit", measuredDetailsModel);
-                intent.putExtra("Audited", IsAudit == 0 ? 3 : 4);
-                intent.putExtra("resetdatestatus", resetdatestatus);
-                startActivityForResult(intent, GET_BODY);
-                break;
-            case R.id.im_retestwrite_takephoto:
-                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
-                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (isFirstRun) {
-                    Intent intent1 = new Intent(this, GuideActivity.class);
-                    startActivityForResult(intent1, BODY);
-                    Log.d("debug", "第一次运行");
-                    editor.putBoolean("isFirstRun", false);
-                    editor.commit();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.M)
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                //拍照
-                                if (ActivityCompat.checkSelfPermission(FcAuditStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                        //允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                    } else {
-                                        //不允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                    }
-                                } else {
-                                    imageFileSelector.takePhoto(FcAuditStuActivity.this);
-                                }
-                            } else if (which == 1) {
-                                //照片
-                                imageFileSelector.selectMutilImage(FcAuditStuActivity.this,1);
-                            }
-                        }
-                    }).create().show();
-                    Log.d("debug", "不是第一次运行");
+            case R.id.ll_retestWrite_crium:
+                if (IsAudit!=1) {
+                    //最大值，默认值，最小值；最大值，默认值，最小值
+                    show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
                 }
-
-
                 break;
+            case R.id.ll_retestWrite_waisline:
+                if (IsAudit!=1) {
+                    show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                }
+                break;
+            case R.id.ll_retestWrite_hiplie:
+                if (IsAudit!=1) {
+                    show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                }
+                break;
+            case R.id.ll_retestWrite_Uparm:
+                if (IsAudit!=1) {
+                    show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                }
+                break;
+            case R.id.ll_retestWrite_UpLeg:
+                if (IsAudit!=1) {
+                    show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                }
+                break;
+            case R.id.ll_retestWrite_doleg:
+                if (IsAudit!=1) {
+                    show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                }
+                break;
+            case R.id.im_retestwrite_showphoto:
+                Intent intent1=new Intent(this, PreViewPicActivity.class);
+//                ArrayList<String> images=new ArrayList<>();
+                intent1.putExtra("photoname",photoname);
+                intent1.putExtra("position",1);
+                startActivity(intent1);
+                break;
+
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileSelector.takePhoto(FcAuditStuActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-    }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
@@ -442,6 +397,37 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                     tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
                 }
+                else if(num==4)
+                {
+                    tv_retestWrite_crium.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==5)
+                {
+                    tv_retestWrite_waisline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==6)
+                {
+                    tv_retestWrite_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==7)
+                {
+                    tv_retestWrite_Uparm.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==8)
+                {
+                    tv_retestWrite_UpLeg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+                else if(num==9)
+                {
+                    tv_retestWrite_doleg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -455,14 +441,9 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onValidationSucceeded() {
-        if (!TextUtils.isEmpty(filest)) {
-            doSetPostData();
-        } else {
-            String message = "请上传图片";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
-        }
+        progressDialog.setMessage("正在提交数据，请等待");
+        progressDialog.show();
+        doSetPostData();
 
     }
 
@@ -483,12 +464,12 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         fcAuditPostModel.setWeight(tv_retestWrite_nowweight.getText().toString());
         fcAuditPostModel.setPysical(tv_retestWrite_tizhi.getText().toString());
         fcAuditPostModel.setFat(tv_retestWrite_neizhi.getText().toString());
-        fcAuditPostModel.setCircum(measuredDetailsModel.getCircum());
-        fcAuditPostModel.setWaistline(measuredDetailsModel.getWaistline());
-        fcAuditPostModel.setHipline(measuredDetailsModel.getHiplie());
-        fcAuditPostModel.setUpArmGirth(measuredDetailsModel.getUpArmGirth());
-        fcAuditPostModel.setUpLegGirth(measuredDetailsModel.getUpLegGirth());
-        fcAuditPostModel.setDoLegGirth(measuredDetailsModel.getDoLegGirth());
+        fcAuditPostModel.setCircum(tv_retestWrite_crium.getText().toString());//胸围
+        fcAuditPostModel.setHipline(tv_retestWrite_hiplie.getText().toString());//臀围
+        fcAuditPostModel.setWaistline(tv_retestWrite_waisline.getText().toString());//腰围
+        fcAuditPostModel.setUpArmGirth(tv_retestWrite_Uparm.getText().toString());
+        fcAuditPostModel.setUpLegGirth(tv_retestWrite_UpLeg.getText().toString());
+        fcAuditPostModel.setDoLegGirth(tv_retestWrite_doleg.getText().toString());
         doPostInitData();
     }
 
@@ -499,14 +480,25 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:
+                        progressDialog.dismiss();
+                        Intent intent=new Intent();
+                        intent.putExtra("ACMID",acmId);
+                        setResult(RESULT_OK,intent);
                         finish();
                         break;
                     default:
+                        progressDialog.dismiss();
                         Util.toastMsg(responseData.getMsg());
                         break;
                 }
+
             }
 
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                progressDialog.dismiss();
+            }
         });
     }
 }

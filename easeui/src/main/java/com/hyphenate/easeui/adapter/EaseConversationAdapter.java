@@ -107,7 +107,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMMessage lastMessage1 = conversation.getLastMessage();
 
         if (conversation.getType() == EMConversationType.GroupChat) {
-            Log.i(TAG,"群聊类型  " );
+            Log.i(TAG, "群聊类型  ");
             String groupId = conversation.getUserName();
             if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                 holder.motioned.setVisibility(View.VISIBLE);
@@ -176,7 +176,9 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
         if (conversation.getUnreadMsgCount() > 0) {
             // show unread message count
-            holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));
+            int num = conversation.getUnreadMsgCount();
+            String read = num >= 100 ? "99+" : num + "";
+            holder.unreadLabel.setText(read);
             holder.unreadLabel.setVisibility(View.VISIBLE);
         } else {
             holder.unreadLabel.setVisibility(View.INVISIBLE);
