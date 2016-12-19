@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -47,8 +49,8 @@ import zilla.libcore.util.Util;
 public class FcAuditFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
-    @InjectView(R.id.im_nomessage)
-    ImageView im_nomessage;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
     Long userid;
@@ -138,7 +140,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent FcAudit=new Intent(getContext(),FcAuditStuActivity.class);
         FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
-        FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
+        FcAudit.putExtra("accountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
         FcAudit.putExtra("classId",classid);
         FcAudit.putExtra("IsAudit",IsAudit);
         FcAudit.putExtra("resetdatestatus",resetdatestatus);

@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -49,8 +51,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     private static String classid;
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
-    @InjectView(R.id.im_nomessage)
-    ImageView im_nomessage;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
     private int ChuAudit = 1;
