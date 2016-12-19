@@ -130,6 +130,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
     public void onResult(ApplyConfirm apply) {
         this.confirm = apply;
+        com.github.snowdream.android.util.Log.i("申请确认展示信息"+apply.toString());
         this.model = new ApplyModel();
         model.accountId = apply.getApplyId();//申请人Id
         model.applyId = msgId;//消息id
@@ -159,6 +160,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         if (apply.getMsgStatus() == 0) {
             btn_no.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(apply.getClassGroupName())){
+                tv_group_name.setText(apply.getClassGroupName());
+                model.groupId=apply.getClassGroupId();
+            }
+            if(!TextUtils.isEmpty(apply.getClassRoleName())){
+                tv_role_name.setText(apply.getClassRoleName());
+                model.classRole=apply.getClassRoleValue();
+            }
             tv_group_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
             tv_role_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
         } else {
@@ -362,6 +371,12 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                             EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
                                                         } catch (HyphenateException e) {
                                                             e.printStackTrace();
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    dialogDissmiss();
+                                                                }
+                                                            });
                                                         }
                                                     }
                                                 }
@@ -382,7 +397,12 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                         } catch (Exception e) {
                             e.printStackTrace();
-
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialogDissmiss();
+                                }
+                            });
                         }
 
 

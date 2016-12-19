@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ public class PastReviewActivity extends BaseActivity {
     TextView tv_title;
     @InjectView(R.id.lv)
     ListView lv;
+    @InjectView(R.id.img_mo_message)
+    ImageView mNoMessage;
     private List<HistoryClassModel> datas = new ArrayList<>();
     EasyAdapter<HistoryClassModel> adapter;
 
@@ -118,6 +121,7 @@ public class PastReviewActivity extends BaseActivity {
                             @Override
                             public void failure(RetrofitError error) {
                                 dialogDissmiss();
+                                mNoMessage.setVisibility(View.VISIBLE);
                                 super.failure(error);
                             }
                         }

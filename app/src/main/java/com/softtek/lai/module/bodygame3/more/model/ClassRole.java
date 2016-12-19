@@ -26,4 +26,13 @@ public class ClassRole {
     public void setRoleId(int roleId) {
         RoleId = roleId;
     }
+
+    @Override
+    public String toString() {
+        return "ClassRole{" +
+                "RoleName='" + RoleName + '\'' +
+                ", RoleId=" + RoleId +
+                ", isSelected=" + isSelected +
+                '}';
+    }
 }

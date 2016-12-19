@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -85,14 +86,8 @@ public class VideomoreActivity extends BaseActivity implements View.OnClickListe
                 grid_count.setText(data.getClickCount() + "人观看");
                 TextView grid_name = holder.getView(R.id.grid_name);
                 grid_name.setText(data.getTitle());
-//                iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
-                RelativeLayout videophoto = holder.getView(R.id.imagevideo);
-                if (!TextUtils.isEmpty(data.getPhoto())) {
-                    videophoto.setBackground(Drawable.createFromPath(path + data.getPhoto()));
-                } else {
-                    videophoto.setBackgroundResource(R.drawable.default_icon_rect);
-                }
-
+                ImageView iv_imagevideo1=holder.getView(R.id.iv_imagevideo1);
+                Picasso.with(VideomoreActivity.this).load(path + data.getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_imagevideo1);
             }
         };
         more_view.setAdapter(adapter);

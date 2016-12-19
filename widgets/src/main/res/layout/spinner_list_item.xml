@@ -12,7 +12,7 @@
     android:paddingBottom="@dimen/one_and_a_half_grid_unit"
     android:paddingTop="@dimen/one_and_a_half_grid_unit"
     android:singleLine="true"
-    android:textSize="15sp"
-    android:background="#7FAB11"
+    android:textSize="12sp"
+    android:background="#7eca2c"
     tools:text="Item"
     tools:textColor="@android:color/black" />

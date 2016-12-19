@@ -306,27 +306,31 @@ public class ClassMemberActivity extends BaseActivity {
                     return;
                 }
                 final ClassGroup group = groups.get(lv.getCheckedItemPosition());
-                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                        .turnToAnotherGroup(
-                                UserInfoModel.getInstance().getToken(),
-                                member.getAccountId(),
-                                classId,
-                                group.getCGId(),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        if (responseData.getStatus() == 200) {
-                                            member.setCGId(group.getCGId());
-                                            member.setCGName(group.getCGName());
-                                            adapter.notifyDataSetChanged();
-                                            Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
-                                        } else {
-                                            Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                if(group.getCGId().equals(member.getCGId())){
+                    Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                }else {
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .turnToAnotherGroup(
+                                    UserInfoModel.getInstance().getToken(),
+                                    member.getAccountId(),
+                                    classId,
+                                    group.getCGId(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                                member.setCGId(group.getCGId());
+                                                member.setCGName(group.getCGName());
+                                                adapter.notifyDataSetChanged();
+                                                Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            } else {
+                                                Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+                                            }
                                         }
                                     }
-                                }
 
-                        );
+                            );
+                }
                 dialog.dismiss();
             }
         });

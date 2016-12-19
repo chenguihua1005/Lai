@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class GraphAdapter extends FragmentPagerAdapter{
 
-    String[] titles={"减重曲线","维度曲线"};
+    String[] titles={"减重曲线","围度曲线"};
     List<Fragment> fragments;
 
     public GraphAdapter(FragmentManager fm, List<Fragment> fragments) {
