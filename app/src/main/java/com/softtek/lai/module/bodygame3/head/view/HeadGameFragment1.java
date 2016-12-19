@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
@@ -60,6 +61,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -146,6 +149,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     ImageView iv_types;
     @InjectView(R.id.no_dongtai)
     LinearLayout no_dongtai;
+    @InjectView(R.id.iv_video2_bg)
+    ImageView iv_video2_bg;
+    @InjectView(R.id.iv_video1_bg)
+    ImageView iv_video1_bg;
     private List<PartnersModel> partnersModels = new ArrayList<>();
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
@@ -160,6 +167,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private DeleteClass deleteClass;
     private static final int LOADCOUNT = 10;
     private int page = 1;
+    private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -215,11 +223,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     //加载更多数据
                     page++;
                     Log.e("分页加载。。。。。。。", page + "");
-
                     updatepartner(typecode, 10, page);//按类型分页加载小伙伴
-
                 }
-
             }
 
             @Override
@@ -237,48 +242,40 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         list_partner.setAdapter(partneradapter);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
-        TypeModel model1 = new TypeModel(0, "按减重斤数");
+        TypeModel model1 = new TypeModel(0, "按减重斤数");//0
         datas.add(model1);
-        TypeModel model2 = new TypeModel(1, "按减重比");
+        TypeModel model2 = new TypeModel(1, "按减重比");//1
         datas.add(model2);
-        TypeModel model3 = new TypeModel(2, "按体脂比");
+        TypeModel model3 = new TypeModel(2, "按体脂比");//2
         datas.add(model3);
-        spinner_title.attachDataSource(datas);
-        //类型（体重比，体脂，减重比）
-//        spinner_title.attachCustomSource(new ArrowSpinnerAdapter<TypeModel>(getContext(), datas, R.layout.class_title) {
-//            @Override
-//            public void convert(ViewHolder holder, TypeModel data, int position) {
-//                TextView tv_class_name = holder.getView(R.id.tv_classed);
-//                tv_class_name.setText(data.getTypename());
-//            }
-//
-//            @Override
-//            public String getText(int position) {
-//                //根据position返回当前值给标题
-//                return datas.get(position).getTypename();
-//            }
-//        });
-        typecode = datas.get(0).getTypecode();
+        spinner_title.attachDataSource(dataset); //类型（体重比，体脂，减重比）
+        typecode = 0;
         partneradapter.setType(typecode);
         spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
-                typecode = datas.get(i).getTypecode();
-                if (typecode == 0) {//减重斤数
+                String typename = dataset.get(i);
+                if ("按减重斤数".equals(typename)) {
+                    typecode = 0;
                     iv_types.setImageResource(R.drawable.weightphoto);
-                } else if (typecode == 1) {//减重比
+                    partneradapter.setType(typecode);
+                } else if ("按减重比".equals(typename)) {
+                    typecode = 1;
                     iv_types.setImageResource(R.drawable.jianzhong_iv);
-                } else if (typecode == 2) {//减脂比
+                    partneradapter.setType(typecode);
+
+                } else if ("按体脂比".equals(typename)) {
+                    typecode = 2;
                     iv_types.setImageResource(R.drawable.jianzhiphoto);
+                    partneradapter.setType(typecode);
                 }
-                partneradapter.setType(typecode);
                 page = 1;
                 updatepartner(typecode, 10, page);//按类型分页加载小伙伴
             }
         });
 
-
+       //点击小伙伴进入小伙伴个人详情页
         partneradapter.setOnItemClickListener(new ListRecyclerAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -291,6 +288,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 startActivity(intent);
             }
         });
+        //根据不同的班级加载数据
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -307,9 +305,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         RongyuModel rongyuModel = classinfoModel.getHonor();
                                         group_name.setText(rongyuModel.getGroupName());
                                         if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                                            jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + " 斤");
+                                            jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                                         } else {
-                                            jianzhongbi_tv.setText("总减重" + " 斤");
+                                            jianzhongbi_tv.setText("总减重比" + " %");
                                         }
                                         student_tv.setText(rongyuModel.getStuName());
 
@@ -319,9 +317,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                                     .placeholder(R.drawable.img_default).into(studenticon);
                                         }
                                         if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
-                                            student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
+                                            student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
                                         } else {
-                                            student_jianzhong.setText("减重" + " 斤");
+                                            student_jianzhong.setText("减重比" + " %");
                                         }
                                         if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                             student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
@@ -344,11 +342,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         if (tuijianModels.size() >= 2) {
                                             video_type1.setText(tuijianModels.get(0).getVideoType());
                                             video_name1.setText(tuijianModels.get(0).getTitle());
-                                            if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
-                                                iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
-                                            } else {
-                                                iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
-                                            }
+                                            Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect)
+                                                    .error(R.drawable.default_icon_rect).into(iv_video1_bg);
+//                                            if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
+//
+//                                                iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
+//                                            } else {
+//                                                iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
+//                                            }
                                             iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
@@ -359,11 +360,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                             });
                                             video_type2.setText(tuijianModels.get(1).getVideoType());
                                             video_name2.setText(tuijianModels.get(1).getTitle());
-                                            if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
-                                                iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
-                                            } else {
-                                                iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
-                                            }
+                                            Picasso.with(getContext()).load(path + tuijianModels.get(1).getPhoto()).fit().error(R.drawable.default_icon_rect)
+                                                    .error(R.drawable.default_icon_rect).into(iv_video2_bg);
+//                                            if (!TextUtils.isEmpty(tuijianModels.get(1).getPhoto())) {
+//                                                iv_imagevideo2.setBackground(Drawable.createFromPath(path + tuijianModels.get(1).getPhoto()));
+//                                            } else {
+//                                                iv_imagevideo2.setBackgroundResource(R.drawable.default_icon_rect);
+//                                            }
                                             iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
@@ -389,7 +392,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                                         if (StringUtils.isNotEmpty(zhaopianModel.getUserPhoto())) {
                                             Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).into(head_images);
-                                            Log.e("dddd", path + zhaopianModel.getUserPhoto());
                                         }
                                         name_user.setText(zhaopianModel.getUserName());
                                         if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
@@ -469,6 +471,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     //是否有消息
     private void gethasemail() {
+        refresh.setRefreshing(false);
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
@@ -597,7 +600,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onRefresh() {
         classModels.clear();
-        refresh.setRefreshing(false);
         getallfirst();
         gethasemail();
     }
@@ -606,12 +608,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onResume() {
         super.onResume();
         com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
-        gethasemail();
         getallfirst();
-
+        gethasemail();
     }
 
     private void getallfirst() {
+        refresh.setRefreshing(false);
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
@@ -621,8 +623,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     if (classinfoModelResponseData.getData() != null) {
                         final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
                         //班级加载
-                        if (classinfoModel.getClassInfoList() != null) {
+                        if (classinfoModel.getClassInfoList() != null&&!classinfoModel.getClassInfoList().isEmpty()) {
                             classModels.addAll(classinfoModel.getClassInfoList());
+                            classId_first=classModels.get(0).getClassId();
                             tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                 @Override
                                 public void convert(ViewHolder holder, ClassModel data, int position) {
@@ -671,15 +674,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     }
                                 }
                             });
+
                         }
                         //荣誉榜
                         if (classinfoModel.getHonor() != null) {
                             RongyuModel rongyuModel = classinfoModel.getHonor();
                             group_name.setText(rongyuModel.getGroupName());
                             if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                                jianzhongbi_tv.setText("总减重" + rongyuModel.getGroupLossPre() + " 斤");
+                                jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                             } else {
-                                jianzhongbi_tv.setText("总减重" + " 斤");
+                                jianzhongbi_tv.setText("总减重比" + " %");
                             }
                             student_tv.setText(rongyuModel.getStuName());
 
@@ -691,9 +695,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
-                                student_jianzhong.setText("减重" + rongyuModel.getLossPre() + " 斤");
+                                student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
                             } else {
-                                student_jianzhong.setText("减重" + " 斤");
+                                student_jianzhong.setText("减重比" + " %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                 student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
@@ -727,12 +731,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 //本周推荐
                                 if (classinfoModel.getListRec() != null) {
                                     tuijianModels.addAll(classinfoModel.getListRec());
+                                    com.github.snowdream.android.util.Log.i("初始加载本周推荐返回数据//////////////");
                                     if (tuijianModels.size() >= 2) {
+                                        com.github.snowdream.android.util.Log.i("初始加载本周推荐返回数据集合大于等于2//////////////");
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         if (!TextUtils.isEmpty(tuijianModels.get(0).getPhoto())) {
+                                            com.github.snowdream.android.util.Log.i("本周推荐的第一个照片不为空");
                                             iv_imagevideo1.setBackground(Drawable.createFromPath(path + tuijianModels.get(0).getPhoto()));
                                         } else {
+                                            com.github.snowdream.android.util.Log.i("本周推荐的第一个照片不为空");
                                             iv_imagevideo1.setBackgroundResource(R.drawable.default_icon_rect);
                                         }
                                         iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
@@ -772,7 +780,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 }
 
                                 //照片墙
-
                                 if (classinfoModel.getPhotoWall() != null) {
                                     grid_list.setVisibility(View.VISIBLE);
                                     no_dongtai.setVisibility(View.GONE);
