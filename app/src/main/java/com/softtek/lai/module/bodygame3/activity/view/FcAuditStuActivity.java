@@ -223,13 +223,14 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail())) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);
+                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_retestwrite_showphoto);
                 Log.i("图片测试啦"+url+measuredDetailsModel.getImgThumbnail());
             }
             else if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
             {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);
+                Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_retestwrite_showphoto);
+                Log.i("加载原图啦"+url+measuredDetailsModel.getImg());
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
             {
