@@ -22,7 +22,6 @@ public class Chart extends LinearLayout{
     private String title1;
     private String title2;
 
-    //private boolean avgLine;
     private TextView tv_title1;
     private TextView tv_title2;
     private BrokenLine brokenLine;
@@ -48,13 +47,14 @@ public class Chart extends LinearLayout{
         setOrientation(VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.chart,this);
         TypedArray ta=getContext().obtainStyledAttributes(attrs,R.styleable.Simple_Chart);
-        //avgLine=ta.getBoolean(R.styleable.Simple_Chart_avgLine,false);
         title1=ta.getString(R.styleable.Simple_Chart_chartTitle1);
         title2=ta.getString(R.styleable.Simple_Chart_chartTitle2);
+        float xTextSize=ta.getDimension(R.styleable.Simple_Chart_xTextSize,10);
         ta.recycle();
         tv_title1= (TextView) findViewById(R.id.tv_title1);
         tv_title2= (TextView) findViewById(R.id.tv_title2);
         brokenLine= (BrokenLine) findViewById(R.id.broken);
+        brokenLine.setxTextSize(xTextSize);
         tv_title1.setText(TextUtils.isEmpty(title1)?"":title1);
         tv_title2.setText(TextUtils.isEmpty(title2)?"":title2);
     }

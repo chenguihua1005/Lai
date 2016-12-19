@@ -330,6 +330,12 @@
                         android:layout_height="100dp"
                         android:layout_weight="1">
 
+                        <ImageView
+                            android:id="@+id/iv_video1_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
                         <TextView
                             android:id="@+id/video_type1"
                             android:layout_width="wrap_content"
@@ -350,12 +356,7 @@
                             android:textColor="@color/white"
                             android:textSize="12sp" />
 
-                        <ImageView
-                            android:id="@+id/iv_video1_bg"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -366,15 +367,21 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/video_type2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/background_tuijian2"
-                                android:gravity="center_vertical"
-                                android:text="TextView"
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
+                        <ImageView
+                            android:id="@+id/iv_video2_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
+                        <TextView
+                            android:id="@+id/video_type2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_tuijian2"
+                            android:gravity="center_vertical"
+                            android:text="TextView"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
 
 
                         <TextView
@@ -387,12 +394,6 @@
                             android:textColor="@color/white"
                             android:textSize="12sp" />
 
-                        <ImageView
-                            android:id="@+id/iv_video2_bg"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -569,8 +570,8 @@
                     android:layout_marginRight="10dp"
                     android:gravity="right"
                     android:textSize="13sp"
-                    app:textTint="@color/word"
-                    />
+                    app:textTint="@color/word" />
+
                 <ImageView
                     android:id="@+id/iv_types"
                     android:layout_width="wrap_content"
@@ -582,16 +583,16 @@
 
 
                 <!--<com.ggx.widgets.nicespinner.ArrowSpinner2-->
-                    <!--android:id="@+id/spinner_title"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:gravity="right"-->
-                    <!--app:arrowTint2="@color/word"-->
-                    <!--app:textSize2="13px" />-->
+                <!--android:id="@+id/spinner_title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:gravity="right"-->
+                <!--app:arrowTint2="@color/word"-->
+                <!--app:textSize2="13px" />-->
             </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 

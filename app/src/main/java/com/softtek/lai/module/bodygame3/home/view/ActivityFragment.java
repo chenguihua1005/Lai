@@ -39,6 +39,7 @@ import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InputView;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
+import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.DateUtil;
@@ -63,6 +64,7 @@ import java.util.concurrent.Executors;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.http.HEAD;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
@@ -106,6 +108,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_task)
     LinearLayout ll_task;
 
+    private SaveclassModel saveclassModel;
     private CalendarMode mode = CalendarMode.WEEKS;
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
     private List<CalendarDay> calendarModel_act = new ArrayList<>();
@@ -129,6 +132,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void lazyLoad() {
         pull.setRefreshing(true);
+        if(saveclassModel!=null){
+
+        }
         onRefresh();
     }
 
@@ -175,21 +181,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initDatas() {
-//        actRecyclerAdapter = new ActRecyclerAdapter(getContext(), todayactModels);
-//        list_activity.setAdapter(actRecyclerAdapter);
-        //活动跳转到活动详情
-//        actRecyclerAdapter.setOnItemClickListener(new ActRecyclerAdapter.OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                TodayactModel todayactModel = todayactModels.get(position);
-//                String activityId = todayactModel.getActivityId();
-//                Intent intent = new Intent(getContext(), ActivitydetailActivity.class);
-//                intent.putExtra("classrole", classrole);
-//                intent.putExtra("activityId", activityId);
-////                startActivity(intent);
-//                startActivityForResult(intent, 1);
-//            }
-//        });
         //班级列表
         tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
             @Override
@@ -245,6 +236,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 classid = classModels.get(i).getClassId();
                 classrole = classModels.get(i).getClassRole();
                 material_calendar.invalidateDecorators();
+                saveclassModel=new SaveclassModel();
+                saveclassModel.setClassId(classModels.get(i).getClassId());
+                saveclassModel.setClassName(classModels.get(i).getClassName());
+                saveclassModel.setClassRole(classModels.get(i).getClassRole());
+                saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
+                saveclassModel.setClassCode(classModels.get(i).getClassCode());
                 lazyLoad();
             }
         });
@@ -402,7 +399,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
                     chuDate.putExtra("classId", classid);
                     startActivityForResult(chuDate, 2);
-//                    startActivity(chuDate);
+
                 } else {
                     com.github.snowdream.android.util.Log.i("初始数据的tag=" + tag.toString());
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
@@ -541,7 +538,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     ll_chuDate.setTag(tag);
                                 } else {//非学员
                                     tv_initData_Name.setText("初始数据审核");
-                                    tv_chustatus.setText("待审核" + activitydataModel.getIsFirst());
+                                    tv_chustatus.setText("待审核"+activitydataModel.getIsFirst()+"人");
                                     BtnTag tag = new BtnTag();
                                     tag.role = activitydataModel.getClassRole();
                                     ll_chuDate.setTag(tag);

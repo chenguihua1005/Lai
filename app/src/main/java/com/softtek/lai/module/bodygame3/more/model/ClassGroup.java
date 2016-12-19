@@ -59,4 +59,12 @@ public class ClassGroup implements Parcelable{
         parcel.writeString(CGId);
         parcel.writeString(CGName);
     }
+
+    @Override
+    public String toString() {
+        return "ClassGroup{" +
+                "CGId='" + CGId + '\'' +
+                ", CGName='" + CGName + '\'' +
+                '}';
+    }
 }

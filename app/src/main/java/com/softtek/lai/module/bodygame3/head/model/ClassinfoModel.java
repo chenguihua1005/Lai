@@ -7,20 +7,12 @@ import java.util.List;
  */
 
 public class ClassinfoModel {
-    private String TotalPage;
     private List<ClassModel> ClassInfoList;
     private RongyuModel Honor;
     private List<TuijianModel> ListRec;
     private ZhaopianModel PhotoWall;
     private List<PartnersModel> PartnersList;
 
-    public String getTotalPage() {
-        return TotalPage;
-    }
-
-    public void setTotalPage(String totalPage) {
-        TotalPage = totalPage;
-    }
 
     public List<ClassModel> getClassInfoList() {
         return ClassInfoList;
@@ -60,5 +52,15 @@ public class ClassinfoModel {
 
     public void setPartnersList(List<PartnersModel> partnersList) {
         PartnersList = partnersList;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassinfoModel{" +
+                ", Honor=" + Honor +
+                ", ListRec=" + ListRec +
+                ", PhotoWall=" + PhotoWall +
+                ", PartnersList=" + PartnersList +
+                '}';
     }
 }

@@ -26,6 +26,7 @@ public class BrokenLine extends View{
 
     private float maxYAxis;//y轴的最大值
     int[] xPoint;//x轴点的坐标数组
+    private float xTextSize;
 
     private Paint textPaint;//折线图字体画笔
     private Paint aTextPaint;//折线图标注画笔
@@ -55,7 +56,7 @@ public class BrokenLine extends View{
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                12,getContext().getResources().getDisplayMetrics()));
+                xTextSize,getContext().getResources().getDisplayMetrics()));
         aTextPaint=new Paint();
         aTextPaint.setAntiAlias(true);
         aTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -175,5 +176,7 @@ public class BrokenLine extends View{
         postInvalidate();
     }
 
-
+    public void setxTextSize(float xTextSize) {
+        this.xTextSize = xTextSize;
+    }
 }
