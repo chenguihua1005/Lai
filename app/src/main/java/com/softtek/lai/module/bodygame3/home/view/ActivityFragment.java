@@ -528,6 +528,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     ll_chuDate.setTag(tag);
                                 } else {//非学员
                                     tv_initData_Name.setText("初始数据审核");
+                                    tv_chustatus.setText("待审核"+activitydataModel.getIsFirst());
                                     BtnTag tag = new BtnTag();
                                     tag.role = activitydataModel.getClassRole();
                                     ll_chuDate.setTag(tag);

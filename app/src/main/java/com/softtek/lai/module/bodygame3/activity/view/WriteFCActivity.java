@@ -353,9 +353,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 show_information("内脂",30,2,1,9,0,0,3);
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this, PictureActivity.class);
-                ArrayList<String> images=new ArrayList<>();
-                intent1.putExtra("images",images);
+                Intent intent1=new Intent(this, PreViewPicActivity.class);
+                intent1.putExtra("images",filest);
                 intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
@@ -695,13 +694,15 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
         String fileName = uri;
         photoname=appDir+fileName;
+
         File file = new File(appDir, fileName);
+        filest=file+"";
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
-            filest=file+"";
+
         } catch (FileNotFoundException e) {
             handler.sendEmptyMessage(0);
             e.printStackTrace();
