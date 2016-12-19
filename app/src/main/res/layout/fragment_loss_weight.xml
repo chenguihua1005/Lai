@@ -1,40 +1,107 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     android:overScrollMode="never"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/weight_chart"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        app:chartTitle1="体重变化"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/bfat_chart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        app:chartTitle1="体脂变化"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/weight_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                app:chartTitle1="体重变化"
+                app:xTextSize="10sp" />
+            <Button
+                android:id="@+id/btn_weight_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_left"
+                android:layout_gravity="center|left"
+                android:visibility="gone"/>
 
-    <com.softtek.lai.widgets.chart.Chart
-        android:id="@+id/fat_chart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        app:chartTitle1="内脂变化"/>
+            <Button
+                android:id="@+id/btn_weight_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_right"
+                android:layout_gravity="center|right"
+                android:visibility="visible"
+                />
+        </FrameLayout>
 
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/bfat_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                app:chartTitle1="体脂变化"
+                app:xTextSize="10sp" />
+
+            <Button
+                android:id="@+id/btn_bfat_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_left"
+                android:layout_gravity="center|left"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_bfat_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_right"
+                android:layout_gravity="center|right"
+                android:visibility="visible"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/fat_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                app:chartTitle1="内脂变化"
+                app:xTextSize="10sp" />
+
+            <Button
+                android:id="@+id/btn_fat_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_left"
+                android:layout_gravity="center|left"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_fat_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_arrow_right"
+                android:layout_gravity="center|right"
+                android:visibility="visible"
+                />
+        </FrameLayout>
+    </LinearLayout>
 </ScrollView>

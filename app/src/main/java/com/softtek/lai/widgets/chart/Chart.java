@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 
 import java.util.List;
@@ -49,7 +51,8 @@ public class Chart extends LinearLayout{
         TypedArray ta=getContext().obtainStyledAttributes(attrs,R.styleable.Simple_Chart);
         title1=ta.getString(R.styleable.Simple_Chart_chartTitle1);
         title2=ta.getString(R.styleable.Simple_Chart_chartTitle2);
-        float xTextSize=ta.getDimension(R.styleable.Simple_Chart_xTextSize,10);
+        float xTextSize=ta.getDimension(R.styleable.Simple_Chart_xTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                10,getContext().getResources().getDisplayMetrics()));
         ta.recycle();
         tv_title1= (TextView) findViewById(R.id.tv_title1);
         tv_title2= (TextView) findViewById(R.id.tv_title2);

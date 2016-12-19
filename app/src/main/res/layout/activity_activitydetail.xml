@@ -262,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:text="您已经报名成功，如临时不能参加，可点此"
                     android:textColor="@color/word5"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/exit_tv"
@@ -270,14 +270,14 @@
                     android:layout_height="wrap_content"
                     android:text="“退出活动”"
                     android:textColor="@color/exit_btn"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="退出"
                     android:textColor="@color/word5"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
 
             </LinearLayout>

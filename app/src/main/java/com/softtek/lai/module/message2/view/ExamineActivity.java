@@ -354,7 +354,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             model,
                                             new RequestCallback<ResponseData>() {
                                                 @Override
-                                                public void success(ResponseData responseData, Response response) {
+                                                public void success(final ResponseData responseData, Response response) {
                                                     if (responseData.getStatus() == 200) {
                                                         setResult(RESULT_OK);
                                                         finish();
@@ -367,6 +367,13 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                         });
                                                     } else {
                                                         //如果后台加人失败，侧群组踢人
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg(responseData.getMsg());
+                                                            }
+                                                        });
                                                         try {
                                                             EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
                                                         } catch (HyphenateException e) {

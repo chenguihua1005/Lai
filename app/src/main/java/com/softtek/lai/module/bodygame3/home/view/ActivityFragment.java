@@ -120,10 +120,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private List<TodayactModel> todayactModels = new ArrayList<>();
     private String dateStr;
     private int classrole;
-    private ActRecyclerAdapter actRecyclerAdapter;
     private ClassModel classModel;
     private static final int LOADCOUNT = 10;
     private int page = 1;
+    SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+    String dates = sdf.format(curDate);
 
     public ActivityFragment() {
 
@@ -132,14 +134,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void lazyLoad() {
         pull.setRefreshing(true);
-        if(saveclassModel!=null){
 
-        }
         onRefresh();
     }
 
     @Override
     protected void initViews() {
+        saveclassModel = new SaveclassModel();
+//        saveclassModel.setDates(dates);
+
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -236,7 +239,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 classid = classModels.get(i).getClassId();
                 classrole = classModels.get(i).getClassRole();
                 material_calendar.invalidateDecorators();
-                saveclassModel=new SaveclassModel();
+
                 saveclassModel.setClassId(classModels.get(i).getClassId());
                 saveclassModel.setClassName(classModels.get(i).getClassName());
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
@@ -261,9 +264,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         int day = date.getCalendar().get(Calendar.DATE);
         //根据点击的日期查询该天的活动列表
         dateStr = year + "-" + month + "-" + day;
+        saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
-
-//        actRecyclerAdapter.notifyDataSetChanged();
+        ll_task.removeAllViews();
         gettodaydata(dateStr);
 
 
@@ -359,7 +362,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
                                     todayactModels.clear();
-
                                     todayactModels.addAll(model.getList_Activity());
                                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                     View view = null;
@@ -448,6 +450,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             if (requestCode == 0) {
                 com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
                 lazyLoad();
+                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+                    Log.i("点击日期获取。。。。。。。。。",saveclassModel.getDates());
+//                    ll_task.removeAllViews();
+                    gettodaydata(saveclassModel.getDates());
+                }
             }
 
         }
@@ -538,7 +545,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     ll_chuDate.setTag(tag);
                                 } else {//非学员
                                     tv_initData_Name.setText("初始数据审核");
-                                    tv_chustatus.setText("待审核"+activitydataModel.getIsFirst()+"人");
+                                    tv_chustatus.setText("待审核" + activitydataModel.getIsFirst() + "人");
                                     BtnTag tag = new BtnTag();
                                     tag.role = activitydataModel.getClassRole();
                                     ll_chuDate.setTag(tag);
@@ -635,6 +642,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         }
                     }
                 });
+
+        if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+//            ll_task.removeAllViews();
+            gettodaydata(saveclassModel.getDates());
+        }
+
     }
 
 
