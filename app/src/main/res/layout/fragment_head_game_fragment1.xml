@@ -433,44 +433,47 @@
                     android:layout_height="0.5dp"
                     android:background="#e1e1e1"></View>
 
-                <LinearLayout
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:orientation="vertical"-->
+                <!--android:paddingRight="7dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:visibility="visible">-->
+
+                <com.softtek.lai.widgets.HorizontalListView
+                    android:id="@+id/photos"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
                     android:paddingRight="7dp"
                     android:paddingTop="10dp"
                     android:visibility="visible">
 
-                    <com.softtek.lai.widgets.HorizontalListView
-                        android:id="@+id/photos"
+                </com.softtek.lai.widgets.HorizontalListView>
+
+                <LinearLayout
+                    android:id="@+id/no_dongtai"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#EFECED"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/no_photowalll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
-
-                    </com.softtek.lai.widgets.HorizontalListView>
-
-                    <LinearLayout
-                        android:id="@+id/no_dongtai"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="#EFECED"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/no_photowalll"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="暂无动态" />
-                    </LinearLayout>
-
-
+                        android:text="暂无动态" />
                 </LinearLayout>
+
+
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

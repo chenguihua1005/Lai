@@ -301,7 +301,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 saveclassModel.setClassId(classModels.get(i).getClassId());
                 saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
-                classinfo(classId_first,classnum);
+                classinfo(classId_first, classnum);
 
             }
         });
@@ -378,7 +378,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 });
     }
 
-    private void classinfo(String classId_first,String classnum) {
+    private void classinfo(String classId_first, String classnum) {
         ZillaApi.NormalRestAdapter.create(HeadService.class).choose(UserInfoModel.getInstance().getToken(), classId_first,
                 classnum, 10, new RequestCallback<ResponseData<ChooseModel>>() {
                     @Override
@@ -471,7 +471,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 } else {
                                     pinglun.setText("0" + "条评论");
                                 }
-                                if (zhaopianModel.getPhotoThumbnailList() != null) {
+                                if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
+                                    no_dongtai.setVisibility(View.GONE);
                                     photos.clear();
                                     photos.addAll(zhaopianModel.getPhotoThumbnailList());
                                     adapter.notifyDataSetChanged();
@@ -603,7 +604,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onRefresh() {
 
         if (saveclassModel != null) {
-            classinfo(saveclassModel.getClassId(),saveclassModel.getClassWeek());
+            classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
             classModels.clear();
             getallfirst();
@@ -616,7 +617,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         super.onResume();
         com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
         if (saveclassModel != null) {
-            classinfo(saveclassModel.getClassId(),saveclassModel.getClassWeek());
+            classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
             getallfirst();
         }

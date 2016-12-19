@@ -15,6 +15,7 @@
         android:paddingRight="15dp"
         android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="200dp"

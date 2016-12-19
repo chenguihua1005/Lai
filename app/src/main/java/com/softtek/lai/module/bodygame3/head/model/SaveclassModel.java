@@ -10,6 +10,15 @@ public class SaveclassModel {
     private String ClassCode;
     private int ClassRole;
     private String ClassWeek;
+    private String dates;
+
+    public String getDates() {
+        return dates;
+    }
+
+    public void setDates(String dates) {
+        this.dates = dates;
+    }
 
     public String getClassId() {
         return ClassId;

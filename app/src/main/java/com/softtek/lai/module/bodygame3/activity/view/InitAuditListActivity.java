@@ -111,9 +111,12 @@ public class InitAuditListActivity extends BaseActivity{
             }
         });
     }
-    public void getTab(){
-        tabtitle[0]="未审核(" + (Auditnum-1 )+ ")";
-        tabtitle[1]="已审核(" +(Auditednum -1) + ")";
-        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
+    public void update(){
+        tabtitle[0] = "未审核(" + (Auditnum-1 )+ ")";
+        tabtitle[1] = "已审核(" + (Auditednum-1) + ")";
+        TabLayout.Tab tab1=tab.getTabAt(0);
+        tab1.setText(tabtitle[0]);
+        TabLayout.Tab tab2=tab.getTabAt(1);
+        tab2.setText(tabtitle[1]);
     }
 }

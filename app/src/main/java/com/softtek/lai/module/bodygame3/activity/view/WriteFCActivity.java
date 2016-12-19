@@ -553,7 +553,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     photoname = fcStDataModel.getImg();
                 }
                 tv_write_class.setText(fcStDataModel.getClassName());//班级名
-                tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());//当前周
+                tv_retest_write_weekth.setText("班级周期");//当前周
                 String Stardata[] = fcStDataModel.getStartDate().split("-");
                 tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
                 tv_write_stard.setText(Long.parseLong(Stardata[2]) + "");//开班日
