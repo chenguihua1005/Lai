@@ -407,9 +407,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     student_jianzhong.setText("减重比" + " %");
                                 }
                                 if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
-                                    student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
+                                    student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
                                 } else {
-                                    student_jianzhi.setText("减脂" + " %");
+                                    student_jianzhi.setText("减脂比" + " %");
                                 }
                             }
 
@@ -591,7 +591,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 tv_title.setSelected(0);
             } else {
                 if (deleteClass != null) {
-
                     deleteClass.deletClass();
                 }
             }
@@ -713,9 +712,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 student_jianzhong.setText("减重比" + " %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
-                                student_jianzhi.setText("减脂" + rongyuModel.getPysPre() + " %");
+                                student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
                             } else {
-                                student_jianzhi.setText("减脂" + " %");
+                                student_jianzhi.setText("减脂比" + " %");
                             }
                         }
                         //本周推荐

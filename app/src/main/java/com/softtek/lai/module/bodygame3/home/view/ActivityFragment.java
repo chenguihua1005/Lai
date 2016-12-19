@@ -124,8 +124,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private static final int LOADCOUNT = 10;
     private int page = 1;
     SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-    String dates = sdf.format(curDate);
 
     public ActivityFragment() {
 
@@ -134,15 +132,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void lazyLoad() {
         pull.setRefreshing(true);
-
         onRefresh();
     }
 
     @Override
     protected void initViews() {
         saveclassModel = new SaveclassModel();
-//        saveclassModel.setDates(dates);
-
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -427,7 +422,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
-                    startActivity(fuce);
+//                    startActivity(fuce);
+                    startActivityForResult(fuce,3);
                 } else {
                     com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
@@ -452,6 +448,22 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 lazyLoad();
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     Log.i("点击日期获取。。。。。。。。。", saveclassModel.getDates());
+//                    ll_task.removeAllViews();
+                    gettodaydata(saveclassModel.getDates());
+                }
+            }else if(requestCode==2){
+                com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
+                lazyLoad();
+                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+                    Log.i("点击日期获取数据录入。。。。。。。。。",saveclassModel.getDates());
+//                    ll_task.removeAllViews();
+                    gettodaydata(saveclassModel.getDates());
+                }
+            }else if(requestCode==3){
+                com.github.snowdream.android.util.Log.i("初始数据复测更新。。。。。。。。。。。。。。");
+                lazyLoad();
+                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+                    Log.i("点击日期获取数据复测。。。。。。。。。",saveclassModel.getDates());
 //                    ll_task.removeAllViews();
                     gettodaydata(saveclassModel.getDates());
                 }
@@ -491,6 +503,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
                                 classrole = activitydataModel.getClassRole();
+                                if (Constants.HEADCOACH==classrole) {
+                                    fl_right.setVisibility(View.VISIBLE);
+                                } else {
+                                    fl_right.setVisibility(View.GONE);
+                                }
                                 //加载班级
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);

@@ -252,10 +252,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {
+                    tv_personlityName.setEnabled(true);
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
                         tv_personlityName.setCompoundDrawables(null, null, null, null);
+
                     }
                     ll_chart.setVisibility(View.VISIBLE);
                     if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
@@ -269,10 +271,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
-                        tv_personlityName.setClickable(false);
                         tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
                     } else {
                         tv_personlityName.setText("暂无个性签名");
+
+
                         tv_personlityName.setCompoundDrawables(null, null, null, null);
                     }
                     if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
@@ -350,7 +353,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.tv_personlityName:
                 Intent intent1=new Intent(this,EditSignaActivity.class);
-                intent1.putExtra("sina",tv_personlityName.getText().toString());
+                if (TextUtils.isEmpty(memberInfoModel.getPersonalityName()))
+                {
+                    intent1.putExtra("sina","");
+                }
+                else {
+                    intent1.putExtra("sina", tv_personlityName.getText().toString());
+                }
                 startActivityForResult(intent1,GET_Sian);
                 break;
             case R.id.tv_dynamic:
