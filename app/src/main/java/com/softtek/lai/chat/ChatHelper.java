@@ -174,6 +174,7 @@ public class ChatHelper {
         EMOptions options = new EMOptions();
         // set if accept the invitation automatically
         options.setAcceptInvitationAlways(false);
+        options.setAutoAcceptGroupInvitation(false);
         // set if you need read ack
         options.setRequireAck(true);
         // set if you need delivery ack
