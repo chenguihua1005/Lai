@@ -26,7 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.activity.adapter.ActRecyclerAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.ActCalendarModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActscalendarModel;
@@ -124,7 +123,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private ClassModel classModel;
     private static final int LOADCOUNT = 10;
     private int page = 1;
-    SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
     public ActivityFragment() {
 
@@ -132,6 +130,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
+        com.github.snowdream.android.util.Log.i("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\n哈哈哈哈哈哈哈哈哈哈哈");
         pull.setRefreshing(true);
         onRefresh();
     }
@@ -162,7 +161,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.setSelectedDate(instance.getTime());
         material_calendar.removeDecorators();
         Calendar instance1 = Calendar.getInstance();
-        instance1.set(instance1.get(Calendar.YEAR)-1, Calendar.JANUARY, 1);
+        instance1.set(instance1.get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
         Calendar instance2 = Calendar.getInstance();
         instance2.set(instance2.get(Calendar.YEAR) + 1, Calendar.DECEMBER, 31);
         material_calendar.setSelectionColor(getResources().getColor(R.color.yellow));
@@ -363,7 +362,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     View view = null;
                                     for (int i = 0; i < todayactModels.size(); i++) {
                                         TodayactModel model1 = todayactModels.get(i);
-                                        view = new InputView(getContext(), model1, classrole);
+                                        view = new InputView(ActivityFragment.this, model1, classrole);
                                         if (ll_task != null) {
                                             ll_task.addView(view, lp);
                                         }
@@ -424,7 +423,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
 //                    startActivity(fuce);
-                    startActivityForResult(fuce,3);
+                    startActivityForResult(fuce, 3);
                 } else {
                     com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
@@ -445,29 +444,35 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
-                lazyLoad();
-                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取。。。。。。。。。",saveclassModel.getDates());
-//                    ll_task.removeAllViews();
-                    gettodaydata(saveclassModel.getDates());
-                }
-            }else if(requestCode==2){
+                String acttime = data.getStringExtra("acttime");
+                CalendarDay calendarDay=getCalendarDay(acttime);
+                calendarModel_act.add(calendarDay);
+
+//                com.github.snowdream.android.util.Log.i("活动更新。。。。。。。。。。。。。。");
+//                lazyLoad();
+//                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+//                    Log.i("点击日期获取。。。。。。。。。",saveclassModel.getDates());
+////                    ll_task.removeAllViews();
+//                    gettodaydata(saveclassModel.getDates());
+//                }
+            } else if (requestCode == 2) {
                 com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
                 lazyLoad();
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据录入。。。。。。。。。",saveclassModel.getDates());
+                    Log.i("点击日期获取数据录入。。。。。。。。。", saveclassModel.getDates());
 //                    ll_task.removeAllViews();
                     gettodaydata(saveclassModel.getDates());
                 }
-            }else if(requestCode==3){
+            } else if (requestCode == 3) {
                 com.github.snowdream.android.util.Log.i("初始数据复测更新。。。。。。。。。。。。。。");
                 lazyLoad();
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据复测。。。。。。。。。",saveclassModel.getDates());
+                    Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
 //                    ll_task.removeAllViews();
                     gettodaydata(saveclassModel.getDates());
                 }
+            } else if (requestCode == 110) {
+                lazyLoad();
             }
 
         }
@@ -477,7 +482,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     public void onResume() {
         super.onResume();
-        lazyLoad();
+//        lazyLoad();
     }
 
     private EventDecorator decorator;
@@ -504,7 +509,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
                                 classrole = activitydataModel.getClassRole();
-                                if (Constants.HEADCOACH==classrole) {
+                                if (Constants.HEADCOACH == classrole) {
                                     fl_right.setVisibility(View.VISIBLE);
                                 } else {
                                     fl_right.setVisibility(View.GONE);
@@ -615,7 +620,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 View view = null;
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
-                                                    view = new InputView(getContext(), model1, classrole);
+                                                    view = new InputView(ActivityFragment.this, model1, classrole);
                                                     if (ll_task != null) {
                                                         ll_task.addView(view, lp);
                                                     }
@@ -634,7 +639,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             View view = null;
                                             for (int i = 0; i < todayactModels.size(); i++) {
                                                 TodayactModel model1 = todayactModels.get(i);
-                                                view = new InputView(getContext(), model1, classrole);
+                                                view = new InputView(ActivityFragment.this, model1, classrole);
                                                 if (ll_task != null) {
                                                     ll_task.addView(view, lp);
                                                 }

@@ -92,7 +92,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     private String classid;
     private ActivityModel activityModel;
     private int classActivityId;//活动类型Id
-
+   private String dated;
     @Override
     protected void initViews() {
         tv_title.setText("新建活动");
@@ -191,6 +191,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                             public void success(ResponseData responseData, Response response) {
                                 if (200 == responseData.getStatus()) {
                                     Util.toastMsg(responseData.getMsg());
+                                    Intent intent=getIntent();
+                                    intent.putExtra("acttime",dated);
                                     setResult(RESULT_OK);
                                     finish();
                                 } else {
@@ -310,7 +312,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
-                String dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                 dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
                 int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
                 Log.e("132", compare + "");

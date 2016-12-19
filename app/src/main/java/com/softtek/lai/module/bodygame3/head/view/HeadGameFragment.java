@@ -324,7 +324,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+        if (clazz.getStatus() == 1) {
             //添加新班级
             if (clazz.getModel().getClassStatus() == 1) {
                 Log.i("新增班级接受通知。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");

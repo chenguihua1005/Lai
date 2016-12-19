@@ -256,7 +256,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData responseData, Response response) {
                                 try {
                                     Util.toastMsg(responseData.getMsg());
-//                                setResult(RESULT_OK);
+                                    Intent intent=getIntent();
+                                    intent.putExtra("isMove",true);
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 } catch (Exception e) {
                                     e.printStackTrace();
