@@ -465,7 +465,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         fcAuditPostModel.setPysical(tv_retestWrite_tizhi.getText().toString());
         fcAuditPostModel.setFat(tv_retestWrite_neizhi.getText().toString());
         fcAuditPostModel.setCircum(tv_retestWrite_crium.getText().toString());//胸围
-        fcAuditPostModel.setHipline(tv_retestWrite_hiplie.getText().toString());//臀围
+        fcAuditPostModel.setHiplie(tv_retestWrite_hiplie.getText().toString());//臀围
         fcAuditPostModel.setWaistline(tv_retestWrite_waisline.getText().toString());//腰围
         fcAuditPostModel.setUpArmGirth(tv_retestWrite_Uparm.getText().toString());
         fcAuditPostModel.setUpLegGirth(tv_retestWrite_UpLeg.getText().toString());
@@ -477,19 +477,23 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                int status = responseData.getStatus();
-                switch (status) {
-                    case 200:
-                        progressDialog.dismiss();
-                        Intent intent=new Intent();
-                        intent.putExtra("ACMID",acmId);
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        break;
-                    default:
-                        progressDialog.dismiss();
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    int status = responseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            progressDialog.dismiss();
+                            Intent intent=new Intent();
+                            intent.putExtra("ACMID",acmId);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            progressDialog.dismiss();
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

@@ -193,18 +193,22 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
 
-                switch (status)
-                {
-                    case 200:
-                        if(listResponseData.getData().size()!=0)
-                        {
-                            memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            if(listResponseData.getData().size()!=0)
+                            {
+                                memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        default:
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

@@ -394,18 +394,22 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status=responseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        progressDialog.dismiss();
-                        Intent intent=new Intent();
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        break;
-                    default:
-                        progressDialog.dismiss();
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            progressDialog.dismiss();
+                            Intent intent=new Intent();
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            progressDialog.dismiss();
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
                     @Override
@@ -427,7 +431,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 tv_write_nick.setText(fcStDataModel.getUserName());
                 tv_write_phone.setText(fcStDataModel.getMobile());
                 tv_write_class.setText(fcStDataModel.getClassName());
-                tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());
+                tv_retest_write_weekth.setText("第"+fcStDataModel.getWeekNum()+"周");
                 if (!TextUtils.isEmpty(fcStDataModel.getStartDate())) {
                     String[] stardata = fcStDataModel.getStartDate().split("-");
                     String[] stardata1 = stardata[2].split(" ");

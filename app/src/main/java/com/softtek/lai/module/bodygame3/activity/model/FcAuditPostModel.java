@@ -13,7 +13,7 @@ private String Pysical;
 private String Fat;
 private String Circum;
 private String Waistline;
-private String Hipline;
+private String Hiplie;
 private String UpArmGirth;
 private String UpLegGirth;
 private String DoLegGirth;
@@ -29,11 +29,19 @@ private String DoLegGirth;
                 ", Fat='" + Fat + '\'' +
                 ", Circum='" + Circum + '\'' +
                 ", Waistline='" + Waistline + '\'' +
-                ", Hipline='" + Hipline + '\'' +
+                ", Hiplie='" + Hiplie + '\'' +
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
                 '}';
+    }
+
+    public String getHiplie() {
+        return Hiplie;
+    }
+
+    public void setHiplie(String hiplie) {
+        Hiplie = hiplie;
     }
 
     public String getACMId() {
@@ -100,13 +108,7 @@ private String DoLegGirth;
         Waistline = waistline;
     }
 
-    public String getHipline() {
-        return Hipline;
-    }
 
-    public void setHipline(String hipline) {
-        Hipline = hipline;
-    }
 
     public String getUpArmGirth() {
         return UpArmGirth;
