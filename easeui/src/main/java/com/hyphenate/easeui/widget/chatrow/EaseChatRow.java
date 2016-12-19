@@ -134,9 +134,9 @@ public abstract class EaseChatRow extends LinearLayout {
         try {
             name = message.getStringAttribute("nickname");
             avatar = message.getStringAttribute("avatarURL");
-            if (TextUtils.isEmpty(avatar)) {
-                avatar = "111";
-            }
+//            if (TextUtils.isEmpty(avatar)) {
+//                avatar = "111";
+//            }
         } catch (HyphenateException e) {
             e.printStackTrace();
         }
@@ -152,13 +152,19 @@ public abstract class EaseChatRow extends LinearLayout {
             }
 
             String p = chatUserModel.getUserPhone();
-            Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
+            if (!TextUtils.isEmpty(p)) {
+                Picasso.with(context).load(p).fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+                        .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(userAvatarView);
+//                Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
+            }
 
         } else {
-            if (TextUtils.isEmpty(avatar)) {
-                photoF = "111";
+//            if (TextUtils.isEmpty(avatar)) {
+//                photoF = "111";
+//            }
+            if (!TextUtils.isEmpty(avatar)) {
+                Picasso.with(getContext()).load(avatar).fit().placeholder(R.drawable.ease_default_avatar).error(R.drawable.ease_default_avatar).into(userAvatarView);
             }
-            Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_default_avatar).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
 //            usernickView.setText(nameF);
             usernickView.setText(name);

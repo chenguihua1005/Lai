@@ -73,10 +73,10 @@ public class MemberAdapter extends BaseAdapter {
         final ClassMemberModel model = members.get(position);
         String photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(photo)) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
-        } else {
-            Picasso.with(context).load(path + photo).fit().error(R.drawable.img_default).into(holder.img);
+
+        if (!TextUtils.isEmpty(photo)) {
+            Picasso.with(context).load(path + photo).fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+                    .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(holder.img);
         }
 
         holder.text_name.setText(model.getUserName());
