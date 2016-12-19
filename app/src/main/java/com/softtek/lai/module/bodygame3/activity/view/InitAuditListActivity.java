@@ -111,7 +111,7 @@ public class InitAuditListActivity extends BaseActivity{
             }
         });
     }
-    public void update(){
+    public  void update(){
         tabtitle[0] = "未审核(" + (Auditnum-1 )+ ")";
         tabtitle[1] = "已审核(" + (Auditednum-1) + ")";
         TabLayout.Tab tab1=tab.getTabAt(0);

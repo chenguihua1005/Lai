@@ -162,7 +162,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                         memberListModels.remove(Integer.parseInt(n));
                         adapter.notifyDataSetChanged();
 //                        InitDataAuditActivity parentActivity = (InitDataAuditActivity ) getActivity();
-//                        parentActivity.
+//                        parentActivity
                     }
 //            memberListModels.clear();
 //            pageIndex = 1;
