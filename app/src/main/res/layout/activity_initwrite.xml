@@ -173,7 +173,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12sp"
-                            android:text="-"
+                            android:text="~"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -273,7 +273,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="初始体重(必填)"
+                        android:text="初始体重(必填):"
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
@@ -326,7 +326,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="当前体重（必填）"
+                        android:text="当前体重（必填）:"
                         android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"

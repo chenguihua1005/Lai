@@ -117,10 +117,10 @@
             android:name="JPUSH_APPKEY"
             android:value="1a3bbb691bfbfca0d0676e9f" />
         -->
-        <!-- 测试54 -->
+        <!-- 测试54 //b004a008690a103f8b6ebbf7 -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b004a008690a103f8b6ebbf7" />
+            android:value="f04fa77453f2b3894d05b894" />
 
         <!-- uat设置环信应用的appkey -->
         <!-- 正式 -->
@@ -267,11 +267,9 @@
         <activity
             android:name=".module.retest.view.QueryActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.bodygame3.more.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
@@ -291,7 +289,6 @@
         <activity
             android:name=".module.bodygame3.activity.view.BodyweiduActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
@@ -682,7 +679,9 @@
         <activity
             android:name=".module.bodygame3.head.view.SearchClassActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.more.view.ClassMemberActivity" />
+        <activity
+            android:name=".module.bodygame3.more.view.ClassMemberActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.conversation.view.GroupsActivity"
             android:screenOrientation="portrait" />
@@ -735,7 +734,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.VideomoreActivity"
-            android:configChanges="screenSize" />
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
@@ -746,7 +746,7 @@
         <activity
             android:name=".module.bodygame3.photowall.PhotoWallActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".module.message2.view.NoticeServerActivity"
             android:screenOrientation="portrait" />
@@ -762,10 +762,18 @@
         <activity
             android:name=".module.bodygame3.photowall.PublishDyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.head.view.EditSignaActivity" />
-        <activity android:name=".module.bodygame3.head.view.HonorRuleActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame3.more.view.SearchClassActivity"></activity>
+        <activity
+            android:name=".module.bodygame3.head.view.EditSignaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.head.view.HonorRuleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.SearchClassActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygame3.activity.view.PreViewPicActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

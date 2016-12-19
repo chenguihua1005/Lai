@@ -4,6 +4,7 @@ package com.softtek.lai.module.message2.view;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -45,6 +47,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_examine)
 public class ExamineActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "ExamineActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -142,30 +145,30 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         }
         tv_phone.setText(apply.getApplyMobile());
         tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert()) ? "未认证" : apply.getApplyCert());
-        tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无" : apply.getApplyMLName());
+        tv_tianshi.setText(TextUtils.isEmpty(apply.getApplyMLName()) ? "暂无奶昔天使" : apply.getApplyMLName());
         tv_class_code.setText(apply.getClassCode());
         tv_class_name.setText(apply.getClassName());
-        if(apply.getClassGroups()!=null){
+        if (apply.getClassGroups() != null) {
             classGroupList.clear();
             classGroupList.addAll(apply.getClassGroups());
         }
-        if (apply.getClassRoles()!=null){
+        if (apply.getClassRoles() != null) {
             classRole.clear();
             classRole.addAll(apply.getClassRoles());
         }
         if (apply.getMsgStatus() == 0) {
             btn_no.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.VISIBLE);
-            tv_group_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
-            tv_role_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
+            tv_group_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
+            tv_role_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
         } else {
             btn_no.setVisibility(View.GONE);
             btn_yes.setVisibility(View.GONE);
             //已经处理过的数据
             tv_group_name.setText(apply.getClassGroupName());
             tv_role_name.setText(apply.getClassRoleName());
-            tv_group_name.setCompoundDrawables(null,null, null,null);
-            tv_role_name.setCompoundDrawables(null,null, null,null);
+            tv_group_name.setCompoundDrawables(null, null, null, null);
+            tv_role_name.setCompoundDrawables(null, null, null, null);
         }
 
     }
@@ -207,17 +210,21 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 int checkedPosition = lv.getCheckedItemPosition();
-                if (checkedPosition != -1) {
+                if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
-                        ClassGroup group = classGroupList.get(checkedPosition);
-                        tv_group_name.setText(group.getCGName());
-                        model.groupId = group.getCGId();
+                        if (checkedPosition < classGroupList.size()) {
+                            ClassGroup group = classGroupList.get(checkedPosition);
+                            tv_group_name.setText(group.getCGName());
+                            model.groupId = group.getCGId();
+                        }
                     } else {
-                        checkedGroup = checkedPosition;
-                        ClassRole role = classRole.get(checkedPosition);
-                        tv_role_name.setText(role.getRoleName());
-                        model.classRole = role.getRoleId();
+                        checkedRole = checkedPosition;
+                        if (checkedPosition < classRole.size()) {
+                            ClassRole role = classRole.get(checkedPosition);
+                            tv_role_name.setText(role.getRoleName());
+                            model.classRole = role.getRoleId();
+                        }
                     }
                 }
                 dialog.dismiss();
@@ -243,8 +250,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    private List<ClassGroup> classGroupList=new ArrayList<>();
-    private List<ClassRole> classRole=new ArrayList<>();
+    private List<ClassGroup> classGroupList = new ArrayList<>();
+    private List<ClassRole> classRole = new ArrayList<>();
 
     @Override
     public void onClick(View view) {
@@ -301,10 +308,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_yes:
                 if (TextUtils.isEmpty(this.model.groupId)) {
-                    Util.toastMsg("请选择小组！");
+                    Util.toastMsg("请为用户分配小组");
                     return;
-                } else if (this.model.classRole==0) {
-                    Util.toastMsg("请选择角色！");
+                } else if (this.model.classRole == 0) {
+                    Util.toastMsg("请为用户分配角色");
                     return;
                 }
                 //确定
@@ -318,23 +325,45 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             String hxGroupId = confirm.getClassHxId();
                             String[] newmembers = {confirm.getApplyHxId()};
 
-                            EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);//需异步处理
+                            EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(hxGroupId);
+
+                            Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
+                            Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
+
+                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+
+                            // 创建者调用add方法
+//                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
+//                            } else {
+//                                // 一般成员调用invite方法
+//                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
+//                            }
+//
                             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                                     .examine(UserInfoModel.getInstance().getToken(),
                                             model,
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            dialogDissmiss();
-                                                            Util.toastMsg("加人成功！");
+                                                    if (responseData.getStatus() == 200) {
+                                                        setResult(RESULT_OK);
+                                                        finish();
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogDissmiss();
+                                                                Util.toastMsg("加入成功");
+                                                            }
+                                                        });
+                                                    } else {
+                                                        //如果后台加人失败，侧群组踢人
+                                                        try {
+                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
+                                                        } catch (HyphenateException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                    });
-
-                                                    setResult(RESULT_OK);
-                                                    finish();
+                                                    }
                                                 }
 
                                                 @Override
@@ -344,7 +373,6 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                         @Override
                                                         public void run() {
                                                             dialogDissmiss();
-                                                            Util.toastMsg("加人成功！");
                                                         }
                                                     });
 
@@ -354,13 +382,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialogDissmiss();
-                                    Util.toastMsg("加人失败！");
-                                }
-                            });
+
                         }
 
 

@@ -21,16 +21,20 @@ public class ConatctDBHelper extends SQLiteOpenHelper {
         mContext = context;
     }
 
+    public boolean deleteDatabase(Context context) {
+        return context.deleteDatabase(DATABASE_NAME);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(create_contactTable());//创建通讯录联系人表
+//        db.execSQL(create_classTable());// 创建班级表
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-
 
 
     private String create_contactTable() {
@@ -51,5 +55,16 @@ public class ConatctDBHelper extends SQLiteOpenHelper {
         Log.i(TAG, "create_Conatct()..." + create_Conatct);
 
         return create_Conatct;
+    }
+
+
+    private String create_classTable() {
+        String create_Class = "create table " + ClassTable.TABLE_NAME + "(" + ClassTable._ID
+                + " integer primary key autoincrement, "
+                + ClassTable.ClassId + " varchar(20),"
+                + ClassTable.ClassName + " varchar(20),"
+                + ClassTable.ClassCode + " varchar(20),"
+                + ClassTable.HXGroupId + " varchar(20))";
+        return create_Class;
     }
 }

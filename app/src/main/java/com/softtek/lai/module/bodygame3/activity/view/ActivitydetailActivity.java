@@ -1,9 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +12,11 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
-import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.utils.RequestCallback;
@@ -31,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -77,7 +71,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         tv_title.setText("活动详情");
         signup_activity.setOnClickListener(this);
         delete_activity.setOnClickListener(this);
-
         exit_tv.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -102,17 +95,11 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 TextView activity_name = holder.getView(R.id.text);
                 activity_name.setText(data.getUserName());
                 ImageView detail_head = holder.getView(R.id.head_image);
-                String path = AddressManager.getHost();
-                if (TextUtils.isEmpty(data.getUserIcon())) {
-                    Picasso.with(ActivitydetailActivity.this).load(R.drawable.img_default).into(detail_head);
-                } else {
+                String path = AddressManager.get("photoHost");
                     Picasso.with(ActivitydetailActivity.this).load(path + data.getUserIcon())
                             .fit().placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(detail_head);
-                }
-
             }
-
         };
         detail_view.setAdapter(adapter);
     }
@@ -233,6 +220,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
+//                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
+
                         finish();
                     }
 
@@ -249,6 +238,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             @Override
                             public void success(ResponseData responseData, Response response) {
                                 Util.toastMsg(responseData.getMsg());
+//                                setResult(RESULT_OK);
                                 finish();
                             }
 
@@ -259,6 +249,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.ll_left:
+                setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
                 finish();
                 break;
         }

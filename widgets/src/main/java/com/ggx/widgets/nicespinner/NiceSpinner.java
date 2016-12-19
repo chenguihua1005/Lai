@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -112,7 +111,7 @@ public class NiceSpinner extends TextView {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NiceSpinner);
         int defaultPadding = resources.getDimensionPixelSize(R.dimen.one_and_a_half_grid_unit);
 
-        //setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         setPadding(resources.getDimensionPixelSize(R.dimen.three_grid_unit), defaultPadding, defaultPadding,
             defaultPadding);
         setClickable(true);
@@ -120,7 +119,6 @@ public class NiceSpinner extends TextView {
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
         setBackgroundResource(backgroundSelector);
         textColor = typedArray.getColor(R.styleable.NiceSpinner_textTint, -1);
-        setGravity(Gravity.CENTER);
         setTextColor(textColor);
 
 
@@ -163,6 +161,7 @@ public class NiceSpinner extends TextView {
         popupWindow.setContentView(listView);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(DEFAULT_ELEVATION);
             popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
@@ -230,12 +229,6 @@ public class NiceSpinner extends TextView {
         setAdapterInternal(adapter);
     }
 
-    public void  attachCustomSource(BaseAdapter adapter){
-        selectedIndex = 0;
-        listView.setAdapter(adapter);
-        //setText(adapter.getItemInDataset(selectedIndex).toString());
-    }
-
     public void setAdapter(@NonNull ListAdapter adapter) {
         this.adapter = new NiceSpinnerAdapterWrapper(getContext(), adapter, textColor, backgroundSelector);
         setAdapterInternal(this.adapter);
@@ -247,8 +240,6 @@ public class NiceSpinner extends TextView {
         listView.setAdapter(adapter);
         setText(adapter.getItemInDataset(selectedIndex).toString());
     }
-
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

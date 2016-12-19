@@ -398,7 +398,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                     try {
                         EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
                         option.maxUsers = 200;
-                        option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;//私有群，群成员也能邀请人进群；；
+                        option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;//私有群，群成员也能邀请人进群；EMGroupStylePrivateMemberCanInvite
                         String[] members = {};
                         EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
 

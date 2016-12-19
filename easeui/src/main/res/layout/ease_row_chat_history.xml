@@ -36,11 +36,13 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
         android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/avatar_container"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="@color/list_itease_primary_color"
         android:textSize="16sp" />
 

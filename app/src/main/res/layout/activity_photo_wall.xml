@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/rl_root"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/toolbar"/>
     <include layout="@layout/empty_message"

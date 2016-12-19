@@ -3,6 +3,7 @@ package com.softtek.lai.module.community.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.ImageResponse;
+import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.io.File;
@@ -31,11 +32,11 @@ public class UploadImageService implements Runnable{
     @Override
     public void run() {
         String token= UserInfoModel.getInstance().getToken();
-        service.uploadMutilpartImage(token, new TypedFile("image/*", image),
-                new RequestCallback<ResponseData<ImageResponse>>() {
+        service.uploadSingleImage(token, new TypedFile("image/*", image),
+                new RequestCallback<ResponseData<ImageResponse2>>() {
                     @Override
-                    public void success(ResponseData<ImageResponse> data, Response response) {
-                        cb.getImageName(data.getData().getImgs());
+                    public void success(ResponseData<ImageResponse2> data, Response response) {
+                        cb.getImageName(data.getData());
                     }
 
                     @Override
@@ -47,6 +48,6 @@ public class UploadImageService implements Runnable{
     }
 
     public interface UploadImageCallback{
-        void getImageName(String imageName);
+        void getImageName(ImageResponse2 imageName);
     }
 }

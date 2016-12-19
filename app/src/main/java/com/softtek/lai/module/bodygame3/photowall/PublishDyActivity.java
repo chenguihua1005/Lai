@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -37,6 +38,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager;
+import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager2;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
 import com.softtek.lai.module.picture.model.UploadImage;
@@ -93,11 +95,11 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     private ImageFileSelector imageFileSelector;
     CommunityPhotoGridViewAdapter adapter;
     HeadService headService;
-    PublicDynamicManager manager;
+    PublicDynamicManager2 manager;
 
     private int limit=9;
     private String classId;
-    private boolean hasTheme;
+    private boolean hasTheme=false;
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -110,7 +112,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     protected void initDatas() {
         doGetTopic();
-        manager=new PublicDynamicManager(images, this);
+        manager=new PublicDynamicManager2(images, this);
         classId=getIntent().getStringExtra("classId");
         ArrayList<UploadImage> uploadImages= getIntent().getParcelableArrayListExtra("uploadImages");
         if(uploadImages!=null&&!uploadImages.isEmpty()){
@@ -137,8 +139,12 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 TextView tv_hot_num=holder.getView(R.id.tv_hot_num);
                 tv_hot_num.setText(data.getThemeHot());
                 CircleImageView cir_title=holder.getView(R.id.cir_title);
-                final CheckBox ck_select=holder.getView(R.id.ck_select);
-
+                final ImageView ck_select=holder.getView(R.id.ck_select);
+                if(hasTheme){
+                    ck_select.setBackgroundResource(R.drawable.selected);
+                }else {
+                    ck_select.setBackgroundResource(R.drawable.unselect);
+                }
                 RelativeLayout re_oc=holder.getView(R.id.re_oc);
                 if (!TextUtils.isEmpty(data.getThemePhoto()))
                 {
@@ -147,21 +153,22 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 re_oc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(ck_select.isChecked()){
-                            ck_select.setChecked(false);
+                        if(hasTheme){
+                            ck_select.setBackgroundResource(R.drawable.unselect);
                             hasTheme=false;
+                            //获取当前光标的所在位置
                             int start=et_content.getSelectionStart();
                             String replace="#"+data.getWordKey()+"#";
                             String str=et_content.getText().toString();
                             et_content.setText(str.replace(replace,""));
                             int selection=start-replace.length();
-                            et_content.setSelection(selection<0?0:selection);
+                            et_content.setSelection(selection<0?et_content.length()-1:selection);
                         }else {
-                            ck_select.setChecked(true);
+                            ck_select.setBackgroundResource(R.drawable.selected);
                             hasTheme=true;
                             Editable edit=et_content.getText();
                             SpannableString ss=new SpannableString("#"+data.getWordKey()+"#");
-                            ss.setSpan(new ForegroundColorSpan(0xFFEC7166),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            ss.setSpan(new ForegroundColorSpan(0xFFFFA202),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             edit.insert(et_content.getSelectionStart(),ss);
                         }
                     }
@@ -188,8 +195,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             public void success(ResponseData<List<TopicModel>> listResponseData, Response response) {
                 dialogDissmiss();
                 int status=listResponseData.getStatus();
-                switch (status)
-                {
+                switch (status) {
                     case 200:
                         topicModels.addAll(listResponseData.getData());
                         topicAdapter.notifyDataSetChanged();
@@ -287,7 +293,16 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void onSuccess(String file) {
-
+        limit--;
+        UploadImage image=new UploadImage();
+        File outFile=new File(file);
+        image.setImage(outFile);
+        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+        images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

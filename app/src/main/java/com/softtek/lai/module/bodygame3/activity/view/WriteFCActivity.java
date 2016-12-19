@@ -7,8 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -34,6 +42,9 @@ import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
+import com.softtek.lai.module.home.view.HealthyFragment;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -41,9 +52,17 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -145,19 +164,20 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    String isState="true";
     FuceSevice service;
     private ProgressDialog progressDialog;
-    private ImageFileCropSelector imageFileCropSelector;
     MultipartTypedOutput multipartTypedOutput;
     Long userId;//用户id
     String classId=" ";//班级id
     Context context;
-    String files,type;
+    String filest;
+    File file;
     FcStDataModel fcStDataModel;
     String photourl,typeDate;
     int firststatus;
     boolean IsEdit=true;
+    private ImageFileSelector imageFileSelector;
+    String uri,photoname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +210,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         typeDate=getIntent().getStringExtra("typeDate");
         firststatus=getIntent().getIntExtra("firststatus",0);//接收数据审核状态,//初始数据状态：1：未录入 2：未审核 3：已复测
 
-
         userId=UserInfoModel.getInstance().getUserId();
         Log.i("classid"+classId+"typedata"+typeDate);
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -198,21 +217,29 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         doGetInfo();
         multipartTypedOutput=new MultipartTypedOutput();
 
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(50);
-        imageFileCropSelector.setOutPutAspect(1,1);
-        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
-        imageFileCropSelector.setOutPut(px,px);
-        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+        int px=DisplayUtil.dip2px(this,300);
+        //*************************
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageFileSelector.setQuality(60);
+        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-                files=file;
+                filest=file;
 
-                Log.i(files);
-//                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                im_delete.setVisibility(View.VISIBLE);
+                file=new File(files.get(0));
+                Picasso.with(WriteFCActivity.this).load(file).fit().into(im_retestwrite_showphoto);
+                filest=file.toString();
+
             }
 
             @Override
@@ -220,6 +247,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
 
         iv_email.setVisibility(View.INVISIBLE);
 
@@ -236,7 +264,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
-                files="";
+                filest="";
                 break;
             //标题栏左返回
             case R.id.ll_left:
@@ -269,31 +297,33 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     editor.commit();
                 } else
                 {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                if(ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //拍照
+                                if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                     //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this,Manifest.permission.CAMERA)){
+                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                                         //允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                    }else{
+                                    } else {
                                         //不允许弹出提示
-                                        ActivityCompat.requestPermissions(WriteFCActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                     }
-                                }else {
-                                    imageFileCropSelector.takePhoto(WriteFCActivity.this);
+                                } else {
+                                    imageFileSelector.takePhoto(WriteFCActivity.this);
                                 }
                             } else if (which == 1) {
-                                imageFileCropSelector.selectImage(WriteFCActivity.this);
+                                //照片
+                                imageFileSelector.selectMutilImage(WriteFCActivity.this,1);
                             }
                         }
                     }).create().show();
+
                     Log.d("debug", "不是第一次运行");
                 }
 
@@ -334,29 +364,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(WriteFCActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
@@ -364,19 +376,33 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             Log.i("新学员录入围度:retestWrite"+fcStDataModel);
         }
         if (requestCode==BODY&&resultCode==RESULT_OK){
+
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setItems(items, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-                        imageFileCropSelector.takePhoto(WriteFCActivity.this);
+                        if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                //允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+
+                            } else {
+                                //不允许弹出提示
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                            }
+                        } else {
+                            imageFileSelector.takePhoto(WriteFCActivity.this);
+                        }
                     } else if (which == 1) {
                         //照片
-                        imageFileCropSelector.selectImage(WriteFCActivity.this);
+                        imageFileSelector.selectImage(WriteFCActivity.this);
                     }
                 }
             }).create().show();
-            Log.d("debug", "不是第一次运行");
+
         }
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -428,8 +454,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        Log.i("图片测试"+files+"哈哈"+im_retestwrite_showphoto.getResources());
-        if (!TextUtils.isEmpty(files)) {
+        Log.i("图片测试"+filest+"哈哈"+im_retestwrite_showphoto.getResources());
+        if (!TextUtils.isEmpty(filest)) {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
             doSetPostData();
 
         }
@@ -494,6 +522,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+    private static int READ_WRITER=0X10;
+
     /*
     * 获取数据值
     * */
@@ -517,6 +547,36 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     Picasso.with(context).load(url+fcStDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
                     photourl=fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么"+photourl);
+                    uri=fcStDataModel.getImgThumbnail();
+                    if(ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                            ||ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                ||ActivityCompat.shouldShowRequestPermissionRationale(WriteFCActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            //允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+
+                        } else {
+                            //不允许弹出提示
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                                        ,READ_WRITER);
+                            }
+                        }
+                    }else {
+                        //保存
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                                saveImageToGallery(WriteFCActivity.this,bitmap);
+                            }
+                        }).start();
+
+                    }
                 }
                 tv_write_class.setText(fcStDataModel.getClassName());//班级名
                 tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());//当前周
@@ -539,10 +599,10 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     /*l录入*/
     void doSetPostData()
-    {Log.i("身体维度上传"+"胸围"+fcStDataModel.getCircum()+"腰围 "+fcStDataModel.getWaistline()+"臀围"+fcStDataModel.getHiplie()+"上臂围"+fcStDataModel.getUpArmGirth()+"大腿围"+fcStDataModel.getUpLegGirth()+"小腿围"+fcStDataModel.getDoLegGirth());
+    {Log.i("图片文件"+"身体维度上传"+"胸围"+fcStDataModel.getCircum()+"腰围 "+fcStDataModel.getWaistline()+"臀围"+fcStDataModel.getHiplie()+"上臂围"+fcStDataModel.getUpArmGirth()+"大腿围"+fcStDataModel.getUpLegGirth()+"小腿围"+fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId",new TypedString(userId+""));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
-        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(files)));
+        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
         multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
@@ -565,9 +625,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 switch (status)
                 {
                     case 200:
+                        progressDialog.dismiss();
                         finish();
                         break;
                     default:
+                        progressDialog.dismiss();
                         Util.toastMsg(responseData.getMsg());
                         break;
                 }
@@ -576,9 +638,106 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
+                progressDialog.dismiss();
+
             }
         });
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getHttpBitmap(AddressManager.get("photoHost")+uri);//从网络获取图片
+                        saveImageToGallery(WriteFCActivity.this,bitmap);
+                    }
+                }).start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+    public Bitmap getHttpBitmap(String url)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            URL pictureUrl = new URL(url);
+            InputStream in = pictureUrl.openStream();
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    public  void saveImageToGallery(Context context, Bitmap bmp) {
+        if (bmp == null){
+            handler.sendEmptyMessage(0);
+            return;
+        }
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = uri;
+        photoname=appDir+fileName;
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            filest=file+"";
+        } catch (FileNotFoundException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        } catch (IOException e) {
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }catch (Exception e){
+            handler.sendEmptyMessage(0);
+            e.printStackTrace();
+        }
+
+        // 最后通知图库更新
+//        try {
+//            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        handler.sendEmptyMessage(1);
+    }
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                Log.i("保存失败");
+            }else {
+                Log.i("保存成功");
+            }
+        }
+
+    };
 
     /**
      * 点击屏幕隐藏软键盘

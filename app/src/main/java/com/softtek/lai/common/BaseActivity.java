@@ -66,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        //设置显示系统菜单键
 //        try {
 //            getWindow().addFlags(WindowManager.LayoutParams.class.getField("FLAG_NEEDS_MENU_KEY").getInt(null));
 //        } catch (NoSuchFieldException e) {

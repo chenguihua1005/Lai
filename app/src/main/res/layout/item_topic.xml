@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#精彩体管赛#"
-            android:textColor="#EC7166"
+            android:textColor="#FFA202"
             android:textSize="12sp" />
 
         <TextView
@@ -43,15 +43,13 @@
 
     </LinearLayout>
 
-    <CheckBox
+    <ImageView
         android:id="@+id/ck_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="15dp"
-        android:background="@drawable/cb_titleselect_bg"
-        android:button="@null"
-        android:checked="false" />
+        />
 </RelativeLayout>
 

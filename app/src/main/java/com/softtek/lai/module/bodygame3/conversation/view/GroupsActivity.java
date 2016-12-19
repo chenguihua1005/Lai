@@ -37,6 +37,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 2016/11/28.
@@ -172,11 +173,6 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void refresh() {
-//        classModels = EMClient.getInstance().groupManager().getAllGroups();
-//        groupAdapter = new GroupAdapter(this, classModels);
-//        group_list.setAdapter(groupAdapter);
-//        groupAdapter.notifyDataSetChanged();
-
         getContactGroups();
     }
 
@@ -195,41 +191,49 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
      * 获取群聊列表信息（即班级列表）
      */
     private void getContactGroups() {
-        Log.i(TAG, UserInfoModel.getInstance().getToken() + "..." + UserInfoModel.getInstance().getUserId());
+        try {
+            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+            service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
+                @Override
+                public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
+                    int status = listResponseData.getStatus();
+                    if (200 == status) {
+                        classModels = listResponseData.getData();
+                        Log.i(TAG, "classModels = " + new Gson().toJson(classModels));
+                        if (classModels != null) {
+                            groupAdapter.updateData(classModels);
+                        }
+                        //                for (int i = 0; i < classModels.size(); i++) {
+                        //                    ContactClassModel classModel = classModels.get(i);
+                        //                    String HXGroupId = classModel.getHXGroupId();
+                        //
+                        //                    if (!TextUtils.isEmpty(HXGroupId)) {
+                        //                        try {
+                        //                            EMClient.getInstance().groupManager().destroyGroup(HXGroupId);
+                        //                            Util.toastMsg("解散成功！");
+                        //
+                        //                        } catch (HyphenateException e) {
+                        //                            e.printStackTrace();
+                        //                            Util.toastMsg("解散失败！");
+                        //                        }
+                        //                    }
+                        //
+                        //                }
 
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
-            @Override
-            public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
-                classModels = listResponseData.getData();
-                Log.i(TAG, "classModels = " + new Gson().toJson(classModels));
-                if (classModels != null) {
-                    groupAdapter.updateData(classModels);
+                    } else {
+                        Util.toastMsg(listResponseData.getMsg());
+                    }
                 }
-//                for (int i = 0; i < classModels.size(); i++) {
-//                    ContactClassModel classModel = classModels.get(i);
-//                    String HXGroupId = classModel.getHXGroupId();
-//
-//                    if (!TextUtils.isEmpty(HXGroupId)) {
-//                        try {
-//                            EMClient.getInstance().groupManager().destroyGroup(HXGroupId);
-//                            Util.toastMsg("解散成功！");
-//
-//                        } catch (HyphenateException e) {
-//                            e.printStackTrace();
-//                            Util.toastMsg("解散失败！");
-//                        }
-//                    }
-//
-//                }
 
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    ZillaApi.dealNetError(error);
+                    error.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

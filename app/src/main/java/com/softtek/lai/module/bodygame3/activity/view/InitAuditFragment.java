@@ -79,8 +79,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
 
         }, 300);
 
-
     }
+
 
     @Override
     protected void initViews() {
@@ -96,6 +96,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+
     }
 
     @Override
@@ -138,21 +140,32 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ChuAudit && requestCode==RESULT_OK) {
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    String ACMID=data.getStringExtra("ACMID");
+//                    String n="";
+//                    for (int i=0;i<memberListModels.size();i++)
+//                    {
+//                        if (ACMID.equals(memberListModels.get(i).getAcmId()))
+//                        {
+//                            n=i+"";
+//                        }
+//                    }
+//                    if (!"".equals(n)) {
+//                        memberListModels.remove(Integer.parseInt(n));
+//                        adapter.notifyDataSetChanged();
+//                        ((InitDataAuditActivity)getActivity()).getT;
+//                        getTab()
+//                    }
+            memberListModels.clear();
+            pageIndex = 1;
+            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
 
-                @Override
-
-                public void run() {
-
-                    plv_audit.setRefreshing();
-
-                }
-
-            }, 300);
         }
+
+
+
     }
 
     //下拉刷新
@@ -174,10 +187,6 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-                if (pageIndex==1)
-                {
-                    listResponseData.getData().get(0).getCount();
-                }
                 switch (status)
                 {
                     case 200:

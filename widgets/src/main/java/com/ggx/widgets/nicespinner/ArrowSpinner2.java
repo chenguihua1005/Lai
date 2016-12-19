@@ -137,10 +137,9 @@ public class ArrowSpinner2 extends LinearLayout{
         popupWindow = new PopupWindow(context);
         int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 190, getContext().getResources().getDisplayMetrics());
         int pop2Width = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Width, defPopWidthValue);
-        int pop2Height = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Height, WindowManager.LayoutParams.WRAP_CONTENT);
         //popupWindow.setAnimationStyle(R.style.mypopupwindow);
         popupWindow.setWidth(pop2Width);
-        popupWindow.setHeight(pop2Height);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
@@ -232,6 +231,7 @@ public class ArrowSpinner2 extends LinearLayout{
         int cha=(popupWindow.getWidth()-getWidth())/2;
         //popupWindow.showAtLocation(this,Gravity.NO_GRAVITY,location[0]-,location[1]+getHeight()-35);
         popupWindow.showAsDropDown(this,-cha,-35);
+//        popupWindow.showAsDropDown(this);
     }
 
     public void setText(String str){

@@ -25,6 +25,7 @@ import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
+import com.softtek.lai.module.bodygame3.conversation.model.CountModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
@@ -233,6 +234,13 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getFriendPendingCount();
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_search:
@@ -242,153 +250,118 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         }
     }
 
-    private void getDataAndUpdate() {
-        ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        String token = UserInfoModel.getInstance().getToken();
-        service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<ContactListModel>>() {
-            @Override
-            public void success(ResponseData<ContactListModel> contactListModelResponseData, Response response) {
-                int status = contactListModelResponseData.getStatus();
-                dialogDissmiss();
-                if (200 == status) {
-                    ContactListModel model = contactListModelResponseData.getData();
-
-                    Log.i(TAG, "数据 = " + new Gson().toJson(model));
-                    if (model != null) {
-                        int count = model.getCount();
-                        menuAdapter.updateCount(count);
-
-                        list.clear();
-                        list.addAll(model.getContacts());
-                        groups.clear();
-                        datas.clear();
-
-                        if (list != null) {
-                            for (ChatContactModel contact : list) {
-                                String groupName;
-                                if (TextUtils.isEmpty(contact.getUserEn())) {
-                                    groupName = "#";
-                                } else {
-                                    groupName = contact.getUserEn().substring(0, 1).toUpperCase();
-                                }
-                                if (!groups.contains(groupName)) {
-                                    groups.add(groupName);
-                                    List<ChatContactModel> invitatedContacts = new ArrayList<>();
-                                    datas.put(groupName, invitatedContacts);
-                                }
-                                datas.get(groupName).add(contact);
+    private void getFriendPendingCount() {
+        try {
+            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+            service.getFriendPendingCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<CountModel>>() {
+                @Override
+                public void success(ResponseData responseData, Response response) {
+                    if (200 == responseData.getStatus()) {
+                        CountModel countModel = (CountModel) responseData.getData();
+                        if (countModel != null) {
+                            count = countModel.getCount();
+                            if (count >= 0) {
+                                menuAdapter.updateCount(count);
                             }
-                            if (groups.contains("#")) {
-                                groups.remove(groups.indexOf("#"));
-                                groups.add("#");
-                            }
-
-                            //存入数据库,之前先清除之前的数据
-                            ContactDao dao = new ContactDao(getContext());
-                            dao.clearContactTab();
-                            dao.insert(list);
-
                         }
-                        adapter.notifyDataSetChanged();
-
-                        Log.i(TAG, "groups = " + new Gson().toJson(groups));
-                        Log.i(TAG, "datas = " + new Gson().toJson(datas));
-                        for (int i = 0; i < groups.size(); i++) {
-                            list_contant.getRefreshableView().expandGroup(i);
-                            chooseView.buildCharaset(groups.get(i));
-                        }
+                    } else {
+                        Util.toastMsg(responseData.getMsg());
                     }
-                } else {
-                    Util.toastMsg(contactListModelResponseData.getMsg());
                 }
 
-                if (list_contant != null) {
-                    list_contant.onRefreshComplete();
+                @Override
+                public void failure(RetrofitError error) {
+                    ZillaApi.dealNetError(error);
+                    error.printStackTrace();
                 }
-            }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (list_contant != null) {
-                    list_contant.onRefreshComplete();
+
+    }
+
+    private void getDataAndUpdate() {
+        try {
+            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+            String token = UserInfoModel.getInstance().getToken();
+            service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<ContactListModel>>() {
+                @Override
+                public void success(ResponseData<ContactListModel> contactListModelResponseData, Response response) {
+                    int status = contactListModelResponseData.getStatus();
+                    dialogDissmiss();
+                    if (200 == status) {
+                        ContactListModel model = contactListModelResponseData.getData();
+
+                        Log.i(TAG, "数据 = " + new Gson().toJson(model));
+                        if (model != null) {
+                            count = model.getCount();
+                            menuAdapter.updateCount(count);
+
+                            list.clear();
+                            list.addAll(model.getContacts());
+                            groups.clear();
+                            datas.clear();
+
+                            if (list != null) {
+                                for (ChatContactModel contact : list) {
+                                    String groupName;
+                                    if (TextUtils.isEmpty(contact.getUserEn())) {
+                                        groupName = "#";
+                                    } else {
+                                        groupName = contact.getUserEn().substring(0, 1).toUpperCase();
+                                    }
+                                    if (!groups.contains(groupName)) {
+                                        groups.add(groupName);
+                                        List<ChatContactModel> invitatedContacts = new ArrayList<>();
+                                        datas.put(groupName, invitatedContacts);
+                                    }
+                                    datas.get(groupName).add(contact);
+                                }
+                                if (groups.contains("#")) {
+                                    groups.remove(groups.indexOf("#"));
+                                    groups.add("#");
+                                }
+
+                                //存入数据库,之前先清除之前的数据
+                                ContactDao dao = new ContactDao(getContext());
+                                dao.clearContactTab();
+                                dao.insert(list);
+
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            Log.i(TAG, "groups = " + new Gson().toJson(groups));
+                            Log.i(TAG, "datas = " + new Gson().toJson(datas));
+                            for (int i = 0; i < groups.size(); i++) {
+                                list_contant.getRefreshableView().expandGroup(i);
+                                chooseView.buildCharaset(groups.get(i));
+                            }
+                        }
+                    } else {
+                        Util.toastMsg(contactListModelResponseData.getMsg());
+                    }
+
+                    if (list_contant != null) {
+                        list_contant.onRefreshComplete();
+                    }
                 }
-                dialogDissmiss();
-                ZillaApi.dealNetError(error);
 
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    if (list_contant != null) {
+                        list_contant.onRefreshComplete();
+                    }
+                    dialogDissmiss();
+                    ZillaApi.dealNetError(error);
 
-//        service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<List<ChatContactModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<ChatContactModel>> listResponseData, Response response) {
-//                int status = listResponseData.getStatus();
-//                dialogDissmiss();
-//                switch (status) {
-//                    case 200:
-//                        list.clear();
-//                        list = listResponseData.getData();
-//                        Log.i(TAG, "获取通讯录数据 = " + new Gson().toJson(list));
-//                        groups.clear();
-//                        datas.clear();
-//                        if (list != null) {
-//                            for (ChatContactModel contact : list) {
-//                                String groupName;
-//                                if (TextUtils.isEmpty(contact.getUserEn())) {
-//                                    groupName = "#";
-//                                } else {
-//                                    groupName = contact.getUserEn().substring(0, 1).toUpperCase();
-//                                }
-//                                if (!groups.contains(groupName)) {
-//                                    groups.add(groupName);
-//                                    List<ChatContactModel> invitatedContacts = new ArrayList<>();
-//                                    datas.put(groupName, invitatedContacts);
-//                                }
-//                                datas.get(groupName).add(contact);
-//                            }
-//                            if (groups.contains("#")) {
-//                                groups.remove(groups.indexOf("#"));
-//                                groups.add("#");
-//                            }
-//
-//                            //存入数据库,之前先清除之前的数据
-//                            ContactDao dao = new ContactDao(getContext());
-//                            dao.clearContactTab();
-//                            dao.insert(list);
-//
-//                        }
-//                        adapter.notifyDataSetChanged();
-//
-//                        Log.i(TAG, "groups = " + new Gson().toJson(groups));
-//                        Log.i(TAG, "datas = " + new Gson().toJson(datas));
-//                        for (int i = 0; i < groups.size(); i++) {
-//                            list_contant.getRefreshableView().expandGroup(i);
-//                            chooseView.buildCharaset(groups.get(i));
-//                        }
-//
-//
-//                        break;
-//                    case 201:
-//
-//                        break;
-//                    default:
-//                        Util.toastMsg(listResponseData.getMsg());
-//                        break;
-//                }
-//                if (list_contant != null) {
-//                    list_contant.onRefreshComplete();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                if (list_contant != null) {
-//                    list_contant.onRefreshComplete();
-//                }
-//                dialogDissmiss();
-//                ZillaApi.dealNetError(error);
-//            }
-//        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

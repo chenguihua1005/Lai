@@ -6,7 +6,6 @@
 package com.softtek.lai.module.home.view;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,34 +18,36 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.io.File;
+import java.util.List;
+
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import uk.co.senab.photoview.PhotoView;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_photo)
-public class ModifyPhotoActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class ModifyPhotoActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -69,9 +70,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
     private CharSequence[] items = {"拍照", "照片"};
     private ImageFileCropSelector imageFileCropSelector;
 
-    private ILoginPresenter presenter;
-    private ProgressDialog progressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +86,14 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                progressDialog.show();
-                presenter.modifyPictures(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog);
+                dialogShow("上传图片");
+                upload(new File(file));
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                dialogShow("上传图片");
+                upload(new File(files.get(0)));
             }
 
             @Override
@@ -99,7 +103,38 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void upload(final File file){
+        ZillaApi.NormalRestAdapter.create(LoginService.class).modifyPicture(UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(), new TypedFile("image/*", file), new Callback<ResponseData<PhotoModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotoModel> responseData, Response response) {
+                        dialogDissmiss();
+                        try {
+                            int status = responseData.getStatus();
+                            switch (status) {
+                                case 200:
+                                    PhotoModel photoModel = responseData.getData();
+                                    UserModel userModel = UserInfoModel.getInstance().getUser();
+                                    userModel.setPhoto(photoModel.ThubImg);
+                                    UserInfoModel.getInstance().saveUserCache(userModel);
+                                    finish();
+                                    break;
+                                default:
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+    }
     @Override
     protected void initViews() {
         tv_title.setText("个人头像");
@@ -109,14 +144,10 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-        presenter = new LoginPresenterImpl(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
 
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         Picasso.with(this).load(path + photo)
                 .resize(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileHeight(this)).centerInside()
                 .placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_image);
@@ -179,15 +210,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
-    }
     private static final int CAMERA_PREMISSION=100;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

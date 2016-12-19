@@ -12,20 +12,6 @@ import java.io.Serializable;
  */
 public class PhotoModel implements Serializable {
 
-    private String Img;
-
-    @Override
-    public String toString() {
-        return "PhotoModel{" +
-                "Img='" + Img + '\'' +
-                '}';
-    }
-
-    public String getImg() {
-        return Img;
-    }
-
-    public void setImg(String img) {
-        Img = img;
-    }
+    public String Img;
+    public String ThubImg;
 }

@@ -6,8 +6,8 @@ package com.softtek.lai.module.bodygame3.activity.model;
 
 public class InitAuditPModel {
     private String ACMId;//记录ID
-    private String ReviewerId;//
-    private String Weight;//审核人Id
+    private String ReviewerId;//审核人Id
+    private String Weight;//
     private String Pysical;
     private String Fat;
     private String Circum;

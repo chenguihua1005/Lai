@@ -295,7 +295,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ll_chart"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -324,7 +325,6 @@
                 android:id="@+id/vi_chart"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
                 android:background="#eeeeee" />
             </LinearLayout>
             <Button
@@ -334,6 +334,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_chat_btn"
                 android:text="发起聊天"
                 android:visibility="gone"

@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -64,6 +66,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_group_sent_chat)
 public class GroupSentActivity extends BaseActivity implements View.OnClickListener {
+
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -128,9 +131,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                             LaiApplication.getInstance().startActivity(intent);
                         }
                     }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
+            Dialog dialog = builder.create();
+            if (!isFinishing()) {
+                if (dialog != null && !dialog.isShowing()) {
                     dialog.show();
                 }
             }
@@ -425,15 +428,19 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactModel model) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        if (chatUserModel != null) {
+            message.setAttribute("nickname", chatUserModel.getUserName());
+            message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+            message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        }
 
         //发送消息
 //        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
         EMClient.getInstance().chatManager().sendMessage(message);
 
-        setProfile(conversation, model);
+        if (model != null && conversation != null) {
+            setProfile(conversation, model);
+        }
         Intent intent = new Intent(this, ConversationListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -442,9 +449,14 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     protected void setProfile(EMConversation conversation, ChatContactModel model) {
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        String name = model.getUserName();
-        String photo = model.getPhoto();
-        conversation.setExtField(name + "," + path + photo);
+
+        Log.i("+++", "path = " + path);
+        Log.i("+++", "model= " + new Gson().toJson(model));
+        if (model != null) {
+            String name = model.getUserName();
+            String photo = model.getPhoto();
+            conversation.setExtField(name + "," + path + photo);
+        }
     }
 
     /**

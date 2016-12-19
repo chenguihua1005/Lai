@@ -88,6 +88,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     private MeasuredDetailsModel measuredDetailsModel;
     int Audited;//0，初始数据未审核，1初始数据已审核，2，学员复测录入、学员初始数据录入,3复测未审核，4复测已审核
     boolean IsEdit;
+    private int resetdatestatus;//复测日状态
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,15 +115,33 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         fcStDataModel = (FcStDataModel) getIntent().getSerializableExtra("retestWrite");
         measuredDetailsModel=(MeasuredDetailsModel)getIntent().getSerializableExtra("initaudit") ;
         Audited=getIntent().getIntExtra("Audited",0);
-        IsEdit=getIntent().getBooleanExtra("IsEdit",false);
-        if (!IsEdit)
-        {
-            btn_retest_save.setVisibility(View.GONE);
+        if (Audited==2) {
+            IsEdit = getIntent().getBooleanExtra("IsEdit", false);
+            if (!IsEdit) {
+                btn_retest_save.setVisibility(View.GONE);
+            }
         }
         switch (Audited)
         {
             //初始数据未审核
             case 3:
+                resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
+                if (resetdatestatus==1)
+                {
+                    btn_retest_save.setVisibility(View.GONE);
+                }
+                try {
+                    if (measuredDetailsModel != null) {
+                        tv_retest_circum.setText(TextUtils.isEmpty(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+                        tv_retest_waistline.setText(TextUtils.isEmpty(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+                        tv_retest_hiplie.setText(TextUtils.isEmpty(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+                        tv_retest_uparmgirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+                        tv_retest_upleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+                        tv_retest_doleggirth.setText(TextUtils.isEmpty(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             case 0:
                 try {
                     if (measuredDetailsModel != null) {
