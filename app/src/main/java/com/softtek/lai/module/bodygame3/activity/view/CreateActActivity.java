@@ -193,7 +193,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                                     Util.toastMsg(responseData.getMsg());
                                     Intent intent=getIntent();
                                     intent.putExtra("acttime",dated);
-                                    setResult(RESULT_OK);
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 } else {
                                     Util.toastMsg(responseData.getMsg());
