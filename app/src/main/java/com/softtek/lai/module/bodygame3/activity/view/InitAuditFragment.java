@@ -119,6 +119,10 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -175,11 +179,12 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+            doGetData(UserInfoModel.getInstance().getUserId(),classid ,pageIndex, 10);
     }
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//        memberListModels.clear();
         doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据

@@ -113,6 +113,10 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
 
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -145,6 +149,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//        memberListModels.clear();
         doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据

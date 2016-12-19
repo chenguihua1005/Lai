@@ -126,6 +126,10 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -183,6 +187,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        ++pageIndex;
         doGetData();
     }
     //获取审核列表数据
