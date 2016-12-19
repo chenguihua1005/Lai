@@ -13,5 +13,6 @@
     android:paddingTop="@dimen/one_and_a_half_grid_unit"
     android:singleLine="true"
     android:textSize="15sp"
+    android:background="#7FAB11"
     tools:text="Item"
     tools:textColor="@android:color/black" />

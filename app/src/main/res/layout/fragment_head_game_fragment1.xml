@@ -562,17 +562,7 @@
                     android:layout_centerVertical="true"
                     android:text="班级赛况"
                     android:textColor="@color/word"
-                    android:textSize="13dp" />
-
-
-                <ImageView
-                    android:id="@+id/iv_types"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="7dp"
-                    android:layout_toLeftOf="@+id/spinner_title"
-                    android:src="@drawable/weightphoto" />
+                    android:textSize="13sp" />
 
                 <com.ggx.widgets.nicespinner.NiceSpinner
                     android:id="@+id/spinner_title"
@@ -583,8 +573,19 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:gravity="right"
+                    android:textSize="13sp"
                     app:textTint="@color/word"
                     />
+                <ImageView
+                    android:id="@+id/iv_types"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="7dp"
+                    android:layout_toLeftOf="@id/spinner_title"
+                    android:src="@drawable/weightphoto" />
+
+
                 <!--<com.ggx.widgets.nicespinner.ArrowSpinner2-->
                     <!--android:id="@+id/spinner_title"-->
                     <!--android:layout_width="wrap_content"-->

@@ -149,6 +149,7 @@ public class ArrowSpinner4 extends LinearLayout {
         //popupWindow.setAnimationStyle(R.style.mypopupwindow);
         popupWindow.setWidth(pop2Width);
         popupWindow.setHeight(pop2Height);
+
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
@@ -263,9 +264,10 @@ public class ArrowSpinner4 extends LinearLayout {
         getLocationOnScreen(location);
         //计算差值
         //int cha=popupWindow.getWidth()/2-getWidth()/2;
-        int cha = (popupWindow.getWidth() - getWidth()) / 2;
+        int cha = (popupWindow.getWidth() - getWidth());
         //popupWindow.showAtLocation(this,Gravity.NO_GRAVITY,location[0]-,location[1]+getHeight()-35);
-        popupWindow.showAsDropDown(this, -cha, -35);
+//        cha += 5;
+        popupWindow.showAsDropDown(this, -cha, 0);
     }
 
     public void setTintColor(@ColorRes int resId) {

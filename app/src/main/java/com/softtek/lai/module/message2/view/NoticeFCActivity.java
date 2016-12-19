@@ -138,7 +138,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NoticeModel model=operatList.get(i);
+                NoticeModel model=operatList.get(i-1);
                 if(doOperator){
                     //正在操作的话
                     if(model.isSelected()){
