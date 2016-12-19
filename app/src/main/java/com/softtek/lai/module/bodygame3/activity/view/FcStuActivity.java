@@ -126,7 +126,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    private ImageFileCropSelector imageFileCropSelector;
     private static final int CAMERA_PREMISSION=100;
     MultipartTypedOutput multipartTypedOutput;
     @LifeCircleInject
@@ -231,6 +230,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         fl_right.setEnabled(false);
                         IsEdit=false;
+                        btn_retest_write_addbody.setText("查看身体围度");
                         doGetDataService("2");
                         break;
                 }
@@ -247,6 +247,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         IsEdit=false;
                         fl_right.setEnabled(false);
+                        btn_retest_write_addbody.setText("查看身体围度");
                         doGetDataService("2");
                         break;
                 }
