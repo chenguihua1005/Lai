@@ -417,7 +417,7 @@ public class MaterialCalendarView extends ViewGroup {
 
         // Adapter is created while parsing the TypedArray attrs, so setup has to happen after
         adapter.setTitleFormatter(DEFAULT_TITLE_FORMATTER);
-        setupChildren();
+        setupChildren();//画布局
 
         currentMonth = CalendarDay.today();
         setCurrentDate(currentMonth);
