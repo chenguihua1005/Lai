@@ -82,33 +82,37 @@ public class FcAuditListActivity extends BaseActivity{
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        if(listResponseData.getData().size()==0)
-                        {
-                            tabtitle[0] = "未审核(" + "0"+ ")";
-                            tabtitle[1] = "已审核(" + "0" + ")";
-                            TabLayout.Tab tab1=tab.getTabAt(0);
-                            tab1.setText(tabtitle[0]);
-                            TabLayout.Tab tab2=tab.getTabAt(1);
-                            tab2.setText(tabtitle[1]);
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            if(listResponseData.getData().size()==0)
+                            {
+                                tabtitle[0] = "未审核(" + "0"+ ")";
+                                tabtitle[1] = "已审核(" + "0" + ")";
+                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                tab1.setText(tabtitle[0]);
+                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                tab2.setText(tabtitle[1]);
 
-                        }
-                        else {
-                            Auditnum=Integer.parseInt(listResponseData.getData().get(0).getCount());
-                            Auditednum=Integer.parseInt(listResponseData.getData().get(1).getCount());
-                            tabtitle[0] = "未审核(" + Auditnum + ")";
-                            tabtitle[1] = "已审核(" + Auditednum + ")";
-                            TabLayout.Tab tab1=tab.getTabAt(0);
-                            tab1.setText(tabtitle[0]);
-                            TabLayout.Tab tab2=tab.getTabAt(1);
-                            tab2.setText(tabtitle[1]);
+                            }
+                            else {
+                                Auditnum=Integer.parseInt(listResponseData.getData().get(0).getCount());
+                                Auditednum=Integer.parseInt(listResponseData.getData().get(1).getCount());
+                                tabtitle[0] = "未审核(" + Auditnum + ")";
+                                tabtitle[1] = "已审核(" + Auditednum + ")";
+                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                tab1.setText(tabtitle[0]);
+                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                tab2.setText(tabtitle[1]);
 
-                        }
-                        break;
-                    default:
-                        break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
             }
         });

@@ -116,7 +116,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             ClassId = classModel.getClassId();
 
             Log.i(TAG, "HXGroupId = " + HXGroupId + " ClassId = " + ClassId);
-            Log.i(TAG,"class info = " + new Gson().toJson(classModel));
+            Log.i(TAG, "class info = " + new Gson().toJson(classModel));
 
             Log.i(TAG, "CoachId = " + CoachId + " UserInfoModel.getInstance().getUserId() = " + UserInfoModel.getInstance().getUserId());
             if (CoachId == UserInfoModel.getInstance().getUserId()) {
@@ -143,11 +143,16 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
             String photo = classModel.getCoachPhoto();
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            if ("".equals(photo)) {
-                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(coach_img);
-            } else {
-                Picasso.with(this).load(path + photo).fit().error(R.drawable.img_default).into(coach_img);
+
+            if (!TextUtils.isEmpty(photo)) {
+                Picasso.with(this).load(path + photo).fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+                        .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(coach_img);
             }
+//            if ("".equals(photo)) {
+//                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(coach_img);
+//            } else {
+//                Picasso.with(this).load(path + photo).fit().error(R.drawable.img_default).into(coach_img);
+//            }
 
             dialogDissmiss();
 

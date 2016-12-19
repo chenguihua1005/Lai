@@ -4,6 +4,8 @@ package com.softtek.lai.module.bodygame3.graph;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.Button;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -44,6 +47,32 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     @InjectView(R.id.datui_chart)
     Chart datui_chart;
 
+    @InjectView(R.id.btn_bust_left)
+    Button btn_bust_left;
+    @InjectView(R.id.btn_bust_right)
+    Button btn_bust_right;
+    @InjectView(R.id.btn_waist_left)
+    Button btn_waist_left;
+    @InjectView(R.id.btn_waist_right)
+    Button btn_waist_right;
+    @InjectView(R.id.btn_hipline_left)
+    Button btn_hipline_left;
+    @InjectView(R.id.btn_hipline_right)
+    Button btn_hipline_right;
+    @InjectView(R.id.btn_upper_left)
+    Button btn_upper_left;
+    @InjectView(R.id.btn_upper_right)
+    Button btn_upper_right;
+    @InjectView(R.id.btn_datui_left)
+    Button btn_datui_left;
+    @InjectView(R.id.btn_datui_right)
+    Button btn_datui_right;
+    @InjectView(R.id.btn_xiaotui_left)
+    Button btn_xiaotui_left;
+    @InjectView(R.id.btn_xiaotui_right)
+    Button btn_xiaotui_right;
+
+
     List<String> xAsix=new ArrayList<>();
     List<Entry> bust=new ArrayList<>();
     List<Entry> waist=new ArrayList<>();
@@ -51,6 +80,13 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     List<Entry> upper=new ArrayList<>();
     List<Entry> xiaotui=new ArrayList<>();
     List<Entry> datui=new ArrayList<>();
+
+    float maxBust = 0;
+    float maxWaist=0;
+    float maxHipline=0;
+    float maxUpper = 0;
+    float maxDatui=0;
+    float maxXiaotui=0;
 
     public DimemsionFragment() {
         // Required empty public constructor
@@ -89,14 +125,11 @@ public class DimemsionFragment extends LazyBaseFragment2 {
                 );
     }
 
+    List<String> leftXAsix;
+    List<String> rightXAsix;
     private void onSuccess(List<GirthModel> data){
         try {
-            float maxBust = 0;
-            float maxWaist=0;
-            float maxHipline=0;
-            float maxUpper = 0;
-            float maxDatui=0;
-            float maxXiaotui=0;
+
             if (data!=null) {
                 for (int i = 0, j = data.size(); i < j; i++) {
                     GirthModel model = data.get(i);
@@ -133,21 +166,35 @@ public class DimemsionFragment extends LazyBaseFragment2 {
                     maxUpper = upperValue > maxUpper ? upperValue : maxUpper;
                     maxDatui = datuiValue > maxDatui ? datuiValue : maxDatui;
                     maxXiaotui = xiaotuiValue > maxXiaotui ? xiaotuiValue : maxXiaotui;
-                    bust.add(new Entry(model.getWeekDay() - 1, bustValue));
-                    waist.add(new Entry(model.getWeekDay() - 1, waistValue));
-                    hipline.add(new Entry(model.getWeekDay() - 1, hiplineValue));
-                    upper.add(new Entry(model.getWeekDay() - 1, upperValue));
-                    datui.add(new Entry(model.getWeekDay() - 1, datuiValue));
-                    xiaotui.add(new Entry(model.getWeekDay() - 1, xiaotuiValue));
+
+                    int middle=j/2;
+                    if(i<middle){
+                        bust.add(new Entry(model.getWeekDay() - 1, bustValue));
+                        waist.add(new Entry(model.getWeekDay() - 1, waistValue));
+                        hipline.add(new Entry(model.getWeekDay() - 1, hiplineValue));
+                        upper.add(new Entry(model.getWeekDay() - 1, upperValue));
+                        datui.add(new Entry(model.getWeekDay() - 1, datuiValue));
+                        xiaotui.add(new Entry(model.getWeekDay() - 1, xiaotuiValue));
+                    }else {
+                        bust.add(new Entry(model.getWeekDay() - 1-middle, bustValue));
+                        waist.add(new Entry(model.getWeekDay() - 1-middle, waistValue));
+                        hipline.add(new Entry(model.getWeekDay() - 1-middle, hiplineValue));
+                        upper.add(new Entry(model.getWeekDay() - 1-middle, upperValue));
+                        datui.add(new Entry(model.getWeekDay() - 1-middle, datuiValue));
+                        xiaotui.add(new Entry(model.getWeekDay() - 1-middle, xiaotuiValue));
+                    }
+
                 }
             }
-            bust_chart.setDate(xAsix,bust,maxBust);
-            waist_chart.setDate(xAsix,waist,maxWaist);
-            hipline_chart.setDate(xAsix,hipline,maxHipline);
-            upper_chart.setDate(xAsix,upper,maxUpper);
-            datui_chart.setDate(xAsix,datui,maxDatui);
-            xiaotui_chart.setDate(xAsix,xiaotui,maxXiaotui);
-        } catch (NumberFormatException e) {
+            leftXAsix=xAsix.subList(0,xAsix.size()/2);
+            rightXAsix=xAsix.subList(xAsix.size()/2,xAsix.size());
+            bust_chart.setDate(leftXAsix,bust.subList(0,bust.size()/2),maxBust);
+            waist_chart.setDate(leftXAsix,waist.subList(0,waist.size()/2),maxWaist);
+            hipline_chart.setDate(leftXAsix,hipline.subList(0,hipline.size()/2),maxHipline);
+            upper_chart.setDate(leftXAsix,upper.subList(0,upper.size()/2),maxUpper);
+            datui_chart.setDate(leftXAsix,datui.subList(0,datui.size()/2),maxDatui);
+            xiaotui_chart.setDate(leftXAsix,xiaotui.subList(0,xiaotui.size()/2),maxXiaotui);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -178,6 +225,83 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     @Override
     protected void initDatas() {
 
+    }
+
+    @OnClick({R.id.btn_bust_left,
+            R.id.btn_bust_right,
+            R.id.btn_waist_left,
+            R.id.btn_waist_right,
+            R.id.btn_hipline_left,
+            R.id.btn_hipline_right,
+            R.id.btn_upper_left,
+            R.id.btn_upper_right,
+            R.id.btn_datui_left,
+            R.id.btn_datui_right,
+            R.id.btn_xiaotui_left,
+            R.id.btn_xiaotui_right})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_bust_left:
+                btn_bust_right.setVisibility(View.VISIBLE);
+                btn_bust_left.setVisibility(View.GONE);
+                bust_chart.setDate(leftXAsix,bust.subList(0,bust.size()/2),maxBust);
+                break;
+            case R.id.btn_bust_right:
+                btn_bust_right.setVisibility(View.GONE);
+                btn_bust_left.setVisibility(View.VISIBLE);
+                bust_chart.setDate(rightXAsix,bust.subList(bust.size()/2,bust.size()),maxBust);
+                break;
+            case R.id.btn_waist_left:
+                btn_waist_left.setVisibility(View.GONE);
+                btn_waist_right.setVisibility(View.VISIBLE);
+                waist_chart.setDate(leftXAsix,waist.subList(0,waist.size()/2),maxWaist);
+                break;
+            case R.id.btn_waist_right:
+                btn_waist_left.setVisibility(View.VISIBLE);
+                btn_waist_right.setVisibility(View.GONE);
+                waist_chart.setDate(rightXAsix,waist.subList(waist.size()/2,waist.size()),maxWaist);
+                break;
+            case R.id.btn_hipline_left:
+                btn_hipline_right.setVisibility(View.VISIBLE);
+                btn_hipline_left.setVisibility(View.GONE);
+                hipline_chart.setDate(leftXAsix,hipline.subList(0,hipline.size()/2),maxHipline);
+                break;
+            case R.id.btn_hipline_right:
+                btn_hipline_right.setVisibility(View.GONE);
+                btn_hipline_left.setVisibility(View.VISIBLE);
+                hipline_chart.setDate(rightXAsix,hipline.subList(hipline.size()/2,hipline.size()),maxHipline);
+                break;
+            case R.id.btn_upper_left:
+                btn_upper_right.setVisibility(View.VISIBLE);
+                btn_upper_left.setVisibility(View.GONE);
+                upper_chart.setDate(leftXAsix,upper.subList(0,upper.size()/2),maxUpper);
+                break;
+            case R.id.btn_upper_right:
+                btn_upper_right.setVisibility(View.GONE);
+                btn_upper_left.setVisibility(View.VISIBLE);
+                upper_chart.setDate(rightXAsix,upper.subList(upper.size()/2,upper.size()),maxUpper);
+                break;
+            case R.id.btn_datui_left:
+                btn_datui_left.setVisibility(View.GONE);
+                btn_datui_right.setVisibility(View.VISIBLE);
+                datui_chart.setDate(leftXAsix,datui.subList(0,datui.size()/2),maxDatui);
+                break;
+            case R.id.btn_datui_right:
+                btn_datui_left.setVisibility(View.VISIBLE);
+                btn_datui_right.setVisibility(View.GONE);
+                datui_chart.setDate(rightXAsix,datui.subList(datui.size()/2,datui.size()),maxDatui);
+                break;
+            case R.id.btn_xiaotui_left:
+                btn_xiaotui_right.setVisibility(View.VISIBLE);
+                btn_xiaotui_left.setVisibility(View.GONE);
+                xiaotui_chart.setDate(leftXAsix,xiaotui.subList(0,xiaotui.size()/2),maxXiaotui);
+                break;
+            case R.id.btn_xiaotui_right:
+                btn_xiaotui_right.setVisibility(View.GONE);
+                btn_xiaotui_left.setVisibility(View.VISIBLE);
+                xiaotui_chart.setDate(rightXAsix,xiaotui.subList(xiaotui.size()/2,xiaotui.size()),maxXiaotui);
+                break;
+        }
     }
 
 }

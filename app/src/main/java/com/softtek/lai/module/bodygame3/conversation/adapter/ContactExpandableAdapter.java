@@ -89,6 +89,13 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+
+    //加载图片
+//    String path = AddressManager.get("photoHost");
+//    Picasso.with(context).load(path + model.getPhoto()).fit()
+//    .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+
+
     //  获得子项显示的view
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
@@ -100,11 +107,10 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         name.setText(contact.getUserName());
         CircleImageView head_image= (CircleImageView) view.findViewById(R.id.head_image);
         if(!TextUtils.isEmpty(contact.getPhoto())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getPhoto())
-                    .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
-        }else {
-            Picasso.with(context).load(R.drawable.img_default).into(head_image);
+            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getPhoto()).fit().placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(head_image);
         }
+
         return view;
     }
 
