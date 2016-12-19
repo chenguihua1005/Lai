@@ -166,11 +166,16 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 //				}
 //			}
             holder.name.setText(name);
-            if (TextUtils.isEmpty(photo)) {
-                Picasso.with(getContext()).load(R.drawable.ease_default_avatar).into(holder.avatar);
-            } else {
-                Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
+            if (!TextUtils.isEmpty(photo)) {
+                Picasso.with(getContext()).load(photo).fit().placeholder(R.drawable.ease_default_avatar)
+                        .error(R.drawable.ease_default_avatar).into(holder.avatar);
             }
+//            else
+//            {
+//                Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
+//            }
+
+
 //            holder.avatar.setShapeType(1);
         }
 
