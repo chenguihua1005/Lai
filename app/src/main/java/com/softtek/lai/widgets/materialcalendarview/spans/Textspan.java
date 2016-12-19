@@ -41,7 +41,7 @@ public class Textspan implements LineBackgroundSpan {
             this.mText = "复测";
             this.radius = radius;
             if (role == Constants.STUDENT) {
-                this.rediuscolor = Color.rgb(135, 199, 67);
+                this.rediuscolor = Color.rgb(135, 199, 67);//绿色
             } else {
                 this.rediuscolor = Color.rgb(247, 171, 38);
             }
