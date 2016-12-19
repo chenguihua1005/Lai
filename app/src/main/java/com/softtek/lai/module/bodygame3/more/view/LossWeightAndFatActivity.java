@@ -159,17 +159,21 @@ public class LossWeightAndFatActivity extends BaseActivity {
             tv_weight_level.append(String.valueOf(data.getWeightLevel()==0?1:data.getWeightLevel()));
             if(data.getWeightLevel()==0){
                 iv_weight_media_bg.setBackgroundResource(R.drawable.bg_media_dark);
+                tv_weight_level.setTextColor(0xFF878787);
                 tv_weight_level_des.setText("减重5斤才能点亮勋章");
             }else {
+                tv_weight_level.setTextColor(0xFFF3EE7B);
                 iv_weight_media_bg.setBackgroundResource(R.drawable.bg_media);
                 tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
             }
             tv_fat_level.setText("Z");
             tv_fat_level.append(String.valueOf(data.getFatLevel()==0?1:data.getFatLevel()));
             if(data.getFatLevel()==0){
+                tv_fat_level.setTextColor(0xFF878787);
                 iv_fat_media_bg.setBackgroundResource(R.drawable.bg_media_dark);
-                tv_weight_level_des.setText("减脂1%才能点亮勋章");
+                tv_fat_level_des.setText("减脂1%才能点亮勋章");
             }else {
+                tv_fat_level.setTextColor(0xFFF3EE7B);
                 iv_fat_media_bg.setBackgroundResource(R.drawable.bg_media);
                 tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
             }

@@ -23,11 +23,29 @@ public class ApplyConfirm {
     private String ClassId;
     private int MsgStatus;
     private String ClassGroupName;
+    private String ClassGroupId;//已经加入的组别Id
     private String ClassRoleName;
+    private int ClassRoleValue;//所在小组的角色值
     private List<ClassGroup> ClassGroups;
     private List<ClassRole> ClassRoles;
     private String ClassName;
     private String ClassCode;
+
+    public String getClassGroupId() {
+        return ClassGroupId;
+    }
+
+    public void setClassGroupId(String classGroupId) {
+        ClassGroupId = classGroupId;
+    }
+
+    public int getClassRoleValue() {
+        return ClassRoleValue;
+    }
+
+    public void setClassRoleValue(int classRoleValue) {
+        ClassRoleValue = classRoleValue;
+    }
 
     public String getClassName() {
         return ClassName;
@@ -155,5 +173,29 @@ public class ApplyConfirm {
 
     public void setClassRoles(List<ClassRole> classRoles) {
         ClassRoles = classRoles;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplyConfirm{" +
+                "ApplyId=" + ApplyId +
+                ", ApplyName='" + ApplyName + '\'' +
+                ", ApplyCert='" + ApplyCert + '\'' +
+                ", ApplyMobile='" + ApplyMobile + '\'' +
+                ", ApplyMLId=" + ApplyMLId +
+                ", ApplyMLName='" + ApplyMLName + '\'' +
+                ", ApplyHxId='" + ApplyHxId + '\'' +
+                ", ClassHxId='" + ClassHxId + '\'' +
+                ", ClassId='" + ClassId + '\'' +
+                ", MsgStatus=" + MsgStatus +
+                ", ClassGroupName='" + ClassGroupName + '\'' +
+                ", ClassGroupId='" + ClassGroupId + '\'' +
+                ", ClassRoleName='" + ClassRoleName + '\'' +
+                ", ClassRoleValue=" + ClassRoleValue +
+                ", ClassGroups=" + ClassGroups +
+                ", ClassRoles=" + ClassRoles +
+                ", ClassName='" + ClassName + '\'' +
+                ", ClassCode='" + ClassCode + '\'' +
+                '}';
     }
 }
