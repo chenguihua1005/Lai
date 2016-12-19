@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,19 +24,29 @@ public class PreViewPicActivity extends BaseActivity{
     ImageView im_show_pic;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    String images;
+    File file;
+    String images,photoname;
     @Override
     protected void initViews() {
-
+        tv_title.setText("1/1");
     }
 
     @Override
     protected void initDatas() {
         images=getIntent().getStringExtra("images");
-        Picasso.with(this).load(new File(images))
-                .resize(DisplayUtil.getMobileWidth(this),
-                        DisplayUtil.getMobileHeight(this)+DisplayUtil.getStatusHeight(this)).centerInside()
-                .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_show_pic);
+        photoname=getIntent().getStringExtra("photoname");
+        if (TextUtils.isEmpty(images)) {
+            Picasso.with(this).load(AddressManager.get("photoHost") + photoname)
+                    .resize(DisplayUtil.getMobileWidth(this),
+                            DisplayUtil.getMobileHeight(this) + DisplayUtil.getStatusHeight(this)).centerInside()
+                    .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_show_pic);
+        }
+        else {
+            Picasso.with(this).load(new File(images))
+                    .resize(DisplayUtil.getMobileWidth(this),
+                            DisplayUtil.getMobileHeight(this) + DisplayUtil.getStatusHeight(this)).centerInside()
+                    .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_show_pic);
+        }
 
     }
 }
