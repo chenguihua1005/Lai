@@ -212,7 +212,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        //resetdatestatus=2,未当天复测日，可进行录入，type=1（复测录入）
+        //resetdatestatus=2,当天复测日，可进行录入，type=1（复测录入）
         //resetdatestatus=1,过去复测日，可进行查看，type=2（复测查看）
         //复测状态：1：未复测 2：未审核 3：已复测resetstatus
         switch (resetdatestatus)
@@ -220,7 +220,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case 1:
                 switch (resetstatus)
                 {
+                    //未复测、未审核
                     case 1:
+
                     case 2:
                         Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
                         btn_retest_write_addbody.setVisibility(View.GONE);
@@ -229,7 +231,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         fl_right.setEnabled(false);
                         IsEdit=false;
-                        doGetDataService("0");
+                        doGetDataService("2");
                         break;
                 }
 
@@ -245,7 +247,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         IsEdit=false;
                         fl_right.setEnabled(false);
-                        doGetDataService("0");
+                        doGetDataService("2");
                         break;
                 }
                 break;
