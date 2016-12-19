@@ -118,10 +118,13 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.btn_joinclass:
                 if (isClick)
                 {
+                    btn_joinclass.setEnabled(true);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
                     doJoinClass();
                 }
                 else {
-                    Util.toastMsg("请勾选已阅读《康宝莱使用知情书》");
+                    btn_joinclass.setEnabled(false);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
                 }
                 break;
             case R.id.ll_left:
