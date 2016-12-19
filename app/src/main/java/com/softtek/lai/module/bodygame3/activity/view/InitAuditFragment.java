@@ -144,7 +144,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ChuAudit && requestCode==RESULT_OK) {
+        if (requestCode == ChuAudit && resultCode==RESULT_OK) {
                     String ACMID=data.getStringExtra("ACMID");
                     String n="";
                     for (int i=0;i<memberListModels.size();i++)

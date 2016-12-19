@@ -153,7 +153,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FCAudit && requestCode==RESULT_OK) {
+        if (requestCode == FCAudit && resultCode==RESULT_OK) {
             String ACMID = data.getStringExtra("ACMID");
             String n = "";
             for (int i = 0; i < memberListModels.size(); i++) {

@@ -482,6 +482,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                     case 200:
                         progressDialog.dismiss();
                         Intent intent=new Intent();
+                        intent.putExtra("ACMID",acmId);
                         setResult(RESULT_OK,intent);
                         finish();
                         break;
