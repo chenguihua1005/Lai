@@ -156,7 +156,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OperateMsgModel model=operatList.get(i);
+                OperateMsgModel model=operatList.get(i-1);
                 if(doOperator){
                     //正在操作的话
                     if(model.isSelected()){
