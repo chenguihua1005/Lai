@@ -40,7 +40,6 @@ public class WeekHonorManager {
                                 if (callback != null) {
                                     callback.getModel(honorRankModel);
                                     Log.e("curryddd", "getModel: " + honorRankModel.toString());
-                                    Log.e("curryddd", "getModel: " + honorRankModel.getList_date().toString());
                                 }
                                 break;
                             default:

@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -47,8 +48,6 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     LinearLayout ll_left;
     @InjectView(R.id.list_group_ranking)
     ListView list_group_ranking;//列表
-    @InjectView(R.id.tv_ranking_date)
-    TextView tv_ranking_date;
     @InjectView(R.id.tv_group_name)
     TextView tv_group_name;
     @InjectView(R.id.tv_rank_number)
@@ -68,6 +67,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     private GroupRankingManager groupRankingManager;
     private ListGroupModel listGroupModel;
     private HonorGroupRankModel honorGroupRankModel;
+    private TextView tv_ranking_date;
 
 
     @Override
@@ -102,6 +102,9 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             }
         };
         list_group_ranking.setAdapter(honorGroupRankAdapter);
+        View footView = LayoutInflater.from(this).inflate(R.layout.group_ranking_footer, null);
+        tv_ranking_date = (TextView) footView.findViewById(R.id.tv_ranking_date);
+        list_group_ranking.addFooterView(footView);
         list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -132,6 +135,8 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
 
         if (listGroupModel != null) {
+            //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
+//                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
             tv_group_name.setText(listGroupModel.getGroupName());
             if ("ByWeek".equals(SortTimeType)) {
                 tv_title.setText("组内排名(第" + WhichTime + "周)");
@@ -151,7 +156,6 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
     }
 
-
     @Override
     public void getModel(HonorGroupRankModel model) {
         if (model == null || model.getGrouplist() == null) {
@@ -162,8 +166,6 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         groupRankingModelList.addAll(model.getGrouplist());
         honorGroupRankAdapter.notifyDataSetChanged();
         tv_ranking_date.setText("榜单日期" + model.getStartDate() + "～" + model.getEndDate());
-
-
     }
 
     private void setImage(CircleImageView civ, String endUrl) {

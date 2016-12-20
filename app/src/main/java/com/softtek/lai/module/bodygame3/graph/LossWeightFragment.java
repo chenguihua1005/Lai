@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
