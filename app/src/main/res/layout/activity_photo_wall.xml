@@ -29,7 +29,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="6dp"
         android:background="#e1e1e1"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_alignParentBottom="true">
         <Button
             android:id="@+id/btn_send"
