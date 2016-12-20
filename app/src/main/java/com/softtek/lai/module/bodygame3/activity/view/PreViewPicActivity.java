@@ -1,7 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -22,6 +24,8 @@ import zilla.libcore.ui.InjectLayout;
 public class PreViewPicActivity extends BaseActivity{
     @InjectView(R.id.im_show_pic)
     ImageView im_show_pic;
+    @InjectView(R.id.rl)
+    RelativeLayout rl;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     File file;
@@ -29,6 +33,12 @@ public class PreViewPicActivity extends BaseActivity{
     @Override
     protected void initViews() {
         tv_title.setText("1/1");
+        rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
