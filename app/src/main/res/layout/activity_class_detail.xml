@@ -162,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/zhiqingshu"
+                android:layout_marginBottom="10dp"
                 android:textSize="14sp"/>
         </RelativeLayout>
         <Button
@@ -184,6 +185,6 @@
             android:layout_marginTop="10dp"
             android:textSize="12sp"
             android:visibility="gone"
-            android:text="您已发送过加入班级申请了, 请耐心等待总教练审核吧"/>
+            android:text="您已发送过加入班级申请了， 请耐心等待总教练审核吧"/>
     </LinearLayout>
 </RelativeLayout>

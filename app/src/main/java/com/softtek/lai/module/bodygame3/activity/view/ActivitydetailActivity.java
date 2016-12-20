@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.http.PUT;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
@@ -66,7 +67,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
     private int classrole;//班级角色
-
+    public static final int ACTIVITY_DEL=1;
+    public static final int ACTIVITY_SIGN=2;
+    public static final int ACTIVITY_EXIT=3;
+    private boolean operation=false;
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -211,9 +215,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     exit_lin.setVisibility(View.VISIBLE);
                                 }
 
-                                ;
+                                operation=true;
                                 getalldetail();
                             } else {
+                                operation=false;
                                 Util.toastMsg(responseData.getMsg());
                             }
                         } catch (Exception e) {
@@ -225,6 +230,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void failure(RetrofitError error) {
                         try {
+                            operation=false;
                             super.failure(error);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -237,7 +243,12 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
-//                        setResult(RESULT_OK,new Intent().putExtra("activityid",activityId));
+                         Intent del=getIntent();
+                       int counts= del.getExtras().getInt("counts");
+                        int count=counts-1;
+                         del.putExtra("operation",ACTIVITY_DEL);
+                        del.putExtra("count",count);
+                        setResult(RESULT_OK,del);
 
                         finish();
                     }
@@ -256,12 +267,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData responseData, Response response) {
                                 try {
                                     Util.toastMsg(responseData.getMsg());
-//                                setResult(RESULT_OK);
+                                    Intent intent=getIntent();
+                                    intent.putExtra("operation",ACTIVITY_EXIT);
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-
                             }
 
                             @Override
@@ -271,8 +283,14 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.ll_left:
-                setResult(RESULT_OK, new Intent().putExtra("activityid", activityId));
-                finish();
+                if(!operation){
+                    finish();
+                }else{
+                    Intent intent=getIntent();
+                    intent.putExtra("operation",ACTIVITY_SIGN);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
                 break;
         }
     }
