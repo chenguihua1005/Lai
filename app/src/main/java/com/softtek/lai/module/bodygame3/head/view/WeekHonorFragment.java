@@ -107,7 +107,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();     //提交的话取消注释
-//        ClassId = bundle.getString("classId");
+        ClassId = bundle.getString("classId");
         selectWeight();
         newAdapter();
         ListView refreshableView = listHonorrank.getRefreshableView();
