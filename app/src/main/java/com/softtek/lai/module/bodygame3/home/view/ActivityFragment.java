@@ -340,7 +340,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
-                                            reset_time.setText("待审核" + model.getNum());
+                                            reset_time.setText("待审核" + model.getNum()+"人");
                                             tag.status = FUCEING;
                                             break;
                                         case 3://未开始的复测日
@@ -643,7 +643,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             } else {//非学员
                                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);//复测审核背景图
                                                 reset_name.setText("复测审核");
-                                                reset_time.setText("待审核" + activitydataModel.getNum());
+                                                reset_time.setText("待审核" + activitydataModel.getNum()+"人");
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 tag.status = FUCEING;
