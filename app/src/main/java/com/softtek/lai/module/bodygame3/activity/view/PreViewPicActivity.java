@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,12 +32,7 @@ public class PreViewPicActivity extends BaseActivity{
     @Override
     protected void initViews() {
         tv_title.setText("1/1");
-        rl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
     }
 
     @Override
