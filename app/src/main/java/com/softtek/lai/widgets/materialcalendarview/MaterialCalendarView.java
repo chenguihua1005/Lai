@@ -417,7 +417,7 @@ public class MaterialCalendarView extends ViewGroup {
 
         // Adapter is created while parsing the TypedArray attrs, so setup has to happen after
         adapter.setTitleFormatter(DEFAULT_TITLE_FORMATTER);
-        setupChildren();
+        setupChildren();//画布局
 
         currentMonth = CalendarDay.today();
         setCurrentDate(currentMonth);
@@ -1314,7 +1314,6 @@ public class MaterialCalendarView extends ViewGroup {
         }
         dayViewDecorators.add(decorator);
         adapter.setDecorators(dayViewDecorators);
-        com.github.snowdream.android.util.Log.i("添加成功。。。。。。。。。。。。。。。。。。");
     }
 
     /**
@@ -1341,7 +1340,6 @@ public class MaterialCalendarView extends ViewGroup {
      */
     public void invalidateDecorators() {
         adapter.invalidateDecorators();
-        com.github.snowdream.android.util.Log.i("清楚标注成功。。。。。。。。。。。。。。。。。。。");
     }
 
     /*

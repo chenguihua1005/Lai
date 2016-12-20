@@ -40,7 +40,7 @@ public class ZQSActivity extends BaseActivity {
                 finish();
             }
         });
-        tv_title.setText("使用知情书");
+        tv_title.setText("康宝莱使用知情书");
     }
 
     @Override

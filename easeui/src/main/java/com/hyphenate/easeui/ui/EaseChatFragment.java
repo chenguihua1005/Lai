@@ -139,7 +139,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         mImageFileSelector = new ImageFileSelector(getContext());
 //        mImageFileSelector.setOutPutImageSize(620);
-        mImageFileSelector.setQuality(40);
+        mImageFileSelector.setQuality(30);
         mImageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
@@ -320,7 +320,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     }
 
-    protected void onMessageListInit() {//key
+    protected void onMessageListInit() {//key !!!!!
         //jessica
         String names = fragmentArgs.getString("name");
         String photos = fragmentArgs.getString("photo");

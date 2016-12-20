@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,6 +48,9 @@ public class LossWeightAndFatActivity extends BaseActivity {
     TextView tv_fat_level;
     TextView tv_fat_level_des;
 
+    ImageView iv_weight_media_bg;
+    ImageView iv_fat_media_bg;
+
     EasyAdapter<WeightAndFat> adapter;
     private List<WeightAndFat> models=new ArrayList<>(10);
     //当前减重和减脂等级
@@ -69,6 +73,8 @@ public class LossWeightAndFatActivity extends BaseActivity {
         tv_weight_level_des= (TextView) head.findViewById(R.id.tv_weight_level_des);
         tv_fat_level= (TextView) head.findViewById(R.id.tv_fat_level);
         tv_fat_level_des= (TextView) head.findViewById(R.id.tv_fat_level_des);
+        iv_weight_media_bg= (ImageView) head.findViewById(R.id.iv_weight_media_bg);
+        iv_fat_media_bg= (ImageView) head.findViewById(R.id.iv_fat_media_bg);
         tv_weight_level.setTypeface(tf);
         tv_fat_level.setTypeface(tf);
         lv.addHeaderView(head);
@@ -150,11 +156,27 @@ public class LossWeightAndFatActivity extends BaseActivity {
             weightLevel=data.getWeightLevel();
             fatLevel=data.getFatLevel();
             tv_weight_level.setText("W");
-            tv_weight_level.append(""+data.getWeightLevel());
-            tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
+            tv_weight_level.append(String.valueOf(data.getWeightLevel()==0?1:data.getWeightLevel()));
+            if(data.getWeightLevel()==0){
+                iv_weight_media_bg.setBackgroundResource(R.drawable.bg_media_dark);
+                tv_weight_level.setTextColor(0xFF878787);
+                tv_weight_level_des.setText("减重5斤才能点亮勋章");
+            }else {
+                tv_weight_level.setTextColor(0xFFF3EE7B);
+                iv_weight_media_bg.setBackgroundResource(R.drawable.bg_media);
+                tv_weight_level_des.setText("当前减重等级为W"+data.getWeightLevel());
+            }
             tv_fat_level.setText("Z");
-            tv_fat_level.append(""+data.getFatLevel());
-            tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
+            tv_fat_level.append(String.valueOf(data.getFatLevel()==0?1:data.getFatLevel()));
+            if(data.getFatLevel()==0){
+                tv_fat_level.setTextColor(0xFF878787);
+                iv_fat_media_bg.setBackgroundResource(R.drawable.bg_media_dark);
+                tv_fat_level_des.setText("减脂1%才能点亮勋章");
+            }else {
+                tv_fat_level.setTextColor(0xFFF3EE7B);
+                iv_fat_media_bg.setBackgroundResource(R.drawable.bg_media);
+                tv_fat_level_des.setText("当前减脂等级为Z"+data.getFatLevel());
+            }
             List<LossWeightAndFat.LossWeightLevel> weightLevels=data.getLossWeightLevelList();
             List<LossWeightAndFat.LossFatLevel> fatLevels=data.getLossFatLevelList();
             for (int i=0;i<models.size();i++){

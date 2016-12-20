@@ -95,18 +95,21 @@ public class BrokenLine extends View{
             if(xAxis!=null&&!xAxis.isEmpty()){
                 xPoint=new int[xAxis.size()];
                 int x=offset;
+                Paint.FontMetrics fm=textPaint.getFontMetrics();
+                int textHeight= (int) Math.ceil(fm.descent - fm.ascent)/2;
                 for (int i=0,j=xAxis.size();i<j;i++){
                     String str=xAxis.get(i);
                     int textWitdh= width/(xAxis.size()-1);
                     if(i==j-1){
                         xPoint[i]=x-offset;
-                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length()),height,textPaint);
+
+                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length()),height-textHeight,textPaint);
                     }else if(i==0){
                         xPoint[i]=x;
-                        canvas.drawText(str,x,height,textPaint);
+                        canvas.drawText(str,x,height-textHeight,textPaint);
                     }else {
                         xPoint[i]=x;
-                        canvas.drawText(str,x-textPaint.measureText(str,0,str.length())/2,height,textPaint);
+                        canvas.drawText(str,x-textPaint.measureText(str,0,str.length())/2,height-textHeight,textPaint);
                     }
                     x+=textWitdh;
                 }
@@ -175,5 +178,7 @@ public class BrokenLine extends View{
         postInvalidate();
     }
 
-
+    public void setxTextSize(float xTextSize) {
+        textPaint.setTextSize(xTextSize);
+    }
 }

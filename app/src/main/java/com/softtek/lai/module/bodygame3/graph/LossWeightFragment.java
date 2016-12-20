@@ -4,6 +4,8 @@ package com.softtek.lai.module.bodygame3.graph;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.Button;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -38,11 +41,26 @@ public class LossWeightFragment extends LazyBaseFragment2 {
     @InjectView(R.id.fat_chart)
     Chart fat_chart;
 
+    @InjectView(R.id.btn_weight_left)
+    Button btn_weight_left;
+    @InjectView(R.id.btn_weight_right)
+    Button btn_weight_right;
+    @InjectView(R.id.btn_bfat_left)
+    Button btn_bfat_left;
+    @InjectView(R.id.btn_bfat_right)
+    Button btn_bfat_right;
+    @InjectView(R.id.btn_fat_left)
+    Button btn_fat_left;
+    @InjectView(R.id.btn_fat_right)
+    Button btn_fat_right;
+
     List<String> xAsix=new ArrayList<>();
     List<Entry> weight=new ArrayList<>();
     List<Entry> bfat=new ArrayList<>();
     List<Entry> fat=new ArrayList<>();
-
+    float maxWeight = 0;
+    float maxBFat=0;
+    float maxFat=0;
     public LossWeightFragment() {
         // Required empty public constructor
     }
@@ -82,35 +100,12 @@ public class LossWeightFragment extends LazyBaseFragment2 {
                 );
     }
 
+    List<String> leftXAsix;
+    List<String> rightXAsix;
+
     private void onSuccess(List<WeightModel> data){
-        /*WeightModel mod=new WeightModel();
-        mod.setWeekDay(1);
-        mod.setFat("20");
-        mod.setPysical("50");
-        mod.setWeight("100");
-        WeightModel mod1=new WeightModel();
-        mod1.setWeekDay(3);
-        mod1.setFat("10");
-        mod1.setPysical("80");
-        mod1.setWeight("90");
-        WeightModel mod2=new WeightModel();
-        mod2.setWeekDay(4);
-        mod2.setFat("60");
-        mod2.setPysical("10");
-        mod2.setWeight("150");
-        WeightModel mod3=new WeightModel();
-        mod3.setWeekDay(5);
-        mod3.setFat("20");
-        mod3.setPysical("78");
-        mod3.setWeight("10");
-        data.add(mod);
-        data.add(mod1);
-        data.add(mod2);
-        data.add(mod3);*/
         try {
-            float maxWeight = 0;
-            float maxBFat=0;
-            float maxFat=0;
+
             if (data!=null) {
                 for (int i = 0, j = data.size(); i < j; i++) {
                     WeightModel model = data.get(i);
@@ -141,16 +136,27 @@ public class LossWeightFragment extends LazyBaseFragment2 {
                     maxWeight = weightValue > maxWeight ? weightValue : maxWeight;
                     maxBFat = bfatValue > maxBFat ? bfatValue : maxBFat;
                     maxFat = fatValue > maxFat ? fatValue : maxFat;
-                    weight.add(new Entry(model.getWeekDay() - 1, weightValue));
-                    bfat.add(new Entry(model.getWeekDay() - 1, bfatValue));
-                    fat.add(new Entry(model.getWeekDay() - 1, fatValue));
+
+                    int middle=j/2;
+                    if(i<middle){
+                        weight.add(new Entry(model.getWeekDay() - 1, weightValue));
+                        bfat.add(new Entry(model.getWeekDay() - 1, bfatValue));
+                        fat.add(new Entry(model.getWeekDay() - 1, fatValue));
+                    }else {
+                        weight.add(new Entry(model.getWeekDay() - 1-middle, weightValue));
+                        bfat.add(new Entry(model.getWeekDay() - 1-middle, bfatValue));
+                        fat.add(new Entry(model.getWeekDay() - 1-middle, fatValue));
+                    }
                 }
-                weight_chart.setDate(xAsix,weight,maxWeight);
-                bfat_chart.setDate(xAsix,bfat,maxBFat);
-                fat_chart.setDate(xAsix,fat,maxFat);
+
+                leftXAsix=xAsix.subList(0,xAsix.size()/2);
+                rightXAsix=xAsix.subList(xAsix.size()/2,xAsix.size());
+                weight_chart.setDate(leftXAsix,weight.subList(0,weight.size()/2),maxWeight);
+                bfat_chart.setDate(leftXAsix,bfat.subList(0,bfat.size()/2),maxBFat);
+                fat_chart.setDate(leftXAsix,fat.subList(0,fat.size()/2),maxFat);
             }
 
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -174,7 +180,48 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
     @Override
     protected void initDatas() {
+//        btn_weight_left.setOnClickListener(this);
+//        btn_weight_right.setOnClickListener(this);
+//        btn_bfat_left.setOnClickListener(this);
+//        btn_bfat_right.setOnClickListener(this);
+//        btn_fat_left.setOnClickListener(this);
+//        btn_fat_right.setOnClickListener(this);
 
     }
 
+    @OnClick({R.id.btn_weight_right,R.id.btn_weight_left,R.id.btn_bfat_left,R.id.btn_bfat_right,R.id.btn_fat_right,R.id.btn_fat_left})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_weight_left:
+                btn_weight_right.setVisibility(View.VISIBLE);
+                btn_weight_left.setVisibility(View.GONE);
+                weight_chart.setDate(leftXAsix,weight.subList(0,weight.size()/2),maxWeight);
+                break;
+            case R.id.btn_weight_right:
+                btn_weight_right.setVisibility(View.GONE);
+                btn_weight_left.setVisibility(View.VISIBLE);
+                weight_chart.setDate(rightXAsix,weight.subList(weight.size()/2,weight.size()),maxWeight);
+                break;
+            case R.id.btn_bfat_left:
+                btn_bfat_left.setVisibility(View.GONE);
+                btn_bfat_right.setVisibility(View.VISIBLE);
+                bfat_chart.setDate(leftXAsix,bfat.subList(0,bfat.size()/2),maxBFat);
+                break;
+            case R.id.btn_bfat_right:
+                btn_bfat_left.setVisibility(View.VISIBLE);
+                btn_bfat_right.setVisibility(View.GONE);
+                bfat_chart.setDate(rightXAsix,bfat.subList(bfat.size()/2,bfat.size()),maxBFat);
+                break;
+            case R.id.btn_fat_left:
+                btn_fat_right.setVisibility(View.VISIBLE);
+                btn_fat_left.setVisibility(View.GONE);
+                fat_chart.setDate(leftXAsix,fat.subList(0,fat.size()/2),maxFat);
+                break;
+            case R.id.btn_fat_right:
+                btn_fat_right.setVisibility(View.GONE);
+                btn_fat_left.setVisibility(View.VISIBLE);
+                fat_chart.setDate(rightXAsix,fat.subList(fat.size()/2,fat.size()),maxFat);
+                break;
+        }
+    }
 }

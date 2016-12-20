@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.list_group_ranking)
     ListView list_group_ranking;//列表
     @InjectView(R.id.tv_group_name)
@@ -69,6 +72,12 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
     @Override
     protected void initViews() {
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         honorGroupRankAdapter = new EasyAdapter<ListGroupRankingModel>(this, groupRankingModelList, R.layout.item_group_ranking) {
             @Override
             public void convert(ViewHolder holder, ListGroupRankingModel data, int position) {
@@ -101,7 +110,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                 intent.putExtra("ClassId", ClassId);
-                intent.putExtra("AccountId", honorGroupRankModel.getGrouplist().get(i).getAccountId());
+                intent.putExtra("AccountId",Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()) );
                 startActivity(intent);
             }
         });

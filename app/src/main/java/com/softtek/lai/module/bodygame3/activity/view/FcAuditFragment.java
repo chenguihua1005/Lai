@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -40,6 +42,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by lareina.qiao on 11/24/2016.
  */
@@ -47,8 +51,8 @@ import zilla.libcore.util.Util;
 public class FcAuditFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
-    @InjectView(R.id.im_nomessage)
-    ImageView im_nomessage;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
     Long userid;
@@ -122,6 +126,10 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -138,13 +146,38 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent FcAudit=new Intent(getContext(),FcAuditStuActivity.class);
         FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
-        FcAudit.putExtra("accountId",memberListModels.get(i-1).getUserId());
+        FcAudit.putExtra("accountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
         FcAudit.putExtra("classId",classid);
         FcAudit.putExtra("IsAudit",IsAudit);
         FcAudit.putExtra("resetdatestatus",resetdatestatus);
         startActivityForResult(FcAudit,FCAudit);
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == FCAudit && resultCode==RESULT_OK) {
+                String ACMID = data.getStringExtra("ACMID");
+                String n = "";
+                for (int i = 0; i < memberListModels.size(); i++) {
+                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
+                        n = i + "";
+                    }
+                }
+                if (!"".equals(n)) {
+                    memberListModels.remove(Integer.parseInt(n));
+                    adapter.notifyDataSetChanged();
+                    FcAuditListActivity fcAuditListActivity=(FcAuditListActivity)getActivity();
+                    fcAuditListActivity.update();
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -155,6 +188,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        ++pageIndex;
         doGetData();
     }
     //获取审核列表数据
@@ -165,18 +199,22 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
 
-                switch (status)
-                {
-                    case 200:
-                        if(listResponseData.getData().size()!=0)
-                        {
-                            memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            if(listResponseData.getData().size()!=0)
+                            {
+                                memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        default:
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

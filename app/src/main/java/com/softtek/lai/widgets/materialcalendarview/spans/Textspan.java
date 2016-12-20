@@ -4,11 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.provider.SyncStateContract;
 import android.text.style.LineBackgroundSpan;
 import android.util.TypedValue;
 
-import com.softtek.lai.chat.Constant;
 import com.softtek.lai.contants.Constants;
 
 
@@ -43,7 +41,7 @@ public class Textspan implements LineBackgroundSpan {
             this.mText = "复测";
             this.radius = radius;
             if (role == Constants.STUDENT) {
-                this.rediuscolor = Color.rgb(135, 199, 67);
+                this.rediuscolor = Color.rgb(135, 199, 67);//绿色
             } else {
                 this.rediuscolor = Color.rgb(247, 171, 38);
             }
@@ -66,11 +64,11 @@ public class Textspan implements LineBackgroundSpan {
         c.drawText(mText, center - textLength / 2, bottom + baseline - 13, paint);
 
         //小圆点
-        int oldColor = paint.getColor();
-        if (rediuscolor != 0) {
-            paint.setColor(rediuscolor);
-        }
-        c.drawCircle((left + right) / 2, bottom + radius + 29, radius, paint);
-        paint.setColor(oldColor);
+//        int oldColor = paint.getColor();
+//        if (rediuscolor != 0) {
+//            paint.setColor(rediuscolor);
+//        }
+//        c.drawCircle((left + right) / 2, bottom + radius + 29, radius, paint);
+//        paint.setColor(oldColor);
     }
 }

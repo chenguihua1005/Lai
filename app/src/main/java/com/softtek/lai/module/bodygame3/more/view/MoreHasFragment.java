@@ -97,7 +97,7 @@ public class MoreHasFragment extends Fragment {
                 }
             }
             int role = model.getClassRole();
-            tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+            tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "未知");
             //添加小组名字
             if(role!=1){
                 tv_role_name.append("(");

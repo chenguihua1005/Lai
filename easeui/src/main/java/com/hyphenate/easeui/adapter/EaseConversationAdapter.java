@@ -107,7 +107,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMMessage lastMessage1 = conversation.getLastMessage();
 
         if (conversation.getType() == EMConversationType.GroupChat) {
-            Log.i(TAG,"群聊类型  " );
+            Log.i(TAG, "群聊类型  ");
             String groupId = conversation.getUserName();
             if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                 holder.motioned.setVisibility(View.VISIBLE);
@@ -166,17 +166,24 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 //				}
 //			}
             holder.name.setText(name);
-            if (TextUtils.isEmpty(photo)) {
-                Picasso.with(getContext()).load(R.drawable.ease_default_avatar).into(holder.avatar);
-            } else {
-                Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
+            if (!TextUtils.isEmpty(photo)) {
+                Picasso.with(getContext()).load(photo).fit().placeholder(R.drawable.ease_default_avatar)
+                        .error(R.drawable.ease_default_avatar).into(holder.avatar);
             }
+//            else
+//            {
+//                Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_default_avatar).into(holder.avatar);
+//            }
+
+
 //            holder.avatar.setShapeType(1);
         }
 
         if (conversation.getUnreadMsgCount() > 0) {
             // show unread message count
-            holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));
+            int num = conversation.getUnreadMsgCount();
+            String read = num >= 100 ? "99+" : num + "";
+            holder.unreadLabel.setText(read);
             holder.unreadLabel.setVisibility(View.VISIBLE);
         } else {
             holder.unreadLabel.setVisibility(View.INVISIBLE);

@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -49,8 +51,8 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     private static String classid;
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
-    @InjectView(R.id.im_nomessage)
-    ImageView im_nomessage;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
     private int ChuAudit = 1;
@@ -117,6 +119,10 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -142,25 +148,25 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ChuAudit && requestCode==RESULT_OK) {
-//                    String ACMID=data.getStringExtra("ACMID");
-//                    String n="";
-//                    for (int i=0;i<memberListModels.size();i++)
-//                    {
-//                        if (ACMID.equals(memberListModels.get(i).getAcmId()))
-//                        {
-//                            n=i+"";
-//                        }
-//                    }
-//                    if (!"".equals(n)) {
-//                        memberListModels.remove(Integer.parseInt(n));
-//                        adapter.notifyDataSetChanged();
-//                        ((InitDataAuditActivity)getActivity()).getT;
-//                        getTab()
-//                    }
-            memberListModels.clear();
-            pageIndex = 1;
-            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+        if (requestCode == ChuAudit && resultCode==RESULT_OK) {
+                    String ACMID=data.getStringExtra("ACMID");
+                    String n="";
+                    for (int i=0;i<memberListModels.size();i++)
+                    {
+                        if (ACMID.equals(memberListModels.get(i).getAcmId()))
+                        {
+                            n=i+"";
+                        }
+                    }
+                    if (!"".equals(n)) {
+                        memberListModels.remove(Integer.parseInt(n));
+                        adapter.notifyDataSetChanged();
+                        InitAuditListActivity parentActivity = (InitAuditListActivity ) getActivity();
+                        parentActivity.update();
+                    }
+//            memberListModels.clear();
+//            pageIndex = 1;
+//            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
 
         }
 
@@ -173,11 +179,12 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
             memberListModels.clear();
             pageIndex = 1;
-            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+            doGetData(UserInfoModel.getInstance().getUserId(),classid ,pageIndex, 10);
     }
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//        memberListModels.clear();
         doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据

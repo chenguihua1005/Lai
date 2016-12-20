@@ -260,7 +260,6 @@ public class FriendAdapter extends BaseAdapter {
         private TextView btn_agree;
 
         private TextView tv_delete;
-        LinearLayout container;//左边固定的
         LinearLayout ll_operation;
 
         public ViewHolder(View view) {
@@ -276,7 +275,6 @@ public class FriendAdapter extends BaseAdapter {
             this.btn_agree = (TextView) view.findViewById(R.id.btn_agree);
 
             this.tv_delete = (TextView) view.findViewById(R.id.tv_delete);
-            this.container = (LinearLayout) view.findViewById(R.id.rl_container);
             this.ll_operation = (LinearLayout) view.findViewById(R.id.ll_operation);
 
         }

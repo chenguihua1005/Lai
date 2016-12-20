@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -45,8 +46,8 @@ import zilla.libcore.util.Util;
 public class InitAuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
-    @InjectView(R.id.im_nomessage)
-    ImageView im_nomessage;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
@@ -112,6 +113,10 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
 
                 }
+                else {
+                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+
+                }
             }
 
         };
@@ -144,6 +149,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//        memberListModels.clear();
         doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据

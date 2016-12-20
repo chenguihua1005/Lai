@@ -48,6 +48,8 @@ public class FcAuditListActivity extends BaseActivity{
     String classId;
     String typeDate;
     int resetdatestatus;
+    int Auditnum=0;
+    int Auditednum=0;
     @Override
     protected void initViews() {
         tv_title.setText("复测审核");
@@ -76,32 +78,51 @@ public class FcAuditListActivity extends BaseActivity{
     }
     //获取审核列表数据
     private void doGetData() {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId,typeDate, 1, 1, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId,typeDate, 1, 100, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        if(listResponseData.getData().size()==0)
-                        {
-                            tabtitle[0] = "未审核(" + "0"+ ")";
-                            tabtitle[1] = "已审核(" + "0" + ")";
-                            content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
-                            tab.setupWithViewPager(content);
-                        }
-                        else {
-                            tabtitle[0] = "未审核(" + (TextUtils.isEmpty(listResponseData.getData().get(0).getCount())?"0":listResponseData.getData().get(0).getCount()) + ")";
-                            tabtitle[1] = "已审核(" + (TextUtils.isEmpty(listResponseData.getData().get(1).getCount())?"0":listResponseData.getData().get(1).getCount()) + ")";
-                            content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
-                            tab.setupWithViewPager(content);
-                            Log.i("已审核(" + tabtitle[1] + "count" + listResponseData.getData().get(1).getCount());
-                        }
-                        break;
-                    default:
-                        break;
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            if(listResponseData.getData().size()==0)
+                            {
+                                tabtitle[0] = "未审核(" + "0"+ ")";
+                                tabtitle[1] = "已审核(" + "0" + ")";
+                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                tab1.setText(tabtitle[0]);
+                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                tab2.setText(tabtitle[1]);
+
+                            }
+                            else {
+                                Auditnum=Integer.parseInt(listResponseData.getData().get(0).getCount());
+                                Auditednum=Integer.parseInt(listResponseData.getData().get(1).getCount());
+                                tabtitle[0] = "未审核(" + Auditnum + ")";
+                                tabtitle[1] = "已审核(" + Auditednum + ")";
+                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                tab1.setText(tabtitle[0]);
+                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                tab2.setText(tabtitle[1]);
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
             }
         });
+    }
+    public  void update(){
+        tabtitle[0] = "未审核(" + (Auditnum-1 )+ ")";
+        tabtitle[1] = "已审核(" + (Auditednum+1) + ")";
+        TabLayout.Tab tab1=tab.getTabAt(0);
+        tab1.setText(tabtitle[0]);
+        TabLayout.Tab tab2=tab.getTabAt(1);
+        tab2.setText(tabtitle[1]);
     }
 }

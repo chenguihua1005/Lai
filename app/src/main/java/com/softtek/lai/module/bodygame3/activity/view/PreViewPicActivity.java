@@ -1,7 +1,52 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.text.TextUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.DisplayUtil;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
+import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
+import zilla.libcore.ui.InjectLayout;
+
 /**
  * Created by lareina.qiao on 12/19/2016.
  */
-public class PreViewPicActivity {
+@InjectLayout(R.layout.activity_preview_layout)
+public class PreViewPicActivity extends BaseActivity{
+    @InjectView(R.id.im_show_pic)
+    ImageView im_show_pic;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    File file;
+    String images,photoname;
+    @Override
+    protected void initViews() {
+        tv_title.setText("1/1");
+    }
+
+    @Override
+    protected void initDatas() {
+        images=getIntent().getStringExtra("images");
+        photoname=getIntent().getStringExtra("photoname");
+        if (TextUtils.isEmpty(images)) {
+            Picasso.with(this).load(AddressManager.get("photoHost") + photoname)
+                    .resize(DisplayUtil.getMobileWidth(this),
+                            DisplayUtil.getMobileHeight(this) + DisplayUtil.getStatusHeight(this)).centerInside()
+                    .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_show_pic);
+        }
+        else {
+            Picasso.with(this).load(new File(images))
+                    .resize(DisplayUtil.getMobileWidth(this),
+                            DisplayUtil.getMobileHeight(this) + DisplayUtil.getStatusHeight(this)).centerInside()
+                    .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_show_pic);
+        }
+
+    }
 }

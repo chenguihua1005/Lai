@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/cb_guanzhu_bg"
+                android:background="@drawable/cb_guanzhuperson_bg"
                 android:button="@null"
                 android:gravity="center" />
         </RelativeLayout>

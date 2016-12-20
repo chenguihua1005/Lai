@@ -126,7 +126,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     private static final int GET_BODY=2;//身体维度
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    private ImageFileCropSelector imageFileCropSelector;
     private static final int CAMERA_PREMISSION=100;
     MultipartTypedOutput multipartTypedOutput;
     @LifeCircleInject
@@ -134,9 +133,10 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     int resetstatus,resetdatestatus;
     private ProgressDialog progressDialog;
     boolean IsEdit=true;
-    String filest;
+    String filest,photoname;
     File file;
     private ImageFileSelector imageFileSelector;
+    boolean isExistP=false;
 
     @Override
     protected void initViews() {
@@ -153,6 +153,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
+        im_retestwrite_showphoto.setOnClickListener(this);
         int px=DisplayUtil.dip2px(this,300);
         //*************************
         imageFileSelector=new ImageFileSelector(this);
@@ -165,6 +166,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 im_delete.setVisibility(View.VISIBLE);
                 Picasso.with(FcStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 filest=file;
+                isExistP=false;
 
             }
 
@@ -175,6 +177,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 file=new File(files.get(0));
                 Picasso.with(FcStuActivity.this).load(file).fit().into(im_retestwrite_showphoto);
                 filest=file.toString();
+                isExistP=false;
 
             }
 
@@ -208,7 +211,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void doData() {
-        //resetdatestatus=2,未当天复测日，可进行录入，type=1（复测录入）
+        //resetdatestatus=2,当天复测日，可进行录入，type=1（复测录入）
         //resetdatestatus=1,过去复测日，可进行查看，type=2（复测查看）
         //复测状态：1：未复测 2：未审核 3：已复测resetstatus
         switch (resetdatestatus)
@@ -216,7 +219,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case 1:
                 switch (resetstatus)
                 {
+                    //未复测、未审核
                     case 1:
+
                     case 2:
                         Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
                         btn_retest_write_addbody.setVisibility(View.GONE);
@@ -225,7 +230,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         fl_right.setEnabled(false);
                         IsEdit=false;
-                        doGetDataService("0");
+                        btn_retest_write_addbody.setText("查看身体围度");
+                        doGetDataService("2");
                         break;
                 }
 
@@ -241,7 +247,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         IsEdit=false;
                         fl_right.setEnabled(false);
-                        doGetDataService("0");
+                        btn_retest_write_addbody.setText("查看身体围度");
+                        doGetDataService("2");
                         break;
                 }
                 break;
@@ -375,6 +382,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 }
 
                 break;
+            case R.id.im_retestwrite_showphoto:
+                Intent intent1=new Intent(this, PreViewPicActivity.class);
+                intent1.putExtra("images",filest);
+                intent1.putExtra("photoname",photoname);
+                startActivity(intent1);
+                break;
 
         }
     }
@@ -384,16 +397,22 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status=responseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        progressDialog.dismiss();
-                        finish();
-                        break;
-                    default:
-                        progressDialog.dismiss();
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    switch (status)
+                    {
+                        case 200:
+                            progressDialog.dismiss();
+                            Intent intent=new Intent();
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            progressDialog.dismiss();
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
                     @Override
@@ -415,7 +434,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 tv_write_nick.setText(fcStDataModel.getUserName());
                 tv_write_phone.setText(fcStDataModel.getMobile());
                 tv_write_class.setText(fcStDataModel.getClassName());
-                tv_retest_write_weekth.setText(fcStDataModel.getWeekNum());
+                tv_retest_write_weekth.setText("第"+fcStDataModel.getWeekNum()+"周");
                 if (!TextUtils.isEmpty(fcStDataModel.getStartDate())) {
                     String[] stardata = fcStDataModel.getStartDate().split("-");
                     String[] stardata1 = stardata[2].split(" ");
@@ -431,8 +450,18 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail()))
                 {
                     im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(AddressManager.get("photoHost")+fcStDataModel.getImgThumbnail()).fit().into(im_retestwrite_showphoto);//图片
+                    Picasso.with(this).load(AddressManager.get("photoHost")+fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_retestwrite_showphoto);//图片
+                    isExistP=true;
 
+                }
+                else if (!TextUtils.isEmpty(fcStDataModel.getImg())){
+                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                    Picasso.with(this).load(AddressManager.get("photoHost")+fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+                    isExistP=true;
+                }
+                if (!TextUtils.isEmpty(fcStDataModel.getImg()))
+                {
+                    photoname=fcStDataModel.getImg();
                 }
                 tv_write_chu_weight.setText("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight());
                 tv_retestWrite_nowweight.setText("0.0".equals(fcStDataModel.getWeight())?"":fcStDataModel.getWeight());
@@ -443,11 +472,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             e.printStackTrace();
         }
     }
-    void doSetPostData()
+    void doSetPostData(boolean status)
     {
         multipartTypedOutput.addPart("accountId",new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId",new TypedString(classId));
-        multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
+        if (!status) {
+            multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
+        }
         multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
         multipartTypedOutput.addPart("weight", new TypedString(tv_retestWrite_nowweight.getText().toString()));//现在体重
@@ -460,24 +491,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         Log.i("上传数据" + multipartTypedOutput.getPartCount());
         doPostInitData();
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                imageFileSelector.takePhoto(FcStuActivity.this);
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-            }
-        }
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -567,17 +581,30 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-        if (!TextUtils.isEmpty(filest)) {
-            progressDialog.setMessage("正在提交数据，请等待");
-            progressDialog.show();
-            doSetPostData();
+        //上传图片为空
+        if (TextUtils.isEmpty(filest))
+        {
+            //判断是否已经存在已上传图片
+            if (isExistP)
+            {
+                progressDialog.setMessage("正在提交数据，请等待");
+                progressDialog.show();
+                doSetPostData(true);
+            }
+            else {
+                String message ="请上传图片";
+                new AlertDialog.Builder(this)
+                        .setMessage(message)
+                        .create().show();
+            }
+
         }
         else {
-            String message ="请上传图片";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
+            doSetPostData(false);
         }
+
 
     }
 

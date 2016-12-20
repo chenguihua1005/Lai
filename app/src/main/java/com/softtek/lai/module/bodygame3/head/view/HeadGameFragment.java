@@ -324,47 +324,49 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+        if (clazz.getStatus() == 1) {
             //添加新班级
-            Log.i("新增班级接受通知。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
-            if (addClass != null) {
-                addClass.addclass();
-            }
+            if (clazz.getModel().getClassStatus() == 1) {
+                Log.i("新增班级接受通知。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
+                if (addClass != null) {
+                    addClass.addclass();
+                }
+            } else if (clazz.getModel().getClassStatus() == 0) {
+                if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
+                    if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                        if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                            classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”,\n 查看新班级并开始邀请小伙伴");
+                            sp_tv.setVisibility(View.GONE);
+                            pc_tv.setVisibility(View.GONE);
+                            button.setVisibility(View.VISIBLE);
+                            button.setOnClickListener(this);
+                        }
+                    } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
 
-
-        } else if (clazz.getModel().getClassStatus() == 0) {
-            if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
-                if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
-                    if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”,\n 查看新班级并开始邀请小伙伴");
-                        sp_tv.setVisibility(View.GONE);
+                        sp_tv.setVisibility(View.VISIBLE);
                         pc_tv.setVisibility(View.GONE);
                         button.setVisibility(View.VISIBLE);
                         button.setOnClickListener(this);
                     }
-                } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
 
-                    sp_tv.setVisibility(View.VISIBLE);
-                    pc_tv.setVisibility(View.GONE);
-                    button.setVisibility(View.VISIBLE);
-                    button.setOnClickListener(this);
-                }
-
-            } else {
-                if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
-                    if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
-                        classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”，\n 查看新班级");
+                } else {
+                    if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
+                        if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+                            classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到“更多”，\n 查看新班级");
+                            sp_tv.setVisibility(View.GONE);
+                            pc_tv.setVisibility(View.GONE);
+                            button.setVisibility(View.GONE);
+                        }
+                    } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
                         sp_tv.setVisibility(View.GONE);
-                        pc_tv.setVisibility(View.GONE);
+                        pc_tv.setVisibility(View.VISIBLE);
                         button.setVisibility(View.GONE);
                     }
-                } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
-                    sp_tv.setVisibility(View.GONE);
-                    pc_tv.setVisibility(View.VISIBLE);
-                    button.setVisibility(View.GONE);
                 }
             }
+
         }
+
     }
 
     public interface AddClass {

@@ -4,6 +4,7 @@
     android:layout_height="150dp"
     android:background="@color/white"
     android:orientation="horizontal">
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="150dp"
@@ -15,15 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
             <ImageView
+                android:id="@+id/iv_weight_media_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/bg_media"/>
+                android:src="@drawable/bg_media_dark"/>
             <TextView
                 android:id="@+id/tv_weight_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#F3EE7B"
+                android:textColor="#878787"
                 android:textSize="20sp"
                 android:text="w1"/>
         </FrameLayout>
@@ -50,15 +52,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
             <ImageView
+                android:id="@+id/iv_fat_media_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/bg_media"/>
+                android:src="@drawable/bg_media_dark"/>
             <TextView
                 android:id="@+id/tv_fat_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#F3EE7B"
+                android:textColor="#878787"
                 android:textSize="20sp"
                 android:text="Z1"/>
         </FrameLayout>

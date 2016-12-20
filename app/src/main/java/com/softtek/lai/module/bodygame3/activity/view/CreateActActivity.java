@@ -92,7 +92,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     private String classid;
     private ActivityModel activityModel;
     private int classActivityId;//活动类型Id
-
+   private String dated;
     @Override
     protected void initViews() {
         tv_title.setText("新建活动");
@@ -115,8 +115,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             adapter = new EasyAdapter<ActtypeModel>(this, acttypeModels, R.layout.gird_item) {
                 @Override
                 public void convert(ViewHolder holder, ActtypeModel data, int position) {
-                    TextView text = holder.getView(R.id.text);
-                    text.setText(data.getActivityTypeName());
+//                    TextView text = holder.getView(R.id.text);
+//                    text.setText(data.getActivityTypeName());
                     CircleImageView image = holder.getView(R.id.head_image);
                     String path = AddressManager.get("photoHost");
                     if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
@@ -191,7 +191,9 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                             public void success(ResponseData responseData, Response response) {
                                 if (200 == responseData.getStatus()) {
                                     Util.toastMsg(responseData.getMsg());
-                                    setResult(RESULT_OK);
+                                    Intent intent=getIntent();
+                                    intent.putExtra("acttime",dated);
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 } else {
                                     Util.toastMsg(responseData.getMsg());
@@ -310,7 +312,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
-                String dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                 dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
                 int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
                 Log.e("132", compare + "");

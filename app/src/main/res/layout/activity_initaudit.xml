@@ -114,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12sp"
-                            android:text=""
+                            android:text="第"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -129,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12sp"
-                            android:text=""
+                            android:text="周"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -268,7 +268,8 @@
                 android:padding="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -442,7 +443,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         android:textColor="#fea300"
-                        android:layout_marginRight="18dp"
+                        android:layout_marginRight="28dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retestWrite_neizhi" />
@@ -465,6 +466,289 @@
                 android:background="#75ba2b"/>
 
 
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_crium"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="胸围："
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/textView22"
+                    android:id="@+id/tv_retestWrite_crium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/textView22" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
+
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_waisline"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="腰围："
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/textView23"
+                    android:id="@+id/tv_retestWrite_waisline" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/textView23" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
+
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_hiplie"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="臀围："
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/textView24"
+                    android:id="@+id/tv_retestWrite_hiplie" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/textView24" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
+
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_Uparm"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/Uparm"
+                    android:id="@+id/tv_retestWrite_Uparm" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Uparm" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上臂围"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_UpLeg"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/UpLeg"
+                    android:id="@+id/tv_retestWrite_UpLeg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/UpLeg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大腿围"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignTop="@+id/tv_retestWrite_UpLeg"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
+            <RelativeLayout
+                android:id="@+id/ll_retestWrite_doleg"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#fea300"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/doleg"
+                    android:id="@+id/tv_retestWrite_doleg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:textSize="16sp"
+                    android:paddingRight="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/doleg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小腿围"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:padding="1dp"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#75ba2b"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
@@ -502,7 +786,8 @@
                         android:paddingRight="3dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:id="@+id/im_retestwrite_takephoto" />
+                        android:id="@+id/im_retestwrite_takephoto"
+                        android:visibility="invisible"/>
 
             </RelativeLayout>
             <LinearLayout
@@ -515,7 +800,8 @@
                 <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp">
 
                     <ImageView
                         android:layout_width="150dp"
@@ -523,8 +809,9 @@
                         android:src="@drawable/default_icon_square"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
-                        android:layout_marginBottom="2dp"
-                        android:id="@+id/im_retestwrite_showphoto" />
+                        android:layout_marginBottom="4dp"
+                        android:id="@+id/im_retestwrite_showphoto"
+                        />
                     <ImageView
                         android:id="@+id/im_delete"
                         android:layout_width="30dp"
@@ -543,27 +830,7 @@
                 android:background="#75ba2b"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:padding="10dp" >
-                <Button
-                    android:id="@+id/btn_retest_write_addbody"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="添加身体围度"
-                    android:textColor="#fea300"
-                    android:textSize="20sp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/shape_retest_write_boder"/>
-            </LinearLayout>
+
 
         </LinearLayout>
 
