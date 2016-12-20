@@ -164,6 +164,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
+                //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
+//                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
                 tv_group_name.setText(data.getGroupName());
                 CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
                 setImage(civ_trainer_header, data.getCoachIco());
@@ -203,7 +205,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = i + 1;
+                WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
                 loadData(false);
             }
         });
@@ -244,12 +246,14 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            //默认请求当前周
+                            WhichTime = Integer.valueOf(spinnerData.get(0).getDateValue());
                             loadData(false);
                         }
                     }, 500);
                     spinnerData.clear();
                     spinnerData = model.getList_date();
-                    for (int i = spinnerData.size() - 1; i >= 0; i--) {
+                    for (int i = 0; i < spinnerData.size(); i++) {
                         spinnerData2.add(spinnerData.get(i).getDateName());
                     }
                     spinner.attachCustomSource(spinnerAdapter);
@@ -284,9 +288,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 tv_top1_name.setText("");
                 tv_top2_name.setText("");
                 tv_top3_name.setText("");
-                tv_top1_per.setText("虚位以待");
-                tv_top2_per.setText("虚位以待");
-                tv_top3_per.setText("虚位以待");
+                tv_top1_per.setText(R.string.waiting);
+                tv_top2_per.setText(R.string.waiting);
+                tv_top3_per.setText(R.string.waiting);
                 groupModelList.clear();
                 groupModelList.add(new ListGroupModel());
                 honorGroupRankAdapter.notifyDataSetChanged();
@@ -298,7 +302,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 groupModelList.addAll(model.getList_group());
                 newAdapter();
                 listHonorrank.setAdapter(honorGroupRankAdapter);
-    //            honorGroupRankAdapter.notifyDataSetChanged();
+                //            honorGroupRankAdapter.notifyDataSetChanged();
                 //list中显示减脂还是减重
                 for (ListTopModel topModel : model.getList_top3()) {
                     switch (topModel.getRanking()) {

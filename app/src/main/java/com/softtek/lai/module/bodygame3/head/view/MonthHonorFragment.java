@@ -172,7 +172,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = i + 1;
+                WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
                 loadData(is_first);
             }
         });
@@ -205,6 +205,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
+                //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
+//                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
                 tv_group_name.setText(data.getGroupName());
                 CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
                 setImage(civ_trainer_header, data.getCoachIco());
@@ -238,6 +240,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            //默认请求当前周
+                            WhichTime = Integer.valueOf(spinnerData.get(0).getDateValue());
                             loadData(false);
                         }
                     }, 500);
@@ -281,9 +285,9 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 tv_top1_name.setText("");
                 tv_top2_name.setText("");
                 tv_top3_name.setText("");
-                tv_top1_per.setText("虚位以待");
-                tv_top2_per.setText("虚位以待");
-                tv_top3_per.setText("虚位以待");
+                tv_top1_per.setText(R.string.waiting);
+                tv_top2_per.setText(R.string.waiting);
+                tv_top3_per.setText(R.string.waiting);
                 groupModelList.clear();
                 groupModelList.add(new ListGroupModel());
                 honorGroupRankAdapter.notifyDataSetChanged();
