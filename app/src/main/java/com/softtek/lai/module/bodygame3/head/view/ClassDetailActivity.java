@@ -73,9 +73,12 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    isClick=true;
+                    btn_joinclass.setEnabled(true);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
                 } else {
-                    isClick=false;
+                    btn_joinclass.setEnabled(false);
+                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
+
                 }
             }
         });
@@ -116,16 +119,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_joinclass:
-                if (isClick)
-                {
-                    btn_joinclass.setEnabled(true);
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_btn));
-                    doJoinClass();
-                }
-                else {
-                    btn_joinclass.setEnabled(false);
-                    btn_joinclass.setBackground(getResources().getDrawable(R.drawable.bg_joinclass_grey_btn));
-                }
+                doJoinClass();
                 break;
             case R.id.ll_left:
                 finish();
