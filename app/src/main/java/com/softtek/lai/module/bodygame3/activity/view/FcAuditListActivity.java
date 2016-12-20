@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -66,7 +67,9 @@ public class FcAuditListActivity extends BaseActivity{
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                Intent intent=new Intent();
+                intent.putExtra("Auditnum",Auditnum);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -132,7 +135,9 @@ public class FcAuditListActivity extends BaseActivity{
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             //do something...
-            setResult(RESULT_OK);
+            Intent intent=new Intent();
+            intent.putExtra("Auditnum",Auditnum);
+            setResult(RESULT_OK,intent);
 //            return true;
         }
         return super.onKeyDown(keyCode, event);

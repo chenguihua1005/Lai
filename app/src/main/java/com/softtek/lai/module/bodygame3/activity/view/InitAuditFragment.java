@@ -120,7 +120,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                     Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
                 }
                 else {
-                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+                    Picasso.with(getContext()).load(R.drawable.img_default).fit().into(cir_headim);
 
                 }
             }

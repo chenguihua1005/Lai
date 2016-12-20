@@ -519,7 +519,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
                 tv_write_class.setText(measuredDetailsModel.getClassName());//班级名
-                tv_retest_write_weekth.setText(measuredDetailsModel.getWeekNum());//当前周
+                tv_retest_write_weekth.setText("班级周期");//当前周
                 if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                     String Stardata[] = measuredDetailsModel.getStartDate().split("-");
                     tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
