@@ -131,7 +131,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
-        com.github.snowdream.android.util.Log.i("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\n哈哈哈哈哈哈哈哈哈哈哈");
         pull.setRefreshing(true);
         onRefresh();
     }
@@ -529,11 +528,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        lazyLoad();
-    }
 
     private EventDecorator decorator;
     private EventDecorator decorator_act;
@@ -838,66 +832,56 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     //更新班级
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        if (classModel != null) {
             if (clazz.getStatus() == 0) {
-                com.github.snowdream.android.util.Log.i("更新班级名。。。。。。。。。。。。。");
                 //更新班级姓名
-                lazyLoad();
-//                ClassModel model = new ClassModel();
-//                model.setClassId(clazz.getModel().getClassId());
-//                model.setClassCode(clazz.getModel().getClassCode());
-//                model.setClassName(clazz.getModel().getClassName());
-//                model.setClassRole(clazz.getModel().getClassRole());
-//                this.classModel.setClassName(model.getClassName());
-//                tv_title.setText(model.getClassName());
-//                tv_title.getAdapter().notifyDataSetChanged();
+                for (ClassModel model : classModels) {
+                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                        model.setClassName(clazz.getModel().getClassName());
+                        model.setClassRole(clazz.getModel().getClassRole());
+                        model.setClassCode(clazz.getModel().getClassCode());
+                        model.setClassId(clazz.getModel().getClassId());
+                        break;
+                    }
+                }
+                tv_title.getAdapter().notifyDataSetChanged();
+                tv_title.setSelected(tv_title.getSelectedIndex());
             } else if (clazz.getStatus() == 1) {
                 //添加新班级
                 com.github.snowdream.android.util.Log.i("添加新班级。。。。。。。。。。。。。");
-                lazyLoad();
-//                ClassModel model = new ClassModel();
-//                model.setClassId(clazz.getModel().getClassId());
-//                model.setClassCode(clazz.getModel().getClassCode());
-//                model.setClassName(clazz.getModel().getClassName());
-//                model.setClassRole(clazz.getModel().getClassRole());
-//                this.classModels.add(model);
-//                tv_title.getAdapter().notifyDataSetChanged();
+                ClassModel model = new ClassModel();
+                model.setClassId(clazz.getModel().getClassId());
+                model.setClassCode(clazz.getModel().getClassCode());
+                model.setClassName(clazz.getModel().getClassName());
+                model.setClassRole(clazz.getModel().getClassRole());
+                this.classModels.add(model);
+                tv_title.getAdapter().notifyDataSetChanged();
             } else if (clazz.getStatus() == 2) {
-                com.github.snowdream.android.util.Log.i("删除班级。。。。。。。。。。。。。。。。");
                 //删除班级
-                lazyLoad();
-//                for (ClassModel model : classModels) {
-//                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-//                        this.classModels.remove(model);
-//                        tv_title.getAdapter().notifyDataSetChanged();
-//                        break;
-//                    }
-//                }
-
+                for (ClassModel model : classModels) {
+                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                        this.classModels.remove(model);
+                        tv_title.getAdapter().notifyDataSetChanged();
+                        break;
+                    }
+                }
                 if (classModels.isEmpty()) {
-                    lazyLoad();
+                    this.classModel=null;
+                    classid="";
                 } else {
                     tv_title.setSelected(0);
                     this.classModel = classModels.get(0);
+                    classid=this.classModel.getClassId();
 
                 }
-
+                lazyLoad();
             }
-        }
-
     }
 
     @Subscribe
     public void updatefuce(UpdateFuce updateFuce) {
-        Log.i("修改复测日。。。。。。。。。。。。。。。。。。", "修改复测日");
-        if (classid.equals(updateFuce.getClassId())) {
-            for (int i = 0; i < updateFuce.getFuceDate().size(); i++) {
-                calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
-            }
-            material_calendar.removeDecorator(decorator);
-            decorator = new EventDecorator(Constants.RESET, calendarModel_reset, classrole, getActivity());
-            material_calendar.addDecorator(decorator);
 
+        if (updateFuce.getClassId().equals(classid)) {
+            lazyLoad();
         }
 
 
