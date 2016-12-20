@@ -170,40 +170,52 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
-                pull.setRefreshing(false);
-                if (headModel2ResponseData.getData() != null) {
-                    HeadModel2 model2 = headModel2ResponseData.getData();
-                    tv_totalperson.setText(model2.getTotalPerson() + "");
-                    tv_total_loss.setText(model2.getTotalLossWeight() + "");
-                    String basePath = AddressManager.get("photoHost");
-                    //首页banner
-                    if (StringUtils.isNotEmpty(model2.getThemePic())) {
-                        Picasso.with(getContext()).load(basePath + model2.getThemePic()).fit().placeholder(R.drawable.default_icon_rect)
-                                .error(R.drawable.default_icon_rect).into(iv_banner);
-                    } else {
-                        Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
+                try {
+                    pull.setRefreshing(false);
+                    if (headModel2ResponseData.getData() != null) {
+                        HeadModel2 model2 = headModel2ResponseData.getData();
+                        tv_totalperson.setText(model2.getTotalPerson() + "");
+                        tv_total_loss.setText(model2.getTotalLossWeight() + "");
+                        String basePath = AddressManager.get("photoHost");
+                        //首页banner
+                        if (StringUtils.isNotEmpty(model2.getThemePic())) {
+                            Picasso.with(getContext()).load(basePath + model2.getThemePic()).fit().placeholder(R.drawable.default_icon_rect)
+                                    .error(R.drawable.default_icon_rect).into(iv_banner);
+                        } else {
+                            Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                pull.setRefreshing(false);
+                try {
+                    pull.setRefreshing(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 super.failure(error);
             }
         });
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
-                pull.setRefreshing(false);
-                if (responseData.getData() != null) {
-                    NewsModel newsModel = responseData.getData();
-                    int has = newsModel.getNum();
-                    if (has == 0) {
-                        iv_email.setImageResource(R.drawable.email);
-                    } else {
-                        iv_email.setImageResource(R.drawable.has_email);
+                try {
+                    pull.setRefreshing(false);
+                    if (responseData.getData() != null) {
+                        NewsModel newsModel = responseData.getData();
+                        int has = newsModel.getNum();
+                        if (has == 0) {
+                            iv_email.setImageResource(R.drawable.email);
+                        } else {
+                            iv_email.setImageResource(R.drawable.has_email);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
