@@ -85,13 +85,15 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             ((ViewHolder) holder).group_tv.setText("(" + partnersModel.getGroupName() + ")");
 
-            ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
+
             ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
             if (type == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
                 ((ViewHolder) holder).tv_bi.setText("体重");
+                ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
             } else if (type == 1) {
                 ((ViewHolder) holder).tv_bi.setText("减重比");
+                ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             } else {
                 ((ViewHolder) holder).tv_bi.setText("体脂比");
