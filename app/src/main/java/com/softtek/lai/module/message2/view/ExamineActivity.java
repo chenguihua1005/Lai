@@ -355,7 +355,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(final ResponseData responseData, Response response) {
-                                                    if (responseData.getStatus() == 200) {
+                                                    int status = responseData.getStatus();
+                                                    if (status == 200) {
                                                         setResult(RESULT_OK);
                                                         finish();
                                                         runOnUiThread(new Runnable() {
@@ -365,7 +366,8 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                                 Util.toastMsg("加入成功");
                                                             }
                                                         });
-                                                    } else {
+//                                                    } else if (202==status|| 203==status||300==status){
+                                                    }else{
                                                         //如果后台加人失败，侧群组踢人
                                                         runOnUiThread(new Runnable() {
                                                             @Override
@@ -374,18 +376,19 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                                 Util.toastMsg(responseData.getMsg());
                                                             }
                                                         });
-                                                        try {
-                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
-                                                        } catch (HyphenateException e) {
-                                                            e.printStackTrace();
-                                                            runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    dialogDissmiss();
-                                                                }
-                                                            });
-                                                        }
+//                                                        try {
+//                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
+//                                                        } catch (HyphenateException e) {
+//                                                            e.printStackTrace();
+//                                                            runOnUiThread(new Runnable() {
+//                                                                @Override
+//                                                                public void run() {
+//                                                                    dialogDissmiss();
+//                                                                }
+//                                                            });
+//                                                        }
                                                     }
+
                                                 }
 
                                                 @Override
