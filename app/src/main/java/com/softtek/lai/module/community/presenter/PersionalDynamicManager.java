@@ -86,9 +86,9 @@ public class PersionalDynamicManager implements Runnable,UploadImageService.Uplo
                 }
                 return;
             }else{
-                model.setPhotoes(photo.substring(0, photo.lastIndexOf(",")));
+                model.setPhotos(photo.substring(0, photo.lastIndexOf(",")));
             }
-            Log.i("上传的图片"+model.getPhotoes());
+            Log.i("上传的图片"+model.getPhotos());
             Log.i("开始上传第二阶段");
             service.saveDynamic(token, model, new RequestCallback<ResponseData>() {
                 @Override

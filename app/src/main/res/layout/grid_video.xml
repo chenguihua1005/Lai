@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -16,7 +17,6 @@
             android:id="@+id/iv_imagevideo1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:scaleType="centerCrop" />
 
         <RelativeLayout
@@ -52,7 +52,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="TextView"
-                android:textColor="@color/black"
+                android:textColor="@color/word"
                 android:textSize="11sp" />
         </RelativeLayout>
 

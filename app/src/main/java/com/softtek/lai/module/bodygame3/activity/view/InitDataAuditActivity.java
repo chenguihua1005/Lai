@@ -557,6 +557,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     /*l录入*/
     void doSetPostData()
     {
+        progressDialog.setMessage("正在提交数据，请等待");
+        progressDialog.show();
         initAuditPModel=new InitAuditPModel();
         initAuditPModel.setACMId(ACMID);
         initAuditPModel.setReviewerId(UserInfoModel.getInstance().getUser().getUserid());
@@ -584,12 +586,14 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                     switch (status)
                     {
                         case 200:
+                            progressDialog.dismiss();
                             Intent intent=new Intent();
                             intent.putExtra("ACMID",ACMID);
                             setResult(RESULT_OK,intent);
                             finish();
                             break;
                         default:
+                            progressDialog.dismiss();
                             Util.toastMsg(responseData.getMsg());
                             break;
                     }

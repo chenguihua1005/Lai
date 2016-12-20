@@ -39,9 +39,10 @@ public interface CommunityService {
                         @Query("accountid")long accountId,
                         @Query("pageIndex")int pageIndex,
                         RequestCallback<ResponseData<PersonalRecommendModel>> callback);
-
+    //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
     //保存我健康圈我的动态
-    @POST("/HealthyCircle/GetReleaseDynamic")
+//    @POST("/HealthyCircle/GetReleaseDynamic")
+    @POST("/V1/HealthyCircle/CreatePhotoWall")
     void saveDynamic(@Header("token")String token,
                      @Body CommunityModel model,
                      RequestCallback<ResponseData> callback);

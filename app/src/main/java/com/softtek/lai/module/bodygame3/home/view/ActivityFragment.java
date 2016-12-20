@@ -114,7 +114,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
     private List<CalendarDay> calendarModel_act = new ArrayList<>();
     private List<CalendarDay> calendarModel_create = new ArrayList<>();
-    private List<CalendarDay> calendarModel_reset = new ArrayList<>();
+    private List<CalendarDay> calendarModel_reset = new ArrayList<>();//复测
     private List<CalendarDay> calendarModel_free = new ArrayList<>();
     private String classid = "";
     private List<ClassModel> classModels = new ArrayList<>();
@@ -289,14 +289,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             if (model.getIsRetest() == 1) {
                                                 ll_fuce.setEnabled(false);
                                                 reset_time.setText("未复测");
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 2) {
-                                                ll_fuce.setEnabled(true);
+                                                ll_fuce.setEnabled(false);
                                                 reset_time.setText("未审核");
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 3) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("已审核");
-                                                tag.status = FUCE_FINISH;
+                                                tag.resetstatus = model.getIsRetest();
+
                                             }
+                                            tag.status = FUCE_FINISH;
                                             break;
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
@@ -304,15 +308,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             if (model.getIsRetest() == 1) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("未复测");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 2) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("未审核");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 3) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("已审核");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             }
                                             tag.status = FUCEING;
                                             break;
@@ -340,7 +344,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
-                                            reset_time.setText("待审核" + model.getNum());
+                                            reset_time.setText("待审核" + model.getNum() + "人");
                                             tag.status = FUCEING;
                                             break;
                                         case 3://未开始的复测日
@@ -364,7 +368,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     for (int i = 0; i < todayactModels.size(); i++) {
                                         TodayactModel model1 = todayactModels.get(i);
                                         int counts = todayactModels.size();
-                                        view = new InputView(ActivityFragment.this, model1, counts, classrole);
+                                        view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                         if (ll_task != null) {
                                             ll_task.addView(view, lp);
                                         }
@@ -404,7 +408,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
                     chuDate.putExtra("classId", classid);
-                    startActivity(chuDate);
+//                    startActivity(chuDate);
+                    startActivityForResult(chuDate, 2);
                 }
             }
             break;
@@ -424,6 +429,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
+                    Log.i("数据测验", "复测状态" + tag.resetstatus + "复测日状态" + tag.status + "班级id" + classid + "日期" + tag.date);
 //                    startActivity(fuce);
                     startActivityForResult(fuce, 3);
                 } else {
@@ -433,7 +439,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("classId", classid);
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
-                    startActivity(fuce);
+//                    startActivity(fuce);
+                    startActivityForResult(fuce, 3);
                 }
             }
             break;
@@ -446,17 +453,24 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
+                material_calendar.removeDecorators();
+
                 String acttime = data.getStringExtra("acttime");
                 CalendarDay calendarDay = getCalendarDay(acttime);
-                calendarModel_act.add(calendarDay);
-                material_calendar.removeDecorator(decorator_act);
-                decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
-                material_calendar.addDecorator(decorator_act);
+                if (calendarModel_free.contains(calendarDay)) {
+                    calendarModel_free.remove(calendarDay);
+                    calendarModel_act.add(calendarDay);
+                }
 
+                //加载数据
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取。。。。。。。。。", saveclassModel.getDates());
                     gettodaydata(saveclassModel.getDates());
                 }
+
+                new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
+
+
             } else if (requestCode == 2) {
                 com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
                 lazyLoad();
@@ -466,7 +480,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     gettodaydata(saveclassModel.getDates());
                 }
             } else if (requestCode == 3) {
-                com.github.snowdream.android.util.Log.i("初始数据复测更新。。。。。。。。。。。。。。");
+                com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
                 lazyLoad();
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
@@ -481,7 +495,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         for (int i = 0; i < calendarModel_act.size(); i++) {
                             if (calendarModel_act.get(i).getDate().equals(saveclassModel.getDates())) {
                                 material_calendar.removeDecorator(decorator_act);
+                                material_calendar.removeDecorator(eventDecoratorDot_act);
                             }
+                        }
+                        if (!TextUtils.isEmpty(saveclassModel.getDates())) {
+                            Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
+                            gettodaydata(saveclassModel.getDates());
                         }
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
@@ -614,7 +633,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 BtnTag tag = new BtnTag();
                                                 if (activitydataModel.getRetestStatus() == 2) {//进行中
                                                     tag.role = activitydataModel.getClassRole();
-                                                    tag.status = FUCEING;
+                                                    tag.status = FUCEING;//复测日状态
                                                     tag.date = now;
                                                     if (activitydataModel.getIsRetest() == 1) {
                                                         reset_time.setText("未复测");
@@ -631,7 +650,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             } else {//非学员
                                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);//复测审核背景图
                                                 reset_name.setText("复测审核");
-                                                reset_time.setText("待审核" + activitydataModel.getNum());
+                                                reset_time.setText("待审核" + activitydataModel.getNum() + "人");
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 tag.status = FUCEING;
@@ -649,7 +668,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
                                                     int counts = todayactModels.size();
-                                                    view = new InputView(ActivityFragment.this, model1, counts, classrole);
+                                                    view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                     if (ll_task != null) {
                                                         ll_task.addView(view, lp);
                                                     }
@@ -669,7 +688,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             for (int i = 0; i < todayactModels.size(); i++) {
                                                 TodayactModel model1 = todayactModels.get(i);
                                                 int counts = todayactModels.size();
-                                                view = new InputView(ActivityFragment.this, model1, counts, classrole);
+                                                view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                 if (ll_task != null) {
                                                     ll_task.addView(view, lp);
                                                 }
@@ -697,7 +716,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 });
 
         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-//            ll_task.removeAllViews();
+
             gettodaydata(saveclassModel.getDates());
         }
 
@@ -741,6 +760,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     }
 
+    EventDecoratorDot eventDecorator_reset;
+    EventDecoratorDot eventDecoratorDot_act;
 
     private class ApiSimulatorDot extends AsyncTask<List<CalendarDay>, Void, Void> {
         @Override
@@ -756,13 +777,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             }
             if (material_calendar != null) {
                 if (Constants.STUDENT == classrole) {//
-                    material_calendar.addDecorator(new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity()));
+                    eventDecorator_reset = new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity());
+                    material_calendar.addDecorator(eventDecorator_reset);
 
                 } else {
-                    material_calendar.addDecorator(new EventDecoratorDot(Color.rgb(247, 171, 38), calendarModel_reset, getActivity()));
+                    eventDecorator_reset = new EventDecoratorDot(Color.rgb(247, 171, 38), calendarModel_reset, getActivity());
+                    material_calendar.addDecorator(eventDecorator_reset);
 
                 }
-                material_calendar.addDecorator(new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity()));
+                eventDecoratorDot_act = new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity());
+                material_calendar.addDecorator(eventDecoratorDot_act);
             }
         }
     }

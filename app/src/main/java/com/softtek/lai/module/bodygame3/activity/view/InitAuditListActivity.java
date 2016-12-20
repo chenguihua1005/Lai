@@ -1,8 +1,10 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +63,7 @@ public class InitAuditListActivity extends BaseActivity{
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -118,5 +121,15 @@ public class InitAuditListActivity extends BaseActivity{
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2=tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            //do something...
+            setResult(RESULT_OK);
+//            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

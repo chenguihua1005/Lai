@@ -18,6 +18,7 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
+import com.softtek.lai.BuildConfig;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -330,17 +331,21 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             @Override
             public void onClick(View view) {
                 int checkedPosition = lv.getCheckedItemPosition();
-                if (checkedPosition != -1) {
+                if (checkedPosition > -1) {
                     if (isGroup) {
                         checkedGroup = checkedPosition;
-                        ClassGroup group = classGroupList.get(checkedPosition);
-                        tv_group_name.setText(group.getCGName());
-                        invitation.setClassGroupId(group.getCGId());
+                        if (checkedPosition < classGroupList.size()) {
+                            ClassGroup group = classGroupList.get(checkedPosition);
+                            tv_group_name.setText(group.getCGName());
+                            invitation.setClassGroupId(group.getCGId());
+                        }
                     } else {
                         checkedRole = checkedPosition;
-                        ClassRole role = classRole.get(checkedPosition);
-                        tv_role.setText(role.getRoleName());
-                        invitation.setClassRole(role.getRoleId());
+                        if (checkedPosition < classRole.size()) {
+                            ClassRole role = classRole.get(checkedPosition);
+                            tv_role.setText(role.getRoleName());
+                            invitation.setClassRole(role.getRoleId());
+                        }
                     }
                     dialog.dismiss();
                 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
@@ -19,6 +20,7 @@ import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -105,31 +107,37 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
     private void onSuccess(List<WeightModel> data){
         try {
-
+            Log.i("减重曲线="+data.toString());
             if (data!=null) {
                 for (int i = 0, j = data.size(); i < j; i++) {
                     WeightModel model = data.get(i);
-                    if (i == 0) {//第一条数据
-                        //第一周
-                        int diff = model.getWeekDay() - 1;
-                        if (diff > 0) {
-                            //第一条数据不是第一周的，需要先补点0上去
-                            for (int k = 1; k < diff; k++) {
-                                xAsix.add("第" + k + "周");
-                            }
-                        }
-                    } else {
-                        //不是第一条数据则需要查看此条数据与上一条数据的周数相差
-                        WeightModel previous = data.get(i - 1);
-                        int diff = model.getWeekDay() - previous.getWeekDay();
-                        if (diff > 1) {
-                            //第一条数据不是第一周的，需要先补点0上去
-                            for (int k = previous.getWeekDay() + 1; k < model.getWeekDay(); k++) {
-                                xAsix.add("第" + (k + 1) + "周");
-                            }
-                        }
+//                    if (i == 0) {//第一条数据
+//                        //初始
+//
+//                        //第一周
+//                        int diff = model.getWeekDay() - 1;
+//                        if (diff > 0) {
+//                            //第一条数据不是第一周的，需要先补点0上去
+//                            for (int k = 1; k < diff; k++) {
+//                                xAsix.add("第" + k + "周");
+//                            }
+//                        }
+//                    } else {
+//                        //不是第一条数据则需要查看此条数据与上一条数据的周数相差
+//                        WeightModel previous = data.get(i - 1);
+//                        int diff = model.getWeekDay() - previous.getWeekDay();
+//                        if (diff > 1) {
+//                            //第一条数据不是第一周的，需要先补点0上去
+//                            for (int k = previous.getWeekDay() + 1; k < model.getWeekDay(); k++) {
+//                                xAsix.add("第" + (k + 1) + "周");
+//                            }
+//                        }
+//                    }
+                    if(model.getWeekDay()==0){
+                        xAsix.add("初始");
+                    }else {
+                        xAsix.add("第" + model.getWeekDay() + "周");
                     }
-                    xAsix.add("第" + model.getWeekDay() + "周");
                     float weightValue = Float.valueOf(model.getWeight());
                     float bfatValue = Float.valueOf(model.getPysical());
                     float fatValue = Float.valueOf(model.getFat());
@@ -139,25 +147,54 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
                     int middle=j/2;
                     if(i<middle){
-                        weight.add(new Entry(model.getWeekDay() - 1, weightValue));
-                        bfat.add(new Entry(model.getWeekDay() - 1, bfatValue));
-                        fat.add(new Entry(model.getWeekDay() - 1, fatValue));
+                        int index=model.getWeekDay()/*<0?0:model.getWeekDay()-1*/;
+                        if (weightValue!=0){
+                            weight.add(new Entry(index, weightValue));
+                        }
+                        if(bfatValue!=0){
+                            bfat.add(new Entry(index, bfatValue));
+                        }
+                        if(fatValue!=0){
+                            fat.add(new Entry(index, fatValue));
+                        }
                     }else {
-                        weight.add(new Entry(model.getWeekDay() - 1-middle, weightValue));
-                        bfat.add(new Entry(model.getWeekDay() - 1-middle, bfatValue));
-                        fat.add(new Entry(model.getWeekDay() - 1-middle, fatValue));
+                        if (weightValue!=0){
+                            weight.add(new Entry(model.getWeekDay()-middle, weightValue));
+                        }
+                        if(bfatValue!=0){
+                            bfat.add(new Entry(model.getWeekDay()-middle, bfatValue));
+                        }
+                        if(fatValue!=0){
+                            fat.add(new Entry(model.getWeekDay()-middle, fatValue));
+                        }
                     }
                 }
 
                 leftXAsix=xAsix.subList(0,xAsix.size()/2);
                 rightXAsix=xAsix.subList(xAsix.size()/2,xAsix.size());
-                weight_chart.setDate(leftXAsix,weight.subList(0,weight.size()/2),maxWeight);
-                bfat_chart.setDate(leftXAsix,bfat.subList(0,bfat.size()/2),maxBFat);
-                fat_chart.setDate(leftXAsix,fat.subList(0,fat.size()/2),maxFat);
+                weight_chart.setDate(leftXAsix,subList(weight,xAsix.size()/2,true),maxWeight);
+                bfat_chart.setDate(leftXAsix,subList(bfat,xAsix.size()/2,true),maxBFat);
+                fat_chart.setDate(leftXAsix,subList(fat,xAsix.size()/2,true),maxFat);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private List<Entry> subList(List<Entry> data,int middle,boolean isLeft){
+        if(isLeft){
+            if(data.size()<middle){
+                return data;
+            }else {
+                return data.subList(0,middle);
+            }
+        }else {
+            if(data.size()<middle){
+                return Collections.emptyList();
+            }else {
+                return data.subList(middle,data.size());
+            }
         }
     }
 
@@ -195,32 +232,38 @@ public class LossWeightFragment extends LazyBaseFragment2 {
             case R.id.btn_weight_left:
                 btn_weight_right.setVisibility(View.VISIBLE);
                 btn_weight_left.setVisibility(View.GONE);
-                weight_chart.setDate(leftXAsix,weight.subList(0,weight.size()/2),maxWeight);
+                weight_chart.setDate(leftXAsix,subList(weight,xAsix.size()/2,true),maxWeight);
+//                weight_chart.setDate(leftXAsix,weight.subList(0,weight.size()/2),maxWeight);
                 break;
             case R.id.btn_weight_right:
                 btn_weight_right.setVisibility(View.GONE);
                 btn_weight_left.setVisibility(View.VISIBLE);
-                weight_chart.setDate(rightXAsix,weight.subList(weight.size()/2,weight.size()),maxWeight);
+                weight_chart.setDate(rightXAsix,subList(weight,xAsix.size()/2,false),maxWeight);
+//                weight_chart.setDate(rightXAsix,weight.subList(weight.size()/2,weight.size()),maxWeight);
                 break;
             case R.id.btn_bfat_left:
                 btn_bfat_left.setVisibility(View.GONE);
                 btn_bfat_right.setVisibility(View.VISIBLE);
-                bfat_chart.setDate(leftXAsix,bfat.subList(0,bfat.size()/2),maxBFat);
+                bfat_chart.setDate(leftXAsix,subList(bfat,xAsix.size()/2,true),maxBFat);
+//                bfat_chart.setDate(leftXAsix,bfat.subList(0,bfat.size()/2),maxBFat);
                 break;
             case R.id.btn_bfat_right:
                 btn_bfat_left.setVisibility(View.VISIBLE);
                 btn_bfat_right.setVisibility(View.GONE);
-                bfat_chart.setDate(rightXAsix,bfat.subList(bfat.size()/2,bfat.size()),maxBFat);
+                bfat_chart.setDate(rightXAsix,subList(bfat,xAsix.size()/2,false),maxBFat);
+//                bfat_chart.setDate(rightXAsix,bfat.subList(bfat.size()/2,bfat.size()),maxBFat);
                 break;
             case R.id.btn_fat_left:
                 btn_fat_right.setVisibility(View.VISIBLE);
                 btn_fat_left.setVisibility(View.GONE);
-                fat_chart.setDate(leftXAsix,fat.subList(0,fat.size()/2),maxFat);
+                fat_chart.setDate(leftXAsix,subList(fat,xAsix.size()/2,true),maxFat);
+//                fat_chart.setDate(leftXAsix,fat.subList(0,fat.size()/2),maxFat);
                 break;
             case R.id.btn_fat_right:
                 btn_fat_right.setVisibility(View.GONE);
                 btn_fat_left.setVisibility(View.VISIBLE);
-                fat_chart.setDate(rightXAsix,fat.subList(fat.size()/2,fat.size()),maxFat);
+                fat_chart.setDate(rightXAsix,subList(fat,xAsix.size()/2,false),maxFat);
+//                fat_chart.setDate(rightXAsix,fat.subList(fat.size()/2,fat.size()),maxFat);
                 break;
         }
     }

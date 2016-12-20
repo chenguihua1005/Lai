@@ -61,6 +61,7 @@ public class ClassMemberActivity extends BaseActivity {
     private List<ClassGroup> groups;
     private String classId;
     private String classHxId;
+    private int headPX=68;
 
     @Override
     protected void initViews() {
@@ -71,6 +72,7 @@ public class ClassMemberActivity extends BaseActivity {
                 finish();
             }
         });
+        headPX=DisplayUtil.dip2px(this,34);
     }
 
     @Override
@@ -82,11 +84,10 @@ public class ClassMemberActivity extends BaseActivity {
             public void convert(ViewHolder holder, Member data, final int position) {
                 //业务逻辑
                 CircleImageView head_image = holder.getView(R.id.head_image);
-                if (TextUtils.isEmpty(data.getPhoto())) {
-                    Picasso.with(ClassMemberActivity.this).load(R.drawable.img_default).into(head_image);
-                } else {
+                if(!TextUtils.isEmpty(data.getPhoto())){
                     Picasso.with(ClassMemberActivity.this).load(AddressManager.get("photoHost") + data.getPhoto())
-                            .fit().error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
+                            .placeholder(R.drawable.img_default)
+                            .resize(headPX,headPX).centerCrop().error(R.drawable.img_default).into(head_image);
                 }
                 TextView tv_name = holder.getView(R.id.tv_name);
                 tv_name.setText(StringUtil.showName(data.getUserName(), data.getMobile()));

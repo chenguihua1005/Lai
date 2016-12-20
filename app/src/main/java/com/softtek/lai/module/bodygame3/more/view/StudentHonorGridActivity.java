@@ -29,7 +29,6 @@ import com.softtek.lai.module.bodygamest.adapter.StudentHonorYGJAdapter;
 import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
-import com.softtek.lai.module.bodygamest.model.StudentHonorTypeInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
@@ -46,7 +45,6 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * 体馆赛我的勋章
@@ -207,11 +205,11 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     public void onEvent(HonorModel honorModel) {
         try {
             List<StudentHonorInfo> table1 = honorModel.getTable1();
-            List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
-            String type = table2.get(0).getIsHave();
-            if ("3".equals(type)) {
-                Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
-            }
+            //List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
+            //String type = table2.get(0).getIsHave();
+//            if ("3".equals(type)) {
+//                Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
+//            }
             for (int i = 0; i < table1.size(); i++) {
                 StudentHonorInfo studentHonorInfo = table1.get(i);
                 String honorType = studentHonorInfo.getHonorType().toString();
@@ -313,7 +311,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     protected void initDatas() {
         studentHonorPresenter = new StudentImpl(this);
         dialogShow("加载中");
-        studentHonorPresenter.getStudentHonor();
+        studentHonorPresenter.getStudentHonorPC(UserInfoModel.getInstance().getUserId()+"");
     }
 
     @Override
