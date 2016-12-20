@@ -883,7 +883,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
             }
             tv_title.getAdapter().notifyDataSetChanged();
-            com.github.snowdream.android.util.Log.i("是删除班级的通知\n当前的班级集合数量为==============" + classModels.isEmpty());
             if (classModels.isEmpty()) {
                 this.classModel = null;
                 classid = "";
