@@ -146,8 +146,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_join_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole())
-                        &&classCount>0){
+                if(classCount>0&&((String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole()))||
+                        String.valueOf(Constants.NC).equals(UserInfoModel.getInstance().getUser().getUserrole()))){
                     new AlertDialog.Builder(getContext()).setMessage("学员只能加入一个班级哦").setPositiveButton("确定",null).show();
                     return;
                 }
