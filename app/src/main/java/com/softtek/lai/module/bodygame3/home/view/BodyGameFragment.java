@@ -52,12 +52,6 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initViews() {
-        if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//没有进行中的班级
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
-        } else {
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
-        }
-
 
     }
 
@@ -66,20 +60,24 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
         ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
             @Override
             public void success(ResponseData<ClassdataModel> data, Response response) {
-                if (200 == data.getStatus()) {
-                    ClassdataModel classdataModel = data.getData();
-                    int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
-                    int DoingClass = classdataModel.getDoingClass();//0没有进行中的班级,大于0则有进行中的班级
-                    if (HasClass > 0) {
-                        if (DoingClass > 0) {
-                            com.github.snowdream.android.util.Log.i("有班级进入此页面。。。。。。。。");
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                try {
+                    if (200 == data.getStatus()) {
+                        ClassdataModel classdataModel = data.getData();
+                        int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
+                        int DoingClass = classdataModel.getDoingClass();//0没有进行中的班级,大于0则有进行中的班级
+                        if (HasClass > 0) {
+                            if (DoingClass > 0) {
+                                com.github.snowdream.android.util.Log.i("有班级进入此页面。。。。。。。。");
+                                getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                            } else {
+                                getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                            }
                         } else {
                             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
                         }
-                    } else {
-                        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
