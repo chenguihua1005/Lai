@@ -114,7 +114,7 @@ public class InitAuditedFragment extends LazyBaseFragment implements View.OnClic
 
                 }
                 else {
-                    Picasso.with(getContext()).load(R.drawable.default_icon_square).fit().into(cir_headim);
+                    Picasso.with(getContext()).load(R.drawable.img_default).fit().into(cir_headim);
 
                 }
             }
