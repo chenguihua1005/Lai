@@ -153,7 +153,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             return;
         }
         String path = AddressManager.get("shareHost");
-        url = path + "ShareStudent?id=" + UserInfoModel.getInstance().getUser().getUserid();
+        url = path + "New_ShareStudent?id=" + UserInfoModel.getInstance().getUser().getUserid();
         value = "我已获得" + hnumsModel.getHnums() + "勋章，快来和我一起参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(StudentHonorGridActivity.this, itemsOnClick);

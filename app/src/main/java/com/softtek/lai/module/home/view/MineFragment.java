@@ -130,10 +130,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         }
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if (TextUtils.isEmpty(photo)) {
-            Picasso.with(getContext()).load(R.drawable.img_default).into(img);
-        } else {
-            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
+        if (!TextUtils.isEmpty(photo)) {
+            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img);
         }
 
         if (StringUtils.isEmpty(model.getNickname())) {
