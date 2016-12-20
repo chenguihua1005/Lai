@@ -162,7 +162,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
                 ImageView img = holder.getView(R.id.img);
                 if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().into(img);
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
+                }
+                else if (!TextUtils.isEmpty(data.getImgUrl()))
+                {
+                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
+
                 }
             }
         };

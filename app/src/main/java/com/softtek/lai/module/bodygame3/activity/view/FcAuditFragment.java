@@ -157,23 +157,24 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FCAudit && resultCode==RESULT_OK) {
-            String ACMID = data.getStringExtra("ACMID");
-            String n = "";
-            for (int i = 0; i < memberListModels.size(); i++) {
-                if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-                    n = i + "";
+        try {
+            if (requestCode == FCAudit && resultCode==RESULT_OK) {
+                String ACMID = data.getStringExtra("ACMID");
+                String n = "";
+                for (int i = 0; i < memberListModels.size(); i++) {
+                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
+                        n = i + "";
+                    }
+                }
+                if (!"".equals(n)) {
+                    memberListModels.remove(Integer.parseInt(n));
+                    adapter.notifyDataSetChanged();
+                    FcAuditListActivity fcAuditListActivity=(FcAuditListActivity)getActivity();
+                    fcAuditListActivity.update();
                 }
             }
-            if (!"".equals(n)) {
-                memberListModels.remove(Integer.parseInt(n));
-                adapter.notifyDataSetChanged();
-//                        ((InitDataAuditActivity)getActivity()).getT;
-//                        getTab()
-            }
-//            memberListModels.clear();
-//            pageIndex = 1;
-//            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
