@@ -379,7 +379,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case R.id.fl_right:
                if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText()))
             {
-                String message = "现在体重为必填项，请选择";
+                String message = "当前体重为必填项，请选择";
                 new AlertDialog.Builder(this)
                         .setMessage(message)
                         .create().show();

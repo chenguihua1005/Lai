@@ -289,7 +289,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             //保存
             case R.id.tv_right:
                 if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText())) {
-                    String message = "现在体重为必填项，请选择";
+                    String message = "当前体重为必填项，请选择";
                     new AlertDialog.Builder(this)
                             .setMessage(message)
                             .create().show();

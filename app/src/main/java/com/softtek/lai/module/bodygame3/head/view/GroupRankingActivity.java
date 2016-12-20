@@ -70,6 +70,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     private HonorGroupRankModel honorGroupRankModel;
     private TextView tv_ranking_date;
     private String whichName;
+    private ListdateModel listdateModel;
 
 
     @Override
@@ -120,21 +121,20 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 
     @Override
     protected void initDatas() {
-        String token = UserInfoModel.getInstance().getToken();
         Intent intent = getIntent();
         ClassId = intent.getStringExtra("ClassId");
         ByWhichRatio = intent.getStringExtra("ByWhichRatio");
         SortTimeType = intent.getStringExtra("SortTimeType");
-        ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("WhichTime");
-        WhichTime = Integer.valueOf(listdateModel.getDateValue());
-        whichName = listdateModel.getDateName();
-        GroupId = intent.getStringExtra("GroupId");
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
-        if (StringUtils.isEmpty(token)) {
-
-        } else {
-            groupRankingManager = new GroupRankingManager(this);
+        GroupId=listGroupModel.getGroupId();
+        listdateModel= (ListdateModel) intent.getSerializableExtra("listDataModel");
+        if(listdateModel!=null){
+            WhichTime=Integer.parseInt(listdateModel.getDateValue());
+            whichName=listdateModel.getDateName();
+        }else {
+            WhichTime = intent.getIntExtra("WhichTime", 1);
         }
+        groupRankingManager = new GroupRankingManager(this);
         groupRankingManager.getWeekHonnorInfo(ClassId, ByWhichRatio, SortTimeType, WhichTime, GroupId);
 
 
