@@ -29,7 +29,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="6dp"
         android:background="#e1e1e1"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignParentBottom="true">
         <Button
             android:id="@+id/btn_send"
@@ -50,6 +50,7 @@
             android:textSize="16sp"
             android:textColor="#333333"
             android:maxLines="1"
+            android:singleLine="true"
             android:layout_toLeftOf="@id/btn_send"
             android:layout_marginRight="10dp" />
     </RelativeLayout>

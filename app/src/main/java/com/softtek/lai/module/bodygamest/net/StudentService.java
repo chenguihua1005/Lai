@@ -30,7 +30,7 @@ public interface StudentService {
     );
 
     //获取学员奖章个数
-    @GET("/HerbUser/GetStudentHonours")
+    @GET("/HerbUser/New_GetStudentHonours")
     void getStudentHonours(
             @Header("token") String token,
             Callback<ResponseData<HnumsModel>> callback
