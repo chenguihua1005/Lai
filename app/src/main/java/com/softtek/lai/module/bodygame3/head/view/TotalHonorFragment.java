@@ -120,16 +120,20 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 if (i != 1) {
                     Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                    //classid
                     intent.putExtra("ClassId", ClassId);
+                    //ByWhichRatio排序类型；ByFatRatio：按减脂排序ByWeightRatio：按减重比排序
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
+                    //SortTimeType按什么时间拍训；
                     intent.putExtra("SortTimeType", SortTimeType);
                     intent.putExtra("WhichTime", WhichTime);
-                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
-                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
-                    }
+                    ListGroupModel model=groupModelList.get(i - 2);
+
+                    intent.putExtra("ListGroupModel", model);
+
                     startActivity(intent);
                 }
             }
@@ -146,11 +150,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     protected void lazyLoad() {
         String token = UserInfoModel.getInstance().getToken();
         UID = UserInfoModel.getInstance().getUserId();
-        if (StringUtils.isEmpty(token)) {
-
-        } else {
-            weekHonorManager = new WeekHonorManager(this);
-        }
+        weekHonorManager = new WeekHonorManager(this);
         loadData(true);
     }
 

@@ -811,6 +811,7 @@
                         android:visibility="gone"
                         android:layout_marginBottom="4dp"
                         android:id="@+id/im_retestwrite_showphoto"
+                        android:scaleType="fitCenter"
                         />
                     <ImageView
                         android:id="@+id/im_delete"

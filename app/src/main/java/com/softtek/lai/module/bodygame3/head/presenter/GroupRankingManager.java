@@ -36,7 +36,7 @@ public class GroupRankingManager {
                         switch (status) {
                             case 200:
                                 HonorGroupRankModel honorRankModel = honorGroupRankModelData.getData();
-                                Log.e("curry", token);
+                                Log.e("curry", honorRankModel.toString());
                                 if (callback != null)
                                     callback.getModel(honorRankModel);
                                 break;
@@ -51,7 +51,7 @@ public class GroupRankingManager {
                     public void failure(RetrofitError error) {
                         if (callback != null)
                             callback.getModel(null);
-//                        ZillaApi.dealNetError(error);
+                        ZillaApi.dealNetError(error);
                     }
                 });
 

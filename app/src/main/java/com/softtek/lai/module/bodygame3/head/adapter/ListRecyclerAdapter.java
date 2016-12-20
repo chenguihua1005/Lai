@@ -70,8 +70,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //绑定数据
         if (holder instanceof ViewHolder) {
             PartnersModel partnersModel = partnersModels.get(position);
-
-            Log.i("头像不为空啊。。。。。。", partnersModel.getStuImg());
             Picasso.with(context).load(AddressManager.get("photoHost", "http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
                     .fit().error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
@@ -97,6 +95,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             } else {
                 ((ViewHolder) holder).tv_bi.setText("体脂比");
+                ((ViewHolder) holder).weight_first.setText("初始体脂比" + partnersModel.getWeight() + "%");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             }
             if (mOnItemClickListener != null) {
