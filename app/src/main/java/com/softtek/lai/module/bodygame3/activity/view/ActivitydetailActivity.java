@@ -72,10 +72,11 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     public static final int ACTIVITY_DEL = 1;
     public static final int ACTIVITY_SIGN = 2;
     public static final int ACTIVITY_EXIT = 3;
-//    private boolean operation = false;
-    private int operation=0;
+    //    private boolean operation = false;
+    private int operation = 0;
     private String classid;
-   private boolean isOperationon=false;
+    private boolean isOperationon = false;
+
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -191,6 +192,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     count_sign.setText("(" + useredModels.size() + ")");
                                     adapter.notifyDataSetChanged();
                                 } else {
+                                    count_sign.setText("(" + 0 + ")");
                                     detail_view.setVisibility(View.GONE);
                                     no_partner.setVisibility(View.VISIBLE);
                                 }
@@ -246,7 +248,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void failure(RetrofitError error) {
                         try {
-                            operation =0;
+                            operation = 0;
                             super.failure(error);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -302,10 +304,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                                 delete_activity.setVisibility(View.GONE);
                                                 exit_lin.setVisibility(View.GONE);
                                             }
-                                            operation=2;
+                                            operation = 2;
                                             getalldetail();
                                         } else {
-                                            operation=0;
+                                            operation = 0;
                                             Util.toastMsg(responseData.getMsg());
                                         }
 
@@ -316,7 +318,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
                                 @Override
                                 public void failure(RetrofitError error) {
-                                    operation=0;
+                                    operation = 0;
                                     super.failure(error);
                                 }
                             });
@@ -346,14 +348,14 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
                 break;
             case R.id.ll_left:
-                if (operation==0) {
+                if (operation == 0) {
                     finish();
-                } else if(operation==1){
+                } else if (operation == 1) {
                     Intent intent = getIntent();
                     intent.putExtra("operation", ACTIVITY_SIGN);
                     setResult(RESULT_OK, intent);
                     finish();
-                }else if(operation==2){
+                } else if (operation == 2) {
                     Intent intent = getIntent();
                     intent.putExtra("operation", ACTIVITY_EXIT);
                     setResult(RESULT_OK, intent);

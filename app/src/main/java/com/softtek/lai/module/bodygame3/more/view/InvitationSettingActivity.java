@@ -153,13 +153,13 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             tv_invitation.setEnabled(false);
             tv_invitation.setText("小伙伴已经加入该班级");
             tv_invitation.setVisibility(View.VISIBLE);
-        } else if (invitater.getIsCurrentClassMember() == 0){//不再当前班级
+        } else if (invitater.getIsCurrentClassMember() == 0) {//不再当前班级
             tv_invitation.setEnabled(true);
             tv_invitation.setOnClickListener(this);
             tv_invitation.setVisibility(View.VISIBLE);
             tv_invitation.setText("给小伙伴发送邀请吧");
-            tv_group_name.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
-            tv_role.setCompoundDrawables(null,null, ContextCompat.getDrawable(this,R.drawable.bodygame3_arrow),null);
+            tv_group_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
+            tv_role.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
             rl_group.setOnClickListener(this);
             rl_role.setOnClickListener(this);
         }
@@ -216,7 +216,14 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             try {//群主加人调用此方法
                                 //根据群组ID从服务器获取群组基本信息
                                 EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());//很奇怪为什么要先获取群信息
-                                EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+                                if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+                                    EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+                                } else {
+                                    // 一般成员调用invite方法
+                                    EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);
+                                }
+
+//                                EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                                         .sendInviter(UserInfoModel.getInstance().getToken(),

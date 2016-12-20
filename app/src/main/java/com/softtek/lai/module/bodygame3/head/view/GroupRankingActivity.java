@@ -96,14 +96,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 String initWeight = data.getInitWeight();
                 if (!TextUtils.isEmpty(initWeight)) {
                     String weight = String.format("%.0f", Double.valueOf(initWeight));
-                    if ("ByFatRatio".equals(ByWhichRatio))
-                    {
-                        tv_init_weight.setText("初始体脂" + weight + "%");
-
-                    }
-                    else {
-                        tv_init_weight.setText("初始体重" + weight + "斤");
-                    }
+                    tv_init_weight.setText("初始体重" + weight + "斤");
                 }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
@@ -118,7 +111,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i!=honorGroupRankModel.getGrouplist().size()) {
+                if(i>=1){
                     Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));
