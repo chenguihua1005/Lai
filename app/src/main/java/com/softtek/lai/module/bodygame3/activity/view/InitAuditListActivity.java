@@ -63,7 +63,9 @@ public class InitAuditListActivity extends BaseActivity{
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                Intent intent=new Intent();
+                intent.putExtra("Auditnum",Auditnum);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -127,7 +129,9 @@ public class InitAuditListActivity extends BaseActivity{
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             //do something...
-            setResult(RESULT_OK);
+            Intent intent=new Intent();
+            intent.putExtra("Auditnum",Auditnum);
+            setResult(RESULT_OK,intent);
 //            return true;
         }
         return super.onKeyDown(keyCode, event);

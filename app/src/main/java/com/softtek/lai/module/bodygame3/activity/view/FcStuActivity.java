@@ -410,6 +410,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         case 200:
                             progressDialog.dismiss();
                             Intent intent=new Intent();
+                            int IsFcSt=1;//代表学员复测完成
+                            intent.putExtra("IsFcSt",IsFcSt);
                             setResult(RESULT_OK,intent);
                             finish();
                             break;

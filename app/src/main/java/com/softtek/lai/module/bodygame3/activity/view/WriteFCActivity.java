@@ -602,6 +602,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     case 200:
                         progressDialog.dismiss();
                         Intent intent=new Intent();
+                        int IsInitW=1;
+                        intent.putExtra("IsInitW",IsInitW);
                         setResult(RESULT_OK,intent);
                         finish();
                         break;
