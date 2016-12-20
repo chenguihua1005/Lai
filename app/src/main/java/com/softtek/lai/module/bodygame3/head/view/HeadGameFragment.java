@@ -69,9 +69,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     ImageView iv_email;
     @InjectView(R.id.button)
     Button button;
-    @InjectView(R.id.pc_tv)
+    @InjectView(R.id.pc_tv)//教练，助教，学员
     TextView pc_tv;
-    @InjectView(R.id.sp_tv)
+    @InjectView(R.id.sp_tv)//总教练
     TextView sp_tv;
     @InjectView(R.id.classed_tv)
     TextView classed_tv;
@@ -108,16 +108,16 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {
-            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
-                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {//总教练
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {//有班级
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//未开始
                     classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”, 查看新班级并开始邀请小伙伴");
                     sp_tv.setVisibility(View.GONE);
                     pc_tv.setVisibility(View.GONE);
                     button.setVisibility(View.VISIBLE);
                     button.setOnClickListener(this);
                 }
-            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {//没有班级
 
                 sp_tv.setVisibility(View.VISIBLE);
                 pc_tv.setVisibility(View.GONE);
@@ -125,15 +125,15 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 button.setOnClickListener(this);
             }
 
-        } else {
-            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {
-                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {
+        } else {//教练，助教，学员
+            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {//有班级
+                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//未开始
                     classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”， 查看新班级");
                     sp_tv.setVisibility(View.GONE);
                     pc_tv.setVisibility(View.GONE);
                     button.setVisibility(View.GONE);
                 }
-            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {
+            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {//无班级
                 sp_tv.setVisibility(View.GONE);
                 pc_tv.setVisibility(View.VISIBLE);
                 button.setVisibility(View.GONE);
