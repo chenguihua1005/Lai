@@ -90,6 +90,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     List<String> spinnerData2 = new ArrayList<>();
     private ArrowSpinnerAdapter spinnerAdapter;
     private boolean is_first = true;
+    private int selectedSpinner = 0;
 
 
     public static MonthHonorFragment getInstance(String classId) {
@@ -103,7 +104,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();
-        ClassId = bundle.getString("classId");
+//        ClassId = bundle.getString("classId");
         selectWeight();
         newAdapter();
         ListView refreshableView = listHonorrank.getRefreshableView();
@@ -138,7 +139,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
-                    intent.putExtra("WhichTime", WhichTime);
+                    intent.putExtra("WhichTime",  spinnerData.get(selectedSpinner));
                     if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
                         intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
                         intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
@@ -173,6 +174,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
+                selectedSpinner = i;
                 loadData(is_first);
             }
         });
