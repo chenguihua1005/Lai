@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import java.io.Serializable;
+
 /**
  * Created by 87356 on 2016/12/3.
  */
-public class ListdateModel {
+public class ListdateModel implements Serializable{
     private String DateName;//小组id
     private String DateValue;//小组名
 

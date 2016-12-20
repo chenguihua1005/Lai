@@ -19,6 +19,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupRankingModel;
+import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.GroupRankingManager;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -68,6 +69,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     private ListGroupModel listGroupModel;
     private HonorGroupRankModel honorGroupRankModel;
     private TextView tv_ranking_date;
+    private String whichName;
 
 
     @Override
@@ -110,7 +112,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                 intent.putExtra("ClassId", ClassId);
-                intent.putExtra("AccountId",Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()) );
+                intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));
                 startActivity(intent);
             }
         });
@@ -123,7 +125,9 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         ClassId = intent.getStringExtra("ClassId");
         ByWhichRatio = intent.getStringExtra("ByWhichRatio");
         SortTimeType = intent.getStringExtra("SortTimeType");
-        WhichTime = intent.getIntExtra("WhichTime", 1);
+        ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("WhichTime");
+        WhichTime = Integer.valueOf(listdateModel.getDateValue());
+        whichName = listdateModel.getDateName();
         GroupId = intent.getStringExtra("GroupId");
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
         if (StringUtils.isEmpty(token)) {
@@ -139,10 +143,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
             tv_group_name.setText(listGroupModel.getGroupName());
             if ("ByWeek".equals(SortTimeType)) {
-                tv_title.setText("组内排名(第" + WhichTime + "周)");
+                tv_title.setText("组内排名(" + whichName + ")");
                 tv_rank_number.setText("本周第" + listGroupModel.getRanking() + "名");
             } else if ("ByMonth".equals(SortTimeType)) {
-                tv_title.setText("组内排名(第" + WhichTime + "月)");
+                tv_title.setText("组内排名(" + whichName + ")");
                 tv_rank_number.setText("本月第" + listGroupModel.getRanking() + "名");
             } else if ("ByTotal".equals(SortTimeType)) {
                 tv_title.setText("组内排名(总排名)");
@@ -165,7 +169,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         groupRankingModelList.clear();
         groupRankingModelList.addAll(model.getGrouplist());
         honorGroupRankAdapter.notifyDataSetChanged();
-        tv_ranking_date.setText("榜单日期" + model.getStartDate() + "～" + model.getEndDate());
+        tv_ranking_date.setText("榜单日期: " + model.getStartDate() + "～" + model.getEndDate());
     }
 
     private void setImage(CircleImageView civ, String endUrl) {

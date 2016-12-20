@@ -5,7 +5,7 @@ package com.softtek.lai.module.bodygame3.head.model;
  */
 
 public class VideoModel {
-    private String VideoId;
+    private long VideoId;
     private String VideoType;
     private String Photo;//视频图片
     private String Title;
@@ -13,7 +13,7 @@ public class VideoModel {
     private int ClickCount;
     private String RoomLink;//跳转链接
 
-    public VideoModel(String videoId, String videoType, String photo, String title, String videoUrl, int clickCount, String roomLink) {
+    public VideoModel(long videoId, String videoType, String photo, String title, String videoUrl, int clickCount, String roomLink) {
         VideoId = videoId;
         VideoType = videoType;
         Photo = photo;
@@ -23,11 +23,11 @@ public class VideoModel {
         RoomLink = roomLink;
     }
 
-    public String getVideoId() {
+    public long getVideoId() {
         return VideoId;
     }
 
-    public void setVideoId(String videoId) {
+    public void setVideoId(long videoId) {
         VideoId = videoId;
     }
 
