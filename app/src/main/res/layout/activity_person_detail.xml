@@ -125,19 +125,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#eeeeee" />
+                <RelativeLayout
+                    android:id="@+id/re_hlist_dy"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    >
                 <com.softtek.lai.widgets.HorizontalListView
                     android:id="@+id/hlist_dy"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    >
 
                 </com.softtek.lai.widgets.HorizontalListView>
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tv_no_dy"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:text="暂无动态"
                     android:textSize="14sp"
                     android:textColor="#b1b0b0"
