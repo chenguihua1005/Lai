@@ -262,7 +262,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
         ll_task.removeAllViews();
-        gettodaydata(dateStr);
+        if (!TextUtils.isEmpty(classid)) {
+            gettodaydata(dateStr);
+        }
 
 
     }
@@ -472,18 +474,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 2) {
                 com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
-                if(classrole==Constants.STUDENT){
-                    int IsInitW=data.getExtras().getInt("IsInitW");
-                    if(IsInitW==1){
+                if (classrole == Constants.STUDENT) {
+                    int IsInitW = data.getExtras().getInt("IsInitW");
+                    if (IsInitW == 1) {
                         tv_chustatus.setText("未审核");
-                        BtnTag tag=new BtnTag();
-                        tag.isfirst=2;
+                        BtnTag tag = new BtnTag();
+                        tag.isfirst = 2;
                     }
 
-                }else {
-                  int numbers=data.getExtras().getInt("IsInitW");
-                    Log.i("numbers",numbers+"");
-                    tv_chustatus.setText("待审核"+numbers+"人");
+                } else {
+                    int numbers = data.getExtras().getInt("Auditnum");
+                    Log.i("numbers", numbers + "");
+                    tv_chustatus.setText("待审核" + numbers + "人");
 
                 }
 
@@ -881,7 +883,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
             }
             tv_title.getAdapter().notifyDataSetChanged();
-            com.github.snowdream.android.util.Log.i("是删除班级的通知\n当前的班级集合数量为=============="+classModels.isEmpty());
+            com.github.snowdream.android.util.Log.i("是删除班级的通知\n当前的班级集合数量为==============" + classModels.isEmpty());
             if (classModels.isEmpty()) {
                 this.classModel = null;
                 classid = "";
