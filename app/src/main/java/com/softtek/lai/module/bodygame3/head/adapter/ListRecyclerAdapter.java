@@ -71,10 +71,10 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof ViewHolder) {
             PartnersModel partnersModel = partnersModels.get(position);
 
-               Log.i("头像不为空啊。。。。。。",partnersModel.getStuImg());
-               Picasso.with(context).load(AddressManager.get("photoHost","http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
-                       .fit().error(R.drawable.img_default)
-                       .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
+            Log.i("头像不为空啊。。。。。。", partnersModel.getStuImg());
+            Picasso.with(context).load(AddressManager.get("photoHost", "http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
+                    .fit().error(R.drawable.img_default)
+                    .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
 
             ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
             ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());
@@ -89,15 +89,15 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
             ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
-            if(type==0){//Int	排序类型：0:体重,1:减重比,2:体脂比
-                ((ViewHolder) holder).tv_bi.setText("体重");
+            if (type == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
+                ((ViewHolder) holder).tv_bi.setText("减重斤数");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
-            }else if(type==1) {
+            } else if (type == 1) {
                 ((ViewHolder) holder).tv_bi.setText("减重比");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
-            }else{
-            ((ViewHolder) holder).tv_bi.setText("体脂比");
-            ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+            } else {
+                ((ViewHolder) holder).tv_bi.setText("体脂比");
+                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             }
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +152,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView weight_first;
         TextView jianzhong_tv;
         TextView tv_bi;
-    CircleImageView head_img;
+        CircleImageView head_img;
         TextView jianzhong_tv2;
 
         public ViewHolder(View view) {
