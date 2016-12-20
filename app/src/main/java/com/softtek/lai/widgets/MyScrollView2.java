@@ -40,8 +40,6 @@ public class MyScrollView2 extends ScrollView{
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        Log.i("获取到的l值="+l);
-        Log.i("获取到的t值="+t);
         if(t<=0){
             getParent().requestDisallowInterceptTouchEvent(false);
         }else {
