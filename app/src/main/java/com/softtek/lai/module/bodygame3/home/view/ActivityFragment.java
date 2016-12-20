@@ -573,9 +573,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     calendarModels.clear();
                                     calendarModels.addAll(activitydataModel.getList_ActCalendar());
                                     material_calendar.removeDecorators();
-//                                    material_calendar.invalidateDecorators();
-
-
                                     filterTypesData();
                                     new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
 
@@ -757,7 +754,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             if (getActivity() == null || getActivity().isFinishing()) {
                 return;
             }
-
             if (material_calendar != null) {
                 if (Constants.STUDENT == classrole) {//
                     material_calendar.addDecorator(new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity()));
@@ -770,7 +766,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             }
         }
     }
-
 
     private CalendarDay getCalendarDay(String dateStr) {
         Calendar calendar = Calendar.getInstance();
@@ -787,16 +782,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         return day;
     }
 
-
     // 过滤各种类型的数据表
     private void filterTypesData() {
         calendarModel_reset.clear();
         calendarModel_act.clear();
         calendarModel_create.clear();
         calendarModel_free.clear();
-        
-
-
         for (int i = 0; i < calendarModels.size(); i++) {
             int datetype = calendarModels.get(i).getDateType();
             String date = calendarModels.get(i).getMonthDate();

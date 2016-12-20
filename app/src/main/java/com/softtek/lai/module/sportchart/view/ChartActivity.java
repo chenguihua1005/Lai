@@ -107,7 +107,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @InjectView(R.id.toolbar1)
     RelativeLayout toolbar1;
     DateForm dateForm;
-    //private LineChartUtil chartUtil;
+
     List<Entry> dates = new ArrayList<>();
     List<String>days=new ArrayList<>();
     List<String>day=new ArrayList<>();
@@ -188,7 +188,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         iGetProinfopresenter = new GetProinfoImpl(this);
         chartManager = new ChartManager(this);
         iGetProinfopresenter = new GetProinfoImpl(this);
-        //chartUtil = new LineChartUtil(this, chart);
+
         dates.clear();
         day.clear();
         dateForm=new DateForm();
