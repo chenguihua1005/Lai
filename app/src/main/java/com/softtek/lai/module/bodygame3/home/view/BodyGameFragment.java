@@ -52,12 +52,6 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initViews() {
-        if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//没有进行中的班级
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
-        } else {
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
-        }
-
 
     }
 
