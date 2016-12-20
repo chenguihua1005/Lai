@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -67,10 +69,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
     private int classrole;//班级角色
-    public static final int ACTIVITY_DEL=1;
-    public static final int ACTIVITY_SIGN=2;
-    public static final int ACTIVITY_EXIT=3;
-    private boolean operation=false;
+    public static final int ACTIVITY_DEL = 1;
+    public static final int ACTIVITY_SIGN = 2;
+    public static final int ACTIVITY_EXIT = 3;
+//    private boolean operation = false;
+    private int operation=0;
+    private String classid;
+   private boolean isOperationon=false;
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -92,6 +97,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole");
+        classid = getIntent().getStringExtra("classid");
         Log.e("classrole", classrole + "");
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
@@ -111,6 +117,16 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             }
         };
         detail_view.setAdapter(adapter);
+        detail_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                UseredModel model = useredModels.get(i);
+                Intent intent = new Intent(ActivitydetailActivity.this, PersonDetailActivity.class);
+                intent.putExtra("AccountId", model.getUserId());
+                intent.putExtra("ClassId", classid);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getalldetail() {
@@ -126,7 +142,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     if (actdetailModel.getSign()) {
                                         signup_activity.setVisibility(View.GONE);
                                         delete_activity.setVisibility(View.VISIBLE);
-                                        exit_lin.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
                                     } else {
                                         signup_activity.setVisibility(View.VISIBLE);
                                         delete_activity.setVisibility(View.VISIBLE);
@@ -188,7 +204,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.signup_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
@@ -215,10 +231,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     exit_lin.setVisibility(View.VISIBLE);
                                 }
 
-                                operation=true;
+                                operation = 1;
                                 getalldetail();
                             } else {
-                                operation=false;
+                                operation = 0;
                                 Util.toastMsg(responseData.getMsg());
                             }
                         } catch (Exception e) {
@@ -230,7 +246,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void failure(RetrofitError error) {
                         try {
-                            operation=false;
+                            operation =0;
                             super.failure(error);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -243,12 +259,12 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());
-                         Intent del=getIntent();
-                       int counts= del.getExtras().getInt("counts");
-                        int count=counts-1;
-                         del.putExtra("operation",ACTIVITY_DEL);
-                        del.putExtra("count",count);
-                        setResult(RESULT_OK,del);
+                        Intent del = getIntent();
+                        int counts = del.getExtras().getInt("counts");
+                        int count = counts - 1;
+                        del.putExtra("operation", ACTIVITY_DEL);
+                        del.putExtra("count", count);
+                        setResult(RESULT_OK, del);
 
                         finish();
                     }
@@ -260,37 +276,98 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 });
                 break;
             case R.id.exit_tv:
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        activityId, new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                                try {
-                                    Util.toastMsg(responseData.getMsg());
-                                    Intent intent=getIntent();
-                                    intent.putExtra("operation",ACTIVITY_EXIT);
-                                    setResult(RESULT_OK,intent);
-                                    finish();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                if (classrole == Constants.HEADCOACH) {
+                    ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            activityId, new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    try {
+                                        if (200 == responseData.getStatus()) {
+                                            Util.toastMsg(responseData.getMsg());
+                                            if (classrole == Constants.HEADCOACH) {
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.VISIBLE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else if (classrole == Constants.COACH) {
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else if (classrole == Constants.ASSISTANT) {
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else if (classrole == Constants.STUDENT) {
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            }
+                                            operation=2;
+                                            getalldetail();
+                                        } else {
+                                            operation=0;
+                                            Util.toastMsg(responseData.getMsg());
+                                        }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                            }
-                        });
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    operation=0;
+                                    super.failure(error);
+                                }
+                            });
+                } else {
+                    ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            activityId, new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                    try {
+                                        Util.toastMsg(responseData.getMsg());
+                                        Intent intent = getIntent();
+                                        intent.putExtra("operation", ACTIVITY_EXIT);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    super.failure(error);
+                                }
+                            });
+                }
+
                 break;
             case R.id.ll_left:
-                if(!operation){
+                if (operation==0) {
                     finish();
-                }else{
-                    Intent intent=getIntent();
-                    intent.putExtra("operation",ACTIVITY_SIGN);
-                    setResult(RESULT_OK,intent);
+                } else if(operation==1){
+                    Intent intent = getIntent();
+                    intent.putExtra("operation", ACTIVITY_SIGN);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else if(operation==2){
+                    Intent intent = getIntent();
+                    intent.putExtra("operation", ACTIVITY_EXIT);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
+//                if(!isOperationon){
+//                    finish();
+//                }else
+//                {
+//                    Intent intent = getIntent();
+//                    intent.putExtra("operation", ACTIVITY_EXIT);
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+//                }
                 break;
         }
     }

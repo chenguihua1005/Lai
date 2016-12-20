@@ -115,8 +115,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             adapter = new EasyAdapter<ActtypeModel>(this, acttypeModels, R.layout.gird_item) {
                 @Override
                 public void convert(ViewHolder holder, ActtypeModel data, int position) {
-//                    TextView text = holder.getView(R.id.text);
-//                    text.setText(data.getActivityTypeName());
+                    TextView text = holder.getView(R.id.text);
+                    text.setText(data.getActivityTypeName());
                     CircleImageView image = holder.getView(R.id.head_image);
                     String path = AddressManager.get("photoHost");
                     if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
@@ -165,19 +165,18 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     Util.toastMsg("请输入活动标题");
                     return;
                 }
+                if (classActivityId <= 0) {
+                    Util.toastMsg("请输入活动类型");
+                    return;
+                }
                 if (TextUtils.isEmpty(startime)) {
-                    Util.toastMsg("请选择活动日期");
+                    Util.toastMsg("请选择集合时间");
                     return;
                 }
                 if (TextUtils.isEmpty(mark)) {
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
-                if (classActivityId <= 0) {
-                    Util.toastMsg("请输入活动类型");
-                    return;
-                }
-
                 activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
                 activityModel.setClassId(classid);
                 activityModel.setClassActivityId(classActivityId);
