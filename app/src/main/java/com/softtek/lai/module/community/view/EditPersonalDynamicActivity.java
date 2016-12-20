@@ -169,11 +169,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         if(manager!=null){
             CommunityModel model=new CommunityModel();
             model.setContent(et_content.getText().toString().trim());
-            model.setHtype(1);
-            model.setTitle("");
-            model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            model.setAccountid(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
             manager.sendDynamic(model);
-//            sdfs
         }
     }
     /**/

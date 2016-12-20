@@ -97,13 +97,13 @@ public class BrokenLine extends View{
                 int x=offset;
                 Paint.FontMetrics fm=textPaint.getFontMetrics();
                 int textHeight= (int) Math.ceil(fm.descent - fm.ascent)/2;
+                //textPaint.setTextAlign(Paint.Align.CENTER);
                 for (int i=0,j=xAxis.size();i<j;i++){
                     String str=xAxis.get(i);
                     int textWitdh= width/(xAxis.size()-1);
                     if(i==j-1){
                         xPoint[i]=x-offset;
-
-                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length()),height-textHeight,textPaint);
+                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length())/2,height-textHeight,textPaint);
                     }else if(i==0){
                         xPoint[i]=x;
                         canvas.drawText(str,x,height-textHeight,textPaint);
@@ -125,8 +125,10 @@ public class BrokenLine extends View{
                 //有数据，就画一个路径框
                 Path path=new Path();
                 //从右下角开始画一个路径框
-                path.moveTo(width,chartHeight);
-                path.lineTo(0+offset,chartHeight);
+//                path.moveTo(width,chartHeight);
+                path.moveTo(offset,chartHeight);
+//                path.lineTo(0+offset,chartHeight);
+                path.lineTo(0+offset,0);
                 bgPaint.setColor(0x99FFFFFF);
                 for (int i=0,j=yAxis.size();i<j;i++){
                     Entry entry=yAxis.get(i);
@@ -137,9 +139,10 @@ public class BrokenLine extends View{
                     //画圆点
                     canvas.drawCircle(x, y,5,bgPaint);
                     //标数字
-                    canvas.drawText((int)entry.getVal()+"",x,y-10,aTextPaint);
+                    canvas.drawText(String.valueOf(entry.getVal()),x,y-10,aTextPaint);
                 }
-
+                Entry endEntry=yAxis.get(yAxis.size()-1);
+                path.lineTo(xPoint[endEntry.getIndex()],chartHeight);
                 bgPaint.setShader(new LinearGradient(width/2,0,width/2,chartHeight,0x8CFFFFFF,
                         0X19FFFFFF, Shader.TileMode.REPEAT));
                 path.close();

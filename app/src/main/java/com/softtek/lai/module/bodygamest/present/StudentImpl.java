@@ -6,21 +6,15 @@
 package com.softtek.lai.module.bodygamest.present;
 
 import android.util.Log;
-import android.widget.ListView;
 
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.adapter.StudentScoreAdapter;
-import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
-import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -62,64 +56,6 @@ public class StudentImpl implements IStudentPresenter {
             @Override
             public void failure(RetrofitError error) {
                 base.dialogDissmiss();
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void getTranscrip(String classid, final ListView list_student_score) {
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.getTranscrip(token, classid, new Callback<ResponseData<List<StudentScripInfo>>>() {
-            @Override
-            public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                base.dialogDissmiss();
-                List<StudentScripInfo> list = listResponseData.getData();
-                switch (status) {
-                    case 200:
-                        StudentScoreAdapter adapter = new StudentScoreAdapter(base, list);
-                        list_student_score.setAdapter(adapter);
-                        break;
-                    case 201:
-
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                base.dialogDissmiss();
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void GetNotMeasuredRecordByPC(long accountId) {
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.GetNotMeasuredRecordByPC(token, accountId, new Callback<ResponseData<CountWeekModel>>() {
-
-            @Override
-            public void success(ResponseData<CountWeekModel> countWeekModelResponseData, Response response) {
-                int status = countWeekModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        EventBus.getDefault().post(countWeekModelResponseData.getData());
-                        break;
-                    default:
-                        Util.toastMsg(countWeekModelResponseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

@@ -19,6 +19,7 @@ import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -168,36 +169,65 @@ public class DimemsionFragment extends LazyBaseFragment2 {
                     maxXiaotui = xiaotuiValue > maxXiaotui ? xiaotuiValue : maxXiaotui;
 
                     int middle=j/2;
-                    if(i<middle){
-                        bust.add(new Entry(model.getWeekDay() - 1, bustValue));
-                        waist.add(new Entry(model.getWeekDay() - 1, waistValue));
-                        hipline.add(new Entry(model.getWeekDay() - 1, hiplineValue));
-                        upper.add(new Entry(model.getWeekDay() - 1, upperValue));
-                        datui.add(new Entry(model.getWeekDay() - 1, datuiValue));
-                        xiaotui.add(new Entry(model.getWeekDay() - 1, xiaotuiValue));
-                    }else {
-                        bust.add(new Entry(model.getWeekDay() - 1-middle, bustValue));
-                        waist.add(new Entry(model.getWeekDay() - 1-middle, waistValue));
-                        hipline.add(new Entry(model.getWeekDay() - 1-middle, hiplineValue));
-                        upper.add(new Entry(model.getWeekDay() - 1-middle, upperValue));
-                        datui.add(new Entry(model.getWeekDay() - 1-middle, datuiValue));
-                        xiaotui.add(new Entry(model.getWeekDay() - 1-middle, xiaotuiValue));
+                    int index=i<middle?model.getWeekDay() - 1<0?0:model.getWeekDay()-1:model.getWeekDay() - 1-middle;
+//                    if(i<middle){
+//
+//                    }else {
+//                        bust.add(new Entry(model.getWeekDay() - 1-middle, bustValue));
+//                        waist.add(new Entry(model.getWeekDay() - 1-middle, waistValue));
+//                        hipline.add(new Entry(model.getWeekDay() - 1-middle, hiplineValue));
+//                        upper.add(new Entry(model.getWeekDay() - 1-middle, upperValue));
+//                        datui.add(new Entry(model.getWeekDay() - 1-middle, datuiValue));
+//                        xiaotui.add(new Entry(model.getWeekDay() - 1-middle, xiaotuiValue));
+//                    }
+                    if(bustValue!=0){
+                        bust.add(new Entry(index, bustValue));
+                    }
+                    if(waistValue!=0){
+                        waist.add(new Entry(index, waistValue));
+                    }
+                    if(hiplineValue!=0){
+                        hipline.add(new Entry(index, hiplineValue));
+                    }
+                    if(upperValue!=0){
+                        upper.add(new Entry(index, upperValue));
+                    }
+                    if(datuiValue!=0){
+                        datui.add(new Entry(index, datuiValue));
+                    }
+                    if(waistValue!=0){
+                        xiaotui.add(new Entry(index, xiaotuiValue));
                     }
 
                 }
             }
             leftXAsix=xAsix.subList(0,xAsix.size()/2);
             rightXAsix=xAsix.subList(xAsix.size()/2,xAsix.size());
-            bust_chart.setDate(leftXAsix,bust.subList(0,bust.size()/2),maxBust);
-            waist_chart.setDate(leftXAsix,waist.subList(0,waist.size()/2),maxWaist);
-            hipline_chart.setDate(leftXAsix,hipline.subList(0,hipline.size()/2),maxHipline);
-            upper_chart.setDate(leftXAsix,upper.subList(0,upper.size()/2),maxUpper);
-            datui_chart.setDate(leftXAsix,datui.subList(0,datui.size()/2),maxDatui);
-            xiaotui_chart.setDate(leftXAsix,xiaotui.subList(0,xiaotui.size()/2),maxXiaotui);
+            bust_chart.setDate(leftXAsix,subList(bust,xAsix.size()/2,true),maxBust);
+            waist_chart.setDate(leftXAsix,subList(waist,xAsix.size()/2,true) ,maxWaist);
+            hipline_chart.setDate(leftXAsix,subList(hipline,xAsix.size()/2,true),maxHipline);
+            upper_chart.setDate(leftXAsix,subList(upper,xAsix.size()/2,true) ,maxUpper);
+            datui_chart.setDate(leftXAsix,subList(datui,xAsix.size()/2,true) ,maxDatui);
+            xiaotui_chart.setDate(leftXAsix,subList(xiaotui,xAsix.size()/2,true),maxXiaotui);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+    private List<Entry> subList(List<Entry> data,int middle,boolean isLeft){
+        if(isLeft){
+            if(data.size()<middle){
+                return data;
+            }else {
+                return data.subList(0,middle);
+            }
+        }else {
+            if(data.size()<middle){
+                return Collections.emptyList();
+            }else {
+                return data.subList(middle,data.size());
+            }
+        }
     }
 
     @Override
@@ -244,62 +274,62 @@ public class DimemsionFragment extends LazyBaseFragment2 {
             case R.id.btn_bust_left:
                 btn_bust_right.setVisibility(View.VISIBLE);
                 btn_bust_left.setVisibility(View.GONE);
-                bust_chart.setDate(leftXAsix,bust.subList(0,bust.size()/2),maxBust);
+                bust_chart.setDate(leftXAsix,subList(bust,xAsix.size()/2,true),maxBust);
                 break;
             case R.id.btn_bust_right:
                 btn_bust_right.setVisibility(View.GONE);
                 btn_bust_left.setVisibility(View.VISIBLE);
-                bust_chart.setDate(rightXAsix,bust.subList(bust.size()/2,bust.size()),maxBust);
+                bust_chart.setDate(rightXAsix,subList(bust,xAsix.size()/2,false),maxBust);
                 break;
             case R.id.btn_waist_left:
                 btn_waist_left.setVisibility(View.GONE);
                 btn_waist_right.setVisibility(View.VISIBLE);
-                waist_chart.setDate(leftXAsix,waist.subList(0,waist.size()/2),maxWaist);
+                waist_chart.setDate(leftXAsix,subList(waist,xAsix.size()/2,true) ,maxWaist);
                 break;
             case R.id.btn_waist_right:
                 btn_waist_left.setVisibility(View.VISIBLE);
                 btn_waist_right.setVisibility(View.GONE);
-                waist_chart.setDate(rightXAsix,waist.subList(waist.size()/2,waist.size()),maxWaist);
+                waist_chart.setDate(rightXAsix,subList(waist,xAsix.size()/2,false) ,maxWaist);
                 break;
             case R.id.btn_hipline_left:
                 btn_hipline_right.setVisibility(View.VISIBLE);
                 btn_hipline_left.setVisibility(View.GONE);
-                hipline_chart.setDate(leftXAsix,hipline.subList(0,hipline.size()/2),maxHipline);
+                hipline_chart.setDate(leftXAsix,subList(hipline,xAsix.size()/2,true),maxHipline);
                 break;
             case R.id.btn_hipline_right:
                 btn_hipline_right.setVisibility(View.GONE);
                 btn_hipline_left.setVisibility(View.VISIBLE);
-                hipline_chart.setDate(rightXAsix,hipline.subList(hipline.size()/2,hipline.size()),maxHipline);
+                hipline_chart.setDate(rightXAsix,subList(hipline,xAsix.size()/2,false),maxHipline);
                 break;
             case R.id.btn_upper_left:
                 btn_upper_right.setVisibility(View.VISIBLE);
                 btn_upper_left.setVisibility(View.GONE);
-                upper_chart.setDate(leftXAsix,upper.subList(0,upper.size()/2),maxUpper);
+                upper_chart.setDate(leftXAsix,subList(upper,xAsix.size()/2,true) ,maxUpper);
                 break;
             case R.id.btn_upper_right:
                 btn_upper_right.setVisibility(View.GONE);
                 btn_upper_left.setVisibility(View.VISIBLE);
-                upper_chart.setDate(rightXAsix,upper.subList(upper.size()/2,upper.size()),maxUpper);
+                upper_chart.setDate(rightXAsix,subList(upper,xAsix.size()/2,false) ,maxUpper);
                 break;
             case R.id.btn_datui_left:
                 btn_datui_left.setVisibility(View.GONE);
                 btn_datui_right.setVisibility(View.VISIBLE);
-                datui_chart.setDate(leftXAsix,datui.subList(0,datui.size()/2),maxDatui);
+                datui_chart.setDate(leftXAsix,subList(datui,xAsix.size()/2,true) ,maxDatui);
                 break;
             case R.id.btn_datui_right:
                 btn_datui_left.setVisibility(View.VISIBLE);
                 btn_datui_right.setVisibility(View.GONE);
-                datui_chart.setDate(rightXAsix,datui.subList(datui.size()/2,datui.size()),maxDatui);
+                datui_chart.setDate(rightXAsix,subList(datui,xAsix.size()/2,false) ,maxDatui);
                 break;
             case R.id.btn_xiaotui_left:
                 btn_xiaotui_right.setVisibility(View.VISIBLE);
                 btn_xiaotui_left.setVisibility(View.GONE);
-                xiaotui_chart.setDate(leftXAsix,xiaotui.subList(0,xiaotui.size()/2),maxXiaotui);
+                xiaotui_chart.setDate(leftXAsix,subList(xiaotui,xAsix.size()/2,true),maxXiaotui);
                 break;
             case R.id.btn_xiaotui_right:
                 btn_xiaotui_right.setVisibility(View.GONE);
                 btn_xiaotui_left.setVisibility(View.VISIBLE);
-                xiaotui_chart.setDate(rightXAsix,xiaotui.subList(xiaotui.size()/2,xiaotui.size()),maxXiaotui);
+                xiaotui_chart.setDate(rightXAsix,subList(xiaotui,xAsix.size()/2,false),maxXiaotui);
                 break;
         }
     }
