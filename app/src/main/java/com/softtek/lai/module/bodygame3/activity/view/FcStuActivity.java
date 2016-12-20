@@ -233,6 +233,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         btn_retest_write_addbody.setText("查看身体围度");
                         doGetDataService("2");
                         break;
+                    default:
+                        tv_right.setVisibility(View.INVISIBLE);
+                        btn_retest_write_addbody.setText("查看身体围度");
+                        btn_retest_write_addbody.setVisibility(View.GONE);
+                        IsEdit=false;
+                        doGetDataService("2");
+                        break;
                 }
 
                 break;

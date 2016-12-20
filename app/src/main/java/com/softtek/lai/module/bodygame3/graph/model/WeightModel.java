@@ -108,4 +108,20 @@ public class WeightModel {
         this.CurrentWeekDay = CurrentWeekDay;
     }
 
+    @Override
+    public String toString() {
+        return "WeightModel{" +
+                "AccountId=" + AccountId +
+                ", ClassId='" + ClassId + '\'' +
+                ", weight='" + weight + '\'' +
+                ", pysical='" + pysical + '\'' +
+                ", fat='" + fat + '\'' +
+                ", typeDate='" + typeDate + '\'' +
+                ", WeekDay=" + WeekDay +
+                ", ClassStart='" + ClassStart + '\'' +
+                ", ClassEnd='" + ClassEnd + '\'' +
+                ", CurrentDate='" + CurrentDate + '\'' +
+                ", CurrentWeekDay=" + CurrentWeekDay +
+                '}';
+    }
 }

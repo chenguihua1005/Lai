@@ -17,7 +17,7 @@ public class ActivitydataModel  {
     private int ClassRole;//角色
     private int Num;//人数
     private int IsRetest;//是否复测
-    private int RetestStatus;
+    private int RetestStatus;//
     private List<TodayactModel> list_Activity;
     private List<ClassModel> list_Class;
 

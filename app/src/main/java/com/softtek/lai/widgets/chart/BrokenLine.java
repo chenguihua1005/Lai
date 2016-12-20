@@ -125,10 +125,9 @@ public class BrokenLine extends View{
                 //有数据，就画一个路径框
                 Path path=new Path();
                 //从右下角开始画一个路径框
-//                path.moveTo(width,chartHeight);
-                path.moveTo(offset,chartHeight);
-//                path.lineTo(0+offset,chartHeight);
-                path.lineTo(0+offset,0);
+                Entry firstEntry=yAxis.get(0);
+                //移动到第一个点
+                path.moveTo(xPoint[firstEntry.getIndex()],chartHeight);
                 bgPaint.setColor(0x99FFFFFF);
                 for (int i=0,j=yAxis.size();i<j;i++){
                     Entry entry=yAxis.get(i);

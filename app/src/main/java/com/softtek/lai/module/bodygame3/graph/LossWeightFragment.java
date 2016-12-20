@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
@@ -106,30 +107,32 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
     private void onSuccess(List<WeightModel> data){
         try {
-
+            Log.i("减重曲线="+data.toString());
             if (data!=null) {
                 for (int i = 0, j = data.size(); i < j; i++) {
                     WeightModel model = data.get(i);
-                    if (i == 0) {//第一条数据
-                        //第一周
-                        int diff = model.getWeekDay() - 1;
-                        if (diff > 0) {
-                            //第一条数据不是第一周的，需要先补点0上去
-                            for (int k = 1; k < diff; k++) {
-                                xAsix.add("第" + k + "周");
-                            }
-                        }
-                    } else {
-                        //不是第一条数据则需要查看此条数据与上一条数据的周数相差
-                        WeightModel previous = data.get(i - 1);
-                        int diff = model.getWeekDay() - previous.getWeekDay();
-                        if (diff > 1) {
-                            //第一条数据不是第一周的，需要先补点0上去
-                            for (int k = previous.getWeekDay() + 1; k < model.getWeekDay(); k++) {
-                                xAsix.add("第" + (k + 1) + "周");
-                            }
-                        }
-                    }
+//                    if (i == 0) {//第一条数据
+//                        //初始
+//
+//                        //第一周
+//                        int diff = model.getWeekDay() - 1;
+//                        if (diff > 0) {
+//                            //第一条数据不是第一周的，需要先补点0上去
+//                            for (int k = 1; k < diff; k++) {
+//                                xAsix.add("第" + k + "周");
+//                            }
+//                        }
+//                    } else {
+//                        //不是第一条数据则需要查看此条数据与上一条数据的周数相差
+//                        WeightModel previous = data.get(i - 1);
+//                        int diff = model.getWeekDay() - previous.getWeekDay();
+//                        if (diff > 1) {
+//                            //第一条数据不是第一周的，需要先补点0上去
+//                            for (int k = previous.getWeekDay() + 1; k < model.getWeekDay(); k++) {
+//                                xAsix.add("第" + (k + 1) + "周");
+//                            }
+//                        }
+//                    }
                     if(model.getWeekDay()==0){
                         xAsix.add("初始");
                     }else {
@@ -144,7 +147,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
                     int middle=j/2;
                     if(i<middle){
-                        int index=model.getWeekDay() - 1<0?0:model.getWeekDay()-1;
+                        int index=model.getWeekDay()/*<0?0:model.getWeekDay()-1*/;
                         if (weightValue!=0){
                             weight.add(new Entry(index, weightValue));
                         }
@@ -156,13 +159,13 @@ public class LossWeightFragment extends LazyBaseFragment2 {
                         }
                     }else {
                         if (weightValue!=0){
-                            weight.add(new Entry(model.getWeekDay() - 1-middle, weightValue));
+                            weight.add(new Entry(model.getWeekDay()-middle, weightValue));
                         }
                         if(bfatValue!=0){
-                            bfat.add(new Entry(model.getWeekDay() - 1-middle, bfatValue));
+                            bfat.add(new Entry(model.getWeekDay()-middle, bfatValue));
                         }
                         if(fatValue!=0){
-                            fat.add(new Entry(model.getWeekDay() - 1-middle, fatValue));
+                            fat.add(new Entry(model.getWeekDay()-middle, fatValue));
                         }
                     }
                 }
