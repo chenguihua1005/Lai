@@ -626,7 +626,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 BtnTag tag = new BtnTag();
                                                 if (activitydataModel.getRetestStatus() == 2) {//进行中
                                                     tag.role = activitydataModel.getClassRole();
-                                                    tag.status = FUCEING;
+                                                    tag.status = FUCEING;//复测日状态
                                                     tag.date = now;
                                                     if (activitydataModel.getIsRetest() == 1) {
                                                         reset_time.setText("未复测");
@@ -709,7 +709,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 });
 
         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-//            ll_task.removeAllViews();
+
             gettodaydata(saveclassModel.getDates());
         }
 

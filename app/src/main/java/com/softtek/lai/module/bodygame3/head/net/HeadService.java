@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.EditSignaModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassDetailModel;
+import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
@@ -93,6 +94,7 @@ public interface HeadService {
             @Query("accountid") long accountid,
             Callback<ResponseData<NewsModel>> callback
     );
+
     //个人详情
     @GET("/V1/HerbalifeClass/GetClassMemberInfo")
     void doGetClassMemberInfo(
@@ -102,6 +104,7 @@ public interface HeadService {
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
     );
+
     //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo130ed197-17ea-4125-8643-09f9c8ec377
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
@@ -119,30 +122,32 @@ public interface HeadService {
             @Query("UID") Long UID,
             @Query("ClassId") String ClassId,
             @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
-            @Query("SortTimeType")String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("SortTimeType") String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
             @Query("WhichTime") int WhichTime,
             @Query("IsFirst") boolean IsFirst,
-            Callback<ResponseData<HonorRankModel>>callback
-            );
+            Callback<ResponseData<HonorRankModel>> callback
+    );
+
     //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)
     @GET("/V1/ClassHonor/GetHonorGroupList")
     void doGetHonorGroup(
             @Header("token") String token,
             @Query("ClassId") String ClassId,
             @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
-            @Query("SortTimeType")String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("SortTimeType") String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
             @Query("WhichTime") int WhichTime,
             @Query("GroupId") String GroupId,
-            Callback<ResponseData<HonorGroupRankModel>>callback
+            Callback<ResponseData<HonorGroupRankModel>> callback
     );
+
     //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
     //申请加入班级
     @GET("/V1/MsgCenter/ApplyJoinClass")
     void doPostClass(
             @Header("token") String token,
-            @Query("Applyer")Long Applyer,//申请人id
-            @Query("ClassId")String ClassId,//班级id
-            Callback<ResponseData>callback
+            @Query("Applyer") Long Applyer,//申请人id
+            @Query("ClassId") String ClassId,//班级id
+            Callback<ResponseData> callback
     );
 
 
@@ -150,9 +155,9 @@ public interface HeadService {
     //照片墙主题列表
     @GET("/V1/HealthyCircle/GetPhWallTheme")
     void doGetPhWallTheme(
-            @Header("token")String token
+            @Header("token") String token
 
-            );
+    );
 
     //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
     @GET("/V1/LaiClassRoom/GetLaiClassRoom")
@@ -160,71 +165,94 @@ public interface HeadService {
             @Header("token") String token,
             Callback<ResponseData<List<VideoModel>>> callback
     );
+
     //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
     @GET("/V1/HerbalifeClass/AddMineLovePC")
     void doPostAddMineLovePC(
             @Header("token") String token,
-            @Query("accountid")long accountid,
-            @Query("classid")String classid,
-            @Query("mobile")String mobile,
-            Callback<ResponseData>callback
+            @Query("accountid") long accountid,
+            @Query("classid") String classid,
+            @Query("mobile") String mobile,
+            Callback<ResponseData> callback
     );
+
     //个人详情（环信id）
     //请求路径:Api/V1/HerbalifeClass/GetClassMemberInfoByHx
     @GET("/V1/HerbalifeClass/GetClassMemberInfoByHx")
     void doGetClassMemberInfoByHx(
             @Header("token") String token,
-            @Query("loginuserid")long loginuserid,
-            @Query("hxaccountid")String hxaccountid,
-            @Query("classid")String classid,
+            @Query("loginuserid") long loginuserid,
+            @Query("hxaccountid") String hxaccountid,
+            @Query("classid") String classid,
             Callback<ResponseData<MemberInfoModel>> callback
     );
+
     //关注接口
     @POST("/HealthyCircle/FocusAccount")
     void doFocusAccount(
             @Header("token") String token,
-            @Query("accountid")long accountid,
-            @Query("focusaccid")long focusaccid,
-            Callback<ResponseData>callback
+            @Query("accountid") long accountid,
+            @Query("focusaccid") long focusaccid,
+            Callback<ResponseData> callback
     );
+
     //取消关注接口
     @POST("/HealthyCircle/CancleFocusAccount")
     void doCancleFocusAccount(
             @Header("token") String token,
-            @Query("accountid")long accountid,
-            @Query("focusaccid")long focusaccid,
-            Callback<ResponseData>callback
+            @Query("accountid") long accountid,
+            @Query("focusaccid") long focusaccid,
+            Callback<ResponseData> callback
     );
+
     //发表照片墙动态
     //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
     @POST("/V1/HealthyCircle/CreatePhotoWall")
     void doCreatePhotoWall(
-            @Header("token")String token,
+            @Header("token") String token,
             @Body PublicDyModel publicDyModel,
-            Callback<ResponseData>callback
+            Callback<ResponseData> callback
     );
+
     //照片墙主题列表
     //请求路径:Api/V1/HealthyCircle/GetPhWallTheme
     @GET("/V1/HealthyCircle/GetPhWallTheme")
     void doGetPhWallTheme(
             @Header("token") String token,
-            Callback<ResponseData<List<TopicModel>>>callback
+            Callback<ResponseData<List<TopicModel>>> callback
     );
+
     //请求路径:Api/V1/HerbalifeClass/CommitPersonalityName
     @POST("/V1/HerbalifeClass/CommitPersonalityName")
     void doCommitSina(
             @Header("token") String token,
             @Body EditSignaModel editSignaModel,
-            Callback<ResponseData>callback
-            );
+            Callback<ResponseData> callback
+    );
+
     //请求路径:Api/V1/HerbalifeClass/GetClassDetial
     //获取班级详情数据(用户学员获取复测、初始数据信息)
     @GET("/V1/HerbalifeClass/GetClassDetial")
     void doGetClassDetial(
             @Header("token") String token,
-            @Query("accountid")Long accountid,
-            @Query("classid")String classid,
-            Callback<ResponseData<ClassDetailModel>>callback
-            );
+            @Query("accountid") Long accountid,
+            @Query("classid") String classid,
+            Callback<ResponseData<ClassDetailModel>> callback
+    );
 
+    //请求路径:Api/V1/ MineCustomer/ MineClass
+    @GET("/V1/MineCustomer/MineClass")
+    void getclass(@Header("token") String token,
+                  @Query("AccountId") Long AccountId,
+                  Callback<ResponseData<ClassdataModel>> callback
+    );
+
+
+    //请求路径:Api/V1/LaiClassRoom/AddVideoClickNum
+    @GET("/V1/LaiClassRoom/AddVideoClickNum")
+    void getcount(
+            @Header("token") String token,
+            @Query("LaiClassroomId") Long LaiClassroomId,
+            Callback<ResponseData> callback
+    );
 }

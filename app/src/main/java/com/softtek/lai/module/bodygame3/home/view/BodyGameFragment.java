@@ -15,6 +15,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.adapter.PartnerAdapter;
+import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
 import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -37,7 +39,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_bodygame)
-public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragment1.DeleteClass,HeadGameFragment.AddClass{
+public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragment1.DeleteClass, HeadGameFragment.AddClass {
 
     public BodyGameFragment() {
         // Required empty public constructor
@@ -52,25 +54,47 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
     protected void initViews() {
         if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//没有进行中的班级
             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
-        }else {
+        } else {
             getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
         }
-
-
 
 
     }
 
     @Override
     protected void initDatas() {
+        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
+            @Override
+            public void success(ResponseData<ClassdataModel> data, Response response) {
+                if (200 == data.getStatus()) {
+                    ClassdataModel classdataModel = data.getData();
+                    int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
+                    int DoingClass = classdataModel.getDoingClass();//0没有进行中的班级,大于0则有进行中的班级
+                    if (HasClass > 0) {
+                        if (DoingClass > 0) {
+                            com.github.snowdream.android.util.Log.i("有班级进入此页面。。。。。。。。");
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                        } else {
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                        }
+                    } else {
+                        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                    }
+                }
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
 
     }
 
 
     @Override
-    public void deletClass(){
-            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
+    public void deletClass() {
+        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
     }
 
 
