@@ -131,7 +131,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
-        com.github.snowdream.android.util.Log.i("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\n哈哈哈哈哈哈哈哈哈哈哈");
         pull.setRefreshing(true);
         onRefresh();
     }
@@ -263,7 +262,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
         ll_task.removeAllViews();
-        gettodaydata(dateStr);
+        if (!TextUtils.isEmpty(classid)) {
+            gettodaydata(dateStr);
+        }
 
 
     }
@@ -289,14 +290,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             if (model.getIsRetest() == 1) {
                                                 ll_fuce.setEnabled(false);
                                                 reset_time.setText("未复测");
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 2) {
-                                                ll_fuce.setEnabled(true);
+                                                ll_fuce.setEnabled(false);
                                                 reset_time.setText("未审核");
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 3) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("已审核");
-                                                tag.status = FUCE_FINISH;
+                                                tag.resetstatus = model.getIsRetest();
+
                                             }
+                                            tag.status = FUCE_FINISH;
                                             break;
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
@@ -304,15 +309,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             if (model.getIsRetest() == 1) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("未复测");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 2) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("未审核");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 3) {
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("已审核");
-                                                tag.resetstatus = model.getRetestStatus();
+                                                tag.resetstatus = model.getIsRetest();
                                             }
                                             tag.status = FUCEING;
                                             break;
@@ -340,7 +345,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
-                                            reset_time.setText("待审核" + model.getNum()+"人");
+                                            reset_time.setText("待审核" + model.getNum() + "人");
                                             tag.status = FUCEING;
                                             break;
                                         case 3://未开始的复测日
@@ -404,7 +409,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
                     chuDate.putExtra("classId", classid);
-                    startActivity(chuDate);
+//                    startActivity(chuDate);
+                    startActivityForResult(chuDate, 2);
                 }
             }
             break;
@@ -424,6 +430,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
+                    Log.i("数据测验", "复测状态" + tag.resetstatus + "复测日状态" + tag.status + "班级id" + classid + "日期" + tag.date);
 //                    startActivity(fuce);
                     startActivityForResult(fuce, 3);
                 } else {
@@ -433,7 +440,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("classId", classid);
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
-                    startActivity(fuce);
+//                    startActivity(fuce);
+                    startActivityForResult(fuce, 3);
                 }
             }
             break;
@@ -466,19 +474,36 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 2) {
                 com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
-                lazyLoad();
-                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据录入。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
-                    gettodaydata(saveclassModel.getDates());
+                if (classrole == Constants.STUDENT) {
+                    int IsInitW = data.getExtras().getInt("IsInitW");
+                    if (IsInitW == 1) {
+                        tv_chustatus.setText("未审核");
+                        BtnTag tag = new BtnTag();
+                        tag.isfirst = 2;
+                    }
+
+                } else {
+                    int numbers = data.getExtras().getInt("Auditnum");
+                    Log.i("numbers", numbers + "");
+                    tv_chustatus.setText("待审核" + numbers + "人");
+
                 }
+
             } else if (requestCode == 3) {
-                com.github.snowdream.android.util.Log.i("初始数据复测更新。。。。。。。。。。。。。。");
-                lazyLoad();
-                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
-                    gettodaydata(saveclassModel.getDates());
+                com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
+                if (classrole == Constants.STUDENT) {
+                    int IsFcSt = data.getExtras().getInt("IsFcSt");
+                    if (IsFcSt == 1) {
+                        reset_time.setText("未审核");
+                        BtnTag tag = new BtnTag();
+                        tag.resetstatus = 2;
+//                        ll_fuce.setTag(tag);
+                    }
+                } else {
+                    int numbers = data.getExtras().getInt("Auditnum");
+                    Log.i("待审核人数", numbers + "");
+                    reset_time.setText("待审核" + numbers + "人");
+
                 }
             } else if (requestCode == 110) {
                 int operation = data.getExtras().getInt("operation");
@@ -522,11 +547,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        lazyLoad();
-    }
 
     private EventDecorator decorator;
     private EventDecorator decorator_act;
@@ -626,7 +646,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 BtnTag tag = new BtnTag();
                                                 if (activitydataModel.getRetestStatus() == 2) {//进行中
                                                     tag.role = activitydataModel.getClassRole();
-                                                    tag.status = FUCEING;
+                                                    tag.status = FUCEING;//复测日状态
                                                     tag.date = now;
                                                     if (activitydataModel.getIsRetest() == 1) {
                                                         reset_time.setText("未复测");
@@ -643,7 +663,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             } else {//非学员
                                                 ll_fuce.setBackgroundResource(R.drawable.reset_update);//复测审核背景图
                                                 reset_name.setText("复测审核");
-                                                reset_time.setText("待审核" + activitydataModel.getNum()+"人");
+                                                reset_time.setText("待审核" + activitydataModel.getNum() + "人");
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 tag.status = FUCEING;
@@ -709,7 +729,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 });
 
         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-//            ll_task.removeAllViews();
+
             gettodaydata(saveclassModel.getDates());
         }
 
@@ -831,66 +851,57 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     //更新班级
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        if (classModel != null) {
-            if (clazz.getStatus() == 0) {
-                com.github.snowdream.android.util.Log.i("更新班级名。。。。。。。。。。。。。");
-                //更新班级姓名
-                lazyLoad();
-//                ClassModel model = new ClassModel();
-//                model.setClassId(clazz.getModel().getClassId());
-//                model.setClassCode(clazz.getModel().getClassCode());
-//                model.setClassName(clazz.getModel().getClassName());
-//                model.setClassRole(clazz.getModel().getClassRole());
-//                this.classModel.setClassName(model.getClassName());
-//                tv_title.setText(model.getClassName());
-//                tv_title.getAdapter().notifyDataSetChanged();
-            } else if (clazz.getStatus() == 1) {
-                //添加新班级
-                com.github.snowdream.android.util.Log.i("添加新班级。。。。。。。。。。。。。");
-                lazyLoad();
-//                ClassModel model = new ClassModel();
-//                model.setClassId(clazz.getModel().getClassId());
-//                model.setClassCode(clazz.getModel().getClassCode());
-//                model.setClassName(clazz.getModel().getClassName());
-//                model.setClassRole(clazz.getModel().getClassRole());
-//                this.classModels.add(model);
-//                tv_title.getAdapter().notifyDataSetChanged();
-            } else if (clazz.getStatus() == 2) {
-                com.github.snowdream.android.util.Log.i("删除班级。。。。。。。。。。。。。。。。");
-                //删除班级
-                lazyLoad();
-//                for (ClassModel model : classModels) {
-//                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-//                        this.classModels.remove(model);
-//                        tv_title.getAdapter().notifyDataSetChanged();
-//                        break;
-//                    }
-//                }
-
-                if (classModels.isEmpty()) {
-                    lazyLoad();
-                } else {
-                    tv_title.setSelected(0);
-                    this.classModel = classModels.get(0);
-
+        if (clazz.getStatus() == 0) {
+            //更新班级姓名
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    model.setClassName(clazz.getModel().getClassName());
+                    model.setClassRole(clazz.getModel().getClassRole());
+                    model.setClassCode(clazz.getModel().getClassCode());
+                    model.setClassId(clazz.getModel().getClassId());
+                    break;
                 }
+            }
+            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.setSelected(tv_title.getSelectedIndex());
+        } else if (clazz.getStatus() == 1) {
+            //添加新班级
+            com.github.snowdream.android.util.Log.i("添加新班级。。。。。。。。。。。。。");
+            ClassModel model = new ClassModel();
+            model.setClassId(clazz.getModel().getClassId());
+            model.setClassCode(clazz.getModel().getClassCode());
+            model.setClassName(clazz.getModel().getClassName());
+            model.setClassRole(clazz.getModel().getClassRole());
+            this.classModels.add(model);
+            tv_title.getAdapter().notifyDataSetChanged();
+        } else if (clazz.getStatus() == 2) {
+            //删除班级
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    this.classModels.remove(model);
+                    break;
+                }
+            }
+            tv_title.getAdapter().notifyDataSetChanged();
+            com.github.snowdream.android.util.Log.i("是删除班级的通知\n当前的班级集合数量为==============" + classModels.isEmpty());
+            if (classModels.isEmpty()) {
+                this.classModel = null;
+                classid = "";
+            } else {
+                tv_title.setSelected(0);
+                this.classModel = classModels.get(0);
+                classid = this.classModel.getClassId();
 
             }
+            lazyLoad();
         }
-
     }
 
     @Subscribe
     public void updatefuce(UpdateFuce updateFuce) {
-        Log.i("修改复测日。。。。。。。。。。。。。。。。。。", "修改复测日");
-        if (classid.equals(updateFuce.getClassId())) {
-            for (int i = 0; i < updateFuce.getFuceDate().size(); i++) {
-                calendarModel_reset.add(getCalendarDay(updateFuce.getFuceDate().get(i).getMeasureDate()));
-            }
-            material_calendar.removeDecorator(decorator);
-            decorator = new EventDecorator(Constants.RESET, calendarModel_reset, classrole, getActivity());
-            material_calendar.addDecorator(decorator);
 
+        if (updateFuce.getClassId().equals(classid)) {
+            lazyLoad();
         }
 
 

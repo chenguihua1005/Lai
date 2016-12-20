@@ -64,7 +64,7 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_sina:
-            if (!TextUtils.isEmpty(edit_content.getText())) {
+
                 editSignaModel.setPName(edit_content.getText().toString());
                 headService.doCommitSina(UserInfoModel.getInstance().getToken(),editSignaModel, new RequestCallback<ResponseData>() {
                     @Override
@@ -85,12 +85,7 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
 
                     }
                 });
-            } else {
-                String message = "发布内容不能为空!";
-                new AlertDialog.Builder(this)
-                        .setMessage(message)
-                        .create().show();
-            }
+
                 break;
         }
 

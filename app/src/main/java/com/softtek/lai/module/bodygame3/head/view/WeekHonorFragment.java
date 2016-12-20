@@ -91,6 +91,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     List<ListdateModel> spinnerData = new ArrayList<>();
     List<String> spinnerData2 = new ArrayList<>();
     private ArrowSpinnerAdapter spinnerAdapter;
+    private int selectedSpinner = 0;
 
     public static WeekHonorFragment getInstance(String classId) {
         WeekHonorFragment fragment = new WeekHonorFragment();
@@ -140,7 +141,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
-                    intent.putExtra("WhichTime", WhichTime);
+                    intent.putExtra("WhichTime", spinnerData.get(selectedSpinner));
                     if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
                         intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
                         intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
@@ -205,6 +206,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedSpinner = i;
                 WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
                 loadData(false);
             }
