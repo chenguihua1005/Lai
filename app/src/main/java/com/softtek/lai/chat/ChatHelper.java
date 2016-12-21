@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
@@ -47,30 +48,32 @@ public class ChatHelper {
      */
     protected EMMessageListener messageListener = null;
 
-    public AlertDialog.Builder builder = null;
+    public AlertDialog dialog = null;
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            if (builder != null) {
+            if (dialog != null) {
                 return;
             }
-            builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+            dialog = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                     .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                     .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
+                            dialog = null;
                             UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
+                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                            Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             LaiApplication.getInstance().startActivity(intent);
                         }
-                    }).setCancelable(false);
-            builder.create().show();
+                    }).setCancelable(false).create();
+            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+            dialog.show();
+
 
         }
 
