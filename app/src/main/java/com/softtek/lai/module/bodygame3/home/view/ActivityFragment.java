@@ -503,7 +503,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     int numbers = data.getExtras().getInt("Auditnum");
                     Log.i("待审核人数", numbers + "");
                     reset_time.setText("待审核" + numbers + "人");
-
                 }
             } else if (requestCode == 110) {
                 int operation = data.getExtras().getInt("operation");
