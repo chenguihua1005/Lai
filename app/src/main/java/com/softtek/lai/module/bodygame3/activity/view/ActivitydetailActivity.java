@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -361,18 +362,28 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     setResult(RESULT_OK, intent);
                     finish();
                 }
-//                if(!isOperationon){
-//                    finish();
-//                }else
-//                {
-//                    Intent intent = getIntent();
-//                    intent.putExtra("operation", ACTIVITY_EXIT);
-//                    setResult(RESULT_OK, intent);
-//                    finish();
-//                }
                 break;
         }
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            if (operation == 0) {
+                finish();
+            } else if (operation == 1) {
+                Intent intent = getIntent();
+                intent.putExtra("operation", ACTIVITY_SIGN);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else if (operation == 2) {
+                Intent intent = getIntent();
+                intent.putExtra("operation", ACTIVITY_EXIT);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
