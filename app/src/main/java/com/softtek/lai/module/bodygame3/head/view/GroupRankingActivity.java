@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupRankingModel;
@@ -32,6 +30,7 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+
 
 
 @InjectLayout(R.layout.activity_group_ranking)
@@ -91,13 +90,25 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getUserName());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
-                tv_group_name.setText("(" + listGroupModel.getGroupName() + ")");
+                tv_group_name.setText(listGroupModel.getGroupName());
                 TextView tv_init_weight = holder.getView(R.id.tv_init_weight);
                 String initWeight = data.getInitWeight();
-                if (!TextUtils.isEmpty(initWeight)) {
-                    String weight = String.format("%.0f", Double.valueOf(initWeight));
-                    tv_init_weight.setText("初始体重" + weight + "斤");
-                }
+//<<<<<<< HEAD
+////                if (!TextUtils.isEmpty(initWeight)) {
+////                    String weight = String.format("%.0f", Double.valueOf(initWeight));
+//                    tv_init_weight.setText("初始体重" + initWeight + "斤");
+////                }
+//=======
+//                if (!TextUtils.isEmpty(initWeight)) {
+//                    String weight = String.format("%.0f", Double.valueOf(initWeight));
+                    if ("ByFatRatio".equals(ByWhichRatio))
+                    {
+                        tv_init_weight.setText("初始体脂" + initWeight + "%");
+                    }
+                    else {
+                        tv_init_weight.setText("初始体重" + initWeight + "斤");
+                    }
+//                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
@@ -127,6 +138,15 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         ClassId = intent.getStringExtra("ClassId");
         ByWhichRatio = intent.getStringExtra("ByWhichRatio");
         SortTimeType = intent.getStringExtra("SortTimeType");
+//<<<<<<<HEAD
+        ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("WhichTime");
+        if (listdateModel != null) {
+            WhichTime = Integer.valueOf(listdateModel.getDateValue());
+            whichName = listdateModel.getDateName();
+        }
+        GroupId = intent.getStringExtra("GroupId");
+//=======
+//>>>>>>> 45f646174470b68b3ad7f7c838522796975edca5
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
         GroupId=listGroupModel.getGroupId();
         listdateModel= (ListdateModel) intent.getSerializableExtra("listDataModel");

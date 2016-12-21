@@ -129,11 +129,19 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     //SortTimeType按什么时间拍训；
                     intent.putExtra("SortTimeType", SortTimeType);
-                    intent.putExtra("WhichTime", WhichTime);
-                    ListGroupModel model=groupModelList.get(i - 2);
-
-                    intent.putExtra("ListGroupModel", model);
-
+//<<<<<<< HEAD
+//                    intent.putExtra("WhichTime", WhichTime);
+                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
+                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
+                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
+                    }
+//=======
+//                    intent.putExtra("WhichTime", WhichTime);
+//                    ListGroupModel model=groupModelList.get(i - 2);
+//
+//                    intent.putExtra("ListGroupModel", model);
+//
+//>>>>>>> 45f646174470b68b3ad7f7c838522796975edca5
                     startActivity(intent);
                 }
             }
@@ -202,15 +210,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
             //不为null，list数据为零，显示“虚位以待”
             if (model.getList_top3() == null || model.getList_top3().size() == 0) {
-                civ_top1.setImageResource(R.drawable.img_default);
-                civ_top2.setImageResource(R.drawable.img_default);
-                civ_top3.setImageResource(R.drawable.img_default);
-                tv_top1_name.setText("");
-                tv_top2_name.setText("");
-                tv_top3_name.setText("");
-                tv_top1_per.setText(R.string.waiting);
-                tv_top2_per.setText(R.string.waiting);
-                tv_top3_per.setText(R.string.waiting);
+                setTop1Wating();
+                setTop2Wating();
+                setTop3Wating();
                 groupModelList.clear();
                 groupModelList.add(new ListGroupModel());
                 honorGroupRankAdapter.notifyDataSetChanged();
@@ -242,6 +244,15 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                             break;
                     }
                 }
+                //只有第一名时，剩下两个显示虚位以待
+                if (model.getList_top3().size() == 1) {
+                    setTop2Wating();
+                    setTop3Wating();
+                }
+                //只有前两名时，剩下一个显示虚位以待
+                if (model.getList_top3().size() == 2) {
+                    setTop3Wating();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -255,6 +266,23 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         }
     }
 
+    private void setTop1Wating() {
+        civ_top1.setImageResource(R.drawable.img_default);
+        tv_top1_name.setText("");
+        tv_top1_per.setText(R.string.waiting);
+    }
+
+    private void setTop2Wating() {
+        civ_top2.setImageResource(R.drawable.img_default);
+        tv_top2_name.setText("");
+        tv_top2_per.setText(R.string.waiting);
+    }
+
+    private void setTop3Wating() {
+        civ_top3.setImageResource(R.drawable.img_default);
+        tv_top3_name.setText("");
+        tv_top3_per.setText(R.string.waiting);
+    }
 
     @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
     public void onClick(View view) {

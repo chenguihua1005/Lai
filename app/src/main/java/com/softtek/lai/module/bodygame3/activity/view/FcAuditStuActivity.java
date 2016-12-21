@@ -300,9 +300,9 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_retestWrite_nowweight:
                 if (IsAudit == 0) {
                     if (gender.equals("1")) {
-                        show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
+                        show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                     } else {
-                        show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
+                        show_information("当前体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                     }
                 }
                 break;
