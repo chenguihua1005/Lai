@@ -195,7 +195,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @Override
     protected void initViews() {
         tv_title.setText("身份认证");
-
     }
 
     @Override

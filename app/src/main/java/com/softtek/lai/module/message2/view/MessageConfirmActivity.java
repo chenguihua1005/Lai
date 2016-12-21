@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -218,12 +217,12 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
                                         @Override
                                         public void failure(final RetrofitError error) {
-                                            try {
-//                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
-                                                EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
-                                            } catch (HyphenateException e) {
-                                                e.printStackTrace();
-                                            }
+//                                            try {
+////                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
+//                                                EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//后台处理失败，退群
+//                                            } catch (HyphenateException e) {
+//                                                e.printStackTrace();
+//                                            }
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
