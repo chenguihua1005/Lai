@@ -72,6 +72,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.app.Activity.RESULT_OK;
+
 @InjectLayout(R.layout.fragment_head_game_fragment1)
 public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.pull)
@@ -537,7 +539,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             case R.id.re_search_bottom:
                 break;
             case R.id.week_rel:
-                Intent intent1 = new Intent(getContext(), VideomoreActivity.class);
+                Intent intent1 = new Intent(getContext(), VideomoreActivity.class);//本周推荐（更多视频）
                 startActivity(intent1);
                 break;
             case R.id.fl_right:
@@ -550,13 +552,30 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             case R.id.re_photowall:
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
                 photowall.putExtra("classId", classId_first);
-                startActivity(photowall);
+//                startActivity(photowall);
+                startActivityForResult(photowall, 001);
                 break;
             case R.id.honor_lin:
                 Intent honor = new Intent(getContext(), HonorActivity.class);
                 honor.putExtra("classId", classId_first);
                 startActivity(honor);
                 break;
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 001) {
+                if (saveclassModel != null) {
+                    classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
+                } else {
+                    classModels.clear();
+                    getallfirst();
+                }
+            }
 
         }
     }
@@ -618,12 +637,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
-        if (saveclassModel != null) {
-            classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
-        } else {
-            getallfirst();
-        }
         gethasemail();
     }
 

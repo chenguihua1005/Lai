@@ -95,7 +95,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             } else {
                 ((ViewHolder) holder).tv_bi.setText("体脂比");
-                ((ViewHolder) holder).weight_first.setText("初始体脂比" + partnersModel.getWeight() + "%");
+                ((ViewHolder) holder).weight_first.setText("初始体脂" + partnersModel.getWeight() + "%");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             }
             if (mOnItemClickListener != null) {
