@@ -138,6 +138,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
 
         mImageFileSelector = new ImageFileSelector(getContext());
+        int px = dip2px(getContext(), 300);
+        mImageFileSelector.setOutPutImageSize(px, px);
 //        mImageFileSelector.setOutPutImageSize(620);
         mImageFileSelector.setQuality(30);
         mImageFileSelector.setCallback(new ImageFileSelector.Callback() {
@@ -166,6 +168,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         });
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    private int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 
     /**

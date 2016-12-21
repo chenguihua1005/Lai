@@ -161,7 +161,8 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                             String str=et_content.getText().toString();
                             et_content.setText(str.replace(replace,""));
                             int selection=start-replace.length();
-                            et_content.setSelection(selection<0?et_content.length()-1:selection);
+                            int lenght=et_content.length()-1<0?0:et_content.length()-1;
+                            et_content.setSelection(selection<0?lenght:selection);
                         }else {
                             ck_select.setBackgroundResource(R.drawable.selected);
                             hasTheme=true;

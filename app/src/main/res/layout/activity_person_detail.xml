@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:drawableLeft="@drawable/lable"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:enabled="false"
                         android:text="点击编辑签名"
                         android:textColor="#999999"
