@@ -103,6 +103,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
+        weekHonorManager = new WeekHonorManager(this);
         Bundle bundle = getArguments();
         ClassId = bundle.getString("classId");
         selectWeight();
@@ -139,11 +140,11 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
-                    intent.putExtra("WhichTime",  spinnerData.get(selectedSpinner));
-                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
-                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
-                    }
+                    ListdateModel listdateModel=spinnerData.get(selectedSpinner);
+                    intent.putExtra("listDataModel",listdateModel);
+                    ListGroupModel model=groupModelList.get(i - 2);
+                    intent.putExtra("ListGroupModel", model);
+
                     startActivity(intent);
                 }
                 Log.e("curry", "onItemClick: " + i);
@@ -182,12 +183,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void lazyLoad() {
-        String token = UserInfoModel.getInstance().getToken();
         UID = UserInfoModel.getInstance().getUserId();
-        if (StringUtils.isEmpty(token)) {
-        } else {
-            weekHonorManager = new WeekHonorManager(this);
-        }
         loadData(is_first);
     }
 

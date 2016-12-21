@@ -27,6 +27,7 @@ import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.bodygame3.more.view.SearchClassActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -96,12 +97,12 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
-            if (TextUtils.isEmpty(user.getPhoto())){
-                Picasso.with(getContext()).load(R.drawable.img_default).into(head_image);
-            }else {
-                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).fit()
+            if (!TextUtils.isEmpty(user.getPhoto())){
+                int px=DisplayUtil.dip2px(getContext(),60);
+                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).resize(px,px).centerCrop()
+                        .placeholder(R.drawable.img_default)
                         .error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(head_image);
+                        .into(head_image);
             }
             if(Constants.SP==Integer.parseInt(user.getUserrole())){
                 tv_right.setText("开班");
@@ -145,8 +146,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_join_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole())
-                        &&classCount>0){
+                if(classCount>0&&((String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole()))||
+                        String.valueOf(Constants.NC).equals(UserInfoModel.getInstance().getUser().getUserrole()))){
                     new AlertDialog.Builder(getContext()).setMessage("学员只能加入一个班级哦").setPositiveButton("确定",null).show();
                     return;
                 }

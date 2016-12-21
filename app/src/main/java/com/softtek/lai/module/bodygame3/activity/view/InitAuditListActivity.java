@@ -63,7 +63,9 @@ public class InitAuditListActivity extends BaseActivity{
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                Intent intent=new Intent();
+                intent.putExtra("Auditnum",Auditnum);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -115,8 +117,8 @@ public class InitAuditListActivity extends BaseActivity{
         });
     }
     public  void update(){
-        tabtitle[0] = "未审核(" + (Auditnum-1 )+ ")";
-        tabtitle[1] = "已审核(" + (Auditednum+1) + ")";
+        tabtitle[0] = "未审核(" + (--Auditnum )+ ")";
+        tabtitle[1] = "已审核(" + (++Auditednum) + ")";
         TabLayout.Tab tab1=tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2=tab.getTabAt(1);
@@ -127,7 +129,9 @@ public class InitAuditListActivity extends BaseActivity{
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             //do something...
-            setResult(RESULT_OK);
+            Intent intent=new Intent();
+            intent.putExtra("Auditnum",Auditnum);
+            setResult(RESULT_OK,intent);
 //            return true;
         }
         return super.onKeyDown(keyCode, event);

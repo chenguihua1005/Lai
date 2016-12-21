@@ -145,7 +145,7 @@ public class TitlePopup extends PopupWindow {
                     // 设置文本居中
                     textView.setGravity(Gravity.CENTER);
                     // 设置文本域的范围
-                    textView.setPadding(0, 16, 0, 16);
+                    textView.setPadding(0, 45, 0, 16);
                     // 设置文本在一行内显示（不换行）
                     textView.setSingleLine(true);
                 } else {

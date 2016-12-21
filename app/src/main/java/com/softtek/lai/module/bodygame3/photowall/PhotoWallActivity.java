@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -145,6 +146,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         int px = DisplayUtil.dip2px(this, 300);
+        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
         //*************************
         imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(px, px);
@@ -245,7 +247,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 //                    int[] position2 = new int[2];
 //                    rl_send.getLocationOnScreen(position2);
                     //ptrlv.getRefreshableView().scrollBy(0, position2[1]);
-                    rl_send.setVisibility(GONE);
+                    rl_send.setVisibility(View.INVISIBLE);
                     SoftInputUtil.hidden(PhotoWallActivity.this);
                 }
                 return false;
@@ -771,14 +773,14 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
 //            rl_send.getLocationOnScreen(position2);
 //            ptrlv.getRefreshableView().scrollBy(0, -position2[1]);
             SoftInputUtil.hidden(PhotoWallActivity.this);
-            rl_send.setVisibility(GONE);
+            rl_send.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
-            rl_send.setVisibility(GONE);
+            rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
             return true;
         }
@@ -792,7 +794,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         if(rl_send.getVisibility()==View.VISIBLE){
             if(oldBottom-bottom<0){
                 //键盘收起来
-                rl_send.setVisibility(GONE);
+                rl_send.setVisibility(View.INVISIBLE);
             }
 
         }

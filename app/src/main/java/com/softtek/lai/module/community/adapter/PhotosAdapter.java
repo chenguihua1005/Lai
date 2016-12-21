@@ -28,7 +28,7 @@ public class PhotosAdapter extends BaseAdapter{
     public PhotosAdapter(List<String> images, Context context) {
         this.images = images;
         this.context = context;
-        px = DisplayUtil.dip2px(context.getApplicationContext(), 79);
+        px = DisplayUtil.dip2px(context.getApplicationContext(), 78);
     }
 
     @Override

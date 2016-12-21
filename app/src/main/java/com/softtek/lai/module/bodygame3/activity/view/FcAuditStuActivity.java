@@ -289,7 +289,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             //保存
             case R.id.tv_right:
                 if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText())) {
-                    String message = "现在体重为必填项，请选择";
+                    String message = "当前体重为必填项，请选择";
                     new AlertDialog.Builder(this)
                             .setMessage(message)
                             .create().show();
@@ -300,9 +300,9 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_retestWrite_nowweight:
                 if (IsAudit == 0) {
                     if (gender.equals("1")) {
-                        show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
+                        show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                     } else {
-                        show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
+                        show_information("当前体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                     }
                 }
                 break;

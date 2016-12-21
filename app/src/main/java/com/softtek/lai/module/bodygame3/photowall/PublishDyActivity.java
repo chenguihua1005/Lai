@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,7 +36,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
-import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager;
 import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager2;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
@@ -107,6 +105,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         fl_right.setOnClickListener(this);
         tv_title.setText("发布动态");
         tv_right.setText("发布");
+
     }
 
     @Override

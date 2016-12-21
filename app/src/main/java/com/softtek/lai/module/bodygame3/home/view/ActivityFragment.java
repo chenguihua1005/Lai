@@ -262,7 +262,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
         ll_task.removeAllViews();
-        gettodaydata(dateStr);
+        if (!TextUtils.isEmpty(classid)) {
+            gettodaydata(dateStr);
+        }
 
 
     }
@@ -472,19 +474,36 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 2) {
                 com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
-                lazyLoad();
-                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据录入。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
-                    gettodaydata(saveclassModel.getDates());
+                if (classrole == Constants.STUDENT) {
+                    int IsInitW = data.getExtras().getInt("IsInitW");
+                    if (IsInitW == 1) {
+                        tv_chustatus.setText("未审核");
+                        BtnTag tag = new BtnTag();
+                        tag.isfirst = 2;
+                    }
+
+                } else {
+                    int numbers = data.getExtras().getInt("Auditnum");
+                    Log.i("numbers", numbers + "");
+                    tv_chustatus.setText("待审核" + numbers + "人");
+
                 }
+
             } else if (requestCode == 3) {
                 com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
-                lazyLoad();
-                if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                    Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
-                    gettodaydata(saveclassModel.getDates());
+                if (classrole == Constants.STUDENT) {
+                    int IsFcSt = data.getExtras().getInt("IsFcSt");
+                    if (IsFcSt == 1) {
+                        reset_time.setText("未审核");
+                        BtnTag tag = new BtnTag();
+                        tag.resetstatus = 2;
+//                        ll_fuce.setTag(tag);
+                    }
+                } else {
+                    int numbers = data.getExtras().getInt("Auditnum");
+                    Log.i("待审核人数", numbers + "");
+                    reset_time.setText("待审核" + numbers + "人");
+
                 }
             } else if (requestCode == 110) {
                 int operation = data.getExtras().getInt("operation");
@@ -832,49 +851,49 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     //更新班级
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-            if (clazz.getStatus() == 0) {
-                //更新班级姓名
-                for (ClassModel model : classModels) {
-                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                        model.setClassName(clazz.getModel().getClassName());
-                        model.setClassRole(clazz.getModel().getClassRole());
-                        model.setClassCode(clazz.getModel().getClassCode());
-                        model.setClassId(clazz.getModel().getClassId());
-                        break;
-                    }
+        if (clazz.getStatus() == 0) {
+            //更新班级姓名
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    model.setClassName(clazz.getModel().getClassName());
+                    model.setClassRole(clazz.getModel().getClassRole());
+                    model.setClassCode(clazz.getModel().getClassCode());
+                    model.setClassId(clazz.getModel().getClassId());
+                    break;
                 }
-                tv_title.getAdapter().notifyDataSetChanged();
-                tv_title.setSelected(tv_title.getSelectedIndex());
-            } else if (clazz.getStatus() == 1) {
-                //添加新班级
-                com.github.snowdream.android.util.Log.i("添加新班级。。。。。。。。。。。。。");
-                ClassModel model = new ClassModel();
-                model.setClassId(clazz.getModel().getClassId());
-                model.setClassCode(clazz.getModel().getClassCode());
-                model.setClassName(clazz.getModel().getClassName());
-                model.setClassRole(clazz.getModel().getClassRole());
-                this.classModels.add(model);
-                tv_title.getAdapter().notifyDataSetChanged();
-            } else if (clazz.getStatus() == 2) {
-                //删除班级
-                for (ClassModel model : classModels) {
-                    if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                        this.classModels.remove(model);
-                        tv_title.getAdapter().notifyDataSetChanged();
-                        break;
-                    }
-                }
-                if (classModels.isEmpty()) {
-                    this.classModel=null;
-                    classid="";
-                } else {
-                    tv_title.setSelected(0);
-                    this.classModel = classModels.get(0);
-                    classid=this.classModel.getClassId();
-
-                }
-                lazyLoad();
             }
+            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.setSelected(tv_title.getSelectedIndex());
+        } else if (clazz.getStatus() == 1) {
+            //添加新班级
+            com.github.snowdream.android.util.Log.i("添加新班级。。。。。。。。。。。。。");
+            ClassModel model = new ClassModel();
+            model.setClassId(clazz.getModel().getClassId());
+            model.setClassCode(clazz.getModel().getClassCode());
+            model.setClassName(clazz.getModel().getClassName());
+            model.setClassRole(clazz.getModel().getClassRole());
+            this.classModels.add(model);
+            tv_title.getAdapter().notifyDataSetChanged();
+        } else if (clazz.getStatus() == 2) {
+            //删除班级
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    this.classModels.remove(model);
+                    break;
+                }
+            }
+            tv_title.getAdapter().notifyDataSetChanged();
+            if (classModels.isEmpty()) {
+                this.classModel = null;
+                classid = "";
+            } else {
+                tv_title.setSelected(0);
+                this.classModel = classModels.get(0);
+                classid = this.classModel.getClassId();
+
+            }
+            lazyLoad();
+        }
     }
 
     @Subscribe

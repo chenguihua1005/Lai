@@ -147,11 +147,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 btn_yes.setVisibility(View.VISIBLE);
                 btn_no.setVisibility(View.VISIBLE);
                 cb_term.setEnabled(true);
-            }else {
+            } else {
                 cb_term.setEnabled(false);
                 if (!TextUtils.isEmpty(show.getIntroducerMobile())) {
                     tv_aixin_phone.setText(show.getIntroducerMobile());
-                }else {
+                } else {
                     tv_aixin_phone.setText("无");
                 }
             }
@@ -171,7 +171,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_yes:
-                if(!cb_term.isChecked()){
+                if (!cb_term.isChecked()) {
                     Util.toastMsg("请勾选康宝莱用户使用协议");
                     return;
                 }
@@ -212,16 +212,18 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                         Util.toastMsg(responseData.getMsg());
                                                     }
                                                 });
-                                                try {
-//                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
-                                                    EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
-                                                } catch (HyphenateException e) {
-                                                    e.printStackTrace();
-                                                }
+
                                             }
                                         }
+
                                         @Override
                                         public void failure(final RetrofitError error) {
+                                            try {
+//                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
+                                                EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//需异步处理
+                                            } catch (HyphenateException e) {
+                                                e.printStackTrace();
+                                            }
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -268,13 +270,13 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             }
                         });
                 break;
-            case R.id.rl_aixin:{
-                Intent intent=new Intent(this, EditorPhoneActivity.class);
-                intent.putExtra("aixin",tv_aixin_phone.getText().toString());
+            case R.id.rl_aixin: {
+                Intent intent = new Intent(this, EditorPhoneActivity.class);
+                intent.putExtra("aixin", tv_aixin_phone.getText().toString());
                 startActivityForResult(intent, 100);
 
             }
-                break;
+            break;
 
         }
     }
@@ -284,7 +286,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
             introducerId = data.getLongExtra("accountId", 0);
-            String phone=data.getStringExtra("phone");
+            String phone = data.getStringExtra("phone");
             tv_aixin_phone.setText(phone);
         }
     }
