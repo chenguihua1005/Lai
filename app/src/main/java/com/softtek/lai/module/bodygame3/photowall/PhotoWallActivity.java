@@ -237,6 +237,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK,getIntent());
                 finish();
             }
         });
@@ -474,6 +475,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         },500);
     }
 
+    int scrollY;
     private PopupWindow createPop( final PhotoWallslistModel data, final View itemBottom, final int position){
         //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(PhotoWallActivity.this);
@@ -491,6 +493,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+                scrollY=ptrlv.getRefreshableView().getScrollY();
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                 data.setPraiseNum(data.getPraiseNum() + 1);
                 data.setIsPraise(1);
@@ -769,11 +772,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     private void closeSoftInput(){
 
         if(rl_send.getVisibility()==View.VISIBLE){
-//            int[] position2 = new int[2];
-//            rl_send.getLocationOnScreen(position2);
-//            ptrlv.getRefreshableView().scrollBy(0, -position2[1]);
-            SoftInputUtil.hidden(PhotoWallActivity.this);
             rl_send.setVisibility(View.INVISIBLE);
+            SoftInputUtil.hidden(PhotoWallActivity.this);
+            ptrlv.getRefreshableView().scrollTo(0,scrollY);
         }
     }
 
@@ -782,6 +783,10 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
+            return true;
+        }else if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.INVISIBLE){
+            setResult(RESULT_OK,getIntent());
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -795,6 +800,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
             if(oldBottom-bottom<0){
                 //键盘收起来
                 rl_send.setVisibility(View.INVISIBLE);
+                ptrlv.getRefreshableView().scrollTo(0,scrollY);
             }
 
         }

@@ -618,7 +618,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        com.github.snowdream.android.util.Log.i("刷新。。。。。。。。。。。");
         if (saveclassModel != null) {
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
