@@ -7,13 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.WindowManager;
 
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.R;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
@@ -39,7 +39,7 @@ import zilla.libcore.util.Util;
  */
 public class NetErrorHandler implements IApiErrorHandler {
 
-    private AlertDialog.Builder builder = null;
+    private AlertDialog builder = null;
 
     @Override
     public boolean dealCustomError(Context context, @NonNull IApiError object) {
@@ -121,32 +121,33 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         }
                                     });
                                 }
-                                if (builder != null ||LaiApplication.getInstance().getContext()==null|| (LaiApplication.getInstance().getContext().get() instanceof LoginActivity)) {
-                                    return;
+                                if(builder==null||!builder.isShowing()){
+                                    builder = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                            .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                                            .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //builder = null;
+                                                    UserInfoModel.getInstance().loginOut();
+                                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                    Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    LaiApplication.getInstance().startActivity(intent);
+                                                }
+                                            }).setCancelable(false).create();
+                                    builder.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                    builder.show();
+
                                 }
-                                builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
-                                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                builder = null;
-                                                UserInfoModel.getInstance().loginOut();
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                                Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                LaiApplication.getInstance().startActivity(intent);
-                                            }
-                                        }).setCancelable(false);
-                                builder.create().show();
                                 break;
                             case 4001:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                AlertDialog dialog= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认",new DialogInterface.OnClickListener(){
                                             @Override
                                             public void onClick(DialogInterface dialog, int which){
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);
@@ -154,15 +155,17 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
-                                        }).setCancelable(false).create().show();
+                                        }).setCancelable(false).create();
+                                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog.show();
                                 break;
                             case 4002:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                AlertDialog dialog1= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
                                                 UserInfoModel.getInstance().saveUserCache(model);
@@ -170,10 +173,12 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
-                                        }).setCancelable(false).create().show();
+                                        }).setCancelable(false).create();
+                                dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog1.show();
                                 break;
                             case 4003:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                AlertDialog dialog2= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -195,7 +200,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     }
                                                 });
                                             }
-                                        }).setCancelable(false).create().show();
+                                        }).setCancelable(false).create();
+                                dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog2.show();
                                 break;
                             default:
                                 break;
