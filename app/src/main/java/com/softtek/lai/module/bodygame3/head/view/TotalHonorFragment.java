@@ -129,19 +129,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     //SortTimeType按什么时间拍训；
                     intent.putExtra("SortTimeType", SortTimeType);
-//<<<<<<< HEAD
-//                    intent.putExtra("WhichTime", WhichTime);
-                    if (honorRankModel != null && honorRankModel.getList_group() != null && honorRankModel.getList_group().size() != 0) {
-                        intent.putExtra("GroupId", honorRankModel.getList_group().get(i - 2).getGroupId());
-                        intent.putExtra("ListGroupModel", honorRankModel.getList_group().get(i - 2));
-                    }
-//=======
-//                    intent.putExtra("WhichTime", WhichTime);
-//                    ListGroupModel model=groupModelList.get(i - 2);
-//
-//                    intent.putExtra("ListGroupModel", model);
-//
-//>>>>>>> 45f646174470b68b3ad7f7c838522796975edca5
+                    ListGroupModel model=groupModelList.get(i - 2);
+                    intent.putExtra("ListGroupModel", model);
                     startActivity(intent);
                 }
             }
@@ -163,7 +152,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
     private void loadData(boolean is_first) {
-        listHonorrank.setRefreshing();
+        if (!is_first) {
+            listHonorrank.setRefreshing();
+        }
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 

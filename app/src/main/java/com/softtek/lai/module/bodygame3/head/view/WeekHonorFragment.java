@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -142,9 +141,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
-                    ListdateModel listdateModel=spinnerData.get(selectedSpinner);
-                    intent.putExtra("listDataModel",listdateModel);
-                    ListGroupModel model=groupModelList.get(i - 2);
+                    ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+                    intent.putExtra("listDataModel", listdateModel);
+                    ListGroupModel model = groupModelList.get(i - 2);
                     intent.putExtra("ListGroupModel", model);
                     startActivity(intent);
                 }
@@ -330,7 +329,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     }
 
     private void loadData(boolean is_first) {
-        listHonorrank.setRefreshing();
+        if (!is_first) {
+            listHonorrank.setRefreshing();
+        }
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 

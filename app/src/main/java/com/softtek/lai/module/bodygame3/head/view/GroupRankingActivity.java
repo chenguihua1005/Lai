@@ -32,7 +32,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 
-
 @InjectLayout(R.layout.activity_group_ranking)
 public class GroupRankingActivity extends BaseActivity implements GroupRankingManager.GroupRankingCallback {
 
@@ -69,7 +68,6 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     private HonorGroupRankModel honorGroupRankModel;
     private TextView tv_ranking_date;
     private String whichName;
-    private ListdateModel listdateModel;
 
 
     @Override
@@ -101,13 +99,11 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 //=======
 //                if (!TextUtils.isEmpty(initWeight)) {
 //                    String weight = String.format("%.0f", Double.valueOf(initWeight));
-                    if ("ByFatRatio".equals(ByWhichRatio))
-                    {
-                        tv_init_weight.setText("初始体脂" + initWeight + "%");
-                    }
-                    else {
-                        tv_init_weight.setText("初始体重" + initWeight + "斤");
-                    }
+                if ("ByFatRatio".equals(ByWhichRatio)) {
+                    tv_init_weight.setText("初始体脂" + initWeight + "%");
+                } else {
+                    tv_init_weight.setText("初始体重" + initWeight + "斤");
+                }
 //                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
@@ -122,7 +118,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i!=honorGroupRankModel.getGrouplist().size()){
+                if (i != honorGroupRankModel.getGrouplist().size()) {
                     Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));
@@ -138,23 +134,14 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         ClassId = intent.getStringExtra("ClassId");
         ByWhichRatio = intent.getStringExtra("ByWhichRatio");
         SortTimeType = intent.getStringExtra("SortTimeType");
-//<<<<<<<HEAD
-        ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("WhichTime");
+        ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("listDataModel");
         if (listdateModel != null) {
-            WhichTime = Integer.valueOf(listdateModel.getDateValue());
+            WhichTime = Integer.parseInt(listdateModel.getDateValue());
             whichName = listdateModel.getDateName();
         }
-        GroupId = intent.getStringExtra("GroupId");
-//=======
-//>>>>>>> 45f646174470b68b3ad7f7c838522796975edca5
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
-        GroupId=listGroupModel.getGroupId();
-        listdateModel= (ListdateModel) intent.getSerializableExtra("listDataModel");
-        if(listdateModel!=null){
-            WhichTime=Integer.parseInt(listdateModel.getDateValue());
-            whichName=listdateModel.getDateName();
-        }else {
-            WhichTime = intent.getIntExtra("WhichTime", 1);
+        if (listGroupModel != null) {
+            GroupId = listGroupModel.getGroupId();
         }
         groupRankingManager = new GroupRankingManager(this);
         groupRankingManager.getWeekHonnorInfo(ClassId, ByWhichRatio, SortTimeType, WhichTime, GroupId);
