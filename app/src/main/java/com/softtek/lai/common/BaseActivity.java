@@ -88,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Zilla.ACTIVITY = this;
-        LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
+        //LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         LifeCircle.onResume(this);
         MobclickAgent.onResume(this);
 
