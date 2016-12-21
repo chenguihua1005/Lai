@@ -26,11 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
-import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
-import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
-import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
-import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
-import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -216,8 +211,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.rl_setting:
-//                startActivity(new Intent(getContext(), SettingsActivity.class));
-                startActivity(new Intent(getContext(), FcStuActivity.class));
+                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
                 Intent personal=new Intent(getContext(), PersionalActivity.class);
