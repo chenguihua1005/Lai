@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,13 +89,13 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getUserName());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
-                tv_group_name.setText("(" + listGroupModel.getGroupName() + ")");
+                tv_group_name.setText(listGroupModel.getGroupName());
                 TextView tv_init_weight = holder.getView(R.id.tv_init_weight);
                 String initWeight = data.getInitWeight();
-                if (!TextUtils.isEmpty(initWeight)) {
-                    String weight = String.format("%.0f", Double.valueOf(initWeight));
-                    tv_init_weight.setText("初始体重" + weight + "斤");
-                }
+//                if (!TextUtils.isEmpty(initWeight)) {
+//                    String weight = String.format("%.0f", Double.valueOf(initWeight));
+                    tv_init_weight.setText("初始体重" + initWeight + "斤");
+//                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 tv_per_number.setText(data.getLossPer());
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
@@ -126,8 +125,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         ByWhichRatio = intent.getStringExtra("ByWhichRatio");
         SortTimeType = intent.getStringExtra("SortTimeType");
         ListdateModel listdateModel = (ListdateModel) intent.getSerializableExtra("WhichTime");
-        WhichTime = Integer.valueOf(listdateModel.getDateValue());
-        whichName = listdateModel.getDateName();
+        if (listdateModel != null) {
+            WhichTime = Integer.valueOf(listdateModel.getDateValue());
+            whichName = listdateModel.getDateName();
+        }
         GroupId = intent.getStringExtra("GroupId");
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
         if (StringUtils.isEmpty(token)) {
