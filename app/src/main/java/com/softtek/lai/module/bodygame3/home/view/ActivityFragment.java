@@ -497,7 +497,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         reset_time.setText("未审核");
                         BtnTag tag = new BtnTag();
                         tag.resetstatus = 2;
-//                        ll_fuce.setTag(tag);
                     }
                 } else {
                     int numbers = data.getExtras().getInt("Auditnum");
@@ -522,7 +521,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
                             gettodaydata(saveclassModel.getDates());
                         }
                     }
@@ -530,13 +528,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 } else if (operation == ActivitydetailActivity.ACTIVITY_EXIT) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
                         gettodaydata(saveclassModel.getDates());
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
-//                    ll_task.removeAllViews();
                         gettodaydata(saveclassModel.getDates());
                     }
                 }
