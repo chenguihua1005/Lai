@@ -192,14 +192,14 @@
         android:layout_marginTop="12dp"
         android:background="#ffffff"
         android:padding="5dp"
-        android:paddingLeft="9dp"
+        android:paddingStart="15dp"
         android:text="小组排名"
         android:textColor="#424242"
         android:textSize="13sp" />
 
- <!--   <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#eeeeee" />-->
+    <!--   <View
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:background="#eeeeee" />-->
 
 </LinearLayout>

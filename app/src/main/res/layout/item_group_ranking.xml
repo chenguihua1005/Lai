@@ -52,24 +52,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
+                    android:ellipsize="end"
+                    android:maxEms="4"
+                    android:singleLine="true"
                     android:text="@string/rank_trainer_name_test"
                     android:textColor="#424242"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#999999"
+                    android:textSize="12sp"
+                    android:text="(" />
+
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxEms="4"
+                    android:singleLine="true"
+                    android:textColor="#999999"
                     android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="#999999"
+                    android:textSize="12sp"
+                    android:layout_height="wrap_content"
+                    android:text=")" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_init_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="初始体重120斤"
                 android:layout_marginLeft="8dp"
+                android:text="初始体重120斤"
                 android:textColor="#424242"
                 android:textSize="11sp" />
 
