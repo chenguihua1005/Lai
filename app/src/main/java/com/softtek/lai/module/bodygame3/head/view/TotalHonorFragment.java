@@ -152,7 +152,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
     private void loadData(boolean is_first) {
-        listHonorrank.setRefreshing();
+        if (!is_first) {
+            listHonorrank.setRefreshing();
+        }
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
