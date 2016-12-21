@@ -18,7 +18,6 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
-import com.softtek.lai.BuildConfig;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -215,7 +214,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
                             try {//群主加人调用此方法
                                 //根据群组ID从服务器获取群组基本信息
-                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());//很奇怪为什么要先获取群信息
+                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
                                 if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
                                     EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
                                 } else {

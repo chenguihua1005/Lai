@@ -204,6 +204,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             if (content != null) {
                 holder.message.setText(content);
             }
+
             holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
             if (lastMessage.direct() == EMMessage.Direct.SEND && lastMessage.status() == EMMessage.Status.FAIL) {
                 holder.msgState.setVisibility(View.VISIBLE);
