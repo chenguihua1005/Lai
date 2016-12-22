@@ -32,6 +32,8 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
+import static com.softtek.lai.R.id.tv_init_weight;
+
 
 @InjectLayout(R.layout.activity_group_ranking)
 public class GroupRankingActivity extends BaseActivity implements GroupRankingManager.GroupRankingCallback {
@@ -90,12 +92,12 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 tv_trainer_name.setText(data.getUserName());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText(listGroupModel.getGroupName());
-                TextView tv_init_weight = holder.getView(R.id.tv_init_weight);
-                String initWeight = data.getInitWeight();
+                TextView tv_init = holder.getView(tv_init_weight);
+                String init = data.getInitWeight();
                 if ("ByFatRatio".equals(ByWhichRatio)) {
-                    tv_init_weight.setText("初始体脂" + initWeight + "%");
+                    tv_init.setText(getString(R.string.init_fat,init));
                 } else {
-                    tv_init_weight.setText("初始体重" + initWeight + "斤");
+                    tv_init.setText(getString(R.string.init_weight,init));
                 }
 //                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
@@ -149,13 +151,13 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
             tv_group_name.setText(listGroupModel.getGroupName());
             if ("ByWeek".equals(SortTimeType)) {
-                tv_title.setText("组内排名(" + whichName + ")");
-                tv_rank_number.setText("本周第" + listGroupModel.getRanking() + "名");
+                tv_title.setText(getString(R.string.title_ranking_group,whichName));
+                tv_rank_number.setText(getString(R.string.week_ranking,listGroupModel.getRanking()));
             } else if ("ByMonth".equals(SortTimeType)) {
-                tv_title.setText("组内排名(" + whichName + ")");
-                tv_rank_number.setText("本月第" + listGroupModel.getRanking() + "名");
+                tv_title.setText(getString(R.string.title_ranking_group,whichName));
+                tv_rank_number.setText(getString(R.string.month_ranking,listGroupModel.getRanking()));
             } else if ("ByTotal".equals(SortTimeType)) {
-                tv_title.setText("组内排名(总排名)");
+                tv_title.setText(R.string.title_group_total);
             }
             setImage(civ_trainer_header, listGroupModel.getCoachIco());
             Log.e("curry", "success: " + listGroupModel.toString());
@@ -179,7 +181,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         groupRankingModelList.clear();
         groupRankingModelList.addAll(model.getGrouplist());
         honorGroupRankAdapter.notifyDataSetChanged();
-        tv_ranking_date.setText("榜单日期: " + model.getStartDate() + "～" + model.getEndDate());
+        tv_ranking_date.setText(getString(R.string.ranking_date) + model.getStartDate() + "～" + model.getEndDate());
     }
 
     private void setImage(CircleImageView civ, String endUrl) {
