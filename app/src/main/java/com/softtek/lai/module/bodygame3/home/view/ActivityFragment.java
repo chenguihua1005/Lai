@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -558,6 +559,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.removeDecorator(decorator_create);
         material_calendar.removeDecorator(decorator_free);
 
+//        float value=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10,getResources().getDisplayMetrics());
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
@@ -666,19 +668,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 ll_fuce.setTag(tag);
                                             }
                                             ll_task.removeAllViews();
-                                            if (activitydataModel != null && !activitydataModel.getList_Activity().isEmpty()) {
+                                            if (activitydataModel.getList_Activity() != null && !activitydataModel.getList_Activity().isEmpty()) {
                                                 todayactModels.clear();
-
                                                 //有活动
                                                 todayactModels.addAll(activitydataModel.getList_Activity());
+                                                Log.e("活动列表",todayactModels.toString());
                                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                View view = null;
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
                                                     int counts = todayactModels.size();
-                                                    view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
+                                                    View view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                     if (ll_task != null) {
+                                                        com.github.snowdream.android.util.Log.i("活动列表。。。。");
                                                         ll_task.addView(view, lp);
+                                                        com.github.snowdream.android.util.Log.i("活动列表完成。。。。。。。。");
                                                     }
                                                 }
                                             }
