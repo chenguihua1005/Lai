@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -43,32 +41,39 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 0x0001) {
-                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                        .existClass(UserInfoModel.getInstance().getToken(),
-                                UserInfoModel.getInstance().getUserId(),
-                                model.getClassId(),
-                                new retrofit.Callback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                        dialogDissmiss();
-                                        if (responseData.getStatus() == 200) {
-                                            Util.toastMsg("退出班级成功！");
-                                            EventBus.getDefault().post(new UpdateClass(2, model));
-                                        } else {
-                                            Util.toastMsg(responseData.getMsg());
+            switch (msg.what) {
+                case 0x0001: {
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .existClass(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    model.getClassId(),
+                                    new retrofit.Callback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            dialogDissmiss();
+                                            if (responseData.getStatus() == 200) {
+                                                Util.toastMsg("退出班级成功！");
+                                                EventBus.getDefault().post(new UpdateClass(2, model));
+                                            } else {
+                                                Util.toastMsg(responseData.getMsg());
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        dialogDissmiss();
-                                        ZillaApi.dealNetError(error);
-                                        Util.toastMsg("退出班级失败！");
-                                    }
-                                });
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            dialogDissmiss();
+                                            ZillaApi.dealNetError(error);
+                                            Util.toastMsg("退出班级失败！");
+                                        }
+                                    });
 
 
+                    break;
+                }
+                case 0x0002:
+                    Util.toastMsg("退出班级失败！");
+                    dialogDissmiss();
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -137,11 +142,14 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                             Message msg = new Message();
                                             msg.what = 0x0001;
                                             handler.sendMessage(msg);
-                                        } catch (HyphenateException e) {
-                                            Looper.prepare();
-                                            dialogDissmiss();
-                                            Looper.loop();
-                                            Util.toastMsg("退出班级失败！");
+                                        } catch (Exception e) {
+//                                            Util.toastMsg("退出班级失败！");
+//                                            Looper.prepare();
+//                                            dialogDissmiss();
+//                                            Looper.loop();
+                                            Message msg = new Message();
+                                            msg.what = 0x0002;
+                                            handler.sendMessage(msg);
                                             e.printStackTrace();
                                         }
                                     }
