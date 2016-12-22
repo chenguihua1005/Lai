@@ -148,13 +148,11 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         String token = UserInfoModel.getInstance().getToken();
         UID = UserInfoModel.getInstance().getUserId();
         weekHonorManager = new WeekHonorManager(this);
-        loadData(true);
+        loadData(false);
     }
 
     private void loadData(boolean is_first) {
-        if (!is_first) {
-            listHonorrank.setRefreshing();
-        }
+        listHonorrank.setRefreshing();
         weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
