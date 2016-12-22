@@ -49,6 +49,8 @@ public class ChartManager {
             }
         });
     }
+    
+
     public void setCallback(ChartManagerCallback callback) {
         this.callback = callback;
     }

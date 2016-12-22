@@ -20,8 +20,6 @@ import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
 import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
@@ -65,7 +63,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     int n = 7;
     boolean state = true;
     int flag = 0;
-    IHealthyRecord iHealthyRecord;
+
     private ProgressDialog progressDialog;
 
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -96,7 +94,6 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager = new HealthRecordManager(this);
         dates.clear();
-        iHealthyRecord = new HealthyRecordImpl();
         String nowdate7 = DateForm.getPeriodDate(type, 0).toString();
         String nowdate6 = DateForm.getPeriodDate(type, 1).toString();
         String nowdate5 = DateForm.getPeriodDate(type, 2).toString();

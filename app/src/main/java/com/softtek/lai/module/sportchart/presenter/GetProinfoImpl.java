@@ -3,12 +3,12 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.jingdu.presenter;
+package com.softtek.lai.module.sportchart.presenter;
 
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.jingdu.net.JingduService;
 import com.softtek.lai.module.message2.model.PhotosModel;
+import com.softtek.lai.module.sportchart.net.ChartService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -23,15 +23,16 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
+ *
  * Created by julie.zhu on 3/28/2016.
  */
 public class GetProinfoImpl implements IGetProinfopresenter {
-    private JingduService service;
+    private ChartService service;
     private BaseActivity context;
 
     public GetProinfoImpl(BaseActivity context) {
         this.context = context;
-        service = ZillaApi.NormalRestAdapter.create(JingduService.class);
+        service = ZillaApi.NormalRestAdapter.create(ChartService.class);
     }
     //上传图片文件
     @Override
@@ -58,7 +59,6 @@ public class GetProinfoImpl implements IGetProinfopresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygamest.adapter;
+package com.softtek.lai.module.bodygame3.more.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.
@@ -13,19 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
+import com.softtek.lai.module.bodygame3.more.model.StudentHonorInfo;
 
 import java.util.List;
 
 public class StudentHonorStarAdapter extends BaseAdapter {
     private List<StudentHonorInfo> list;
-    private LayoutInflater mInflater;
     private Context context;
 
     public StudentHonorStarAdapter(Context context, List<StudentHonorInfo> list) {
         this.context = context;
         this.list = list;
-        mInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class StudentHonorStarAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.student_honor_star_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.student_honor_star_item, null);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_value1 = (TextView) convertView.findViewById(R.id.text_value1);
             holder.img = (ImageView) convertView.findViewById(R.id.img);

@@ -3,16 +3,16 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.present;
+package com.softtek.lai.module.bodygame3.more.present;
 
 import android.util.Log;
 
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.HnumsModel;
-import com.softtek.lai.module.bodygamest.model.HonorModel;
-import com.softtek.lai.module.bodygamest.net.StudentService;
+import com.softtek.lai.module.bodygame3.more.model.HnumsModel;
+import com.softtek.lai.module.bodygame3.more.model.HonorModel;
+import com.softtek.lai.module.bodygame3.more.net.StudentService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,33 +41,6 @@ public class StudentImpl implements IStudentPresenter {
         studentService.getStudentHonours(token,new Callback<ResponseData<HnumsModel>>() {
             @Override
             public void success(ResponseData<HnumsModel> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                base.dialogDissmiss();
-                switch (status) {
-                    case 200:
-                        EventBus.getDefault().post(listResponseData.getData());
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                base.dialogDissmiss();
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void getStudentHonor() {
-        String token = UserInfoModel.getInstance().getToken();
-        studentService.getStudentHonor(token, new Callback<ResponseData<HonorModel>>() {
-            @Override
-            public void success(ResponseData<HonorModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 base.dialogDissmiss();
                 switch (status) {

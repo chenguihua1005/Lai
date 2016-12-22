@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.jingdu.presenter;
+package com.softtek.lai.module.sportchart.presenter;
 
 /**
  * Created by julie.zhu on 3/28/2016.

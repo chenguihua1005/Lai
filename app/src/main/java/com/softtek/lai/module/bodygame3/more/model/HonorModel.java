@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygamest.model;
+package com.softtek.lai.module.bodygame3.more.model;
 
 import java.util.List;
 
