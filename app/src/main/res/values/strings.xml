@@ -224,6 +224,7 @@
     <string name="group_ranking">组内排名</string>
     <string name="past_ranking">往期榜单</string>
     <string name="waiting">虚位以待</string>
+    <string name="init_weight">初始体脂%1$s%</string>
 
     <string name="please_close_class">解散班级群(请先关闭班级)</string>
     <string name="please_dismiss_class">解散班级群</string>
