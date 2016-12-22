@@ -115,8 +115,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             adapter = new EasyAdapter<ActtypeModel>(this, acttypeModels, R.layout.gird_item) {
                 @Override
                 public void convert(ViewHolder holder, ActtypeModel data, int position) {
-                    TextView text = holder.getView(R.id.text);
-                    text.setText(data.getActivityTypeName());
+//                    TextView text = holder.getView(R.id.text);
+//                    text.setText(data.getActivityTypeName());
                     CircleImageView image = holder.getView(R.id.head_image);
                     String path = AddressManager.get("photoHost");
                     if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
