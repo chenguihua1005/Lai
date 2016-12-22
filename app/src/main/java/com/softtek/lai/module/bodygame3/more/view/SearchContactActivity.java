@@ -106,9 +106,9 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                                         }
                                                         contacts.addAll(data.getData());
                                                         adapter.notifyDataSetChanged();
-                                                    }else {
-                                                        Util.toastMsg(data.getMsg());
                                                     }
+                                                }else {
+                                                    Util.toastMsg(data.getMsg());
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();
