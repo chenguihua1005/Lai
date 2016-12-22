@@ -648,6 +648,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     refresh.setRefreshing(false);
                     page = 1;
                     classModels.clear();
+                    spinner_title.attachDataSource(dataset);
+                    typecode = 0;
+                    partneradapter.setType(typecode);
                     com.github.snowdream.android.util.Log.i("第一次加载的输出信息=" + classinfoModelResponseData.getData().toString());
                     if (classinfoModelResponseData.getData() != null) {
                         final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();

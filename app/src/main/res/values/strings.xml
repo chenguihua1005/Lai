@@ -224,6 +224,14 @@
     <string name="group_ranking">组内排名</string>
     <string name="past_ranking">往期榜单</string>
     <string name="waiting">虚位以待</string>
+    <string name="init_weight">初始体重%1$s斤</string>
+    <string name="init_fat">初始体脂%1$s%%</string>
+    <string name="ranking_date">榜单日期: </string>
+    <string name="title_ranking_group">组内排名(%1$s)</string>
+    <string name="week_ranking">本周第%1$s名</string>
+    <string name="month_ranking">本月第%1$s名</string>
+    <string name="title_group_total">组内排名(总排名)</string>
+
 
     <string name="please_close_class">解散班级群(请先关闭班级)</string>
     <string name="please_dismiss_class">解散班级群</string>

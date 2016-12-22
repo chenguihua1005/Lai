@@ -42,7 +42,6 @@ import com.softtek.lai.widgets.PopUpWindow.ActionItem;
 import com.softtek.lai.widgets.PopUpWindow.TitlePopup;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

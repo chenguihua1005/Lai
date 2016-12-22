@@ -36,7 +36,7 @@ public class EventDecoratorDot implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
 
-        float value= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,5,context.getResources().getDisplayMetrics());
+        float value= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,3,context.getResources().getDisplayMetrics());
         view.addSpan(new DotSpanMy(value, color));
     }
 }

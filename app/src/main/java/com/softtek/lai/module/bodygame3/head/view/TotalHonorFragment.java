@@ -108,7 +108,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
 
         refreshableView.addHeaderView(view);
-        listHonorrank.setAdapter(honorGroupRankAdapter);
+//        listHonorrank.setAdapter(honorGroupRankAdapter);
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
