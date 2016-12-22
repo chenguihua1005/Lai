@@ -118,7 +118,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                     button.setOnClickListener(this);
                 }
             } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {//没有班级
-
                 sp_tv.setVisibility(View.VISIBLE);
                 pc_tv.setVisibility(View.GONE);
                 button.setVisibility(View.VISIBLE);
