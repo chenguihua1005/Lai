@@ -3,17 +3,13 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygamest.present;
-
-import android.widget.ListView;
+package com.softtek.lai.module.bodygame3.more.present;
 
 /**
  * Created by jarvis on 3/3/2016.
  */
 public interface IStudentPresenter {
 
-    //荣誉榜
-    void getStudentHonor();
 
     //荣誉榜2.0
     void getStudentHonorPC(String accountid);

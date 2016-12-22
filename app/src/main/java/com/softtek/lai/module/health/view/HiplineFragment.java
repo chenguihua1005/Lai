@@ -20,8 +20,6 @@ import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.HiplielistModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
@@ -63,7 +61,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     int n = 7;
     boolean state = true;
     int flag = 0;
-    IHealthyRecord iHealthyRecord;
     private ProgressDialog progressDialog;
     HealthRecordManager healthRecordManager;
 
@@ -89,7 +86,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager = new HealthRecordManager(this);
         dates.clear();
-        iHealthyRecord = new HealthyRecordImpl();
+
         String nowdate7 = getPeriodDate(type, 0) + "";
         String nowdate6 = getPeriodDate(type, 1) + "";
         String nowdate5 = getPeriodDate(type, 2) + "";

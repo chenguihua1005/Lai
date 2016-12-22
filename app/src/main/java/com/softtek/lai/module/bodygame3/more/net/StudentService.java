@@ -1,8 +1,8 @@
-package com.softtek.lai.module.bodygamest.net;
+package com.softtek.lai.module.bodygame3.more.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygamest.model.HnumsModel;
-import com.softtek.lai.module.bodygamest.model.HonorModel;
+import com.softtek.lai.module.bodygame3.more.model.HnumsModel;
+import com.softtek.lai.module.bodygame3.more.model.HonorModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -14,12 +14,6 @@ import retrofit.http.Query;
  * Created by jarvis.Liu on 3/31/2016.
  */
 public interface StudentService {
-    //荣誉榜
-    @GET("/Index/GetStudentHonor")
-    void getStudentHonor(
-            @Header("token") String token,
-            Callback<ResponseData<HonorModel>> callback
-    );
 
     //荣誉榜
     @GET("/Index/New_GetStudentHonor")
