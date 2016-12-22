@@ -3,6 +3,7 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -129,11 +130,15 @@ public abstract class EaseChatRow extends LinearLayout {
             }
         }
 
+
+
         String name = null;
         String avatar = null;
         try {
             name = message.getStringAttribute("nickname");
             avatar = message.getStringAttribute("avatarURL");
+
+
 //            if (TextUtils.isEmpty(avatar)) {
 //                avatar = "111";
 //            }
@@ -159,6 +164,9 @@ public abstract class EaseChatRow extends LinearLayout {
             }
 
         } else {
+
+            Log.i(TAG,"message = " + message);
+
 //            if (TextUtils.isEmpty(avatar)) {
 //                photoF = "111";
 //            }

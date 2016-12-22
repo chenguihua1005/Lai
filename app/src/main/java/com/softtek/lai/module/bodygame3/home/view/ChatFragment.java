@@ -195,9 +195,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
             }
         };
-//        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        EMClient.getInstance().addConnectionListener(connectionListener);
         registerBroadcastReceiver();
-
     }
 
     @Override
@@ -533,6 +532,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
             for (EMMessage message : messages) {
+                Log.i(TAG, "message = " + message);
                 EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
 
                 // in background, do not refresh UI, notify it in notification bar
