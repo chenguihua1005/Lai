@@ -363,6 +363,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     finish();
                 }
                 break;
+
         }
     }
 

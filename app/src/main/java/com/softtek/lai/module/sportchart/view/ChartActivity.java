@@ -29,8 +29,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.DateForm;
-import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
-import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.module.sportchart.presenter.GetProinfoImpl;
+import com.softtek.lai.module.sportchart.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.model.PhotosModel;
 import com.softtek.lai.module.sport2.model.ScoreModel;
@@ -187,7 +187,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     protected void initDatas() {
         iGetProinfopresenter = new GetProinfoImpl(this);
         chartManager = new ChartManager(this);
-        iGetProinfopresenter = new GetProinfoImpl(this);
 
         dates.clear();
         day.clear();
@@ -220,7 +219,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         Intent intent=getIntent();
         isFocusid=intent.getStringExtra("isFocusid");
         chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7));
-//        iGradesPresenter.getStepCount(dateForm.getDateform(nowdate4),dateForm.getDateform(nowdate7));
     }
 
     /**

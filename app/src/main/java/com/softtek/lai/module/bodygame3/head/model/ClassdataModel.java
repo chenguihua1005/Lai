@@ -5,8 +5,7 @@ package com.softtek.lai.module.bodygame3.head.model;
  */
 
 public class ClassdataModel {
-    //    "HasClass": 1   ,--0：没有班级，大于0有班级
-//    “DoingClass”:0 ,--0没有进行中的班级,大于0则有进行中的班级
+
     private int HasClass;
     private int DoingClass;
 

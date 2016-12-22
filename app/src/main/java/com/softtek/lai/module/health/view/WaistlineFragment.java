@@ -20,8 +20,6 @@ import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.model.WaistlinelistModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
@@ -64,7 +62,7 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
     int n = 7;
     boolean state = true;
     int flag = 0;
-    IHealthyRecord iHealthyRecord;
+
     private ProgressDialog progressDialog;
     HealthRecordManager healthRecordManager;
 
@@ -90,8 +88,6 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager = new HealthRecordManager(this);
         dates.clear();
-
-        iHealthyRecord = new HealthyRecordImpl();
         String nowdate7 = getPeriodDate(type, 0).toString();
         String nowdate6 = getPeriodDate(type, 1).toString();
         String nowdate5 = getPeriodDate(type, 2).toString();

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygamest.model;
+package com.softtek.lai.module.bodygame3.more.model;
 
 /**
  * Created by jarvis.liu on 3/31/2016.

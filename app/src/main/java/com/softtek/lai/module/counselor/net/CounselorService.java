@@ -24,12 +24,6 @@ import retrofit.http.Query;
  */
 public interface CounselorService {
 
-    @FormUrlEncoded
-    @POST("/HerbrClass/SendInviterSR")
-    void sendInviterSR(@Header("token") String token,
-                       @Field("ClassId") String classId,
-                       @Field("Inviters") String Inviters,
-                       Callback<ResponseData> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/SendInviterMsg")
@@ -45,12 +39,5 @@ public interface CounselorService {
                       @Query("group") String group,
                       Callback<ResponseData<List<MarchInfoModel>>> callback);
 
-    @FormUrlEncoded
-    @POST("/HerbAssistant/SRApplyAssistant")
-    void srApplyAssistant(@Header("token") String token,
-                          @Field("applyerId") String applyerId,
-                          @Field("classManagerId") String classManagerId,
-                          @Field("classId") String classId,
-                          @Field("comments") String comments,
-                          Callback<ResponseData<ApplySuccessModel>> callback);
+
 }
