@@ -28,6 +28,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;
@@ -56,6 +57,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initViews() {
+        //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         Constants.IS_LOGINIMG="0";
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
@@ -87,11 +89,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
             if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
-                UserInfoModel.getInstance().visitorLogin();
-                finish();
-                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
+                UserInfoModel.getInstance().loginOut();
+                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.activity_enter,0);
+                finish();
             }else{
                 //登录
                 PackageManager pm= getPackageManager();
@@ -155,11 +156,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-                                UserInfoModel.getInstance().visitorLogin();
-                                finish();
-                                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
+                                UserInfoModel.getInstance().loginOut();
+                                Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                                 startActivity(intent);
-                                overridePendingTransition(R.anim.activity_enter,0);
+                                finish();
                                 break;
                         }
                     }

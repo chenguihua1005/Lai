@@ -1,6 +1,7 @@
 package com.softtek.lai.widgets.materialcalendarview.decorators;
 
 import android.content.Context;
+import android.util.TypedValue;
 
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.DayViewDecorator;
@@ -35,6 +36,7 @@ public class EventDecoratorDot implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
 
-        view.addSpan(new DotSpanMy(5, color));
+        float value= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,5,context.getResources().getDisplayMetrics());
+        view.addSpan(new DotSpanMy(value, color));
     }
 }

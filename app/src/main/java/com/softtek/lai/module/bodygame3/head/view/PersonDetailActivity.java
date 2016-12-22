@@ -42,7 +42,6 @@ import com.softtek.lai.widgets.PopUpWindow.ActionItem;
 import com.softtek.lai.widgets.PopUpWindow.TitlePopup;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,7 +136,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String ClassId;
     ArrayList<String> images = new ArrayList<>();
 
-    private static final int GET_Sian=1;//发布签名
+    private static final int GET_Sian = 1;//发布签名
 
     @Override
     protected void initViews() {
@@ -168,9 +167,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 ImageView img = holder.getView(R.id.img);
                 if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
                     Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
-                }
-                else if (!TextUtils.isEmpty(data.getImgUrl()))
-                {
+                } else if (!TextUtils.isEmpty(data.getImgUrl())) {
                     Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
 
                 }
@@ -249,14 +246,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetData() {
         try {
             if (memberInfoModel != null) {
-                String url=AddressManager.get("photoHost");
+                String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(getParent()).load(url+memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+                    Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 tv_stuname.setText(memberInfoModel.getUserName());//用户名
                 AccountId = memberInfoModel.getAccountid();
-                HXAccountId=memberInfoModel.getHXAccountId();
+                HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
@@ -318,19 +315,19 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if ("4".equals(memberInfoModel.getClassRole())) {
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
-                        String lossweight[]=memberInfoModel.getTotalLossWeight().split("-");
-                        tv_Lossweight.setText("增重  " +lossweight[1]  + "斤");//减重d
+                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
+                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
                     } else {
 //                        DecimalFormat df = new DecimalFormat("0.0");//.00就表示保留后两位数
 
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" :"初始体重 "+ memberInfoModel.getInitWeight());//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 "+memberInfoModel.getCurrentWeight());//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight());//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight());//现在体重
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
                         Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
-                        Picasso.with(getParent()).load(url+memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
                     }
                     if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
                         Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
@@ -357,7 +354,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             images.clear();
             for (int n = 0; n < newsTopFourModels.size(); n++) {
                 images.add(n, newsTopFourModels.get(n).getImgUrl());
-                Log.i("图片测试",AddressManager.get("photoHost") + newsTopFourModels.get(n).getThumbnailImgUrl());
+                Log.i("图片测试", AddressManager.get("photoHost") + newsTopFourModels.get(n).getThumbnailImgUrl());
 
             }
             easyAdapter.notifyDataSetChanged();
@@ -366,27 +363,27 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             tv_no_dy.setVisibility(View.VISIBLE);
         }
     }
-    private int PERSONDY=3;
+
+    private int PERSONDY = 3;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_personlityName:
-                Intent intent1=new Intent(this,EditSignaActivity.class);
-                if (TextUtils.isEmpty(memberInfoModel.getPersonalityName()))
-                {
-                    intent1.putExtra("sina","");
-                }
-                else {
+                Intent intent1 = new Intent(this, EditSignaActivity.class);
+                if (TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
+                    intent1.putExtra("sina", "");
+                } else {
                     intent1.putExtra("sina", tv_personlityName.getText().toString());
                 }
-                startActivityForResult(intent1,GET_Sian);
+                startActivityForResult(intent1, GET_Sian);
                 break;
             case R.id.tv_dynamic:
-                    Intent personal = new Intent(this, PersionalActivity.class);
-                    personal.putExtra("personalId", AccountId+"");
-                    personal.putExtra("personalName",memberInfoModel.getUserName());
-                    personal.putExtra("isFocus",Integer.parseInt("true".equals(memberInfoModel.getIsFocus())?"1":"0"));
-                    startActivityForResult(personal,PERSONDY);
+                Intent personal = new Intent(this, PersionalActivity.class);
+                personal.putExtra("personalId", AccountId + "");
+                personal.putExtra("personalName", memberInfoModel.getUserName());
+                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+                startActivityForResult(personal, PERSONDY);
                 break;
             case R.id.tv_chart:
                 Intent graph = new Intent(this, GraphActivity.class);
@@ -396,7 +393,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //查看曲线图
                 break;
             case R.id.btn_chat:
-                Log.i(TAG,"userId = " + HXAccountId  +" UserName = " + UserName);
+                Log.i(TAG, "userId = " + HXAccountId + " UserName = " + UserName);
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
@@ -421,15 +418,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.im_guanzhu:
                 headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
-                if (im_guanzhu.isChecked())
-                {
+                if (im_guanzhu.isChecked()) {
                     Log.i("关注");
                     headService.doFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {
-                            int status=responseData.getStatus();
-                            switch (status)
-                            {
+                            int status = responseData.getStatus();
+                            switch (status) {
                                 case 200:
                                     memberInfoModel.setIsFocus("true");
                                     break;
@@ -440,16 +435,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             }
                         }
                     });
-                }
-                else {
+                } else {
                     Log.i("取消关注");
 
                     headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), userid, AccountId, new RequestCallback<ResponseData>() {
                         @Override
                         public void success(ResponseData responseData, Response response) {
-                            int status=responseData.getStatus();
-                            switch (status)
-                            {
+                            int status = responseData.getStatus();
+                            switch (status) {
                                 case 200:
                                     memberInfoModel.setIsFocus("false");
                                     break;
@@ -615,23 +608,19 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             titlePopup.cleanAction();
             fl_right.setVisibility(View.INVISIBLE);
         }
-        if (requestCode==GET_Sian&&resultCode==RESULT_OK)
-        {
-            if (!TextUtils.isEmpty(data.getStringExtra("sina")))
-            {
+        if (requestCode == GET_Sian && resultCode == RESULT_OK) {
+            if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_personlityName.setText(data.getStringExtra("sina"));
                 tv_personlityName.setCompoundDrawables(null, null, null, null);
             }
 
         }
-        if (requestCode==PERSONDY&&resultCode==RESULT_OK)
-        {
-            int isFocus=data.getIntExtra("isFocus",0);
-            if (isFocus==1) {
+        if (requestCode == PERSONDY && resultCode == RESULT_OK) {
+            int isFocus = data.getIntExtra("isFocus", 0);
+            if (isFocus == 1) {
                 im_guanzhu.setChecked(true);
                 memberInfoModel.setIsFocus("true");
-            }
-            else {
+            } else {
                 im_guanzhu.setChecked(false);
                 memberInfoModel.setIsFocus("false");
             }
