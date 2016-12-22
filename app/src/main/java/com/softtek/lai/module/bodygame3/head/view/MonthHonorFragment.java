@@ -122,7 +122,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
 
         refreshableView.addHeaderView(view);
-        listHonorrank.setAdapter(honorGroupRankAdapter);
+//        listHonorrank.setAdapter(honorGroupRankAdapter);
 
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -247,13 +247,13 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     }, 500);
                     spinnerData.clear();
                     spinnerData = model.getList_date();
-    //                for (int i = spinnerData.size() - 1; i >= 0; i--) {
-    //                    spinnerData2.add(spinnerData.get(i).getDateName());
-    //                }
                     for (int i = 0; i < spinnerData.size(); i++) {
                         spinnerData2.add(spinnerData.get(i).getDateName());
                     }
                     spinner.attachCustomSource(spinnerAdapter);
+                    //在这里设置adapter后就可以显示空头部
+                    listHonorrank.setAdapter(honorGroupRankAdapter);
+
                     //动态设置下拉框的高度
                     switch (spinnerData.size()) {
                         case 1:

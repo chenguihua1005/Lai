@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,14 +92,6 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 tv_group_name.setText(listGroupModel.getGroupName());
                 TextView tv_init_weight = holder.getView(R.id.tv_init_weight);
                 String initWeight = data.getInitWeight();
-//<<<<<<< HEAD
-////                if (!TextUtils.isEmpty(initWeight)) {
-////                    String weight = String.format("%.0f", Double.valueOf(initWeight));
-//                    tv_init_weight.setText("初始体重" + initWeight + "斤");
-////                }
-//=======
-//                if (!TextUtils.isEmpty(initWeight)) {
-//                    String weight = String.format("%.0f", Double.valueOf(initWeight));
                 if ("ByFatRatio".equals(ByWhichRatio)) {
                     tv_init_weight.setText("初始体脂" + initWeight + "%");
                 } else {
@@ -106,7 +99,11 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 }
 //                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                tv_per_number.setText(data.getLossPer());
+                if (TextUtils.isEmpty(data.getLossPer())){
+                    tv_per_number.setText("--");
+                }else {
+                    tv_per_number.setText(data.getLossPer());
+                }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
                 tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
             }
@@ -163,7 +160,11 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             setImage(civ_trainer_header, listGroupModel.getCoachIco());
             Log.e("curry", "success: " + listGroupModel.toString());
             tv_trainer_name.setText(listGroupModel.getCoachName());
-            tv_per_number.setText(listGroupModel.getLossPer());
+            if (TextUtils.isEmpty(listGroupModel.getLossPer())){
+                tv_per_number.setText("--");
+            }else {
+                tv_per_number.setText(listGroupModel.getLossPer());
+            }
             tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
         }
 

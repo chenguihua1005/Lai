@@ -124,7 +124,10 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
 
         refreshableView.addHeaderView(view);
-        listHonorrank.setAdapter(honorGroupRankAdapter);
+        //加上就先显示空的头部，这种效果不要。、
+        //注释掉后第一种情况可以解决;第二种应该是因为没有给list一条空数据所以没有显示空头部；第三种情况依然正确。
+        // 所以给list一条空数据就应该显示空的头部了
+//        listHonorrank.setAdapter(honorGroupRankAdapter);
 
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -172,7 +175,11 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getCoachName());
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                tv_per_number.setText(data.getLossPer());
+                if (TextUtils.isEmpty(data.getLossPer())){
+                    tv_per_number.setText("--");
+                }else {
+                    tv_per_number.setText(data.getLossPer());
+                }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
                 tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
             }
@@ -251,6 +258,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                         spinnerData2.add(spinnerData.get(i).getDateName());
                     }
                     spinner.attachCustomSource(spinnerAdapter);
+                    listHonorrank.setAdapter(honorGroupRankAdapter);
                     //动态设置下拉框的高度
                     switch (spinnerData.size()) {
                         case 1:
