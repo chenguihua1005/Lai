@@ -7,6 +7,7 @@ package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +64,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private ProgressDialog progressDialog;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void initViews() {
+
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
