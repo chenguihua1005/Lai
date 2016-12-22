@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -14,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -25,7 +26,6 @@ import com.softtek.lai.module.bodygame3.more.net.MoreService;
 
 import org.greenrobot.eventbus.EventBus;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -37,6 +37,47 @@ import static com.softtek.lai.R.id.rl_exit;
  * A simple {@link Fragment} subclass.
  */
 public class StudentFragment extends Fragment implements View.OnClickListener {
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0x0001: {
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .existClass(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    model.getClassId(),
+                                    new retrofit.Callback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            dialogDissmiss();
+                                            if (responseData.getStatus() == 200) {
+                                                Util.toastMsg("退出班级成功！");
+                                                EventBus.getDefault().post(new UpdateClass(2, model));
+                                            } else {
+                                                Util.toastMsg(responseData.getMsg());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            dialogDissmiss();
+                                            ZillaApi.dealNetError(error);
+                                            Util.toastMsg("退出班级失败！");
+                                        }
+                                    });
+
+
+                    break;
+                }
+                case 0x0002:
+                    Util.toastMsg("退出班级失败！");
+                    dialogDissmiss();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     ClassModel model;
 
@@ -63,7 +104,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         rl_media.setOnClickListener(this);
         RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
         rl_exit.setOnClickListener(this);
-        RelativeLayout rl_honor= (RelativeLayout) view.findViewById(R.id.rl_honor);
+        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_honor.setOnClickListener(this);
 
     }
@@ -80,8 +121,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
             }
             break;
-            case R.id.rl_honor:{
-                HonorActivity.startHonorActivity(getContext(),model.getClassId());
+            case R.id.rl_honor: {
+                HonorActivity.startHonorActivity(getContext(), model.getClassId());
             }
             break;
             case rl_exit: {
@@ -97,35 +138,18 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void run() {
                                         try {
-                                            EMClient.getInstance().groupManager().leaveGroup(model.getHXGroupId());//需异步处理
-                                            ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                                    .existClass(UserInfoModel.getInstance().getToken(),
-                                                            UserInfoModel.getInstance().getUserId(),
-                                                            model.getClassId(),
-                                                            new Callback<ResponseData>() {
-                                                                @Override
-                                                                public void success(ResponseData responseData, Response response) {
-                                                                    dialogDissmiss();
-                                                                    if (responseData.getStatus() == 200) {
-                                                                        Util.toastMsg("退出班级成功！");
-                                                                        EventBus.getDefault().post(new UpdateClass(2, model));
-                                                                    } else {
-                                                                        Util.toastMsg(responseData.getMsg());
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void failure(RetrofitError error) {
-                                                                    dialogDissmiss();
-                                                                    ZillaApi.dealNetError(error);
-                                                                    Util.toastMsg("退出班级失败！");
-                                                                }
-                                                            });
-
-
-                                        } catch (HyphenateException e) {
-                                            dialogDissmiss();
-                                            Util.toastMsg("退出班级失败！");
+                                            EMClient.getInstance().groupManager().leaveGroup(model.getHXGroupId());
+                                            Message msg = new Message();
+                                            msg.what = 0x0001;
+                                            handler.sendMessage(msg);
+                                        } catch (Exception e) {
+//                                            Util.toastMsg("退出班级失败！");
+//                                            Looper.prepare();
+//                                            dialogDissmiss();
+//                                            Looper.loop();
+                                            Message msg = new Message();
+                                            msg.what = 0x0002;
+                                            handler.sendMessage(msg);
                                             e.printStackTrace();
                                         }
                                     }
