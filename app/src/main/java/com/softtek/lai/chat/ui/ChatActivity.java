@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -26,9 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
@@ -42,10 +41,10 @@ import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.runtimepermissions.PermissionsManager;
 import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.em_activity_chat)
@@ -171,48 +170,48 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
         fl_right.setOnClickListener(this);
 
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.USER_ALREADY_LOGIN) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
-                        EMClient.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-
-
-                                handler.sendEmptyMessage(0);
-
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-//                EaseACKUtil.getInstance(ChatActivity.this).checkACKData();
-
-            }
-        };
-        EMClient.getInstance().addConnectionListener(connectionListener);
+//        connectionListener = new EMConnectionListener() {
+//            @Override
+//            public void onDisconnected(final int error) {
+//                if (error == EMError.USER_ALREADY_LOGIN) {
+//                    SharedPreferenceService.getInstance().put("HXID", "-1");
+//                    if (!isFinishing()) {
+//                        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//                            @Override
+//                            public void onSuccess() {
+//                                // TODO Auto-generated method stub
+//
+//
+//                                handler.sendEmptyMessage(0);
+//
+//                            }
+//
+//                            @Override
+//                            public void onProgress(int progress, String status) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(int code, String message) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onConnected() {
+//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+////                EaseACKUtil.getInstance(ChatActivity.this).checkACKData();
+//
+//            }
+//        };
+//        EMClient.getInstance().addConnectionListener(connectionListener);
 
         //设置参数（"name"  "photo"）
         chatFragment.setArguments(getIntent().getExtras());
@@ -322,6 +321,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
     }
 
 }
