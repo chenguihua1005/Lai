@@ -96,10 +96,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole",-1);
-        if(classrole==-1){
-            signup_activity.setVisibility(View.VISIBLE);//报名活动
-            delete_activity.setVisibility(View.GONE);//
-        }
+
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -170,6 +167,16 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         exit_lin.setVisibility(View.GONE);
                                     }
                                 } else if (classrole == Constants.STUDENT) {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
+                                    }
+                                }else if(classrole==-1){
                                     if (actdetailModel.getSign()) {
                                         signup_activity.setVisibility(View.GONE);
                                         delete_activity.setVisibility(View.GONE);

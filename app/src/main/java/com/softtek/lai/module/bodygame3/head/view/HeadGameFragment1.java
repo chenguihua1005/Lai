@@ -594,13 +594,18 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void updateClass(UpdateClass clazz) {
         if (clazz.getStatus() == 0) {
             //更新班级姓名
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            tv_title.setText(model.getClassName());
+            //更新班级姓名
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    model.setClassName(clazz.getModel().getClassName());
+                    model.setClassRole(clazz.getModel().getClassRole());
+                    model.setClassCode(clazz.getModel().getClassCode());
+                    model.setClassId(clazz.getModel().getClassId());
+                    break;
+                }
+            }
             tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.setSelected(tv_title.getSelectedIndex());
         } else if (clazz.getStatus() == 1) {
             //添加新班级
             ClassModel model = new ClassModel();
@@ -608,6 +613,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             model.setClassCode(clazz.getModel().getClassCode());
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
+            model.setClassWeek("0");
             this.classModels.add(model);
             tv_title.getAdapter().notifyDataSetChanged();
         } else if (clazz.getStatus() == 2) {
@@ -634,7 +640,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     public void onRefresh() {
-
         if (saveclassModel != null) {
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
@@ -655,6 +660,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 try {
+
                     refresh.setRefreshing(false);
                     page = 1;
                     classModels.clear();
