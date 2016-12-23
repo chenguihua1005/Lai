@@ -204,78 +204,73 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-        if ("0".equals(Constants.IS_LOGINIMG)) {
-            final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-//            if (HomeFragment.timer != null) {
-//                HomeFragment.timer.cancel();
-//            }
+//        if ("0".equals(Constants.IS_LOGINIMG)) {
+////            inal String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+////            if (HomeFragment.timer != null) {
+////                HomeFragment.timer.cancel();
+////            }
+//
+////            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
+////            if (hxid.equals(model.getHXAccountId())) {
+//
+//           /* } else {
+//                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
+//                if ("-1".equals(hxid)) {
+//                    loginPresenter.getEMChatAccount(progressDialog);
+//                }
+//
+//            }*/
+//        } else {
+//
+//        }
 
-            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
-            if (hxid.equals(model.getHXAccountId())) {
-                Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                ChatUserModel chatUserModel = new ChatUserModel();
-                chatUserModel.setUserName(model.getNickname());
-                chatUserModel.setUserPhone(path + model.getPhoto());
-                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        EMClient.getInstance().updateCurrentUserNick(model.getNickname());
-                        EMClient.getInstance().chatManager().loadAllConversations();
-                    }
-                }).start();
-                img_mo_message.setVisibility(View.GONE);
-                conversationListFragment = new ConversationListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
-                        .commit();
-            } else {
-                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
-                if ("-1".equals(hxid)) {
-                    loginPresenter.getEMChatAccount(progressDialog);
-                } else {
-                    new Thread(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    HXLoginOut();
-                                }
-                            }
-                    ).start();
+        if(EMClient.getInstance().isLoggedInBefore()){
+            Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            ChatUserModel chatUserModel = new ChatUserModel();
+            chatUserModel.setUserName(model.getNickname());
+            chatUserModel.setUserPhone(path + model.getPhoto());
+            chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+            ChatUserInfoModel.getInstance().setUser(chatUserModel);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                    EMClient.getInstance().chatManager().loadAllConversations();
                 }
-
-            }
-        } else {
+            }).start();
+            img_mo_message.setVisibility(View.GONE);
+            conversationListFragment = new ConversationListFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
+                    .commit();
+        }else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
-
-
     }
 
-    private void HXLoginOut() {
-        EMClient.getInstance().logout(true, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                SharedPreferenceService.getInstance().put("HXID", "-1");
-                handler.sendEmptyMessage(1);
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                // TODO Auto-generated method stub
-                handler.sendEmptyMessage(4);
-            }
-        });
-    }
+//    private void HXLoginOut() {
+//        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//            @Override
+//            public void onSuccess() {
+//                // TODO Auto-generated method stub
+//                SharedPreferenceService.getInstance().put("HXID", "-1");
+//                handler.sendEmptyMessage(1);
+//            }
+//
+//            @Override
+//            public void onProgress(int progress, String status) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onError(int code, String message) {
+//                // TODO Auto-generated method stub
+//                handler.sendEmptyMessage(4);
+//            }
+//        });
+//    }
 
 
     private void refreshUIWithMessage() {
