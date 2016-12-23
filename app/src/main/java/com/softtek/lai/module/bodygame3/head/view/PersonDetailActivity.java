@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -34,6 +33,7 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.view.PersionalActivity;
+import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -59,8 +59,6 @@ import zilla.libcore.util.Util;
 @InjectLayout(R.layout.activity_person_detail)
 public class PersonDetailActivity extends BaseActivity implements View.OnClickListener, TitlePopup.OnItemOnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = "PersonDetailActivity";
-    private int[] mImgIds;
-    private LayoutInflater mInflater;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -86,9 +84,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.re_hlist_dy)
     RelativeLayout re_hlist_dy;
     @InjectView(R.id.cir_userimg)//用户id
-            CircleImageView cir_userimg;
+    CircleImageView cir_userimg;
     @InjectView(R.id.tv_stuname)//用户名
-            TextView tv_stuname;
+    TextView tv_stuname;
     @InjectView(R.id.tv_personlityName)
     TextView tv_personlityName;//个性签名
     @InjectView(R.id.tv_angle)
@@ -151,6 +149,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         titlePopup.setItemOnClickListener(this);
+
         //给标题栏弹窗添加子类
 //        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
 //        titlePopup.setItemOnClickListener(this);
@@ -160,7 +159,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        mInflater = LayoutInflater.from(this);
         easyAdapter = new EasyAdapter<NewsTopFourModel>(this, newsTopFourModels, R.layout.activity_index_gallery_item) {
             @Override
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
@@ -193,6 +191,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         tv_personlityName.setOnClickListener(this);
+        if(AccountId==UserInfoModel.getInstance().getUserId()){
+            cir_userimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PersonDetailActivity.this, ModifyPersonActivity.class));
+                }
+            });
+        }
 
         doGetService(userid, AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
     }
@@ -322,8 +328,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight());//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight());//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" :"初始体重 "+ memberInfoModel.getInitWeight()+"斤");//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 "+memberInfoModel.getCurrentWeight()+"斤");//现在体重
+
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
                         Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());

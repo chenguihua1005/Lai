@@ -6,11 +6,11 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-
-    <com.softtek.lai.widgets.CircleImageView
+    <ImageView
         android:id="@+id/head_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/img_default" />
 
 
@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text=""
-        android:textSize="13sp"
-        android:textColor="@color/black" />
-
+        android:textColor="@color/black"
+        android:textSize="13sp" />
 </LinearLayout>

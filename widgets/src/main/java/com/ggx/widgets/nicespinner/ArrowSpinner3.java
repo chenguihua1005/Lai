@@ -150,7 +150,9 @@ public class ArrowSpinner3 extends TextView{
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);
             }
-            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            if(adapter!=null&&adapter.getCount()>0){
+                setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            }
         }
 
         typedArray.recycle();

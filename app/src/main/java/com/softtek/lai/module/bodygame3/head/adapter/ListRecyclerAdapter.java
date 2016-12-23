@@ -73,9 +73,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Picasso.with(context).load(AddressManager.get("photoHost", "http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
                     .fit().error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-            if ("1".equals(partnersModel.getIsRetire())) {
-               ((ViewHolder) holder).exi_iv.setImageResource(R.drawable.exit_match);
-            }
+            ((ViewHolder) holder).exi_iv.setVisibility("1".equals(partnersModel.getIsRetire())?View.VISIBLE:View.GONE);
             ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
             ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());
             if (partnersModel.getStuGender().equals("1")) {
@@ -88,17 +86,21 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ViewHolder) holder).group_tv.setText("(" + partnersModel.getGroupName() + ")");
 
             ((ViewHolder) holder).weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
-            ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
+
+
             if (type == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
                 ((ViewHolder) holder).tv_bi.setText("减重斤数");
-                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.GONE);
+                ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
+                ((ViewHolder) holder).jianzhong_tv2.setText("斤");
             } else if (type == 1) {
                 ((ViewHolder) holder).tv_bi.setText("减重比");
-                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
+                ((ViewHolder) holder).jianzhong_tv2.setText("%");
             } else {
                 ((ViewHolder) holder).tv_bi.setText("体脂比");
                 ((ViewHolder) holder).weight_first.setText("初始体脂" + partnersModel.getWeight() + "%");
-                ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).jianzhong_tv.setText(partnersModel.getLoss());
+                ((ViewHolder) holder).jianzhong_tv2.setText("%");
             }
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

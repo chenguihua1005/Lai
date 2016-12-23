@@ -453,6 +453,12 @@
 
                 </com.softtek.lai.widgets.HorizontalListView>
 
+                <!--<android.support.v4.view.ViewPager-->
+                    <!--android:id="@+id/pagephoto"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"></android.support.v4.view.ViewPager>-->
+
                 <LinearLayout
                     android:id="@+id/no_dongtai"
                     android:layout_width="match_parent"
@@ -597,11 +603,16 @@
                 <!--app:arrowTint2="@color/word"-->
                 <!--app:textSize2="13px" />-->
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:background="#e1e1e1"
+                android:layout_height="0.5dp"></View>
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_partner"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>

@@ -79,6 +79,8 @@ public class GuidePagerAdapter extends PagerAdapter {
         return 0;
     }
 
+
+
     @Override
     public Object instantiateItem(View arg0, int arg1) {
         ((ViewPager) arg0).addView(views.get(arg1), 0);
