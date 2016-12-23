@@ -37,6 +37,7 @@ import zilla.libcore.file.SharedPreferenceService;
 public class HXLoginService extends Service {
     UserModel model;
     String account = "";
+    static boolean hasExit = false;//尚未弹出
 
 
     @Nullable
@@ -83,7 +84,7 @@ public class HXLoginService extends Service {
 //            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId());
 
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
-        String hasEmchat = model.getHasEmchat();
+        final String hasEmchat = model.getHasEmchat();
 
 
         if ("0".equals(Constants.IS_LOGINIMG)) {
@@ -93,7 +94,7 @@ public class HXLoginService extends Service {
             EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    Log.i("aaaaaaa", "登录成功............");
+                    Log.i("aaaaaaa", "登录成功............帐号 = " + account.toLowerCase());
                     // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                     // ** manually load all local groups and
                     Constants.IS_LOGINIMG = "0";
@@ -131,8 +132,6 @@ public class HXLoginService extends Service {
                     Constants.IS_LOGINIMG = "0";
 
 
-
-
                 }
             });
 
@@ -140,52 +139,55 @@ public class HXLoginService extends Service {
             EMClient.getInstance().addConnectionListener(new EMConnectionListener() {
                 @Override
                 public void onConnected() {
-                    Log.i("aaaaaaa", "登录成功............///////////////////////////////////////////////////////////");
+                    Log.i("aaaaaaa", "登录成功............///////////////////////////////////////////////////////////" + account.toLowerCase());
                 }
 
                 @Override
                 public void onDisconnected(int error) {
-//                        final int com.hyphenate.EMError.USER_LOGIN_ANOTHER_DEVICE = 206
                     com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码=======" + error);
                     if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
-                        SharedPreferenceService.getInstance().put("HXID", "-1");
-                        EMClient.getInstance().logout(true, new EMCallBack() {
+                        if (!hasExit) {
+                            EMClient.getInstance().logout(true, new EMCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    com.github.snowdream.android.util.Log.i("环信退出=======");
+//                                if (!hasExit) {
+                                    Looper.prepare();
+                                    AlertDialog dialog = new AlertDialog.Builder(getApplicationContext(), R.style.AlertDialogTheme)
+                                            .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                                            .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    hasExit = false;
+                                                    UserInfoModel.getInstance().loginOut();
+                                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                }
+                                            }).setCancelable(false).create();
+                                    dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                    dialog.show();
+                                    Looper.loop();
+//                                }
 
-                            @Override
-                            public void onSuccess() {
-                                com.github.snowdream.android.util.Log.i("环信退出=======");
-                                Looper.prepare();
-                                AlertDialog dialog = new AlertDialog.Builder(getApplicationContext(), R.style.AlertDialogTheme)
-                                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                UserInfoModel.getInstance().loginOut();
-                                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                            }
-                                        }).setCancelable(false).create();
-                                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
-                                dialog.show();
-                                Looper.loop();
+                                }
 
-                            }
+                                @Override
+                                public void onProgress(int progress, String status) {
+                                    // TODO Auto-generated method stub
 
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
+                                }
 
-                            }
+                                @Override
+                                public void onError(int code, String message) {
+                                    // TODO Auto-generated method stub
+                                    hasExit = true;
 
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 }
             });

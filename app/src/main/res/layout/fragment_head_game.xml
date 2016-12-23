@@ -69,7 +69,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="全国总参赛人数"
+                                android:text="全国总参赛人次"
                                 android:textColor="#ffffff"
                                 android:textSize="10sp" />
 
