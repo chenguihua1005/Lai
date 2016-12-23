@@ -36,11 +36,11 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxEms="3"
+                    android:maxEms="8"
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textColor="#333333"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,9 +71,9 @@
             android:background="#e6e6e6" />
 
         <LinearLayout
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -93,10 +93,9 @@
                     android:id="@+id/tv_trainer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxEms="3"
+                    android:maxEms="6"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:text="@string/rank_trainer_name_test"
                     android:textColor="#424242"
                     android:textSize="11sp" />
 
