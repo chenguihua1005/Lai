@@ -212,20 +212,20 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         } else {
             text_time.setText("(上次认证时间：" + model.getCertTime().split(" ")[0] + ")");
         }
-        String userrole = model.getUserrole();
+        /*String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
             text_value.setText("游客");
         } else if (String.valueOf(Constants.INC).equals(userrole)) {
             text_value.setText("受邀普通顾客");
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
-            text_value.setText("顾问");
         } else if (String.valueOf(Constants.SR).equals(userrole)) {
-            text_value.setText("助教");
+            text_value.setText(model.getRolename());
         } else if (String.valueOf(Constants.PC).equals(userrole)) {
-            text_value.setText("高级顾客");
+            text_value.setText(model.getRolename());
         } else if (String.valueOf(Constants.NC).equals(userrole)) {
             text_value.setText("普通顾客");
-        }
+        }*/
+        text_value.setText(model.getRolename());
     }
 
     @Override
