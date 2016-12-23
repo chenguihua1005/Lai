@@ -56,18 +56,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:textColor="#999999"
-        android:textSize="12sp"
         android:layout_toRightOf="@id/tv_certificate"
-        android:text=")" />
+        android:text=")"
+        android:textColor="#999999"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/certificate_tv"
+        android:id="@+id/role_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_name"
         android:layout_below="@id/tv_name"
         android:layout_marginTop="5dp"
+        android:text=""
+        android:textColor="#999999"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/certificate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/role_tv"
+        android:layout_alignBottom="@+id/role_tv"
+        android:layout_toEndOf="@+id/tv_name"
         android:text="112232432"
         android:textColor="#999999"
         android:textSize="12sp" />
@@ -79,4 +90,6 @@
         android:layout_centerVertical="true"
         android:paddingRight="15dp"
         android:src="@drawable/bodygame3_arrow" />
+
+
 </RelativeLayout>

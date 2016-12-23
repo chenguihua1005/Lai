@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -131,6 +132,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     TextView name_user;//用户
     @InjectView(R.id.gengxin)
     TextView gengxin;
+//    @InjectView(R.id.pagephoto)
+//    ViewPager pagephoto;
     @InjectView(R.id.pinglun)
     TextView pinglun;
     @InjectView(R.id.re_honor)
@@ -171,7 +174,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private String classnum;
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
-
+    private List<View> views = new ArrayList<>();
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
     }
@@ -215,8 +218,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         refresh.setOnRefreshListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         searchContent.setOnClickListener(this);
-
-
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -736,6 +737,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 student_jianzhi.setText("减脂比" + " %");
                             }
                         }
+
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
                             tuijianModels.addAll(classinfoModel.getListRec());

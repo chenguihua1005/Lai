@@ -147,7 +147,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         super.onResume();
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         if (TextUtils.isEmpty(photo)) {
             Picasso.with(this).load(R.drawable.img_default).into(img);
         } else {
