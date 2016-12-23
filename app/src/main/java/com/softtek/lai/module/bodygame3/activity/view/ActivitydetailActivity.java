@@ -100,7 +100,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole",-1);
         classid = getIntent().getStringExtra("classid");
-        Log.e("classrole", classrole + "");
+        if(classrole==-1){
+            signup_activity.setVisibility(View.VISIBLE);//报名活动
+            delete_activity.setVisibility(View.GONE);//删除活动
+        }
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
