@@ -64,7 +64,6 @@ public class InputView extends LinearLayout {
                 intent.putExtra("activityId", activityid);
                 intent.putExtra("classrole", role);
                 intent.putExtra("counts", counts);
-                intent.putExtra("classid",classid);
                 fragment.startActivityForResult(intent, 110);
             }
         });
