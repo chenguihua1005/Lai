@@ -88,13 +88,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     private EMConnectionListener connectionListener;
     private static final String TAG = "ChatFragment";
 
-//    private MessageReceiver mMessageReceiver;
-
-//    private android.app.AlertDialog.Builder accountRemovedBuilder;
-//    private boolean isConflictDialogShow;
-//    private boolean isAccountRemovedDialogShow;
-//    private BroadcastReceiver internalDebugReceiver;
-
 
     private Handler handler = new Handler() {
         @Override
@@ -159,42 +152,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         tv_title.setText("会话");
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
-//        connectionListener = new EMConnectionListener() {
-//            @Override
-//            public void onDisconnected(final int error) {
-//                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
-//                    SharedPreferenceService.getInstance().put("HXID", "-1");
-//                    if (!getActivity().isFinishing()) {
-//                        EMClient.getInstance().logout(true, new EMCallBack() {
-//
-//                            @Override
-//                            public void onSuccess() {
-//                                // TODO Auto-generated method stub
-//                                handler.sendEmptyMessage(0);
-//                            }
-//
-//                            @Override
-//                            public void onProgress(int progress, String status) {
-//                                // TODO Auto-generated method stub
-//
-//                            }
-//
-//                            @Override
-//                            public void onError(int code, String message) {
-//                                // TODO Auto-generated method stub
-//
-//                            }
-//                        });
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onConnected() {
-//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-//            }
-//        };
-//        EMClient.getInstance().addConnectionListener(connectionListener);
         registerBroadcastReceiver();
     }
 
