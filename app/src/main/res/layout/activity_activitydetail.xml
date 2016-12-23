@@ -230,13 +230,6 @@
                     android:textColor="@color/exit_btn"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="退出"
-                    android:textColor="@color/word5"
-                    android:textSize="12sp" />
-
 
             </LinearLayout>
 
