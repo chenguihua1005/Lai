@@ -74,7 +74,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         model.setCertTime(userResponseData.getData().getCertTime());
                         model.setCertification(userResponseData.getData().getCertification());
                         String role = userResponseData.getData().getRole();
-                        model.setRolename(role);
+                        model.setRoleName(role);
                         if ("NC".equals(role)) {
                             model.setUserrole("0");
                         } else if ("PC".equals(role)) {

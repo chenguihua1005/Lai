@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -23,7 +24,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -207,6 +207,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private void setData() {
         model = UserInfoModel.getInstance().getUser();
+        //Log.i(model.toString());
         if (model.getCertTime() == null || "".equals(model.getCertTime())) {
             text_time.setText("");
         } else {
@@ -225,7 +226,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         } else if (String.valueOf(Constants.NC).equals(userrole)) {
             text_value.setText("普通顾客");
         }*/
-        text_value.setText(model.getRolename());
+        text_value.setText(model.getRoleName());
     }
 
     @Override

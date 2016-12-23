@@ -16,7 +16,7 @@ public class UserModel implements Serializable {
 
     private String userid;
     private String userrole;
-    private String rolename;
+    private String RoleName;
     private String nickname;
     private String gender;
     private String weight;
@@ -34,38 +34,12 @@ public class UserModel implements Serializable {
     private int DoingClass;//0没有进行中的班级,1有
 
 
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "token='" + token + '\'' +
-                ", userid='" + userid + '\'' +
-                ", userrole='" + userrole + '\'' +
-                ", rolename='" + rolename + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", weight='" + weight + '\'' +
-                ", height='" + height + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", Certification='" + Certification + '\'' +
-                ", CertTime='" + CertTime + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", IsJoin='" + IsJoin + '\'' +
-                ", TodayStepCnt='" + TodayStepCnt + '\'' +
-                ", IsCreatInfo='" + IsCreatInfo + '\'' +
-                ", HXAccountId='" + HXAccountId + '\'' +
-                ", HasEmchat='" + HasEmchat + '\'' +
-                ", HasThClass=" + HasThClass +
-                ", DoingClass=" + DoingClass +
-                ", hasGender=" + hasGender +
-                '}';
+    public String getRoleName() {
+        return RoleName;
     }
 
-    public String getRolename() {
-        return rolename;
-    }
-
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setRoleName(String roleName) {
+        RoleName = roleName;
     }
 
     public static long getSerialVersionUID() {
