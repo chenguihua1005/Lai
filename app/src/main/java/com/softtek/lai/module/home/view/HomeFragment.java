@@ -60,7 +60,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -120,7 +119,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     private MessageReceiver mMessageReceiver;
     UserModel model;
     private ProgressDialog progressDialog;
-    public static Timer timer;
+
 
     @Override
     protected void initViews() {

@@ -38,7 +38,6 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -207,9 +206,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     protected void lazyLoad() {
         if ("0".equals(Constants.IS_LOGINIMG)) {
             final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-            if (HomeFragment.timer != null) {
-                HomeFragment.timer.cancel();
-            }
+//            if (HomeFragment.timer != null) {
+//                HomeFragment.timer.cancel();
+//            }
 
             Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
             if (hxid.equals(model.getHXAccountId())) {
