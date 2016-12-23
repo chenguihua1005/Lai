@@ -299,23 +299,27 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_retestWrite_nowweight:
                 if (IsAudit == 0) {
-                    if (gender.equals("1")) {
-                        show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
-                    } else {
-                        show_information("当前体重（斤）", 600, 150, 50, 9, 0, 0, 1);
+                    if (resetdatestatus==2) {
+                        if (gender.equals("1")) {
+                            show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
+                        } else {
+                            show_information("当前体重（斤）", 600, 150, 50, 9, 0, 0, 1);
+                        }
                     }
                 }
                 break;
             case R.id.ll_retestWrite_tizhi:
                 if (IsAudit == 0) {
-
-                    show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
+                    if (resetdatestatus==2) {
+                        show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_neizhi:
                 if (IsAudit == 0) {
-
-                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                    if (resetdatestatus==2) {
+                        show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                    }
                 }
                 break;
             case R.id.im_delete:
@@ -325,33 +329,45 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_retestWrite_crium:
                 if (IsAudit!=1) {
-                    //最大值，默认值，最小值；最大值，默认值，最小值
-                    show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                    if (resetdatestatus==2) {
+                        //最大值，默认值，最小值；最大值，默认值，最小值
+                        show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_waisline:
                 if (IsAudit!=1) {
-                    show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                    if (resetdatestatus==2) {
+                        show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_hiplie:
                 if (IsAudit!=1) {
-                    show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                    if (resetdatestatus==2) {
+                        show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_Uparm:
                 if (IsAudit!=1) {
-                    show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                    if (resetdatestatus==2) {
+                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_UpLeg:
                 if (IsAudit!=1) {
-                    show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                    if (resetdatestatus==2) {
+                        show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                    }
                 }
                 break;
             case R.id.ll_retestWrite_doleg:
                 if (IsAudit!=1) {
-                    show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                    if (resetdatestatus==2) {
+                        show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                    }
                 }
                 break;
             case R.id.im_retestwrite_showphoto:

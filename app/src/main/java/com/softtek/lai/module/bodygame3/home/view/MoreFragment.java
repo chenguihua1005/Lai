@@ -1,11 +1,13 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -155,6 +158,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
             }
         });
     }
+
 
     @Override
     protected void initDatas() {
