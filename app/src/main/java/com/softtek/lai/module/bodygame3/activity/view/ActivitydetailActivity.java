@@ -74,8 +74,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     public static final int ACTIVITY_EXIT = 3;
     //    private boolean operation = false;
     private int operation = 0;
-    private String classid;
-    private boolean isOperationon = false;
 
     @Override
     protected void initViews() {
@@ -98,8 +96,10 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole",-1);
-        classid = getIntent().getStringExtra("classid");
-        Log.e("classrole", classrole + "");
+        if(classrole==-1){
+            signup_activity.setVisibility(View.VISIBLE);//报名活动
+            delete_activity.setVisibility(View.GONE);//
+        }
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -124,7 +124,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 UseredModel model = useredModels.get(i);
                 Intent intent = new Intent(ActivitydetailActivity.this, PersonDetailActivity.class);
                 intent.putExtra("AccountId", model.getUserId());
-                intent.putExtra("ClassId", classid);
+                intent.putExtra("ClassId", model.getClassId());
                 startActivity(intent);
             }
         });

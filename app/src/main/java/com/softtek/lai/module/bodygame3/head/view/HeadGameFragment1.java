@@ -601,7 +601,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             model.setClassRole(clazz.getModel().getClassRole());
             tv_title.setText(model.getClassName());
             tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+        } else if (clazz.getStatus() == 1) {
             //添加新班级
             ClassModel model = new ClassModel();
             model.setClassId(clazz.getModel().getClassId());
