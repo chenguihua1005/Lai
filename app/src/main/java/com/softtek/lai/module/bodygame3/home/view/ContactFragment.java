@@ -20,9 +20,7 @@ import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -45,7 +43,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.widgets.CustomGridView;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +54,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -154,42 +150,42 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
         ll_search.setOnClickListener(this);
 
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!getActivity().isFinishing()) {
-                        EMClient.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-            }
-        };
-        EMClient.getInstance().addConnectionListener(connectionListener);
+//        connectionListener = new EMConnectionListener() {
+//            @Override
+//            public void onDisconnected(final int error) {
+//                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+//                    SharedPreferenceService.getInstance().put("HXID", "-1");
+//                    if (!getActivity().isFinishing()) {
+//                        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//                            @Override
+//                            public void onSuccess() {
+//                                // TODO Auto-generated method stub
+//                                handler.sendEmptyMessage(0);
+//                            }
+//
+//                            @Override
+//                            public void onProgress(int progress, String status) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(int code, String message) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onConnected() {
+//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+//            }
+//        };
+//        EMClient.getInstance().addConnectionListener(connectionListener);
     }
 
     @Override
