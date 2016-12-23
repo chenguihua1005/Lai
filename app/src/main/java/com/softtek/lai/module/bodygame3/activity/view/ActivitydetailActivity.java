@@ -32,7 +32,6 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.PUT;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;

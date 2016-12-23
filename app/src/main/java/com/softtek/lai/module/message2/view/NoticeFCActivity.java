@@ -162,7 +162,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
                 }
                 //===================================================
                 //做复测跳转
-                String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+                //String userrole = UserInfoModel.getInstance().getUser().getUserrole();
 //        if (String.valueOf(Constants.PC).equals(userrole)) {
 //            Intent intent = new Intent(context, BodyGamePCActivity.class);
 //            intent.putExtra("type", 3);
