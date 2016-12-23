@@ -26,6 +26,7 @@ import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.message2.model.InvitationConfirmShow;
 import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -110,14 +111,22 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         msgId = getIntent().getStringExtra("msgId");
         service = ZillaApi.NormalRestAdapter.create(Message2Service.class);
+        dialogShow("信息拉取");
         service.getInvitationDetail(UserInfoModel.getInstance().getToken(),
                 msgId,
                 new RequestCallback<ResponseData<InvitationConfirmShow>>() {
                     @Override
                     public void success(ResponseData<InvitationConfirmShow> data, Response response) {
+                        dialogDissmiss();
                         if (data.getStatus() == 200) {
                             onResult(data.getData());
                         }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        super.failure(error);
                     }
                 });
 
@@ -128,12 +137,12 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             this.show = show;
             tv_invitater_name.setText(show.getSender());
             tv_head_coach_name.setText(show.getClassMasterName());
-            if (TextUtils.isEmpty(show.getClassMasterPhoto())) {
-                Picasso.with(this).load(R.drawable.img_default).into(head_image);
-            } else {
-                Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).fit()
+            if (!TextUtils.isEmpty(show.getClassMasterPhoto())) {
+                int px=DisplayUtil.dip2px(this,30);
+                Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).resize(px,px).centerCrop()
+                        .placeholder(R.drawable.img_default)
                         .error(R.drawable.img_default)
-                        .placeholder(R.drawable.img_default).into(head_image);
+                        .into(head_image);
             }
             tv_class_name.setText(show.getClassName());
             tv_class_code.setText(show.getClassCode());

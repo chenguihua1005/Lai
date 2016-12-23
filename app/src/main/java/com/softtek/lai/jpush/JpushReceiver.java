@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.message2.view.ExamineActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.message2.view.MessageConfirmActivity;
@@ -63,7 +64,7 @@ public class JpushReceiver extends BroadcastReceiver {
                         JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
                         //拿到通知类型
                         int msgType=json.optInt("msgtype");
-                        if(msgType==0){//普通通知直接跳转到消息列表
+                        if(msgType==0||msgType==4){//普通通知直接跳转到消息列表
                             //默认跳转到消息中心
                             Intent i = new Intent(context, Message2Activity.class);
                             i.putExtras(bundle);
@@ -79,6 +80,12 @@ public class JpushReceiver extends BroadcastReceiver {
                             //进入邀请确认界面
                             Intent i = new Intent(context, MessageConfirmActivity.class);
                             i.putExtra("msgId",json.optString("msgId"));
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(i);
+                        }else if(msgType==3){//点击跳转到活动详情
+                            //进入邀请确认界面
+                            Intent i = new Intent(context, ActivitydetailActivity.class);
+                            i.putExtra("activityId",json.optString("activityId"));
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(i);
                         }
