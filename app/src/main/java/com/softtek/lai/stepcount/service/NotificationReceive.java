@@ -27,11 +27,13 @@ public class NotificationReceive extends BroadcastReceiver{
             }else{
                 Intent groupMain=new Intent(context,LaiSportActivity.class);
                 groupMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                groupMain.putExtra("type",3);
                 context.startActivity(groupMain);
             }
         }else{
             Intent groupMain=new Intent(context,LaiSportActivity.class);
             groupMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            groupMain.putExtra("type",3);
             context.startActivity(groupMain);
         }
     }

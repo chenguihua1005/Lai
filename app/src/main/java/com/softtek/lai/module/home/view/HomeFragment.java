@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
@@ -289,9 +289,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     public void run() {
                         // 需要做的事:发送消息
                         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-                        Log.i(TAG, "hxid = " + hxid);
-                        Log.i(TAG, "model.getHXAccountId() = " + model.getHXAccountId());
-
 
                         if (hxid.equals(model.getHXAccountId())) {
                             if (timer != null) {
@@ -313,8 +310,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                             }).start();
                         } else {
                             if ("-1".equals(hxid)) {
-                                Log.i(TAG, "Constants.IS_LOGINIMG = " + Constants.IS_LOGINIMG);
                                 if ("0".equals(Constants.IS_LOGINIMG)) {
+                                    Log.i("aaaaaaa","开始登录中。。。。。。。。。。。。。。。。。。");
                                     loginChat(progressDialog, model.getHXAccountId());
                                 }
                             } else {
@@ -376,7 +373,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
-                Log.i(TAG, "登录成功............");
+
+                Log.i("aaaaaaa", "登录成功............");
 
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
@@ -413,7 +411,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
             @Override
             public void onProgress(int progress, String status) {
-                System.out.println("progress:" + progress + "     status:" + status);
+
             }
 
             @Override
@@ -423,6 +421,18 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
+            }
+        });
+        EMClient.getInstance().addConnectionListener(new EMConnectionListener() {
+            @Override
+            public void onConnected() {
+                Log.i("aaaaaaa", "登录成功............///////////////////////////////////////////////////////////");
+            }
+
+            @Override
+            public void onDisconnected(int i) {
+//                        final int com.hyphenate.EMError.USER_LOGIN_ANOTHER_DEVICE = 206
+                com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码======="+i);
             }
         });
     }
