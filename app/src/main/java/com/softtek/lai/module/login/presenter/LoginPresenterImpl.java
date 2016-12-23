@@ -74,6 +74,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         model.setCertTime(userResponseData.getData().getCertTime());
                         model.setCertification(userResponseData.getData().getCertification());
                         String role = userResponseData.getData().getRole();
+                        model.setRoleName(role);
                         if ("NC".equals(role)) {
                             model.setUserrole("0");
                         } else if ("PC".equals(role)) {
@@ -102,7 +103,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
