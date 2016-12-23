@@ -131,19 +131,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         int type;
         if (position + 1 == getItemCount()) {
-            type = getItemCount() < 10 ? EMPTY : FOOTER;
-            if (isFootGone) {
-                type = EMPTY;
-                isFootGone = false;
-            }
+            type = getItemCount() <=10 ? EMPTY : FOOTER;
         } else {
             type = ITEM;
         }
         return type;
-    }
-
-    public void setFootGone(boolean isGone) {
-        isFootGone = isGone;
     }
 
 

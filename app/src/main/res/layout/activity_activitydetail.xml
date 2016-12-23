@@ -218,7 +218,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -262,6 +262,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/sign_btn"
                     android:text="我要报名"
+                    android:visibility="gone"
                     android:textColor="@color/white" />
 
                 <Button
