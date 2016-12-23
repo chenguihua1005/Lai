@@ -144,7 +144,7 @@ public class HXLoginService extends Service implements Runnable {
 
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
         final String hasEmchat = model.getHasEmchat();
-
+        SharedPreferenceService.getInstance().put("HXID", "-1");
         EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -185,7 +185,9 @@ public class HXLoginService extends Service implements Runnable {
             @Override
             public void onError(final int code, final String message) {
                 com.github.snowdream.android.util.Log.i("环信登录失败///////////////////////////////////////////////////aaaaaaa");
-                SharedPreferenceService.getInstance().put("HXID",-1);
+                SharedPreferenceService.getInstance().put("HXID","-1");
+                //重新启动
+                startService(new Intent(getApplicationContext(),HXLoginService.class));
             }
         });
 
