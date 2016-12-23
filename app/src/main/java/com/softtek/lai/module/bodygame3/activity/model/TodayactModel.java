@@ -58,4 +58,15 @@ public class TodayactModel {
     public void setCount(int count) {
         Count = count;
     }
+
+    @Override
+    public String toString() {
+        return "TodayactModel{" +
+                "ActivityId='" + ActivityId + '\'' +
+                ", ActivityName='" + ActivityName + '\'' +
+                ", ActivityIcon='" + ActivityIcon + '\'' +
+                ", Count=" + Count +
+                ", ActivityStartDate='" + ActivityStartDate + '\'' +
+                '}';
+    }
 }

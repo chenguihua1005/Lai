@@ -108,6 +108,29 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int type = getIntent().getIntExtra("type", 0);
+        current = type;
+        restoreState();
+        switch (type) {
+            case 0:
+                btn_sport.setProgress(1);
+                break;
+            case 1:
+                btn_activity.setProgress(1);
+                break;
+            case 2:
+                btn_challenge.setProgress(1);
+                break;
+            case 3:
+                btn_mine.setProgress(1);
+                break;
+
+        }
+        content.setCurrentItem(current, false);
+    }
 
     @Override
     protected void initDatas() {

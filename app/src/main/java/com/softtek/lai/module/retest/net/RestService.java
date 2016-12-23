@@ -1,7 +1,7 @@
 package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygamest.model.PhotModel;
+import com.softtek.lai.module.retest.model.PhotModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.LaichModel;

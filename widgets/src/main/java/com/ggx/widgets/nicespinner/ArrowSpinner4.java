@@ -113,7 +113,7 @@ public class ArrowSpinner4 extends LinearLayout {
         textSize = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_textSize2, 10);
         textView.setTextSize(textSize);
 
-        View view = LayoutInflater.from(context).inflate(R.layout.drop_list, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.drop_list4, null);
         ArrowRectangleView arv = (ArrowRectangleView) view.findViewById(R.id.arv);
         arv.setArrowPosition(ArrowRectangleView.RIGHT);
         listView = (ListView) view.findViewById(R.id.lv);

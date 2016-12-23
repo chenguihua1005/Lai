@@ -16,7 +16,7 @@ public class PartnersModel {
     private String GroupId;
     private String Weight;
     private String Loss;
-    private String IsRetire;
+    private String IsRetire;//退赛： “1”退赛
 
 
     public String getIsRetire() {

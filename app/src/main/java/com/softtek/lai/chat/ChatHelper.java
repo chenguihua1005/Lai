@@ -54,27 +54,31 @@ public class ChatHelper {
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            if (dialog != null) {
-                return;
+
+            if (msg.what == 0) {
+                Log.i(TAG, "heiehiei//////////////////////////////////////////////////");
+                if (dialog != null) {
+                    return;
+                }
+                dialog = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog = null;
+                                UserInfoModel.getInstance().loginOut();
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                LaiApplication.getInstance().startActivity(intent);
+                            }
+                        }).setCancelable(false).create();
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                dialog.show();
+
+
             }
-            dialog = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            LaiApplication.getInstance().startActivity(intent);
-                        }
-                    }).setCancelable(false).create();
-            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
-            dialog.show();
-
-
         }
 
     };
@@ -111,33 +115,11 @@ public class ChatHelper {
             appContext = context;
 //get easeui instance
             easeUI = EaseUI.getInstance();
-
 //2.0 deleted
 //            EMClient.getInstance().chatManager().setMipushConfig("2882303761517485411", "5111748585411");
             connectionListener = new EMConnectionListener() {
                 @Override
                 public void onDisconnected(final int error) {
-//                    EMClient.getInstance().logout(new EMCallBack() {
-//
-//                        @Override
-//                        public void onSuccess() {
-//                            // TODO Auto-generated method stub
-//                            onConnectionConflict();
-//                        }
-//
-//                        @Override
-//                        public void onProgress(int progress, String status) {
-//                            // TODO Auto-generated method stub
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(int code, String message) {
-//                            // TODO Auto-generated method stub
-//
-//                        }
-//                    });
-
                     EMClient.getInstance().logout(false, new EMCallBack() {
                         @Override
                         public void onSuccess() {

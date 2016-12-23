@@ -73,7 +73,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Picasso.with(context).load(AddressManager.get("photoHost", "http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
                     .fit().error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(((ViewHolder) holder).head_img);
-
+            if ("1".equals(partnersModel.getIsRetire())) {
+               ((ViewHolder) holder).exi_iv.setImageResource(R.drawable.exit_match);
+            }
             ((ViewHolder) holder).paiming.setText(partnersModel.getRanking());
             ((ViewHolder) holder).name_tv.setText(partnersModel.getStuName());
             if (partnersModel.getStuGender().equals("1")) {
@@ -95,7 +97,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             } else {
                 ((ViewHolder) holder).tv_bi.setText("体脂比");
-                ((ViewHolder) holder).weight_first.setText("初始体脂比" + partnersModel.getWeight() + "%");
+                ((ViewHolder) holder).weight_first.setText("初始体脂" + partnersModel.getWeight() + "%");
                 ((ViewHolder) holder).jianzhong_tv2.setVisibility(View.VISIBLE);
             }
             if (mOnItemClickListener != null) {
@@ -153,6 +155,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tv_bi;
         CircleImageView head_img;
         TextView jianzhong_tv2;
+        CircleImageView exi_iv;
 
         public ViewHolder(View view) {
             super(view);
@@ -165,6 +168,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tv_bi = (TextView) itemView.findViewById(R.id.tv_bi);
             head_img = (CircleImageView) itemView.findViewById(R.id.head_img);
             jianzhong_tv2 = (TextView) itemView.findViewById(R.id.jianzhong_tv2);
+            exi_iv = (CircleImageView) itemView.findViewById(R.id.exi_iv);
         }
     }
 
