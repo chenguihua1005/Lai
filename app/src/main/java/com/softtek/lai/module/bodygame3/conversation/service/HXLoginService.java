@@ -1,9 +1,11 @@
 package com.softtek.lai.module.bodygame3.conversation.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -22,7 +24,6 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,6 +31,8 @@ import java.lang.ref.WeakReference;
 
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
+
+import static com.softtek.lai.stepcount.service.StepService.STEP_CLOSE_SELF;
 
 /**
  * Created by jessica.zhang on 2016/12/22.
@@ -39,7 +42,8 @@ public class HXLoginService extends Service implements Runnable {
     UserModel model;
     String account = "";
     private static boolean isExit=false;
-
+    private CloseReceive closeReceive;
+    public static final String HXLOGIN_CLOSE_SELF="com.softtek.lai.HXLoginService.HXLOGIN_CLOSE_SELF";
 
 
     @Nullable
@@ -57,6 +61,8 @@ public class HXLoginService extends Service implements Runnable {
         }
         isExit=false;
         account = model.getHXAccountId();
+        closeReceive=new CloseReceive();
+        LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive,new IntentFilter(HXLOGIN_CLOSE_SELF));
         com.github.snowdream.android.util.Log.i("环信登录服务启动创建。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
@@ -64,6 +70,7 @@ public class HXLoginService extends Service implements Runnable {
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
         com.github.snowdream.android.util.Log.i("环信登录服务关闭");
     }
 
@@ -101,8 +108,9 @@ public class HXLoginService extends Service implements Runnable {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     stopSelf();
+                                    alertDialog=null;
                                     UserInfoModel.getInstance().loginOut();
-                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -115,6 +123,15 @@ public class HXLoginService extends Service implements Runnable {
             }
         }
     };
+
+    public class CloseReceive extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isExit=false;
+            stopSelf();
+        }
+    }
 
     @Override
     public void run() {

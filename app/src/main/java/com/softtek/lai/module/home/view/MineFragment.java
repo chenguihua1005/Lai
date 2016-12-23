@@ -226,17 +226,16 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     private void clearData() {
 
-        if (HomeFragment.timer != null) {
-            HomeFragment.timer.cancel();
-        }
+
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (!hxid.equals("-1")) {
             SharedPreferenceService.getInstance().put("HXID", "-1");
             EMClient.getInstance().logout(true, new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    // TODO Auto-generated method stub
+                    //关闭环信服务
                     UserInfoModel.getInstance().loginOut();
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     getActivity().finish();
                     startActivity(new Intent(getContext(), LoginActivity.class));
@@ -255,8 +254,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 }
             });
 
-            //关闭环信服务
-            getActivity().getApplicationContext().stopService(new Intent(getActivity(), HXLoginService.class));
         } else {
             UserInfoModel.getInstance().loginOut();
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
