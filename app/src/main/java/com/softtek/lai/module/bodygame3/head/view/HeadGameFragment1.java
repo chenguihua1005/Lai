@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -175,6 +174,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
     private List<View> views = new ArrayList<>();
+    private boolean isLoading = false;
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
     }
@@ -224,10 +224,13 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 super.onScrollStateChanged(recyclerView, newState);
                 int count = partneradapter.getItemCount();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
-                    //加载更多数据
-                    page++;
-                    Log.e("分页加载。。。。。。。", page + "");
-                    updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+                    if (!isLoading) {
+                        isLoading = true;
+                        //加载更多数据
+                        page++;
+                        updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+                    }
+
                 }
             }
 
@@ -361,11 +364,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
-//
         service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
                 pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
                     @Override
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
+                        isLoading=false;
+                        partneradapter.notifyItemRemoved(partneradapter.getItemCount());
                         if (200 == partnersModelResponseData.getStatus()) {
                             PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
                             if (partnertotalModel.getPartnersList() != null) {
@@ -374,9 +378,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             }
                         } else {
                             Util.toastMsg(partnersModelResponseData.getMsg());
-                            partneradapter.setFootGone(true);
-                            partneradapter.notifyDataSetChanged();
                         }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        isLoading=false;
+                        partneradapter.notifyItemRemoved(partneradapter.getItemCount());
+                        super.failure(error);
                     }
                 });
     }

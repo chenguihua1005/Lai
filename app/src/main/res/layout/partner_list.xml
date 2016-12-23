@@ -45,8 +45,8 @@
                     android:id="@+id/exi_iv"
                     android:layout_width="41dp"
                     android:layout_height="41dp"
-
-                    />
+                      android:visibility="gone"
+                    android:src="@drawable/exit_match"/>
 
             </RelativeLayout>
 
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:gravity="center"
-                    android:text="%"
+                    android:text=""
                     android:textColor="@color/word"
                     android:textSize="9sp" />
             </LinearLayout>

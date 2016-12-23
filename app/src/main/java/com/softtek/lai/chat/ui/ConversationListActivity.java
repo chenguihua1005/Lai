@@ -6,7 +6,6 @@
 package com.softtek.lai.chat.ui;
 
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -25,9 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -38,7 +33,6 @@ import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
@@ -47,13 +41,11 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
 
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_conversation_list)
@@ -86,37 +78,37 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (builder != null) {
-                return;
-            }
-            builder = new AlertDialog.Builder(ConversationListActivity.this)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    }).setCancelable(false);
-            Dialog dialog = builder.create();
-            if (!isFinishing()) {
-                if (dialog != null && !dialog.isShowing()) {
-                    dialog.show();
-                }
-            }
-        }
-
-    };
+//    private Handler handler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            // TODO Auto-generated method stub
+//            if (builder != null) {
+//                return;
+//            }
+//            builder = new AlertDialog.Builder(ConversationListActivity.this)
+//                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+//                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            builder = null;
+//                            UserInfoModel.getInstance().loginOut();
+//                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+//                            Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+//                        }
+//                    }).setCancelable(false);
+//            Dialog dialog = builder.create();
+//            if (!isFinishing()) {
+//                if (dialog != null && !dialog.isShowing()) {
+//                    dialog.show();
+//                }
+//            }
+//        }
+//
+//    };
 
 
     @Override
@@ -146,45 +138,45 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();
         }
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-
-                if (error == EMError.USER_ALREADY_LOGIN) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
-                        EMClient.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-
-            }
-        };
-        EMClient.getInstance().addConnectionListener(connectionListener);
+//        connectionListener = new EMConnectionListener() {
+//            @Override
+//            public void onDisconnected(final int error) {
+//
+//                if (error == EMError.USER_ALREADY_LOGIN) {
+//                    SharedPreferenceService.getInstance().put("HXID", "-1");
+//                    if (!isFinishing()) {
+//                        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//                            @Override
+//                            public void onSuccess() {
+//                                // TODO Auto-generated method stub
+//                                handler.sendEmptyMessage(0);
+//
+//                            }
+//
+//                            @Override
+//                            public void onProgress(int progress, String status) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(int code, String message) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onConnected() {
+//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+//
+//            }
+//        };
+//        EMClient.getInstance().addConnectionListener(connectionListener);
 
         registerBroadcastReceiver();
         EaseUI.getInstance().getNotifier().reset();

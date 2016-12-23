@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
 import com.github.snowdream.android.util.Log;
@@ -24,6 +25,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
+import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -117,6 +119,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 //set.setAlias(model.getMobile());
                                 //set.setStyleBasic();
                                 UserInfoModel.getInstance().saveUserCache(model);
+
+                                //检查是否存在环信帐号
+                                if (!TextUtils.isEmpty(model.getHXAccountId())) {
+                                    //开启登录服务
+                                    startService(new Intent(getApplicationContext(), HXLoginService.class));
+                                }
                                 //如果用户加入了跑团
                                 if("1".equals(model.getIsJoin())){
                                     stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));

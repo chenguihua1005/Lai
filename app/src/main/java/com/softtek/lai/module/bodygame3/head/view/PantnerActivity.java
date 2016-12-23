@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -78,7 +79,22 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 TextView tv_certificate = holder.getView(R.id.tv_certificate);
                 tv_certificate.setText(data.getMobile());
                 TextView certificate_tv = holder.getView(R.id.certificate_tv);
-                certificate_tv.setText("资格证号" + " " + data.getCertification());
+                if(!TextUtils.isEmpty(data.getCertification())){
+                    certificate_tv.setText("资格证号：" + " " + data.getCertification());
+                }else {
+                    certificate_tv.setText("资格证号：" + "无");
+                }
+
+                TextView role_tv=holder.getView(R.id.role_tv);
+                if(data.getClassRole().equals("1")){
+                     role_tv.setText("总教练");
+                }else if(data.getClassRole().equals("2")){
+                    role_tv.setText("教练");
+                }else if(data.getClassRole().equals("3")){
+                   role_tv.setText("助教");
+                }else if(data.getClassRole().equals("4")){
+                    role_tv.setText("学员");
+                }
             }
         };
         pantner_list.setAdapter(adapter);
