@@ -110,7 +110,6 @@ public class ChatHelper {
      */
     public void init(Context context) {
         EMOptions options = initChatOptions();
-
         if (EaseUI.getInstance().init(context, options)) {
             appContext = context;
 //get easeui instance

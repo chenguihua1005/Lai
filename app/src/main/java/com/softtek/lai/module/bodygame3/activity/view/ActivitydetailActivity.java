@@ -98,7 +98,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             delete_activity.setVisibility(View.GONE);
         }
         activityId = getIntent().getStringExtra("activityId");
-        classrole = getIntent().getExtras().getInt("classrole");
+        classrole = getIntent().getExtras().getInt("classrole",-1);
         classid = getIntent().getStringExtra("classid");
         Log.e("classrole", classrole + "");
         getalldetail();
