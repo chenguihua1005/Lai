@@ -34,6 +34,7 @@ import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -41,6 +42,8 @@ import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.PopUpWindow.ActionItem;
 import com.softtek.lai.widgets.PopUpWindow.TitlePopup;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +76,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
 
     HeadService headService;
-    NewsTopFourModel newsTopFourModel;
+
     Long userid;
     int SetLove = 1;
     MemberInfoModel memberInfoModel;
@@ -124,7 +127,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     EasyAdapter<NewsTopFourModel> easyAdapter;
     //定义标题栏弹窗按钮
     private TitlePopup titlePopup;
-    boolean show_state = true;
+
 
     private int isFriend = 0;//1: 好友  0 ： 不是好友
     private long AccountId;
@@ -246,6 +249,24 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                 }
             });
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(AccountId==UserInfoModel.getInstance().getUserId()){
+            String path = AddressManager.get("photoHost");
+            UserModel model = UserInfoModel.getInstance().getUser();
+            if (!TextUtils.isEmpty(model.getPhoto())) {
+                Picasso.with(this).load(path + model.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_userimg);
+            }
+            if (StringUtils.isEmpty(model.getNickname())) {
+                tv_stuname.setText(model.getMobile());
+            } else {
+                tv_stuname.setText(model.getNickname());
+            }
+
         }
     }
 
