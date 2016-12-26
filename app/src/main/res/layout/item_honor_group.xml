@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="35dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -47,7 +47,7 @@
                     android:maxEms="4"
                     android:singleLine="true"
                     android:textColor="#424242"
-                    android:textSize="11dp" />
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
@@ -55,8 +55,8 @@
 
         <View
             android:layout_width="1dp"
-            android:layout_height="38dp"
-            android:layout_marginLeft="12dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
             android:background="#e6e6e6" />
 
 
@@ -64,12 +64,12 @@
             android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:ellipsize="end"
-            android:maxEms="8"
+            android:maxEms="4"
             android:singleLine="true"
             android:textColor="#333333"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
@@ -96,17 +96,16 @@
                     android:gravity="right"
                     android:paddingRight="3dp"
                     android:textColor="#ffa200"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_per_number"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
                     android:text="@string/rank_per_number2_test"
                     android:textColor="#333333"
-                    android:textSize="9dp" />
+                    android:textSize="9sp" />
             </LinearLayout>
 
             <TextView
@@ -114,7 +113,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:textColor="#999999"
                 android:textSize="9dp" />
@@ -123,6 +121,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/bodygame3_arrow" />
 
