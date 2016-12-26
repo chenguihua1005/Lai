@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -113,7 +114,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadData(true);
+                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
             }
         });
 
@@ -153,7 +154,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     private void loadData(boolean is_first) {
         listHonorrank.setRefreshing();
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
     private void newAdapter() {
