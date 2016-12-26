@@ -1,6 +1,12 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,7 +20,9 @@ import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
+import com.hyphenate.EMConnectionListener;
 import com.hyphenate.chat.EMClient;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -31,6 +39,8 @@ import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -94,6 +104,43 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     public int count = 0;
 
 
+    private EMConnectionListener connectionListener;
+    public AlertDialog.Builder builder = null;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (msg.what == 0) {
+                if (builder != null) {
+                    return;
+                }
+                builder = new AlertDialog.Builder(getActivity())
+                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                builder = null;
+                                UserInfoModel.getInstance().loginOut();
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }).setCancelable(false);
+                Dialog dialog = builder.create();
+                if (!getActivity().isFinishing()) {
+                    if (dialog != null && !dialog.isShowing()) {
+                        dialog.show();
+                    }
+                }
+            }
+        }
+
+    };
+
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
@@ -102,6 +149,43 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         search_hint.setText("请输入姓名或手机号进行搜索");
 
         ll_search.setOnClickListener(this);
+
+//        connectionListener = new EMConnectionListener() {
+//            @Override
+//            public void onDisconnected(final int error) {
+//                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+//                    SharedPreferenceService.getInstance().put("HXID", "-1");
+//                    if (!getActivity().isFinishing()) {
+//                        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//                            @Override
+//                            public void onSuccess() {
+//                                // TODO Auto-generated method stub
+//                                handler.sendEmptyMessage(0);
+//                            }
+//
+//                            @Override
+//                            public void onProgress(int progress, String status) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(int code, String message) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onConnected() {
+//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+//            }
+//        };
+//        EMClient.getInstance().addConnectionListener(connectionListener);
     }
 
     @Override

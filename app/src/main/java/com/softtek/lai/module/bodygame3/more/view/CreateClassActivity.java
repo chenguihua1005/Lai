@@ -312,6 +312,17 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 int year = datePicker.getYear();
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
+                if(year<currentYear){
+                    return;
+                }else if(year==currentYear){
+                    if(month<currentMonth){
+                        return;
+                    }else if(month==currentMonth){
+                        if(day<=currentDay){
+                            return;
+                        }
+                    }
+                }
                 String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
                 //输出当前日期
                 tv_class_time.setText(date);

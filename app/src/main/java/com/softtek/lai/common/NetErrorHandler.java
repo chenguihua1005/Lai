@@ -14,8 +14,8 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.net.StepNetService;
@@ -92,15 +92,17 @@ public class NetErrorHandler implements IApiErrorHandler {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
                         }
-                        Log.i("return code====="+customCode);
+                        Log.i("return code=====" + customCode);
                         switch (customCode) {
                             case 401:
-                                if (HomeFragment.timer != null) {
-                                    HomeFragment.timer.cancel();
-                                }
+//                                if (HomeFragment.timer != null) {
+//                                    HomeFragment.timer.cancel();
+//                                }
                                 SharedPreferenceService.getInstance().put("HXID", "-1");
                                 if (EMClient.getInstance().isLoggedInBefore()) {
-                                    EMClient.getInstance().logout(true,new EMCallBack() {
+                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
+
+                                    EMClient.getInstance().logout(true, new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {
@@ -121,7 +123,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         }
                                     });
                                 }
-                                if(builder==null||!builder.isShowing()){
+                                if (builder == null || !builder.isShowing()) {
                                     builder = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                             .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                             .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
@@ -142,11 +144,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 }
                                 break;
                             case 4001:
-                                AlertDialog dialog= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
-                                        .setPositiveButton("确认",new DialogInterface.OnClickListener(){
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which){
+                                            public void onClick(DialogInterface dialog, int which) {
                                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                 UserModel model = UserInfoModel.getInstance().getUser();
                                                 model.setIsJoin("0");
@@ -160,7 +162,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 dialog.show();
                                 break;
                             case 4002:
-                                AlertDialog dialog1= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog1 = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -178,7 +180,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 dialog1.show();
                                 break;
                             case 4003:
-                                AlertDialog dialog2= new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog2 = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
                                         .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override

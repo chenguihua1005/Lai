@@ -32,7 +32,6 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.PUT;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
@@ -75,9 +74,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     public static final int ACTIVITY_EXIT = 3;
     //    private boolean operation = false;
     private int operation = 0;
-    private String classid;
-    private boolean isOperationon = false;
-
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -98,9 +94,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             delete_activity.setVisibility(View.GONE);
         }
         activityId = getIntent().getStringExtra("activityId");
-        classrole = getIntent().getExtras().getInt("classrole");
-        classid = getIntent().getStringExtra("classid");
-        Log.e("classrole", classrole + "");
+        classrole = getIntent().getExtras().getInt("classrole", -1);
+
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -125,7 +120,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 UseredModel model = useredModels.get(i);
                 Intent intent = new Intent(ActivitydetailActivity.this, PersonDetailActivity.class);
                 intent.putExtra("AccountId", model.getUserId());
-                intent.putExtra("ClassId", classid);
+                intent.putExtra("ClassId", model.getClassId());
                 startActivity(intent);
             }
         });
@@ -171,6 +166,16 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         exit_lin.setVisibility(View.GONE);
                                     }
                                 } else if (classrole == Constants.STUDENT) {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
+                                    }
+                                } else if (classrole == -1) {
                                     if (actdetailModel.getSign()) {
                                         signup_activity.setVisibility(View.GONE);
                                         delete_activity.setVisibility(View.GONE);
@@ -268,7 +273,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                         del.putExtra("operation", ACTIVITY_DEL);
                         del.putExtra("count", count);
                         setResult(RESULT_OK, del);
-
                         finish();
                     }
 
@@ -279,106 +283,68 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 });
                 break;
             case R.id.exit_tv:
-                if (classrole == Constants.HEADCOACH) {
-                    ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            activityId, new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-                                    try {
-                                        if (200 == responseData.getStatus()) {
-                                            Util.toastMsg(responseData.getMsg());
-                                            if (classrole == Constants.HEADCOACH) {
-                                                signup_activity.setVisibility(View.VISIBLE);
-                                                delete_activity.setVisibility(View.VISIBLE);
-                                                exit_lin.setVisibility(View.GONE);
-                                            } else if (classrole == Constants.COACH) {
-                                                signup_activity.setVisibility(View.VISIBLE);
-                                                delete_activity.setVisibility(View.GONE);
-                                                exit_lin.setVisibility(View.GONE);
-                                            } else if (classrole == Constants.ASSISTANT) {
-                                                signup_activity.setVisibility(View.VISIBLE);
-                                                delete_activity.setVisibility(View.GONE);
-                                                exit_lin.setVisibility(View.GONE);
-                                            } else if (classrole == Constants.STUDENT) {
-                                                signup_activity.setVisibility(View.VISIBLE);
-                                                delete_activity.setVisibility(View.GONE);
-                                                exit_lin.setVisibility(View.GONE);
-                                            }
-                                            operation = 2;
-                                            getalldetail();
-                                        } else {
-                                            operation = 0;
-                                            Util.toastMsg(responseData.getMsg());
-                                        }
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    operation = 0;
-                                    super.failure(error);
-                                }
-                            });
-                } else {
-                    ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
-                            UserInfoModel.getInstance().getUserId(),
-                            activityId, new RequestCallback<ResponseData>() {
-                                @Override
-                                public void success(ResponseData responseData, Response response) {
-                                    try {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        activityId, new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                try {
+                                    if (200 == responseData.getStatus()) {
                                         Util.toastMsg(responseData.getMsg());
-                                        Intent intent = getIntent();
-                                        intent.putExtra("operation", ACTIVITY_EXIT);
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        operation = 2;
+                                        getalldetail();
+                                    } else {
+                                        operation = 0;
+                                        Util.toastMsg(responseData.getMsg());
                                     }
-                                }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            });
-                }
+                            }
 
+                            @Override
+                            public void failure(RetrofitError error) {
+                                operation = 0;
+                                super.failure(error);
+                            }
+                        });
                 break;
             case R.id.ll_left:
-                if (operation == 0) {
-                    finish();
-                } else if (operation == 1) {
-                    Intent intent = getIntent();
-                    intent.putExtra("operation", ACTIVITY_SIGN);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                } else if (operation == 2) {
-                    Intent intent = getIntent();
-                    intent.putExtra("operation", ACTIVITY_EXIT);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
+
+                    if (operation == 0) {
+                        finish();
+                    } else if (operation == 1) {
+                        com.github.snowdream.android.util.Log.i("报名活动。。。。");
+                        Intent intent = getIntent();
+                        intent.putExtra("operation", ACTIVITY_SIGN);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else if (operation == 2) {
+                        com.github.snowdream.android.util.Log.i("退出活动。。。");
+                        Intent intent = getIntent();
+                        intent.putExtra("operation", ACTIVITY_EXIT);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 break;
 
         }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             if (operation == 0) {
                 finish();
             } else if (operation == 1) {
+                com.github.snowdream.android.util.Log.i("报名活动。。。");
                 Intent intent = getIntent();
                 intent.putExtra("operation", ACTIVITY_SIGN);
                 setResult(RESULT_OK, intent);
                 finish();
             } else if (operation == 2) {
+                com.github.snowdream.android.util.Log.i("退出活动。。。。。。。");
                 Intent intent = getIntent();
                 intent.putExtra("operation", ACTIVITY_EXIT);
                 setResult(RESULT_OK, intent);

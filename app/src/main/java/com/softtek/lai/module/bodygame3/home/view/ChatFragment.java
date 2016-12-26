@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
@@ -39,7 +38,6 @@ import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -88,13 +86,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     private EMConnectionListener connectionListener;
     private static final String TAG = "ChatFragment";
-
-//    private MessageReceiver mMessageReceiver;
-
-//    private android.app.AlertDialog.Builder accountRemovedBuilder;
-//    private boolean isConflictDialogShow;
-//    private boolean isAccountRemovedDialogShow;
-//    private BroadcastReceiver internalDebugReceiver;
 
 
     private Handler handler = new Handler() {
@@ -160,44 +151,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         tv_title.setText("会话");
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!getActivity().isFinishing()) {
-                        EMClient.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-            }
-        };
-//        EMChatManager.getInstance().addConnectionListener(connectionListener);
         registerBroadcastReceiver();
-
     }
 
     @Override
@@ -250,79 +204,73 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-        if ("0".equals(Constants.IS_LOGINIMG)) {
-            final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-            if (HomeFragment.timer != null) {
-                HomeFragment.timer.cancel();
-            }
+//        if ("0".equals(Constants.IS_LOGINIMG)) {
+////            inal String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+////            if (HomeFragment.timer != null) {
+////                HomeFragment.timer.cancel();
+////            }
+//
+////            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
+////            if (hxid.equals(model.getHXAccountId())) {
+//
+//           /* } else {
+//                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
+//                if ("-1".equals(hxid)) {
+//                    loginPresenter.getEMChatAccount(progressDialog);
+//                }
+//
+//            }*/
+//        } else {
+//
+//        }
 
-            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
-            if (hxid.equals(model.getHXAccountId())) {
-
-                Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                ChatUserModel chatUserModel = new ChatUserModel();
-                chatUserModel.setUserName(model.getNickname());
-                chatUserModel.setUserPhone(path + model.getPhoto());
-                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        EMClient.getInstance().updateCurrentUserNick(model.getNickname());
-                        EMClient.getInstance().chatManager().loadAllConversations();
-                    }
-                }).start();
-                img_mo_message.setVisibility(View.GONE);
-                conversationListFragment = new ConversationListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
-                        .commit();
-            } else {
-                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
-                if ("-1".equals(hxid)) {
-                    loginPresenter.getEMChatAccount(progressDialog);
-                } else {
-                    new Thread(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    HXLoginOut();
-                                }
-                            }
-                    ).start();
+        if(EMClient.getInstance().isLoggedInBefore()){
+            Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            ChatUserModel chatUserModel = new ChatUserModel();
+            chatUserModel.setUserName(model.getNickname());
+            chatUserModel.setUserPhone(path + model.getPhoto());
+            chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+            ChatUserInfoModel.getInstance().setUser(chatUserModel);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+                    EMClient.getInstance().chatManager().loadAllConversations();
                 }
-
-            }
-        } else {
+            }).start();
+            img_mo_message.setVisibility(View.GONE);
+            conversationListFragment = new ConversationListFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
+                    .commit();
+        }else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
-
-
     }
 
-    private void HXLoginOut() {
-        EMClient.getInstance().logout(true, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                SharedPreferenceService.getInstance().put("HXID", "-1");
-                handler.sendEmptyMessage(1);
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                // TODO Auto-generated method stub
-                handler.sendEmptyMessage(4);
-            }
-        });
-    }
+//    private void HXLoginOut() {
+//        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//            @Override
+//            public void onSuccess() {
+//                // TODO Auto-generated method stub
+//                SharedPreferenceService.getInstance().put("HXID", "-1");
+//                handler.sendEmptyMessage(1);
+//            }
+//
+//            @Override
+//            public void onProgress(int progress, String status) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onError(int code, String message) {
+//                // TODO Auto-generated method stub
+//                handler.sendEmptyMessage(4);
+//            }
+//        });
+//    }
 
 
     private void refreshUIWithMessage() {
@@ -533,6 +481,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
             for (EMMessage message : messages) {
+                Log.i(TAG, "message = " + message);
                 EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
 
                 // in background, do not refresh UI, notify it in notification bar

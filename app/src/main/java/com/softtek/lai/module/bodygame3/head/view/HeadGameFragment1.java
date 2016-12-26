@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -31,6 +31,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
+import com.softtek.lai.module.bodygame3.head.adapter.PhotoPagerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
@@ -46,11 +47,9 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
@@ -131,6 +130,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     TextView name_user;//用户
     @InjectView(R.id.gengxin)
     TextView gengxin;
+    @InjectView(R.id.pagephoto)
+    ViewPager pagephoto;
     @InjectView(R.id.pinglun)
     TextView pinglun;
     @InjectView(R.id.re_honor)
@@ -138,8 +139,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     HeadService service;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
-    @InjectView(R.id.photos)
-    HorizontalListView grid_list;
+    //    @InjectView(R.id.photos)
+//    HorizontalListView grid_list;
     @InjectView(R.id.week_rel)
     RelativeLayout week_rel;
     @InjectView(R.id.lin_pinlun)
@@ -171,6 +172,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private String classnum;
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
+    private List<View> views = new ArrayList<>();
+    private boolean isLoading = false;
+    private PhotoPagerAdapter photoPagerAdapter;
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -215,18 +219,19 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         refresh.setOnRefreshListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         searchContent.setOnClickListener(this);
-
-
         list_partner.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int count = partneradapter.getItemCount();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
-                    //加载更多数据
-                    page++;
-                    Log.e("分页加载。。。。。。。", page + "");
-                    updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+                    if (!isLoading) {
+                        isLoading = true;
+                        //加载更多数据
+                        page++;
+                        updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+                    }
+
                 }
             }
 
@@ -243,6 +248,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     protected void initDatas() {
         partneradapter = new ListRecyclerAdapter(getContext(), partnersModels);
         list_partner.setAdapter(partneradapter);
+        photoPagerAdapter = new PhotoPagerAdapter(views, getContext(),photos);
+        pagephoto.setAdapter(photoPagerAdapter);
+        pagephoto.setOffscreenPageLimit(3);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
         TypeModel model1 = new TypeModel(0, "按减重斤数");//0
@@ -307,25 +315,25 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             }
         });
-        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                ImageView iv_grid = holder.getView(R.id.iv_grid);
-                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).into(iv_grid);
-            }
-        };
-        grid_list.setAdapter(adapter);
-        grid_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent in = new Intent(getContext(), PictureMoreActivity.class);
-                in.putStringArrayListExtra("images", photos);
-                in.putExtra("position", i);
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
-            }
-        });
+//        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
+//            @Override
+//            public void convert(ViewHolder holder, String data, int position) {
+//                ImageView iv_grid = holder.getView(R.id.iv_grid);
+//                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
+//                        .error(R.drawable.default_icon_rect).into(iv_grid);
+//            }
+//        };
+//        grid_list.setAdapter(adapter);
+//        grid_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent in = new Intent(getContext(), PictureMoreActivity.class);
+//                in.putStringArrayListExtra("images", photos);
+//                in.putExtra("position", i);
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+//                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
+//            }
+//        });
         EventBus.getDefault().register(this);
     }
 
@@ -360,11 +368,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
-//
         service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
                 pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
                     @Override
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
+                        isLoading = false;
+                        partneradapter.notifyItemRemoved(partneradapter.getItemCount());
                         if (200 == partnersModelResponseData.getStatus()) {
                             PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
                             if (partnertotalModel.getPartnersList() != null) {
@@ -373,9 +382,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             }
                         } else {
                             Util.toastMsg(partnersModelResponseData.getMsg());
-                            partneradapter.setFootGone(true);
-                            partneradapter.notifyDataSetChanged();
                         }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        isLoading = false;
+                        partneradapter.notifyItemRemoved(partneradapter.getItemCount());
+                        super.failure(error);
                     }
                 });
     }
@@ -475,14 +489,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         pinglun.setText("0" + "条评论");
                                     }
                                     if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-                                        no_dongtai.setVisibility(View.GONE);
-                                        photos.clear();
-                                        photos.addAll(zhaopianModel.getPhotoThumbnailList());
-                                        adapter.notifyDataSetChanged();
+//                                        no_dongtai.setVisibility(View.GONE);
+//                                        photos.clear();
+//                                        photos.addAll(zhaopianModel.getPhotoThumbnailList());
+//                                        adapter.notifyDataSetChanged();
 
                                     } else {
-                                        grid_list.setVisibility(View.GONE);
-                                        no_dongtai.setVisibility(View.VISIBLE);
+//                                        grid_list.setVisibility(View.GONE);
+//                                        no_dongtai.setVisibility(View.VISIBLE);
                                     }
                                     //计算时间
                                     if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
@@ -584,20 +598,26 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void updateClass(UpdateClass clazz) {
         if (clazz.getStatus() == 0) {
             //更新班级姓名
-            ClassModel model = new ClassModel();
-            model.setClassId(clazz.getModel().getClassId());
-            model.setClassCode(clazz.getModel().getClassCode());
-            model.setClassName(clazz.getModel().getClassName());
-            model.setClassRole(clazz.getModel().getClassRole());
-            tv_title.setText(model.getClassName());
+            //更新班级姓名
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    model.setClassName(clazz.getModel().getClassName());
+                    model.setClassRole(clazz.getModel().getClassRole());
+                    model.setClassCode(clazz.getModel().getClassCode());
+                    model.setClassId(clazz.getModel().getClassId());
+                    break;
+                }
+            }
             tv_title.getAdapter().notifyDataSetChanged();
-        } else if (clazz.getStatus() == 1 && clazz.getModel().getClassStatus() == 1) {
+            tv_title.setSelected(tv_title.getSelectedIndex());
+        } else if (clazz.getStatus() == 1) {
             //添加新班级
             ClassModel model = new ClassModel();
             model.setClassId(clazz.getModel().getClassId());
             model.setClassCode(clazz.getModel().getClassCode());
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
+            model.setClassWeek("0");
             this.classModels.add(model);
             tv_title.getAdapter().notifyDataSetChanged();
         } else if (clazz.getStatus() == 2) {
@@ -624,7 +644,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     public void onRefresh() {
-
         if (saveclassModel != null) {
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
@@ -648,6 +667,9 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     refresh.setRefreshing(false);
                     page = 1;
                     classModels.clear();
+                    spinner_title.attachDataSource(dataset);
+                    typecode = 0;
+                    partneradapter.setType(typecode);
                     com.github.snowdream.android.util.Log.i("第一次加载的输出信息=" + classinfoModelResponseData.getData().toString());
                     if (classinfoModelResponseData.getData() != null) {
                         final ClassinfoModel classinfoModel = classinfoModelResponseData.getData();
@@ -733,6 +755,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 student_jianzhi.setText("减脂比" + " %");
                             }
                         }
+
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
                             tuijianModels.addAll(classinfoModel.getListRec());
@@ -768,7 +791,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         }
                         //照片墙
                         if (classinfoModel.getPhotoWall() != null) {
-                            grid_list.setVisibility(View.VISIBLE);
+//                            grid_list.setVisibility(View.VISIBLE);
                             no_dongtai.setVisibility(View.GONE);
                             ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                             Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
@@ -780,15 +803,23 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             } else {
                                 pinglun.setText("0" + "条评论");
                             }
-                            if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-                                photos.clear();
-                                photos.addAll(zhaopianModel.getPhotoThumbnailList());
-                                adapter.notifyDataSetChanged();
-
-                            } else {
-                                grid_list.setVisibility(View.GONE);
-                                no_dongtai.setVisibility(View.VISIBLE);
+//                            if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
+//                                photos.clear();
+//                                photos.addAll(zhaopianModel.getPhotoThumbnailList());
+//                                adapter.notifyDataSetChanged();
+                            photos.addAll(zhaopianModel.getPhotoThumbnailList());
+                            for (int i = 0; i < photos.size(); i++) {
+                                View view = LayoutInflater.from(getContext()).inflate(R.layout.grid_list, null);
+                                views.add(view);
                             }
+//
+//
+//
+//
+//                            } else {
+//                                grid_list.setVisibility(View.GONE);
+//                                no_dongtai.setVisibility(View.VISIBLE);
+//                            }
                             //计算时间
                             if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
                                 long[] days = DateUtil.getInstance().getDaysForNow(zhaopianModel.getReleaseTime());

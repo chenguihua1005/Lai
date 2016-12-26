@@ -6,9 +6,25 @@ package com.softtek.lai.module.bodygame3.activity.model;
  */
 
 public class UseredModel {
-    private int UserId;
+    private long UserId;
     private String UserIcon;
     private String UserName;
+    private String ClassId;
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
+
+    public UseredModel(int userId, String userIcon, String userName, String classId) {
+        UserId = userId;
+        UserIcon = userIcon;
+        UserName = userName;
+        ClassId = classId;
+    }
 
     public UseredModel(int userId, String userIcon, String userName) {
         UserId = userId;
@@ -16,7 +32,7 @@ public class UseredModel {
         UserName = userName;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return UserId;
     }
 

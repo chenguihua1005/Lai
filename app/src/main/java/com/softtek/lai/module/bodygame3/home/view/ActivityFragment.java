@@ -125,6 +125,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private ClassModel classModel;
     private static final int LOADCOUNT = 10;
     private int page = 1;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+    String str = formatter.format(curDate);
 
     public ActivityFragment() {
 
@@ -145,7 +148,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         } else {
             fl_right.setVisibility(View.GONE);
         }
-//        list_activity.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));//RecyclerView
         ll_fuce.setOnClickListener(this);
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
@@ -166,8 +168,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         Calendar instance2 = Calendar.getInstance();
         instance2.set(instance2.get(Calendar.YEAR) + 1, Calendar.DECEMBER, 31);
         material_calendar.setSelectionColor(getResources().getColor(R.color.yellow));
-//        material_calendar.setTileHeight(90);
-//        material_calendar.setTileHeightDp(55);
         material_calendar.state().edit()
                 .setMinimumDate(instance1.getTime())
                 .setMaximumDate(instance2.getTime())
@@ -175,7 +175,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 .commit();
 
         material_calendar.setShowOtherDates(0);
-//        material_calendar.invalidateDecorators();
     }
 
     @Override
@@ -229,6 +228,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
             }
         });
+
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -467,6 +467,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 //加载数据
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     gettodaydata(saveclassModel.getDates());
+                }else{
+                    gettodaydata(str);
                 }
 
                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
@@ -474,7 +476,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
 
             } else if (requestCode == 2) {
-                com.github.snowdream.android.util.Log.i("初始数据录入更新。。。。。。。。。。。。。。");
                 if (classrole == Constants.STUDENT) {
                     int IsInitW = data.getExtras().getInt("IsInitW");
                     if (IsInitW == 1) {
@@ -482,12 +483,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         BtnTag tag = new BtnTag();
                         tag.isfirst = 2;
                     }
-
                 } else {
                     int numbers = data.getExtras().getInt("Auditnum");
                     Log.i("numbers", numbers + "");
                     tv_chustatus.setText("待审核" + numbers + "人");
-
                 }
 
             } else if (requestCode == 3) {
@@ -516,25 +515,30 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             }
                         }
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                            Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
+                            Log.i("获取活动。。。。。。。。。", saveclassModel.getDates());
                             gettodaydata(saveclassModel.getDates());
                         }
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                            Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
                             gettodaydata(saveclassModel.getDates());
+                        }else {
+                            gettodaydata(str);
                         }
                     }
 
                 } else if (operation == ActivitydetailActivity.ACTIVITY_EXIT) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                        Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
+                        Log.i("获取退出活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
+                    }else {
+                        gettodaydata(str);
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                        Log.i("点击日期获取数据复测。。。。。。。。。", saveclassModel.getDates());
+                        Log.i("获取报名活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
+                    }else{
+                        gettodaydata(str);
                     }
                 }
             }
@@ -672,7 +676,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 todayactModels.clear();
                                                 //有活动
                                                 todayactModels.addAll(activitydataModel.getList_Activity());
-                                                Log.e("活动列表",todayactModels.toString());
+                                                Log.e("活动列表", todayactModels.toString());
                                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);

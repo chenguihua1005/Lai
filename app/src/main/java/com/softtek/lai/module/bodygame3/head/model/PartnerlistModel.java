@@ -11,14 +11,24 @@ public class PartnerlistModel {
     private String UserName;
     private String Mobile;
     private String Certification;
+    private String ClassRole;
 
-    public PartnerlistModel(int accountId, String photo, String thPhoto, String userName, String mobile, String certification) {
+    public PartnerlistModel(int accountId, String photo, String thPhoto, String userName, String mobile, String certification, String classRole) {
         AccountId = accountId;
         Photo = photo;
         ThPhoto = thPhoto;
         UserName = userName;
         Mobile = mobile;
         Certification = certification;
+        ClassRole = classRole;
+    }
+
+    public String getClassRole() {
+        return ClassRole;
+    }
+
+    public void setClassRole(String classRole) {
+        ClassRole = classRole;
     }
 
     public int getAccountId() {

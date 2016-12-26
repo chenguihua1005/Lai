@@ -8,7 +8,6 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
@@ -79,6 +78,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+
     }
 
     /**

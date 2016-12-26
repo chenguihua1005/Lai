@@ -25,55 +25,38 @@
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll">
 
+
                 <RelativeLayout
+                    android:id="@+id/re_search_bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="31dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/btn_search"
+                    android:visibility="visible">
 
-                    <RelativeLayout
-                        android:id="@+id/re_search_bottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
+                    <ImageView
+                        android:id="@+id/im_search_bottom"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
+                        android:background="@drawable/light" />
+
+                    <TextView
+                        android:id="@+id/searchContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/btn_search"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/btn_search"
-                        android:visibility="visible">
+                        android:layout_toRightOf="@+id/im_search_bottom"
+                        android:gravity="center_vertical"
+                        android:hint="请输入姓名或手机号搜索小伙伴吧"
+                        android:singleLine="true"
+                        android:textSize="12sp" />
 
-                        <ImageView
-                            android:id="@+id/im_search_bottom"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/light" />
-
-                        <TextView
-                            android:id="@+id/searchContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_toRightOf="@+id/im_search_bottom"
-                            android:gravity="center_vertical"
-                            android:hint="请输入姓名或手机号搜索小伙伴吧"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-
-                            />
-
-                        <!--<ImageView-->
-                        <!--android:id="@+id/clearBtn"-->
-                        <!--android:layout_width="25dp"-->
-                        <!--android:layout_height="25dp"-->
-                        <!--android:layout_alignParentEnd="true"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_alignParentTop="true"-->
-                        <!--android:layout_marginRight="10dp"-->
-                        <!--android:layout_marginTop="9dp"-->
-                        <!--android:src="@drawable/txt_search_clear"-->
-                        <!--android:visibility="gone" />-->
-
-                    </RelativeLayout>
                 </RelativeLayout>
 
                 <View
@@ -442,16 +425,22 @@
                 <!--android:paddingTop="10dp"-->
                 <!--android:visibility="visible">-->
 
-                <com.softtek.lai.widgets.HorizontalListView
-                    android:id="@+id/photos"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@color/white"
-                    android:paddingRight="7dp"
-                    android:paddingTop="10dp"
-                    android:visibility="visible">
+                <!--<com.softtek.lai.widgets.HorizontalListView-->
+                    <!--android:id="@+id/photos"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:paddingRight="7dp"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:visibility="visible">-->
 
-                </com.softtek.lai.widgets.HorizontalListView>
+                <!--</com.softtek.lai.widgets.HorizontalListView>-->
+
+                <android.support.v4.view.ViewPager
+                android:id="@+id/pagephoto"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 
                 <LinearLayout
                     android:id="@+id/no_dongtai"
@@ -584,25 +573,19 @@
                     android:layout_toLeftOf="@id/spinner_title"
                     android:src="@drawable/weightphoto" />
 
-
-                <!--<com.ggx.widgets.nicespinner.ArrowSpinner2-->
-                <!--android:id="@+id/spinner_title"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:gravity="right"-->
-                <!--app:arrowTint2="@color/word"-->
-                <!--app:textSize2="13px" />-->
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e1e1e1"></View>
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_partner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 </com.softtek.lai.widgets.MySwipRefreshView>

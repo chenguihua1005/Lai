@@ -26,6 +26,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -138,10 +139,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             text_state.setText("已认证");
-            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.green));
+            text_state.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
         } else {
             text_state.setText("未认证");
-            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.grey_font));
+            text_state.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
         }
 
         text_zgzh.setText(certification);
@@ -214,10 +215,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                Intent personal=new Intent(getContext(), PersionalActivity.class);
-                personal.putExtra("isFocus",1);
-                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
-                personal.putExtra("personalName",text_name.getText().toString());
+                Intent personal = new Intent(getContext(), PersionalActivity.class);
+                personal.putExtra("isFocus", 1);
+                personal.putExtra("personalId", String.valueOf(UserInfoModel.getInstance().getUserId()));
+                personal.putExtra("personalName", text_name.getText().toString());
                 startActivity(personal);
                 break;
         }
@@ -225,17 +226,16 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     private void clearData() {
 
-        if (HomeFragment.timer != null) {
-            HomeFragment.timer.cancel();
-        }
+
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (!hxid.equals("-1")) {
             SharedPreferenceService.getInstance().put("HXID", "-1");
             EMClient.getInstance().logout(true, new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    // TODO Auto-generated method stub
+                    //关闭环信服务
                     UserInfoModel.getInstance().loginOut();
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     getActivity().finish();
                     startActivity(new Intent(getContext(), LoginActivity.class));
@@ -253,6 +253,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
                 }
             });
+
         } else {
             UserInfoModel.getInstance().loginOut();
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));

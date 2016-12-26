@@ -18,9 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
@@ -52,7 +50,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -185,43 +182,42 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         }
         content.setCurrentItem(current, false);
 
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.USER_ALREADY_LOGIN) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
-                        EMClient.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-            }
-        };
-
-        EMClient.getInstance().addConnectionListener(connectionListener);
+//        connectionListener = new EMConnectionListener() {
+//            @Override
+//            public void onDisconnected(final int error) {
+//                if (error == EMError.USER_ALREADY_LOGIN) {
+//                    SharedPreferenceService.getInstance().put("HXID", "-1");
+//                    if (!isFinishing()) {
+//                        EMClient.getInstance().logout(true, new EMCallBack() {
+//
+//                            @Override
+//                            public void onSuccess() {
+//                                // TODO Auto-generated method stub
+//                                handler.sendEmptyMessage(0);
+//                            }
+//
+//                            @Override
+//                            public void onProgress(int progress, String status) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(int code, String message) {
+//                                // TODO Auto-generated method stub
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onConnected() {
+//                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+//            }
+//        };
+//        EMClient.getInstance().addConnectionListener(connectionListener);
 
         UserModel model = UserInfoModel.getInstance().getUser();
         if (model == null) {

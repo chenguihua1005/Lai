@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.message2.view.ExamineActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.message2.view.MessageConfirmActivity;
@@ -51,60 +52,54 @@ public class JpushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.i(TAG, "[MyReceiver] 用户点击打开了通知");
             WeakReference<Context> appContext= LaiApplication.getInstance().getContext();
-            if(appContext!=null){
-                Context activityContext=appContext.get();
-                if(activityContext instanceof RunSportActivity){
-                    Intent runIntent=new Intent(context,RunSportActivity.class);
-                    runIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(runIntent);
-                }else{
-                    //打开自定义的Activity
-                    //获取extras数据
-                    String extra=bundle.getString(JPushInterface.EXTRA_EXTRA);
-                    if(!extra.isEmpty()){
-                        try {
-                            JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
-                            //拿到通知类型
-                            int msgType=json.optInt("msgtype");
-                            if(msgType==0){//普通通知直接跳转到消息列表
-                                //默认跳转到消息中心
-                                Intent i = new Intent(context, Message2Activity.class);
-                                i.putExtras(bundle);
-                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(i);
-                            }else if(msgType==1){//申请加入班级通知
-                                //进入申请确认界面
-                                Intent i = new Intent(context, ExamineActivity.class);
-                                i.putExtra("msgId",json.optString("msgId"));
-                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(i);
-                            }else if(msgType==2){//邀请加入班级通知
-                                //进入邀请确认界面
-                                Intent i = new Intent(context, MessageConfirmActivity.class);
-                                i.putExtra("msgId",json.optString("msgId"));
-                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(i);
-                            }
+            if(appContext!=null&&appContext.get() instanceof RunSportActivity){
+                Intent runIntent=new Intent(context,RunSportActivity.class);
+                runIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(runIntent);
 
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Get message extra JSON error!");
-                        }
-                    }else {
-                        //默认跳转到消息中心
-                        Intent i = new Intent(context, Message2Activity.class);
-                        i.putExtras(bundle);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(i);
-                    }
-
-                }
             }else{
-                //打开自定义的Activity
-                Intent i = new Intent(context, Message2Activity.class);
-                i.putExtras(bundle);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(i);
+                String extra=bundle.getString(JPushInterface.EXTRA_EXTRA);
+                if(!extra.isEmpty()){
+                    try {
+                        JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                        //拿到通知类型
+                        int msgType=json.optInt("msgtype");
+                        if(msgType==0||msgType==4){//普通通知直接跳转到消息列表
+                            //默认跳转到消息中心
+                            Intent i = new Intent(context, Message2Activity.class);
+                            i.putExtras(bundle);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(i);
+                        }else if(msgType==1){//申请加入班级通知
+                            //进入申请确认界面
+                            Intent i = new Intent(context, ExamineActivity.class);
+                            i.putExtra("msgId",json.optString("msgId"));
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(i);
+                        }else if(msgType==2){//邀请加入班级通知
+                            //进入邀请确认界面
+                            Intent i = new Intent(context, MessageConfirmActivity.class);
+                            i.putExtra("msgId",json.optString("msgId"));
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(i);
+                        }else if(msgType==3){//点击跳转到活动详情
+                            //进入邀请确认界面
+                            Intent i = new Intent(context, ActivitydetailActivity.class);
+                            i.putExtra("activityId",json.optString("activityId"));
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(i);
+                        }
 
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Get message extra JSON error!");
+                    }
+                }else {
+                    //默认跳转到消息中心
+                    Intent i = new Intent(context, Message2Activity.class);
+                    i.putExtras(bundle);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }
             }
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {

@@ -1,8 +1,12 @@
 package com.softtek.lai.module.bodygame3.conversation.view;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
@@ -26,6 +31,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.GroupAdapter;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -68,10 +75,10 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     public static GroupsActivity instance;
     private List<ContactClassModel> classModels;
 
-
-//    protected List<EMGroup> grouplist;
-
     private GroupAdapter groupAdapter;
+    private final static int LOGIN_CONFLICT = 0x0088;
+    public AlertDialog.Builder builder = null;
+
 
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -83,7 +90,32 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
                 case 1:
                     Toast.makeText(GroupsActivity.this, R.string.Failed_to_get_group_chat_information, Toast.LENGTH_LONG).show();
                     break;
+                case LOGIN_CONFLICT:
+                    if (builder != null) {
+                        return;
+                    }
+                    builder = new AlertDialog.Builder(GroupsActivity.this)
+                            .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                            .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    builder = null;
+                                    UserInfoModel.getInstance().loginOut();
+                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                    Intent intent = new Intent(GroupsActivity.this, LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            }).setCancelable(false);
+                    Dialog dialog = builder.create();
+                    if (!GroupsActivity.this.isFinishing()) {
+                        if (dialog != null && !dialog.isShowing()) {
+                            dialog.show();
+                        }
+                    }
 
+                    break;
                 default:
                     break;
             }

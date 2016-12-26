@@ -54,16 +54,17 @@
 
         <Button
             android:id="@+id/search_partner"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
             android:layout_alignBaseline="@+id/re_search_bottom"
             android:layout_alignBottom="@+id/re_search_bottom"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:text="搜索"
+            android:background="@drawable/btn_searth"
             android:layout_gravity="center"
-            android:textColor="@color/word"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
     </LinearLayout>

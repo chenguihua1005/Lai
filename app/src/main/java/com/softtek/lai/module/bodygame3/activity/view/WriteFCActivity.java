@@ -505,14 +505,18 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        fcStDataModel = fcStDataModelResponseData.getData();
-                        doSetData();
-                        break;
-                    default:
-                        Util.toastMsg(fcStDataModelResponseData.getMsg());
-                        break;
+                try {
+                    switch (status) {
+                        case 200:
+                            fcStDataModel = fcStDataModelResponseData.getData();
+                            doSetData();
+                            break;
+                        default:
+                            Util.toastMsg(fcStDataModelResponseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -598,19 +602,23 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
-                switch (status) {
-                    case 200:
-                        progressDialog.dismiss();
-                        Intent intent=new Intent();
-                        int IsInitW=1;
-                        intent.putExtra("IsInitW",IsInitW);
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        break;
-                    default:
-                        progressDialog.dismiss();
-                        Util.toastMsg(responseData.getMsg());
-                        break;
+                try {
+                    switch (status) {
+                        case 200:
+                            progressDialog.dismiss();
+                            Intent intent=new Intent();
+                            int IsInitW=1;
+                            intent.putExtra("IsInitW",IsInitW);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                            break;
+                        default:
+                            progressDialog.dismiss();
+                            Util.toastMsg(responseData.getMsg());
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

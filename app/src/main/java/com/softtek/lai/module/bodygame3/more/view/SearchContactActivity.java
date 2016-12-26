@@ -107,8 +107,10 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                                         contacts.addAll(data.getData());
                                                         adapter.notifyDataSetChanged();
                                                     }else {
-                                                        Util.toastMsg(data.getMsg());
+                                                        Util.toastMsg("无此用户只支持精确查询");
                                                     }
+                                                }else {
+                                                    Util.toastMsg(data.getMsg());
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();
