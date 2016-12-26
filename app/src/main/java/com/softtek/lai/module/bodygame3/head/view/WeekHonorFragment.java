@@ -175,9 +175,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getCoachName());
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                if (TextUtils.isEmpty(data.getLossPer())){
+                if (TextUtils.isEmpty(data.getLossPer())) {
                     tv_per_number.setText("--");
-                }else {
+                } else {
                     tv_per_number.setText(data.getLossPer());
                 }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
@@ -220,6 +220,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     /**
      * 请求数据，每次切换到时候也会执行(切换fragment的时候，数据应该不会丢失，所以请求一次周数就行了)
+     * 确定只执行一次
      */
     @Override
     protected void lazyLoad() {
