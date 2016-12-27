@@ -45,7 +45,8 @@
                 <ImageView
                     android:id="@+id/iv_gender"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
                     android:id="@+id/tv_trainer_name"
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:ellipsize="end"
-                    android:maxEms="8"
+                    android:maxEms="4"
                     android:singleLine="true"
                     android:textColor="#424242"
                     android:textSize="14sp" />
@@ -61,9 +62,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="("
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    android:text="(" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_group_name"
@@ -77,10 +78,10 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textColor="#999999"
-                    android:textSize="12sp"
                     android:layout_height="wrap_content"
-                    android:text=")" />
+                    android:text=")"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
@@ -133,7 +134,8 @@
                 android:id="@+id/tv_by_which"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/rank_per_test"
                 android:textColor="#999999"

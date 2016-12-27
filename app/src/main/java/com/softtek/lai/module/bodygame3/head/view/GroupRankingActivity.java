@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -86,8 +85,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             public void convert(ViewHolder holder, ListGroupRankingModel data, int position) {
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getNum());
+                CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
+                setImage(civ_trainer_header, data.getPhoto());
                 ImageView iv_gender = holder.getView(R.id.iv_gender);
-                setImage2(iv_gender, data.getPhoto());
+                setImage2(iv_gender, data.getGender());
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getUserName());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
@@ -95,15 +96,15 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 TextView tv_init = holder.getView(tv_init_weight);
                 String init = data.getInitWeight();
                 if ("ByFatRatio".equals(ByWhichRatio)) {
-                    tv_init.setText(getString(R.string.init_fat,init));
+                    tv_init.setText(getString(R.string.init_fat, init));
                 } else {
-                    tv_init.setText(getString(R.string.init_weight,init));
+                    tv_init.setText(getString(R.string.init_weight, init));
                 }
 //                }
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                if (TextUtils.isEmpty(data.getLossPer())){
+                if (TextUtils.isEmpty(data.getLossPer())) {
                     tv_per_number.setText("--");
-                }else {
+                } else {
                     tv_per_number.setText(data.getLossPer());
                 }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
@@ -151,20 +152,20 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
             tv_group_name.setText(listGroupModel.getGroupName());
             if ("ByWeek".equals(SortTimeType)) {
-                tv_title.setText(getString(R.string.title_ranking_group,whichName));
-                tv_rank_number.setText(getString(R.string.week_ranking,listGroupModel.getRanking()));
+                tv_title.setText(getString(R.string.title_ranking_group, whichName));
+                tv_rank_number.setText(getString(R.string.week_ranking, listGroupModel.getRanking()));
             } else if ("ByMonth".equals(SortTimeType)) {
-                tv_title.setText(getString(R.string.title_ranking_group,whichName));
-                tv_rank_number.setText(getString(R.string.month_ranking,listGroupModel.getRanking()));
+                tv_title.setText(getString(R.string.title_ranking_group, whichName));
+                tv_rank_number.setText(getString(R.string.month_ranking, listGroupModel.getRanking()));
             } else if ("ByTotal".equals(SortTimeType)) {
                 tv_title.setText(R.string.title_group_total);
             }
             setImage(civ_trainer_header, listGroupModel.getCoachIco());
 //            Log.e("curry", "success: " + listGroupModel.toString());
             tv_trainer_name.setText(listGroupModel.getCoachName());
-            if (TextUtils.isEmpty(listGroupModel.getLossPer())){
+            if (TextUtils.isEmpty(listGroupModel.getLossPer())) {
                 tv_per_number.setText("--");
-            }else {
+            } else {
                 tv_per_number.setText(listGroupModel.getLossPer());
             }
             tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));

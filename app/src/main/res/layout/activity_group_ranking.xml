@@ -36,18 +36,11 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxEms="8"
+                    android:maxEms="4"
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textColor="#333333"
                     android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="组"
-                    android:textColor="#333333"
-                    android:textSize="12sp" />
             </LinearLayout>
 
 
