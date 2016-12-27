@@ -37,4 +37,11 @@ public class NoSlidingViewPage extends ViewPager{
             return super.onInterceptTouchEvent(arg0);
     }
 
+    public boolean isNoScroll() {
+        return noScroll;
+    }
+
+    public void setNoScroll(boolean noScroll) {
+        this.noScroll = noScroll;
+    }
 }

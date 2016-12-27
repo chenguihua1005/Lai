@@ -4,18 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,7 +37,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.ListRecyclerAdapter;
-import com.softtek.lai.module.bodygame3.head.adapter.PhotoPagerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
@@ -47,11 +52,17 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
+import com.softtek.lai.widgets.MyRelative;
 import com.softtek.lai.widgets.MySwipRefreshView;
+import com.softtek.lai.widgets.MyViewPager;
+import com.softtek.lai.widgets.SquareImageView;
+import com.softtek.lai.widgets.WrapRelativeLayout;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -86,8 +97,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     //toolbar标题
     @InjectView(R.id.re_photowall)
     RelativeLayout re_photowall;
-    @InjectView(R.id.no_photowalll)
-    TextView no_photowalll;
+
     @InjectView(R.id.honor_lin)
     LinearLayout honor_lin;
     @InjectView(R.id.spinner_title1)
@@ -124,33 +134,26 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     TextView video_type2;
     @InjectView(R.id.video_name2)
     TextView video_name2;
-    @InjectView(R.id.head_images)
-    ImageView head_images;//评论区头像
-    @InjectView(R.id.name_user)
-    TextView name_user;//用户
-    @InjectView(R.id.gengxin)
-    TextView gengxin;
-    @InjectView(R.id.pagephoto)
-    ViewPager pagephoto;
-    @InjectView(R.id.pinglun)
-    TextView pinglun;
+
     @InjectView(R.id.re_honor)
     RelativeLayout re_honor;//荣誉榜
     HeadService service;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
-    //    @InjectView(R.id.photos)
+//    @InjectView(R.id.photos)
 //    HorizontalListView grid_list;
+
+    @InjectView(R.id.viewpager)
+    ViewPager viewPager;
+    @InjectView(R.id.rl_container)
+    MyRelative rl_container;
     @InjectView(R.id.week_rel)
     RelativeLayout week_rel;
-    @InjectView(R.id.lin_pinlun)
-    LinearLayout lin_pinlun;
-    @InjectView(R.id.re_search_bottom)
-    RelativeLayout re_search_bottom;
+
     @InjectView(R.id.iv_types)
     ImageView iv_types;
-    @InjectView(R.id.no_dongtai)
-    LinearLayout no_dongtai;
+    @InjectView(R.id.no_photowalll)
+    TextView no_photowalll;
     @InjectView(R.id.iv_video2_bg)
     ImageView iv_video2_bg;
     @InjectView(R.id.iv_video1_bg)
@@ -172,9 +175,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private String classnum;
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
-    private List<View> views = new ArrayList<>();
     private boolean isLoading = false;
-    private PhotoPagerAdapter photoPagerAdapter;
+    private List<ImageView> views = new ArrayList<>();
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -215,7 +217,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         ll_left.setOnClickListener(this);
         honor_lin.setOnClickListener(this);
         re_photowall.setOnClickListener(this);
-        re_search_bottom.setOnClickListener(this);
         refresh.setOnRefreshListener(this);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
         searchContent.setOnClickListener(this);
@@ -242,15 +243,42 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 lastVisitableItem = llm.findLastVisibleItemPosition();
             }
         });
+//        viewPager.setOffscreenPageLimit(7);
+//        viewPager.setAdapter(new PagerAdapter() {
+//            @Override
+//            public int getCount() {
+//                return 8;
+//            }
+//
+//            @Override
+//            public boolean isViewFromObject(View view, Object object) {
+//                return (view == object);
+//            }
+//
+//            @Override
+//            public Object instantiateItem(ViewGroup container, int position) {
+//                ImageView imageView =  new ImageView(getActivity());
+//                imageView.setImageResource(R.drawable.ic_launcher);
+//                ViewPager.LayoutParams lp = new ViewPager.LayoutParams();
+//                lp.width = DisplayUtil.dip2px(getContext(),100);
+//                lp.height = 100;
+//                imageView.setLayoutParams(lp);
+//                container.addView(imageView,position);
+//                return imageView;
+//            }
+//            @Override
+//            public void destroyItem(ViewGroup container, int position, Object object) {
+//                container.removeView((ImageView)object);
+//            }
+//        });
     }
 
     @Override
     protected void initDatas() {
         partneradapter = new ListRecyclerAdapter(getContext(), partnersModels);
         list_partner.setAdapter(partneradapter);
-        photoPagerAdapter = new PhotoPagerAdapter(views, getContext(),photos);
-        pagephoto.setAdapter(photoPagerAdapter);
-        pagephoto.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setPageMargin(10);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
         TypeModel model1 = new TypeModel(0, "按减重斤数");//0
@@ -318,7 +346,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 //        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
 //            @Override
 //            public void convert(ViewHolder holder, String data, int position) {
-//                ImageView iv_grid = holder.getView(R.id.iv_grid);
+//                SquareImageView iv_grid = holder.getView(R.id.iv_grid);
 //                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
 //                        .error(R.drawable.default_icon_rect).into(iv_grid);
 //            }
@@ -334,6 +362,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 //                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
 //            }
 //        });
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.i("fdfdff", "ScrollX=====" + viewPager.getScrollX());
+            }
+        });
+
+        rl_container.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return viewPager.dispatchTouchEvent(event);
+            }
+        });
+
         EventBus.getDefault().register(this);
     }
 
@@ -409,7 +451,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
                                         jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                                     } else {
-                                        jianzhongbi_tv.setText("总减重比" + " %");
+                                        jianzhongbi_tv.setText("总减重比 %");
                                     }
                                     student_tv.setText(rongyuModel.getStuName());
 
@@ -421,12 +463,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                                         student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
                                     } else {
-                                        student_jianzhong.setText("减重比" + " %");
+                                        student_jianzhong.setText("减重比 %");
                                     }
                                     if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                         student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
                                     } else {
-                                        student_jianzhi.setText("减脂比" + " %");
+                                        student_jianzhi.setText("减脂比 %");
                                     }
                                 }
 
@@ -478,50 +520,17 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 }
                                 //照片墙
                                 if (classinfoModel.getPhotoWall() != null) {
+                                    rl_container.setVisibility(View.VISIBLE);
+                                    no_photowalll.setVisibility(View.GONE);
                                     ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
-                                    if (StringUtils.isNotEmpty(zhaopianModel.getUserPhoto())) {
-                                        Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).into(head_images);
-                                    }
-                                    name_user.setText(zhaopianModel.getUserName());
-                                    if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
-                                        pinglun.setText(zhaopianModel.getNum() + "条评论");
-                                    } else {
-                                        pinglun.setText("0" + "条评论");
-                                    }
                                     if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-//                                        no_dongtai.setVisibility(View.GONE);
-//                                        photos.clear();
-//                                        photos.addAll(zhaopianModel.getPhotoThumbnailList());
-//                                        adapter.notifyDataSetChanged();
 
+                                        photos.clear();
+                                        pageradapter.notifyDataSetChanged();
+                                        adapterData();
                                     } else {
-//                                        grid_list.setVisibility(View.GONE);
-//                                        no_dongtai.setVisibility(View.VISIBLE);
-                                    }
-                                    //计算时间
-                                    if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
-                                        long[] days = DateUtil.getInstance().getDaysForNow(zhaopianModel.getReleaseTime());
-                                        String time = "";
-                                        if (days[0] == 0) {//今天
-                                            if (days[3] < 60) {//小于1分钟
-                                                time = "刚刚";
-                                                gengxin.setText("最后更新" + time);
-                                            } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                                                time = days[2] + "分钟前";
-                                                gengxin.setText("最后更新" + time);
-                                            } else {//大于一小时
-                                                time = days[1] + "小时前";
-                                                gengxin.setText("最后更新" + time);
-                                            }
-                                        } else if (days[0] == 1) {//昨天
-                                            time = "昨天";
-                                            gengxin.setText("最后更新" + time);
-                                        } else {
-                                            time = days[0] + "天前";
-                                            gengxin.setText("最后更新" + time);
-                                        }
-                                    } else {
-                                        gengxin.setText("暂无更新");
+                                        rl_container.setVisibility(View.GONE);
+                                        no_photowalll.setVisibility(View.VISIBLE);
                                     }
                                 }
                             }
@@ -537,6 +546,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 });
     }
 
+    private PagerAdapter pageradapter;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -549,8 +560,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 break;
             case R.id.re_honor:
                 HonorActivity.startHonorActivity(getContext(), classId_first);
-                break;
-            case R.id.re_search_bottom:
                 break;
             case R.id.week_rel:
                 Intent intent1 = new Intent(getContext(), VideomoreActivity.class);//本周推荐（更多视频）
@@ -791,59 +800,17 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         }
                         //照片墙
                         if (classinfoModel.getPhotoWall() != null) {
-//                            grid_list.setVisibility(View.VISIBLE);
-                            no_dongtai.setVisibility(View.GONE);
+                            rl_container.setVisibility(View.VISIBLE);
+                            no_photowalll.setVisibility(View.GONE);
                             ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
-                            Picasso.with(getContext()).load(path + zhaopianModel.getUserPhoto()).
-                                    fit().error(R.drawable.img_default)
-                                    .placeholder(R.drawable.img_default).into(head_images);
-                            name_user.setText(zhaopianModel.getUserName());
-                            if (!TextUtils.isEmpty(zhaopianModel.getNum())) {
-                                pinglun.setText(zhaopianModel.getNum() + "条评论");
+                            if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
+                                photos.clear();
+                                photos.addAll(zhaopianModel.getPhotoThumbnailList());
+
+                                adapterData();
                             } else {
-                                pinglun.setText("0" + "条评论");
-                            }
-//                            if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-//                                photos.clear();
-//                                photos.addAll(zhaopianModel.getPhotoThumbnailList());
-//                                adapter.notifyDataSetChanged();
-                            photos.addAll(zhaopianModel.getPhotoThumbnailList());
-                            for (int i = 0; i < photos.size(); i++) {
-                                View view = LayoutInflater.from(getContext()).inflate(R.layout.grid_list, null);
-                                views.add(view);
-                            }
-//
-//
-//
-//
-//                            } else {
-//                                grid_list.setVisibility(View.GONE);
-//                                no_dongtai.setVisibility(View.VISIBLE);
-//                            }
-                            //计算时间
-                            if (!TextUtils.isEmpty(zhaopianModel.getReleaseTime())) {
-                                long[] days = DateUtil.getInstance().getDaysForNow(zhaopianModel.getReleaseTime());
-                                String time = "";
-                                if (days[0] == 0) {//今天
-                                    if (days[3] < 60) {//小于1分钟
-                                        time = "刚刚";
-                                        gengxin.setText("最后更新" + time);
-                                    } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                                        time = days[2] + "分钟前";
-                                        gengxin.setText("最后更新" + time);
-                                    } else {//大于一小时
-                                        time = days[1] + "小时前";
-                                        gengxin.setText("最后更新" + time);
-                                    }
-                                } else if (days[0] == 1) {//昨天
-                                    time = "昨天";
-                                    gengxin.setText("最后更新" + time);
-                                } else {
-                                    time = days[0] + "天前";
-                                    gengxin.setText("最后更新" + time);
-                                }
-                            } else {
-                                gengxin.setText("暂无更新");
+                                rl_container.setVisibility(View.GONE);
+                                no_photowalll.setVisibility(View.VISIBLE);
                             }
                         }
                         //班级赛况
@@ -866,6 +833,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void failure(RetrofitError error) {
                 try {
                     refresh.setRefreshing(false);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -874,7 +842,67 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         });
     }
 
+    private int px;
+
+    private void adapterData() {
+        px = getResources().getDisplayMetrics().widthPixels / 4;
+        com.github.snowdream.android.util.Log.i("px" + px);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
+        params.width = px;
+        params.height = px;
+        viewPager.setLayoutParams(params);
+//        pageradapter.notifyDataSetChanged();
+        viewPager.setAdapter(new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return photos.size();
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, final int position) {
+                ImageView imageView = new ImageView(getContext());
+                ViewPager.LayoutParams params = new ViewPager.LayoutParams();
+                params.width = px;
+                params.height = px;
+                imageView.setLayoutParams(params);
+                Picasso.with(getContext()).load(path + photos.get(position)).fit().error(R.drawable.default_icon_square)
+                        .placeholder(R.drawable.default_icon_square).into(imageView);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        com.github.snowdream.android.util.Log.i("path" + position);
+                        Intent in = new Intent(getContext(), PictureMoreActivity.class);
+                        in.putStringArrayListExtra("images", photos);
+                        in.putExtra("position", position);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+                        ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
+                    }
+                });
+                container.addView(imageView, position);
+                return imageView;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((ImageView) object);
+            }
+
+            @Override
+            public float getPageWidth(int position) {
+                return super.getPageWidth(position);
+            }
+        });
+    }
+
+
     public interface DeleteClass {
         void deletClass();
+
+        void interceptTouch(boolean touch);
     }
 }

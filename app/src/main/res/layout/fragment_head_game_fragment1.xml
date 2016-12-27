@@ -2,11 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pull"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -14,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:clipChildren="false"
+            android:elevation="0dp"
             android:orientation="vertical">
 
             <include layout="@layout/toolbar_bodygame" />
@@ -21,50 +25,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:clipChildren="false"
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll">
-
-
-                <RelativeLayout
-                    android:id="@+id/re_search_bottom"
+                <!--搜索框-->
+                <TextView
+                    android:id="@+id/searchContent"
                     android:layout_width="match_parent"
                     android:layout_height="31dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/btn_search"
-                    android:visibility="visible">
+                    android:drawableLeft="@drawable/light"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:hint="请输入姓名或手机号搜索小伙伴吧"
+                    android:maxLength="1"
+                    android:paddingLeft="10dp"
+                    android:textSize="12sp" />
 
-                    <ImageView
-                        android:id="@+id/im_search_bottom"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/light" />
-
-                    <TextView
-                        android:id="@+id/searchContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:drawableLeft="@drawable/btn_search"
-                        android:layout_marginRight="10dp"
-                        android:layout_toRightOf="@+id/im_search_bottom"
-                        android:gravity="center_vertical"
-                        android:hint="请输入姓名或手机号搜索小伙伴吧"
-                        android:singleLine="true"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/view_gray" />
-
+                <!--荣誉榜-->
                 <RelativeLayout
                     android:id="@+id/re_honor"
                     android:layout_width="match_parent"
@@ -96,7 +78,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/view_gray"></View>
+                    android:background="@color/view_gray" />
 
                 <LinearLayout
                     android:id="@+id/honor_lin"
@@ -117,27 +99,18 @@
                         android:background="@drawable/group_lin"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="9dp"
-                            android:orientation="horizontal">
+                            android:layout_marginLeft="5dp"
+                            android:drawableLeft="@drawable/group_one"
+                            android:drawablePadding="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="9dp"
+                            android:text="小组第一"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/group_one" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="小组第一"
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
-
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -162,22 +135,15 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/jianzhongbi_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
                             android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/jianzhongbi_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
-                        </LinearLayout>
-
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -187,28 +153,17 @@
                         android:background="@drawable/week_lin"
                         android:orientation="vertical">
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="9dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/weeks_one" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="周优秀学员"
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
-
-                        </LinearLayout>
+                            android:layout_marginLeft="5dp"
+                            android:drawableLeft="@drawable/weeks_one"
+                            android:drawablePadding="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="9dp"
+                            android:text="周优秀学员"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -263,6 +218,7 @@
 
                 </LinearLayout>
 
+                <!--本周推荐-->
                 <RelativeLayout
                     android:id="@+id/week_rel"
                     android:layout_width="match_parent"
@@ -338,8 +294,6 @@
                             android:text="TextView"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
-
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -381,6 +335,7 @@
                     </RelativeLayout>
                 </LinearLayout>
 
+                <!--照片墙-->
                 <RelativeLayout
                     android:id="@+id/re_photowall"
                     android:layout_width="match_parent"
@@ -416,126 +371,46 @@
                     android:layout_height="0.5dp"
                     android:background="#e1e1e1"></View>
 
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:background="@color/white"-->
-                <!--android:orientation="vertical"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:visibility="visible">-->
-
-                <!--<com.softtek.lai.widgets.HorizontalListView-->
-                    <!--android:id="@+id/photos"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:paddingRight="7dp"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:visibility="visible">-->
-
-                <!--</com.softtek.lai.widgets.HorizontalListView>-->
-
-                <android.support.v4.view.ViewPager
-                android:id="@+id/pagephoto"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
-
-                <LinearLayout
-                    android:id="@+id/no_dongtai"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#EFECED"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/no_photowalll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="暂无动态" />
-                </LinearLayout>
-
-
-                <!--</LinearLayout>-->
-
-                <LinearLayout
+                <com.softtek.lai.widgets.MyRelative
+                    android:id="@+id/rl_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:clipChildren="false">
 
-                    <LinearLayout
-                        android:id="@+id/lin_pinlun"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingTop="3dp"
-                        android:visibility="visible">
-
-                        <com.softtek.lai.widgets.CircleImageView
-                            android:id="@+id/head_images"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginBottom="1dp"
-                            android:layout_marginLeft="10sp"
-                            android:src="@drawable/img_default" />
-
-                        <TextView
-                            android:id="@+id/name_user"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text=" "
-                            android:textColor="@color/word" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:paddingRight="10dp">
-
-                            <TextView
-                                android:id="@+id/pinglun"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="@color/word"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/gengxin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:text=""
-                                android:textColor="@color/word"
-                                android:textSize="11sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/no_pin"
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:text="暂无评论"
-                        android:visibility="gone" />
+                        android:clipChildren="false" />
+                </com.softtek.lai.widgets.MyRelative>
+                <!--<com.softtek.lai.widgets.HorizontalListView-->
+                <!--android:id="@+id/photos"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:paddingRight="7dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:visibility="gone">-->
 
+                <!--</com.softtek.lai.widgets.HorizontalListView>-->
+                <TextView
+                    android:id="@+id/no_photowalll"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#EFECED"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="暂无动态" />
 
-                </LinearLayout>
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#fafafa" />
+            <!--班级赛况-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -578,7 +453,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e1e1e1"></View>
+                android:background="#e1e1e1" />
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -589,3 +464,4 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 </com.softtek.lai.widgets.MySwipRefreshView>
+
