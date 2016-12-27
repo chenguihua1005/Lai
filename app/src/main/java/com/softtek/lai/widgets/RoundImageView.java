@@ -131,4 +131,8 @@ public class RoundImageView extends ImageView {
         return bmp;
     }
 
+    public void setRaduis(float raduis) {
+        this.raduis = raduis;
+        postInvalidate();
+    }
 }
