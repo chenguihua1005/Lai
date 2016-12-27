@@ -160,7 +160,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 tv_title.setText(R.string.title_group_total);
             }
             setImage(civ_trainer_header, listGroupModel.getCoachIco());
-            Log.e("curry", "success: " + listGroupModel.toString());
+//            Log.e("curry", "success: " + listGroupModel.toString());
             tv_trainer_name.setText(listGroupModel.getCoachName());
             if (TextUtils.isEmpty(listGroupModel.getLossPer())){
                 tv_per_number.setText("--");

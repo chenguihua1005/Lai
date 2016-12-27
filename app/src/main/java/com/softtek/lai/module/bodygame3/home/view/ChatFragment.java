@@ -189,16 +189,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void onVisible() {
         isPrepared = false;
-//        if (getContext() instanceof BodyGameSPActivity) {
-//            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
-//            activity.setAlpha(1);
-//        } else if (getContext() instanceof BodyGamePCActivity) {
-//            BodyGamePCActivity activity = (BodyGamePCActivity) getContext();
-//            activity.setAlpha(1);
-//        } else if (getContext() instanceof BodyGameSRActivity) {
-//            BodyGameSRActivity activity = (BodyGameSRActivity) getContext();
-//            activity.setAlpha(1);
-//        }
+
         super.onVisible();
     }
 
@@ -224,7 +215,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //
 //        }
 
-        if(EMClient.getInstance().isLoggedInBefore()){
+
+//返回是否登录过 登录成功过没调logout方法，这个方法的返回值一直是true 如果需要判断当前是否连接到服务器，请使用isConnected()方法
+        if (EMClient.getInstance().isLoggedInBefore()) {
             Log.i(TAG, " 环信帐号验证通过....加载会话列表....");
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             ChatUserModel chatUserModel = new ChatUserModel();
@@ -243,34 +236,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             conversationListFragment = new ConversationListFragment();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
-        }else {
+        } else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
     }
-
-//    private void HXLoginOut() {
-//        EMClient.getInstance().logout(true, new EMCallBack() {
-//
-//            @Override
-//            public void onSuccess() {
-//                // TODO Auto-generated method stub
-//                SharedPreferenceService.getInstance().put("HXID", "-1");
-//                handler.sendEmptyMessage(1);
-//            }
-//
-//            @Override
-//            public void onProgress(int progress, String status) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onError(int code, String message) {
-//                // TODO Auto-generated method stub
-//                handler.sendEmptyMessage(4);
-//            }
-//        });
-//    }
 
 
     private void refreshUIWithMessage() {
@@ -411,15 +380,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        // register the event listener when enter the foreground
-//        EMChatManager.getInstance().registerEventListener(this,
-//                new EMNotifierEvent.Event[]{
-//                        EMNotifierEvent.Event.EventNewMessage,
-//                        EMNotifierEvent.Event.EventOfflineMessage,
-//                        EMNotifierEvent.Event.EventConversationListChanged,
-//                        EMNotifierEvent.Event.EventNewCMDMessage,
-//                        EMNotifierEvent.Event.EventReadAck
-//                });
         //3.0
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
         EaseUI.getInstance().pushActivity(getActivity());
@@ -450,10 +410,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
 
     private android.app.AlertDialog.Builder conflictBuilder;
-    //    private android.app.AlertDialog.Builder accountRemovedBuilder;
-//    private boolean isConflictDialogShow;
-//    private boolean isAccountRemovedDialogShow;
-//    private BroadcastReceiver internalDebugReceiver;
     private ConversationListFragment conversationListFragment;
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;
@@ -497,13 +453,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         @Override
         public void onCmdMessageReceived(List<EMMessage> messages) {
             //red packet code : 处理红包回执透传消息
-//            for (EMMessage message : messages) {
-//                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
-//                final String action = cmdMsgBody.action();//获取自定义action
-////                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
-////                    RedPacketUtil.receiveRedPacketAckMessage(message);
-////                }
-//            }
             //end of red packet code
 
             for (EMMessage message : messages) {
@@ -512,21 +461,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
                 final String action = cmdMsgBody.action();//获取自定义action
                 //red packet code : 处理红包回执透传消息
-//                if(!easeUI.hasForegroundActivies()){
-//                    if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)){
-//                        RedPacketUtil.receiveRedPacketAckMessage(message);
-//                        broadcastManager.sendBroadcast(new Intent(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION));
-//                    }
-//                }
-
-//                if (action.equals("__Call_ReqP2P_ConferencePattern")) {
-//                    String title = message.getStringAttribute("em_apns_ext", "conference call");
-//                    Toast.makeText(appContext, title, Toast.LENGTH_LONG).show();
-//                }
-                //end of red packet code
-                //获取扩展属性 此处省略
-                //maybe you need get extension of your message
-                //message.getStringAttribute("");
                 EMLog.d(TAG, String.format("Command：action:%s,message:%s", action, message.toString()));
             }
 

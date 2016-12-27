@@ -51,7 +51,7 @@ public class InputView extends LinearLayout {
     }
 
     private void initData() {
-        Log.i("1233.", todayactModel.toString());
+
         activity_name.setText(todayactModel.getActivityName() + "(" + todayactModel.getCount() + ")");
         activity_time.setText("集合时间" + todayactModel.getActivityStartDate());
         Picasso.with(getContext()).load(AddressManager.get("photoHost") + todayactModel.getActivityIcon())

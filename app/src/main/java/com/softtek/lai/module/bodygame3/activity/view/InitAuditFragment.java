@@ -8,15 +8,12 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -43,9 +40,7 @@ import zilla.libcore.util.Util;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * Created by lareina.qiao on 11/24/2016.
- */
+
 @InjectLayout(R.layout.fragment_retest)
 public class InitAuditFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     private static String classid;
@@ -58,7 +53,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
     int IsAudit=0;//0未审核
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
     public static Fragment getInstance(String classId) {
         InitAuditFragment fragment=new InitAuditFragment();
         Bundle data=new Bundle();
@@ -164,9 +159,6 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                         InitAuditListActivity parentActivity = (InitAuditListActivity ) getActivity();
                         parentActivity.update();
                     }
-//            memberListModels.clear();
-//            pageIndex = 1;
-//            doGetData(UserInfoModel.getInstance().getUserId(),classid ,  pageIndex, 10);
 
         }
 
