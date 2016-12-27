@@ -1,27 +1,14 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,24 +27,10 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitAuditPModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
-import com.softtek.lai.module.picture.view.PictureActivity;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageFileCropSelector;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -71,7 +44,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_initaudit)
 public class InitDataAuditActivity extends BaseActivity implements View.OnClickListener,
-        Validator.ValidationListener/*,ImageFileSelector.Callback*/{
+        Validator.ValidationListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -176,7 +149,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     String gender="1";//性别
     private static final int GET_BODY=1;//身体维度
     private static final int BODY=3;
-    private CharSequence[] items={"拍照","从相册选择照片"};
     FuceSevice service;
     private ProgressDialog progressDialog;
     InitAuditPModel initAuditPModel;
@@ -187,20 +159,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     String files,ACMID;
     String photoname;
     int IsAudit;
-    String uri;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (msg.what == 0) {
-                Log.i("保存失败");
-            }else {
-                Log.i("保存成功");
-            }
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +193,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         title.setText("初始数据审核");//设置标题栏标题
-        tv_right.setText("保存");//保存数据
         classId=getIntent().getStringExtra("classId");
         AccountId=getIntent().getLongExtra("AccountId",0);
         ACMID=getIntent().getStringExtra("ACMID");
@@ -247,7 +204,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
         }
         else {
-            tv_right.setText("保存");//保存数据
+            tv_right.setText("审核通过");//保存数据
         }
 
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -340,7 +297,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.im_retestwrite_showphoto:
                 Intent intent1=new Intent(this, PreViewPicActivity.class);
-//                ArrayList<String> images=new ArrayList<>();
                 intent1.putExtra("images",files);
                 intent1.putExtra("photoname",photoname);
                 intent1.putExtra("position",1);

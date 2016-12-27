@@ -283,7 +283,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 tag.role = model.getClassRole();
                                 tag.date = datestr;
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
-                                    ll_fuce.setBackgroundResource(R.drawable.reset_back);
                                     reset_name.setText("复测录入");
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
@@ -334,7 +333,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                     ll_fuce.setTag(tag);
                                 } else {//非学员
-                                    ll_fuce.setBackgroundResource(R.drawable.reset_update);
                                     reset_name.setText("复测审核");
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
@@ -642,7 +640,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
                                                 reset_name.setText("复测录入");
-                                                ll_fuce.setBackgroundResource(R.drawable.reset_back);//复测录入背景图
                                                 //学员复测的状态：未复测，未审核，已审核
                                                 BtnTag tag = new BtnTag();
                                                 if (activitydataModel.getRetestStatus() == 2) {//进行中
@@ -662,7 +659,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                                 ll_fuce.setTag(tag);
                                             } else {//非学员
-                                                ll_fuce.setBackgroundResource(R.drawable.reset_update);//复测审核背景图
                                                 reset_name.setText("复测审核");
                                                 reset_time.setText("待审核" + activitydataModel.getNum() + "人");
                                                 BtnTag tag = new BtnTag();
@@ -791,15 +787,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 return;
             }
             if (material_calendar != null) {
-                if (Constants.STUDENT == classrole) {//
                     eventDecorator_reset = new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity());
                     material_calendar.addDecorator(eventDecorator_reset);
-
-                } else {
-                    eventDecorator_reset = new EventDecoratorDot(Color.rgb(247, 171, 38), calendarModel_reset, getActivity());
-                    material_calendar.addDecorator(eventDecorator_reset);
-
-                }
                 eventDecoratorDot_act = new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity());
                 material_calendar.addDecorator(eventDecoratorDot_act);
             }

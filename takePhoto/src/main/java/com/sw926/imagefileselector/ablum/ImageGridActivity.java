@@ -163,7 +163,9 @@ public class ImageGridActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }
-                dialog.dismiss();
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
 
             }
         });

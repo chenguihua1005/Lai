@@ -1,19 +1,11 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -31,14 +23,10 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageFileCropSelector;
-import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
-import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -50,9 +38,6 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-/**
- * Created by Terry on 2016/12/3.
- */
 
 @InjectLayout(R.layout.activity_initaudit)
 public class FcAuditStuActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -141,7 +126,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     String gender = "0";
     int resetdatestatus=1;
 
-    private CharSequence[] items = {"拍照", "从相册选择照片"};
 
     Long accountId;
     String acmId, classId;
@@ -152,7 +136,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     protected void initViews() {
         tv_title.setText("复测审核");
         tv_write.setText("初始体重：");
-        tv_right.setText("保存");
+        tv_right.setText("审核通过");
         progressDialog =new ProgressDialog(this);
         ll_retestWrite_crium.setOnClickListener(this);
         ll_retestWrite_waisline.setOnClickListener(this);

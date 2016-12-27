@@ -41,9 +41,9 @@ import static com.softtek.lai.stepcount.service.StepService.STEP_CLOSE_SELF;
 public class HXLoginService extends Service implements Runnable {
     UserModel model;
     String account = "";
-    private static boolean isExit=false;
+    private static boolean isExit = false;
     private CloseReceive closeReceive;
-    public static final String HXLOGIN_CLOSE_SELF="com.softtek.lai.HXLoginService.HXLOGIN_CLOSE_SELF";
+    public static final String HXLOGIN_CLOSE_SELF = "com.softtek.lai.HXLoginService.HXLOGIN_CLOSE_SELF";
 
 
     @Nullable
@@ -59,10 +59,10 @@ public class HXLoginService extends Service implements Runnable {
         if (model == null) {
             return;
         }
-        isExit=false;
+        isExit = false;
         account = model.getHXAccountId();
-        closeReceive=new CloseReceive();
-        LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive,new IntentFilter(HXLOGIN_CLOSE_SELF));
+        closeReceive = new CloseReceive();
+        LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive, new IntentFilter(HXLOGIN_CLOSE_SELF));
         com.github.snowdream.android.util.Log.i("环信登录服务启动创建。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
@@ -94,21 +94,21 @@ public class HXLoginService extends Service implements Runnable {
 
     AlertDialog alertDialog;
 
-    private  Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            com.github.snowdream.android.util.Log.i("msg获取消息===="+msg.what);
-            if(alertDialog==null){
+            com.github.snowdream.android.util.Log.i("msg获取消息====" + msg.what);
+            if (alertDialog == null) {
                 com.github.snowdream.android.util.Log.i("弹窗是空的");
-                WeakReference<Context> appContext= LaiApplication.getInstance().getContext();
-                if(appContext!=null && appContext.get()!=null){
+                WeakReference<Context> appContext = LaiApplication.getInstance().getContext();
+                if (appContext != null && appContext.get() != null) {
                     alertDialog = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                             .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                             .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     stopSelf();
-                                    alertDialog=null;
+                                    alertDialog = null;
                                     UserInfoModel.getInstance().loginOut();
                                     LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -128,7 +128,7 @@ public class HXLoginService extends Service implements Runnable {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            isExit=false;
+            isExit = false;
             stopSelf();
         }
     }
@@ -149,7 +149,7 @@ public class HXLoginService extends Service implements Runnable {
             @Override
             public void onSuccess() {
                 Log.i("aaaaaaa", "登录成功............帐号 = " + account.toLowerCase());
-                isExit=false;
+                isExit = false;
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
                 SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
@@ -185,9 +185,9 @@ public class HXLoginService extends Service implements Runnable {
             @Override
             public void onError(final int code, final String message) {
                 com.github.snowdream.android.util.Log.i("环信登录失败///////////////////////////////////////////////////aaaaaaa");
-                SharedPreferenceService.getInstance().put("HXID","-1");
+                SharedPreferenceService.getInstance().put("HXID", "-1");
                 //重新启动
-                startService(new Intent(getApplicationContext(),HXLoginService.class));
+                startService(new Intent(getApplicationContext(), HXLoginService.class));
             }
         });
 
@@ -201,7 +201,7 @@ public class HXLoginService extends Service implements Runnable {
             public void onDisconnected(int error) {
                 if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                     if (!isExit)
-                        isExit=true;
+                        isExit = true;
                     else
                         return;
                     com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码=======" + error);
@@ -209,7 +209,7 @@ public class HXLoginService extends Service implements Runnable {
                         @Override
                         public void onSuccess() {
                             com.github.snowdream.android.util.Log.i("退出成功=======");
-                            isExit=true;
+                            isExit = true;
                             handler.sendEmptyMessage(4);
 
                         }
@@ -217,12 +217,15 @@ public class HXLoginService extends Service implements Runnable {
                         @Override
                         public void onProgress(int progress, String status) {
                             // TODO Auto-generated method stub
+                            com.github.snowdream.android.util.Log.i("onProgress()=======" + status);
+
 
                         }
 
                         @Override
                         public void onError(int code, String message) {
                             // TODO Auto-generated method stub
+                            com.github.snowdream.android.util.Log.i("onError()=======" + message);
                         }
                     });
 

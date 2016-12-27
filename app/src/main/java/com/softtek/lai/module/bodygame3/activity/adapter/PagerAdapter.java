@@ -35,10 +35,6 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
     }
 
     @Override
-    public void finishUpdate(View arg0) {
-    }
-
-    @Override
     public int getCount() {
         if (views != null) {
             return views.size();
@@ -72,18 +68,7 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
         return (arg0 == arg1);
     }
 
-    @Override
-    public void restoreState(Parcelable arg0, ClassLoader arg1) {
-    }
 
-    @Override
-    public Parcelable saveState() {
-        return null;
-    }
-
-    @Override
-    public void startUpdate(View arg0) {
-    }
 
 }
 

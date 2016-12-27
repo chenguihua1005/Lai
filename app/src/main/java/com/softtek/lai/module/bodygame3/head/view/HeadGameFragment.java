@@ -70,9 +70,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     @InjectView(R.id.button)
     Button button;
     @InjectView(R.id.pc_tv)//教练，助教，学员
-            TextView pc_tv;
+    TextView pc_tv;
     @InjectView(R.id.sp_tv)//总教练
-            TextView sp_tv;
+    TextView sp_tv;
     @InjectView(R.id.classed_tv)
     TextView classed_tv;
     @InjectView(R.id.ll_left)
