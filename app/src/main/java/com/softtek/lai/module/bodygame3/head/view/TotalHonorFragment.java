@@ -3,7 +3,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -197,14 +196,15 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 return;
             }
 
-            //不为null，list数据为零，显示“虚位以待”
+            //不为null，list数据为零，显示“虚位以待”。要显示头部
             if (model.getList_top3() == null || model.getList_top3().size() == 0) {
                 setTop1Wating();
                 setTop2Wating();
                 setTop3Wating();
                 groupModelList.clear();
-                groupModelList.add(new ListGroupModel());
-                honorGroupRankAdapter.notifyDataSetChanged();
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+                listHonorrank.setEmptyView(ll_no_data);
             } else {
                 honorRankModel = model;
                 //更新list数据
