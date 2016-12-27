@@ -322,10 +322,21 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
                         fl_right.setVisibility(View.VISIBLE);
                     } else {//不是好友，可发起临时会话，显示添加好友
-                        btn_chat.setVisibility(View.VISIBLE);
-                        btn_chat.setText("发起临时会话");
-                        btn_addguy.setVisibility(View.VISIBLE);//添加好友
-                        iv_email.setVisibility(View.INVISIBLE);
+                        if (memberInfoModel.getIsSendFriend() > 0) {//如果大于0，则为已发送过该好友请求
+                            btn_chat.setVisibility(View.VISIBLE);
+                            btn_chat.setText("发起临时会话");
+                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                            btn_addguy.setText("待确认");
+                            btn_addguy.setTextColor(this.getResources().getColor(R.color.white));
+                            btn_addguy.setBackground(this.getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                            iv_email.setVisibility(View.INVISIBLE);
+                        } else {
+                            btn_chat.setVisibility(View.VISIBLE);
+                            btn_chat.setText("发起临时会话");
+                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                            iv_email.setVisibility(View.INVISIBLE);
+                        }
+
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
