@@ -62,8 +62,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int FOOTER = 2;
     private static final int EMPTY = 3;
 
-    private boolean isFootGone = false;
-
     public RecyclerViewInfoAdapter(List<DynamicBean.PhotoWallslistBean> items,
                                    ItemListener listener,
                                    CommentListener commentListener,
@@ -100,20 +98,11 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
         int type;
         if (position + 1 == getItemCount()) {
             type = getItemCount() < 6 ? EMPTY : FOOTER;
-            if (isFootGone){
-                type = EMPTY;
-                isFootGone = false;
-            }
         } else {
             type = ITEM;
         }
         return type;
     }
-
-    public void setFootGone(boolean isGone){
-        isFootGone = isGone;
-    }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -199,7 +188,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                             service.doCancleFocusAccount(
                                     UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    (long)(item.getAccountid()),
+                                    (long) (item.getAccountid()),
 //                                    Long.parseLong(item.getAccountid()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
