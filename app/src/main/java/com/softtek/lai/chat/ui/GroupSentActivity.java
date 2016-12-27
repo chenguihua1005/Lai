@@ -119,7 +119,6 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         inputMenu.init(null);
 
         inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
-
             @Override
             public void onSendMessage(final String content) {
                 // 发送文本消息
