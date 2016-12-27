@@ -767,6 +767,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
+                            tuijianModels.clear();
                             tuijianModels.addAll(classinfoModel.getListRec());
                             if (tuijianModels.size() >= 2) {
                                 video_type1.setText(tuijianModels.get(0).getVideoType());

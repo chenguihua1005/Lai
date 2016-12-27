@@ -73,8 +73,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-
-
     HeadService headService;
 
     Long userid;
@@ -87,9 +85,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.re_hlist_dy)
     RelativeLayout re_hlist_dy;
     @InjectView(R.id.cir_userimg)//用户id
-    CircleImageView cir_userimg;
+            CircleImageView cir_userimg;
     @InjectView(R.id.tv_stuname)//用户名
-    TextView tv_stuname;
+            TextView tv_stuname;
     @InjectView(R.id.tv_personlityName)
     TextView tv_personlityName;//个性签名
     @InjectView(R.id.tv_angle)
@@ -194,7 +192,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         tv_personlityName.setOnClickListener(this);
-        if(AccountId==UserInfoModel.getInstance().getUserId()){
+        if (AccountId == UserInfoModel.getInstance().getUserId()) {
             cir_userimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -255,7 +253,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        if(AccountId==UserInfoModel.getInstance().getUserId()){
+        if (AccountId == UserInfoModel.getInstance().getUserId()) {
             String path = AddressManager.get("photoHost");
             UserModel model = UserInfoModel.getInstance().getUser();
             if (!TextUtils.isEmpty(model.getPhoto())) {
@@ -326,7 +324,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {//不是好友，可发起临时会话，显示添加好友
                         btn_chat.setVisibility(View.VISIBLE);
                         btn_chat.setText("发起临时会话");
-                        btn_addguy.setVisibility(View.VISIBLE);
+                        btn_addguy.setVisibility(View.VISIBLE);//添加好友
                         iv_email.setVisibility(View.INVISIBLE);
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
@@ -349,8 +347,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" :"初始体重 "+ memberInfoModel.getInitWeight()+"斤");//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 "+memberInfoModel.getCurrentWeight()+"斤");//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
 
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
