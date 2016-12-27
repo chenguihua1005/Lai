@@ -5,15 +5,12 @@
 
 package com.softtek.lai.module.login.net;
 
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -108,11 +105,11 @@ public interface LoginService {
             @Header("token") String token,
             Callback<ResponseData<EMChatAccountModel>> callback);
 
-    //    api/v1/HerbUser/GetContacts?pageIndex=1&pageSize=5
-    @GET("/HerbUser/GetEMchatContacts")
-    void getEMchatContacts(
-            @Header("token") String token,
-            Callback<ResponseData<List<ChatContactInfoModel>>> callback);
+//    //    api/v1/HerbUser/GetContacts?pageIndex=1&pageSize=5
+//    @GET("/HerbUser/GetEMchatContacts")
+//    void getEMchatContacts(
+//            @Header("token") String token,
+//            Callback<ResponseData<List<ChatContactInfoModel>>> callback);
 
 
 

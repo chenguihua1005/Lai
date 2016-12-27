@@ -9,7 +9,6 @@ package com.softtek.lai.module.message2.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +28,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.message2.model.NoticeModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
@@ -99,14 +99,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void convert(ViewHolder holder, NoticeModel data, final int position) {
                 TextView tv_time=holder.getView(R.id.text_time);
-                String time = data.getSendTime();
-                if (!TextUtils.isEmpty(time)) {
-                    String[] str1 = time.split(" ");
-                    String[] str = str1[0].split("-");
-                    tv_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
-                } else {
-                    tv_time.setText("");
-                }
+                tv_time.setText(data.getSendTime());
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
                 ImageView iv_select=holder.getView(R.id.iv_select);
@@ -162,25 +155,9 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
                 }
                 //===================================================
                 //做复测跳转
-                //String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-//        if (String.valueOf(Constants.PC).equals(userrole)) {
-//            Intent intent = new Intent(context, BodyGamePCActivity.class);
-//            intent.putExtra("type", 3);
-//            context.startActivity(intent);
-//        } else if (String.valueOf(Constants.SR).equals(userrole)) {
-//            //助教身份跳转复测页面
-//            Intent intent = new Intent(context, BodyGameSRActivity.class);
-//            intent.putExtra("type", 3);
-//            context.startActivity(intent);
-//
-//        } else if (String.valueOf(Constants.SP).equals(userrole)) {
-//            //顾问身份跳转复测页面
-//            Intent intent = new Intent(context, BodyGameSPActivity.class);
-//            intent.putExtra("type", 3);
-//            context.startActivity(intent);
-//
-//        }
-
+            Intent intent = new Intent(NoticeFCActivity.this, BodyGameActivity.class);
+            intent.putExtra("type", 3);
+            startActivity(intent);
             }
         });
     }

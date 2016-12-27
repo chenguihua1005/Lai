@@ -2,10 +2,6 @@ package com.softtek.lai.module.home.view;
 
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,22 +9,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
-import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,11 +31,10 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
- * 助教管理页面
+ * 资格号认证
  */
 @InjectLayout(R.layout.activity_validate_certification)
-public class ValidateCertificationActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class ValidateCertificationActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -80,121 +69,27 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private UserModel model;
 
-    private ProgressDialog progressDialog;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ll_left.setOnClickListener(this);
-        but_validate.setOnClickListener(this);
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
-
-    private void rigstHX() {
-        if (progressDialog != null) {
-            progressDialog.setMessage("加载中");
-            progressDialog.show();
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // 调用sdk注册方法
-                    String phone = model.getMobile();
-                    final String account = MD5.md5WithEncoder(phone).toLowerCase();
-//                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
-                    EMClient.getInstance().createAccount(account, "HBL_SOFTTEK#321");
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!ValidateCertificationActivity.this.isFinishing()) {
-                                if (progressDialog != null) {
-                                    progressDialog.dismiss();
-                                    progressDialog = null;
-                                }
-                            }
-                            loginPresenter.updateHXState(model.getMobile(), account, "1", progressDialog, null,"noInBack");
-                            finish();
-                        }
-                    });
-                } catch (final HyphenateException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!ValidateCertificationActivity.this.isFinishing()) {
-                                if (progressDialog != null) {
-                                    progressDialog.dismiss();
-                                    progressDialog = null;
-                                }
-                            }
-                            int errorCode = e.getErrorCode();
-                            if (errorCode == EMError.USER_ALREADY_EXIST) {
-                                String phone = model.getMobile();
-                                final String account = MD5.md5WithEncoder(phone).toLowerCase();
-                                loginPresenter.updateHXState(model.getMobile(), account, "1", progressDialog, null,"noInBack");
-                            } else {
-                                showDialog();
-                            }
-                        }
-                    });
-                }
-            }
-        }).start();
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(RoleInfo roleInfo) {
         edit_password.setText("");
         edit_account.setText("");
         setData();
-        progressDialog.setMessage("加载中");
-        String hasEmchat = model.getHasEmchat();
-        if ("1".equals(hasEmchat)) {
-            loginPresenter.updateHXState(model.getMobile(), model.getHXAccountId(), "1", progressDialog, null,"noInBack");
-        } else {
-            rigstHX();
-        }
-//        finish();
-    }
-    @Subscribe
-    public void onEvent(Integer i) {
-        showDialog();
-    }
-
-    private void showDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ValidateCertificationActivity.this)
-                .setTitle("认证成功")
-                .setMessage("是否需要现在开通会话功能? 开通后您就可以和体管赛中其他小伙伴聊天了。")
-                .setCancelable(false)
-                .setPositiveButton("开通", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        rigstHX();
-                    }
-                })
-                .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loginPresenter.updateHXState(model.getMobile(), "", "0", progressDialog, dialog,"noInBack");
-                    }
-                });
-        dialogBuilder.create().setCancelable(false);
-        dialogBuilder.create().show();
-
+        finish();
     }
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         tv_title.setText("身份认证");
+        ll_left.setOnClickListener(this);
+        but_validate.setOnClickListener(this);
+    }
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -207,25 +102,11 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private void setData() {
         model = UserInfoModel.getInstance().getUser();
-        //Log.i(model.toString());
         if (model.getCertTime() == null || "".equals(model.getCertTime())) {
             text_time.setText("");
         } else {
             text_time.setText("(上次认证时间：" + model.getCertTime().split(" ")[0] + ")");
         }
-        /*String userrole = model.getUserrole();
-        if (String.valueOf(Constants.VR).equals(userrole)) {
-            text_value.setText("游客");
-        } else if (String.valueOf(Constants.INC).equals(userrole)) {
-            text_value.setText("受邀普通顾客");
-        } else if (String.valueOf(Constants.SP).equals(userrole)) {
-        } else if (String.valueOf(Constants.SR).equals(userrole)) {
-            text_value.setText(model.getRolename());
-        } else if (String.valueOf(Constants.PC).equals(userrole)) {
-            text_value.setText(model.getRolename());
-        } else if (String.valueOf(Constants.NC).equals(userrole)) {
-            text_value.setText("普通顾客");
-        }*/
         text_value.setText(model.getRoleName());
     }
 
@@ -249,7 +130,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String memberId = edit_account.getText().toString();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("认证中");
+        progressDialog.setMessage("认证中...");
         progressDialog.show();
         loginPresenter.alidateCertification(memberId, password, account, progressDialog);
     }
@@ -272,12 +153,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }
