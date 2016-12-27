@@ -128,7 +128,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadData(is_first);
+                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
         });
 
@@ -188,10 +188,13 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
     private void loadData(boolean is_first) {
-        if (!is_first) {
+        //第一次请求会请求两次，第一次不让显示刷新效果，所以不用setrefreshing()。
+        // 以后的请求都是一次一次来的，要有刷新效果，所以都用setRefreshing()，调用这个方法后，会自动调用他的刷新方法，网络请求在刷新方法里。
+        if (is_first) {
+            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+        }else {
             listHonorrank.setRefreshing();
         }
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
     private void newAdapter() {

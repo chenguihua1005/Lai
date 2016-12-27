@@ -113,7 +113,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadData(true);
+                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
             }
         });
 
@@ -153,7 +153,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     private void loadData(boolean is_first) {
         listHonorrank.setRefreshing();
-        weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
     }
 
     private void newAdapter() {
@@ -197,14 +196,15 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 return;
             }
 
-            //不为null，list数据为零，显示“虚位以待”
+            //不为null，list数据为零，显示“虚位以待”。要显示头部
             if (model.getList_top3() == null || model.getList_top3().size() == 0) {
                 setTop1Wating();
                 setTop2Wating();
                 setTop3Wating();
                 groupModelList.clear();
-                groupModelList.add(new ListGroupModel());
-                honorGroupRankAdapter.notifyDataSetChanged();
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+                listHonorrank.setEmptyView(ll_no_data);
             } else {
                 honorRankModel = model;
                 //更新list数据
