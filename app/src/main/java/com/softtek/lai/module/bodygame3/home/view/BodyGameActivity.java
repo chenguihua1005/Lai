@@ -195,7 +195,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = intent.getIntExtra("tab", 0);
+        int type = intent.getIntExtra("type", 0);
         current = type;
         Log.i("消息中心发来通知");
         if (content != null) {

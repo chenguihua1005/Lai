@@ -3,28 +3,40 @@
   ~ Date:2016-03-31
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="65dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|center"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
 
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:textSize="10sp"
-            />
+            android:textSize="10sp" />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_unread"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:background="@drawable/red_circle"/>
 </FrameLayout>
