@@ -127,6 +127,7 @@ public class ClassInfoActivity extends BaseActivity {
     private int page = 1;
     private static final int LOADCOUNT = 6;
     private CoordinatorLayout.Behavior appbarBehavior;
+    private boolean isLoading = false;
 
     private void initAppbarAndPull() {
         mAppbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -179,8 +180,11 @@ public class ClassInfoActivity extends BaseActivity {
                 int count = mInfoAdapter.getItemCount();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
                     //加载更多数据
-                    page++;
-                    updateRecyclerView(page, 6);
+                    if (!isLoading) {
+                        isLoading = true;
+                        page++;
+                        updateRecyclerView(page, 6);
+                    }
                 }
             }
 
@@ -222,23 +226,23 @@ public class ClassInfoActivity extends BaseActivity {
                     new RequestCallback<ResponseData<DynamicBean>>() {
                         @Override
                         public void success(ResponseData<DynamicBean> responseData, Response response) {
+                            isLoading = false;
+                            mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
                             if (responseData.getStatus() == 200) {
                                 if (responseData.getData().getPhotoWallslist() != null) {
                                     wallsList.addAll(responseData.getData().getPhotoWallslist());
-                                    mInfoAdapter.notifyDataSetChanged();
                                 }
+                                mInfoAdapter.notifyDataSetChanged();
                             } else {
                                 page--;
-                                if (responseData.getMsg().equals("暂无数据")) {
-                                    Util.toastMsg("暂无更多数据");
-                                    mInfoAdapter.setFootGone(true);
-                                    mInfoAdapter.notifyDataSetChanged();
-                                }
+                                Util.toastMsg(responseData.getMsg());
                             }
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
+                            isLoading = false;
+                            mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
                             if (mPull.isRefreshing()) {
                                 mPull.setRefreshing(false);
                             }
