@@ -2,16 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <include layout="@layout/toolbar"/>
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="0.5dp"
-        android:divider="#e1e1e1"
+        android:groupIndicator="@null"
+        android:overScrollMode="never"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false"
         android:scrollbars="none"
+        android:divider="#e1e1e1"
         android:layout_below="@id/toolbar"/>
 
 </RelativeLayout>

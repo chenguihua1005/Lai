@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -38,9 +37,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-/**
- * Created by lareina.qiao on 11/24/2016.
- */
 @InjectLayout(R.layout.fragment_retest)
 public class AuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
@@ -50,7 +46,7 @@ public class AuditedFragment extends LazyBaseFragment implements View.OnClickLis
     FuceSevice fuceSevice;
     int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
     public static Fragment getInstance() {
         AuditedFragment fragment=new AuditedFragment();
         Bundle data=new Bundle();

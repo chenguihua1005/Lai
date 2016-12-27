@@ -7,15 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -30,7 +23,6 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.BuildConfig;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -40,29 +32,15 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitComitModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
-import com.softtek.lai.module.home.view.HealthyFragment;
-import com.softtek.lai.module.picture.model.UploadImage;
-import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -80,7 +58,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_initwrite)
 public class WriteFCActivity extends BaseActivity implements View.OnClickListener,
-        Validator.ValidationListener/*,ImageFileSelector.Callback*/ {
+        Validator.ValidationListener {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -198,7 +176,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         context = this;
-        tv_right.setText("保存");
+        tv_right.setText("提交");
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);

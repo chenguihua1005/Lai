@@ -50,7 +50,7 @@ public class AuditFragment extends LazyBaseFragment implements View.OnClickListe
     FuceSevice fuceSevice;
     int pageIndex=1;
     EasyAdapter<MemberListModel> adapter;
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
     public static Fragment getInstance() {
         AuditFragment fragment=new AuditFragment();
         Bundle data=new Bundle();

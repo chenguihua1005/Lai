@@ -4,7 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup;
 import com.softtek.lai.module.bodygame3.more.model.ClassGroup2;
 import com.softtek.lai.module.bodygame3.more.model.ClassInvitater;
-import com.softtek.lai.module.bodygame3.more.model.ClassMember;
+import com.softtek.lai.module.bodygame3.more.model.ClassGroup3;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.model.FuceDate;
@@ -131,10 +131,10 @@ public interface MoreService {
                            Callback<ResponseData> callback);
 
     //获取班级人员管理
-    @GET("/V1/MoreFunction/GetClassesMembers")
+    @GET("/V1/MoreFunction/GetClassesMembersByGroups")
     void getClassesMembers(@Header("token")String token,
                            @Query("ClassId")String classId,
-                           Callback<ResponseData<ClassMember>> callback);
+                           Callback<ResponseData<List<ClassGroup3>>> callback);
 
     //转租
     @GET("/V1/MoreFunction/TurnToAnotherGroup")

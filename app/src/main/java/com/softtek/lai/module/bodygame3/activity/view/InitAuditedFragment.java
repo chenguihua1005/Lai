@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,9 +38,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-/**
- * Created by lareina.qiao on 11/24/2016.
- */
 @InjectLayout(R.layout.fragment_retest)
 public class InitAuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.plv_audit)
