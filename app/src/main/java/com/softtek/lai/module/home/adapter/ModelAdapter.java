@@ -22,6 +22,8 @@ public class ModelAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private String[] models_name;
+    private int tinum;
+    private int lainum;
     private int[] icons = {R.drawable.tiguansai, R.drawable.laiyundong, R.drawable.laiketang, R.drawable.laibiaoge, R.drawable.laigou};
 
     public ModelAdapter(Context context) {
@@ -56,16 +58,46 @@ public class ModelAdapter extends BaseAdapter {
         }
         holder.name_model.setText(models_name[position]);
         holder.ci_icon.setBackgroundResource(icons[position]);
+        if (position == 0) {
+            holder.tv_unread.setText(String.valueOf(tinum));
+            if (tinum > 0 && tinum <= 99) {
+                holder.tv_unread.setVisibility(View.VISIBLE);
+            } else if (tinum > 99) {
+                holder.tv_unread.append("+");
+                holder.tv_unread.setVisibility(View.VISIBLE);
+            } else {
+                holder.tv_unread.setVisibility(View.GONE);
+            }
+        }
+        if (position == 1) {
+            holder.tv_unread.setText(String.valueOf(lainum));
+            if (lainum > 0 && lainum <= 99) {
+                holder.tv_unread.setVisibility(View.VISIBLE);
+            } else if (lainum > 99) {
+                holder.tv_unread.append("+");
+                holder.tv_unread.setVisibility(View.VISIBLE);
+            } else {
+                holder.tv_unread.setVisibility(View.GONE);
+            }
+        }
         return convertView;
+    }
+
+    public void updateNum(int tinum, int lainum) {
+        this.tinum = tinum;
+        this.lainum = lainum;
+        notifyDataSetChanged();
     }
 
     static class ViewHolderModel {
         TextView name_model;
         ImageView ci_icon;
+        TextView tv_unread;
 
         public ViewHolderModel(View view) {
             name_model = (TextView) view.findViewById(R.id.tv_name);
             ci_icon = (ImageView) view.findViewById(R.id.iv_icon);
+            tv_unread = (TextView) view.findViewById(R.id.tv_unread);
         }
     }
 }

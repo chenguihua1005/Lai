@@ -343,25 +343,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             }
         });
-//        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
-//            @Override
-//            public void convert(ViewHolder holder, String data, int position) {
-//                SquareImageView iv_grid = holder.getView(R.id.iv_grid);
-//                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
-//                        .error(R.drawable.default_icon_rect).into(iv_grid);
-//            }
-//        };
-//        grid_list.setAdapter(adapter);
-//        grid_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent in = new Intent(getContext(), PictureMoreActivity.class);
-//                in.putStringArrayListExtra("images", photos);
-//                in.putExtra("position", i);
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-//                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
-//            }
-//        });
+
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

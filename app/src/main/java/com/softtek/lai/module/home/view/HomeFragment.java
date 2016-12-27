@@ -75,7 +75,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
-    private static final String TAG = "HomeFragment";
+
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
 
@@ -241,16 +241,18 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     UserInfoModel.getInstance().getUserId(),
                     new Callback<ResponseData<UnReadMsg>>() {
                         @Override
-                        public void success(ResponseData<UnReadMsg> responseData, Response response) {
-                            int status = responseData.getStatus();
+                        public void success(ResponseData<UnReadMsg> data, Response response) {
+                            int status = data.getStatus();
                             try {
                                 switch (status) {
                                     case 200:
-                                        if (responseData.getData().getNum() > 0) {
+                                        if (data.getData().Num > 0) {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
                                         } else {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         }
+                                        modelAdapter.updateNum(data.getData().TiNum,data.getData().LaiNum);
+
                                         break;
                                     default:
                                         iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));

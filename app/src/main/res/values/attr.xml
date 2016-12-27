@@ -30,6 +30,10 @@
         <attr name="tipSize" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="RoundImageView">
+        <attr name="raduis" format="dimension"/>
+    </declare-styleable>
+
 
     <!--日历-->
     <declare-styleable name="MaterialCalendarView">

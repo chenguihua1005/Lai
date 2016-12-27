@@ -291,7 +291,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.ll_left:
                 Intent intent1 = new Intent(this, BodyGameActivity.class);
-                intent1.putExtra("tab", 1);
+                intent1.putExtra("type", 1);
                 startActivity(intent1);
                 break;
             case R.id.fl_right:
@@ -316,7 +316,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent(this, BodyGameActivity.class);
-            intent.putExtra("tab", 1);
+            intent.putExtra("type", 1);
             startActivity(intent);
             return true;
         }
