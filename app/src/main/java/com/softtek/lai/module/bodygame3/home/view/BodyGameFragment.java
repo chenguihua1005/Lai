@@ -6,6 +6,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.head.view.HeadBlankFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.utils.RequestCallback;
@@ -64,10 +65,11 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
             public void failure(RetrofitError error) {
                 try {
                     dialogDissmiss();
+                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, new HeadBlankFragment()).commit();
+                    super.failure(error);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                super.failure(error);
             }
         });
 

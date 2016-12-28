@@ -3,6 +3,8 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -36,6 +38,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.picture.view.PictureActivity;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -451,8 +454,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_addguy://添加好友
                 if ("0".equals(IsFriend)) {//0:不是好友
-                    if (issendFriend > 0) {
-                        Util.toastMsg("已发送过该好友请求，请等待确认！");
+                    if (issendFriend > 0) {//未发送过好友申请
+                        Util.toastMsg("您已发送过好友申请，请等待确认");
                         return;
                     } else {
                         //参数为要添加的好友的username和添加理由
@@ -707,9 +710,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent1 = new Intent(this, PictureActivity.class);
+        Log.i("点击进入。。。。。");
+        Intent intent1 = new Intent(this, PictureMoreActivity.class);
         intent1.putExtra("images", images);
         intent1.putExtra("position", i);
-        startActivity(intent1);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
     }
 }
