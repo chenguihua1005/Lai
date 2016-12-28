@@ -144,7 +144,7 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                 tv_name.setText(data.getUserName());
                 TextView tv_certificate=holder.getView(R.id.tv_certificate);
                 tv_certificate.setText("(");
-                tv_certificate.append(data.getCertification());
+                tv_certificate.append(TextUtils.isEmpty(data.getCertification())?"暂无资格证号":data.getCertification());
                 tv_certificate.append(")");
                 TextView tv_phone=holder.getView(R.id.tv_phone);
                 tv_phone.setText(data.getMobile());

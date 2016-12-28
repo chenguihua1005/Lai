@@ -23,6 +23,7 @@ import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 
@@ -103,7 +104,10 @@ public class HXLoginService extends Service implements Runnable {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            com.github.snowdream.android.util.Log.i("msg获取消息====" + msg.what);
+
+            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
+            JpushSet set = new JpushSet(LaiApplication.getInstance());
+            set.setAlias("");
             if (alertDialog == null) {
                 com.github.snowdream.android.util.Log.i("弹窗是空的");
                 WeakReference<Context> appContext = LaiApplication.getInstance().getContext();
@@ -116,6 +120,7 @@ public class HXLoginService extends Service implements Runnable {
                                     com.github.snowdream.android.util.Log.i("服务自杀====");
                                     alertDialog = null;
                                     stopSelf();
+                                    UserInfoModel.getInstance().loginOut();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -226,8 +231,6 @@ public class HXLoginService extends Service implements Runnable {
                                             com.github.snowdream.android.util.Log.i("退出成功=======");
                                             SharedPreferenceService.getInstance().put("HXID", "-1");
                                             isExit = true;
-                                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
-                                            UserInfoModel.getInstance().loginOut();
                                             handler.sendEmptyMessage(4);
 
                                         }

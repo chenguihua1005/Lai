@@ -3,7 +3,6 @@ package com.softtek.lai.module.bodygame3.home.view;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
@@ -39,10 +37,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +71,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
 
-    private ILoginPresenter loginPresenter;
     private ProgressDialog progressDialog;
     UserModel model;
 
@@ -87,33 +80,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             try {
-                if (msg.what == 0) {
-                    if (builder != null) {
-                        return;
-                    }
-                    builder = new AlertDialog.Builder(getActivity())
-                            .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                            .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    builder = null;
-                                    UserInfoModel.getInstance().loginOut();
-                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }
-                            }).setCancelable(false);
-                    dialog = builder.create();
-                    if (!getActivity().isFinishing()) {
-                        if (dialog != null && !dialog.isShowing()) {
-                            dialog.show();
-                        }
-                    }
-                } else if (msg.what == 1) {
-                    loginPresenter.getEMChatAccount(progressDialog);
-                } else if (msg.what == 2) {
+                if (msg.what == 2) {
                     img_mo_message.setVisibility(View.GONE);
                     conversationListFragment = new ConversationListFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
@@ -144,7 +111,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        loginPresenter = new LoginPresenterImpl(getContext());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");

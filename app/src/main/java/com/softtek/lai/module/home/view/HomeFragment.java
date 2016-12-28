@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -266,6 +267,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
+//            if (EMClient.getInstance().isLoggedInBefore()) {
+//                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+//                updateMessage(unreadNum);
+//            }
         }
     }
 
@@ -378,9 +383,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        //filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        getContext().registerReceiver(mMessageReceiver, filter);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        getActivity().registerReceiver(mMessageReceiver, filter);
 
     }
 
@@ -388,6 +394,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.i("消息action=================="+intent.getAction());
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 try {
                     iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
@@ -402,11 +409,11 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             }
         }
 
-        public void updateMessage(int num) {
-            //显示
-            int read=num>0?laiNum+num:laiNum;
-            modelAdapter.updateNum(read, tiNum);
+    }
+    public void updateMessage(int num) {
+        //显示
+        int read=num>0?laiNum+num:laiNum;
+        modelAdapter.updateNum(read, tiNum);
 
-        }
     }
 }
