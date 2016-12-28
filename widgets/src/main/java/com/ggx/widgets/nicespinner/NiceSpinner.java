@@ -163,8 +163,8 @@ public class NiceSpinner extends TextView {
         popupWindow = new PopupWindow(context);
         popupWindow.setContentView(listView);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
+//        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(DEFAULT_ELEVATION);
@@ -256,7 +256,8 @@ public class NiceSpinner extends TextView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
-//        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(View.MeasureSpec.getSize(widthMeasureSpec));
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
