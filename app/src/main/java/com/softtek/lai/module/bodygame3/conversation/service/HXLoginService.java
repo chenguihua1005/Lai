@@ -147,13 +147,6 @@ public class HXLoginService extends Service implements Runnable {
 
     @Override
     public void run() {
-//        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//        ChatUserModel chatUserModel = new ChatUserModel();
-//        chatUserModel.setUserName(model.getNickname());
-//        chatUserModel.setUserPhone(path + model.getPhoto());
-//        chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
-//        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         ChatUserModel chatUserModel = new ChatUserModel();
@@ -163,15 +156,11 @@ public class HXLoginService extends Service implements Runnable {
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
         final String hasEmchat = model.getHasEmchat();
 
-
         String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-        if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
-            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
-
         com.github.snowdream.android.util.Log.i("环信账号hxid = " + hxid + " model.getHXAccountId() = " + model.getHXAccountId());
 
-//        if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
-//            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
+        if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
+            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
 
             path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             chatUserModel.setUserName(model.getNickname());
