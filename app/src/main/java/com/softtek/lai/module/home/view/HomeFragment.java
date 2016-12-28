@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -353,11 +352,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
-                    laiNum++;
-                    updateMessage(laiNum);
-                    if(true){
-                        return;
-                    }
                     String isJoin = userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));

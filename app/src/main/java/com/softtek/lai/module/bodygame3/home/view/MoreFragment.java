@@ -1,13 +1,11 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +25,6 @@ import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.bodygame3.more.view.MoreNoClassFragment;
 import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.bodygame3.more.view.SearchClassActivity;
-import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -38,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -47,6 +43,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_more)
 public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass,SwipeRefreshLayout.OnRefreshListener{
@@ -100,13 +97,6 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
-            if (!TextUtils.isEmpty(user.getPhoto())){
-                int px=DisplayUtil.dip2px(getContext(),60);
-                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).resize(px,px).centerCrop()
-                        .placeholder(R.drawable.img_default)
-                        .error(R.drawable.img_default)
-                        .into(head_image);
-            }
             if(Constants.SP==Integer.parseInt(user.getUserrole())){
                 tv_right.setText("开班");
                 fl_right.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +121,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_saikuang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), GameActivity.class));
+//                startActivity(new Intent(getContext(), GameActivity.class));
+                Util.toastMsg("功能开发中，敬请期待");
             }
         });
         ll_history.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +155,22 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     protected void initDatas() {
         iv_left.setImageResource(R.drawable.back_home);
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserModel user = UserInfoModel.getInstance().getUser();
+        if (user != null) {
+            tv_name.setText(user.getNickname());
+            if (!TextUtils.isEmpty(user.getPhoto())){
+                int px=DisplayUtil.dip2px(getContext(),60);
+                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).resize(px,px).centerCrop()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default)
+                        .into(head_image);
+            }
+        }
     }
 
     @Override

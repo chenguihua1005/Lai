@@ -58,7 +58,7 @@
             android:layout_marginLeft="10dp"
             android:text="搜索"
             android:layout_gravity="center"
-            android:background="#FFA200"
+            android:background="@drawable/bg_next_btn"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

@@ -128,10 +128,10 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                         isSelsetAll=false;
                         cb_all.setChecked(false);
                         model.setSelected(false);
-                        deleteIndex.remove(i);
+                        deleteIndex.remove(Integer.valueOf(i-1));
                     }else {
                         model.setSelected(true);
-                        deleteIndex.add(i);
+                        deleteIndex.add(Integer.valueOf(i-1));
                         if(operatList.size()==deleteIndex.size()){
                             isSelsetAll=true;
                             cb_all.setChecked(true);
@@ -225,6 +225,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
                                         if(responseData.getStatus()!=200){
                                             return;
                                         }
@@ -234,7 +235,6 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
                                         adapter.notifyDataSetChanged();
-                                        dialogDissmiss();
 
 
                                     }
