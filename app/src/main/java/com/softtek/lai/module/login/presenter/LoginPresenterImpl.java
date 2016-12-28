@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -203,17 +205,53 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-                        UserModel model = userResponseData.getData();
+                        final UserModel model = userResponseData.getData();
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
                         SharedPreferenceService.getInstance().put(Constants.USER, userName);
                         SharedPreferenceService.getInstance().put(Constants.PDW, password);
-                        //检查是否存在环信帐号
-                        if (!TextUtils.isEmpty(model.getHXAccountId())) {
-                            //开启登录服务
-                            context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
-                        }
+
+
+                        //开启登录服务
+                        context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
+                        //需要判断一下之前账户是否真正退出
+
+//                        String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
+//
+//                        //检查是否存在环信帐号
+//                        if (!TextUtils.isEmpty(model.getHXAccountId())) {
+//                            if (hxid.equals(model.getHXAccountId())) {//之前已登录
+//
+//                                //从服务器加载和该用户相关的所有群组
+//                                new Thread() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+//                                            EMClient.getInstance().updateCurrentUserNick(model.getNickname());
+//                                            EMClient.getInstance().chatManager().loadAllConversations();
+////                                EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                }.start();
+//
+//                            } else {//
+//                                if ("-1".equals(hxid)) {
+//                                    //开启登录服务
+//                                    context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
+//                                } else {//之前遗留的账户，没有完全登出，需要登出
+//                                    new Thread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            HXLoginOut();
+//                                        }
+//                                    }).start();
+//                                }
+//
+//                            }
+//                        }
                         //如果用户加入了跑团
                         if ("1".equals(model.getIsJoin())) {
                             stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));
@@ -266,6 +304,32 @@ public class LoginPresenterImpl implements ILoginPresenter {
             }
         });
     }
+
+    private void HXLoginOut() {
+        EMClient.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                SharedPreferenceService.getInstance().put("HXID", "-1");
+
+                //开启登录服务
+                context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                // TODO Auto-generated method stub
+            }
+        });
+    }
+
 
     private void stepDeal(Context context, String userId, long step) {
         //获取用户最新的步数

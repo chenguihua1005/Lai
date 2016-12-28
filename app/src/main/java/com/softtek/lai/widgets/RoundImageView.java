@@ -45,7 +45,7 @@ public class RoundImageView extends ImageView {
 
     private void init(Context context,AttributeSet attrs){
         TypedArray ta=context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
-        raduis=ta.getDimension(R.styleable.RoundImageView_raduis,5);
+        raduis=ta.getDimension(R.styleable.RoundImageView_raduis,10);
         ta.recycle();
     }
 

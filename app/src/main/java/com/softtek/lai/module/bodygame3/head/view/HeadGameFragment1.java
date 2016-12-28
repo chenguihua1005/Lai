@@ -61,6 +61,7 @@ import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MyRelative;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.MyViewPager;
+import com.softtek.lai.widgets.RoundImageView;
 import com.softtek.lai.widgets.SquareImageView;
 import com.softtek.lai.widgets.WrapRelativeLayout;
 import com.squareup.picasso.Picasso;
@@ -834,6 +835,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
+
 //        pageradapter.notifyDataSetChanged();
         viewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -848,7 +850,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
-                ImageView imageView = new ImageView(getContext());
+                RoundImageView imageView = new RoundImageView(getContext());
                 ViewPager.LayoutParams params = new ViewPager.LayoutParams();
                 params.width = px;
                 params.height = px;
