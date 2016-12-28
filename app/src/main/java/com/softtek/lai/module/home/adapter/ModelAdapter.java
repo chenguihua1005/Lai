@@ -14,31 +14,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.home.model.ModelName;
+
+import java.util.List;
 
 /**
  * Created by jerry.guan on 3/22/2016.
  */
 public class ModelAdapter extends BaseAdapter {
 
-    private LayoutInflater inflater;
-    private String[] models_name;
-    private int tinum;
-    private int lainum;
+    private Context context;
+    private List<ModelName> modelNames;
+
     private int[] icons = {R.drawable.tiguansai, R.drawable.laiyundong, R.drawable.laiketang, R.drawable.laibiaoge, R.drawable.laigou};
 
-    public ModelAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
-        models_name = context.getResources().getStringArray(R.array.models);
+    public ModelAdapter(Context context, List<ModelName> modelNames) {
+        this.context=context;
+        this.modelNames=modelNames;
+        //models_name = context.getResources().getStringArray(R.array.models);
     }
 
     @Override
     public int getCount() {
-        return models_name.length;
+        return modelNames.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return models_name[position];
+        return modelNames.get(position);
     }
 
     @Override
@@ -50,44 +53,30 @@ public class ModelAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolderModel holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.gridview_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.gridview_item, parent, false);
             holder = new ViewHolderModel(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolderModel) convertView.getTag();
         }
-        holder.name_model.setText(models_name[position]);
+        ModelName modelName=modelNames.get(position);
+        holder.name_model.setText(modelName.modelName);
         holder.ci_icon.setBackgroundResource(icons[position]);
-        if (position == 0) {
-            holder.tv_unread.setText(String.valueOf(tinum));
-            if (tinum > 0 && tinum <= 99) {
-                holder.tv_unread.setVisibility(View.VISIBLE);
-            } else if (tinum > 99) {
-                holder.tv_unread.append("+");
-                holder.tv_unread.setVisibility(View.VISIBLE);
+        if(modelName.unreadNum>0){
+            holder.tv_unread.setVisibility(View.VISIBLE);
+            if (modelName.unreadNum > 99) {
+                holder.tv_unread.setText("99+");
             } else {
-                holder.tv_unread.setVisibility(View.GONE);
+                holder.tv_unread.setText(String.valueOf(modelName.unreadNum));
             }
+        }else {
+            holder.tv_unread.setVisibility(View.GONE);
         }
-        if (position == 1) {
-            holder.tv_unread.setText(String.valueOf(lainum));
-            if (lainum > 0 && lainum <= 99) {
-                holder.tv_unread.setVisibility(View.VISIBLE);
-            } else if (lainum > 99) {
-                holder.tv_unread.append("+");
-                holder.tv_unread.setVisibility(View.VISIBLE);
-            } else {
-                holder.tv_unread.setVisibility(View.GONE);
-            }
-        }
+
         return convertView;
     }
 
-    public void updateNum(int tinum, int lainum) {
-        this.tinum = tinum;
-        this.lainum = lainum;
-        notifyDataSetChanged();
-    }
+
 
     static class ViewHolderModel {
         TextView name_model;

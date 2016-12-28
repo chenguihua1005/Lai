@@ -54,11 +54,12 @@
         <Button
             android:id="@+id/search_partner"
             android:layout_width="55dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:text="搜索"
             android:layout_gravity="center"
-            android:textColor="@color/word"
+            android:background="#FFA200"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
     </LinearLayout>

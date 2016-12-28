@@ -1,43 +1,20 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.head.adapter.PartnerAdapter;
 import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
-import com.softtek.lai.module.bodygame3.head.model.ClassinfoModel;
-import com.softtek.lai.module.bodygame3.head.model.PartnersModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.view.HeadBlankFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
-import com.softtek.lai.module.bodygame3.more.net.MoreService;
-import com.softtek.lai.module.bodygame3.more.view.StudentFragment;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.chart.Chart;
-import com.softtek.lai.widgets.chart.Entry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_bodygame)
 public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragment1.DeleteClass, HeadGameFragment.AddClass {
@@ -58,7 +35,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initDatas() {
-        dialogShow("正在加载。。。");
+        dialogShow("数据载入...");
         ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
             @Override
             public void success(ResponseData<ClassdataModel> data, Response response) {
