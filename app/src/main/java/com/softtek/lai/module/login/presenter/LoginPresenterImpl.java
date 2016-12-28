@@ -13,9 +13,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
@@ -193,6 +193,10 @@ public class LoginPresenterImpl implements ILoginPresenter {
         } else {
             buffer.append("计步类型=不支持");
         }
+
+
+
+
         service.doLogin(buffer.toString(), userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
@@ -205,7 +209,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
+
                         final UserModel model = userResponseData.getData();
+
+//                        UserModel model = userResponseData.getData();
+
+                        android.util.Log.i("aaaaaaa", "登录的用户信息 = " + new Gson().toJson(model));
+
+
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);

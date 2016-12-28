@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -57,6 +58,8 @@ public class HXLoginService extends Service implements Runnable {
     public void onCreate() {
         super.onCreate();
         model = UserInfoModel.getInstance().getUser();
+        android.util.Log.i("aaaaaaa", "HXLoginService 中登录的用户信息  = " + new Gson().toJson(model));
+
         if (model == null) {
             return;
         }
@@ -89,6 +92,9 @@ public class HXLoginService extends Service implements Runnable {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         com.github.snowdream.android.util.Log.i("环信登录服务启动 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
+        model = UserInfoModel.getInstance().getUser();
+        account = model.getHXAccountId();
+
         new Thread(this).start();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -110,6 +116,7 @@ public class HXLoginService extends Service implements Runnable {
                                 public void onClick(DialogInterface dialog, int which) {
                                     com.github.snowdream.android.util.Log.i("服务自杀====");
                                     stopSelf();
+
                                     alertDialog = null;
                                     UserInfoModel.getInstance().loginOut();
                                     LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
@@ -131,7 +138,9 @@ public class HXLoginService extends Service implements Runnable {
         @Override
         public void onReceive(Context context, Intent intent) {
             isExit = false;
+            //收到广播。杀死自己
             stopSelf();
+
         }
     }
 
@@ -158,6 +167,12 @@ public class HXLoginService extends Service implements Runnable {
         String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
             com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
+
+        com.github.snowdream.android.util.Log.i("环信账号hxid = " + hxid + " model.getHXAccountId() = " + model.getHXAccountId());
+
+//        if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
+//            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
+
             path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             chatUserModel.setUserName(model.getNickname());
             chatUserModel.setUserPhone(path + model.getPhoto());
@@ -265,8 +280,6 @@ public class HXLoginService extends Service implements Runnable {
                         startService(new Intent(getApplicationContext(), HXLoginService.class));
                     }
                 });
-
-
 
             } else {//之前账户没有完全退出
 

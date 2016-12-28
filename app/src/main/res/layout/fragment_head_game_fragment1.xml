@@ -385,16 +385,7 @@
                         android:layout_height="100dp"
                         android:clipChildren="false" />
                 </com.softtek.lai.widgets.MyRelative>
-                <!--<com.softtek.lai.widgets.HorizontalListView-->
-                <!--android:id="@+id/photos"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:background="@color/white"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:visibility="gone">-->
 
-                <!--</com.softtek.lai.widgets.HorizontalListView>-->
                 <TextView
                     android:id="@+id/no_photowalll"
                     android:layout_width="match_parent"
@@ -431,12 +422,13 @@
                 <com.ggx.widgets.nicespinner.NiceSpinner
                     android:id="@+id/spinner_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
-                    android:gravity="right"
+                    android:maxLines="1"
+                    android:gravity="center"
                     android:textSize="13sp"
                     app:textTint="@color/word" />
 
