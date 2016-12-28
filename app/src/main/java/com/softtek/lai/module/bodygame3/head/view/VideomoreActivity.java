@@ -26,6 +26,7 @@ import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -81,7 +81,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
-//    @InjectView(R.id.tv_activity_type)
+    //    @InjectView(R.id.tv_activity_type)
 //    TextView tv_activity_type;
     @InjectView(R.id.type_iv)
     ImageView type_iv;
@@ -92,7 +92,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     private String classid;
     private ActivityModel activityModel;
     private int classActivityId;//活动类型Id
-   private String dated;
+    private String dated;
+
     @Override
     protected void initViews() {
         tv_title.setText("新建活动");
@@ -158,6 +159,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(addMarkIntent, 002);
                 break;
             case R.id.fl_right:
+                dialogShow("正在提交。。。");
                 String title = tv_activity_name.getText().toString().trim();
                 String startime = tv_activity_time.getText().toString().trim();
                 String mark = tv_activity_mark.getText().toString().trim();
@@ -188,20 +190,32 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                         activityModel, new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
-                                if (200 == responseData.getStatus()) {
-                                    Util.toastMsg(responseData.getMsg());
-                                    Intent intent=getIntent();
-                                    intent.putExtra("acttime",dated);
-                                    setResult(RESULT_OK,intent);
-                                    finish();
-                                } else {
-                                    Util.toastMsg(responseData.getMsg());
+                                try {
+                                    dialogDissmiss();
+                                    if (200 == responseData.getStatus()) {
+                                        Util.toastMsg(responseData.getMsg());
+                                        Intent intent = getIntent();
+                                        intent.putExtra("acttime", dated);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    } else {
+                                        Util.toastMsg(responseData.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+
                                 }
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                super.failure(error);
+                                try {
+                                    dialogDissmiss();
+                                    super.failure(error);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+
+                                }
                             }
                         });
                 break;
@@ -311,7 +325,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
-                 dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
                 int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
                 Log.e("132", compare + "");

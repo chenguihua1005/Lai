@@ -58,10 +58,12 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initDatas() {
+        dialogShow("正在加载。。。");
         ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
             @Override
             public void success(ResponseData<ClassdataModel> data, Response response) {
                 try {
+                    dialogDissmiss();
                     if (200 == data.getStatus()) {
                         ClassdataModel classdataModel = data.getData();
                         int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
@@ -85,6 +87,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
             @Override
             public void failure(RetrofitError error) {
                 try {
+                    dialogDissmiss();
                     getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, new HeadBlankFragment()).commit();
                     super.failure(error);
                 } catch (Exception e) {
