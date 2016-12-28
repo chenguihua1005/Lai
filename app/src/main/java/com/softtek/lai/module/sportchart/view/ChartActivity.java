@@ -29,8 +29,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.DateForm;
-import com.softtek.lai.module.sportchart.presenter.GetProinfoImpl;
-import com.softtek.lai.module.sportchart.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.model.PhotosModel;
 import com.softtek.lai.module.sport2.model.ScoreModel;
@@ -40,6 +38,8 @@ import com.softtek.lai.module.sportchart.model.StepCountModel;
 import com.softtek.lai.module.sportchart.model.StepListModel;
 import com.softtek.lai.module.sportchart.net.ChartService;
 import com.softtek.lai.module.sportchart.presenter.ChartManager;
+import com.softtek.lai.module.sportchart.presenter.GetProinfoImpl;
+import com.softtek.lai.module.sportchart.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.sportchart.presenter.PhotoManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -73,11 +73,10 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- *
  * Created by lareina.qiao on 10/19/2016.
  */
 @InjectLayout(R.layout.actitivity_chart)
-public class ChartActivity extends BaseActivity implements ChartManager.ChartManagerCallback ,View.OnClickListener,PhotoManager.PhotoManagerCallback{
+public class ChartActivity extends BaseActivity implements ChartManager.ChartManagerCallback, View.OnClickListener, PhotoManager.PhotoManagerCallback {
     ChartManager chartManager;
     PhotoManager photoManager;
     @InjectView(R.id.iv_perpage_banner)
@@ -109,51 +108,53 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     DateForm dateForm;
 
     List<Entry> dates = new ArrayList<>();
-    List<String>days=new ArrayList<>();
-    List<String>day=new ArrayList<>();
-    char type='6';
-    int n=7;
-    boolean state=true;
+    List<String> days = new ArrayList<>();
+    List<String> day = new ArrayList<>();
+    char type = '6';
+    int n = 7;
+    boolean state = true;
     private ProgressDialog progressDialog;
     private ChartService service;
     CharSequence[] items = {"拍照", "照片"};
     private static final int CAMERA_PREMISSION = 100;
     private ImageFileCropSelector imageFileCropSelector;
-    private static final int Chart=3;
-    String Userid="0";
+    private static final int Chart = 3;
+    String Userid = "0";
     private static final int LOCATION_PREMISSION = 100;
     private IGetProinfopresenter iGetProinfopresenter;
     ScoreModel scoreModel;
     String value;
     String url;
     String title_value;
-    String isFocusid="0";
+    String isFocusid = "0";
     SelectPicPopupWindow menuWindow;
-    List<Entry>list=Arrays.asList(new Entry(0,0),
-                    new Entry(1,0),
-                    new Entry(2,0),
-                    new Entry(3,0),
-                    new Entry(4,0),
-                    new Entry(5,0),
-                    new Entry(6,0));//默认7天步数
+    List<Entry> list = Arrays.asList(new Entry(0, 0),
+            new Entry(1, 0),
+            new Entry(2, 0),
+            new Entry(3, 0),
+            new Entry(4, 0),
+            new Entry(5, 0),
+            new Entry(6, 0));//默认7天步数
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
+
     @Override
     protected void initViews() {
         /*状态栏透明，标题栏高度适应*/
-        if(DisplayUtil.getSDKInt()>18){
+        if (DisplayUtil.getSDKInt() > 18) {
             tintManager.setStatusBarAlpha(0);
-            int status= DisplayUtil.getStatusHeight(this);
+            int status = DisplayUtil.getStatusHeight(this);
             /*标题栏适配状态栏高度*/
-            RelativeLayout.LayoutParams params1= (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
-            params1.topMargin=status;
+            RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) toolbar1.getLayoutParams();
+            params1.topMargin = status;
             toolbar1.setLayoutParams(params1);
         }
-        Userid=UserInfoModel.getInstance().getUser().getUserid();
-        photoManager=new PhotoManager(this);
+        Userid = UserInfoModel.getInstance().getUser().getUserid();
+        photoManager = new PhotoManager(this);
         imageFileCropSelector = new ImageFileCropSelector(ChartActivity.this);
         imageFileCropSelector.setQuality(90);
         imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(ChartActivity.this), DisplayUtil.dip2px(ChartActivity.this, 190));
@@ -162,12 +163,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             @Override
             public void onSuccess(String file) {
                 progressDialog.show();
-                photoManager.doUploadPhoto(Userid,"1",file,progressDialog);
+                photoManager.doUploadPhoto(Userid, "1", file, progressDialog);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-
+                progressDialog.show();
+                photoManager.doUploadPhoto(Userid, "1", files.get(0), progressDialog);
             }
 
             @Override
@@ -190,24 +192,24 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
         dates.clear();
         day.clear();
-        dateForm=new DateForm();
-        progressDialog=new ProgressDialog(this);
+        dateForm = new DateForm();
+        progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        String nowdate7=getPeriodDate(type,0).toString();
-        String nowdate6=getPeriodDate(type,1).toString();
-        String nowdate5=getPeriodDate(type,2).toString();
-        String nowdate4=getPeriodDate(type,3).toString();
-        String nowdate3=getPeriodDate(type,4).toString();
-        String nowdate2=getPeriodDate(type,5).toString();
-        String nowdate1=getPeriodDate(type,6).toString();
-        days.add(formdate(nowdate1,false));
-        days.add(formdate(nowdate2,true));
-        days.add(formdate(nowdate3,true));
-        days.add(formdate(nowdate4,true));
-        days.add(formdate(nowdate5,true));
-        days.add(formdate(nowdate6,true));
-        days.add(formdate(nowdate7,true));
+        String nowdate7 = getPeriodDate(type, 0).toString();
+        String nowdate6 = getPeriodDate(type, 1).toString();
+        String nowdate5 = getPeriodDate(type, 2).toString();
+        String nowdate4 = getPeriodDate(type, 3).toString();
+        String nowdate3 = getPeriodDate(type, 4).toString();
+        String nowdate2 = getPeriodDate(type, 5).toString();
+        String nowdate1 = getPeriodDate(type, 6).toString();
+        days.add(formdate(nowdate1, false));
+        days.add(formdate(nowdate2, true));
+        days.add(formdate(nowdate3, true));
+        days.add(formdate(nowdate4, true));
+        days.add(formdate(nowdate5, true));
+        days.add(formdate(nowdate6, true));
+        days.add(formdate(nowdate7, true));
         day.add(dateForm.getDateform(nowdate1));
         day.add(dateForm.getDateform(nowdate2));
         day.add(dateForm.getDateform(nowdate3));
@@ -216,18 +218,19 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         day.add(dateForm.getDateform(nowdate6));
         day.add(dateForm.getDateform(nowdate7));
         progressDialog.show();
-        Intent intent=getIntent();
-        isFocusid=intent.getStringExtra("isFocusid");
-        chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7));
+        Intent intent = getIntent();
+        isFocusid = intent.getStringExtra("isFocusid");
+        chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1), dateForm.getDateform(nowdate7));
     }
 
     /**
      * 获取阶段日期
-     * @param  dateType
+     *
+     * @param dateType
      * @author Yangtse
      */
     //使用方法 char datetype = '7';
-    public static StringBuilder getPeriodDate(char dateType,int n) {
+    public static StringBuilder getPeriodDate(char dateType, int n) {
         Calendar c = Calendar.getInstance(); // 当时的日期和时间
         int hour; // 需要更改的小时
         int day; // 需要更改的天数
@@ -261,7 +264,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 c.set(Calendar.DAY_OF_MONTH, day);
                 break;
             case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
+                day = c.get(Calendar.DAY_OF_MONTH) - 30 * n;
                 c.set(Calendar.DAY_OF_MONTH, day);
                 break;
         }
@@ -273,18 +276,17 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 (mDay < 10) ? "0" + mDay : mDay);
         return strForwardDate;
     }
-    public String formdate(String nowdate,boolean getDay)
-    {
 
-        if (getDay){
-            return nowdate.substring(6,8);
-        }else {
+    public String formdate(String nowdate, boolean getDay) {
+
+        if (getDay) {
+            return nowdate.substring(6, 8);
+        } else {
             String date;
-            if (nowdate.substring(4,5).equals("0")) {
-                date=nowdate.substring(5,6)+"月"+nowdate.substring(6,8);
-            }
-            else {
-                date=nowdate.substring(4,6)+"月"+nowdate.substring(6,8);
+            if (nowdate.substring(4, 5).equals("0")) {
+                date = nowdate.substring(5, 6) + "月" + nowdate.substring(6, 8);
+            } else {
+                date = nowdate.substring(4, 6) + "月" + nowdate.substring(6, 8);
             }
             return date;
         }
@@ -292,7 +294,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
@@ -304,11 +306,10 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 }
                 break;
             case R.id.bt_sport_left:
-                if (!state)
-                {
-                    n=n+7;
+                if (!state) {
+                    n = n + 7;
                 }
-                state=true;
+                state = true;
                 days.clear();
                 day.clear();
                 dates.clear();
@@ -319,13 +320,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 String nowdate3 = getPeriodDate(type, n + 4) + "";
                 String nowdate2 = getPeriodDate(type, n + 5) + "";
                 String nowdate1 = getPeriodDate(type, n + 6) + "";
-                days.add(formdate(nowdate1,false));
-                days.add(formdate(nowdate2,true));
-                days.add(formdate(nowdate3,true));
-                days.add(formdate(nowdate4,true));
-                days.add(formdate(nowdate5,true));
-                days.add(formdate(nowdate6,true));
-                days.add(formdate(nowdate7,true));
+                days.add(formdate(nowdate1, false));
+                days.add(formdate(nowdate2, true));
+                days.add(formdate(nowdate3, true));
+                days.add(formdate(nowdate4, true));
+                days.add(formdate(nowdate5, true));
+                days.add(formdate(nowdate6, true));
+                days.add(formdate(nowdate7, true));
                 day.add(dateForm.getDateform(nowdate1));
                 day.add(dateForm.getDateform(nowdate2));
                 day.add(dateForm.getDateform(nowdate3));
@@ -334,49 +335,47 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 day.add(dateForm.getDateform(nowdate6));
                 day.add(dateForm.getDateform(nowdate7));
                 progressDialog.show();
-                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7));
+                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdate1), dateForm.getDateform(nowdate7));
                 n = n + 7;
                 bt_sport_right.setVisibility(View.VISIBLE);
                 break;
-                case R.id.bt_sport_right:
-                    if (state)
-                    {
-                        n = n - 14;
-                    }
-                    else {
-                        n=n-7;
-                    }
-                    dates.clear();
-                    day.clear();
-                    days.clear();
-                    String nowdat7 = getPeriodDate(type, n) + "";
-                    String nowdat6 = getPeriodDate(type, n + 1) + "";
-                    String nowdat5 = getPeriodDate(type, n + 2) + "";
-                    String nowdat4 = getPeriodDate(type, n + 3) + "";
-                    String nowdat3 = getPeriodDate(type, n + 4) + "";
-                    String nowdat2 = getPeriodDate(type, n + 5) + "";
-                    String nowdat1 = getPeriodDate(type, n + 6) + "";
+            case R.id.bt_sport_right:
+                if (state) {
+                    n = n - 14;
+                } else {
+                    n = n - 7;
+                }
+                dates.clear();
+                day.clear();
+                days.clear();
+                String nowdat7 = getPeriodDate(type, n) + "";
+                String nowdat6 = getPeriodDate(type, n + 1) + "";
+                String nowdat5 = getPeriodDate(type, n + 2) + "";
+                String nowdat4 = getPeriodDate(type, n + 3) + "";
+                String nowdat3 = getPeriodDate(type, n + 4) + "";
+                String nowdat2 = getPeriodDate(type, n + 5) + "";
+                String nowdat1 = getPeriodDate(type, n + 6) + "";
 
-                    days.add(formdate(nowdat1,false));
-                    days.add(formdate(nowdat2,true));
-                    days.add(formdate(nowdat3,true));
-                    days.add(formdate(nowdat4,true));
-                    days.add(formdate(nowdat5,true));
-                    days.add(formdate(nowdat6,true));
-                    days.add(formdate(nowdat7,true));
-                    day.add(dateForm.getDateform(nowdat1));
-                    day.add(dateForm.getDateform(nowdat2));
-                    day.add(dateForm.getDateform(nowdat3));
-                    day.add(dateForm.getDateform(nowdat4));
-                    day.add(dateForm.getDateform(nowdat5));
-                    day.add(dateForm.getDateform(nowdat6));
-                    day.add(dateForm.getDateform(nowdat7));
-                    progressDialog.show();
-                    chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdat1),dateForm.getDateform(nowdat7));
-                    state=false;
-                    if (nowdat7.equals(getPeriodDate(type,0)+""))
-                        bt_sport_right.setVisibility(View.GONE);
-                    break;
+                days.add(formdate(nowdat1, false));
+                days.add(formdate(nowdat2, true));
+                days.add(formdate(nowdat3, true));
+                days.add(formdate(nowdat4, true));
+                days.add(formdate(nowdat5, true));
+                days.add(formdate(nowdat6, true));
+                days.add(formdate(nowdat7, true));
+                day.add(dateForm.getDateform(nowdat1));
+                day.add(dateForm.getDateform(nowdat2));
+                day.add(dateForm.getDateform(nowdat3));
+                day.add(dateForm.getDateform(nowdat4));
+                day.add(dateForm.getDateform(nowdat5));
+                day.add(dateForm.getDateform(nowdat6));
+                day.add(dateForm.getDateform(nowdat7));
+                progressDialog.show();
+                chartManager.doGetStepCount(isFocusid, dateForm.getDateform(nowdat1), dateForm.getDateform(nowdat7));
+                state = false;
+                if (nowdat7.equals(getPeriodDate(type, 0) + ""))
+                    bt_sport_right.setVisibility(View.GONE);
+                break;
             case R.id.iv_perpage_banner:
                 //点击编辑banner图片按钮
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -408,7 +407,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     }
                 }).create().show();
 
-            break;
+                break;
             case R.id.fl_pers_right:
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                         ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -437,18 +436,20 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
 
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
-        if (requestCode==Chart&&resultCode==RESULT_OK){
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Chart && resultCode == RESULT_OK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -463,6 +464,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         }
 
     }
+
     //6.0权限回调方法
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -482,6 +484,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         }
 
     }
+
     private void setShare() {
         dialogShow("加载中");
         Bitmap b1 = getViewBitmap(chart);
@@ -505,6 +508,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                         break;
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 dialogDissmiss();
@@ -512,13 +516,14 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             }
         });
     }
+
     // 保存到sdcard
     public static void savePic(Bitmap b, String strFileName) {
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(strFileName);
             if (null != fos) {
-                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                b.compress(Bitmap.CompressFormat.PNG, 80, fos);
                 fos.flush();
                 fos.close();
             }
@@ -545,6 +550,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         scrollView.draw(canvas);
         return bitmap;
     }
+
     /**
      * 把View对象转换成bitmap
      */
@@ -578,6 +584,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
         return bitmap;
     }
+
     @Subscribe
     public void onEvent(PhotosModel photModel) {
         dialogDissmiss();
@@ -596,6 +603,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         menuWindow.showAtLocation(ChartActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
+
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
             menuWindow.dismiss();
@@ -630,40 +638,36 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             }
         }
     };
+
     /*
     * 关注
     * */
-    void doFocusAccount(String accoutid,String focusaccid)
-    {
-        service= ZillaApi.NormalRestAdapter.create(ChartService.class);
+    void doFocusAccount(String accoutid, String focusaccid) {
+        service = ZillaApi.NormalRestAdapter.create(ChartService.class);
         service.doFocusAccount(UserInfoModel.getInstance().getToken(), accoutid, focusaccid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                if (responseData.getStatus()==200)
-                {
+                if (responseData.getStatus() == 200) {
                     btn_add.setChecked(false);
-                }
-                else {
+                } else {
                     Util.toastMsg(responseData.getMsg());
                 }
             }
         });
 
     }
+
     /*
    * 取消关注
    * */
-    void doCancleFocusAccount(String accoutid,String focusaccid)
-    {
-        service= ZillaApi.NormalRestAdapter.create(ChartService.class);
+    void doCancleFocusAccount(String accoutid, String focusaccid) {
+        service = ZillaApi.NormalRestAdapter.create(ChartService.class);
         service.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), accoutid, focusaccid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                if (responseData.getStatus()==200)
-                {
+                if (responseData.getStatus() == 200) {
                     btn_add.setChecked(true);
-                }
-                else {
+                } else {
                     Util.toastMsg(responseData.getMsg());
                 }
             }
@@ -674,92 +678,84 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @Override
     public void getResu(StepCountModel result) {
         try {
-                if (progressDialog!=null)
-                    progressDialog.dismiss();
-                if(result==null){
-                    return;
-                }
-                if (!TextUtils.isEmpty(result.getAcBanner())) {
-                    Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
-                }
-                if (!TextUtils.isEmpty(result.getPhoto())) {
-                    Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
-                }
-                if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname()))
-                {
-                    tv_perpagename.setText("我的主页");
-                    btn_add.setVisibility(View.GONE);
-                }
-                else {
-                    tv_perpagename.setText(result.getUsername());
-                    tv_perpagename.append("的主页");
-                    iv_perpage_banner.setClickable(false);
-                    fl_pers_right.setVisibility(View.INVISIBLE);
-                }
-                if (TextUtils.isEmpty(result.getTotalStep())) {
-                    tv_step.setText("--");
-                    tv_kilometre.setText("--");
-                } else {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            if (result == null) {
+                return;
+            }
+            if (!TextUtils.isEmpty(result.getAcBanner())) {
+                Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
+            }
+            if (!TextUtils.isEmpty(result.getPhoto())) {
+                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
+            }
+            if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname())) {
+                tv_perpagename.setText("我的主页");
+                btn_add.setVisibility(View.GONE);
+            } else {
+                tv_perpagename.setText(result.getUsername());
+                tv_perpagename.append("的主页");
+                iv_perpage_banner.setClickable(false);
+                fl_pers_right.setVisibility(View.INVISIBLE);
+            }
+            if (TextUtils.isEmpty(result.getTotalStep())) {
+                tv_step.setText("--");
+                tv_kilometre.setText("--");
+            } else {
 
-                    tv_step.setText(result.getTotalStep());
-                    if (Float.parseFloat(result.getTotalStep())/1428<0.04)
-                    {
-                        tv_kilometre.setText("0");
-                    }
-                    else {
-                        DecimalFormat df = new DecimalFormat("0.0");
-                        tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep()) / 1428) + "");
-                    }
-                }
-                if (result.getIsFocus().equals("0"))
-                {
-                    btn_add.setChecked(true);
+                tv_step.setText(result.getTotalStep());
+                if (Float.parseFloat(result.getTotalStep()) / 1428 < 0.04) {
+                    tv_kilometre.setText("0");
                 } else {
-                    btn_add.setChecked(false);
+                    DecimalFormat df = new DecimalFormat("0.0");
+                    tv_kilometre.setText(df.format(Float.parseFloat(result.getTotalStep()) / 1428) + "");
                 }
-                dates.clear();
-                //步数
-                List<StepListModel> steps=result.getStepList();
-                int maxStep=0;
-                if (steps.size()<days.size()) {
-                    //如果步数数量小于天数表示步数的数量不满7天
-                    dates.addAll(list);//添加默认天数以及步数
-                    for (int j = days.size() - 1; j >= 0; j--) {
-                        for (int i = 0; i <= steps.size() - 1; i++) {
-                            //判断是不是那一天，如果是就重新给那一天设置步数
-                            if (day.get(j).equals(steps.get(i).getDate())) {
-                                Entry entry=dates.get(j);
-                                int step=Integer.parseInt(steps.get(i).getTotalCnt());
-                                maxStep=step>maxStep?step:maxStep;
-                                entry.setVal(step);
-                                dates.set(j,entry);
-                                break;
-                            }
+            }
+            if (result.getIsFocus().equals("0")) {
+                btn_add.setChecked(true);
+            } else {
+                btn_add.setChecked(false);
+            }
+            dates.clear();
+            //步数
+            List<StepListModel> steps = result.getStepList();
+            int maxStep = 0;
+            if (steps.size() < days.size()) {
+                //如果步数数量小于天数表示步数的数量不满7天
+                dates.addAll(list);//添加默认天数以及步数
+                for (int j = days.size() - 1; j >= 0; j--) {
+                    for (int i = 0; i <= steps.size() - 1; i++) {
+                        //判断是不是那一天，如果是就重新给那一天设置步数
+                        if (day.get(j).equals(steps.get(i).getDate())) {
+                            Entry entry = dates.get(j);
+                            int step = Integer.parseInt(steps.get(i).getTotalCnt());
+                            maxStep = step > maxStep ? step : maxStep;
+                            entry.setVal(step);
+                            dates.set(j, entry);
+                            break;
                         }
                     }
                 }
-                else {
-                    //如果步数大于或者等于天数
-                    for (int i = 0; i < 7; i++) {
-                        int step=Integer.parseInt(steps.get(6-i).getTotalCnt());
-                        maxStep=step>maxStep?step:maxStep;
-                        Entry entry=new Entry(i,step);
-                        dates.add(entry);
-                    }
+            } else {
+                //如果步数大于或者等于天数
+                for (int i = 0; i < 7; i++) {
+                    int step = Integer.parseInt(steps.get(6 - i).getTotalCnt());
+                    maxStep = step > maxStep ? step : maxStep;
+                    Entry entry = new Entry(i, step);
+                    dates.add(entry);
                 }
-                if (Userid.equals(isFocusid))
-                {
-                    if (dateForm.getDateform(getPeriodDate(type,0) + "").equals(day.get(6)))
-                    {
-                        Intent intent=getIntent();
-                        int step=intent.getIntExtra("step",0);
-                        maxStep=step>maxStep?step:maxStep;
-                        Entry entry=dates.get(6);
-                        entry.setVal(step);
-                        dates.set(6,entry);
-                    }
+            }
+            if (Userid.equals(isFocusid)) {
+                if (dateForm.getDateform(getPeriodDate(type, 0) + "").equals(day.get(6))) {
+                    Intent intent = getIntent();
+                    int step = intent.getIntExtra("step", 0);
+                    maxStep = step > maxStep ? step : maxStep;
+                    Entry entry = dates.get(6);
+                    entry.setVal(step);
+                    dates.set(6, entry);
                 }
-            chart.setDate(days,dates,maxStep);
+            }
+            chart.setDate(days, dates, maxStep);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -768,10 +764,9 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
 
     @Override
     public void getResult(PhotModel result) {
-        if (result==null)
-        {
+        if (result == null) {
             return;
         }
-        Picasso.with(ChartActivity.this).load(AddressManager.get("photoHost")+result.getPath()).fit().into(iv_perpage_banner);
+        Picasso.with(ChartActivity.this).load(AddressManager.get("photoHost") + result.getPath()).fit().into(iv_perpage_banner);
     }
 }

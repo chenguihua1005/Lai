@@ -279,10 +279,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (conflictBuilder != null) {
-            conflictBuilder.create().dismiss();
-            conflictBuilder = null;
-        }
         unregisterBroadcastReceiver();
 
 
@@ -319,8 +315,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         super.onSaveInstanceState(outState);
     }
 
-
-    private android.app.AlertDialog.Builder conflictBuilder;
     private ConversationListFragment conversationListFragment;
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;
