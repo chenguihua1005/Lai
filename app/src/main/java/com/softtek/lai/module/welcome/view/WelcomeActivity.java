@@ -24,6 +24,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -112,12 +113,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                         int status=userModelResponseData.getStatus();
                         switch (status) {
                             case 200:
-                                //JPushInterface.init(WelcomeActivity.this);
-                                //JpushSet set = new JpushSet(WelcomeActivity.this);
                                 UserModel model=userModelResponseData.getData();
-                                Log.i("token=="+model.getToken());
-                                //set.setAlias(model.getMobile());
-                                //set.setStyleBasic();
+                                JpushSet set = new JpushSet(LaiApplication.getInstance());
+                                set.setAlias(model.getMobile());
+                                set.setStyleBasic();
                                 UserInfoModel.getInstance().saveUserCache(model);
 
                                 //检查是否存在环信帐号

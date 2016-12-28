@@ -193,10 +193,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
         } else {
             buffer.append("计步类型=不支持");
         }
-
-
-
-
         service.doLogin(buffer.toString(), userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
@@ -207,62 +203,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-
                         final UserModel model = userResponseData.getData();
-
-//                        UserModel model = userResponseData.getData();
-
-                        android.util.Log.i("aaaaaaa", "登录的用户信息 = " + new Gson().toJson(model));
-
-
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
                         SharedPreferenceService.getInstance().put(Constants.USER, userName);
                         SharedPreferenceService.getInstance().put(Constants.PDW, password);
 
-
                         //开启登录服务
                         context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
-                        //需要判断一下之前账户是否真正退出
-
-//                        String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-//
-//                        //检查是否存在环信帐号
-//                        if (!TextUtils.isEmpty(model.getHXAccountId())) {
-//                            if (hxid.equals(model.getHXAccountId())) {//之前已登录
-//
-//                                //从服务器加载和该用户相关的所有群组
-//                                new Thread() {
-//                                    @Override
-//                                    public void run() {
-//                                        try {
-//                                            EMClient.getInstance().updateCurrentUserNick(model.getNickname());
-//                                            EMClient.getInstance().chatManager().loadAllConversations();
-////                                EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-//                                    }
-//                                }.start();
-//
-//                            } else {//
-//                                if ("-1".equals(hxid)) {
-//                                    //开启登录服务
-//                                    context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
-//                                } else {//之前遗留的账户，没有完全登出，需要登出
-//                                    new Thread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            HXLoginOut();
-//                                        }
-//                                    }).start();
-//                                }
-//
-//                            }
-//                        }
                         //如果用户加入了跑团
                         if ("1".equals(model.getIsJoin())) {
                             stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));

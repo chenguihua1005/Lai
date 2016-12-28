@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -226,7 +227,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     private void clearData() {
 
-
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (!hxid.equals("-1")) {
             SharedPreferenceService.getInstance().put("HXID", "-1");
@@ -234,24 +234,20 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 @Override
                 public void onSuccess() {
                     //关闭环信服务
-                    UserInfoModel.getInstance().loginOut();
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                    getActivity().finish();
+                    Looper.prepare();
+                    UserInfoModel.getInstance().loginOut();
                     startActivity(new Intent(getContext(), LoginActivity.class));
+                    getActivity().finish();
+                    Looper.loop();
                 }
 
                 @Override
-                public void onProgress(int progress, String status) {
-                    // TODO Auto-generated method stub
-
-                }
+                public void onProgress(int progress, String status) {}
 
                 @Override
-                public void onError(int code, String message) {
-                    // TODO Auto-generated method stub
-
-                }
+                public void onError(int code, String message) {}
             });
 
         } else {
@@ -260,8 +256,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             getActivity().finish();
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
-        JPushInterface.init(getContext().getApplicationContext());
-        JpushSet set = new JpushSet(getContext().getApplicationContext());
-        set.setAlias("");
+
     }
 }

@@ -6,7 +6,9 @@ import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
 import com.softtek.lai.premission.Role;
@@ -79,10 +81,8 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
-//        JPushInterface.init(context);
-//        JpushSet set = new JpushSet(context);
-//        set.setAlias("");
-//        set.setStyleBasic();
+        JpushSet set = new JpushSet(LaiApplication.getInstance());
+        set.setAlias("");
         MobclickAgent.onProfileSignOff();
         isVr=true;
     }

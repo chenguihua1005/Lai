@@ -20,6 +20,7 @@ import com.umeng.socialize.PlatformConfig;
 
 import java.lang.ref.WeakReference;
 
+import cn.jpush.android.api.JPushInterface;
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
@@ -42,9 +43,9 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         //LogManager.getManager(getApplicationContext()).registerCrashHandler();
+        JPushInterface.init(this);
         ChatHelper.getInstance().init(getApplicationContext());
         CrashHandler.getInstance().init(this);
-
 
     }
 
