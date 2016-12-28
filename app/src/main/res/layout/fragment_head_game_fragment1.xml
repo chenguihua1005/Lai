@@ -1,5 +1,6 @@
 <com.softtek.lai.widgets.MySwipRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:Android="http://schemas.android.com/tools"
     android:id="@+id/pull"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -421,15 +422,17 @@
 
                 <com.ggx.widgets.nicespinner.NiceSpinner
                     android:id="@+id/spinner_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
+                    Android:background="#74BB2A"
                     android:layout_marginRight="10dp"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textSize="13sp"
+
                     app:textTint="@color/word" />
 
                 <ImageView

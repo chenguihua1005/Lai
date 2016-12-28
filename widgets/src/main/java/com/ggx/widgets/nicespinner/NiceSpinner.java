@@ -131,6 +131,7 @@ public class NiceSpinner extends TextView {
         listView.setId(getId());
         listView.setDivider(null);
         listView.setItemsCanFocus(true);
+        listView.setBackgroundResource(R.color.green);
         //hide vertical and horizontal scrollbars
         listView.setVerticalScrollBarEnabled(false);
         listView.setHorizontalScrollBarEnabled(false);
@@ -163,6 +164,7 @@ public class NiceSpinner extends TextView {
         popupWindow = new PopupWindow(context);
         popupWindow.setContentView(listView);
         popupWindow.setOutsideTouchable(true);
+
 //        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
 //        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -205,7 +207,7 @@ public class NiceSpinner extends TextView {
 
     /**
      * Set the default spinner item using its index
-     * 
+     *
      * @param position the item's position
      */
     public void setSelectedIndex(int position) {
@@ -233,7 +235,7 @@ public class NiceSpinner extends TextView {
         setAdapterInternal(adapter);
     }
 
-    public void  attachCustomSource(BaseAdapter adapter){
+    public void attachCustomSource(BaseAdapter adapter) {
         selectedIndex = 0;
         listView.setAdapter(adapter);
         //setText(adapter.getItemInDataset(selectedIndex).toString());
@@ -250,7 +252,6 @@ public class NiceSpinner extends TextView {
         listView.setAdapter(adapter);
         setText(adapter.getItemInDataset(selectedIndex).toString());
     }
-
 
 
     @Override
