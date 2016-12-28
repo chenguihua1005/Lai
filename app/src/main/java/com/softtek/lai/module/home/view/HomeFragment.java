@@ -5,14 +5,12 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -27,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -46,8 +45,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport2.view.LaiSportActivity;
-import com.softtek.lai.runtimepermissions.PermissionsManager;
-import com.softtek.lai.runtimepermissions.PermissionsResultAction;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -226,7 +223,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         pull.setRefreshing(true);
         homeInfoPresenter.getHomeInfoData(pull);
     }
-
+    private int laiNum;
+    private int tiNum;
     @Override
     public void onResume() {
         super.onResume();
@@ -251,6 +249,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                                         } else {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         }
+                                        laiNum=data.getData().LaiNum;
+                                        tiNum=data.getData().TiNum;
                                         modelAdapter.updateNum(data.getData().TiNum,data.getData().LaiNum);
 
                                         break;
@@ -267,6 +267,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
+//            if (EMClient.getInstance().isLoggedInBefore()) {
+//                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+//                updateMessage(unreadNum);
+//            }
         }
     }
 
@@ -281,76 +285,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
     }
-
-//    private void loginChat(final ProgressDialog progressDialog, final String account) {
-//        Log.i(TAG, "account = " + account + "  HBL_SOFTTEK#321");
-//        Constants.IS_LOGINIMG = "1";
-//        EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
-//            @Override
-//            public void onSuccess() {
-//
-//                Log.i("aaaaaaa", "登录成功............");
-//
-//                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-//                // ** manually load all local groups and
-//                Constants.IS_LOGINIMG = "0";
-//                SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
-//                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                ChatUserModel chatUserModel = new ChatUserModel();
-//                chatUserModel.setUserName(model.getNickname());
-//                chatUserModel.setUserPhone(path + model.getPhoto());
-//                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-//                ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                EMClient.getInstance().updateCurrentUserNick(model.getNickname());
-//                EMClient.getInstance().chatManager().loadAllConversations();
-//
-//                //从服务器加载和该用户相关的所有群组
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }.start();
-//
-//                if (timer != null) {
-//                    timer.cancel();
-//                }
-//                if (progressDialog != null) {
-//                    progressDialog.dismiss();
-//                }
-//            }
-//
-//            @Override
-//            public void onProgress(int progress, String status) {
-//
-//            }
-//
-//            @Override
-//            public void onError(final int code, final String message) {
-//                Log.i(TAG, "登录error............" + message);
-//                Constants.IS_LOGINIMG = "0";
-//                if (progressDialog != null) {
-//                    progressDialog.dismiss();
-//                }
-//            }
-//        });
-//        EMClient.getInstance().addConnectionListener(new EMConnectionListener() {
-//            @Override
-//            public void onConnected() {
-//                Log.i("aaaaaaa", "登录成功............///////////////////////////////////////////////////////////");
-//            }
-//
-//            @Override
-//            public void onDisconnected(int i) {
-////                        final int com.hyphenate.EMError.USER_LOGIN_ANOTHER_DEVICE = 206
-//                com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码=======" + i);
-//            }
-//        });
-//    }
 
     /**
      * 功能模块按钮
@@ -449,9 +383,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        //filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        getContext().registerReceiver(mMessageReceiver, filter);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        getActivity().registerReceiver(mMessageReceiver, filter);
 
     }
 
@@ -459,6 +394,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.i("消息action=================="+intent.getAction());
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 try {
                     iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
@@ -466,28 +402,18 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     e.printStackTrace();
                 }
             }
+            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
+                int unreadNum = intent.getIntExtra("count", 0);
+                //更新小红点
+                updateMessage(unreadNum);
+            }
         }
+
     }
+    public void updateMessage(int num) {
+        //显示
+        int read=num>0?laiNum+num:laiNum;
+        modelAdapter.updateNum(read, tiNum);
 
-    @TargetApi(23)
-    private void requestPermissions() {
-        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(getActivity(), new PermissionsResultAction() {
-            @Override
-            public void onGranted() {
-//				Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDenied(String permission) {
-                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
-    }
-
 }
