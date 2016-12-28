@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -190,6 +192,10 @@ public class LoginPresenterImpl implements ILoginPresenter {
         } else {
             buffer.append("计步类型=不支持");
         }
+
+
+
+
         service.doLogin(buffer.toString(), userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
@@ -203,6 +209,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
                         UserModel model = userResponseData.getData();
+
+                        android.util.Log.i("aaaaaaa", "登录的用户信息 = " + new Gson().toJson(model));
+
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
