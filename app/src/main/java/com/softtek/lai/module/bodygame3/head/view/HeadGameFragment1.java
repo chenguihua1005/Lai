@@ -582,13 +582,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                if (model.getClassId().equals(clazz.getModel().getClassId())) {
                     this.classModels.remove(model);
-                    tv_title.getAdapter().notifyDataSetChanged();
                     break;
                 }
             }
-
+            tv_title.getAdapter().notifyDataSetChanged();
             if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
             } else {
