@@ -134,8 +134,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String AFriendId;//好友关系id
     private String ClassId;
     ArrayList<String> images = new ArrayList<>();
-
+    private int issendFriend = 0;
+    ;//
     private static final int GET_Sian = 1;//发布签名
+    private String IsFriend;//是否是好友
 
     @Override
     protected void initViews() {
@@ -318,13 +320,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     {
                         ll_chart.setVisibility(View.VISIBLE);
                     }
-                    if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
+                    issendFriend = memberInfoModel.getIsSendFriend();
+                    IsFriend = memberInfoModel.getIsFriend();
+                    if ("1".equals(IsFriend))//如果是好友，显示发起聊天
                     {
                         btn_chat.setVisibility(View.VISIBLE);
                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
                         fl_right.setVisibility(View.VISIBLE);
                     } else {//不是好友，可发起临时会话，显示添加好友
-                        if (memberInfoModel.getIsSendFriend() > 0) {//如果大于0，则为已发送过该好友请求
+                        if (issendFriend > 0) {//如果大于0，则为已发送过该好友请求
                             btn_chat.setVisibility(View.VISIBLE);
                             btn_chat.setText("发起临时会话");
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
@@ -446,8 +450,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.btn_addguy://添加好友
-                //参数为要添加的好友的username和添加理由
-                sentFriendApply();
+                if ("0".equals(IsFriend)) {//0:不是好友
+                    if (issendFriend > 0) {
+                        Util.toastMsg("已发送过该好友请求，请等待确认！");
+                        return;
+                    } else {
+                        //参数为要添加的好友的username和添加理由
+                        sentFriendApply();
+                    }
+                }
+
                 break;
             case R.id.ll_left:
                 finish();
@@ -522,6 +534,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             int status = responseData.getStatus();
 
                             if (200 == status) {
+                                issendFriend = 1;
+                                btn_chat.setVisibility(View.VISIBLE);
+                                btn_chat.setText("发起临时会话");
+                                btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                                btn_addguy.setText("待确认");
+                                btn_addguy.setTextColor(getResources().getColor(R.color.white));
+                                btn_addguy.setBackground(getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                                iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
