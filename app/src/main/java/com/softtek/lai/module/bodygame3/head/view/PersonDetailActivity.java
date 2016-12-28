@@ -276,7 +276,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
                     Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
-                tv_stuname.setText(memberInfoModel.getUserName());//用户名
+                if (!TextUtils.isEmpty(memberInfoModel.getUserName())) {
+                    tv_stuname.setText(memberInfoModel.getUserName());//用户名
+                }
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
