@@ -109,12 +109,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 }
 
                 TextView tv_time=holder.getView(R.id.tv_time);
-                String time = data.getSendTime();
-                if (!TextUtils.isEmpty(time)) {
-                    String[] str1 = time.split(" ");
-                    String[] str = str1[0].split("-");
-                    tv_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
-                }
+                tv_time.setText(data.getSendTime());
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
                 tv_content.append(" >>");

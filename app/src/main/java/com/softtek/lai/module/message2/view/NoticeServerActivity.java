@@ -3,7 +3,6 @@ package com.softtek.lai.module.message2.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -90,14 +89,7 @@ public class NoticeServerActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void convert(ViewHolder holder, NoticeModel data, final int position) {
                 TextView tv_time=holder.getView(R.id.text_time);
-                String time = data.getSendTime();
-                if (!TextUtils.isEmpty(time)) {
-                    String[] str1 = time.split(" ");
-                    String[] str = str1[0].split("-");
-                    tv_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
-                } else {
-                    tv_time.setText("");
-                }
+                tv_time.setText(data.getSendTime());
                 TextView tv_content=holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
                 ImageView iv_select=holder.getView(R.id.iv_select);

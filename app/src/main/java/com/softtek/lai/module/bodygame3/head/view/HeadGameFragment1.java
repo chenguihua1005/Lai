@@ -14,20 +14,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
@@ -53,16 +50,11 @@ import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MyRelative;
 import com.softtek.lai.widgets.MySwipRefreshView;
-import com.softtek.lai.widgets.MyViewPager;
-import com.softtek.lai.widgets.SquareImageView;
-import com.softtek.lai.widgets.WrapRelativeLayout;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -140,8 +132,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     HeadService service;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
-//    @InjectView(R.id.photos)
-//    HorizontalListView grid_list;
+
 
     @InjectView(R.id.viewpager)
     ViewPager viewPager;
@@ -165,7 +156,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private String classId_first;
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
-    EasyAdapter<String> adapter;
+
     private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
@@ -243,34 +234,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 lastVisitableItem = llm.findLastVisibleItemPosition();
             }
         });
-//        viewPager.setOffscreenPageLimit(7);
-//        viewPager.setAdapter(new PagerAdapter() {
-//            @Override
-//            public int getCount() {
-//                return 8;
-//            }
-//
-//            @Override
-//            public boolean isViewFromObject(View view, Object object) {
-//                return (view == object);
-//            }
-//
-//            @Override
-//            public Object instantiateItem(ViewGroup container, int position) {
-//                ImageView imageView =  new ImageView(getActivity());
-//                imageView.setImageResource(R.drawable.ic_launcher);
-//                ViewPager.LayoutParams lp = new ViewPager.LayoutParams();
-//                lp.width = DisplayUtil.dip2px(getContext(),100);
-//                lp.height = 100;
-//                imageView.setLayoutParams(lp);
-//                container.addView(imageView,position);
-//                return imageView;
-//            }
-//            @Override
-//            public void destroyItem(ViewGroup container, int position, Object object) {
-//                container.removeView((ImageView)object);
-//            }
-//        });
+
     }
 
     @Override
@@ -343,25 +307,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             }
         });
-//        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
-//            @Override
-//            public void convert(ViewHolder holder, String data, int position) {
-//                SquareImageView iv_grid = holder.getView(R.id.iv_grid);
-//                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
-//                        .error(R.drawable.default_icon_rect).into(iv_grid);
-//            }
-//        };
-//        grid_list.setAdapter(adapter);
-//        grid_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent in = new Intent(getContext(), PictureMoreActivity.class);
-//                in.putStringArrayListExtra("images", photos);
-//                in.putExtra("position", i);
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-//                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
-//            }
-//        });
+
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -847,12 +793,10 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
     private void adapterData() {
         px = getResources().getDisplayMetrics().widthPixels / 4;
-        com.github.snowdream.android.util.Log.i("px" + px);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
-//        pageradapter.notifyDataSetChanged();
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
