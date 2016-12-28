@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -431,6 +432,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 if (classinfoModel.getListRec() != null) {
                                     tuijianModels.addAll(classinfoModel.getListRec());
                                     if (tuijianModels.size() >= 2) {
+                                        iv_imagevideo2.setVisibility(View.VISIBLE);
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect)
@@ -462,6 +464,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).into(iv_video1_bg);
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+                                        iv_imagevideo2.setVisibility(View.GONE);
                                     }
 
                                 }
@@ -793,7 +796,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private int px;
 
     private void adapterData() {
-        px = getResources().getDisplayMetrics().widthPixels / 4;
+        px = (getResources().getDisplayMetrics().widthPixels * 2) / 9;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
         params.width = px;
         params.height = px;
