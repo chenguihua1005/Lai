@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
-import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
@@ -140,7 +139,6 @@ public class HXLoginService extends Service implements Runnable {
             isExit = false;
             //收到广播。杀死自己
             stopSelf();
-
         }
     }
 
@@ -266,12 +264,13 @@ public class HXLoginService extends Service implements Runnable {
                         com.github.snowdream.android.util.Log.i("环信登录失败///////////////////////////////////////////////////aaaaaaa");
                         SharedPreferenceService.getInstance().put("HXID", "-1");
                         //重新启动
-                        startService(new Intent(getApplicationContext(), HXLoginService.class));
+                        if(!isExit){
+                            startService(new Intent(getApplicationContext(), HXLoginService.class));
+                        }
                     }
                 });
 
             } else {//之前账户没有完全退出
-
                 HXLoginOut();
             }
         }
