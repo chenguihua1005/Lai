@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.EMCallBack;
-import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
@@ -78,15 +77,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
 
-
-    private EaseUI easeUI;
     private ILoginPresenter loginPresenter;
     private ProgressDialog progressDialog;
     UserModel model;
 
-    private EMConnectionListener connectionListener;
     private static final String TAG = "ChatFragment";
-
 
     private Handler handler = new Handler() {
         @Override
@@ -137,13 +132,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-//        if (DisplayUtil.getSDKInt() > 18) {
-//            int status = DisplayUtil.getStatusHeight(getActivity());
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-//            params.topMargin = status;
-//            toolbar.setLayoutParams(params);
-//        }
-
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -161,30 +149,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
 
-//        registerMessageReceiver();
-
     }
-
-//    public class MessageReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
-//                int unreadNum = intent.getIntExtra("count", 0);
-//                //更新小红点
-//                updateMessage(unreadNum);
-//            }
-//        }
-//    }
-
-//    public void registerMessageReceiver() {
-//        mMessageReceiver = new MessageReceiver();
-//        IntentFilter filter = new IntentFilter();
-//        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-//        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
-//        registerReceiver(mMessageReceiver, filter);
-//
-//    }
 
     @Override
     protected void onVisible() {
@@ -195,26 +160,6 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void lazyLoad() {
-//        if ("0".equals(Constants.IS_LOGINIMG)) {
-////            inal String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-////            if (HomeFragment.timer != null) {
-////                HomeFragment.timer.cancel();
-////            }
-//
-////            Log.i(TAG, "hxid = " + hxid + "  model.getHXAccountId() = " + model.getHXAccountId());
-////            if (hxid.equals(model.getHXAccountId())) {
-//
-//           /* } else {
-//                Log.i(TAG, " 环信帐号验证failed ....加载会话列表....");
-//                if ("-1".equals(hxid)) {
-//                    loginPresenter.getEMChatAccount(progressDialog);
-//                }
-//
-//            }*/
-//        } else {
-//
-//        }
-
 
 //返回是否登录过 登录成功过没调logout方法，这个方法的返回值一直是true 如果需要判断当前是否连接到服务器，请使用isConnected()方法
         if (EMClient.getInstance().isLoggedInBefore()) {

@@ -114,11 +114,8 @@ public class HXLoginService extends Service implements Runnable {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     com.github.snowdream.android.util.Log.i("服务自杀====");
-                                    stopSelf();
-
                                     alertDialog = null;
-                                    UserInfoModel.getInstance().loginOut();
-                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
+                                    stopSelf();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -229,6 +226,8 @@ public class HXLoginService extends Service implements Runnable {
                                             com.github.snowdream.android.util.Log.i("退出成功=======");
                                             SharedPreferenceService.getInstance().put("HXID", "-1");
                                             isExit = true;
+                                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(STEP_CLOSE_SELF));
+                                            UserInfoModel.getInstance().loginOut();
                                             handler.sendEmptyMessage(4);
 
                                         }
