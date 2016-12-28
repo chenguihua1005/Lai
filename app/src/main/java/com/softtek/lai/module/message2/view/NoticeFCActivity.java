@@ -274,7 +274,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
                     deleteIndex.clear();
                     for (int i = 0; i < operatList.size(); i++) {
                         operatList.get(i).setSelected(true);
-                        deleteIndex.add(i);
+                        deleteIndex.add(Integer.valueOf(i));
                     }
                 }
                 adapter.notifyDataSetChanged();
