@@ -431,6 +431,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     tuijianModels.addAll(classinfoModel.getListRec());
                                     if (tuijianModels.size() >= 2) {
                                         iv_imagevideo2.setVisibility(View.VISIBLE);
+                                        iv_imagevideo1.setVisibility(View.VISIBLE);
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect)
@@ -461,6 +462,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).into(iv_video1_bg);
+                                        iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent it = new Intent(Intent.ACTION_VIEW);
+                                                it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                                startActivity(it);
+                                            }
+                                        });
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
                                         iv_imagevideo2.setVisibility(View.GONE);
                                     }
@@ -736,7 +745,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(View view) {
                                         Intent it = new Intent(Intent.ACTION_VIEW);
-                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(1).getVideoUrl()), "video/mp4");
                                         startActivity(it);
                                     }
                                 });
@@ -745,6 +754,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 video_name1.setText(tuijianModels.get(0).getTitle());
                                 Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video1_bg);
                                 Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+                                iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent it = new Intent(Intent.ACTION_VIEW);
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        startActivity(it);
+                                    }
+                                });
                             }
                         }
                         //照片墙
