@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -148,6 +149,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost");
+        Log.i("用户的头像是？==="+model.getPhoto());
         if (TextUtils.isEmpty(photo)) {
             Picasso.with(this).load(R.drawable.img_default).into(img);
         } else {

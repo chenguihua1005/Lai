@@ -15,9 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -42,7 +39,6 @@ import com.softtek.lai.utils.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
-import cn.jpush.android.api.JPushInterface;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -156,12 +152,10 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                System.out.println("responseData:" + responseData);
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:
                         UserModel userModel = UserInfoModel.getInstance().getUser();
-                        System.out.println("userName:" + userName);
                         userModel.setNickname(userName);
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((AppCompatActivity) context).finish();
@@ -262,31 +256,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     tv.setEnabled(true);
                 }
                 ZillaApi.dealNetError(error);
-            }
-        });
-    }
-
-    private void HXLoginOut() {
-        EMClient.getInstance().logout(true, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                SharedPreferenceService.getInstance().put("HXID", "-1");
-
-                //开启登录服务
-                context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                // TODO Auto-generated method stub
             }
         });
     }
