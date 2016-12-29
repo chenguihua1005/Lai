@@ -82,12 +82,6 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
     }
 
     @Override
-    public void interceptTouch(boolean touch) {
-
-    }
-
-
-    @Override
     public void addclass() {
         getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
     }

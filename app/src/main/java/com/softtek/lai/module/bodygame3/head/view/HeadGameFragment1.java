@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -474,10 +473,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     no_photowalll.setVisibility(View.GONE);
                                     ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                                     if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-
                                         photos.clear();
+                                        viewPager.removeAllViews();
+                                        photos.addAll(zhaopianModel.getPhotoThumbnailList());
                                         pageradapter.notifyDataSetChanged();
-                                        adapterData();
+                                        //adapterData();
                                     } else {
                                         rl_container.setVisibility(View.GONE);
                                         no_photowalll.setVisibility(View.VISIBLE);
@@ -800,7 +800,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
-        viewPager.setAdapter(new PagerAdapter() {
+        pageradapter=new PagerAdapter() {
             @Override
             public int getCount() {
                 return photos.size();
@@ -831,7 +831,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
                     }
                 });
-                container.addView(imageView, position);
+                container.addView(imageView);
                 return imageView;
             }
 
@@ -841,16 +841,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             }
 
             @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
+
+            @Override
             public float getPageWidth(int position) {
                 return super.getPageWidth(position);
             }
-        });
+        };
+        viewPager.setAdapter(pageradapter);
     }
 
 
     public interface DeleteClass {
         void deletClass();
-
-        void interceptTouch(boolean touch);
     }
 }
