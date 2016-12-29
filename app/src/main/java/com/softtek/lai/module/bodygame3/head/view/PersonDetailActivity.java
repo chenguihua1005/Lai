@@ -306,9 +306,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             fl_right.setVisibility(View.VISIBLE);
                         }
                     }
-                    im_guanzhu.setVisibility(View.GONE);
+//                    im_guanzhu.setVisibility(View.GONE);
 
                 } else {
+                    im_guanzhu.setVisibility(View.VISIBLE);
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
