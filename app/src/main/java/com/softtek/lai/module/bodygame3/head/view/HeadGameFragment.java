@@ -167,11 +167,11 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-//         dialogShow("");
+
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
-//                dialogDissmiss();
+
                 try {
                     pull.setRefreshing(false);
                     if (headModel2ResponseData.getData() != null) {

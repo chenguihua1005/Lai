@@ -14,4 +14,12 @@ public class PhotoModel implements Serializable {
 
     public String Img;
     public String ThubImg;
+
+    @Override
+    public String toString() {
+        return "PhotoModel{" +
+                "Img='" + Img + '\'' +
+                ", ThubImg='" + ThubImg + '\'' +
+                '}';
+    }
 }
