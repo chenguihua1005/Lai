@@ -122,8 +122,8 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                     String path = AddressManager.get("photoHost");
                     if (StringUtils.isNotEmpty(data.getActivityTypeIcon())) {
                         Log.e("address", path + data.getActivityTypeIcon());
-                        Picasso.with(CreateActActivity.this).load(path + data.getActivityTypeIcon()).fit().error(R.drawable.img_default)
-                                .placeholder(R.drawable.img_default).into(image);
+                        Picasso.with(CreateActActivity.this).load(path + data.getActivityTypeIcon()).fit().error(R.drawable.default_icon_square)
+                                .placeholder(R.drawable.default_icon_square).into(image);
                     }
 
                 }
