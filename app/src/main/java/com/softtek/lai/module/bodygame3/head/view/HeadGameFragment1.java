@@ -296,6 +296,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 saveclassModel.setClassId(classModels.get(i).getClassId());
                 saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
+                page=1;
                 classinfo(classId_first, classnum);
 
             }
@@ -357,17 +358,21 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         partneradapter.notifyItemRemoved(partneradapter.getItemCount());
                         if (200 == partnersModelResponseData.getStatus()) {
                             PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
-                            if (partnertotalModel.getPartnersList() != null) {
+                            if (partnertotalModel.getPartnersList() != null&&!partnertotalModel.getPartnersList().isEmpty()) {
                                 partnersModels.addAll(partnertotalModel.getPartnersList());
                                 partneradapter.notifyDataSetChanged();
+                            }else {
+                                page--;
                             }
                         } else {
+                            page--;
                             Util.toastMsg(partnersModelResponseData.getMsg());
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        page--;
                         isLoading = false;
                         partneradapter.notifyItemRemoved(partneradapter.getItemCount());
                         super.failure(error);
@@ -784,7 +789,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     e.printStackTrace();
 
                 }
-
             }
 
             @Override
@@ -808,7 +812,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
-        pageradapter=new PagerAdapter() {
+        pageradapter = new PagerAdapter() {
             @Override
             public int getCount() {
                 return photos.size();

@@ -730,13 +730,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         }else {
             gettodaydata(saveclassModel.getDates());
         }
-
-//
-//        if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-
-
-//        }
-
     }
 
 
