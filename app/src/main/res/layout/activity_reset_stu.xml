@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_reset_stu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.softtek.lai.module.bodygame3.activity.view.ResetStuActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/iv_write_head"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/img_default" />
+
+            <ImageView
+                android:id="@+id/iv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/norest"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:id="@+id/tv_stuname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="会飞的喵"
+                android:textColor="@color/comment_content"
+                android:textSize="15dp"
+                android:layout_alignBaseline="@+id/tv_weeks"
+                android:layout_alignBottom="@+id/tv_weeks"
+                android:layout_toEndOf="@+id/iv_write_head" />
+
+            <TextView
+                android:id="@+id/tv_weeks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(第四周)"
+                android:textColor="@color/word5"
+                android:textSize="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tv_stuname" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
