@@ -3,6 +3,7 @@
     android:id="@+id/pull"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAFAFA"
     android:addStatesFromChildren="true">
 
     <ScrollView
@@ -15,19 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--<android.support.design.widget.CoordinatorLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#F2F2F2"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<android.support.design.widget.AppBarLayout-->
-            <!--android:id="@+id/appbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--app:elevation="0dp">-->
 
             <include layout="@layout/toolbar_bodygame2" />
 
@@ -155,32 +143,5 @@
 
         </LinearLayout>
     </ScrollView>
-    <!--</android.support.design.widget.AppBarLayout>-->
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/frame_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:id="@+id/scrollview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:text="" />-->
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/list_activity"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_marginRight="10dp" />-->
-    <!--</FrameLayout>-->
-    <!--</android.support.design.widget.CoordinatorLayout>-->
 </com.softtek.lai.widgets.MySwipRefreshView>

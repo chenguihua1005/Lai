@@ -784,7 +784,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     e.printStackTrace();
 
                 }
-
             }
 
             @Override
@@ -808,7 +807,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
-        pageradapter=new PagerAdapter() {
+        pageradapter = new PagerAdapter() {
             @Override
             public int getCount() {
                 return photos.size();
