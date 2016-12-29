@@ -168,7 +168,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
     private boolean isLoading = false;
-    private List<ImageView> views = new ArrayList<>();
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -691,7 +690,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
                                 jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                             } else {
-                                jianzhongbi_tv.setText("总减重比" + " %");
+                                jianzhongbi_tv.setText("总减重比 %");
                             }
                             student_tv.setText(rongyuModel.getStuName());
 
@@ -705,12 +704,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                                 student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
                             } else {
-                                student_jianzhong.setText("减重比" + " %");
+                                student_jianzhong.setText("减重比 %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                 student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
                             } else {
-                                student_jianzhi.setText("减脂比" + " %");
+                                student_jianzhi.setText("减脂比 %");
                             }
                         }
 
