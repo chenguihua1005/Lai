@@ -43,7 +43,6 @@ import com.softtek.lai.module.bodygame3.head.model.PartnertotalModel;
 import com.softtek.lai.module.bodygame3.head.model.RongyuModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.head.model.TuijianModel;
-import com.softtek.lai.module.bodygame3.head.model.TypeModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
@@ -159,7 +158,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private ArrayList<String> photos = new ArrayList<>();
 
     private ListRecyclerAdapter partneradapter;
-    private List<TypeModel> datas = new ArrayList<>();
+
     private int lastVisitableItem;
     private DeleteClass deleteClass;
     private static final int LOADCOUNT = 10;
@@ -245,12 +244,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         viewPager.setPageMargin(10);
         refresh.setRefreshing(true);
         onRefresh();//获取初始数据
-        TypeModel model1 = new TypeModel(0, "按减重斤数");//0
-        datas.add(model1);
-        TypeModel model2 = new TypeModel(1, "按减重比");//1
-        datas.add(model2);
-        TypeModel model3 = new TypeModel(2, "按体脂比");//2
-        datas.add(model3);
         spinner_title.attachDataSource(dataset); //类型（体重比，体脂，减重比）
         typecode = 0;
         partneradapter.setType(typecode);
@@ -533,8 +526,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             case R.id.re_photowall:
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
                 photowall.putExtra("classId", classId_first);
-//                startActivity(photowall);
-                startActivityForResult(photowall, 001);
+                startActivityForResult(photowall, 1);
                 break;
             case R.id.honor_lin:
                 Intent honor = new Intent(getContext(), HonorActivity.class);
@@ -549,7 +541,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 001) {
+            if (requestCode == 1) {
                 if (saveclassModel != null) {
                     classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
                 } else {
