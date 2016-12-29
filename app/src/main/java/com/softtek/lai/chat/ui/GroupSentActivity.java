@@ -43,6 +43,7 @@ import com.hyphenate.util.PathUtil;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.widgets.PopUpWindow.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -172,6 +173,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EaseConstant.IS_GROUP_SENT = "true";
+    }
+
     /**
      * 隐藏软键盘
      */
@@ -298,10 +305,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         public void onClick(int itemId, View view) {
             switch (itemId) {
                 case ITEM_TAKE_PICTURE: // 拍照
-                    selectPicFromCamera();
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
+//                    selectPicFromCamera();
                     break;
                 case ITEM_PICTURE:
-                    selectPicFromLocal(); // 图库选择图片
+//                    selectPicFromLocal(); // 图库选择图片
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
                     break;
                 case ITEM_LOCATION: // 位置
                     //startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
