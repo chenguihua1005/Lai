@@ -1,5 +1,6 @@
 <com.softtek.lai.widgets.MySwipRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:Android="http://schemas.android.com/tools"
     android:id="@+id/pull"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -269,7 +270,7 @@
                         android:layout_height="100dp"
                         android:layout_weight="1">
 
-                        <ImageView
+                        <com.softtek.lai.widgets.RoundImageView
                             android:id="@+id/iv_video1_bg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -304,7 +305,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <com.softtek.lai.widgets.RoundImageView
                             android:id="@+id/iv_video2_bg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -373,6 +374,7 @@
 
                 <com.softtek.lai.widgets.MyRelative
                     android:id="@+id/rl_container"
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -384,16 +386,7 @@
                         android:layout_height="100dp"
                         android:clipChildren="false" />
                 </com.softtek.lai.widgets.MyRelative>
-                <!--<com.softtek.lai.widgets.HorizontalListView-->
-                <!--android:id="@+id/photos"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:background="@color/white"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:visibility="gone">-->
 
-                <!--</com.softtek.lai.widgets.HorizontalListView>-->
                 <TextView
                     android:id="@+id/no_photowalll"
                     android:layout_width="match_parent"
@@ -429,14 +422,17 @@
 
                 <com.ggx.widgets.nicespinner.NiceSpinner
                     android:id="@+id/spinner_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
+                    Android:background="#74BB2A"
                     android:layout_marginRight="10dp"
-                    android:gravity="right"
+                    android:maxLines="1"
+                    android:gravity="center"
                     android:textSize="13sp"
+
                     app:textTint="@color/word" />
 
                 <ImageView

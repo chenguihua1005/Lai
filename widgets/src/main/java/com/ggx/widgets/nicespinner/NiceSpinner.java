@@ -131,6 +131,7 @@ public class NiceSpinner extends TextView {
         listView.setId(getId());
         listView.setDivider(null);
         listView.setItemsCanFocus(true);
+        listView.setBackgroundResource(R.color.green);
         //hide vertical and horizontal scrollbars
         listView.setVerticalScrollBarEnabled(false);
         listView.setHorizontalScrollBarEnabled(false);
@@ -163,11 +164,15 @@ public class NiceSpinner extends TextView {
         popupWindow = new PopupWindow(context);
         popupWindow.setContentView(listView);
         popupWindow.setOutsideTouchable(true);
+
+//        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
+//        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(DEFAULT_ELEVATION);
             popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
-        } else {
+        }
+        else {
             popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.drop_down_shadow));
         }
 
@@ -203,7 +208,7 @@ public class NiceSpinner extends TextView {
 
     /**
      * Set the default spinner item using its index
-     * 
+     *
      * @param position the item's position
      */
     public void setSelectedIndex(int position) {
@@ -231,7 +236,7 @@ public class NiceSpinner extends TextView {
         setAdapterInternal(adapter);
     }
 
-    public void  attachCustomSource(BaseAdapter adapter){
+    public void attachCustomSource(BaseAdapter adapter) {
         selectedIndex = 0;
         listView.setAdapter(adapter);
         //setText(adapter.getItemInDataset(selectedIndex).toString());
@@ -250,10 +255,10 @@ public class NiceSpinner extends TextView {
     }
 
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+//        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150,getResources().getDisplayMetrics()));
+        popupWindow.setWidth(View.MeasureSpec.getSize(widthMeasureSpec));
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

@@ -281,6 +281,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             if(requestCode==OPEN_PREVIEW){
                 int position= data.getIntExtra("position", 0);
                 images.remove(position);
+                limit++;
                 if(images.get(images.size()-1).getImage()!=null){
                     images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.add_img_icon)));
                 }

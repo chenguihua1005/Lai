@@ -14,20 +14,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
@@ -53,16 +50,12 @@ import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.HorizontalListView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MyRelative;
 import com.softtek.lai.widgets.MySwipRefreshView;
-import com.softtek.lai.widgets.MyViewPager;
-import com.softtek.lai.widgets.SquareImageView;
-import com.softtek.lai.widgets.WrapRelativeLayout;
+import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -140,8 +133,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     HeadService service;
     @InjectView(R.id.iv_right)
     ImageView iv_right;
-//    @InjectView(R.id.photos)
-//    HorizontalListView grid_list;
+
 
     @InjectView(R.id.viewpager)
     ViewPager viewPager;
@@ -165,7 +157,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private String classId_first;
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
-    EasyAdapter<String> adapter;
+
     private ListRecyclerAdapter partneradapter;
     private List<TypeModel> datas = new ArrayList<>();
     private int lastVisitableItem;
@@ -176,7 +168,6 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
     private boolean isLoading = false;
-    private List<ImageView> views = new ArrayList<>();
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -243,34 +234,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 lastVisitableItem = llm.findLastVisibleItemPosition();
             }
         });
-//        viewPager.setOffscreenPageLimit(7);
-//        viewPager.setAdapter(new PagerAdapter() {
-//            @Override
-//            public int getCount() {
-//                return 8;
-//            }
-//
-//            @Override
-//            public boolean isViewFromObject(View view, Object object) {
-//                return (view == object);
-//            }
-//
-//            @Override
-//            public Object instantiateItem(ViewGroup container, int position) {
-//                ImageView imageView =  new ImageView(getActivity());
-//                imageView.setImageResource(R.drawable.ic_launcher);
-//                ViewPager.LayoutParams lp = new ViewPager.LayoutParams();
-//                lp.width = DisplayUtil.dip2px(getContext(),100);
-//                lp.height = 100;
-//                imageView.setLayoutParams(lp);
-//                container.addView(imageView,position);
-//                return imageView;
-//            }
-//            @Override
-//            public void destroyItem(ViewGroup container, int position, Object object) {
-//                container.removeView((ImageView)object);
-//            }
-//        });
+
     }
 
     @Override
@@ -343,25 +307,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             }
         });
-//        adapter = new EasyAdapter<String>(getContext(), photos, R.layout.grid_list) {
-//            @Override
-//            public void convert(ViewHolder holder, String data, int position) {
-//                SquareImageView iv_grid = holder.getView(R.id.iv_grid);
-//                Picasso.with(getContext()).load(path + data).placeholder(R.drawable.default_icon_rect)
-//                        .error(R.drawable.default_icon_rect).into(iv_grid);
-//            }
-//        };
-//        grid_list.setAdapter(adapter);
-//        grid_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent in = new Intent(getContext(), PictureMoreActivity.class);
-//                in.putStringArrayListExtra("images", photos);
-//                in.putExtra("position", i);
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-//                ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
-//            }
-//        });
+
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -484,6 +430,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 if (classinfoModel.getListRec() != null) {
                                     tuijianModels.addAll(classinfoModel.getListRec());
                                     if (tuijianModels.size() >= 2) {
+                                        iv_imagevideo2.setVisibility(View.VISIBLE);
+                                        iv_imagevideo1.setVisibility(View.VISIBLE);
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect)
@@ -514,7 +462,16 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).into(iv_video1_bg);
+                                        iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent it = new Intent(Intent.ACTION_VIEW);
+                                                it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                                startActivity(it);
+                                            }
+                                        });
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+                                        iv_imagevideo2.setVisibility(View.GONE);
                                     }
 
                                 }
@@ -524,10 +481,11 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     no_photowalll.setVisibility(View.GONE);
                                     ZhaopianModel zhaopianModel = classinfoModel.getPhotoWall();
                                     if (zhaopianModel.getPhotoThumbnailList() != null && !zhaopianModel.getPhotoThumbnailList().isEmpty()) {
-
                                         photos.clear();
+                                        viewPager.removeAllViews();
+                                        photos.addAll(zhaopianModel.getPhotoThumbnailList());
                                         pageradapter.notifyDataSetChanged();
-                                        adapterData();
+                                        //adapterData();
                                     } else {
                                         rl_container.setVisibility(View.GONE);
                                         no_photowalll.setVisibility(View.VISIBLE);
@@ -632,13 +590,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                if (model.getClassId().equals(clazz.getModel().getClassId())) {
                     this.classModels.remove(model);
-                    tv_title.getAdapter().notifyDataSetChanged();
                     break;
                 }
             }
-
+            tv_title.getAdapter().notifyDataSetChanged();
             if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
             } else {
@@ -742,7 +699,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
                                 jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                             } else {
-                                jianzhongbi_tv.setText("总减重比" + " %");
+                                jianzhongbi_tv.setText("总减重比 %");
                             }
                             student_tv.setText(rongyuModel.getStuName());
 
@@ -756,17 +713,18 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                             if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
                                 student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
                             } else {
-                                student_jianzhong.setText("减重比" + " %");
+                                student_jianzhong.setText("减重比 %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
                                 student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
                             } else {
-                                student_jianzhi.setText("减脂比" + " %");
+                                student_jianzhi.setText("减脂比 %");
                             }
                         }
 
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
+                            tuijianModels.clear();
                             tuijianModels.addAll(classinfoModel.getListRec());
                             if (tuijianModels.size() >= 2) {
                                 video_type1.setText(tuijianModels.get(0).getVideoType());
@@ -787,7 +745,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(View view) {
                                         Intent it = new Intent(Intent.ACTION_VIEW);
-                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(1).getVideoUrl()), "video/mp4");
                                         startActivity(it);
                                     }
                                 });
@@ -796,6 +754,14 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                                 video_name1.setText(tuijianModels.get(0).getTitle());
                                 Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video1_bg);
                                 Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+                                iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent it = new Intent(Intent.ACTION_VIEW);
+                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
+                                        startActivity(it);
+                                    }
+                                });
                             }
                         }
                         //照片墙
@@ -845,14 +811,12 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
     private int px;
 
     private void adapterData() {
-        px = getResources().getDisplayMetrics().widthPixels / 4;
-        com.github.snowdream.android.util.Log.i("px" + px);
+        px = (getResources().getDisplayMetrics().widthPixels * 2) / 9;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
         params.width = px;
         params.height = px;
         viewPager.setLayoutParams(params);
-//        pageradapter.notifyDataSetChanged();
-        viewPager.setAdapter(new PagerAdapter() {
+        pageradapter=new PagerAdapter() {
             @Override
             public int getCount() {
                 return photos.size();
@@ -865,7 +829,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
 
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
-                ImageView imageView = new ImageView(getContext());
+                RoundImageView imageView = new RoundImageView(getContext());
                 ViewPager.LayoutParams params = new ViewPager.LayoutParams();
                 params.width = px;
                 params.height = px;
@@ -883,7 +847,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                         ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
                     }
                 });
-                container.addView(imageView, position);
+                container.addView(imageView);
                 return imageView;
             }
 
@@ -893,16 +857,20 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             }
 
             @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
+
+            @Override
             public float getPageWidth(int position) {
                 return super.getPageWidth(position);
             }
-        });
+        };
+        viewPager.setAdapter(pageradapter);
     }
 
 
     public interface DeleteClass {
         void deletClass();
-
-        void interceptTouch(boolean touch);
     }
 }

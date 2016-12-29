@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -90,6 +92,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
                         EventBus.getDefault().post(userResponseData.getData());
+                        Util.toastMsg("认证成功");
                         break;
                     default:
                         if (progressDialog != null) {
@@ -200,19 +203,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-                        UserModel model = userResponseData.getData();
+                        final UserModel model = userResponseData.getData();
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
                         SharedPreferenceService.getInstance().put(Constants.USER, userName);
                         SharedPreferenceService.getInstance().put(Constants.PDW, password);
-                        //检查是否存在环信帐号
-                        if (!TextUtils.isEmpty(model.getHXAccountId())) {
-                            //开启登录服务
-                            context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
-                        }
+
+                        //开启登录服务
+                        context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
                         //如果用户加入了跑团
                         if ("1".equals(model.getIsJoin())) {
                             stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));
@@ -266,6 +266,32 @@ public class LoginPresenterImpl implements ILoginPresenter {
         });
     }
 
+    private void HXLoginOut() {
+        EMClient.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                SharedPreferenceService.getInstance().put("HXID", "-1");
+
+                //开启登录服务
+                context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                // TODO Auto-generated method stub
+            }
+        });
+    }
+
+
     private void stepDeal(Context context, String userId, long step) {
         //获取用户最新的步数
         int currentStep = StepUtil.getInstance().getCurrentStep(userId);
@@ -289,33 +315,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
-        /*if(!steps.isEmpty()){
-            UserStep stepEnd=steps.get(steps.size()-1);
-            int currentStep= (int) (stepEnd.getStepCount());
-            if(step>currentStep){
-                //如果服务器上的步数大于本地
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(step);
-                StepUtil.getInstance().saveStep(userStep);
-            }else{
-                //如果本地大于服务器的
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(currentStep);
-                StepUtil.getInstance().saveStep(userStep);
-            }
-            //如果不大于则 不需要操作什么
-        }else{
-            //本地没有数据则写入本地
-            UserStep serverStep=new UserStep();
-            serverStep.setAccountId(Long.parseLong(userId));
-            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            serverStep.setStepCount(step);
-            StepUtil.getInstance().saveStep(serverStep);
-        }*/
+
     }
 
     @Override

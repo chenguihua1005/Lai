@@ -72,7 +72,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(ContactsActivity.this, BodyGameActivity.class);
-                    intent.putExtra("tab",4);
+                    intent.putExtra("type",4);
                     startActivity(intent);
                 }
             });
@@ -210,7 +210,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:{
                 Intent intent=new Intent(this, BodyGameActivity.class);
-                intent.putExtra("tab",4);
+                intent.putExtra("type",4);
                 startActivity(intent);
             }
                 break;

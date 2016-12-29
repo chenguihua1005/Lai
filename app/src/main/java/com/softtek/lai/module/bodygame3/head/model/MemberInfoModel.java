@@ -28,6 +28,15 @@ public class MemberInfoModel {
     private String CurttentImg;//目前体重图
     private String CurttentThImg;//目前体重缩略图
     private String PersonalityName;//个人签名
+    private int IsSendFriend;//是否已发送好友请求（1：是）
+
+    public int getIsSendFriend() {
+        return IsSendFriend;
+    }
+
+    public void setIsSendFriend(int isSendFriend) {
+        IsSendFriend = isSendFriend;
+    }
 
     public long getAccountid() {
         return Accountid;

@@ -7,10 +7,7 @@ package com.softtek.lai.module.login.presenter;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by jerry.guan on 3/3/2016.

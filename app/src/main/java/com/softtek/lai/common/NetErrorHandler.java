@@ -95,32 +95,20 @@ public class NetErrorHandler implements IApiErrorHandler {
                         Log.i("return code=====" + customCode);
                         switch (customCode) {
                             case 401:
-//                                if (HomeFragment.timer != null) {
-//                                    HomeFragment.timer.cancel();
-//                                }
                                 SharedPreferenceService.getInstance().put("HXID", "-1");
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+                                UserInfoModel.getInstance().loginOut();
                                 if (EMClient.getInstance().isLoggedInBefore()) {
-                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
-
                                     EMClient.getInstance().logout(true, new EMCallBack() {
+                                        @Override
+                                        public void onSuccess() {}
 
                                         @Override
-                                        public void onSuccess() {
-                                            // TODO Auto-generated method stub
-
-                                        }
+                                        public void onProgress(int progress, String status) {}
 
                                         @Override
-                                        public void onProgress(int progress, String status) {
-                                            // TODO Auto-generated method stub
-
-                                        }
-
-                                        @Override
-                                        public void onError(int code, String message) {
-                                            // TODO Auto-generated method stub
-
-                                        }
+                                        public void onError(int code, String message) {}
                                     });
                                 }
                                 if (builder == null || !builder.isShowing()) {
@@ -130,8 +118,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     //builder = null;
-                                                    UserInfoModel.getInstance().loginOut();
-                                                    LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                                                     Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

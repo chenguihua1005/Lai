@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,9 +71,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     @InjectView(R.id.button)
     Button button;
     @InjectView(R.id.pc_tv)//教练，助教，学员
-    TextView pc_tv;
+            TextView pc_tv;
     @InjectView(R.id.sp_tv)//总教练
-    TextView sp_tv;
+            TextView sp_tv;
     @InjectView(R.id.classed_tv)
     TextView classed_tv;
     @InjectView(R.id.ll_left)
@@ -166,9 +167,11 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
+//         dialogShow("");
         service.getsecond(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HeadModel2>>() {
             @Override
             public void success(ResponseData<HeadModel2> headModel2ResponseData, Response response) {
+//                dialogDissmiss();
                 try {
                     pull.setRefreshing(false);
                     if (headModel2ResponseData.getData() != null) {
@@ -191,8 +194,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
             @Override
             public void failure(RetrofitError error) {
+//                dialogDissmiss();
                 try {
-                    pull.setRefreshing(false);
+                      pull.setRefreshing(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

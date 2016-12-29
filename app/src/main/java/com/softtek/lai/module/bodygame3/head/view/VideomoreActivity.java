@@ -26,6 +26,7 @@ import com.softtek.lai.module.bodygame3.head.model.VideoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,23 +62,36 @@ public class VideomoreActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
+        dialogShow("数据载入");
         ZillaApi.NormalRestAdapter.create(HeadService.class).getvideo(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<VideoModel>>>() {
             @Override
             public void success(ResponseData<List<VideoModel>> listResponseData, Response response) {
-                videoModels.clear();
-                if (200 == listResponseData.getStatus()) {
-                    if (listResponseData.getData() != null) {
-                        videoModels.addAll(listResponseData.getData());
-                        adapter.notifyDataSetChanged();
+                try {
+                    dialogDissmiss();
+                    videoModels.clear();
+                    if (200 == listResponseData.getStatus()) {
+                        if (listResponseData.getData() != null) {
+                            videoModels.addAll(listResponseData.getData());
+                            adapter.notifyDataSetChanged();
+                        }
                     } else {
                         Util.toastMsg(listResponseData.getMsg());
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+                try {
+                    dialogDissmiss();
+                    super.failure(error);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
             }
         });
         adapter = new EasyAdapter<VideoModel>(this, videoModels, R.layout.grid_video) {

@@ -6,28 +6,47 @@
 package com.softtek.lai.widgets;
 
 import android.content.Context;
-import android.graphics.*;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class CircleImageView extends ImageView {
+import com.softtek.lai.R;
+
+public class RoundImageView extends ImageView {
 
     private int width;
     private int height;
+    private float raduis;
 
-    public CircleImageView(Context context) {
+    public RoundImageView(Context context) {
         super(context);
+        init(context,null);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public RoundImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context,attrs);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context,attrs);
+    }
+
+    private void init(Context context,AttributeSet attrs){
+        TypedArray ta=context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
+        raduis=ta.getDimension(R.styleable.RoundImageView_raduis,10);
+        ta.recycle();
     }
 
     @Override
@@ -81,8 +100,8 @@ public class CircleImageView extends ImageView {
         mCanvas.drawARGB(0, 0, 0, 0);
         paint.setColor(Color.WHITE);
 
-        mCanvas.drawCircle(bmpCircle.getWidth() / 2, bmpCircle.getHeight() / 2, bmpCircle.getWidth() / 2, paint);
-
+        //mCanvas.drawCircle(bmpCircle.getWidth() / 2, bmpCircle.getHeight() / 2, bmpCircle.getWidth() / 2, paint);
+        mCanvas.drawRoundRect(rectF,raduis,raduis,paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         mCanvas.drawBitmap(bmp, null, rectF, paint);
 
@@ -112,4 +131,8 @@ public class CircleImageView extends ImageView {
         return bmp;
     }
 
+    public void setRaduis(float raduis) {
+        this.raduis = raduis;
+        postInvalidate();
+    }
 }

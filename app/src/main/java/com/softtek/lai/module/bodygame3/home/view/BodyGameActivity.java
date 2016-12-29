@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -195,7 +195,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = intent.getIntExtra("tab", 0);
+        int type = intent.getIntExtra("type", 0);
         current = type;
         Log.i("消息中心发来通知");
         if (content != null) {
@@ -272,6 +272,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         super.onResume();
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+            Log.i("onResume 获取还信未读消息="+unreadNum);
             updateMessage(unreadNum);
         }
     }
@@ -287,16 +288,16 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        //filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_CHAT_ACTION);
         registerReceiver(mMessageReceiver, filter);
-
     }
 
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.i(getClass().getCanonicalName()+"接收到还信的消息");
             if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
                 int unreadNum = intent.getIntExtra("count", 0);
                 Log.i(TAG, "收到未读消息数= " + unreadNum);

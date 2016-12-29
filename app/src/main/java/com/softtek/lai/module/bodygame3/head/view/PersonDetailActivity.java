@@ -3,6 +3,8 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -36,6 +38,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.picture.view.PictureActivity;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -73,8 +76,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-
-
     HeadService headService;
 
     Long userid;
@@ -87,9 +88,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.re_hlist_dy)
     RelativeLayout re_hlist_dy;
     @InjectView(R.id.cir_userimg)//用户id
-    CircleImageView cir_userimg;
+            CircleImageView cir_userimg;
     @InjectView(R.id.tv_stuname)//用户名
-    TextView tv_stuname;
+            TextView tv_stuname;
     @InjectView(R.id.tv_personlityName)
     TextView tv_personlityName;//个性签名
     @InjectView(R.id.tv_angle)
@@ -136,8 +137,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String AFriendId;//好友关系id
     private String ClassId;
     ArrayList<String> images = new ArrayList<>();
-
+    private int issendFriend = 0;
+    ;//
     private static final int GET_Sian = 1;//发布签名
+    private String IsFriend;//是否是好友
 
     @Override
     protected void initViews() {
@@ -194,7 +197,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         btn_addguy.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         tv_personlityName.setOnClickListener(this);
-        if(AccountId==UserInfoModel.getInstance().getUserId()){
+        if (AccountId == UserInfoModel.getInstance().getUserId()) {
             cir_userimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -255,7 +258,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        if(AccountId==UserInfoModel.getInstance().getUserId()){
+        if (AccountId == UserInfoModel.getInstance().getUserId()) {
             String path = AddressManager.get("photoHost");
             UserModel model = UserInfoModel.getInstance().getUser();
             if (!TextUtils.isEmpty(model.getPhoto())) {
@@ -278,7 +281,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
                     Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
-                tv_stuname.setText(memberInfoModel.getUserName());//用户名
+                if (!TextUtils.isEmpty(memberInfoModel.getUserName())) {
+                    tv_stuname.setText(memberInfoModel.getUserName());//用户名
+                }
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
@@ -301,9 +306,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             fl_right.setVisibility(View.VISIBLE);
                         }
                     }
-                    im_guanzhu.setVisibility(View.GONE);
+//                    im_guanzhu.setVisibility(View.GONE);
 
                 } else {
+                    im_guanzhu.setVisibility(View.VISIBLE);
                     //个性签名
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
@@ -318,16 +324,29 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     {
                         ll_chart.setVisibility(View.VISIBLE);
                     }
-                    if ("1".equals(memberInfoModel.getIsFriend()))//如果是好友，显示发起聊天
+                    issendFriend = memberInfoModel.getIsSendFriend();
+                    IsFriend = memberInfoModel.getIsFriend();
+                    if ("1".equals(IsFriend))//如果是好友，显示发起聊天
                     {
                         btn_chat.setVisibility(View.VISIBLE);
                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
                         fl_right.setVisibility(View.VISIBLE);
                     } else {//不是好友，可发起临时会话，显示添加好友
-                        btn_chat.setVisibility(View.VISIBLE);
-                        btn_chat.setText("发起临时会话");
-                        btn_addguy.setVisibility(View.VISIBLE);
-                        iv_email.setVisibility(View.INVISIBLE);
+                        if (issendFriend > 0) {//如果大于0，则为已发送过该好友请求
+                            btn_chat.setVisibility(View.VISIBLE);
+                            btn_chat.setText("发起临时会话");
+                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                            btn_addguy.setText("待确认");
+                            btn_addguy.setTextColor(this.getResources().getColor(R.color.white));
+                            btn_addguy.setBackground(this.getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                            iv_email.setVisibility(View.INVISIBLE);
+                        } else {
+                            btn_chat.setVisibility(View.VISIBLE);
+                            btn_chat.setText("发起临时会话");
+                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                            iv_email.setVisibility(View.INVISIBLE);
+                        }
+
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
@@ -349,8 +368,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" :"初始体重 "+ memberInfoModel.getInitWeight()+"斤");//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 "+memberInfoModel.getCurrentWeight()+"斤");//现在体重
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
 
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
@@ -435,8 +454,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.btn_addguy://添加好友
-                //参数为要添加的好友的username和添加理由
-                sentFriendApply();
+                if ("0".equals(IsFriend)) {//0:不是好友
+                    if (issendFriend > 0) {//未发送过好友申请
+                        Util.toastMsg("您已发送过好友申请，请等待确认");
+                        return;
+                    } else {
+                        //参数为要添加的好友的username和添加理由
+                        sentFriendApply();
+                    }
+                }
+
                 break;
             case R.id.ll_left:
                 finish();
@@ -511,6 +538,14 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             int status = responseData.getStatus();
 
                             if (200 == status) {
+                                issendFriend = 1;
+                                btn_chat.setVisibility(View.VISIBLE);
+                                btn_chat.setText("发起临时会话");
+                                btn_addguy.setVisibility(View.VISIBLE);//添加好友
+                                btn_addguy.setText("待确认");
+                                btn_addguy.setTextColor(getResources().getColor(R.color.white));
+                                btn_addguy.setBackground(getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                                iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -676,9 +711,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent1 = new Intent(this, PictureActivity.class);
+        Log.i("点击进入。。。。。");
+        Intent intent1 = new Intent(this, PictureMoreActivity.class);
         intent1.putExtra("images", images);
         intent1.putExtra("position", i);
-        startActivity(intent1);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
     }
 }

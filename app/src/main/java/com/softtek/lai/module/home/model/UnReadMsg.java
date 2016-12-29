@@ -7,13 +7,8 @@ package com.softtek.lai.module.home.model;
 
 public class UnReadMsg {
 
-    private int Num;
+    public int Num;
+    public int LaiNum;
+    public int TiNum;
 
-    public int getNum() {
-        return Num;
-    }
-
-    public void setNum(int num) {
-        Num = num;
-    }
 }

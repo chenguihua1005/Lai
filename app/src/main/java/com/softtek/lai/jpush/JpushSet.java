@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.softtek.lai.R;
 
@@ -21,7 +20,7 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class JpushSet {
     private Context context;
-    private static final String TAG = "JPush";
+    private static final String TAG = "gagagaggaag";
 
     public JpushSet(Context context) {
         this.context = context;
@@ -54,7 +53,7 @@ public class JpushSet {
                     logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
                     Log.i(TAG, logs);
                     if (isConnected(context)) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 3);
                     } else {
                         Log.i(TAG, "No network");
                     }
@@ -94,7 +93,7 @@ public class JpushSet {
                     logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
                     Log.i(TAG, logs);
                     if (isConnected(context)) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 3);
                     } else {
                         Log.i(TAG, "No network");
                     }
@@ -121,7 +120,7 @@ public class JpushSet {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    Log.d(TAG, "Set alias in handler.");
+                    Log.i(TAG, "Set alias in handler.");
                     JPushInterface.setAliasAndTags(context, (String) msg.obj, null, mAliasCallback);
                     break;
 

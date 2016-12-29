@@ -112,7 +112,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
         switch (view.getId()){
             case R.id.ll_left:{
                 Intent intent=new Intent(this, BodyGameActivity.class);
-                intent.putExtra("tab",4);
+                intent.putExtra("type",4);
                 startActivity(intent);
             }
                 break;
@@ -130,7 +130,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(this, BodyGameActivity.class);
-            intent.putExtra("tab",4);
+            intent.putExtra("type",4);
             startActivity(intent);
             return true;
         }
