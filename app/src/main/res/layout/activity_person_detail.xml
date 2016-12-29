@@ -89,6 +89,7 @@
                     android:button="@null"
                     android:background="@drawable/cb_guanzhuperson_bg"
                     android:checked="false"
+                    android:visibility="gone"
                     />
             </RelativeLayout>
 
