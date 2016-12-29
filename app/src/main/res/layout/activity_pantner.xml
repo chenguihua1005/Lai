@@ -15,14 +15,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F2F2F2">
+
             <RelativeLayout
                 android:id="@+id/pantner_search_bottom"
-                android:layout_width="280dp"
+                android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_toStartOf="@+id/search_btn"
+                android:layout_toStartOf="@+id/search_partner"
                 android:background="@drawable/btn_search"
                 android:visibility="visible">
 
@@ -48,25 +54,25 @@
                     android:singleLine="true"
                     android:textSize="14sp"
 
+
                     />
 
             </RelativeLayout>
 
-        <Button
-            android:id="@+id/search_partner"
-            android:layout_width="55dp"
-            android:layout_height="40dp"
-            android:layout_alignBaseline="@+id/re_search_bottom"
-            android:layout_alignBottom="@+id/re_search_bottom"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:text="搜索"
-            android:background="@drawable/btn_searth"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
+            <Button
+                android:id="@+id/search_partner"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/pantner_search_bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/btn_searth"
+                android:text="搜索"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_alignBottom="@+id/pantner_search_bottom" />
+        </RelativeLayout>
     </LinearLayout>
 
     <ListView
