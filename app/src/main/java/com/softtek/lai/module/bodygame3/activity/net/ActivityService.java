@@ -30,6 +30,7 @@ public interface ActivityService {
             @Header("token") String token,
             @Query("AccountId") long AccountId,
             @Query("ClassId") String ClassId,
+            @Query("date") String date,
             Callback<ResponseData<ActivitydataModel>> callback
     );
 
