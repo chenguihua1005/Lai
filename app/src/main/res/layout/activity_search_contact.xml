@@ -55,6 +55,7 @@
                 android:gravity="center_vertical"
                 android:hint="请输入姓名或手机号进行搜索"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="14sp" />
 
         </RelativeLayout>
