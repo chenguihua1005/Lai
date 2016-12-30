@@ -32,7 +32,7 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_search_contact)
+@InjectLayout(R.layout.activity_search_conversation)
 public class ContactSearchActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = "ContactSearchActivity";
     @InjectView(R.id.ll_left)
