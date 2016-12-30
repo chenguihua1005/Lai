@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -111,7 +110,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     LinearLayout ll_task;
 
     private SaveclassModel saveclassModel;
-    private CalendarMode mode = CalendarMode.WEEKS;
+
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
     private List<CalendarDay> calendarModel_act = new ArrayList<>();
     private List<CalendarDay> calendarModel_create = new ArrayList<>();
@@ -123,8 +122,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
-    private static final int LOADCOUNT = 10;
-    private int page = 1;
+
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
     String str = formatter.format(curDate);
@@ -142,6 +140,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void initViews() {
         saveclassModel = new SaveclassModel();
+        saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -167,7 +166,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         instance1.set(instance1.get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
         Calendar instance2 = Calendar.getInstance();
         instance2.set(instance2.get(Calendar.YEAR) + 1, Calendar.DECEMBER, 31);
-        material_calendar.setSelectionColor(getResources().getColor(R.color.yellow));
+        material_calendar.setSelectionColor(ContextCompat.getColor(getContext(),R.color.yellow));
         material_calendar.state().edit()
                 .setMinimumDate(instance1.getTime())
                 .setMaximumDate(instance2.getTime())
@@ -365,12 +364,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     todayactModels.clear();
                                     todayactModels.addAll(model.getList_Activity());
                                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                    View view = null;
                                     for (int i = 0; i < todayactModels.size(); i++) {
                                         TodayactModel model1 = todayactModels.get(i);
                                         int counts = todayactModels.size();
-                                        view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                         if (ll_task != null) {
+                                            View  view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                             ll_task.addView(view, lp);
                                         }
                                     }
@@ -431,16 +429,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
                     Log.i("数据测验", "复测状态" + tag.resetstatus + "复测日状态" + tag.status + "班级id" + classid + "日期" + tag.date);
-//                    startActivity(fuce);
                     startActivityForResult(fuce, 3);
                 } else {
                     com.github.snowdream.android.util.Log.i("复测按钮的tag=" + tag.toString());
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
-                    String str = classid + tag.status + tag.date;
                     fuce.putExtra("classId", classid);
                     fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
                     fuce.putExtra("typeDate", tag.date);
-//                    startActivity(fuce);
                     startActivityForResult(fuce, 3);
                 }
             }
@@ -853,8 +848,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                             //如果是活动类型
                                             ll_task.removeAllViews();
-                                            if (model.getDateType() == 1 &&
-                                                    activitydataModel != null && !activitydataModel.getList_Activity().isEmpty()) {
+                                            if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
                                                 todayactModels.clear();
 
                                                 //有活动

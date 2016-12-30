@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -66,6 +69,9 @@ public class SearchClassActivity extends BaseActivity implements View.OnClickLis
         tv_title.setText("加入新班级");
         ll_left.setOnClickListener(this);
         search_partner.setOnClickListener(this);
+        SpannableString ss=new SpannableString("请输入班级名称或班级编号");
+        ss.setSpan(new AbsoluteSizeSpan(10,true),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        pantnerContent.setHint(new SpannableString(ss));
     }
 
     @Override
