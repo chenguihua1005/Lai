@@ -581,9 +581,13 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    if (responseData.getStatus() == 200) {
-                                                        photoWallItemModels.remove(data);
-                                                        adapter.notifyDataSetChanged();
+                                                    try {
+                                                        if (responseData.getStatus() == 200) {
+                                                            photoWallItemModels.remove(data);
+                                                            adapter.notifyDataSetChanged();
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
                                                     }
                                                 }
                                             });
