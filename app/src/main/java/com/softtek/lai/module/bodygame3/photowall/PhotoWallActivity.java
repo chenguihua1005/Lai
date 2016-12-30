@@ -664,27 +664,29 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
                     @Override
                     public void success(ResponseData<PhotoWallListModel> photoWallListModelResponseData, Response response) {
-                        ptrlv.onRefreshComplete();
-                        int status = photoWallListModelResponseData.getStatus();
-                        switch (status) {
-                            case 200:
-                                try {
-                                    photoWallListModel = photoWallListModelResponseData.getData();
-                                    if (photoWallListModel != null) {
-                                        if(!photoWallListModel.getPhotoWallslist().isEmpty()){
-                                            photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                            adapter.notifyDataSetChanged();
-                                        }else {
-                                            pageIndex--;
+                        try {
+                            ptrlv.onRefreshComplete();
+                            int status = photoWallListModelResponseData.getStatus();
+                            switch (status) {
+                                case 200:
+
+                                        photoWallListModel = photoWallListModelResponseData.getData();
+                                        if (photoWallListModel != null) {
+                                            if(!photoWallListModel.getPhotoWallslist().isEmpty()){
+                                                photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                                adapter.notifyDataSetChanged();
+                                            }else {
+                                                pageIndex--;
+                                            }
                                         }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            default:
-                                Util.toastMsg(photoWallListModelResponseData.getMsg());
-                                break;
+
+                                    break;
+                                default:
+                                    Util.toastMsg(photoWallListModelResponseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -705,12 +707,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
         if(resultCode== -1&&requestCode==OPEN_SENDER_REQUEST){//result_ok
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrlv.setRefreshing();
-                    }
-                },400);
+                onPullDownToRefresh(null);
         }
 
     }
