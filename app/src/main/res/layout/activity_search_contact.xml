@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/toolbar">
 
         <TextView
@@ -49,6 +49,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_toRightOf="@+id/im_search_bottom"
+                android:imeOptions="actionSearch"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:gravity="center_vertical"
