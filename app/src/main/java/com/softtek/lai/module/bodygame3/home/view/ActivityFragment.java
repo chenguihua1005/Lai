@@ -633,8 +633,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     reset_name.setText("复测录入");
                                                     //学员复测的状态：未复测，未审核，已审核
                                                     BtnTag tag = new BtnTag();
+                                                    tag.role = activitydataModel.getClassRole();
                                                     if (activitydataModel.getRetestStatus() == 2) {//进行中
-                                                        tag.role = activitydataModel.getClassRole();
                                                         tag.status = FUCEING;//复测日状态
                                                         tag.date = now;
                                                         if (activitydataModel.getIsRetest() == 1) {
@@ -802,8 +802,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     reset_name.setText("复测录入");
                                                     //学员复测的状态：未复测，未审核，已审核
                                                     BtnTag tag = new BtnTag();
+                                                    tag.role = activitydataModel.getClassRole();
                                                     if (activitydataModel.getRetestStatus() == 2) {//进行中
-                                                        tag.role = activitydataModel.getClassRole();
                                                         tag.status = FUCEING;//复测日状态
                                                         tag.date = now;
                                                         if (activitydataModel.getIsRetest() == 1) {
