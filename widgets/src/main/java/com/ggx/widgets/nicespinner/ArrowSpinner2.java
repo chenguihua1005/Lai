@@ -189,6 +189,8 @@ public class ArrowSpinner2 extends LinearLayout{
         if(adapter!=null&&adapter.getCount()>5){
             int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 215, getContext().getResources().getDisplayMetrics());
             popupWindow.setHeight(defPopWidthValue);
+        }else {
+            popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
