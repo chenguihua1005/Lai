@@ -615,6 +615,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     public void run() {
                                         pd.dismiss();
                                         Util.toastMsg("删除好友成功");
+                                        finish();
                                     }
                                 });
                             } else {
