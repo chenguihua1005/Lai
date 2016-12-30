@@ -29,6 +29,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassRole;
 import com.softtek.lai.module.message2.model.ApplyConfirm;
 import com.softtek.lai.module.message2.model.ApplyModel;
 import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
 import com.softtek.lai.widgets.CircleImageView;
@@ -137,12 +138,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         model.classId = apply.getClassId();//班级Id
         model.reviewerId = UserInfoModel.getInstance().getUserId();//审核人Id
         tv_apply_name.setText(apply.getApplyName());
-        if (TextUtils.isEmpty(apply.getApplyCert())) {
-            Picasso.with(this).load(R.drawable.img_default).into(head_image);
-        } else {
-            Picasso.with(this).load(AddressManager.get("photoHost")).fit()
+        if (!TextUtils.isEmpty(apply.getApplyPhoto())) {
+            int px= DisplayUtil.dip2px(this,30);
+            Picasso.with(this).load(AddressManager.get("photoHost")+apply.getApplyPhoto())
+                    .resize(px,px)
+                    .centerCrop()
+                    .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
-                    .placeholder(R.drawable.img_default).into(head_image);
+                    .into(head_image);
         }
         tv_phone.setText(apply.getApplyMobile());
         tv_quality.setText(TextUtils.isEmpty(apply.getApplyCert()) ? "未认证" : apply.getApplyCert());

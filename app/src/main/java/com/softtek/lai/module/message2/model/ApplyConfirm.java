@@ -30,6 +30,7 @@ public class ApplyConfirm {
     private List<ClassRole> ClassRoles;
     private String ClassName;
     private String ClassCode;
+    private String ApplyPhoto;
 
     public String getClassGroupId() {
         return ClassGroupId;
@@ -173,6 +174,14 @@ public class ApplyConfirm {
 
     public void setClassRoles(List<ClassRole> classRoles) {
         ClassRoles = classRoles;
+    }
+
+    public String getApplyPhoto() {
+        return ApplyPhoto;
+    }
+
+    public void setApplyPhoto(String applyPhoto) {
+        ApplyPhoto = applyPhoto;
     }
 
     @Override
