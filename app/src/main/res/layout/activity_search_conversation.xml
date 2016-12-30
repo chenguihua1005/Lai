@@ -55,59 +55,12 @@
                 android:hint="请输入姓名或手机号进行搜索"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="14sp" />
 
         </RelativeLayout>
     </RelativeLayout>
 
-    <!--   <LinearLayout
-           android:id="@+id/ll"
-           android:layout_width="match_parent"
-           android:layout_height="50dp"
-           android:layout_below="@id/toolbar"
-           android:background="#e6e6e6"
-           android:orientation="horizontal">
-
-           <RelativeLayout
-               android:layout_width="280dp"
-               android:layout_height="35dp"
-               android:layout_gravity="center|left"
-               android:layout_marginLeft="20dp"
-               android:background="@drawable/border">
-
-               <ImageView
-                   android:id="@+id/iv"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentLeft="true"
-                   android:layout_centerInParent="true"
-                   android:layout_marginLeft="12dp"
-                   android:src="@drawable/contact_search" />
-
-               <EditText
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:layout_marginLeft="7dp"
-                   android:layout_toRightOf="@id/iv"
-                   android:background="@null"
-                   android:hint="请输入姓名或手机号进行搜索"
-                   android:imeOptions="actionSearch"
-                   android:maxLines="1"
-                   android:singleLine="true"
-                   android:textColor="#333333"
-                   android:textColorHint="#57000000"
-                   android:textSize="14sp" />
-
-           </RelativeLayout>
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               android:layout_marginLeft="20dp"
-               android:text="取消"
-               android:textSize="15sp" />
-       </LinearLayout>-->
 
     <ListView
         android:id="@+id/lv"
