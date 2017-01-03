@@ -369,7 +369,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     for (int i = 0; i < todayactModels.size(); i++) {
                                         TodayactModel model1 = todayactModels.get(i);
                                         int counts = todayactModels.size();
-                                        view = new InputView(ActivityFragment.this, model1, counts, saveclassModel.getDates(), classid, classrole);
+                                        view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                         if (ll_task != null) {
                                             ll_task.addView(view, lp);
                                         }
@@ -673,7 +673,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     for (int i = 0; i < todayactModels.size(); i++) {
                                                         TodayactModel model1 = todayactModels.get(i);
                                                         int counts = todayactModels.size();
-                                                        View view = new InputView(ActivityFragment.this, model1, counts, saveclassModel.getDates(), classid, classrole);
+                                                        View view = new InputView(ActivityFragment.this, model1, counts,classid, classrole);
                                                         if (ll_task != null) {
                                                             com.github.snowdream.android.util.Log.i("活动列表。。。。");
                                                             ll_task.addView(view, lp);
@@ -695,7 +695,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
                                                     int counts = todayactModels.size();
-                                                    view = new InputView(ActivityFragment.this, model1, counts, saveclassModel.getDates(), classid, classrole);
+                                                    view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                     if (ll_task != null) {
                                                         ll_task.addView(view, lp);
                                                     }
@@ -842,7 +842,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     for (int i = 0; i < todayactModels.size(); i++) {
                                                         TodayactModel model1 = todayactModels.get(i);
                                                         int counts = todayactModels.size();
-                                                        View view = new InputView(ActivityFragment.this, model1, counts, saveclassModel.getDates(), classid, classrole);
+                                                        View view = new InputView(ActivityFragment.this, model1, counts,  classid, classrole);
                                                         if (ll_task != null) {
                                                             com.github.snowdream.android.util.Log.i("活动列表。。。。");
                                                             ll_task.addView(view, lp);
@@ -864,7 +864,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
                                                     int counts = todayactModels.size();
-                                                    view = new InputView(ActivityFragment.this, model1, counts, saveclassModel.getDates(), classid, classrole);
+                                                    view = new InputView(ActivityFragment.this, model1, counts,classid, classrole);
                                                     if (ll_task != null) {
                                                         ll_task.addView(view, lp);
                                                     }

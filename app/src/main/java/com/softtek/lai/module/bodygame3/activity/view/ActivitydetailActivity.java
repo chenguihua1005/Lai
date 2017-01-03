@@ -100,7 +100,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole", -1);
-        dates = getIntent().getStringExtra("dates");
+
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -131,8 +131,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         });
     }
 
-    String now = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-
     private void getalldetail() {
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactdetail(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
@@ -148,37 +146,51 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.VISIBLE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isLt(dates, now)) {
-                                            signup_activity.setVisibility(View.GONE);
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            delete_activity.setVisibility(View.VISIBLE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        } else {
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.VISIBLE);
-                                            end_tv.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
-                                        }
+
 
                                     }
-                                } else {
+                                } else if (classrole == Constants.COACH) {
                                     if (actdetailModel.getSign()) {
                                         signup_activity.setVisibility(View.GONE);
                                         delete_activity.setVisibility(View.GONE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isLt(dates, now)) {//dates<now
-                                            signup_activity.setVisibility(View.VISIBLE);
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        } else {
-                                            signup_activity.setVisibility(View.VISIBLE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            end_tv.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        }
-
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
+                                    }
+                                } else if (classrole == Constants.ASSISTANT) {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
+                                    }
+                                } else if (classrole == Constants.STUDENT) {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
+                                    }
+                                } else if (classrole == -1) {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        signup_activity.setVisibility(View.VISIBLE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.GONE);
                                     }
                                 }
 
