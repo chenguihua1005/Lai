@@ -5,8 +5,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
-import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.net.RestService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

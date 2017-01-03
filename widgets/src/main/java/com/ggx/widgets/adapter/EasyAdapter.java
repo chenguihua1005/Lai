@@ -3,6 +3,7 @@ package com.ggx.widgets.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -63,5 +64,28 @@ public abstract class EasyAdapter<T> extends BaseAdapter{
         }
         this.datas = datas;
         notifyDataSetChanged();
+    }
+
+    /**
+     * 局部更新数据，调用一次getView()方法；Google推荐的做法
+     *
+     * @param listView 要更新的listview
+     * @param position 要更新的位置
+     */
+    public void notifyDataSetChanged(AbsListView listView, int position) {
+        /**第一个可见的位置**/
+        int firstVisiblePosition = listView.getFirstVisiblePosition();
+        /**最后一个可见的位置**/
+        int lastVisiblePosition = listView.getLastVisiblePosition();
+        /**在看见范围内才更新，不可见的滑动后自动会调用getView方法更新**/
+        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
+            /**获取指定位置view对象,
+             * 通过position-firstVisiblePosition获得，原理在于listView中的view数量未必是adapter中的position数量，
+             * 或许adapter中有20个选项，当前listview中只创建了8个view，
+             * 此时当前listview的的可见范围view是第3个到第6个，我目前需要变更的是第10个item，那么获取到的view就是第7个。
+             */
+            View view = listView.getChildAt(position - firstVisiblePosition);
+            getView(position, view, listView);
+        }
     }
 }

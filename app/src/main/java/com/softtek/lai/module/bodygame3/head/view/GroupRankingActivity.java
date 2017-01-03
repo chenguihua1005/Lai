@@ -118,7 +118,8 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         list_group_ranking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != honorGroupRankModel.getGrouplist().size()) {
+                //不为null&&不让点击FooterView
+                if (honorGroupRankModel != null && i != honorGroupRankModel.getGrouplist().size()) {
                     Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));

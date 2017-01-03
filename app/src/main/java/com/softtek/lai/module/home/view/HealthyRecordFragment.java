@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -29,7 +28,7 @@ import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.home.presenter.HealthyRecordManager;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.retest.model.LaichModel;
+import com.softtek.lai.module.home.model.LaichModel;
 import com.softtek.lai.utils.DateUtil;
 
 import org.apache.commons.lang3.StringUtils;

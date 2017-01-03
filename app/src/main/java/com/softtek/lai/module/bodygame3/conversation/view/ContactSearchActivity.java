@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.conversation.view;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -30,7 +32,7 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_search_contact)
+@InjectLayout(R.layout.activity_search_conversation)
 public class ContactSearchActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = "ContactSearchActivity";
     @InjectView(R.id.ll_left)
@@ -120,10 +122,15 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                ChatContactModel contact = contacts.get(i);
-//                Intent intent = new Intent(ContactSearchActivity.this, InvitationSettingActivity.class);
-//                intent.putExtra("classId", getIntent().getStringExtra("classId"));
-//                startActivity(intent);
+                ChatContactModel model = contacts.get(i);
+                Intent intent = new Intent(ContactSearchActivity.this, PersonDetailActivity.class);
+                intent.putExtra("isFriend", 1);//1： 好友
+                intent.putExtra("AccountId", model.getAccountId());
+                intent.putExtra("HXAccountId", model.getHXAccountId());
+                intent.putExtra("UserName", model.getUserName());
+                intent.putExtra("AFriendId", model.getAFriendId());
+                startActivity(intent);
+
             }
         });
     }

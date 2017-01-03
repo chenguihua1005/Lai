@@ -43,6 +43,7 @@ import com.hyphenate.util.PathUtil;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.widgets.PopUpWindow.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_group_sent_chat)
 public class GroupSentActivity extends BaseActivity implements View.OnClickListener {
-
+    private static final String TAG = "GroupSentActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -170,6 +171,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EaseConstant.IS_GROUP_SENT = "true";
     }
 
     /**
@@ -298,10 +305,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         public void onClick(int itemId, View view) {
             switch (itemId) {
                 case ITEM_TAKE_PICTURE: // 拍照
-                    selectPicFromCamera();
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
+//                    selectPicFromCamera();
                     break;
                 case ITEM_PICTURE:
-                    selectPicFromLocal(); // 图库选择图片
+//                    selectPicFromLocal(); // 图库选择图片
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
                     break;
                 case ITEM_LOCATION: // 位置
                     //startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
@@ -318,43 +327,51 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     //==========================================================================
     protected void sendTextMessage(String content, ChatContactModel model) {
         EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
     protected void sendBigExpressionMessage(String name, String identityCode, ChatContactModel model) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId().toLowerCase(), name, identityCode);
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
     protected void sendVoiceMessage(String filePath, int length, ChatContactModel model) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
     protected void sendImageMessage(String imagePath, ChatContactModel model) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
     protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactModel model) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+
+        Log.i(TAG, "发送人的个人信息 = nickname = " + chatUserModel.getUserName() + " avatarURL = " + chatUserModel.getUserPhone() + " userId = " + chatUserModel.getUserId().toLowerCase());
         if (chatUserModel != null) {
             message.setAttribute("nickname", chatUserModel.getUserName());
             message.setAttribute("avatarURL", chatUserModel.getUserPhone());
             message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
         }
 
-        //发送消息
-//        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
-        EMClient.getInstance().chatManager().sendMessage(message);
-
         if (model != null && conversation != null) {
             setProfile(conversation, model);
         }
+        message.setChatType(EMMessage.ChatType.Chat);
+        //发送消息
+//        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
+        EMClient.getInstance().chatManager().sendMessage(message);
+//        message.setChatType(EMMessage.ChatType.Chat);
+
+
+        //send message
+//        EMClient.getInstance().chatManager().sendMessage(message);
+
         Intent intent = new Intent(this, ConversationListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

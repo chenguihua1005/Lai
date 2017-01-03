@@ -47,7 +47,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
     FrameLayout fl_right;
     @InjectView(R.id.lv)
     ListView lv;
-    @InjectView(R.id.ll_action_nomessage)
+    @InjectView(R.id.iv_nomessage)
     ImageView iv_nomessage;
     @InjectView(R.id.footer)
     LinearLayout footer;

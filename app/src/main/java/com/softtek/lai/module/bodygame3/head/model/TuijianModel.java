@@ -6,11 +6,6 @@ package com.softtek.lai.module.bodygame3.head.model;
 
 public class TuijianModel {
 
-//    "VideoId": "19",
-//            "VideoType": "营养课程",
-//            "Photo": null,			————视频图片
-//    "Title": "8",
-//            "VideoUrl": "456.img"
      private String VideoId;
     private String VideoType;
     private String Photo;//视频图片

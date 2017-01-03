@@ -93,9 +93,13 @@ public class HXLoginService extends Service implements Runnable {
     public int onStartCommand(Intent intent, int flags, int startId) {
         com.github.snowdream.android.util.Log.i("环信登录服务启动 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
         model = UserInfoModel.getInstance().getUser();
-        account = model.getHXAccountId();
-
-        new Thread(this).start();
+        if(model!=null){
+            account = model.getHXAccountId();
+            new Thread(this).start();
+        }else {
+            isExit = false;
+            stopSelf();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
