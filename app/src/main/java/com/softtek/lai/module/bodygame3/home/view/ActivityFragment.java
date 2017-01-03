@@ -362,7 +362,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_fuce.setTag(tag);
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
-                                    ll_task.setVisibility(View.GONE);
+                                    ll_task.setVisibility(View.VISIBLE);
                                     todayactModels.clear();
                                     todayactModels.addAll(model.getList_Activity());
                                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -715,7 +715,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         }
                                         if(model.getDateType() == 4){
                                            ll_fuce.setVisibility(View.GONE);
-                                            ll_task.setVisibility(View.GONE);
+                                            ll_task.removeAllViews();
                                         }
                                         //如果是活动类型
                                         if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
