@@ -90,7 +90,10 @@
                             android:id="@+id/tv_write_class"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="所属班级：超级减重班"/>
+                            android:text="所属班级：超级减重班"
+                            android:textSize="12sp"
+                            android:textColor="#999999"
+                            />
 
                     </LinearLayout>
 
@@ -102,7 +105,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="班级周期："/>
+                            android:text="班级周期："
+                            android:textSize="12sp"
+                            android:textColor="#999999"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -307,7 +312,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_nowweight"
@@ -360,7 +365,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_tizhi"
@@ -409,7 +414,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_neizhi"
@@ -457,7 +462,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
 
             <RelativeLayout
@@ -506,7 +511,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_waisline"
@@ -555,7 +560,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_hiplie"
@@ -603,7 +608,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_Uparm"
@@ -649,7 +654,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_UpLeg"
                 android:orientation="horizontal"
@@ -696,7 +701,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
             <RelativeLayout
                 android:id="@+id/ll_retestWrite_doleg"
                 android:orientation="horizontal"
@@ -742,7 +747,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#75ba2b"/>
+                android:background="#eeeeee"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
@@ -822,7 +827,7 @@
             <View
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
-                android:background="#75ba2b"
+                android:background="#eeeeee"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
 

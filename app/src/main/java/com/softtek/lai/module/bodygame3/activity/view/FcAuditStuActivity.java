@@ -136,7 +136,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     protected void initViews() {
         tv_title.setText("复测审核");
         tv_write.setText("初始体重：");
-        tv_right.setText("审核通过");
+        tv_right.setText("确认");
         progressDialog =new ProgressDialog(this);
         ll_retestWrite_crium.setOnClickListener(this);
         ll_retestWrite_waisline.setOnClickListener(this);
@@ -221,7 +221,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 photoname=measuredDetailsModel.getImg();
             }
 
-            tv_write_class.setText(measuredDetailsModel.getClassName());
+            tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());
             tv_write_nick.setText(measuredDetailsModel.getUserName());
             tv_write_phone.setText(measuredDetailsModel.getMobile());
             tv_retest_write_weekth.setText("第"+measuredDetailsModel.getWeekNum()+"周");
