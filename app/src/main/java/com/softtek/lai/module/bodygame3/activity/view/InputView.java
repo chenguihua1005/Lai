@@ -29,14 +29,17 @@ public class InputView extends LinearLayout {
     private ImageView activityicon;
     private String activityid;
     private int counts;
+    private String dates;
     private String classid = "";
-    public InputView(Fragment fragment, TodayactModel todayactModel, int counts,String classid, int classrole) {
+
+    public InputView(Fragment fragment, TodayactModel todayactModel, int counts, String classid, int classrole) {
         super(fragment.getContext());
         this.fragment = fragment;
         this.todayactModel = todayactModel;
         this.role = classrole;
         this.counts = counts;
-         this.classid=classid;
+        this.dates = dates;
+        this.classid = classid;
 
         initView();
         initData();
