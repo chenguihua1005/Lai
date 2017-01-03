@@ -23,4 +23,12 @@ public class ActCalendarModel {
     public void setDateType(int dateType) {
         DateType = dateType;
     }
+
+    @Override
+    public String toString() {
+        return "ActCalendarModel{" +
+                "MonthDate='" + MonthDate + '\'' +
+                ", DateType=" + DateType +
+                '}';
+    }
 }
