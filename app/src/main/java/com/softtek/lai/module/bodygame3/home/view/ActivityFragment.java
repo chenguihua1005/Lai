@@ -504,12 +504,22 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (operation == ActivitydetailActivity.ACTIVITY_DEL) {
                     int counts = data.getExtras().getInt("count");
                     if (counts == 0) {
-                        for (int i = 0; i < calendarModel_act.size(); i++) {
-                            if (calendarModel_act.get(i).getDate().equals(saveclassModel.getDates())) {
-                                material_calendar.removeDecorator(decorator_act);
-                                material_calendar.removeDecorator(eventDecoratorDot_act);
-                            }
+                        material_calendar.removeDecorators();
+                        CalendarDay calendarDay = getCalendarDay(saveclassModel.getDates());
+                        if (calendarModel_act.contains(calendarDay)) {
+                            calendarModel_act.remove(calendarDay);
+                            calendarModel_free.add(calendarDay);
                         }
+//                        for (int i = 0; i < calendarModel_act.size(); i++) {
+//                            if (calendarModel_act.get(i).getDate().equals(saveclassModel.getDates())) {
+//                                calendarModel_free.add(getCalendarDay(saveclassModel.getDates()));
+//                                calendarModel_act.remove(calendarModel_act.get(i).getDate());
+//                                material_calendar.removeDecorator(decorator_act);
+//                                material_calendar.removeDecorator(eventDecoratorDot_act);
+//                            }
+//                        }
+                        new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                        new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             Log.i("获取活动。。。。。。。。。", saveclassModel.getDates());
                             gettodaydata(saveclassModel.getDates());
@@ -713,8 +723,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                             }
                                         }
-                                        if(model.getDateType() == 4){
-                                           ll_fuce.setVisibility(View.GONE);
+                                        if (model.getDateType() == 4) {
+                                            ll_fuce.setVisibility(View.GONE);
                                             ll_task.removeAllViews();
                                         }
                                         //如果是活动类型

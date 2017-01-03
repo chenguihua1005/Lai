@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +22,6 @@ import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -146,51 +144,36 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.VISIBLE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
+                                        if(actdetailModel.getEnd()){
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.VISIBLE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }else{
+                                            end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.VISIBLE);
                                             exit_lin.setVisibility(View.GONE);
+                                        }
+                                    }
+                                } else {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        if(actdetailModel.getEnd()){
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }else{
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }
 
-
-                                    }
-                                } else if (classrole == Constants.COACH) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.ASSISTANT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.STUDENT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == -1) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
                                     }
                                 }
 
