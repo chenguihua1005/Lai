@@ -551,171 +551,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     public void onRefresh() {
-//        if(TextUtils.isEmpty(classid)){
-//            ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
-//                    UserInfoModel.getInstance().getUserId(), classid,saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
-//                        @Override
-//                        public void success(ResponseData<ActivitydataModel> data, Response response) {
-//                            try {
-//                                pull.setRefreshing(false);
-//                                if (data.getData() != null) {
-//                                    ActivitydataModel activitydataModel = data.getData();
-//                                    classrole = activitydataModel.getClassRole();
-//                                    if (Constants.HEADCOACH == classrole) {
-//                                        fl_right.setVisibility(View.VISIBLE);
-//                                    } else {
-//                                        fl_right.setVisibility(View.GONE);
-//                                    }
-//                                    //加载班级
-//                                    if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
-//                                        ll_chuDate.setVisibility(View.VISIBLE);
-//                                        classModels.clear();
-//                                        classModels.addAll(activitydataModel.getList_Class());
-//                                        tv_title.getAdapter().notifyDataSetChanged();
-//                                        if (TextUtils.isEmpty(classid)) {
-//                                            classid = classModels.get(0).getClassId();
-//                                            classrole = classModels.get(0).getClassRole();
-//                                            tv_title.setSelected(0);
-//                                        } else {
-//                                            for (int i = 0, j = classModels.size(); i < j; i++) {
-//                                                ClassModel model = classModels.get(i);
-//                                                if (model.getClassId().equals(classid)) {
-//                                                    tv_title.setSelected(i);
-//                                                    break;
-//                                                }
-//                                            }
-//                                        }
-//                                    } else {
-//                                        //如果班级是空
-//                                        return;
-//                                    }
-//                                    //标记日历中的活动/复测等标记
-//                                    if (activitydataModel.getList_ActCalendar() != null && !activitydataModel.getList_ActCalendar().isEmpty()) {
-//                                        calendarModels.clear();
-//                                        calendarModels.addAll(activitydataModel.getList_ActCalendar());
-//                                        material_calendar.removeDecorators();
-//                                        filterTypesData();
-//                                        new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
-//
-//                                        new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
-//
-//                                    }
-//                                    //判断是否显示初始数据录入根据此用户在该班级的角色
-//                                    if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
-//                                        tv_initData_Name.setText("初始数据录入");
-//                                        BtnTag tag = new BtnTag();
-//                                        tag.role = activitydataModel.getClassRole();
-//                                        if (activitydataModel.getIsFirst() == 1) {
-//                                            tv_chustatus.setText("未录入");
-//                                        } else if (activitydataModel.getIsFirst() == 2) {
-//                                            tv_chustatus.setText("未审核");
-//                                        } else if (activitydataModel.getIsFirst() == 3) {
-//                                            tv_chustatus.setText("已审核");
-//                                        }
-//                                        tag.isfirst = activitydataModel.getIsFirst();//初始数据录入状态： 1：未录入 2：未审核 3：已审核
-//                                        tag.date = now;
-//                                        ll_chuDate.setTag(tag);
-//                                    } else {//非学员
-//                                        tv_initData_Name.setText("初始数据审核");
-//                                        tv_chustatus.setText("待审核" + activitydataModel.getIsFirst() + "人");
-//                                        BtnTag tag = new BtnTag();
-//                                        tag.role = activitydataModel.getClassRole();
-//                                        ll_chuDate.setTag(tag);
-//                                    }
-//                                    //获取当前日期是否需要复测，活动
-//                                    for (ActCalendarModel model : calendarModels) {
-//                                        if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isEq(model.getMonthDate(), now)) {
-//                                            //如果是复测类型
-//                                            if (model.getDateType() == 3 || model.getDateType() == Constants.CREATECLASS) {
-//                                                ll_fuce.setVisibility(View.VISIBLE);
-//                                                if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
-//                                                    reset_name.setText("复测录入");
-//                                                    //学员复测的状态：未复测，未审核，已审核
-//                                                    BtnTag tag = new BtnTag();
-//                                                    tag.role = activitydataModel.getClassRole();
-//                                                    if (activitydataModel.getRetestStatus() == 2) {//进行中
-//                                                        tag.status = FUCEING;//复测日状态
-//                                                        tag.date = now;
-//                                                        if (activitydataModel.getIsRetest() == 1) {
-//                                                            reset_time.setText("未复测");
-//                                                            tag.resetstatus = activitydataModel.getIsRetest();
-//                                                        } else if (activitydataModel.getIsRetest() == 2) {
-//                                                            reset_time.setText("未审核");
-//                                                            tag.resetstatus = activitydataModel.getIsRetest();
-//                                                        } else if (activitydataModel.getIsRetest() == 3) {
-//                                                            reset_time.setText("已审核");
-//                                                            tag.resetstatus = activitydataModel.getIsRetest();
-//                                                        }
-//                                                    }
-//                                                    ll_fuce.setTag(tag);
-//                                                } else {//非学员
-//                                                    reset_name.setText("复测审核");
-//                                                    reset_time.setText("待审核" + activitydataModel.getNum() + "人");
-//                                                    BtnTag tag = new BtnTag();
-//                                                    tag.role = activitydataModel.getClassRole();
-//                                                    tag.status = FUCEING;
-//                                                    tag.date = now;
-//                                                    ll_fuce.setTag(tag);
-//                                                }
-//                                                ll_task.removeAllViews();
-//                                                if (activitydataModel.getList_Activity() != null && !activitydataModel.getList_Activity().isEmpty()) {
-//                                                    todayactModels.clear();
-//                                                    //有活动
-//                                                    todayactModels.addAll(activitydataModel.getList_Activity());
-//                                                    Log.e("活动列表", todayactModels.toString());
-//                                                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                                                    for (int i = 0; i < todayactModels.size(); i++) {
-//                                                        TodayactModel model1 = todayactModels.get(i);
-//                                                        int counts = todayactModels.size();
-//                                                        View view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
-//                                                        if (ll_task != null) {
-//                                                            com.github.snowdream.android.util.Log.i("活动列表。。。。");
-//                                                            ll_task.addView(view, lp);
-//                                                            com.github.snowdream.android.util.Log.i("活动列表完成。。。。。。。。");
-//                                                        }
-//                                                    }
-//                                                }
-//                                            }
-//                                            //如果是活动类型
-//                                            ll_task.removeAllViews();
-//                                            if (model.getDateType() == 1 &&
-//                                                    activitydataModel != null && !activitydataModel.getList_Activity().isEmpty()) {
-//                                                todayactModels.clear();
-//
-//                                                //有活动
-//                                                todayactModels.addAll(activitydataModel.getList_Activity());
-//                                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                                                View view = null;
-//                                                for (int i = 0; i < todayactModels.size(); i++) {
-//                                                    TodayactModel model1 = todayactModels.get(i);
-//                                                    int counts = todayactModels.size();
-//                                                    view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
-//                                                    if (ll_task != null) {
-//                                                        ll_task.addView(view, lp);
-//                                                    }
-//                                                }
-//                                            }
-//                                            break;
-//                                        }
-//                                    }
-//                                }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void failure(RetrofitError error) {
-//                            try {
-//                                pull.setRefreshing(false);
-//                                super.failure(error);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
-//        }else{
         material_calendar.removeDecorators();
         material_calendar.removeDecorator(decorator);
         material_calendar.removeDecorator(decorator_act);
@@ -846,18 +681,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     tag.status = FUCE_NOT_START;
                                                     reset_time.setText("未开始");
                                                 } else {
-                                                    Log.i("reteststatus",activitydataModel.getRetestStatus()+"");
+                                                    Log.i("reteststatus", activitydataModel.getRetestStatus() + "");
                                                     ll_fuce.setEnabled(true);
                                                     reset_name.setText("复测审核");
                                                     reset_time.setText("待审核" + activitydataModel.getNum() + "人");
                                                     tag.status = activitydataModel.getRetestStatus();
-                                                    tag.date = now;
-                                                    ll_fuce.setTag(tag);
+                                                    tag.date = saveclassModel.getDates();
+
                                                 }
+                                                ll_fuce.setTag(tag);
 
                                             }
                                             ll_task.removeAllViews();
-                                            if (activitydataModel.getList_Activity() != null && !activitydataModel.getList_Activity().isEmpty()) {
+                                            if (!activitydataModel.getList_Activity().isEmpty()) {
+                                                Log.i("act and date", activitydataModel.getList_Activity().toString() + "," + saveclassModel.getDates());
                                                 todayactModels.clear();
                                                 //有活动
                                                 todayactModels.addAll(activitydataModel.getList_Activity());
@@ -868,25 +705,21 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     int counts = todayactModels.size();
                                                     View view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                     if (ll_task != null) {
+                                                        com.github.snowdream.android.util.Log.i("添加活动");
                                                         ll_task.addView(view, lp);
                                                     }
                                                 }
                                             }
                                         }
-                                        if (model.getDateType() == 4) {
-                                            Log.i("不是复测日", "不是复测日");
-                                            ll_fuce.setVisibility(View.GONE);
-                                        }
                                         //如果是活动类型
-                                        ll_task.removeAllViews();
+
                                         if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
+                                            ll_task.removeAllViews();
                                             ll_fuce.setVisibility(View.GONE);
                                             todayactModels.clear();
-
                                             //有活动
                                             todayactModels.addAll(activitydataModel.getList_Activity());
                                             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
                                             for (int i = 0; i < todayactModels.size(); i++) {
                                                 TodayactModel model1 = todayactModels.get(i);
                                                 int counts = todayactModels.size();
