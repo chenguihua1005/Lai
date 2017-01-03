@@ -58,11 +58,25 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="会飞的喵"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
                             android:id="@+id/tv_write_nick" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="("/>
+                        <TextView
+                            android:id="@+id/tv_write_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="18206182083"
+                            android:drawableLeft="@drawable/phone_iv"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")"/>
 
 
                     </LinearLayout>
@@ -72,23 +86,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="center"
-                            android:src="@drawable/retestphone"
-                             />
-
                         <TextView
+                            android:id="@+id/tv_write_class"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text=""
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#333333"
-                            android:id="@+id/tv_write_phone" />
+                            android:text="所属班级：超级减重班"/>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -96,20 +99,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="班级周期："/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text=""
-                            android:textColor="#333333"
-                            android:id="@+id/tv_write_class" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="/"
-                            android:textSize="12sp"
-                            android:textColor="#333333"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
