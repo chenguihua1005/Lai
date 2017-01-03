@@ -2,11 +2,8 @@ package com.softtek.lai.module.historydate.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
-import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 import com.softtek.lai.module.historydate.model.ID;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.GET;

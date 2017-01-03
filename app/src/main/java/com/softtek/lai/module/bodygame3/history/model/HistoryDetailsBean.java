@@ -48,12 +48,6 @@ public class HistoryDetailsBean implements Serializable{
     }
 
     public static class ListWeightBean {
-        /**
-         * GroupName : 小组2
-         * LossPer : 19.60
-         * GroupId : 254553e0-8996-49fa-af51-64b00c5b8ca7
-         * LossWeight : 37.50
-         */
 
         private String GroupName;
         private String LossPer;
@@ -94,12 +88,6 @@ public class HistoryDetailsBean implements Serializable{
     }
 
     public static class ListWeightPerBean {
-        /**
-         * GroupName : 小组2
-         * LossPer : 5.21
-         * GroupId : 254553e0-8996-49fa-af51-64b00c5b8ca7
-         * LossWeight : -1.07
-         */
 
         private String GroupName;
         private String LossPer;
@@ -140,13 +128,6 @@ public class HistoryDetailsBean implements Serializable{
     }
 
     public static class ListFatPerBean {
-        /**
-         * GroupName : 小组2
-         * LossPer : -6.36
-         * GroupId : 254553e0-8996-49fa-af51-64b00c5b8ca7
-         * LossWeight : -360.86
-         */
-
         private String GroupName;
         private String LossPer;
         private String GroupId;
@@ -186,12 +167,6 @@ public class HistoryDetailsBean implements Serializable{
     }
 
     public static class ListTop1Bean {
-        /**
-         * AccountId : 1498
-         * UserName : Andy  Zhang
-         * Photo : 201610141544146939544184.png
-         * Loss : 6.27
-         */
 
         private int AccountId;
         private String UserName;

@@ -7,17 +7,6 @@ package com.softtek.lai.module.bodygame3.more.model;
 
 public class Contact {
 
-
-    /**
-     * Photo :
-     * UserName :
-     * AccountId : 1
-     * Mobile : 13817201520
-     * Certification : CN2373824
-     * UserEn :
-     * HXAccountId :
-     */
-
     private String Photo;
     private String UserName;
     private long AccountId;

@@ -230,10 +230,6 @@
             android:name=".module.sportchart.view.ChartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.retest.WriteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name=".module.bodygame3.activity.view.WriteFCActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -254,18 +250,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.retest.AuditActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".module.retest.view.RetestActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.login.view.TermActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.retest.view.QueryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.StudentHonorGridActivity"
@@ -584,16 +569,6 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".module.pastreview.view.PassPhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.HistoryHomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.pastreview.view.HistoryStudentHonorActivity"
-            android:screenOrientation="portrait" />
 
         <service
             android:name=".location.LocationService"

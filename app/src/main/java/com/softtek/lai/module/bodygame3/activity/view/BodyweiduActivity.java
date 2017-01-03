@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
-import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
-import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
-import com.softtek.lai.module.retest.model.MeasureModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;

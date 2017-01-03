@@ -1,4 +1,4 @@
-package com.softtek.lai.module.retest.model;
+package com.softtek.lai.module.home.model;
 
 /**
  * Created by lareina.qiao on 4/16/2016.

@@ -2,14 +2,13 @@ package com.softtek.lai.module.home.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.net.RestService;
+import com.softtek.lai.module.home.model.LaichModel;
+import com.softtek.lai.module.home.net.RestService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 4/27/2016.
