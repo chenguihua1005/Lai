@@ -15,6 +15,9 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
+import static com.squareup.picasso.MemoryPolicy.NO_CACHE;
+import static com.squareup.picasso.MemoryPolicy.NO_STORE;
+
 /**
  * Created by jerry.guan on 5/5/2016.
  */
@@ -62,8 +65,11 @@ public class PictureFragment extends BaseFragment{
         //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
                 .resize(DisplayUtil.getMobileWidth(getContext()),
-                        DisplayUtil.getMobileHeight(getContext())+DisplayUtil.getStatusHeight(getActivity())).centerInside()
-                .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
+                        DisplayUtil.getMobileHeight(getContext())+DisplayUtil.getStatusHeight(getActivity()))
+                .centerInside().memoryPolicy(NO_CACHE, NO_STORE)
+                .placeholder(R.drawable.default_icon_square)
+                .error(R.drawable.default_icon_square)
+                .into(iv_image);
 
     }
 

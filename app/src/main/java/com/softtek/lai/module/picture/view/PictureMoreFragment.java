@@ -37,6 +37,9 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static com.squareup.picasso.MemoryPolicy.NO_CACHE;
+import static com.squareup.picasso.MemoryPolicy.NO_STORE;
+
 /**
  * Created by jerry.guan on 5/5/2016.
  */
@@ -221,7 +224,7 @@ public class PictureMoreFragment extends BaseFragment{
         }
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
                 .resize(DisplayUtil.getMobileWidth(getContext()),
-                        DisplayUtil.getMobileHeight(getContext())+DisplayUtil.getStatusHeight(getActivity())).centerInside()
+                        DisplayUtil.getMobileHeight(getContext())+DisplayUtil.getStatusHeight(getActivity())).centerInside().memoryPolicy(NO_CACHE, NO_STORE)
                 .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
 
     }
