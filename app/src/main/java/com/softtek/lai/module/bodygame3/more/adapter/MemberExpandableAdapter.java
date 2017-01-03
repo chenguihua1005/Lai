@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.more.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
@@ -59,6 +60,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
     private String classId;
     private String classHxId;
     private TextView tv_title;
+    private ProgressDialog pDialog;
 
     public MemberExpandableAdapter(Context context, Map<String, List<Member>> datas, List<String> parents,
                                    String classId,String classHxId,List<ClassGroup> groups,TextView tv_title ) {
@@ -70,6 +72,9 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
         this.classHxId=classHxId;
         this.tv_title=tv_title;
         headPX=DisplayUtil.dip2px(context,34);
+        pDialog=new ProgressDialog(context);
+        pDialog.setCanceledOnTouchOutside(false);
+        //progressDialog.setCancelable(false);
     }
 
     //父项的数量
@@ -247,6 +252,8 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        pDialog.setMessage("移除成员");
+                        pDialog.show();
                         ZillaApi.NormalRestAdapter.create(MoreService.class)
                                 .removeFromGroup(UserInfoModel.getInstance().getToken(),
                                         member.getAccountId(),
@@ -255,6 +262,9 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                         new Callback<ResponseData>() {
                                             @Override
                                             public void success(ResponseData responseData, Response response) {
+                                                if(pDialog!=null&&pDialog.isShowing()){
+                                                    pDialog.dismiss();
+                                                }
                                                 if (responseData.getStatus() == 200) {
                                                     datas.get(member.getCGName()).remove(member);
                                                     notifyDataSetChanged();
@@ -278,6 +288,9 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
 
                                             @Override
                                             public void failure(RetrofitError error) {
+                                                if(pDialog!=null&&pDialog.isShowing()){
+                                                    pDialog.dismiss();
+                                                }
                                                 ZillaApi.dealNetError(error);
                                             }
                                         });
@@ -327,6 +340,8 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                 if(group.getCGId().equals(member.getCGId())){
                     Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
                 }else {
+                    pDialog.setMessage("转组中");
+                    pDialog.show();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
                             .turnToAnotherGroup(
                                     UserInfoModel.getInstance().getToken(),
@@ -336,6 +351,9 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
+                                            if(pDialog!=null&&pDialog.isShowing()){
+                                                pDialog.dismiss();
+                                            }
                                             if (responseData.getStatus() == 200) {
                                                 datas.get(member.getCGName()).remove(member);
                                                 member.setCGId(group.getCGId());
@@ -346,6 +364,14 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                             } else {
                                                 Snackbar.make(tv_title, "转组失败", Snackbar.LENGTH_SHORT).setDuration(1000).show();
                                             }
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            if(pDialog!=null&&pDialog.isShowing()){
+                                                pDialog.dismiss();
+                                            }
+                                            super.failure(error);
                                         }
                                     }
 

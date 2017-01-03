@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -37,7 +38,6 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.picture.view.PictureActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -81,16 +81,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     Long userid;
     int SetLove = 1;
     MemberInfoModel memberInfoModel;
+
     @InjectView(R.id.ll_weigh)
     LinearLayout ll_weigh;
     @InjectView(R.id.hlist_dy)
     HorizontalListView hlist_dy;
     @InjectView(R.id.re_hlist_dy)
     RelativeLayout re_hlist_dy;
-    @InjectView(R.id.cir_userimg)//用户id
-            CircleImageView cir_userimg;
-    @InjectView(R.id.tv_stuname)//用户名
-            TextView tv_stuname;
+    @InjectView(R.id.cir_userimg)
+    CircleImageView cir_userimg;
+    //用户名
+    @InjectView(R.id.tv_stuname)
+    TextView tv_stuname;
     @InjectView(R.id.tv_personlityName)
     TextView tv_personlityName;//个性签名
     @InjectView(R.id.tv_angle)
@@ -124,13 +126,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.im_guanzhu)
     CheckBox im_guanzhu;
-    private List<NewsTopFourModel> newsTopFourModels = new ArrayList<NewsTopFourModel>();
+    private List<NewsTopFourModel> newsTopFourModels = new ArrayList<>();
     EasyAdapter<NewsTopFourModel> easyAdapter;
     //定义标题栏弹窗按钮
     private TitlePopup titlePopup;
 
-
-    private int isFriend = 0;//1: 好友  0 ： 不是好友
     private long AccountId;
     private String HXAccountId;//环信id
     private String UserName;
@@ -138,7 +138,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private String ClassId;
     ArrayList<String> images = new ArrayList<>();
     private int issendFriend = 0;
-    ;//
+
     private static final int GET_Sian = 1;//发布签名
     private String IsFriend;//是否是好友
 
@@ -183,8 +183,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         userid = UserInfoModel.getInstance().getUserId();
         AccountId = getIntent().getLongExtra("AccountId", 0);
         ClassId = getIntent().getStringExtra("ClassId");
-
-        isFriend = getIntent().getIntExtra("isFriend", 0);
+        //1: 好友  0 ： 不是好友
+        int isFriend = getIntent().getIntExtra("isFriend", 0);
         HXAccountId = getIntent().getStringExtra("HXAccountId");
         UserName = getIntent().getStringExtra("UserName");
         AFriendId = getIntent().getStringExtra("AFriendId");//好友关系id
@@ -306,19 +306,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             fl_right.setVisibility(View.VISIBLE);
                         }
                     }
-//                    im_guanzhu.setVisibility(View.GONE);
 
                 } else {
                     im_guanzhu.setVisibility(View.VISIBLE);
                     //个性签名
+                    tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
-                        tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
                     } else {
                         tv_personlityName.setText("暂无个性签名");
-
-
-                        tv_personlityName.setCompoundDrawables(null, null, null, null);
                     }
                     if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
                     {
@@ -337,8 +333,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             btn_chat.setText("发起临时会话");
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             btn_addguy.setText("待确认");
-                            btn_addguy.setTextColor(this.getResources().getColor(R.color.white));
-                            btn_addguy.setBackground(this.getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                            btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
+                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
                             iv_email.setVisibility(View.INVISIBLE);
                         } else {
                             btn_chat.setVisibility(View.VISIBLE);
@@ -543,8 +539,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 btn_chat.setText("发起临时会话");
                                 btn_addguy.setVisibility(View.VISIBLE);//添加好友
                                 btn_addguy.setText("待确认");
-                                btn_addguy.setTextColor(getResources().getColor(R.color.white));
-                                btn_addguy.setBackground(getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                                btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
+                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
                                 iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -558,7 +554,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         progressDialog.dismiss();
-                                        String s2 = getResources().getString(R.string.Request_add_buddy_failure);
                                         Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -620,6 +615,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     public void run() {
                                         pd.dismiss();
                                         Util.toastMsg("删除好友成功");
+                                        finish();
                                     }
                                 });
                             } else {
