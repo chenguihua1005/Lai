@@ -5,15 +5,12 @@
 
 package com.softtek.lai.module.login.net;
 
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -34,7 +31,7 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("/HerbUser/UserLogIn")
     void doLogin(
-            @Header("step_sensor_type")String sensorType,
+            @Header("step_sensor_type") String sensorType,
             @Field("user") String userName,
             @Field("psd") String password,
             Callback<ResponseData<UserModel>> callback);
@@ -51,6 +48,7 @@ public interface LoginService {
     void doRegist(
             @Field("user") String userName,
             @Field("psd") String password,
+            @Field("HxAccountId") String HxAccountId,
             @Field("identify") String identify,
             Callback<ResponseData<UserModel>> callback);
 
@@ -86,11 +84,12 @@ public interface LoginService {
             Callback<ResponseData<RoleInfo>> callback);
 
     //上传图片
-    @POST("/MyBasicInformation/ModifyPicture")
+    //@POST("/MyBasicInformation/ModifyPicture")
+    @POST("/V1/FileUpload/ModifyPicture")
     @Multipart
     void modifyPicture(
             @Header("token") String token,
-            @Query("AccountId") String accountId,
+            @Query("AccountId") long accountId,
             @Part("photo") TypedFile photo,
             Callback<ResponseData<PhotoModel>> callback);
 
@@ -106,10 +105,13 @@ public interface LoginService {
             @Header("token") String token,
             Callback<ResponseData<EMChatAccountModel>> callback);
 
-    @GET("/HerbUser/GetEMchatContacts")
-    void getEMchatContacts(
-            @Header("token") String token,
-            Callback<ResponseData<List<ChatContactInfoModel>>> callback);
+//    //    api/v1/HerbUser/GetContacts?pageIndex=1&pageSize=5
+//    @GET("/HerbUser/GetEMchatContacts")
+//    void getEMchatContacts(
+//            @Header("token") String token,
+//            Callback<ResponseData<List<ChatContactInfoModel>>> callback);
+
+
 
     @POST("/HerbUser/UpdateHXState")
     void updateHXState(

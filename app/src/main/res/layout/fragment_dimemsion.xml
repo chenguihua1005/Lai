@@ -1,0 +1,199 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/bust_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="胸围变化" />
+
+            <Button
+                android:id="@+id/btn_bust_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_bust_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/waist_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="腰围变化" />
+
+            <Button
+                android:id="@+id/btn_waist_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_waist_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/hipline_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="臀围变化" />
+
+            <Button
+                android:id="@+id/btn_hipline_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_hipline_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/upper_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="上臂围变化" />
+
+            <Button
+                android:id="@+id/btn_upper_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_upper_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/datui_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="大腿围变化" />
+
+            <Button
+                android:id="@+id/btn_datui_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_datui_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/xiaotui_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/chart_sport_bg"
+                app:chartTitle1="小腿围变化" />
+
+            <Button
+                android:id="@+id/btn_xiaotui_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="@drawable/back_arrow_left"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_xiaotui_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
+</ScrollView>

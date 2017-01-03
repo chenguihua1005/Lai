@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -19,13 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -35,7 +36,6 @@ import com.squareup.picasso.Picasso;
 import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
@@ -125,10 +125,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         }
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if (TextUtils.isEmpty(photo)) {
-            Picasso.with(getContext()).load(R.drawable.img_default).into(img);
-        } else {
-            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
+        if (!TextUtils.isEmpty(photo)) {
+            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img);
         }
 
         if (StringUtils.isEmpty(model.getNickname())) {
@@ -140,10 +138,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             text_state.setText("已认证");
-            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.green));
+            text_state.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
         } else {
             text_state.setText("未认证");
-            text_state.setTextColor(ContextCompat.getColor(getContext(),R.color.grey_font));
+            text_state.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
         }
 
         text_zgzh.setText(certification);
@@ -216,10 +214,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
-                Intent personal=new Intent(getContext(), PersionalActivity.class);
-                personal.putExtra("isFocus",1);
-                personal.putExtra("personalId",String.valueOf(UserInfoModel.getInstance().getUserId()));
-                personal.putExtra("personalName",text_name.getText().toString());
+                Intent personal = new Intent(getContext(), PersionalActivity.class);
+                personal.putExtra("isFocus", 1);
+                personal.putExtra("personalId", String.valueOf(UserInfoModel.getInstance().getUserId()));
+                personal.putExtra("personalName", text_name.getText().toString());
                 startActivity(personal);
                 break;
         }
@@ -227,42 +225,35 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     private void clearData() {
 
-        if (HomeFragment.timer != null) {
-            HomeFragment.timer.cancel();
-        }
         final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
         if (!hxid.equals("-1")) {
             SharedPreferenceService.getInstance().put("HXID", "-1");
-            EMChatManager.getInstance().logout(true, new EMCallBack() {
+            EMClient.getInstance().logout(true, new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    // TODO Auto-generated method stub
-                    UserInfoModel.getInstance().loginOut();
+                    //关闭环信服务
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                    getActivity().finish();
+                    Looper.prepare();
+                    UserInfoModel.getInstance().loginOut();
                     startActivity(new Intent(getContext(), LoginActivity.class));
+                    getActivity().finish();
+                    Looper.loop();
                 }
 
                 @Override
-                public void onProgress(int progress, String status) {
-                    // TODO Auto-generated method stub
-
-                }
+                public void onProgress(int progress, String status) {}
 
                 @Override
-                public void onError(int code, String message) {
-                    // TODO Auto-generated method stub
-
-                }
+                public void onError(int code, String message) {}
             });
+
         } else {
             UserInfoModel.getInstance().loginOut();
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
             getActivity().finish();
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
-        JPushInterface.init(getContext().getApplicationContext());
-        JpushSet set = new JpushSet(getContext().getApplicationContext());
-        set.setAlias("");
+
     }
 }

@@ -82,6 +82,7 @@ public class CircleImageView extends ImageView {
         paint.setColor(Color.WHITE);
 
         mCanvas.drawCircle(bmpCircle.getWidth() / 2, bmpCircle.getHeight() / 2, bmpCircle.getWidth() / 2, paint);
+
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         mCanvas.drawBitmap(bmp, null, rectF, paint);
 

@@ -5,27 +5,10 @@ package com.softtek.lai.module.community.model;
  */
 public class CommunityModel {
 
-    private long AccountId;
-    private String Title;
+    private long Accountid;
     private String Content;
-    private int Htype;
-    private String photoes;
+    private String Photos;
 
-    public long getAccountId() {
-        return AccountId;
-    }
-
-    public void setAccountId(long accountId) {
-        AccountId = accountId;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
 
     public String getContent() {
         return Content;
@@ -35,19 +18,19 @@ public class CommunityModel {
         Content = content;
     }
 
-    public int getHtype() {
-        return Htype;
+    public long getAccountid() {
+        return Accountid;
     }
 
-    public void setHtype(int htype) {
-        Htype = htype;
+    public void setAccountid(long accountid) {
+        Accountid = accountid;
     }
 
-    public String getPhotoes() {
-        return photoes;
+    public String getPhotos() {
+        return Photos;
     }
 
-    public void setPhotoes(String photoes) {
-        this.photoes = photoes;
+    public void setPhotos(String photos) {
+        Photos = photos;
     }
 }

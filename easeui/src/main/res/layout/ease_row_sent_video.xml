@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -17,14 +18,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity" >
 
-        <com.easemob.easeui.widget.EaseImageView
+        <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@drawable/ease_default_avatar"/>
+            android:background="@drawable/ease_default_avatar"
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:id="@+id/bubble"
@@ -32,6 +34,7 @@
             android:layout_height="145dp"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
+            android:layout_below="@+id/tv_userid"
             android:background="@drawable/ease_chatto_bg"
              >
 
@@ -75,6 +78,15 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/ease_video_play_btn_small_nor" />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_userid"
+            android:visibility="visible"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/iv_userhead"
+            android:text="xxx" />
 
         <LinearLayout
             android:id="@+id/ll_loading"
@@ -98,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:text="100%"
                 android:textColor="@android:color/black"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <ImageView

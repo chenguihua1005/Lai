@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="43dp"
+    android:id="@+id/rl_bg">
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/tv_role_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/iv_icon"
+        android:layout_centerInParent="true"
+        android:textSize="11sp"
+        android:layout_marginLeft="8dp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0.5px"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_toRightOf="@id/tv_role_name"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"/>
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/more_select"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:layout_marginRight="15dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/line"
+        android:layout_toLeftOf="@id/iv_select"
+        android:gravity="center|left"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxEms="8"
+            android:text="dsadsaadsadsadasdsadasdadasdadasdasd"/>
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+</RelativeLayout>

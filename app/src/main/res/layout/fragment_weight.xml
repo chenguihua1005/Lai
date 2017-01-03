@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <RelativeLayout
     android:layout_width="wrap_content"
@@ -11,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#D0D0D0"/>
-    <com.github.mikephil.charting.charts.LineChart
+    <com.softtek.lai.widgets.chart.Chart
         android:id="@+id/chart"
         android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:layout_height="300dp">
-    </com.github.mikephil.charting.charts.LineChart>
+        app:chartTitle1="体重"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,8 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        >
+        android:layout_alignParentRight="true">
     <Button
         android:id="@+id/bt_right"
         android:layout_width="30dp"

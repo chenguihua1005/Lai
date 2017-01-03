@@ -249,7 +249,7 @@ public class DateUtil {
         try {
             Date d1=new SimpleDateFormat(PATTERN).parse(date);
             return new SimpleDateFormat(pattern).format(d1);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
@@ -261,7 +261,7 @@ public class DateUtil {
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             return sdf.parse(date);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -273,7 +273,7 @@ public class DateUtil {
      * @return -1表示date1<date2<br/> 0表示date1=date2<br/> 1表示date1>date2<br/>
      */
     public int compare(String date1,String date2){
-        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+        if(TextUtils.isEmpty(date1)||TextUtils.isEmpty(date2)){
             throw new RuntimeException("日期字符串不合法");
         }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
@@ -356,8 +356,11 @@ public class DateUtil {
      * @return
      */
     public String jumpDateByDay(String date,int days){
-        if("".equals(date)){
+        if(TextUtils.isEmpty(date)){
             return "";
+        }
+        if(days==0){
+            return date;
         }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
@@ -575,6 +578,9 @@ public class DateUtil {
         return day==1?7:day-1;
     }
     public String getWeek(Date date){
+        if(date==null){
+            return "周?";
+        }
         calendar.setTime(date);
         int day=calendar.get(Calendar.DAY_OF_WEEK);
         /*
@@ -586,25 +592,25 @@ public class DateUtil {
         String week="";
         switch (day){
             case 1:
-                week="星期一";
+                week="周一";
                 break;
             case 2:
-                week="星期二";
+                week="周二";
                 break;
             case 3:
-                week="星期三";
+                week="周三";
                 break;
             case 4:
-                week="星期四";
+                week="周四";
                 break;
             case 5:
-                week="星期五";
+                week="周五";
                 break;
             case 6:
-                week="星期六";
+                week="周六";
                 break;
             case 7:
-                week="星期天";
+                week="周日";
                 break;
         }
         return week;

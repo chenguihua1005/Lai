@@ -7,81 +7,90 @@ package com.softtek.lai.module.message2.model;
 
 import java.io.Serializable;
 
-/**
- * Created by julie.zhu on 3/25/2016.
- */
 public class OperateMsgModel implements Serializable {
-    private String MsgType;
-    private String MsgId;
-    private String ReceId;
-    private String SenderId;
-    private String Content;
-    private String ClassId;
+    private int Msgtype;
+    private String Msgid;
+    private String Recevid;
+    private String Senderid;
+    private String MsgContent;
+    private String Classid;
     private String SendTime;
-    private String IsRead;
-    private String IsDo;
+    private int IsRead;
+    private int IsDo;
+    private int MsgStatus;//0默认 1接受 2拒绝
+    private String SenderPhoto;
+    private boolean isSelected;
 
-    @Override
-    public String toString() {
-        return "OperateMsgModel{" +
-                "MsgType='" + MsgType + '\'' +
-                ", MsgId='" + MsgId + '\'' +
-                ", ReceId='" + ReceId + '\'' +
-                ", SenderId='" + SenderId + '\'' +
-                ", Content='" + Content + '\'' +
-                ", ClassId='" + ClassId + '\'' +
-                ", SendTime='" + SendTime + '\'' +
-                ", IsRead='" + IsRead + '\'' +
-                ", IsDo='" + IsDo + '\'' +
-                '}';
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public String getMsgType() {
-        return MsgType;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
+    public String getSenderPhoto() {
+        return SenderPhoto;
     }
 
-    public String getMsgId() {
-        return MsgId;
+    public void setSenderPhoto(String senderPhoto) {
+        SenderPhoto = senderPhoto;
     }
 
-    public void setMsgId(String msgId) {
-        MsgId = msgId;
+    public int getMsgStatus() {
+        return MsgStatus;
     }
 
-    public String getReceId() {
-        return ReceId;
+    public void setMsgStatus(int msgStatus) {
+        MsgStatus = msgStatus;
     }
 
-    public void setReceId(String receId) {
-        ReceId = receId;
+    public int getMsgtype() {
+        return Msgtype;
     }
 
-    public String getSenderId() {
-        return SenderId;
+    public void setMsgtype(int msgtype) {
+        Msgtype = msgtype;
     }
 
-    public void setSenderId(String senderId) {
-        SenderId = senderId;
+    public String getMsgid() {
+        return Msgid;
     }
 
-    public String getContent() {
-        return Content;
+    public void setMsgid(String msgid) {
+        Msgid = msgid;
     }
 
-    public void setContent(String content) {
-        Content = content;
+    public String getRecevid() {
+        return Recevid;
     }
 
-    public String getClassId() {
-        return ClassId;
+    public void setRecevid(String recevid) {
+        Recevid = recevid;
     }
 
-    public void setClassId(String classId) {
-        ClassId = classId;
+    public String getSenderid() {
+        return Senderid;
+    }
+
+    public void setSenderid(String senderid) {
+        Senderid = senderid;
+    }
+
+    public String getMsgContent() {
+        return MsgContent;
+    }
+
+    public void setMsgContent(String msgContent) {
+        MsgContent = msgContent;
+    }
+
+    public String getClassid() {
+        return Classid;
+    }
+
+    public void setClassid(String classid) {
+        Classid = classid;
     }
 
     public String getSendTime() {
@@ -92,19 +101,37 @@ public class OperateMsgModel implements Serializable {
         SendTime = sendTime;
     }
 
-    public String getIsRead() {
+    public int getIsRead() {
         return IsRead;
     }
 
-    public void setIsRead(String isRead) {
+    public void setIsRead(int isRead) {
         IsRead = isRead;
     }
 
-    public String getIsDo() {
+    public int getIsDo() {
         return IsDo;
     }
 
-    public void setIsDo(String isDo) {
+    public void setIsDo(int isDo) {
         IsDo = isDo;
+    }
+
+    @Override
+    public String toString() {
+        return "OperateMsgModel{" +
+                "Msgtype=" + Msgtype +
+                ", Msgid='" + Msgid + '\'' +
+                ", Recevid='" + Recevid + '\'' +
+                ", Senderid='" + Senderid + '\'' +
+                ", MsgContent='" + MsgContent + '\'' +
+                ", Classid='" + Classid + '\'' +
+                ", SendTime='" + SendTime + '\'' +
+                ", IsRead=" + IsRead +
+                ", IsDo=" + IsDo +
+                ", MsgStatus=" + MsgStatus +
+                ", SenderPhoto='" + SenderPhoto + '\'' +
+                ", isSelected=" + isSelected +
+                '}';
     }
 }

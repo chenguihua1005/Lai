@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_editor_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/et_border2">
+
+        <EditText
+            android:id="@+id/et_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_none"
+            android:maxEms="12"
+            android:maxLines="1"
+            android:minEms="1"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:textColorHint="#c0c0c0"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16sp"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/bodygame3_delete" />
+    </FrameLayout>
+
+
+</LinearLayout>

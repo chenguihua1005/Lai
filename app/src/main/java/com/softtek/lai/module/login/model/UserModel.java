@@ -16,6 +16,7 @@ public class UserModel implements Serializable {
 
     private String userid;
     private String userrole;
+    private String RoleName;
     private String nickname;
     private String gender;
     private String weight;
@@ -29,28 +30,16 @@ public class UserModel implements Serializable {
     private String IsCreatInfo;//该用户是否创建过档案
     private String HXAccountId;//若为空则还未注册
     private String HasEmchat;//0：未注册，1：已注册
+    private int HasThClass;//0无班级，1有班级
+    private int DoingClass;//0没有进行中的班级,1有
 
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "token='" + token + '\'' +
-                ", userid='" + userid + '\'' +
-                ", userrole='" + userrole + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", weight='" + weight + '\'' +
-                ", height='" + height + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", Certification='" + Certification + '\'' +
-                ", CertTime='" + CertTime + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", IsJoin='" + IsJoin + '\'' +
-                ", TodayStepCnt='" + TodayStepCnt + '\'' +
-                ", IsCreatInfo='" + IsCreatInfo + '\'' +
-                ", HXAccountId='" + HXAccountId + '\'' +
-                ", HasEmchat='" + HasEmchat + '\'' +
-                ", hasGender=" + hasGender +
-                '}';
+
+    public String getRoleName() {
+        return RoleName;
+    }
+
+    public void setRoleName(String roleName) {
+        RoleName = roleName;
     }
 
     public static long getSerialVersionUID() {
@@ -196,4 +185,19 @@ public class UserModel implements Serializable {
         IsCreatInfo = isCreatInfo;
     }
 
+    public int getHasThClass() {
+        return HasThClass;
+    }
+
+    public void setHasThClass(int hasThClass) {
+        HasThClass = hasThClass;
+    }
+
+    public int getDoingClass() {
+        return DoingClass;
+    }
+
+    public void setDoingClass(int doingClass) {
+        DoingClass = doingClass;
+    }
 }

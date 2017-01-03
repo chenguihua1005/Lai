@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.login.presenter;
 
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
@@ -13,7 +14,7 @@ import android.widget.EditText;
 public interface IRegistPresenter {
 
     //注册
-    void doRegist(String userName, String password, EditText et_identify);
+    void doRegist(String userName, String password,String HxAccountId,String identify, Button regist);
 
     //获取验证码
     void getIdentify(String phone, String state);

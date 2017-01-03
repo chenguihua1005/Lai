@@ -7,14 +7,18 @@ package com.softtek.lai.widgets;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
+
+import com.github.snowdream.android.util.Log;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -31,7 +35,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     private int mDisplayOffset = 0;
     protected Scroller mScroller;
     private GestureDetector mGesture;
-    private Queue<View> mRemovedViewQueue = new LinkedList<View>();
+    private Queue<View> mRemovedViewQueue = new LinkedList<>();
     private OnItemSelectedListener mOnItemSelected;
     private OnItemClickListener mOnItemClicked;
     private OnItemLongClickListener mOnItemLongClicked;
@@ -56,7 +60,44 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+
         return super.onInterceptTouchEvent(ev) && mGesture.onTouchEvent(ev);
+    }
+
+    private ViewParent getViewParent(ViewParent parent){
+        if(parent instanceof ViewPager){
+            return parent;
+        }else {
+            if(parent!=null){
+                Log.i(parent.getClass().getCanonicalName());
+                getViewParent(parent.getParent());
+            }
+            return null;
+        }
+    }
+
+    float x;
+    float y;
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        int action=ev.getAction();
+        switch (action){
+            case MotionEvent.ACTION_DOWN:
+                x=ev.getX();
+                y=ev.getY();
+               break;
+            case MotionEvent.ACTION_MOVE:
+                float deltaX=Math.abs(ev.getX()-x);
+                float deltaY=Math.abs(ev.getY()-y);
+                if (deltaY < deltaX) {
+                    synchronized (HorizontalListView.this) {
+                        mNextX += (int) deltaX;
+                    }
+                    requestLayout();
+                }
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -321,7 +362,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
                 requestLayout();
                 return true;
             }
-            return false;
+            return true;
 //            synchronized (HorizontalListView.this) {
 //                mNextX += (int) distanceX;
 //            }

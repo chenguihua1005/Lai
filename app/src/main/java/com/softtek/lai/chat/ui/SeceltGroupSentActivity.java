@@ -21,21 +21,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.adapter.SelectGroupSentAdapter;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -44,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -81,43 +75,8 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     SelectGroupSentAdapter adapter;
     List<SelectContactInfoModel> list;
 
-    boolean isSelectAll=false;
+    boolean isSelectAll = false;
     public AlertDialog.Builder builder = null;
-    private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (builder != null) {
-                return;
-            }
-            builder = new AlertDialog.Builder(SeceltGroupSentActivity.this)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(SeceltGroupSentActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
-                    dialog.show();
-                }
-            }
-
-        }
-
-    };
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,52 +89,13 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
 
         list = new ArrayList<SelectContactInfoModel>();
         setData();
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
 
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                //EaseACKUtil.getInstance(SeceltGroupSentActivity.this).checkACKData();
-
-            }
-        };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
         adapter = new SelectGroupSentAdapter(this, list);
         list_contant.setAdapter(adapter);
     }
 
     private void setData() {
-        List<ChatContactInfoModel> lists = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        List<ChatContactModel> lists = (ArrayList<ChatContactModel>) getIntent().getSerializableExtra("list");
         for (int i = 0; i < lists.size(); i++) {
             SelectContactInfoModel model = new SelectContactInfoModel();
             model.setSelected(false);
@@ -201,17 +121,17 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_next:
-                List<ChatContactInfoModel> select_list=new ArrayList<ChatContactInfoModel>();
+                List<ChatContactModel> select_list = new ArrayList<ChatContactModel>();
                 for (int i = 0; i < list.size(); i++) {
-                    if(list.get(i).isSelected()){
+                    if (list.get(i).isSelected()) {
                         select_list.add(list.get(i).getModel());
                     }
                 }
-                if(select_list.size()!=0){
-                    Intent intent=new Intent(this,GroupSentActivity.class);
-                    intent.putExtra("list",(Serializable)select_list);
+                if (select_list.size() != 0) {
+                    Intent intent = new Intent(this, GroupSentActivity.class);
+                    intent.putExtra("list", (Serializable) select_list);
                     startActivity(intent);
-                }else {
+                } else {
                     Util.toastMsg("请选择联系人");
                 }
                 break;
@@ -219,18 +139,18 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_right:
-                if(isSelectAll){
+                if (isSelectAll) {
                     tv_right.setText("全选");
-                    isSelectAll=false;
-                    for (int i = 0; i <list.size() ; i++) {
-                        SelectContactInfoModel selectContactInfoModel=list.get(i);
+                    isSelectAll = false;
+                    for (int i = 0; i < list.size(); i++) {
+                        SelectContactInfoModel selectContactInfoModel = list.get(i);
                         selectContactInfoModel.setSelected(false);
                     }
-                }else {
+                } else {
                     tv_right.setText("取消");
-                    isSelectAll=true;
-                    for (int i = 0; i <list.size() ; i++) {
-                        SelectContactInfoModel selectContactInfoModel=list.get(i);
+                    isSelectAll = true;
+                    for (int i = 0; i < list.size(); i++) {
+                        SelectContactInfoModel selectContactInfoModel = list.get(i);
                         selectContactInfoModel.setSelected(true);
                     }
                 }

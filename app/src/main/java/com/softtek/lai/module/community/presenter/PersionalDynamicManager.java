@@ -10,9 +10,10 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.CommunityModel;
+import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.net.UploadImageService;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -23,7 +24,6 @@ import java.util.concurrent.CountDownLatch;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/17.
@@ -86,9 +86,9 @@ public class PersionalDynamicManager implements Runnable,UploadImageService.Uplo
                 }
                 return;
             }else{
-                model.setPhotoes(photo.substring(0, photo.lastIndexOf(",")));
+                model.setPhotos(photo.substring(0, photo.lastIndexOf(",")));
             }
-            Log.i("上传的图片"+model.getPhotoes());
+            Log.i("上传的图片"+model.getPhotos());
             Log.i("开始上传第二阶段");
             service.saveDynamic(token, model, new RequestCallback<ResponseData>() {
                 @Override
@@ -129,9 +129,9 @@ public class PersionalDynamicManager implements Runnable,UploadImageService.Uplo
     }
 
     @Override
-    public void getImageName(String imageName) {
+    public void getImageName(ImageResponse2 imageName) {
         if(imageName!=null){
-            photo.append(imageName);
+            photo.append(imageName.imgName);
             photo.append(",");
         }
         latch.countDown();

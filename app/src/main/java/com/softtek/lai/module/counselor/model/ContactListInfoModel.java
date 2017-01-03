@@ -16,7 +16,6 @@ public class ContactListInfoModel implements Serializable ,Cloneable{
 
     private String Mobile;     //助教电话
     private String UserName;     //助教名字
-//    private Bitmap Photo;
 
     public String getMobile() {
         return Mobile;
@@ -33,14 +32,6 @@ public class ContactListInfoModel implements Serializable ,Cloneable{
     public void setUserName(String userName) {
         UserName = userName;
     }
-
-//    public Bitmap getPhoto() {
-//        return Photo;
-//    }
-//
-//    public void setPhoto(Bitmap photo) {
-//        Photo = photo;
-//    }
 
     public ContactListInfoModel(String userName, String mobile) {
         UserName = userName;

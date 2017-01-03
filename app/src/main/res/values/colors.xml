@@ -12,9 +12,7 @@
     <color name="green">#75BA29</color>
     <color name="green1">#75BA2B</color>
     <color name="white">#FFFFFF</color>
-    <color name="grey1">#F8F8F8</color>
     <color name="word">#333333</color>
-    <color name="words">#BFBFBF</color>
     <color name="word2">#C2C2C2</color>
     <color name="word3">#6f6f6f</color>
     <color name="word4">#B2B2B2</color>
@@ -26,7 +24,6 @@
     <color name="word11">#da2213</color>
     <color name="word12">#CCCCCC</color>
     <color name="word13">#b3b3b3</color>
-    <color name="word14">#74b92a</color>
     <color name="word15">#ffa100</color>
     <color name="word16">#cccbcb</color>
     <color name="textCursor">#ff346df5</color>
@@ -37,5 +34,13 @@
     <color name="grey5">#c9c8ce</color>
     <color name="grey6">#dedede</color>
     <color name="editorText">#75ba2b</color>
-
+    <color name="text_light">#ababab</color>
+    <color name="text_normal">#626262</color>
+    <color name="yellow">#FFA200</color>
+    <color name="text_dd">#424242</color>
+    <color name="exit_btn">#EC7166</color>
+    <color name="comment_name">#576a80</color>
+    <color name="comment_content">#333333</color>
+    <color name="btn_grey_true">#a99f9f</color>
+    <color name="btn_grey_false">#666666</color>
 </resources>

@@ -7,20 +7,16 @@ package com.softtek.lai.chat.ui;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,28 +26,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.easeui.domain.EaseEmojicon;
-import com.easemob.easeui.utils.EaseCommonUtils;
-import com.easemob.easeui.widget.EaseChatExtendMenu;
-import com.easemob.easeui.widget.EaseChatInputMenu;
-import com.easemob.easeui.widget.EaseVoiceRecorderView;
-import com.easemob.util.PathUtil;
-import com.softtek.lai.LaiApplication;
+import com.google.gson.Gson;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.widget.EaseChatExtendMenu;
+import com.hyphenate.easeui.widget.EaseChatInputMenu;
+import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
+import com.hyphenate.util.PathUtil;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.widgets.PopUpWindow.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,11 +51,11 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_group_sent_chat)
 public class GroupSentActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "GroupSentActivity";
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -95,50 +87,17 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
 
-    protected int[] itemStrings = {com.easemob.easeui.R.string.attach_take_pic, com.easemob.easeui.R.string.attach_picture, com.easemob.easeui.R.string.attach_location};
-    protected int[] itemdrawables = {com.easemob.easeui.R.drawable.ease_chat_takepic_selector, com.easemob.easeui.R.drawable.ease_chat_image_selector,
-            com.easemob.easeui.R.drawable.ease_chat_location_selector};
+    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location};
+    protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
+            R.drawable.ease_chat_location_selector};
     protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION};
 
     protected MyItemClickListener extendMenuItemClickListener;
 
-    List<ChatContactInfoModel> list;
+    List<ChatContactModel> list;
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (builder != null) {
-                return;
-            }
-            builder = new AlertDialog.Builder(GroupSentActivity.this)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(LaiApplication.getInstance().getContext().get(), LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            LaiApplication.getInstance().startActivity(intent);
-                        }
-                    }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
-                    dialog.show();
-                }
-            }
-
-        }
-
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,54 +118,13 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         });
 
         inputMenu.init(null);
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-                if (error == EMError.CONNECTION_CONFLICT) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                //EaseACKUtil.getInstance(GroupSentActivity.this).checkACKData();
-
-            }
-        };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
-
 
         inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
-
             @Override
             public void onSendMessage(final String content) {
                 // 发送文本消息
                 for (int i = 0; i < list.size(); i++) {
-                    final ChatContactInfoModel model = list.get(i);
+                    final ChatContactModel model = list.get(i);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -224,7 +142,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                     public void onVoiceRecordComplete(final String voiceFilePath, final int voiceTimeLength) {
                         // 发送语音消息
                         for (int i = 0; i < list.size(); i++) {
-                            final ChatContactInfoModel model = list.get(i);
+                            final ChatContactModel model = list.get(i);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -242,7 +160,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             public void onBigExpressionClicked(final EaseEmojicon emojicon) {
                 //发送大表情(动态表情)
                 for (int i = 0; i < list.size(); i++) {
-                    final ChatContactInfoModel model = list.get(i);
+                    final ChatContactModel model = list.get(i);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -253,6 +171,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EaseConstant.IS_GROUP_SENT = "true";
     }
 
     /**
@@ -290,11 +214,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        list = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        list = (ArrayList<ChatContactModel>) getIntent().getSerializableExtra("list");
         text_count.setText("你将发送消息给" + list.size() + "位朋友:");
         String value = "";
         for (int i = 0; i < list.size(); i++) {
-            ChatContactInfoModel model = list.get(i);
+            ChatContactModel model = list.get(i);
             if (i == 0) {
                 value = value + model.getUserName();
             } else {
@@ -317,12 +241,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
      * 照相获取图片
      */
     protected void selectPicFromCamera() {
-        if (!EaseCommonUtils.isExitsSdcard()) {
-            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
+        if (!EaseCommonUtils.isSdcardExist()) {
+            Toast.makeText(this, R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMChatManager.getInstance().getCurrentUser()
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
                 + System.currentTimeMillis() + ".jpg");
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(
@@ -337,7 +261,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             if (requestCode == REQUEST_CODE_CAMERA) { // 发送照片
                 if (cameraFile != null && cameraFile.exists()) {
                     for (int i = 0; i < list.size(); i++) {
-                        final ChatContactInfoModel model = list.get(i);
+                        final ChatContactModel model = list.get(i);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -381,10 +305,12 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         public void onClick(int itemId, View view) {
             switch (itemId) {
                 case ITEM_TAKE_PICTURE: // 拍照
-                    selectPicFromCamera();
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
+//                    selectPicFromCamera();
                     break;
                 case ITEM_PICTURE:
-                    selectPicFromLocal(); // 图库选择图片
+//                    selectPicFromLocal(); // 图库选择图片
+                    zilla.libcore.util.Util.toastMsg("不支持群发图片");
                     break;
                 case ITEM_LOCATION: // 位置
                     //startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
@@ -399,50 +325,69 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     //发送消息方法
     //==========================================================================
-    protected void sendTextMessage(String content, ChatContactInfoModel model) {
+    protected void sendTextMessage(String content, ChatContactModel model) {
         EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
-    protected void sendBigExpressionMessage(String name, String identityCode, ChatContactInfoModel model) {
+    protected void sendBigExpressionMessage(String name, String identityCode, ChatContactModel model) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId().toLowerCase(), name, identityCode);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
-    protected void sendVoiceMessage(String filePath, int length, ChatContactInfoModel model) {
+    protected void sendVoiceMessage(String filePath, int length, ChatContactModel model) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
-    protected void sendImageMessage(String imagePath, ChatContactInfoModel model) {
+    protected void sendImageMessage(String imagePath, ChatContactModel model) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId().toLowerCase());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(model.getHXAccountId().toLowerCase(), EMConversation.EMConversationType.Chat, true);
         sendMessage(message, conversation, model);
     }
 
-    protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactInfoModel model) {
+    protected void sendMessage(EMMessage message, EMConversation conversation, ChatContactModel model) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
 
+        Log.i(TAG, "发送人的个人信息 = nickname = " + chatUserModel.getUserName() + " avatarURL = " + chatUserModel.getUserPhone() + " userId = " + chatUserModel.getUserId().toLowerCase());
+        if (chatUserModel != null) {
+            message.setAttribute("nickname", chatUserModel.getUserName());
+            message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+            message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
+        }
+
+        if (model != null && conversation != null) {
+            setProfile(conversation, model);
+        }
+        message.setChatType(EMMessage.ChatType.Chat);
         //发送消息
-        EMChatManager.getInstance().sendMessage(message, null);
-        setProfile(conversation, model);
+//        EMClient.getInstance().chatManager().sendMessage(message, null);//jessica
+        EMClient.getInstance().chatManager().sendMessage(message);
+//        message.setChatType(EMMessage.ChatType.Chat);
+
+
+        //send message
+//        EMClient.getInstance().chatManager().sendMessage(message);
+
         Intent intent = new Intent(this, ConversationListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
-    protected void setProfile(EMConversation conversation, ChatContactInfoModel model) {
+    protected void setProfile(EMConversation conversation, ChatContactModel model) {
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        String name = model.getUserName();
-        String photo = model.getPhoto();
-        conversation.setExtField(name + "," + path + photo);
+
+        Log.i("+++", "path = " + path);
+        Log.i("+++", "model= " + new Gson().toJson(model));
+        if (model != null) {
+            String name = model.getUserName();
+            String photo = model.getPhoto();
+            conversation.setExtField(name + "," + path + photo);
+        }
     }
 
     /**
@@ -461,13 +406,13 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             cursor = null;
 
             if (picturePath == null || picturePath.equals("null")) {
-                Toast toast = Toast.makeText(this, com.easemob.easeui.R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return;
             }
             for (int i = 0; i < list.size(); i++) {
-                final ChatContactInfoModel model = list.get(i);
+                final ChatContactModel model = list.get(i);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -479,14 +424,14 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         } else {
             final File file = new File(selectedImage.getPath());
             if (!file.exists()) {
-                Toast toast = Toast.makeText(this, com.easemob.easeui.R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return;
 
             }
             for (int i = 0; i < list.size(); i++) {
-                final ChatContactInfoModel model = list.get(i);
+                final ChatContactModel model = list.get(i);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

@@ -18,14 +18,14 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.adapter.GridAdapter;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
-import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -74,7 +74,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
     private CommunityService service;
     private HealthyDynamicModel model;
     private List<String> images=new ArrayList<>();
-    private LogDetailGridAdapter adapter;
+    private GridAdapter adapter;
     private long accountId=-1;
 
     @Override
@@ -112,7 +112,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 images.addAll(Arrays.asList(image));
             }
         }
-        adapter=new LogDetailGridAdapter(this,images);
+        adapter=new GridAdapter(this,images);
         list_image.setAdapter(adapter);
         dialogShow("加载中...");
         UserModel user= UserInfoModel.getInstance().getUser();

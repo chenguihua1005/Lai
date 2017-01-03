@@ -4,60 +4,33 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#c9c8ce"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <FrameLayout
-        android:id="@+id/fl"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/toolbar"
-        android:background="#c9c8ce"
-        android:padding="9dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/pk_chouma_editor_boder"
-            android:gravity="center_vertical"
-            android:hint="手机号或者姓名"
-            android:paddingLeft="28dp"
-            android:singleLine="true"
-            android:textColor="#666666"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/pk_search" />
-
-    </FrameLayout>
+    <include layout="@layout/expandable_head_contact" />
 
     <LinearLayout
         android:id="@+id/lin_group_send"
         android:layout_width="fill_parent"
+        android:layout_height="60dip"
         android:background="@color/grey"
-        android:layout_height="60dip">
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="15dip"
-            android:src="@drawable/img_group"/>
+            android:src="@drawable/img_group" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,9 +41,78 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_contant"
+
+    <LinearLayout
+        android:id="@+id/grid_list"
         android:layout_width="fill_parent"
-        android:layout_marginTop="10dip"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:orientation="horizontal">
+
+        <com.softtek.lai.widgets.CustomGridView
+            android:id="@+id/menu_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:numColumns="3"></com.softtek.lai.widgets.CustomGridView>
+
+
+    </LinearLayout>
+
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+    <!--android:id="@+id/list_contant"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:divider="#ececec"-->
+    <!--android:dividerHeight="1dp"-->
+    <!--android:listSelector="@android:color/transparent"-->
+    <!--android:overScrollMode="never"-->
+    <!--android:scrollbars="none"-->
+    <!--android:layout_marginTop="10dip">-->
+
+    <!--</com.handmark.pulltorefresh.library.PullToRefreshListView>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
+            android:id="@+id/list_contant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#e1e1e1"
+            android:dividerHeight="0.5dp"
+            android:groupIndicator="@null"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:ptrAnimationStyle="flip"
+            app:ptrShowIndicator="false" />
+
+        <TextView
+            android:id="@+id/tv_perview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="#B2898787"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="70sp"
+            android:visibility="gone" />
+
+        <com.ggx.widgets.view.ChooseView
+            android:id="@+id/choose"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+    <!--<ListView-->
+
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_marginTop="10dip" />-->
 </LinearLayout>

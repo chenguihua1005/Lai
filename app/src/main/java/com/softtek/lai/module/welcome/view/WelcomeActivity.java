@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
 import com.github.snowdream.android.util.Log;
@@ -23,11 +24,14 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
+import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;
@@ -56,6 +60,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initViews() {
+        //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         Constants.IS_LOGINIMG="0";
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
@@ -69,7 +74,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
             LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         }
-        new Handler(Looper.getMainLooper()).postDelayed(this,1000);
+        new Handler(Looper.getMainLooper()).postDelayed(this,500);
 
     }
 
@@ -87,11 +92,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
             if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
-                UserInfoModel.getInstance().visitorLogin();
-                finish();
-                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
+                UserInfoModel.getInstance().loginOut();
+                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.activity_enter,0);
+                finish();
             }else{
                 //登录
                 PackageManager pm= getPackageManager();
@@ -109,13 +113,17 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                         int status=userModelResponseData.getStatus();
                         switch (status) {
                             case 200:
-                                //JPushInterface.init(WelcomeActivity.this);
-                                //JpushSet set = new JpushSet(WelcomeActivity.this);
                                 UserModel model=userModelResponseData.getData();
-                                Log.i("token=="+model.getToken());
-                                //set.setAlias(model.getMobile());
-                                //set.setStyleBasic();
+                                JpushSet set = new JpushSet(LaiApplication.getInstance());
+                                set.setAlias(model.getMobile());
+                                set.setStyleBasic();
                                 UserInfoModel.getInstance().saveUserCache(model);
+
+                                //检查是否存在环信帐号
+                                if (!TextUtils.isEmpty(model.getHXAccountId())) {
+                                    //开启登录服务
+                                    startService(new Intent(getApplicationContext(), HXLoginService.class));
+                                }
                                 //如果用户加入了跑团
                                 if("1".equals(model.getIsJoin())){
                                     stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
@@ -155,11 +163,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-                                UserInfoModel.getInstance().visitorLogin();
-                                finish();
-                                Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
+                                UserInfoModel.getInstance().loginOut();
+                                Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                                 startActivity(intent);
-                                overridePendingTransition(R.anim.activity_enter,0);
+                                finish();
                                 break;
                         }
                     }
@@ -178,11 +185,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     }
 
     private void stepDeal(Context context, String userId, long step){
-        //List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-        //StepUtil.getInstance().deleteOldDate(dateEnd);
-        //首先先关闭服务
-        //isServiceStarted(context.getApplicationContext(),StepService.class.getPackage().getName());
-        //LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         //获取用户最新的步数
         int currentStep=StepUtil.getInstance().getCurrentStep(userId);
         //删除旧数据
@@ -205,34 +207,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
-
-        /*if(!steps.isEmpty()){
-            UserStep stepEnd=steps.get(steps.size()-1);
-            int currentStep= (int) (stepEnd.getStepCount());
-            if(step>currentStep){
-                //如果服务器上的步数大于本地
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(step);
-                StepUtil.getInstance().saveStep(userStep);
-            }else{
-                //如果本地大于服务器的
-                UserStep userStep=new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(currentStep);
-                StepUtil.getInstance().saveStep(userStep);
-            }
-            //如果不大于则 不需要操作什么
-        }else{
-            //本地没有数据则写入本地
-            UserStep serverStep=new UserStep();
-            serverStep.setAccountId(Long.parseLong(userId));
-            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            serverStep.setStepCount(step);
-            StepUtil.getInstance().saveStep(serverStep);
-        }*/
     }
     public static  boolean isServiceStarted(Context context,String packageName){
         boolean isStarted =false;

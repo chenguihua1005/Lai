@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/img_about_me_logo" />
+                    android:src="@drawable/logo3" />
 
                 <TextView
                     android:id="@+id/tv_version"
@@ -40,7 +40,8 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/version"
                     android:textColor="#808080"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    android:layout_marginTop="10dp"/>
             </RelativeLayout>
 
             <TextView

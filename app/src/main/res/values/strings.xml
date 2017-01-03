@@ -12,7 +12,6 @@
     <string name="crateClassChooseValue">请选择</string>
 
     <string name="app_name">莱聚+</string>
-    <string name="hello_world">hello_world</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -40,6 +39,9 @@
     <string name="psdReg">(?![^a-zA-Z]+$)(?!\\D+$).{6,16}</string>
     <string name="forgetPsd">
         <u>忘记密码?</u>
+    </string>
+    <string name="ZQS">
+        <u>本人已仔细阅读 《康宝莱使用知情书》</u>
     </string>
 
     <string name="neterror">服务器异常</string>
@@ -159,6 +161,80 @@
     <string name="naixi1">PK结束后，输家必须亲手为赢家调制一杯美味奶昔，记得选用对方喜爱的口味和食材哦。</string>
     <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
     <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
+    <string name="noclass">您尚未加入班级，可以搜索加入班级\n或者创建一个新班级</string>
+    <string name="noclass1">您尚未加入班级，可以搜索加入班级</string>
+    <string name="sptext"></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--日历文字说明-->
+    <string name="previous">Go to previous</string>
+    <string name="next1">Go to next</string>
+    <string name="calendar">Calendar</string>
+
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="zhiqingshu"><u>本人已阅读《康宝莱使用知情书》</u></string>
+
+    <string name="removing_friendMsg">正在移除好友消息</string>
+
+
+    <!--荣誉榜-->
+    <string name="rank_number_test">1</string>
+    <string name="rank_group_name_test">组</string>
+    <string name="rank_trainer_name_test">小王小王小王小王小王</string>
+    <string name="rank_trainer_name_test1">(教练)</string>
+    <string name="rank_per_number1_test">20</string>
+    <string name="rank_per_number2_test">%</string>
+    <string name="rank_per_test">人均减重比</string>
+    <string name="honorRank">荣誉榜</string>
+    <string name="rule">规则说明</string>
+    <string name="weight_per">人均减重比</string>
+    <string name="fat_per">人均减脂比</string>
+    <string name="physical_manage1">第一体管周</string>
+    <string name="physical_manage2">第二体管周</string>
+    <string name="physical_manage3">第三体管周</string>
+    <string name="physical_manage4">第四体管周</string>
+    <string name="physical_manage5">第五体管周</string>
+    <string name="physical_manage6">第六体管周</string>
+    <string name="physical_manage7">第七体管周</string>
+    <string name="physical_manage8">第八体管周</string>
+    <string name="physical_manage9">第九体管周</string>
+    <string name="physical_manage10">第十体管周</string>
+    <string name="physical_manage11">第十一体管周</string>
+    <string name="physical_manage12">第十二体管周</string>
+    <string name="lose_weight">减重比</string>
+    <string name="lose_fat">减脂比</string>
+    <string name="lose_weight_per">减重比</string>
+    <string name="lose_fat_per">减脂比</string>
+    <string name="physical_manage_month1">第一体馆月</string>
+    <string name="physical_manage_month2">第二体馆月</string>
+    <string name="physical_manage_month3">第三体馆月</string>
+    <string name="et_chu_text">初始体重必填项，请选择</string>
+    <string name="group_ranking">组内排名</string>
+    <string name="past_ranking">往期榜单</string>
+    <string name="waiting">虚位以待</string>
+    <string name="init_weight">初始体重%1$s斤</string>
+    <string name="init_fat">初始体脂%1$s%%</string>
+    <string name="ranking_date">榜单日期: </string>
+    <string name="title_ranking_group">组内排名(%1$s)</string>
+    <string name="week_ranking">本周第%1$s名</string>
+    <string name="month_ranking">本月第%1$s名</string>
+    <string name="title_group_total">组内排名(总排名)</string>
+
+
+    <string name="please_close_class">解散班级群(请先关闭班级)</string>
+    <string name="please_dismiss_class">解散班级群</string>
 
 
 </resources>

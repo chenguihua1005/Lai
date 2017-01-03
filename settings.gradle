@@ -1,1 +1,1 @@
-include ':app', ':social_project', ':image_file_selector', ':easeui'
+include ':app', ':social_project', ':takePhoto', ':widgets', ':easeui'

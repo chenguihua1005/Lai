@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.github.snowdream.android.util.Log;
@@ -43,21 +44,25 @@ public class RegistPresenterImpl implements IRegistPresenter {
     }
 
     @Override
-    public void doRegist(String userName, String password, EditText et_identify) {
-        String identify = et_identify.getText().toString();
-        service.doRegist(userName, password, identify, new Callback<ResponseData<UserModel>>() {
+    public void doRegist(String userName, String password, String HxAccountId, String identify, final Button btn_regist) {
+        service.doRegist(userName, password, HxAccountId, identify, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(ResponseData<UserModel> userResponseData, Response response) {
+                try {
+                    btn_regist.setEnabled(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Log.i(userResponseData.toString());
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        UserModel model=userResponseData.getData();
+                        UserModel model = userResponseData.getData();
                         model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
                         UserInfoModel.getInstance().setToken("");
-                        Intent intent=new Intent(context, CreatFlleActivity.class);
-                        intent.putExtra("token",model.getToken());
+                        Intent intent = new Intent(context, CreatFlleActivity.class);
+                        intent.putExtra("token", model.getToken());
                         ((AppCompatActivity) context).finish();
                         context.startActivity(intent);
                         break;
@@ -70,6 +75,11 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                try {
+                    btn_regist.setEnabled(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ZillaApi.dealNetError(error);
 
             }

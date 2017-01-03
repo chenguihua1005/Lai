@@ -1,226 +1,351 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.module.message2.view;
 
-
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ggx.widgets.adapter.EasyAdapter;
+import com.ggx.widgets.adapter.ViewHolder;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.message.model.CheckClassEvent;
-import com.softtek.lai.module.message.presenter.IMessagePresenter;
-import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.message.view.ZQSActivity;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
-import com.softtek.lai.module.message2.presenter.MessageMainManager;
+import com.softtek.lai.module.message2.net.Message2Service;
+import com.softtek.lai.utils.RequestCallback;
+import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jarvis.liu on 3/22/2016.
- * 荣誉榜
+ * 操作类消息
  */
 @InjectLayout(R.layout.activity_message_operator)
-public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener, MessageMainManager.OperatorCallBack {
+public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.lv)
+    PullToRefreshListView lv;
 
-    @InjectView(R.id.text_value)
-    TextView text_value;
+    @InjectView(R.id.footer)
+    LinearLayout footer;
+    @InjectView(R.id.tv_delete)
+    TextView tv_delete;
+    @InjectView(R.id.lin_select)
+    LinearLayout lin_select;
+    @InjectView(R.id.cb_all)
+    CheckBox cb_all;
 
-    @InjectView(R.id.text_zqs)
-    TextView text_zqs;
+    public boolean isSelsetAll = false;
+    private List<Integer> deleteIndex=new ArrayList<>();
+    private boolean doOperator=false;
 
-    @InjectView(R.id.text_zqs1)
-    TextView text_zqs1;
-
-    @InjectView(R.id.but_yes)
-    Button but_yes;
-
-    @InjectView(R.id.but_no)
-    Button but_no;
-
-    @InjectView(R.id.img)
-    ImageView img;
-
-    @InjectView(R.id.lin)
-    LinearLayout lin;
-
-    private boolean isSelect = true;
-
-    private OperateMsgModel model;
-    private String msg_type;
-    private IMessagePresenter messagePresenter;
-    private IAssistantPresenter assistantPresenter;
-    private MessageMainManager manager;
-
+    EasyAdapter<OperateMsgModel> adapter;
+    private List<OperateMsgModel> operatList=new ArrayList<>();
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
-        ll_left.setOnClickListener(this);
-        but_no.setOnClickListener(this);
-        but_yes.setOnClickListener(this);
-        text_zqs.setOnClickListener(this);
-        text_zqs1.setOnClickListener(this);
-        img.setOnClickListener(this);
 
+        tv_title.setText("小助手");
+        tv_delete.setOnClickListener(this);
+        lin_select.setOnClickListener(this);
+        tv_right.setText("编辑");
+        fl_right.setOnClickListener(this);
+        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        ILoadingLayout startLabelse = lv.getLoadingLayoutProxy(true,false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        lv.setOnRefreshListener(this);
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+        adapter=new EasyAdapter<OperateMsgModel>(this,operatList,R.layout.item_message_xzs) {
+            @Override
+            public void convert(ViewHolder holder, final OperateMsgModel data, final int position) {
+                ImageView iv_select=holder.getView(R.id.iv_select);
+                if(doOperator){
+                    iv_select.setVisibility(View.VISIBLE);
+                }else {
+                    iv_select.setImageResource(R.drawable.history_data_circle);
+                    iv_select.setVisibility(View.GONE);
+                }
+                if (data.isSelected()) {
+                    iv_select.setImageResource(R.drawable.history_data_circled);
+                } else {
+                    iv_select.setImageResource(R.drawable.history_data_circle);
+                }
 
+                TextView tv_time=holder.getView(R.id.tv_time);
+                tv_time.setText(data.getSendTime());
+                TextView tv_content=holder.getView(R.id.tv_content);
+                tv_content.setText(data.getMsgContent());
+                tv_content.append(" >>");
+                TextView tv_status=holder.getView(R.id.tv_status);
+                //显示此条消息的状态
+                if(0==data.getMsgStatus()){
+                    //未操作
+                    tv_status.setText("未处理");
+                }else if(data.getMsgStatus()==1){
+                    //接受
+                    tv_status.setText("已同意");
+                }else if(data.getMsgStatus()==2){
+                    //拒绝
+                    tv_status.setText("已忽略");
+                }
+                TextView tv_title=holder.getView(R.id.tv_title);
+                if(data.getMsgtype()==2){
+                    tv_title.setText("邀请成为教练");
+                }else if (data.getMsgtype()==3){
+                    tv_title.setText("邀请成为助教");
+                }else if (data.getMsgtype()==4){
+                    tv_title.setText("邀请成为学员");
+                } else if (data.getMsgtype()==5){
+                    tv_title.setText("申请加入班级");
+                }
+                ImageView iv_head=holder.getView(R.id.iv_head);
+                if(TextUtils.isEmpty(data.getSenderPhoto())){
+                    Picasso.with(MessageOperatorActivity.this).load(R.drawable.img_default).into(iv_head);
+                }else {
+                    Picasso.with(MessageOperatorActivity.this)
+                            .load(AddressManager.get("photoHost")+data.getSenderPhoto())
+                            .fit()
+                            .error(R.drawable.img_default)
+                            .placeholder(R.drawable.img_default).into(iv_head);
+                }
+
+            }
+        };
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                OperateMsgModel model=operatList.get(i-1);
+                if(doOperator){
+                    //正在操作的话
+                    if(model.isSelected()){
+                        isSelsetAll=false;
+                        cb_all.setChecked(false);
+                        model.setSelected(false);
+                        deleteIndex.remove(Integer.valueOf(i-1));
+                    }else {
+                        model.setSelected(true);
+                        deleteIndex.add(Integer.valueOf(i-1));
+                        if(operatList.size()==deleteIndex.size()){
+                            isSelsetAll=true;
+                            cb_all.setChecked(true);
+                        }else {
+                            cb_all.setChecked(false);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    return;
+                }
+                if(5==model.getMsgtype()){
+                    Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
+                    intent.putExtra("msgId", model.getMsgid());
+                    startActivityForResult(intent, 10);
+                }else {
+                    Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
+                    intent.putExtra("msgId", model.getMsgid());
+                    startActivityForResult(intent, 10);
+                }
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
-        model = (OperateMsgModel) getIntent().getSerializableExtra("model");
-        assistantPresenter = new AssistantImpl(this);
-        messagePresenter = new MessageImpl(this);
-        text_value.setText(model.getContent());
-        msg_type = model.getMsgType();
-        if ("0".equals(msg_type)) {
-            tv_title.setText("助教申请");
-        } else if ("1".equals(msg_type)) {
-            tv_title.setText("助教移除");
-            manager = new MessageMainManager(this);
-        } else if ("2".equals(msg_type)) {
-            tv_title.setText("助教邀请");
-        } else if ("3".equals(msg_type)) {
-            tv_title.setText("确认参赛");
-        }
-        if("1".equals(model.getIsDo())){
-            but_no.setVisibility(View.GONE);
-            but_yes.setVisibility(View.GONE);
-            lin.setVisibility(View.GONE);
-        }else {
-            but_no.setVisibility(View.VISIBLE);
-            but_yes.setVisibility(View.VISIBLE);
-            lin.setVisibility(View.VISIBLE);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(lv!=null){
+                    lv.setRefreshing();
+                }
+            }
+        },400);
+
+    }
+
+    private void onResult(List<OperateMsgModel> data){
+            tv_right.setText("编辑");
+            fl_right.setOnClickListener(this);
+            operatList.clear();
+            operatList.addAll(data);
+            adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(lv!=null){
+                        lv.setRefreshing();
+                    }
+                }
+            },400);
         }
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fl_right:
+                if(!doOperator){
+                    lv.setMode(PullToRefreshBase.Mode.DISABLED);
+                    doOperator=true;
+                    tv_right.setText("完成");
+                    cb_all.setChecked(false);
+                    footer.setVisibility(View.VISIBLE);
+                }else {
+                    lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+                    doOperator=false;
+                    tv_right.setText("编辑");
+                    footer.setVisibility(View.GONE);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_delete:
+                dialogShow("正在删除");
+                StringBuilder builder=new StringBuilder();
+                for(int i=0,j=deleteIndex.size();i<j;i++){
+                    builder.append(operatList.get(deleteIndex.get(i)).getMsgid());
+                    if(i<j-1){
+                        builder.append(",");
+                    }
+                }
+                ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                        .deleteMssage(UserInfoModel.getInstance().getToken(),
+                                builder.toString(),
+                                1,
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        if(responseData.getStatus()!=200){
+                                            return;
+                                        }
+                                        for(int i=0,j=deleteIndex.size();i<j;i++){
+                                            operatList.remove(deleteIndex.get(i).intValue());
+                                        }
+                                        deleteIndex.clear();
+                                        cb_all.setChecked(false);
+                                        adapter.notifyDataSetChanged();
+                                        dialogDissmiss();
+
+
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDissmiss();
+                                        super.failure(error);
+                                    }
+                                });
+
+                break;
+            case R.id.lin_select:
+                if (isSelsetAll) {
+                    isSelsetAll = false;
+                    cb_all.setChecked(false);
+                    deleteIndex.clear();
+                    for (OperateMsgModel model:operatList){
+                        model.setSelected(false);
+                    }
+                } else {
+                    isSelsetAll = true;
+                    cb_all.setChecked(true);
+                    deleteIndex.clear();
+                    for (int i=0;i<operatList.size();i++){
+                        operatList.get(i).setSelected(true);
+                        deleteIndex.add(Integer.valueOf(i));
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                break;
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
-            //设置返回数据
-            setResult(RESULT_OK, intent);
+        if(doOperator&&keyCode==KeyEvent.KEYCODE_BACK){
+            doOperator=false;
+            tv_right.setText("编辑");
+            footer.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            return true;
+        }else if(keyCode==KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_left:
-                Intent intents = new Intent();
-                //把返回数据存入Intent
-                intents.putExtra("type", "xzs");
-                //设置返回数据
-                setResult(RESULT_OK, intents);
-                finish();
-                break;
-            case R.id.img:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs:
-                if (isSelect) {
-                    img.setImageResource(R.drawable.img_join_game_select);
-                    isSelect = false;
-                } else {
-                    img.setImageResource(R.drawable.img_join_game_selected);
-                    isSelect = true;
-                }
-                break;
-            case R.id.text_zqs1:
-                startActivity(new Intent(this, ZQSActivity.class));
-                break;
-            case R.id.but_no:
-                dialogShow("加载中");
-                if ("0".equals(msg_type)) {
-                    assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 0, 0, "message");
-                } else if ("1".equals(msg_type)) {
-                    manager.doRefuseRemoveSR(model.getMsgId());
-                } else if ("2".equals(msg_type)) {
-                    messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "0");
-                } else if ("3".equals(msg_type)) {
-                    messagePresenter.acceptInviterToClass(model.getReceId(), model.getClassId(), "0");
-                }
 
-                break;
-            case R.id.but_yes:
-                if (isSelect) {
-                    dialogShow("加载中");
-                    if ("0".equals(msg_type)) {
-                        assistantPresenter.reviewAssistantApplyList(Long.parseLong(model.getMsgId()), 1, 0, "message");
-                    } else if ("1".equals(msg_type)) {
-                        assistantPresenter.removeAssistantRoleByClass(model.getSenderId(), model.getClassId(), "message");
-                    } else if ("2".equals(msg_type)) {
-                        messagePresenter.acceptInviter(model.getSenderId(), model.getClassId(), "1");
-                    } else if ("3".equals(msg_type)) {
-                        dialogShow("加载中");
-                        messagePresenter.accIsJoinClass(UserInfoModel.getInstance().getUserId()+"",model.getClassId());
-                    }
-
-                } else {
-                    Util.toastMsg(R.string.joinGameQ);
-                }
-                break;
-
-        }
-    }
-
-    @Subscribe
-    public void onEvent(CheckClassEvent event) {
-        dialogDissmiss();
-        Intent intent = new Intent(this, JoinGameDetailActivity.class);
-        intent.putExtra("classId", model.getClassId());
-        intent.putExtra("type", "1");
-        startActivity(intent);
-    }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
+    public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                .getOperateMsgList(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(),
+                        new RequestCallback<ResponseData<List<OperateMsgModel>>>() {
+                            @Override
+                            public void success(ResponseData<List<OperateMsgModel>> data, Response response) {
+                                try {
+                                    lv.onRefreshComplete();
+                                    if(data.getStatus()==200){
+                                        onResult(data.getData());
+                                    }else {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-    @Override
-    public void refuseRemoveSR(String type) {
-        dialogDissmiss();
-        if ("true".equals(type)) {
-            Intent intent =getIntent();
-            //把返回数据存入Intent
-            intent.putExtra("type", "xzs");
-            //设置返回数据
-            setResult(RESULT_OK, intent);
-            finish();
-        }
+                            @Override
+                            public void failure(RetrofitError error) {
+                                try {
+                                    lv.onRefreshComplete();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                super.failure(error);
+                            }
+                        });
     }
 }

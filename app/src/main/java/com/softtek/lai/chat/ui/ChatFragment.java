@@ -1,6 +1,7 @@
 package com.softtek.lai.chat.ui;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -13,16 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.easemob.EMNotifierEvent;
-import com.easemob.chat.CmdMessageBody;
-import com.easemob.chat.EMMessage;
-import com.easemob.chat.TextMessageBody;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.ui.EaseChatFragment;
-import com.easemob.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
-import com.easemob.easeui.widget.chatrow.EaseChatRow;
-import com.easemob.easeui.widget.chatrow.EaseCustomChatRowProvider;
-import com.easemob.util.PathUtil;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
+import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
+import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
+import com.hyphenate.util.PathUtil;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -67,9 +66,10 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     @Override
     protected void setUpView() {
-        setChatFragmentHelper(this);
+        setChatFragmentListener(this);
         super.setUpView();
     }
+
     @Override
     protected void registerExtendMenuItem() {
         //demo这里不覆盖基类已经注册的item,item点击listener沿用基类的
@@ -83,12 +83,20 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
                 case ContextMenuActivity.RESULT_CODE_COPY: // 复制消息
-                    clipboard.setText(((TextMessageBody) contextMenuMessage.getBody()).getMessage());
+//                    clipboard.setText(((TextMessageBody) contextMenuMessage.getBody()).getMessage());
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null,
+                            ((EMTextMessageBody) contextMenuMessage.getBody()).getMessage()));
                     break;
                 case ContextMenuActivity.RESULT_CODE_DELETE: // 删除消息
                     conversation.removeMessage(contextMenuMessage.getMsgId());
                     refreshUI();
                     break;
+                case ContextMenuActivity.RESULT_CODE_FORWARD: // forward
+//                    Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
+//                    intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
+//                    startActivity(intent);
+
+//                    break;
                 default:
                     break;
             }
@@ -126,17 +134,17 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     }
 
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewCMDMessage:
-                EMMessage cmdMessage = (EMMessage) event.getData();
-                CmdMessageBody cmdMsgBody = (CmdMessageBody) cmdMessage.getBody();
-                final String action = cmdMsgBody.action;//获取自定义action
-                break;
-        }
-        super.onEvent(event);
-    }
+//    @Override
+//    public void onEvent(EMNotifierEvent event) {
+//        switch (event.getEvent()) {
+//            case EventNewCMDMessage:
+//                EMMessage cmdMessage = (EMMessage) event.getData();
+//                CmdMessageBody cmdMsgBody = (CmdMessageBody) cmdMessage.getBody();
+//                final String action = cmdMsgBody.action;//获取自定义action
+//                break;
+//        }
+//        super.onEvent(event);
+//    }
 
     /**
      * 刷新UI界面
@@ -156,11 +164,12 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
             message.setAttribute("em_robot_message", isRobot);
         }
         // 根据当前状态是否是阅后即焚状态来设置发送消息的扩展
-        if (isReadFire && (message.getType() == EMMessage.Type.TXT
-                || message.getType() == EMMessage.Type.IMAGE
-                || message.getType() == EMMessage.Type.VOICE)) {
-            message.setAttribute(EaseConstant.EASE_ATTR_READFIRE, true);
-        }
+        //delete jessica
+//        if (isReadFire && (message.getType() == EMMessage.Type.TXT
+//                || message.getType() == EMMessage.Type.IMAGE
+//                || message.getType() == EMMessage.Type.VOICE)) {
+//            message.setAttribute(EaseConstant.EASE_ATTR_READFIRE, true);
+//        }
 
     }
 
@@ -178,6 +187,15 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //头像点击事件
+        Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+        intent.putExtra("HXAccountId",username);
+        intent.putExtra("ClassId","");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAvatarLongClick(String username) {
+
     }
 
     @Override

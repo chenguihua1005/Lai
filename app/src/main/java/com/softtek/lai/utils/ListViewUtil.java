@@ -33,8 +33,6 @@ public class ListViewUtil {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight
                 + (listView.getDividerHeight() * (listCount - 1));
-        //((MarginLayoutParams) params).setMargins(10, 10, 10, 10); // 可删除
-
         listView.setLayoutParams(params);
     }
 }

@@ -5,20 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.picture.model.UploadImage;
+import com.softtek.lai.widgets.SquareImageView;
 
 import java.util.List;
 
 /**
  * Created by jerry.guan on 4/16/2016.
- *
  */
-public class CommunityPhotoGridViewAdapter extends BaseAdapter{
+public class CommunityPhotoGridViewAdapter extends BaseAdapter {
 
     private List<UploadImage> images;
     private Context context;
@@ -46,21 +44,18 @@ public class CommunityPhotoGridViewAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.gridview_photo_list_1,parent,false);
-            holder=new ViewHolder(convertView);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.gridview_photo_list_1, parent, false);
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        UploadImage file=images.get(position);
-        if(file.getImage()!=null){
-            int px= DisplayUtil.dip2px(context,100);
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(px,px);
-            holder.image.setLayoutParams(params);
+        UploadImage file = images.get(position);
+        if (file.getImage() != null) {
             holder.image.setImageBitmap(file.getBitmap());
-        }else{
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             holder.image.setLayoutParams(params);
             holder.image.setImageBitmap(file.getBitmap());
@@ -68,11 +63,11 @@ public class CommunityPhotoGridViewAdapter extends BaseAdapter{
         return convertView;
     }
 
-    static class ViewHolder{
-        public ImageView image;
+    static class ViewHolder {
+        public SquareImageView image;
 
-        public ViewHolder(View view){
-            image= (ImageView) view.findViewById(R.id.iv);
+        public ViewHolder(View view) {
+            image = (SquareImageView) view.findViewById(R.id.iv);
         }
     }
 }

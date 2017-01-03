@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#FFFFFF">
+    
+    <com.softtek.lai.widgets.CircleImageView
+        android:id="@+id/head_image"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/img_default"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/head_image"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tv_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/tv_name"
+        android:text="(教练)"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

@@ -12,10 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.github.snowdream.android.util.Log;
@@ -50,7 +52,7 @@ import zilla.libcore.file.SharedPreferenceService;
 /**
  * Created by julie.zhu on 3/18/2016.
  */
-public class GuidePagerAdapter extends android.support.v4.view.PagerAdapter {
+public class GuidePagerAdapter extends PagerAdapter {
     private List<View> views;
     private Activity activity;
 
@@ -59,13 +61,14 @@ public class GuidePagerAdapter extends android.support.v4.view.PagerAdapter {
         this.activity = activity;
     }
 
-    @Override
-    public void destroyItem(View arg0, int arg1, Object arg2) {
-        ((ViewPager) arg0).removeView(views.get(arg1));
-    }
+//    @Override
+//    public void destroyItem(View arg0, int arg1, Object arg2) {
+//        ((ViewPager) arg0).removeView(views.get(arg1));
+//    }
 
     @Override
-    public void finishUpdate(View arg0) {
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView(views.get(position));
     }
 
     @Override
@@ -75,6 +78,8 @@ public class GuidePagerAdapter extends android.support.v4.view.PagerAdapter {
         }
         return 0;
     }
+
+
 
     @Override
     public Object instantiateItem(View arg0, int arg1) {
@@ -206,14 +211,6 @@ public class GuidePagerAdapter extends android.support.v4.view.PagerAdapter {
         return (arg0 == arg1);
     }
 
-    @Override
-    public void restoreState(Parcelable arg0, ClassLoader arg1) {
-    }
-
-    @Override
-    public Parcelable saveState() {
-        return null;
-    }
 
     private void stepDeal(Context context, String userId, long step){
         //获取当天的开始时间和结束时间

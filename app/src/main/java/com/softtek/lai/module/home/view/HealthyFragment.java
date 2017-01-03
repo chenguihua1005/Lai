@@ -27,7 +27,7 @@ import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
 
@@ -41,7 +41,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy)
-public class HealthyFragment extends LazyBaseFragment{
+public class HealthyFragment extends LazyBaseFragment {
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
@@ -71,6 +71,7 @@ public class HealthyFragment extends LazyBaseFragment{
 
     @Override
     protected void initViews() {
+
         fl_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +97,7 @@ public class HealthyFragment extends LazyBaseFragment{
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileSelector.selectImage(HealthyFragment.this);
+                            imageFileSelector.selectMutilImage(HealthyFragment.this,9);
                         }
                     }
                 }).create().show();
@@ -125,7 +126,24 @@ public class HealthyFragment extends LazyBaseFragment{
                 UploadImage image=new UploadImage();
                 image.setImage(new File(file));
                 image.setUri(Uri.fromFile(new File(file)));
-                intent.putExtra("uploadImage",image);
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                uploadImages.add(image);
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> files) {
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                for (int i=files.size()-1;i>=0;i--){
+                    UploadImage image=new UploadImage();
+                    File file=new File(files.get(i));
+                    image.setImage(file);
+                    image.setUri(Uri.fromFile(file));
+                    uploadImages.add(image);
+                }
+                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 
@@ -144,7 +162,6 @@ public class HealthyFragment extends LazyBaseFragment{
         imageFileSelector.onActivityResult(requestCode,resultCode,data);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
-                Log.i("dsadasd");
                 tab_content.setCurrentItem(0);
                 int size=fragments.size();
                 if(size>=1){
@@ -172,4 +189,5 @@ public class HealthyFragment extends LazyBaseFragment{
             }
         }
     }
+
 }

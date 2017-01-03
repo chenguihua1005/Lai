@@ -6,7 +6,6 @@
 package com.softtek.lai.chat.ui;
 
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -25,24 +22,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.controller.EaseUI;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.easeui.utils.EaseACKUtil;
-import com.easemob.util.EMLog;
-import com.easemob.util.NetUtils;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.ChatUserInfoModel;
+import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.easeui.model.EaseAtMessageHelper;
+import com.hyphenate.util.EMLog;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
@@ -51,17 +40,15 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_conversation_list)
-public class ConversationListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, EMEventListener {
+public class ConversationListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, EMMessageListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -90,44 +77,12 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (builder != null) {
-                return;
-            }
-            builder = new AlertDialog.Builder(ConversationListActivity.this)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getContext().get()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    }).setCancelable(false);
-            Dialog dialog=builder.create();
-            if(!isFinishing()){
-                if(dialog!=null && !dialog.isShowing()){
-                    dialog.show();
-                }
-            }
-        }
-
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_title.setText("会话");
-       // iv_email.setImageResource(R.drawable.img_chat_contant);
+        // iv_email.setImageResource(R.drawable.img_chat_contant);
         ll_left.setOnClickListener(this);
         //fl_right.setOnClickListener(this);
         easeUI = EaseUI.getInstance();
@@ -150,45 +105,6 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();
         }
-        connectionListener = new EMConnectionListener() {
-            @Override
-            public void onDisconnected(final int error) {
-
-                if (error == EMError.CONNECTION_CONFLICT) {
-                    SharedPreferenceService.getInstance().put("HXID", "-1");
-                    if (!isFinishing()) {
-                        EMChatManager.getInstance().logout(true, new EMCallBack() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                handler.sendEmptyMessage(0);
-
-                            }
-
-                            @Override
-                            public void onProgress(int progress, String status) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onError(int code, String message) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onConnected() {
-                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-
-            }
-        };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
 
         registerBroadcastReceiver();
         EaseUI.getInstance().getNotifier().reset();
@@ -198,57 +114,6 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     }
 
-
-    /**
-     * 监听事件
-     */
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewMessage: // 普通消息
-                EMMessage message = (EMMessage) event.getData();
-                // 提示新消息
-                ChatHelper.getInstance().getNotifier().onNewMsg(message);
-
-                refreshUIWithMessage();
-                break;
-                case EventOfflineMessage: {
-                refreshUIWithMessage();
-                break;
-            }
-
-            case EventConversationListChanged: {
-                refreshUIWithMessage();
-                break;
-            }
-            case EventNewCMDMessage:
-
-                break;
-            case EventReadAck:
-                // TODO 这里当此消息未加载到内存中时，ackMessage会为null，消息的删除会失败
-                EMMessage ackMessage = (EMMessage) event.getData();
-                EMConversation conversation = EMChatManager.getInstance().getConversation(ackMessage.getTo());
-                // 判断接收到ack的这条消息是不是阅后即焚的消息，如果是，则说明对方看过消息了，对方会销毁，这边也删除(现在只有txt iamge file三种消息支持 )
-                if (ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
-                        && (ackMessage.getType() == EMMessage.Type.TXT
-                        || ackMessage.getType() == EMMessage.Type.VOICE
-                        || ackMessage.getType() == EMMessage.Type.IMAGE)) {
-                    // 判断当前会话是不是只有一条消息，如果只有一条消息，并且这条消息也是阅后即焚类型，当对方阅读后，这边要删除，会话会被过滤掉，因此要加载上一条消息
-                    if (conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())) {
-                        if (ackMessage.getChatType() == EMMessage.ChatType.Chat) {
-                            conversation.loadMoreMsgFromDB(ackMessage.getMsgId(), 1);
-                        } else {
-                            conversation.loadMoreGroupMsgFromDB(ackMessage.getMsgId(), 1);
-                        }
-                    }
-                    conversation.removeMessage(ackMessage.getMsgId());
-                }
-                refreshUIWithMessage();
-                break;
-            default:
-                break;
-        }
-    }
 
     private void refreshUIWithMessage() {
         runOnUiThread(new Runnable() {
@@ -323,8 +188,8 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     public int getUnreadMsgCountTotal() {
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
-        unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
-        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
+        unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+        for (EMConversation conversation : EMClient.getInstance().chatManager().getAllConversations().values()) {
             if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
                 chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
         }
@@ -345,25 +210,44 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
         // register the event listener when enter the foreground
-        EMChatManager.getInstance().registerEventListener(this,
-                new EMNotifierEvent.Event[]{
-                        EMNotifierEvent.Event.EventNewMessage,
-                        EMNotifierEvent.Event.EventOfflineMessage,
-                        EMNotifierEvent.Event.EventConversationListChanged,
-                        EMNotifierEvent.Event.EventNewCMDMessage,
-                        EMNotifierEvent.Event.EventReadAck
-                });
+
+        // jessica
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                EaseAtMessageHelper.get().parseMessages(messages);
+            }
+
+            @Override
+            public void onMessageReadAckReceived(List<EMMessage> messages) {
+
+            }
+
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+
+            }
+        });
+
         EaseUI.getInstance().pushActivity(this);
         // if push service available, connect will be disconnected after app in background
         // after activity restore to foreground, reconnect
-        if (!EMChatManager.getInstance().isConnected() && NetUtils.hasNetwork(this)) {
-            EMChatManager.getInstance().reconnect();
-        }
+
     }
 
     @Override
     public void onStop() {
-        EMChatManager.getInstance().unregisterEventListener(this);
+        EMClient.getInstance().chatManager().addMessageListener(this);
         EaseUI.getInstance().popActivity(this);
         super.onStop();
     }
@@ -483,6 +367,36 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onMessageReceived(List<EMMessage> messages) {
+        // notify new message
+        for (EMMessage message : messages) {
+//            DemoHelper.getInstance().getNotifier().onNewMsg(message);
+        }
+        refreshUIWithMessage();
+
+    }
+
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> list) {
+
+    }
+
+    @Override
+    public void onMessageReadAckReceived(List<EMMessage> list) {
+
+    }
+
+    @Override
+    public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+
+    }
+
+    @Override
+    public void onMessageChanged(EMMessage emMessage, Object o) {
 
     }
 

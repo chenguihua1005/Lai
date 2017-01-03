@@ -5,6 +5,8 @@
 
 package com.softtek.lai.chat.model;
 
+import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+
 import java.io.Serializable;
 
 /**
@@ -12,7 +14,8 @@ import java.io.Serializable;
  */
 public class SelectContactInfoModel implements Serializable {
 
-    private ChatContactInfoModel model;
+//    private ChatContactInfoModel model;
+    private ChatContactModel model;
     private boolean Selected;
 
     @Override
@@ -23,11 +26,11 @@ public class SelectContactInfoModel implements Serializable {
                 '}';
     }
 
-    public ChatContactInfoModel getModel() {
+    public ChatContactModel getModel() {
         return model;
     }
 
-    public void setModel(ChatContactInfoModel model) {
+    public void setModel(ChatContactModel model) {
         this.model = model;
     }
 

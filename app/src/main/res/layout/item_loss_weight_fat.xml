@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="#ffffff"
+    android:baselineAligned="false">
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:background="@drawable/round_bg_grey"
+        android:gravity="center|left"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_weight_level_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="11sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp" />
+        <TextView
+            android:id="@+id/tv_loss_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp" />
+        <TextView
+            android:id="@+id/tv_nation_weight_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/item_horizontal_icon"/>
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        android:gravity="center|left"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/round_bg_grey">
+
+        <TextView
+            android:id="@+id/tv_fat_level_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="11sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp" />
+        <TextView
+            android:id="@+id/tv_loss_fat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp" />
+        <TextView
+            android:id="@+id/tv_nation_fat_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+</LinearLayout>

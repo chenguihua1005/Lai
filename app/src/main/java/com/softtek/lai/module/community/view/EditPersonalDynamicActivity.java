@@ -27,7 +27,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -70,6 +70,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     private PersionalDynamicManager manager;
 
     private ImageFileSelector imageFileSelector;
+    private  int limit=9;
 
     @Override
     protected void initViews() {
@@ -83,16 +84,21 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     @Override
     protected void initDatas() {
         manager=new PersionalDynamicManager(images, this);
-        UploadImage image= getIntent().getParcelableExtra("uploadImage");
-        if(image!=null){
-            try {
-                image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        List<UploadImage> uploadImages= getIntent().getParcelableArrayListExtra("uploadImages");
+        if(uploadImages!=null&&!uploadImages.isEmpty()){
+            limit-=uploadImages.size();
+            for (UploadImage image:uploadImages){
+                try {
+                    image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                images.add(image);
             }
-            images.add(image);
         }
-        images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+        if(limit>0){
+            images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+        }
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
 
@@ -163,11 +169,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         if(manager!=null){
             CommunityModel model=new CommunityModel();
             model.setContent(et_content.getText().toString().trim());
-            model.setHtype(1);
-            model.setTitle("");
-            model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            model.setAccountid(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
             manager.sendDynamic(model);
-//            sdfs
         }
     }
     /**/
@@ -207,7 +210,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                         }
                     }else if(which==1){
                         //打开图库
-                        imageFileSelector.selectImage(EditPersonalDynamicActivity.this);
+                        imageFileSelector.selectMutilImage(EditPersonalDynamicActivity.this,limit);
                     }
                 }
             }).create().show();
@@ -245,6 +248,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             if(requestCode==OPEN_PREVIEW){
                 int position= data.getIntExtra("position", 0);
                 images.remove(position);
+                limit++;
                 if(images.get(images.size()-1).getImage()!=null){
                     images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
                 }
@@ -257,11 +261,28 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     public void onSuccess(String file) {
+        limit--;
         UploadImage image=new UploadImage();
         File outFile=new File(file);
         image.setImage(outFile);
         image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
         images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMutilSuccess(List<String> files) {
+        limit-=files.size();
+        for (int i=files.size()-1;i>=0;i--){
+            UploadImage image=new UploadImage();
+            File outFile=new File(files.get(i));
+            image.setImage(outFile);
+            image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+            images.add(0, image);
+        }
         if(images.size()==10){
             images.remove(9);
         }

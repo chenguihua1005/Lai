@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -59,20 +58,18 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
 
     @InjectView(R.id.tv_sendpk)
     DragTextView tv_sendpk;
-    @InjectView(R.id.root)
-    RelativeLayout root;
+
 
     private PKListAdapter adapter;
     private List<PKListModel> models=new ArrayList<>();
     int pageIndex=1;
     int totalPage;
     private PKListManager manager;
-    int lastVisibleItemPosition;//标记上次的显示位置
+
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
         tv_title.setText("挑战");
-        //tv_sendpk.setOnClickListener(this);
         tv_sendpk.setListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,9 +140,6 @@ public class PKListFragment extends LazyBaseFragment implements View.OnClickList
         switch (v.getId()){
             case R.id.ll_left:
                 getActivity().startActivity(new Intent(getContext(), HomeActviity.class));
-                break;
-            case R.id.tv_sendpk:
-
                 break;
         }
     }

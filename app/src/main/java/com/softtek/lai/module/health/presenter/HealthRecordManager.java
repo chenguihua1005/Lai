@@ -1,13 +1,8 @@
 package com.softtek.lai.module.health.presenter;
 
-import android.content.Context;
-
 import com.github.snowdream.android.util.Log;
-import com.google.gson.annotations.Until;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
-import com.softtek.lai.module.bodygamest.net.PhotoListService;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
 import com.softtek.lai.module.health.model.HealthFatModel;
 import com.softtek.lai.module.health.model.HealthHiplieModel;
@@ -20,7 +15,6 @@ import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.net.HealthyService;
 import com.softtek.lai.utils.RequestCallback;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;

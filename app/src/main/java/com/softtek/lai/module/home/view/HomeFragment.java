@@ -21,41 +21,37 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
+import com.github.snowdream.android.util.Log;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
-import com.softtek.lai.module.bodygame2pc.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygame2pcnoclass.view.BodyGamePCNoClassActivity;
-import com.softtek.lai.module.bodygame2sr.view.BodyGameSRActivity;
-import com.softtek.lai.module.bodygame2vr.BodyGameVRActivity;
-import com.softtek.lai.module.bodygamest.model.HasClass;
-import com.softtek.lai.module.bodygamest.net.StudentService;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
+import com.softtek.lai.module.home.model.ModelName;
+import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.umeng.analytics.MobclickAgent;
@@ -66,17 +62,14 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
+
 
 /**
  * Created by jerry.guan on 3/15/2016.
@@ -89,7 +82,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     RollHeaderView rhv_adv;
 
     @InjectView(R.id.gv_model)
-    CustomGridView gv_model;
+    GridView gv_model;
 
     @InjectView(R.id.pull)
     MySwipRefreshView pull;
@@ -124,19 +117,20 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     private List<HomeInfoModel> products = new ArrayList<>();
     private List<HomeInfoModel> sales = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
+    private List<ModelName> models = new ArrayList<>();
     FragementAdapter fragementAdapter;
     private MessageReceiver mMessageReceiver;
-    UserModel model;
+    UserModel user;
     private ProgressDialog progressDialog;
-    public static Timer timer;
+
 
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
         registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);
-        UserModel userModel=UserInfoModel.getInstance().getUser();
-        if (userModel==null||String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
+        UserModel userModel = UserInfoModel.getInstance().getUser();
+        if (userModel == null || String.valueOf(Constants.VR).equals(userModel.getUserrole())) {
             fl_right.setVisibility(View.INVISIBLE);
         } else {
             fl_right.setVisibility(View.VISIBLE);
@@ -166,9 +160,9 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if(verticalOffset>=0){
+                if (verticalOffset >= 0) {
                     pull.setEnabled(true);
-                }else {
+                } else {
                     pull.setEnabled(false);
                 }
             }
@@ -185,7 +179,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     protected void initDatas() {
         tv_title.setText("莱聚+");
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        modelAdapter = new ModelAdapter(getContext());
+        models.add(new ModelName("体管赛",0));
+        models.add(new ModelName("莱运动",0));
+        models.add(new ModelName("开发中",0));
+        models.add(new ModelName("开发中",0));
+        models.add(new ModelName("开发中",0));
+        modelAdapter = new ModelAdapter(getContext(),models);
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
     }
@@ -235,26 +234,40 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         pull.setRefreshing(true);
         homeInfoPresenter.getHomeInfoData(pull);
     }
-
+    private int laiNum;
+    private int tiNum;
+    private int chartNum;
     @Override
     public void onResume() {
         super.onResume();
         rhv_adv.startRoll();
-        model = UserInfoModel.getInstance().getUser();
-        if (model == null) {
+        user = UserInfoModel.getInstance().getUser();
+        if (user == null) {
             return;
         }
-        String userrole = model.getUserrole();
+        String userrole = user.getUserrole();
         if (!String.valueOf(Constants.VR).equals(userrole)) {
-            ZillaApi.NormalRestAdapter.create(MessageService.class).getMessageRead(UserInfoModel.getInstance().getToken(),
-                    new Callback<ResponseData>() {
+            ZillaApi.NormalRestAdapter.create(Message2Service.class).getMessageRead(UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
+                    new Callback<ResponseData<UnReadMsg>>() {
                         @Override
-                        public void success(ResponseData responseData, Response response) {
-                            int status = responseData.getStatus();
+                        public void success(ResponseData<UnReadMsg> data, Response response) {
+                            int status = data.getStatus();
                             try {
                                 switch (status) {
                                     case 200:
-                                        iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                                        if (data.getData().Num > 0) {
+                                            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.has_email));
+                                        } else {
+                                            iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
+                                        }
+                                        laiNum=data.getData().LaiNum;
+                                        tiNum=data.getData().TiNum;
+                                        ModelName tiModel=models.get(0);
+                                        tiModel.unreadNum=tiNum+chartNum;
+                                        ModelName laiModel=models.get(1);
+                                        laiModel.unreadNum=laiNum;
+                                        modelAdapter.notifyDataSetChanged();
                                         break;
                                     default:
                                         iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
@@ -269,135 +282,59 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
-            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            ChatUserModel chatUserModel = new ChatUserModel();
-            chatUserModel.setUserName(model.getNickname());
-            chatUserModel.setUserPhone(path + model.getPhoto());
-            chatUserModel.setUserId(StringUtils.isEmpty(model.getHXAccountId()) ? "" : model.getHXAccountId().toLowerCase());
-            ChatUserInfoModel.getInstance().setUser(chatUserModel);
-            String hasEmchat = model.getHasEmchat();
-            if ("1".equals(hasEmchat)) {//如果有环信号
-                timer = new Timer();
-                TimerTask task = new TimerTask() {
-
-                    @Override
-                    public void run() {
-                        // 需要做的事:发送消息
-                        final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-                        if (hxid.equals(model.getHXAccountId())) {
-                            if (timer != null) {
-                                timer.cancel();
-                            }
-                            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                            ChatUserModel chatUserModel = new ChatUserModel();
-                            chatUserModel.setUserName(model.getNickname());
-                            chatUserModel.setUserPhone(path + model.getPhoto());
-                            chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                            ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                    EMChatManager.getInstance().loadAllConversations();
-                                }
-                            }).start();
-                        } else {
-                            if ("-1".equals(hxid)) {
-                                if("0".equals(Constants.IS_LOGINIMG)){
-                                    loginChat(progressDialog, model.getHXAccountId());
-                                }
-                            } else {
-                                new Thread(
-                                        new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                HXLoginOut();
-                                            }
-                                        }
-                                ).start();
-                            }
-                        }
-                    }
-                };
-                timer.schedule(task, 0, 10000);
+            if (EMClient.getInstance().isLoggedInBefore()) {
+                EMClient.getInstance().chatManager().addMessageListener(messageListener);
+                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+                updateMessage(unreadNum);
             }
         }
-
-
     }
+
+    EMMessageListener messageListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            // 提示新消息
+            Log.i("啊哈哈哈哈哈哈哈");
+            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+            Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+            msgIntent.putExtra("count", unreadNum);
+            LaiApplication.getInstance().sendBroadcast(msgIntent);
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageReadAckReceived(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage emMessage, Object o) {
+
+        }
+    };
 
     @Override
     public void onPause() {
         super.onPause();
         rhv_adv.stopRoll();
+        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+
     }
 
-    private void HXLoginOut() {
-        EMChatManager.getInstance().logout(true, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                SharedPreferenceService.getInstance().put("HXID", "-1");
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                // TODO Auto-generated method stub
-            }
-        });
-    }
 
     @Override
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
-    }
-
-    private void loginChat(final ProgressDialog progressDialog, final String account) {
-        Constants.IS_LOGINIMG="1";
-        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-                // ** manually load all local groups and
-                Constants.IS_LOGINIMG="0";
-                SharedPreferenceService.getInstance().put("HXID", account.toLowerCase());
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                ChatUserModel chatUserModel = new ChatUserModel();
-                chatUserModel.setUserName(model.getNickname());
-                chatUserModel.setUserPhone(path + model.getPhoto());
-                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                EMChatManager.getInstance().loadAllConversations();
-
-                if (timer != null) {
-                    timer.cancel();
-                }
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                System.out.println("progress:"+progress+"     status:"+status);
-            }
-
-            @Override
-            public void onError(final int code, final String message) {
-                Constants.IS_LOGINIMG="0";
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        });
     }
 
     /**
@@ -406,24 +343,22 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
-        int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
         if (userInfoModel.hasPower(position)) {
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-                    intoBodyGamePage(role);
-                    MobclickAgent.onEvent(getContext(),"BodyGameEvent");
+                    startActivity(new Intent(getContext(), BodyGameActivity.class));
+                    MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
-                        //startActivity(new Intent(getContext(), GroupMainActivity.class));
                         startActivity(new Intent(getContext(), LaiSportActivity.class));
                     }
-                    MobclickAgent.onEvent(getContext(),"LaiSportEvent");
+                    MobclickAgent.onEvent(getContext(), "LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
                 case Constants.LAI_EXCLE:
@@ -434,7 +369,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
         } else {
             //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
-            AlertDialog.Builder information_dialog = null;
+            AlertDialog.Builder information_dialog;
             switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
                 case Constants.VR:
                     //游客若没有此功能，可能是未登录，提示请先登录
@@ -462,87 +397,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             }
         }
 
-    }
-
-    /**
-     * 根据角色进入相应的体管赛页面
-     *
-     * @param role
-     * @return
-     */
-    private void intoBodyGamePage(int role) {
-        //受邀未认证成功就是普通用户，认证成功就是高级用户
-        AlertDialog.Builder information_dialog = null;
-        if (role == Constants.VR) {
-            //提示用户让他注册或者直接进入2个功能的踢馆赛模块
-            information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent login = new Intent(getContext(), LoginActivity.class);
-                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(login);
-                }
-            }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodyGameVRActivity.class));
-                }
-            }).create().show();
-        } else if (role == Constants.NC) {
-            //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
-            information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您还没有认证身份，如果您想更多了解莱聚+，请先认证身份").setPositiveButton("先去认证", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                }
-            }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent nc=new Intent(getContext(), BodyGameVRActivity.class);
-                    nc.putExtra("isNc",true);
-                    startActivity(nc);
-                }
-            }).create().show();
-        } else if (role == Constants.PC||role == Constants.INC) {
-            //直接进入踢馆赛学员版
-            progressDialog.show();
-            ZillaApi.NormalRestAdapter.create(StudentService.class).hasClass2(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<HasClass>>() {
-                @Override
-                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    HasClass hasClass = hasClassResponseData.getData();
-                    if ("0".equals(hasClass.getIsHave()) || "4".equals(hasClass.getIsHave())
-                            || "1".equals(hasClass.getIsHave()) || "5".equals(hasClass.getIsHave())) {
-                        //从未加入过班级或者旧班级已经结束还没有加入新班级
-                        Intent noClass = new Intent(getContext(), BodyGamePCNoClassActivity.class);
-                        noClass.putExtra("class_status", Integer.parseInt(hasClass.getIsHave()));
-                        startActivity(noClass);
-                    } else if ("2".equals(hasClass.getIsHave()) || "3".equals(hasClass.getIsHave())) {
-                        //只要班级进行中就可以
-                        startActivity(new Intent(getContext(), BodyGamePCActivity.class));
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    super.failure(error);
-                }
-            });
-        } else if (role == Constants.SR) {
-            //进入踢馆赛助教版
-            startActivity(new Intent(getContext(), BodyGameSRActivity.class));
-        } else if (role == Constants.SP) {
-            //进入踢馆赛顾问版
-            startActivity(new Intent(getContext(), BodyGameSPActivity.class));
-        }
     }
 
 
@@ -582,7 +436,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        getContext().registerReceiver(mMessageReceiver, filter);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        getActivity().registerReceiver(mMessageReceiver, filter);
 
     }
 
@@ -596,8 +451,20 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else if(Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())){
+                int unreadNum = intent.getIntExtra("count", 0);
+                updateMessage(unreadNum);
             }
         }
+
+    }
+    public void updateMessage(int num) {
+        //显示
+        chartNum=num;
+        int read=chartNum>0?tiNum+chartNum:tiNum;
+        ModelName tiModel=models.get(0);
+        tiModel.unreadNum=read;
+        modelAdapter.notifyDataSetChanged();
     }
 
 }

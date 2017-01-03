@@ -23,8 +23,6 @@ import com.softtek.lai.module.counselor.presenter.IGamePresenter;
 import java.util.Calendar;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -33,9 +31,6 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_game)
 public class GameActivity extends BaseActivity implements View.OnClickListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -100,9 +95,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.text_time)
     TextView text_time;
 
-    @InjectView(R.id.lin_time)
-    LinearLayout lin_time;
-
     @InjectView(R.id.lin_left)
     LinearLayout lin_left;
 
@@ -112,7 +104,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
 
     private IGamePresenter gamePresenter;
 
-    private String select_grade = "";
     private String grade_id = "1";
     private String date = "";
     private int monthInfo;

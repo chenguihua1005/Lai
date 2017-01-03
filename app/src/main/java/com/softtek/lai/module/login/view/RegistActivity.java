@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -38,6 +41,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist)
 public class RegistActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, RegistPresenterImpl.IdentifyCallBack {
+    private static final String TAG = "RegistActivity";
 
     private IRegistPresenter registPresenter;
     private MyCountDown countDown;
@@ -103,7 +107,10 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         countDown = new MyCountDown(60000, 1000);
         registPresenter = new RegistPresenterImpl(this, this);
     }
-    /** 点击屏幕隐藏软键盘**/
+
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -115,6 +122,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -124,6 +132,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 if (!validate) {
                     return;
                 }
+                et_password.setError(null);
+                et_repassword.setError(null);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
@@ -137,7 +147,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, TermActivity.class));
                 break;
             case R.id.ll_left:
-                startActivity(new Intent(this,LoginActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
         }
@@ -177,9 +187,28 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             Util.toastMsg("请先勾选用户协议");
             return;
         }
-        String phoneNum = et_phone.getText().toString();
-        String password = et_password.getText().toString();
-        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), et_identify);
+        btn_regist.setEnabled(false);
+        final String phoneNum = et_phone.getText().toString();
+        final String password = et_password.getText().toString();
+
+        // 欢心环信注册
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // call method in SDK
+                try {
+                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
+                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                    if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
+                        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
+                    }
+                }
+
+            }
+        }).start();
+
     }
 
     @Override
@@ -222,10 +251,11 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             tv_get_identify.setEnabled(true);
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this,LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
         }

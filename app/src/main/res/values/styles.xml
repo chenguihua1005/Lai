@@ -3,13 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mytoolbar_green</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
 
     </style>
-    
+
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>
@@ -26,6 +26,10 @@
 
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+
     </style>
 
     <style name="dialog" parent="@style/Theme.AppCompat.Dialog">
@@ -49,11 +53,20 @@
         <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
         <!-- 指定消失的动画xml -->
     </style>
+    <style name="operation_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popshow</item>
+        <!-- 指定显示的动画xml -->
+
+        <item name="android:windowExitAnimation">@anim/pophidden</item>
+        <!-- 指定消失的动画xml -->
+    </style>
 
     <style name="customCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/check_box</item>
     </style>
-
+    <style name="customCheckBoxTheme2" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_box2</item>
+    </style>
     <!--指定tabLayout样式-->
     <style name="myTabLayout" parent="Widget.Design.TabLayout">
         <!--<item name="tabMaxWidth">36dp</item> --><!--TAB最大宽度-->
@@ -178,5 +191,45 @@
         <item name="textAllCaps">false</item>
         <!--英文大写,默认true-->
     </style>
+    <style name="myTabLayout6" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FFA200</item>
+        <!--TAB底部滑块颜色-->
+        <item name="tabPaddingStart">5dp</item>
+        <!--TAB左边padding-->
+        <item name="tabPaddingEnd">5dp</item>
+        <!--TAB右边padding-->
+        <item name="tabBackground">@null</item>
+        <!--TAB背景色-->
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance2</item>
+        <!--TAB文字样式-->
+        <item name="tabSelectedTextColor">#FFA200</item>
+        <!--TAB选中文字颜色-->
+    </style>
+
+
+    <!--日历-->
+    <style name="TextAppearance.MaterialCalendarWidget.WeekDay"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.MaterialCalendarWidget.Header"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.MaterialCalendarWidget.Date"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mcv_text_date_light</item>
+    </style>
+
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+
 
 </resources>

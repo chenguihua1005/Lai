@@ -9,18 +9,18 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.common.NetErrorHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
 import java.lang.ref.WeakReference;
 
+import cn.jpush.android.api.JPushInterface;
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
@@ -42,11 +42,14 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         laiApplication = this;
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
-        LogManager.getManager(getApplicationContext()).registerCrashHandler();
+        //LogManager.getManager(getApplicationContext()).registerCrashHandler();
+        JPushInterface.init(this);
         ChatHelper.getInstance().init(getApplicationContext());
-        //CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
 
     }
+
+
 
     public static LaiApplication getInstance() {
         return laiApplication;
@@ -76,6 +79,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+
     }
 
     /**

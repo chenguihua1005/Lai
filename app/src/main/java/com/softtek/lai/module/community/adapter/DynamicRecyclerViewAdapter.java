@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -30,8 +29,7 @@ import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
-import com.softtek.lai.module.lossweightstory.view.PictureMoreActivity;
+import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -46,6 +44,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
 /**
+ *
  * Created by John on 2016/3/27.
  */
 public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
@@ -90,12 +89,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             ((ViewHolder) holder).tv_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ("1".equals(model.getMinetype())) {//减重日志
-                        Intent logDetail = new Intent(context, LogStoryDetailActivity.class);
-                        logDetail.putExtra("type", "1");
-                        logDetail.putExtra("logId", Long.parseLong(model.getID()));
-                        context.startActivity(logDetail);
-                    } else if ("0".equals(model.getMinetype())) {//动态
+                    if ("0".equals(model.getMinetype())) {//动态
                         Intent logDetail = new Intent(context, HealthyDetailActivity.class);
                         logDetail.putExtra("type", "1");
                         logDetail.putExtra("logId", model.getID());
@@ -157,7 +151,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     in.putStringArrayListExtra("images", list);
                     in.putExtra("position", position);
                     ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity((AppCompatActivity) context, in, optionsCompat.toBundle());
+                    ActivityCompat.startActivity( context, in, optionsCompat.toBundle());
                 }
             });
             if(isMine&&"0".equals(model.getMinetype())){
@@ -233,7 +227,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_month,tv_time,tv_content,tv_delete;
         public CustomGridView photos;
 
@@ -247,13 +241,13 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public class FooterHolder extends RecyclerView.ViewHolder {
+    private class FooterHolder extends RecyclerView.ViewHolder {
 
         public FooterHolder(View view) {
             super(view);
         }
     }
-    public class EmptyHolder extends RecyclerView.ViewHolder {
+    private class EmptyHolder extends RecyclerView.ViewHolder {
 
         public EmptyHolder(View view) {
             super(view);

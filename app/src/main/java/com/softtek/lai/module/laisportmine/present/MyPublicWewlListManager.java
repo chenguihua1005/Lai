@@ -6,6 +6,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
+import com.softtek.lai.module.message2.model.NoticeModel;
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class MyPublicWewlListManager {
 
     public void doGetDonateMsg(String accountid) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetDonateMsg(token, accountid, new Callback<ResponseData<List<PublicWewlfModel>>>() {
+        service.doGetDonateMsg(token, accountid, new Callback<ResponseData<List<NoticeModel>>>() {
 
             @Override
-            public void success(ResponseData<List<PublicWewlfModel>> listResponseData, Response response) {
+            public void success(ResponseData<List<NoticeModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -63,6 +64,6 @@ public class MyPublicWewlListManager {
     }
 
     public interface MyPublicWewlListCallback {
-        void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel);
+        void getMyPublicWewlList(List<NoticeModel> publicWewlfModel);
     }
 }

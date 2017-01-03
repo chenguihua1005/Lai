@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class PhotosAdapter extends BaseAdapter{
     public PhotosAdapter(List<String> images, Context context) {
         this.images = images;
         this.context = context;
-        px = DisplayUtil.dip2px(context.getApplicationContext(), 79);
+        px = DisplayUtil.dip2px(context.getApplicationContext(), 78);
     }
 
     @Override
@@ -68,10 +67,10 @@ public class PhotosAdapter extends BaseAdapter{
     }
 
     static class ViewHolder{
-        public ImageView image;
+        public RoundImageView image;
 
         public ViewHolder(View view){
-            image= (ImageView) view.findViewById(R.id.iv);
+            image= (RoundImageView) view.findViewById(R.id.iv);
         }
     }
 }

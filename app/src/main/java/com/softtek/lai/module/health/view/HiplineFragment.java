@@ -1,16 +1,12 @@
 package com.softtek.lai.module.health.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.model.HealthCircrumModel;
@@ -21,16 +17,13 @@ import com.softtek.lai.module.health.model.HealthWaistlineModel;
 import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
 import com.softtek.lai.module.health.model.HealthupLegGirthModel;
+import com.softtek.lai.module.health.model.HiplielistModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
-import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.chart.Chart;
+import com.softtek.lai.widgets.chart.Entry;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,10 +35,10 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class HiplineFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthRecordManager.HealthRecordCallBack,View.OnClickListener{
+public class HiplineFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack, View.OnClickListener {
 
     @InjectView(R.id.chart)
-    LineChart chart;
+    Chart chart;
 
     @InjectView(R.id.rg)
     RadioGroup radio_group;
@@ -62,42 +55,17 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     @InjectView(R.id.bt_right)
     Button bt_right;
 
-    private LineChartUtil chartUtil;
-    List<Float> dates=new ArrayList<Float>();
-    List<String>days=new ArrayList<String>();
-    char type='6';
-    int n=7;
-    boolean state=true;
-    int flag=0;
-    IHealthyRecord iHealthyRecord;
+    List<Entry> dates = new ArrayList<>();
+    List<String> days = new ArrayList<>();
+    char type = '6';
+    int n = 7;
+    boolean state = true;
+    int flag = 0;
     private ProgressDialog progressDialog;
-    //    PysicalManager pysicalManager;
-    SimpleDateFormat sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    String    date    =    sDateFormat.format(new    java.util.Date());
-    String[] datetime=date.split(" ");
     HealthRecordManager healthRecordManager;
+
     @Override
     protected void initViews() {
-        //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
-        chart.setNoDataTextDescription("暂无数据");
-        //启用手势操作
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.getLegend().setEnabled(false);//去除图例
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaxValue(100f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);//不启用0轴的线
-        chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        chart.setData(new LineData());//设置一个空数据
         radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
@@ -105,26 +73,27 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         month.setOnClickListener(this);
         quarter.setOnClickListener(this);
         year.setOnClickListener(this);
+        GradientDrawable gradient = new GradientDrawable();
+        gradient.setColors(new int[]{0xFF77BA2B, 0xFFA6C225});
+        gradient.setCornerRadius(DisplayUtil.dip2px(getContext(), 5));
+        chart.setBackground(gradient);
     }
 
     @Override
     protected void initDatas() {
-        progressDialog=new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager=new HealthRecordManager(this);
-        chartUtil=new LineChartUtil(getContext(),chart);
+        healthRecordManager = new HealthRecordManager(this);
         dates.clear();
-//        pysicalManager=new PysicalManager(getContext());
-        Log.i(""+date+datetime[0]+datetime[1]);
-        iHealthyRecord=new HealthyRecordImpl();
-        String nowdate7=getPeriodDate(type,0)+"";
-        String nowdate6=getPeriodDate(type,1)+"";
-        String nowdate5=getPeriodDate(type,2)+"";
-        String nowdate4=getPeriodDate(type,3)+"";
-        String nowdate3=getPeriodDate(type,4)+"";
-        String nowdate2=getPeriodDate(type,5)+"";
-        String nowdate1=getPeriodDate(type,6)+"";
+
+        String nowdate7 = getPeriodDate(type, 0) + "";
+        String nowdate6 = getPeriodDate(type, 1) + "";
+        String nowdate5 = getPeriodDate(type, 2) + "";
+        String nowdate4 = getPeriodDate(type, 3) + "";
+        String nowdate3 = getPeriodDate(type, 4) + "";
+        String nowdate2 = getPeriodDate(type, 5) + "";
+        String nowdate1 = getPeriodDate(type, 6) + "";
         days.add(formdate(nowdate1));
         days.add(formdate(nowdate2));
         days.add(formdate(nowdate3));
@@ -133,32 +102,22 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
-//        iHealthyRecord.doGetHealthhiplieRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1), getDateform(nowdate7), 1);
 
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId){
-            case R.id.radio_loss_weight:
 
-                break;
-            case R.id.radio_body_fat:
-
-                break;
-            case R.id.radio_fat:
-
-                break;
-        }
     }
+
     /**
      * 获取阶段日期
-     * @param  dateType
+     *
+     * @param dateType
      * @author Yangtse
      */
-    //使用方法 char datetype = '7';
-    public static StringBuilder getPeriodDate(char dateType,int n) {
+    public static StringBuilder getPeriodDate(char dateType, int n) {
         Calendar c = Calendar.getInstance(); // 当时的日期和时间
         int hour; // 需要更改的小时
         int day; // 需要更改的天数
@@ -166,42 +125,34 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
             case '0': // 1小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 1;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '1': // 2小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 2;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '2': // 3小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 3;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '3': // 6小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 6;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '4': // 12小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 12;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '5': // 一天前
                 day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '6': // 一星期前
                 day = c.get(Calendar.DAY_OF_MONTH) - n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
+                day = c.get(Calendar.DAY_OF_MONTH) - 30 * n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
         }
         int mYear = c.get(Calendar.YEAR);
@@ -211,27 +162,22 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
         return strForwardDate;
-        //return c.getTimeInMillis();
     }
-    public String formdate(String nowdate)
-    {
+
+    public String formdate(String nowdate) {
         String date;
-        if (nowdate.substring(4,5).equals("0"))
-        {
-            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
-        }
-        else {
-            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
+        if (nowdate.substring(4, 5).equals("0")) {
+            date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
+        } else {
+            date = nowdate.substring(4, 6) + "/" + nowdate.substring(6, 8);
 
         }
         return date;
 
     }
-    public String getDateform(String nowdate)
-    {
-        String date;
-        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
-        return date;
+
+    public String getDateform(String nowdate) {
+        return nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
 
     }
 
@@ -264,16 +210,21 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
         try {
-            if (progressDialog!=null)
+            if (progressDialog != null)
                 progressDialog.dismiss();
-            if(healthHiplieModel==null){
+            if (healthHiplieModel == null) {
                 return;
             }
-            int n=healthHiplieModel.getHiplielist().size();
-            for (int i=0;i<=n-1;i++) {
-                dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));
+            List<HiplielistModel> models = healthHiplieModel.getHiplielist();
+            float max = 0;
+            for (int i = 0; i < models.size(); i++) {
+                float hiplie = Float.parseFloat(models.get(i).getHiplie());
+                max = hiplie > max ? hiplie : max;
+                Entry entry = new Entry(i, hiplie);
+                dates.add(entry);
             }
-            chartUtil.addData(dates,n,days);
+            chart.setDate(days, dates, max);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -296,18 +247,15 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
             case R.id.bt_left: {
-                switch (flag)
-                {
+                switch (flag) {
                     case 0:
-                        if (state!=true)
-                        {
-                            n=n+7;
+                        if (state != true) {
+                            n = n + 7;
                         }
-                        state=true;
+                        state = true;
                         days.clear();
                         dates.clear();
                         String nowdate7 = getPeriodDate(type, n) + "";
@@ -325,92 +273,86 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1), getDateform(nowdate7), 1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        if (state!=true)
-                        {
-                            n=n+4;
+                        if (state != true) {
+                            n = n + 4;
                         }
-                        state=true;
+                        state = true;
                         dates.clear();
                         days.clear();
-                        type='6';
-                        String monthdate4=getPeriodDate(type,7*n)+"";
-                        String monthdate3=getPeriodDate(type,7*(n+1))+"";
-                        String monthdate2=getPeriodDate(type,7*(n+2))+"";
-                        String monthdate1=getPeriodDate(type,7*(n+3))+"";
+                        type = '6';
+                        String monthdate4 = getPeriodDate(type, 7 * n) + "";
+                        String monthdate3 = getPeriodDate(type, 7 * (n + 1)) + "";
+                        String monthdate2 = getPeriodDate(type, 7 * (n + 2)) + "";
+                        String monthdate1 = getPeriodDate(type, 7 * (n + 3)) + "";
                         days.add(formdate(monthdate1));
                         days.add(formdate(monthdate2));
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
-                        n=n+4;
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1), getDateform(monthdate4), 2);
+                        n = n + 4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        if (state!=true)
-                        {
-                            n=n+4;
+                        if (state != true) {
+                            n = n + 4;
                         }
-                        state=true;
+                        state = true;
                         dates.clear();
                         days.clear();
-                        type='6';
-                        String quarterdate4=getPeriodDate(type,21*n)+"";
-                        String quarterdate3=getPeriodDate(type,21*(n+1))+"";
-                        String quarterdate2=getPeriodDate(type,21*(n+2))+"";
-                        String quarterdate1=getPeriodDate(type,21*(n+3))+"";
+                        type = '6';
+                        String quarterdate4 = getPeriodDate(type, 21 * n) + "";
+                        String quarterdate3 = getPeriodDate(type, 21 * (n + 1)) + "";
+                        String quarterdate2 = getPeriodDate(type, 21 * (n + 2)) + "";
+                        String quarterdate1 = getPeriodDate(type, 21 * (n + 3)) + "";
                         days.add(formdate(quarterdate1));
                         days.add(formdate(quarterdate2));
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
-                        n=n+4;
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1), getDateform(quarterdate4), 3);
+                        n = n + 4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
                     case 3:
-                        if (state!=true)
-                        {
-                            n=n+4;
+                        if (state != true) {
+                            n = n + 4;
                         }
                         dates.clear();
                         days.clear();
-                        state=true;
-                        type='7';
-                        String yeardate4=getPeriodDate(type,2*n)+"";
-                        String yeardate3=getPeriodDate(type,2*(n+1))+"";
-                        String yeardate2=getPeriodDate(type,2*(n+2))+"";
-                        String yeardate1=getPeriodDate(type,2*(n+3))+"";
-                        String yeardate0=getPeriodDate(type,2*(n+4))+"";
+                        state = true;
+                        type = '7';
+                        String yeardate4 = getPeriodDate(type, 2 * n) + "";
+                        String yeardate3 = getPeriodDate(type, 2 * (n + 1)) + "";
+                        String yeardate2 = getPeriodDate(type, 2 * (n + 2)) + "";
+                        String yeardate1 = getPeriodDate(type, 2 * (n + 3)) + "";
+                        String yeardate0 = getPeriodDate(type, 2 * (n + 4)) + "";
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
-                        n=n+4;
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
+                        n = n + 4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
                 }
 
 
-
             }
             break;
             case R.id.bt_right:
-                switch (flag)
-                {
+                switch (flag) {
                     case 0:
-                        if (state!=false) {
+                        if (state != false) {
                             n = n - 14;
-                        }
-                        else {
-                            n=n-7;
+                        } else {
+                            n = n - 7;
                         }
                         dates.clear();
                         days.clear();
@@ -429,87 +371,84 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
-                        state=false;
-                        if (nowdate7.equals(getPeriodDate(type,0)+""))
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1), getDateform(nowdate7), 1);
+                        state = false;
+                        if (nowdate7.equals(getPeriodDate(type, 0) + ""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 1:
-                        if (state!=false) {
+                        if (state != false) {
                             n = n - 8;
-                        }
-                        else {
-                            n=n-4;
+                        } else {
+                            n = n - 4;
 
                         }
                         dates.clear();
                         days.clear();
-                        type='6';
-                        String monthdate4=getPeriodDate(type,7*n)+"";
-                        String monthdate3=getPeriodDate(type,7*(n+1))+"";
-                        String monthdate2=getPeriodDate(type,7*(n+2))+"";
-                        String monthdate1=getPeriodDate(type,7*(n+3))+"";
+                        type = '6';
+                        String monthdate4 = getPeriodDate(type, 7 * n) + "";
+                        String monthdate3 = getPeriodDate(type, 7 * (n + 1)) + "";
+                        String monthdate2 = getPeriodDate(type, 7 * (n + 2)) + "";
+                        String monthdate1 = getPeriodDate(type, 7 * (n + 3)) + "";
                         days.add(formdate(monthdate1));
                         days.add(formdate(monthdate2));
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
-                        state=false;
-                        if (monthdate4.equals(getPeriodDate(type,0)+""))
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1), getDateform(monthdate4), 2);
+                        state = false;
+                        if (monthdate4.equals(getPeriodDate(type, 0) + ""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 2:
-                        if (state!=false) {
+                        if (state != false) {
                             n = n - 8;
-                        }
-                        else {
-                            n=n-4;
+                        } else {
+                            n = n - 4;
 
                         }
                         dates.clear();
                         days.clear();
-                        type='6';
-                        String quarterdate4=getPeriodDate(type,21*n)+"";
-                        String quarterdate3=getPeriodDate(type,21*(n+1))+"";
-                        String quarterdate2=getPeriodDate(type,21*(n+2))+"";
-                        String quarterdate1=getPeriodDate(type,21*(n+3))+"";
+                        type = '6';
+                        String quarterdate4 = getPeriodDate(type, 21 * n) + "";
+                        String quarterdate3 = getPeriodDate(type, 21 * (n + 1)) + "";
+                        String quarterdate2 = getPeriodDate(type, 21 * (n + 2)) + "";
+                        String quarterdate1 = getPeriodDate(type, 21 * (n + 3)) + "";
                         days.add(formdate(quarterdate1));
                         days.add(formdate(quarterdate2));
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1), getDateform(quarterdate4), 3);
                         bt_right.setVisibility(View.VISIBLE);
-                        state=false;
-                        if (quarterdate4.equals(getPeriodDate(type,0)+""))
+                        state = false;
+                        if (quarterdate4.equals(getPeriodDate(type, 0) + ""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 3:
-                        if (state!=false) {
+                        if (state != false) {
                             n = n - 8;
-                        }
-                        else {
-                            n=n-4;
+                        } else {
+                            n = n - 4;
 
                         }
                         dates.clear();
                         days.clear();
-                        type='7';
-                        String yeardate4=getPeriodDate(type,2*n)+"";
-                        String yeardate3=getPeriodDate(type,2*(n+1))+"";
-                        String yeardate2=getPeriodDate(type,2*(n+2))+"";
-                        String yeardate1=getPeriodDate(type,2*(n+3))+"";
-                        String yeardate0=getPeriodDate(type,2*(n+4))+"";
+                        type = '7';
+                        String yeardate4 = getPeriodDate(type, 2 * n) + "";
+                        String yeardate3 = getPeriodDate(type, 2 * (n + 1)) + "";
+                        String yeardate2 = getPeriodDate(type, 2 * (n + 2)) + "";
+                        String yeardate1 = getPeriodDate(type, 2 * (n + 3)) + "";
+                        String yeardate0 = getPeriodDate(type, 2 * (n + 4)) + "";
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"     /");
+                        days.add(formyeardate(yeardate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                         bt_right.setVisibility(View.VISIBLE);
-                        state=false;
-                        if (yeardate4.equals(getPeriodDate(type,0)+""))
+                        state = false;
+                        if (yeardate4.equals(getPeriodDate(type, 0) + ""))
                             bt_right.setVisibility(View.GONE);
                         break;
                 }
@@ -517,20 +456,20 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
 
                 break;
             case R.id.week:
-                flag=0;
-                type='6';
-                n=7;
-                state=true;
+                flag = 0;
+                type = '6';
+                n = 7;
+                state = true;
                 bt_right.setVisibility(View.GONE);
                 dates.clear();
                 days.clear();
-                String weekdate7=getPeriodDate(type,0)+"";
-                String weekdate6=getPeriodDate(type,1)+"";
-                String weekdate5=getPeriodDate(type,2)+"";
-                String weekdate4=getPeriodDate(type,3)+"";
-                String weekdate3=getPeriodDate(type,4)+"";
-                String weekdate2=getPeriodDate(type,5)+"";
-                String weekdate1=getPeriodDate(type,6)+"";
+                String weekdate7 = getPeriodDate(type, 0) + "";
+                String weekdate6 = getPeriodDate(type, 1) + "";
+                String weekdate5 = getPeriodDate(type, 2) + "";
+                String weekdate4 = getPeriodDate(type, 3) + "";
+                String weekdate3 = getPeriodDate(type, 4) + "";
+                String weekdate2 = getPeriodDate(type, 5) + "";
+                String weekdate1 = getPeriodDate(type, 6) + "";
                 days.add(formdate(weekdate1));
                 days.add(formdate(weekdate2));
                 days.add(formdate(weekdate3));
@@ -539,94 +478,95 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1),getDateform(weekdate7),1);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1), getDateform(weekdate7), 1);
 
                 break;
             case R.id.month:
                 dates.clear();
                 days.clear();
-                flag=1;
-                state=true;
+                flag = 1;
+                state = true;
                 bt_right.setVisibility(View.GONE);
-                type='6';
-                n=4;
-                String monthdate4=getPeriodDate(type,0)+"";
-                String monthdate3=getPeriodDate(type,7)+"";
-                String monthdate2=getPeriodDate(type,14)+"";
-                String monthdate1=getPeriodDate(type,21)+"";
+                type = '6';
+                n = 4;
+                String monthdate4 = getPeriodDate(type, 0) + "";
+                String monthdate3 = getPeriodDate(type, 7) + "";
+                String monthdate2 = getPeriodDate(type, 14) + "";
+                String monthdate1 = getPeriodDate(type, 21) + "";
                 days.add(formdate(monthdate1));
                 days.add(formdate(monthdate2));
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1), getDateform(monthdate4), 2);
                 break;
             case R.id.quarter:
                 dates.clear();
                 days.clear();
-                flag=2;
-                state=true;
+                flag = 2;
+                state = true;
                 bt_right.setVisibility(View.GONE);
-                type='6';
-                n=4;
-                String quarterdate4=getPeriodDate(type,0)+"";
-                String quarterdate3=getPeriodDate(type,21)+"";
-                String quarterdate2=getPeriodDate(type,21*2)+"";
-                String quarterdate1=getPeriodDate(type,21*3)+"";
+                type = '6';
+                n = 4;
+                String quarterdate4 = getPeriodDate(type, 0) + "";
+                String quarterdate3 = getPeriodDate(type, 21) + "";
+                String quarterdate2 = getPeriodDate(type, 21 * 2) + "";
+                String quarterdate1 = getPeriodDate(type, 21 * 3) + "";
                 days.add(formdate(quarterdate1));
                 days.add(formdate(quarterdate2));
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1), getDateform(quarterdate4), 3);
                 break;
             case R.id.year:
-                flag=3;
+                flag = 3;
                 dates.clear();
                 days.clear();
-                state=true;
+                state = true;
                 bt_right.setVisibility(View.GONE);
-                type='7';
-                n=4;
-                String yeardate4=getPeriodDate(type,0)+"";
-                String yeardate3=getPeriodDate(type,2)+"";
-                String yeardate2=getPeriodDate(type,4)+"";
-                String yeardate1=getPeriodDate(type,6)+"";
-                String yeardate0=getPeriodDate(type,8)+"";
+                type = '7';
+                n = 4;
+                String yeardate4 = getPeriodDate(type, 0) + "";
+                String yeardate3 = getPeriodDate(type, 2) + "";
+                String yeardate2 = getPeriodDate(type, 4) + "";
+                String yeardate1 = getPeriodDate(type, 6) + "";
+                String yeardate0 = getPeriodDate(type, 8) + "";
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4)+"     /");
+                days.add(formyeardate(yeardate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0), getDateform(yeardate4), 4);
                 break;
         }
     }
-    public String formyeardate(String nowdate)
-    {
+
+    public String formyeardate(String nowdate) {
         String date;
-        String sr=nowdate.substring(0,4);
-        date=sr+"/"+nowdate.substring(4,6);
+        String sr = nowdate.substring(0, 4);
+        date = sr + "/" + nowdate.substring(4, 6);
         return date;
 
     }
-    public void updateHiplineStatus(){
+
+    public void updateHiplineStatus() {
         week.setChecked(true);
-        flag=0;
-        type='6';
-        n=7;
-        state=true;
+        flag = 0;
+        type = '6';
+        n = 7;
+        state = true;
         bt_right.setVisibility(View.GONE);
         bt_right.setVisibility(View.GONE);
         dates.clear();
         days.clear();
-        String weekdate7=getPeriodDate(type,0)+"";
-        String weekdate6=getPeriodDate(type,1)+"";
-        String weekdate5=getPeriodDate(type,2)+"";
-        String weekdate4=getPeriodDate(type,3)+"";
-        String weekdate3=getPeriodDate(type,4)+"";
-        String weekdate2=getPeriodDate(type,5)+"";
-        String weekdate1=getPeriodDate(type,6)+"";
+        String weekdate7 = getPeriodDate(type, 0) + "";
+        String weekdate6 = getPeriodDate(type, 1) + "";
+        String weekdate5 = getPeriodDate(type, 2) + "";
+        String weekdate4 = getPeriodDate(type, 3) + "";
+        String weekdate3 = getPeriodDate(type, 4) + "";
+        String weekdate2 = getPeriodDate(type, 5) + "";
+        String weekdate1 = getPeriodDate(type, 6) + "";
         days.add(formdate(weekdate1));
         days.add(formdate(weekdate2));
         days.add(formdate(weekdate3));
@@ -635,7 +575,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1),getDateform(weekdate7),1);
+        healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1), getDateform(weekdate7), 1);
     }
 
 }
