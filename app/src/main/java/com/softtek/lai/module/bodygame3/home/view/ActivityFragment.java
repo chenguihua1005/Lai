@@ -141,6 +141,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -461,7 +462,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 //加载数据
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     gettodaydata(saveclassModel.getDates());
-                }else{
+                } else {
                     gettodaydata(str);
                 }
 
@@ -515,7 +516,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             gettodaydata(saveclassModel.getDates());
-                        }else {
+                        } else {
                             gettodaydata(str);
                         }
                     }
@@ -524,14 +525,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取退出活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    }else {
+                    } else {
                         gettodaydata(str);
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取报名活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    }else{
+                    } else {
                         gettodaydata(str);
                     }
                 }
@@ -852,11 +853,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 //有活动
                                                 todayactModels.addAll(activitydataModel.getList_Activity());
                                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                View view = null;
+
                                                 for (int i = 0; i < todayactModels.size(); i++) {
                                                     TodayactModel model1 = todayactModels.get(i);
                                                     int counts = todayactModels.size();
-                                                    view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
+                                                    View view = new InputView(ActivityFragment.this, model1, counts, classid, classrole);
                                                     if (ll_task != null) {
                                                         ll_task.addView(view, lp);
                                                     }
@@ -941,8 +942,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 return;
             }
             if (material_calendar != null) {
-                    eventDecorator_reset = new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity());
-                    material_calendar.addDecorator(eventDecorator_reset);
+                eventDecorator_reset = new EventDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity());
+                material_calendar.addDecorator(eventDecorator_reset);
                 eventDecoratorDot_act = new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity());
                 material_calendar.addDecorator(eventDecoratorDot_act);
             }
