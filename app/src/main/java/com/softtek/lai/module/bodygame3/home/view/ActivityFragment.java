@@ -550,8 +550,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     public void onRefresh() {
-
-//        DateUtil.getInstance(DateUtil.yyyy_MM_dd).isEq(model.getMonthDate(), now)
         if(TextUtils.isEmpty(classid)){
             ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
                     UserInfoModel.getInstance().getUserId(), classid,"", new RequestCallback<ResponseData<ActivitydataModel>>() {
