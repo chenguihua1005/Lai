@@ -23,6 +23,7 @@ import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -65,6 +66,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     Button signup_activity;
     @InjectView(R.id.no_partner)
     TextView no_partner;
+    @InjectView(R.id.end_tv)
+    TextView end_tv;
+    private String dates;
     private List<UseredModel> useredModels = new ArrayList<UseredModel>();
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
@@ -74,6 +78,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     public static final int ACTIVITY_EXIT = 3;
     //    private boolean operation = false;
     private int operation = 0;
+
     @Override
     protected void initViews() {
         tv_title.setText("活动详情");
@@ -95,7 +100,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole", -1);
-
+        dates = getIntent().getStringExtra("dates");
         getalldetail();
         adapter = new EasyAdapter<UseredModel>(this, useredModels, R.layout.gird_item) {
             @Override
@@ -126,6 +131,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
         });
     }
 
+    String now = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+
     private void getalldetail() {
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactdetail(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
@@ -141,49 +148,37 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.VISIBLE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.VISIBLE);
-                                        exit_lin.setVisibility(View.GONE);
+                                        if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isLt(dates, now)) {
+                                            signup_activity.setVisibility(View.GONE);
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.VISIBLE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
+                                            signup_activity.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.VISIBLE);
+                                            end_tv.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }
+
                                     }
-                                } else if (classrole == Constants.COACH) {
+                                } else {
                                     if (actdetailModel.getSign()) {
                                         signup_activity.setVisibility(View.GONE);
                                         delete_activity.setVisibility(View.GONE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.ASSISTANT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.STUDENT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == -1) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
+                                        if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isLt(dates, now)) {//dates<now
+                                            signup_activity.setVisibility(View.VISIBLE);
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
+                                            signup_activity.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            end_tv.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }
+
                                     }
                                 }
 
@@ -312,21 +307,21 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.ll_left:
 
-                    if (operation == 0) {
-                        finish();
-                    } else if (operation == 1) {
-                        com.github.snowdream.android.util.Log.i("报名活动。。。。");
-                        Intent intent = getIntent();
-                        intent.putExtra("operation", ACTIVITY_SIGN);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    } else if (operation == 2) {
-                        com.github.snowdream.android.util.Log.i("退出活动。。。");
-                        Intent intent = getIntent();
-                        intent.putExtra("operation", ACTIVITY_EXIT);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
+                if (operation == 0) {
+                    finish();
+                } else if (operation == 1) {
+                    com.github.snowdream.android.util.Log.i("报名活动。。。。");
+                    Intent intent = getIntent();
+                    intent.putExtra("operation", ACTIVITY_SIGN);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else if (operation == 2) {
+                    com.github.snowdream.android.util.Log.i("退出活动。。。");
+                    Intent intent = getIntent();
+                    intent.putExtra("operation", ACTIVITY_EXIT);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 break;
 
         }

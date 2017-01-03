@@ -178,6 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/view_gray"></View>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -193,7 +194,7 @@
                     android:columnWidth="100dp"
                     android:numColumns="auto_fit"
                     android:stretchMode="spacingWidthUniform"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/no_partner"
@@ -202,7 +203,7 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:text="暂无小伙伴"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -233,6 +234,17 @@
 
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/end_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="活动已结束，无法报名"
+                android:textColor="@color/word5"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/sign_lin"
                 android:layout_width="match_parent"
@@ -250,8 +262,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/sign_btn"
                     android:text="我要报名"
-                    android:visibility="gone"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/delete_activity"
@@ -263,7 +275,7 @@
                     android:background="@drawable/delete_btn"
                     android:text="删除活动"
                     android:textColor="#FFA200"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
             </LinearLayout>
 
