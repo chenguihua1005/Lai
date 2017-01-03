@@ -362,6 +362,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_fuce.setTag(tag);
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
+                                    ll_task.setVisibility(View.GONE);
                                     todayactModels.clear();
                                     todayactModels.addAll(model.getList_Activity());
                                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -694,6 +695,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                             ll_task.removeAllViews();
                                             if (!activitydataModel.getList_Activity().isEmpty()) {
+                                                ll_task.setVisibility(View.VISIBLE);
                                                 Log.i("act and date", activitydataModel.getList_Activity().toString() + "," + saveclassModel.getDates());
                                                 todayactModels.clear();
                                                 //有活动
@@ -711,9 +713,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                             }
                                         }
+                                        if(model.getDateType() == 4){
+                                           ll_fuce.setVisibility(View.GONE);
+                                            ll_task.setVisibility(View.GONE);
+                                        }
                                         //如果是活动类型
-
                                         if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
+                                            ll_task.setVisibility(View.VISIBLE);
                                             ll_task.removeAllViews();
                                             ll_fuce.setVisibility(View.GONE);
                                             todayactModels.clear();
@@ -730,8 +736,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                         }
                                         break;
-
-
                                     }
                                 }
                             }
