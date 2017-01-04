@@ -881,7 +881,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
             this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
@@ -890,7 +890,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     break;
                 }
             }
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
             if (classModels.isEmpty()) {
                 this.classModel = null;
                 classid = "";

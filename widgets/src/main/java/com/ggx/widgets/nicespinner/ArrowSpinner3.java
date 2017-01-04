@@ -193,6 +193,16 @@ public class ArrowSpinner3 extends TextView{
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
     }
+
+    public void notifChange(){
+        if(adapter.getCount()>1){
+            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        }else {
+            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

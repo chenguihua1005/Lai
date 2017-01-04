@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -95,7 +96,12 @@ public class HXLoginService extends Service implements Runnable {
         model = UserInfoModel.getInstance().getUser();
         if(model!=null){
             account = model.getHXAccountId();
-            new Thread(this).start();
+            if(!TextUtils.isEmpty(account)){
+                new Thread(this).start();
+            }else {
+                isExit = false;
+                stopSelf();
+            }
         }else {
             isExit = false;
             stopSelf();

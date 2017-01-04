@@ -9,7 +9,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"
+
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -75,12 +75,10 @@
                         app:srcCompat="@drawable/bodygame3_arrow" />
 
                 </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/view_gray" />
-
                 <LinearLayout
                     android:id="@+id/honor_lin"
                     android:layout_width="match_parent"
@@ -248,12 +246,10 @@
                         app:srcCompat="@drawable/bodygame3_arrow" />
 
                 </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="#e1e1e1" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -366,12 +362,10 @@
                         app:srcCompat="@drawable/bodygame3_arrow" />
 
                 </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="#e1e1e1"></View>
-
                 <com.softtek.lai.widgets.MyRelative
                     android:id="@+id/rl_container"
                     android:padding="10dp"
@@ -397,12 +391,12 @@
                     android:paddingRight="10dp"
                     android:text="暂无动态" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#fafafa" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#fafafa" />
             <!--班级赛况-->
             <RelativeLayout
                 android:layout_width="match_parent"

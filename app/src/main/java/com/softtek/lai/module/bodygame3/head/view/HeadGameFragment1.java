@@ -200,6 +200,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                 }
             }
         });
+
         searchContent.setOnClickListener(this);
         re_honor.setOnClickListener(this);
         week_rel.setOnClickListener(this);
@@ -215,19 +216,15 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int count = partneradapter.getItemCount();
-                LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int visiblePosition =llm.findFirstCompletelyVisibleItemPosition();
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (count > LOADCOUNT && lastVisitableItem + 1 == count){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE&&count > LOADCOUNT) {
+                    if ( lastVisitableItem + 1 == count){
                         if (!isLoading) {
                             isLoading = true;
                             //加载更多数据
                             page++;
                             updatepartner(typecode, 10, page);//按类型分页加载小伙伴
                         }
-                    }/*else if(visiblePosition==0){
-                        appbar.setExpanded(true,true);
-                    }*/
+                    }
 
                 }
             }
@@ -589,7 +586,8 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             model.setClassRole(clazz.getModel().getClassRole());
             model.setClassWeek("0");
             this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
+
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
@@ -598,7 +596,7 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
                     break;
                 }
             }
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
             if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
             } else {
