@@ -40,6 +40,7 @@ public interface HeadService {
             @Header("token") String token,
             @Query("accountid") long accountid,
             @Query("pagesize") int pagesize,
+            @Query("classid")String classId,
             Callback<ResponseData<ClassinfoModel>> callback
     );
 

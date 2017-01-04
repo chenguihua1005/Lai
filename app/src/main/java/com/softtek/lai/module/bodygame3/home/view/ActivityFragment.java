@@ -67,6 +67,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -123,10 +124,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private int classrole;
     private ClassModel classModel;
 
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-    String str = formatter.format(curDate);
-
     public ActivityFragment() {
 
     }
@@ -138,10 +135,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     @Override
+    protected void onVisible() {
+        String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
+        if(!classId.equals(classid)){
+            isPrepared=false;
+            classid=classId;
+        }
+        super.onVisible();
+    }
+
+    @Override
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-
+        classid= SharedPreferenceService.getInstance().get("default_classId","");
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -463,8 +470,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 //加载数据
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     gettodaydata(saveclassModel.getDates());
-                } else {
-                    gettodaydata(str);
                 }
 
                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
@@ -510,14 +515,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             calendarModel_act.remove(calendarDay);
                             calendarModel_free.add(calendarDay);
                         }
-//                        for (int i = 0; i < calendarModel_act.size(); i++) {
-//                            if (calendarModel_act.get(i).getDate().equals(saveclassModel.getDates())) {
-//                                calendarModel_free.add(getCalendarDay(saveclassModel.getDates()));
-//                                calendarModel_act.remove(calendarModel_act.get(i).getDate());
-//                                material_calendar.removeDecorator(decorator_act);
-//                                material_calendar.removeDecorator(eventDecoratorDot_act);
-//                            }
-//                        }
                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                         new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
@@ -527,8 +524,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             gettodaydata(saveclassModel.getDates());
-                        } else {
-                            gettodaydata(str);
                         }
                     }
 
@@ -536,15 +531,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取退出活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    } else {
-                        gettodaydata(str);
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取报名活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    } else {
-                        gettodaydata(str);
                     }
                 }
             }
@@ -901,7 +892,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
             this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
@@ -910,7 +901,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     break;
                 }
             }
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
             if (classModels.isEmpty()) {
                 this.classModel = null;
                 classid = "";

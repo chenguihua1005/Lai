@@ -132,7 +132,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initViews() {
         tv_write.setText("初始体重：");
-        tv_right.setText("确认");
+        tv_right.setText("审核通过");
         progressDialog =new ProgressDialog(this);
         ll_retestWrite_crium.setOnClickListener(this);
         ll_retestWrite_waisline.setOnClickListener(this);

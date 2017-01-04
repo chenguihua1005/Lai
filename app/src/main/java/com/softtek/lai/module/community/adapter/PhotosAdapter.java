@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,10 +67,10 @@ public class PhotosAdapter extends BaseAdapter{
     }
 
     static class ViewHolder{
-        public ImageView image;
+        public RoundImageView image;
 
         public ViewHolder(View view){
-            image= (ImageView) view.findViewById(R.id.iv);
+            image= (RoundImageView) view.findViewById(R.id.iv);
         }
     }
 }
