@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +22,6 @@ import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -146,51 +144,36 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.VISIBLE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
+                                        if(actdetailModel.getEnd()){
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.VISIBLE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }else{
+                                            end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.VISIBLE);
                                             exit_lin.setVisibility(View.GONE);
+                                        }
+                                    }
+                                } else {
+                                    if (actdetailModel.getSign()) {
+                                        signup_activity.setVisibility(View.GONE);
+                                        delete_activity.setVisibility(View.GONE);
+                                        exit_lin.setVisibility(View.VISIBLE);
+                                    } else {
+                                        if(actdetailModel.getEnd()){
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }else{
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        }
 
-
-                                    }
-                                } else if (classrole == Constants.COACH) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.ASSISTANT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == Constants.STUDENT) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
-                                    }
-                                } else if (classrole == -1) {
-                                    if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
-                                    } else {
-                                        signup_activity.setVisibility(View.VISIBLE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.GONE);
                                     }
                                 }
 
@@ -222,30 +205,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.signup_activity:
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         try {
                             if (200 == responseData.getStatus()) {
                                 Util.toastMsg(responseData.getMsg());
-                                if (classrole == Constants.HEADCOACH) {
-                                    signup_activity.setVisibility(View.GONE);
-                                    delete_activity.setVisibility(View.VISIBLE);
-                                    exit_lin.setVisibility(View.GONE);
-                                } else if (classrole == Constants.COACH) {
-                                    signup_activity.setVisibility(View.GONE);
-                                    delete_activity.setVisibility(View.GONE);
-                                    exit_lin.setVisibility(View.VISIBLE);
-                                } else if (classrole == Constants.ASSISTANT) {
-                                    signup_activity.setVisibility(View.GONE);
-                                    delete_activity.setVisibility(View.GONE);
-                                    exit_lin.setVisibility(View.VISIBLE);
-                                } else if (classrole == Constants.STUDENT) {
-                                    signup_activity.setVisibility(View.GONE);
-                                    delete_activity.setVisibility(View.GONE);
-                                    exit_lin.setVisibility(View.VISIBLE);
-                                }
-
                                 operation = 1;
                                 getalldetail();
                             } else {
@@ -270,7 +236,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                 });
                 break;
             case R.id.delete_activity:
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(),
+                        UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         Util.toastMsg(responseData.getMsg());

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -123,21 +122,12 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     //班级名称
     @InjectView(R.id.tv_write_class)
     TextView tv_write_class;
-    //第几周期
-    @InjectView(R.id.tv_retest_write_weekth)
-    TextView tv_retest_write_weekth;
-    //开始月份
-    @InjectView(R.id.tv_write_starm)
-    TextView tv_write_starm;
     //开始日期
-    @InjectView(R.id.tv_write_stard)
-    TextView tv_write_stard;
-    //结束月份
-    @InjectView(R.id.tv_write_endm)
-    TextView tv_write_endm;
-    //结束日期
-    @InjectView(R.id.tv_write_endd)
-    TextView tv_write_endd;
+    @InjectView(R.id.tv_write_star)
+    TextView tv_write_star;
+    //结束riqi
+    @InjectView(R.id.tv_write_end)
+    TextView tv_write_end;
     @InjectView(R.id.rootlayout)
     RelativeLayout rootlayout;
     @InjectView(R.id.vi_noweight)
@@ -148,7 +138,6 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
 
     String gender="1";//性别
     private static final int GET_BODY=1;//身体维度
-    private static final int BODY=3;
     FuceSevice service;
     private ProgressDialog progressDialog;
     InitAuditPModel initAuditPModel;
@@ -161,20 +150,14 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     int IsAudit;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        context=this;
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-
-    }
-
-    @Override
-    protected void initViews() {
-        context=this;
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
@@ -199,12 +182,10 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         IsAudit=getIntent().getIntExtra("Audited",1);
         if (IsAudit==1)
         {
-            tv_right.setText("");
-            tv_right.setEnabled(false);
-
+            tv_right.setVisibility(View.INVISIBLE);
         }
         else {
-            tv_right.setText("审核通过");//保存数据
+            tv_right.setText("确认");//保存数据
         }
 
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -474,17 +455,14 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
                 }
                 tv_write_nick.setText(measuredDetailsModel.getUserName());//设置用户名
                 tv_write_phone.setText(measuredDetailsModel.getMobile());//手机号
-                tv_write_class.setText(measuredDetailsModel.getClassName());//班级名
-                tv_retest_write_weekth.setText("班级周期");//当前周
+                tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());//班级名
                 if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                     String Stardata[] = measuredDetailsModel.getStartDate().split("-");
-                    tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
-                    tv_write_stard.setText(Long.parseLong(Stardata[2]) + "");//开班日
+                    tv_write_star.setText(Stardata[0]+"."+Long.parseLong(Stardata[1]) + "."+Long.parseLong(Stardata[2]));//开班月
                 }
                 if (!TextUtils.isEmpty(measuredDetailsModel.getEndDate())) {
                     String Enddata[] = measuredDetailsModel.getEndDate().split("-");
-                    tv_write_endm.setText(Long.parseLong(Enddata[1]) + "");//结束月
-                    tv_write_endd.setText(Long.parseLong(Enddata[2]) + "");//结束日
+                    tv_write_end.setText(Enddata[0]+"."+Long.parseLong(Enddata[1]) + "."+Long.parseLong(Enddata[2]));//结束月
                 }
                 tv_write_chu_weight.setText("0.0".equals(measuredDetailsModel.getWeight())?"":measuredDetailsModel.getWeight());//初始体重
                 tv_retestWrite_tizhi.setText("0.0".equals(measuredDetailsModel.getPysical())?"":measuredDetailsModel.getPysical());//体脂
