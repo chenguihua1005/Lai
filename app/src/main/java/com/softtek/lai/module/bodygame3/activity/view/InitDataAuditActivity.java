@@ -185,7 +185,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
             tv_right.setVisibility(View.INVISIBLE);
         }
         else {
-            tv_right.setText("确认");//保存数据
+            tv_right.setText("审核通过");//保存数据
         }
 
         service = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
