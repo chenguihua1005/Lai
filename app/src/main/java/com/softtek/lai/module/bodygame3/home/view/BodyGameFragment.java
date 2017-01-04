@@ -8,7 +8,6 @@ import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.view.HeadBlankFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
-import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment2;
 import com.softtek.lai.utils.RequestCallback;
 
