@@ -144,17 +144,17 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.VISIBLE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        if(actdetailModel.getEnd()){
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.VISIBLE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        }else{
+//                                        if(actdetailModel.getEnd()){
+//                                            end_tv.setVisibility(View.VISIBLE);
+//                                            signup_activity.setVisibility(View.GONE);
+//                                            delete_activity.setVisibility(View.VISIBLE);
+//                                            exit_lin.setVisibility(View.GONE);
+//                                        }else{
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.VISIBLE);
                                             exit_lin.setVisibility(View.GONE);
-                                        }
+//                                        }
                                     }
                                 } else {
                                     if (actdetailModel.getSign()) {
@@ -162,17 +162,17 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         delete_activity.setVisibility(View.GONE);
                                         exit_lin.setVisibility(View.VISIBLE);
                                     } else {
-                                        if(actdetailModel.getEnd()){
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        }else{
+//                                        if(actdetailModel.getEnd()){
+//                                            end_tv.setVisibility(View.VISIBLE);
+//                                            signup_activity.setVisibility(View.GONE);
+//                                            delete_activity.setVisibility(View.GONE);
+//                                            exit_lin.setVisibility(View.GONE);
+//                                        }else{
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
-                                        }
+//                                        }
 
                                     }
                                 }
