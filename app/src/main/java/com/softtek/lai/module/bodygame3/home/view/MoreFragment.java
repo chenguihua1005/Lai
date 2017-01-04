@@ -81,6 +81,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     private int classCount=0;
     private ClassModel model;
+    private List<ClassModel> classModels=new ArrayList<>();
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
@@ -90,9 +91,13 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     @Override
     protected void onVisible() {
         String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
-        if(model!=null&&!classId.equals(model.getClassId())){
-            isPrepared=false;
-            model=null;
+        if(!classModels.isEmpty()){
+            for (ClassModel classModel:classModels){
+                if(classModel.getClassId().equals(classId)){
+                    model=classModel;
+                    break;
+                }
+            }
         }
         super.onVisible();
     }
@@ -229,8 +234,10 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                             public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
                                 try {
                                     refresh.setRefreshing(false);
+                                    classModels.clear();
                                     if (listResponseData.getData() != null
                                             && !listResponseData.getData().isEmpty()) {
+                                        classModels.addAll(listResponseData.getData());
                                         MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
                                         classCount=listResponseData.getData().size();
                                         Bundle bundle=new Bundle();
