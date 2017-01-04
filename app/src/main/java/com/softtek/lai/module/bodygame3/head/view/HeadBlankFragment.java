@@ -59,7 +59,7 @@ public class HeadBlankFragment extends Fragment {
                                 if (HasClass > 0) {
 //                            if (DoingClass > 0) {
 //                                com.github.snowdream.android.util.Log.i("有班级进入此页面。。。。。。。。");
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, new HeadGameFragment1()).commit();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, new HeadGameFragment2()).commit();
 //                            } else {
 //                                getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
 //                            }

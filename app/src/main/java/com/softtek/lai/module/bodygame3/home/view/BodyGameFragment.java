@@ -9,6 +9,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.view.HeadBlankFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment1;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment2;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
@@ -17,7 +18,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_bodygame)
-public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragment1.DeleteClass, HeadGameFragment.AddClass {
+public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragment2.DeleteClass, HeadGameFragment.AddClass {
 
     public BodyGameFragment() {
         // Required empty public constructor
@@ -48,7 +49,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
                         if (HasClass > 0) {
 //                            if (DoingClass > 0) {
 //                                com.github.snowdream.android.util.Log.i("有班级进入此页面。。。。。。。。");
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
 //                            } else {
 //                                getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
 //                            }
@@ -83,7 +84,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     public void addclass() {
-        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment1.getInstance(this)).commitAllowingStateLoss();
+        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(this)).commitAllowingStateLoss();
     }
 
 

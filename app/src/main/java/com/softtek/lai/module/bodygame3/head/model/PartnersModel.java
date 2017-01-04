@@ -18,6 +18,7 @@ public class PartnersModel {
     private String Loss;
     private String IsRetire;//退赛： “1”退赛
 
+    public boolean isNotData;
 
     public String getIsRetire() {
         return IsRetire;
