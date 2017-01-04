@@ -67,6 +67,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -134,10 +135,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     @Override
+    protected void onVisible() {
+        String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
+        if(!classId.equals(classid)){
+            isPrepared=false;
+            classid=classId;
+        }
+        super.onVisible();
+    }
+
+    @Override
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-
+        classid= SharedPreferenceService.getInstance().get("default_classId","");
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);

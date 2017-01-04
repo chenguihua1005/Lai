@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
@@ -73,6 +74,7 @@ public class MoreHasFragment extends Fragment {
         model=getArguments().getParcelable("classModel");
         if (classModels != null && !classModels.isEmpty()) {
             if(model!=null){
+                Log.i("传递过来的mode参数="+model.toString());
                 boolean isExist=false;
                 for (int i=0;i<classModels.size();i++){
                     ClassModel model=classModels.get(i);
@@ -227,13 +229,13 @@ public class MoreHasFragment extends Fragment {
         }else if(clazz.getStatus()==1){
             //添加新班级
             this.classModels.add(clazz.getModel());
-            arrow.notifChange();
+            arrow.getAdapter().notifyDataSetChanged();
         }else if(clazz.getStatus()==2){
             //删除班级
             for (ClassModel model:classModels){
                 if(model.getClassCode().equals(clazz.getModel().getClassCode())){
                     this.classModels.remove(model);
-                    arrow.notifChange();
+                    arrow.getAdapter().notifyDataSetChanged();
                     break;
                 }
             }

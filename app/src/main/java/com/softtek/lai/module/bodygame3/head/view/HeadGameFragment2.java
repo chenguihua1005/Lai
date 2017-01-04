@@ -71,6 +71,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -123,7 +124,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
     private List<ClassModel> classModels = new ArrayList<>();
-    private String classId_first;
+    private String classId_first="";
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
     HeadService service;
@@ -210,7 +211,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initDatas() {
-
+        classId_first= SharedPreferenceService.getInstance().get("default_classId","");
         viewPager.setOffscreenPageLimit(4);
         viewPager.setPageMargin(10);
 
@@ -249,7 +250,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 if(type==DATA){
                     holder=ViewHolder.get(getContext(),R.layout.partner_list,convertView,parent);
                     CircleImageView civ=holder.getView(R.id.head_img);
-                    Picasso.with(getContext()).load(AddressManager.get("photoHost", "http://115.29.187.163:8082/UpFiles/") + partnersModel.getStuImg())
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + partnersModel.getStuImg())
                             .fit().error(R.drawable.img_default)
                             .placeholder(R.drawable.img_default).into(civ);
                     ImageView exi_iv=holder.getView(R.id.exi_iv);
@@ -314,10 +315,10 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                PartnersModel partnersModel = partnersModels.get(position-1);
+                if(partnersModel.isNotData){
                     return;
                 }
-                PartnersModel partnersModel = partnersModels.get(position);
                 String stu_id = partnersModel.getAccountId();
                 long stu_ids = Long.parseLong(stu_id);
                 Intent intent = new Intent(getContext(), PersonDetailActivity.class);
@@ -332,6 +333,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classId_first = classModels.get(i).getClassId();
+                SharedPreferenceService.getInstance().put("default_classId",classId_first);
                 classnum = classModels.get(i).getClassWeek();
                 saveclassModel = new SaveclassModel();
                 saveclassModel.setClassName(classModels.get(i).getClassName());
@@ -612,7 +614,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                     classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
                 } else {
                     classModels.clear();
-                    getallfirst();
+                    getallfirst(classId_first);
                 }
             }
 
@@ -674,8 +676,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         gethasemail();
     }
 
-    private void getallfirst() {
-        service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, new RequestCallback<ResponseData<ClassinfoModel>>() {
+    private void getallfirst(String classId) {
+        service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10,classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 try {
@@ -923,7 +925,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
             classModels.clear();
-            getallfirst();
+            getallfirst(classId_first);
         }
         gethasemail();
     }
