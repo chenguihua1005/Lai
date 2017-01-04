@@ -177,7 +177,7 @@ public class ArrowSpinner2 extends LinearLayout{
         selectedIndex = 0;
         listView.setAdapter(adapter);
         textView.setText(adapter.getText(selectedIndex));
-        if(adapter.getCount()>0){
+        if(adapter.getCount()>1){
             setImageVisibility(VISIBLE);
         }else {
             setImageVisibility(GONE);
@@ -209,7 +209,7 @@ public class ArrowSpinner2 extends LinearLayout{
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (!popupWindow.isShowing()) {
-                if(adapter.getCount()>0){
+                if(adapter.getCount()>1){
                     showDropDown();
 
                 }

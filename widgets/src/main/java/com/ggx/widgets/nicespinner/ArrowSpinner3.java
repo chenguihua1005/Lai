@@ -150,7 +150,7 @@ public class ArrowSpinner3 extends TextView{
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);
             }
-            if(adapter!=null&&adapter.getCount()>0){
+            if(adapter!=null&&adapter.getCount()>1){
                 setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
             }
         }
@@ -178,7 +178,7 @@ public class ArrowSpinner3 extends TextView{
         selectedIndex = 0;
         listView.setAdapter(adapter);
         setText(adapter.getText(selectedIndex));
-        if(adapter.getCount()>0){
+        if(adapter.getCount()>1){
             setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         }else {
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -187,7 +187,7 @@ public class ArrowSpinner3 extends TextView{
     public void setSelected(int index){
         selectedIndex=index;
         setText(adapter.getText(index));
-        if(adapter.getCount()>0){
+        if(adapter.getCount()>1){
             setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         }else {
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -206,7 +206,7 @@ public class ArrowSpinner3 extends TextView{
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (!popupWindow.isShowing()) {
-                if(adapter.getCount()>0){
+                if(adapter.getCount()>1){
                     showDropDown();
 
                 }
