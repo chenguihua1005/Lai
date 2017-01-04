@@ -215,14 +215,19 @@ public class HeadGameFragment1 extends LazyBaseFragment implements View.OnClickL
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int count = partneradapter.getItemCount();
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
-                    
-                    if (!isLoading) {
-                        isLoading = true;
-                        //加载更多数据
-                        page++;
-                        updatepartner(typecode, 10, page);//按类型分页加载小伙伴
-                    }
+                LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int visiblePosition =llm.findFirstCompletelyVisibleItemPosition();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (count > LOADCOUNT && lastVisitableItem + 1 == count){
+                        if (!isLoading) {
+                            isLoading = true;
+                            //加载更多数据
+                            page++;
+                            updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+                        }
+                    }/*else if(visiblePosition==0){
+                        appbar.setExpanded(true,true);
+                    }*/
 
                 }
             }
