@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
     <include layout="@layout/toolbar"
         />
 
@@ -263,6 +264,68 @@
         android:layout_height="1dp"
         android:background="#E6E6E6"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="拍照上传"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/tv_danwei5"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toLeftOf="@+id/im_right5"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/retest_write_takephoto"
+            />
+        <ImageView
+            android:id="@+id/im_right5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/action_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E6E6E6"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="拍照指南"
+        android:textColor="#7ABB39"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        />
+    <ExpandableListView
+        android:id="@+id/exlisview_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:childDivider="#00ffffff"
+        android:scrollbars=""
+        >
+
+    </ExpandableListView>
 
 
 </LinearLayout>
