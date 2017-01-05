@@ -161,7 +161,9 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                 }else if(model.Msgtype==0){//体馆赛活动
                     Intent intent = new Intent(ActionActivity.this, ActivitydetailActivity.class);
                     intent.putExtra("activityId",model.ActId);
-                    startActivityForResult(intent,0);
+                    startActivity(intent);
+                    model.IsRead=1;
+                    adapter.notifyDataSetChanged(lv.getRefreshableView(),i-1);
                 }
 
 
