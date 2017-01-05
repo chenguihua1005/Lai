@@ -2,6 +2,7 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -307,7 +308,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        setResult(RESULT_OK);
+                                        Intent intent=getIntent();
+                                        intent.putExtra("msgStatus",2);
+                                        setResult(RESULT_OK,intent);
                                         finish();
                                     }
 
@@ -344,14 +347,6 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                             EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
 
-                            // 创建者调用add方法
-//                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-//                                EMClient.getInstance().groupManager().addUsersToGroup(hxGroupId, newmembers);
-//                            } else {
-//                                // 一般成员调用invite方法
-//                                EMClient.getInstance().groupManager().inviteUser(hxGroupId, newmembers, null);
-//                            }
-//
                             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                                     .examine(UserInfoModel.getInstance().getToken(),
                                             model,
@@ -360,7 +355,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                 public void success(final ResponseData responseData, Response response) {
                                                     int status = responseData.getStatus();
                                                     if (status == 200) {
-                                                        setResult(RESULT_OK);
+                                                        Intent intent=getIntent();
+                                                        intent.putExtra("msgStatus",1);
+                                                        setResult(RESULT_OK,intent);
                                                         finish();
                                                         runOnUiThread(new Runnable() {
                                                             @Override

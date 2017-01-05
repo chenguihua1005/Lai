@@ -315,7 +315,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PartnersModel partnersModel = partnersModels.get(position-1);
+                PartnersModel partnersModel = partnersModels.get(position-2);
                 if(partnersModel.isNotData){
                     return;
                 }
@@ -693,6 +693,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                         if (classinfoModel.getClassInfoList() != null && !classinfoModel.getClassInfoList().isEmpty()) {
                             classModels.addAll(classinfoModel.getClassInfoList());
                             classId_first = classModels.get(0).getClassId();
+                            SharedPreferenceService.getInstance().put("default_classId",classId_first);
                             tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                 @Override
                                 public void convert(ViewHolder holder, ClassModel data, int position) {
