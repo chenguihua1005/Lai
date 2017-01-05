@@ -757,6 +757,9 @@
             android:name=".module.bodygame3.more.view.SearchClassActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.bodygame3.activity.view.TestAcitivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.bodygame3.activity.view.PreViewPicActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygame3.activity.view.ResetStuActivity"></activity>

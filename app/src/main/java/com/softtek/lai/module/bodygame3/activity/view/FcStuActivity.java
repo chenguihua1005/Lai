@@ -54,16 +54,12 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 
-@InjectLayout(R.layout.activity_initwrite)
+@InjectLayout(R.layout.activity_fcst)
 public class FcStuActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
     @InjectView(R.id.iv_write_head)
     CircleImageView iv_write_head;//头像
     @InjectView(R.id.tv_write_nick)
     TextView tv_write_nick;//昵称
-    @InjectView(R.id.tv_write_phone)
-    TextView tv_write_phone;//手机号
-    @InjectView(R.id.tv_write_class)
-    TextView tv_write_class;//班级名称
     @InjectView(R.id.tv_retest_write_weekth)
     TextView tv_retest_write_weekth;//第几周
     @InjectView(R.id.tv_write_starm)
@@ -84,8 +80,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     @Required(order = 2, message = "内脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;//内脂
-    @InjectView(R.id.tv_write)
-    TextView tv_write;
+//    @InjectView(R.id.tv_write)
+//    TextView tv_write;
 
     @InjectView(R.id.ll_retestWrite_chu_weight)
     RelativeLayout ll_retestWrite_chu_weight;
@@ -95,14 +91,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     RelativeLayout ll_retestWrite_tizhi;
     @InjectView(R.id.ll_retestWrite_neizhi)
     RelativeLayout ll_retestWrite_neizhi;
-    @InjectView(R.id.btn_retest_write_addbody)
-    Button btn_retest_write_addbody;
-    @InjectView(R.id.im_retestwrite_takephoto)
-    ImageView im_retestwrite_takephoto;
-    @InjectView(R.id.im_retestwrite_showphoto)
-    ImageView im_retestwrite_showphoto;
-    @InjectView(R.id.im_delete)
-    ImageView im_delete;
+
+//    @InjectView(R.id.im_retestwrite_takephoto)
+//    ImageView im_retestwrite_takephoto;
+//    @InjectView(R.id.im_retestwrite_showphoto)
+//    ImageView im_retestwrite_showphoto;
+//    @InjectView(R.id.im_delete)
+//    ImageView im_delete;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -137,18 +132,17 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_right.setText("提交");
-        tv_write.setText("初始体重");
+//        tv_write.setText("初始体重");
         progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
-        im_delete.setOnClickListener(this);
+//        im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        im_retestwrite_takephoto.setOnClickListener(this);
+//        im_retestwrite_takephoto.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
-        btn_retest_write_addbody.setOnClickListener(this);
-        im_retestwrite_showphoto.setOnClickListener(this);
+//        im_retestwrite_showphoto.setOnClickListener(this);
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
         imageFileSelector = new ImageFileSelector(this);
@@ -157,9 +151,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(FcStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                im_delete.setVisibility(View.VISIBLE);
+//                Picasso.with(FcStuActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 filest = file;
                 isExistP = false;
 
@@ -167,10 +161,10 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                file = new File(files.get(0));
-                Picasso.with(FcStuActivity.this).load(file).into(im_retestwrite_showphoto);
+//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                im_delete.setVisibility(View.VISIBLE);
+//                file = new File(files.get(0));
+//                Picasso.with(FcStuActivity.this).load(file).into(im_retestwrite_showphoto);
                 filest = file.toString();
                 isExistP = false;
 
@@ -215,19 +209,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     case 1:
                     case 2:
                         Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
-                        btn_retest_write_addbody.setVisibility(View.GONE);
                         break;
                     case 3:
                         tv_right.setVisibility(View.INVISIBLE);
                         fl_right.setEnabled(false);
                         IsEdit = false;
-                        btn_retest_write_addbody.setText("查看身体围度");
                         doGetDataService("2");
                         break;
                     default:
                         tv_right.setVisibility(View.INVISIBLE);
-                        btn_retest_write_addbody.setText("查看身体围度");
-                        btn_retest_write_addbody.setVisibility(View.GONE);
                         IsEdit = false;
                         doGetDataService("2");
                         break;
@@ -243,14 +233,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         tv_right.setVisibility(View.INVISIBLE);
                         IsEdit = false;
                         fl_right.setEnabled(false);
-                        btn_retest_write_addbody.setText("查看身体围度");
                         doGetDataService("2");
                         break;
                 }
                 break;
             default:
                 Util.toastMsg("当前复测日未开始不可查看录入数据");
-                btn_retest_write_addbody.setVisibility(View.GONE);
                 tv_right.setVisibility(View.INVISIBLE);
                 fl_right.setEnabled(false);
                 break;
@@ -285,8 +273,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //删除照片
             case R.id.im_delete:
-                im_retestwrite_showphoto.setVisibility(View.GONE);
-                im_delete.setVisibility(View.GONE);
+//                im_retestwrite_showphoto.setVisibility(View.GONE);
+//                im_delete.setVisibility(View.GONE);
                 filest = "";
                 break;
             //初始体重
@@ -420,8 +408,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 }
                 gender = fcStDataModel.getGender();
                 tv_write_nick.setText(fcStDataModel.getUserName());
-                tv_write_phone.setText(fcStDataModel.getMobile());
-                tv_write_class.setText(fcStDataModel.getClassName());
                 tv_retest_write_weekth.setText("第" + fcStDataModel.getWeekNum() + "周");
                 if (!TextUtils.isEmpty(fcStDataModel.getStartDate())) {
                     String[] stardata = fcStDataModel.getStartDate().split("-");
@@ -436,13 +422,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     tv_write_endd.setText(enddata1[0]);
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_retestwrite_showphoto);//图片
+//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_retestwrite_showphoto);//图片
                     isExistP = true;
 
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
                     isExistP = true;
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
