@@ -218,7 +218,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 int msgStatus=data.getIntExtra("msgStatus",0);
                 OperateMsgModel model=operatList.get(position);
                 model.setMsgStatus(msgStatus);
-                adapter.notifyDataSetChanged(lv.getRefreshableView(),position);
+                adapter.notifyDataSetChanged();
             }
             /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override

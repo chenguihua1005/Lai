@@ -163,7 +163,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("activityId",model.ActId);
                     startActivity(intent);
                     model.IsRead=1;
-                    adapter.notifyDataSetChanged(lv.getRefreshableView(),i-1);
+                    adapter.notifyDataSetChanged();
                 }
 
 
