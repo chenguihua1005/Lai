@@ -148,7 +148,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 //===================================================
-                if(model.Msgtype==22){//是莱运动活动
+                if(model.Msgtype==2){//是莱运动活动
                     if (model.IsJoinAct==0) {
                         Util.toastMsg("您不在该活动中，不能查看活动详情！");
                     } else if (TextUtils.isEmpty(model.ActId)) {
@@ -158,7 +158,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                         intent.putExtra("id", model.ActId);
                         startActivityForResult(intent, 0);
                     }
-                }else if(model.Msgtype==0){//体馆赛活动
+                }else if(model.Msgtype==1){//体馆赛活动
                     Intent intent = new Intent(ActionActivity.this, ActivitydetailActivity.class);
                     intent.putExtra("activityId",model.ActId);
                     startActivity(intent);
@@ -183,6 +183,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
         try {
             tv_right.setText("编辑");
             fl_right.setOnClickListener(this);
+            operatList.clear();
             operatList.addAll(data);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
