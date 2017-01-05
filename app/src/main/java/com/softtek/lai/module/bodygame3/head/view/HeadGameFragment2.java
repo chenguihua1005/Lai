@@ -360,14 +360,15 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 return viewPager.dispatchTouchEvent(event);
             }
         });
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        },300);
+        onPullDownToRefresh(null);
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(ptrlv!=null){
+//                    ptrlv.setRefreshing();
+//                }
+//            }
+//        },300);
         EventBus.getDefault().register(this);
     }
 
@@ -831,6 +832,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             }
                         }
                         //班级赛况
+                        partnersModels.clear();
                         if (classinfoModel.getPartnersList() != null&&!classinfoModel.getPartnersList().isEmpty()) {
                             partnersModels.addAll(classinfoModel.getPartnersList());
                         }else {
