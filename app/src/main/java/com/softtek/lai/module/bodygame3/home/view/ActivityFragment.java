@@ -137,7 +137,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void onVisible() {
         String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
-        if(!classId.equals(classid)){
+        if(!classId.equals("-1")&&!classId.equals(classid)){
             isPrepared=false;
             classid=classId;
         }
