@@ -4,6 +4,7 @@ import android.widget.ExpandableListView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ public class TestAcitivity extends BaseActivity {
     @Override
     protected void initViews() {
         groupArray.add(0,"身体围度（选填）");
-//        String[]chi={"胸围"};
         child.add(0,"胸围");
         child.add(1,"腰围");
         child.add(2,"臀围");
@@ -36,10 +36,9 @@ public class TestAcitivity extends BaseActivity {
         fcStDataModel.setCircum("102");
         fcStDataModel.setWaistline("103");
         fcStDataModel.setHiplie("104");
-//        fcStDataModel.setDoLegGirth("102");
         exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,groupArray,childArray,fcStDataModel);
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,this,groupArray,childArray,fcStDataModel);
         exlisview_body.setAdapter(adapter);
     }
 
