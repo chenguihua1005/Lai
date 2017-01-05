@@ -11,15 +11,24 @@ public class ActdetailModel {
     private String StartTime;
     private String Content;
     private Boolean IsSign;//是否报名
-//    private Boolean IsEnd;//是否结束
+    private Boolean IsEnd;//是否结束
     private List<UseredModel> Users;
 
-    public ActdetailModel(String title, String startTime, String content, Boolean isSign, List<UseredModel> users) {
+    public ActdetailModel(String title, String startTime, String content, Boolean isSign, Boolean isEnd, List<UseredModel> users) {
         Title = title;
         StartTime = startTime;
         Content = content;
         IsSign = isSign;
+        IsEnd = isEnd;
         Users = users;
+    }
+
+    public Boolean getEnd() {
+        return IsEnd;
+    }
+
+    public void setEnd(Boolean end) {
+        IsEnd = end;
     }
 
     public String getTitle() {

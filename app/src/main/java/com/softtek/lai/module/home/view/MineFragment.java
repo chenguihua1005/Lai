@@ -26,7 +26,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.activity.view.TestAcitivity;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -212,8 +211,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.rl_setting:
-//                startActivity(new Intent(getContext(), SettingsActivity.class));
-                startActivity(new Intent(getContext(), TestAcitivity.class));
+                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
             case R.id.rl_dynamic:
                 Intent personal = new Intent(getContext(), PersionalActivity.class);

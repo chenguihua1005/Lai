@@ -82,6 +82,7 @@ public interface Message2Service {
     @GET("/v1/MsgCenter/GetAccountIdByMobile")
     void validatePhone(@Header("token")String token,
                        @Query("Mobile")String phone,
+                       @Query("classId")String classId,
                        Callback<ResponseData<AiXinStudent>> callback);
 
     //确认/拒绝加入班级

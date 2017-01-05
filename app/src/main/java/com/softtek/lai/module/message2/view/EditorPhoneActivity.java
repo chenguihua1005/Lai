@@ -55,6 +55,7 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
     @InjectView(R.id.iv_delete)
     ImageView iv_delete;
 
+    private String classId;
 
     @Override
     protected void initViews() {
@@ -99,7 +100,7 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
 
     @Override
     protected void initDatas() {
-
+        classId=getIntent().getStringExtra("classId");
     }
 
 
@@ -110,6 +111,7 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
         ZillaApi.NormalRestAdapter.create(Message2Service.class)
                 .validatePhone(UserInfoModel.getInstance().getToken(),
                         phone,
+                        classId,
                         new RequestCallback<ResponseData<AiXinStudent>>() {
                             @Override
                             public void success(ResponseData<AiXinStudent> data, Response response) {
@@ -120,7 +122,7 @@ public class EditorPhoneActivity extends BaseActivity implements Validator.Valid
                                     intent.putExtra("phone",phone);
                                     setResult(RESULT_OK,intent);
                                     finish();
-                                }else if(data.getStatus()==202) {
+                                }else{
                                     et_value.setError(data.getMsg());
                                 }
                             }

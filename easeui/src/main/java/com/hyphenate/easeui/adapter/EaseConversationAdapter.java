@@ -141,14 +141,18 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             } catch (HyphenateException e) {
                 e.printStackTrace();
             }
-            System.out.println("userId:" + userId + "    f:" + f);
+            System.out.println("j哈哈哈哈哈哈哈哈   爱就爱假假按揭啊姐姐  =====登录用户  userId:" + userId + "    f:" + f);
             if (f.equals(userId)) {
                 String str = conversation.getExtField();
+
+                Log.i(TAG, "会话扩展 = " + str);
                 if (!TextUtils.isEmpty(str)) {
                     String[] field = str.split(",");
                     if (field.length >= 2) {
                         name = field[0];
                         photo = field[1];
+
+                        System.out.println("j哈哈哈哈哈哈哈哈  会话扩展  =====获取的信息   name:" + name + "    photo :" + photo);
                     }
                 }
             }
