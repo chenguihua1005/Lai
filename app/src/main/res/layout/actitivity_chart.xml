@@ -8,6 +8,80 @@
     android:background="#ffffff">
 
 
+    <RelativeLayout
+        android:id="@+id/rel_sy"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/img_sy"
+        >
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <RelativeLayout
+            android:id="@+id/rl_color"
+            android:background="@color/colorPrimaryDark"
+            android:alpha="0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fl_pers_right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/iv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_share_bt" />
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/ll_left"
+            android:layout_toLeftOf="@id/fl_pers_right"
+            >
+            <TextView
+                android:id="@+id/tv_perpagename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/tv_studate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <com.softtek.lai.widgets.ObservableScrollView
         android:id="@+id/StuScrollv"
@@ -34,7 +108,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="220dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/default_icon_rect" />
+                            android:src="@drawable/default_icon_square" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
@@ -213,78 +287,4 @@
         </LinearLayout>
         </ScrollView>
     </com.softtek.lai.widgets.ObservableScrollView>
-    <RelativeLayout
-        android:id="@+id/rel_sy"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/img_sy"
-        >
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/toolbar1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <RelativeLayout
-            android:id="@+id/rl_color"
-            android:background="@color/colorPrimaryDark"
-            android:alpha="0"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <LinearLayout
-            android:id="@+id/ll_left"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            >
-
-            <ImageView
-                android:id="@+id/iv_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/back" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/fl_pers_right"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:id="@+id/iv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/img_share_bt" />
-
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_centerInParent="true"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@id/ll_left"
-            android:layout_toLeftOf="@id/fl_pers_right"
-            >
-            <TextView
-                android:id="@+id/tv_perpagename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"/>
-            <TextView
-                android:id="@+id/tv_studate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:textSize="10sp"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
 </RelativeLayout>

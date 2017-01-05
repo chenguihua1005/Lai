@@ -322,11 +322,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
             //删除照片
-            case R.id.im_delete:
+//            case R.id.im_delete:
 //                im_retestwrite_showphoto.setVisibility(View.GONE);
 //                im_delete.setVisibility(View.GONE);
-                filest = "";
-                break;
+//                filest = "";
+//                break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
 
@@ -353,40 +353,43 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //拍照事件
             case R.id.re_takephoto:
-//                if (filest.equals(""))
-//                {
-//
-//
-//                }
-//                else {
-//
-//                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            //拍照
-                            if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                    //允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                if (TextUtils.isEmpty(filest))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                //拍照
+                                if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                        //允许弹出提示
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
+                                    } else {
+                                        //不允许弹出提示
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                    }
                                 } else {
-                                    //不允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                    imageFileSelector.takePhoto(FcStuActivity.this);
                                 }
-                            } else {
-                                imageFileSelector.takePhoto(FcStuActivity.this);
+                            } else if (which == 1) {
+                                //照片
+                                imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
                             }
-                        } else if (which == 1) {
-                            //照片
-                            imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
                         }
-                    }
-                }).create().show();
+                    }).create().show();
+
+                }
+                else {
+                    Intent intent1 = new Intent(this, PreViewPicActivity.class);
+                    intent1.putExtra("images", filest);
+                    intent1.putExtra("photoname", photoname);
+                    startActivity(intent1);
+                }
+
                 break;
             case R.id.tv_takepho_guide:
                 startActivity(new Intent(this,GuideActivity.class));
