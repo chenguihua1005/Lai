@@ -140,39 +140,57 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                 ActdetailModel actdetailModel = actdetailModelResponseData.getData();
                                 if (classrole == Constants.HEADCOACH) {
                                     if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.VISIBLE);
-                                        exit_lin.setVisibility(View.VISIBLE);
+                                        if (actdetailModel.getEnd()) {
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
+                                            end_tv.setVisibility(View.GONE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.VISIBLE);
+                                            exit_lin.setVisibility(View.VISIBLE);
+                                        }
+
                                     } else {
-//                                        if(actdetailModel.getEnd()){
-//                                            end_tv.setVisibility(View.VISIBLE);
-//                                            signup_activity.setVisibility(View.GONE);
-//                                            delete_activity.setVisibility(View.VISIBLE);
-//                                            exit_lin.setVisibility(View.GONE);
-//                                        }else{
+                                        if (actdetailModel.getEnd()) {
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.VISIBLE);
                                             exit_lin.setVisibility(View.GONE);
-//                                        }
+                                        }
                                     }
                                 } else {
                                     if (actdetailModel.getSign()) {
-                                        signup_activity.setVisibility(View.GONE);
-                                        delete_activity.setVisibility(View.GONE);
-                                        exit_lin.setVisibility(View.VISIBLE);
+                                        if (actdetailModel.getEnd()) {
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
+                                            end_tv.setVisibility(View.GONE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.VISIBLE);
+                                        }
+
                                     } else {
-//                                        if(actdetailModel.getEnd()){
-//                                            end_tv.setVisibility(View.VISIBLE);
-//                                            signup_activity.setVisibility(View.GONE);
-//                                            delete_activity.setVisibility(View.GONE);
-//                                            exit_lin.setVisibility(View.GONE);
-//                                        }else{
+                                        if (actdetailModel.getEnd()) {
+                                            end_tv.setVisibility(View.VISIBLE);
+                                            signup_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.GONE);
+                                            exit_lin.setVisibility(View.GONE);
+                                        } else {
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.VISIBLE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
-//                                        }
+                                        }
 
                                     }
                                 }
@@ -207,54 +225,54 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             case R.id.signup_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).signup(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        try {
-                            if (200 == responseData.getStatus()) {
-                                Util.toastMsg(responseData.getMsg());
-                                operation = 1;
-                                getalldetail();
-                            } else {
-                                operation = 0;
-                                Util.toastMsg(responseData.getMsg());
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                try {
+                                    if (200 == responseData.getStatus()) {
+                                        Util.toastMsg(responseData.getMsg());
+                                        operation = 1;
+                                        getalldetail();
+                                    } else {
+                                        operation = 0;
+                                        Util.toastMsg(responseData.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        try {
-                            operation = 0;
-                            super.failure(error);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                            @Override
+                            public void failure(RetrofitError error) {
+                                try {
+                                    operation = 0;
+                                    super.failure(error);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                 break;
             case R.id.delete_activity:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).deleteact(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(), activityId, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
-                        Intent del = getIntent();
-                        int counts = del.getExtras().getInt("counts");
-                        int count = counts - 1;
-                        del.putExtra("operation", ACTIVITY_DEL);
-                        del.putExtra("count", count);
-                        setResult(RESULT_OK, del);
-                        finish();
-                    }
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                Util.toastMsg(responseData.getMsg());
+                                Intent del = getIntent();
+                                int counts = del.getExtras().getInt("counts");
+                                int count = counts - 1;
+                                del.putExtra("operation", ACTIVITY_DEL);
+                                del.putExtra("count", count);
+                                setResult(RESULT_OK, del);
+                                finish();
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                    }
-                });
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                            }
+                        });
                 break;
             case R.id.exit_tv:
                 ZillaApi.NormalRestAdapter.create(ActivityService.class).exitact(UserInfoModel.getInstance().getToken(),
