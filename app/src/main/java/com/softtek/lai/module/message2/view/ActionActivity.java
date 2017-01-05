@@ -183,6 +183,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
         try {
             tv_right.setText("编辑");
             fl_right.setOnClickListener(this);
+            operatList.clear();
             operatList.addAll(data);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
