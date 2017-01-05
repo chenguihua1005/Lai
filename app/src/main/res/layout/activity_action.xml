@@ -5,24 +5,8 @@
     android:background="#fafafa"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar" />
-
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/footer"
-        android:layout_below="@+id/toolbar"
-        android:divider="@null"/>
-
-    <ImageView
-        android:id="@+id/iv_nomessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/no_message"
-        android:visibility="gone"/>
-
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
@@ -63,7 +47,26 @@
             android:text="删除"
             android:textColor="#333333"
             android:textSize="18sp" />
+
     </LinearLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/footer"
+        android:divider="@null" />
+
+
+    <ImageView
+        android:id="@+id/iv_nomessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone"/>
+
+
 
 </RelativeLayout>
 
