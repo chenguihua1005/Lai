@@ -83,7 +83,7 @@ public class JpushReceiver extends BroadcastReceiver {
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(i);
                         }else if(msgType==3){//点击跳转到活动详情
-                            //进入邀请确认界面
+                            //进入活动界面
                             Intent i = new Intent(context, ActivitydetailActivity.class);
                             i.putExtra("activityId",json.optString("activityId"));
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

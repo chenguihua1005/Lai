@@ -79,6 +79,7 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.USER, "");
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
+        SharedPreferenceService.getInstance().put("default_classId", "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
         JpushSet set = new JpushSet(LaiApplication.getInstance());

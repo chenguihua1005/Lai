@@ -176,10 +176,12 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 if(5==model.getMsgtype()){
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
+                    intent.putExtra("position",i-1);
                     startActivityForResult(intent, 10);
                 }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
+                    intent.putExtra("position",i-1);
                     startActivityForResult(intent, 10);
                 }
             }
@@ -211,14 +213,21 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            int position=data.getIntExtra("position",-1);
+            if(position!=-1){
+                int msgStatus=data.getIntExtra("msgStatus",0);
+                OperateMsgModel model=operatList.get(position);
+                model.setMsgStatus(msgStatus);
+                adapter.notifyDataSetChanged(lv.getRefreshableView(),position);
+            }
+            /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if(lv!=null){
                         lv.setRefreshing();
                     }
                 }
-            },400);
+            },400);*/
         }
     }
 

@@ -211,7 +211,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                                 model.setCGName(show.getCGName());
                                                 model.setCGId(show.getCGId());
                                                 EventBus.getDefault().post(new UpdateClass(1, model));
-                                                setResult(RESULT_OK);
+                                                Intent intent=getIntent();
+                                                intent.putExtra("msgStatus",1);
+                                                setResult(RESULT_OK,intent);
                                                 finish();
                                             } else {// 此时需要环信剔除处理
                                                 (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
@@ -267,7 +269,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
                                 //确认成
-                                setResult(RESULT_OK);
+                                Intent intent=getIntent();
+                                intent.putExtra("msgStatus",2);
+                                setResult(RESULT_OK,intent);
                                 finish();
                             }
 

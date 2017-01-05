@@ -66,8 +66,8 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     TextView no_partner;
     @InjectView(R.id.end_tv)
     TextView end_tv;
-    private String dates;
-    private List<UseredModel> useredModels = new ArrayList<UseredModel>();
+
+    private List<UseredModel> useredModels = new ArrayList<>();
     EasyAdapter<UseredModel> adapter;
     private String activityId;//活动I
     private int classrole;//班级角色
@@ -89,7 +89,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        if (UserInfoModel.getInstance().getUser().getUserrole().equals(Constants.SP)) {
+        if (UserInfoModel.getInstance().getUser().getUserrole().equals(String.valueOf(Constants.SP))) {
             sign_lin.setVisibility(View.VISIBLE);
             delete_activity.setVisibility(View.VISIBLE);
         } else {

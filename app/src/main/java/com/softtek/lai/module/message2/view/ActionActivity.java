@@ -24,6 +24,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.view.ActActivity;
+import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.message2.model.ActionNoticeModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
@@ -124,7 +125,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ActionNoticeModel model=operatList.get(i);
+                ActionNoticeModel model=operatList.get(i-1);
                 if(doOperator){
                     //正在操作的话
                     if(model.isSelected){
@@ -158,7 +159,9 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                         startActivityForResult(intent, 0);
                     }
                 }else if(model.Msgtype==0){//体馆赛活动
-
+                    Intent intent = new Intent(ActionActivity.this, ActivitydetailActivity.class);
+                    intent.putExtra("activityId",model.ActId);
+                    startActivityForResult(intent,0);
                 }
 
 
