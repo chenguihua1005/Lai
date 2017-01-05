@@ -65,7 +65,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.no_partner)
     TextView no_partner;
     @InjectView(R.id.end_tv)
-    TextView end_tv;
+    Button end_tv;
 
     private List<UseredModel> useredModels = new ArrayList<>();
     EasyAdapter<UseredModel> adapter;
@@ -89,13 +89,13 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        if (UserInfoModel.getInstance().getUser().getUserrole().equals(String.valueOf(Constants.SP))) {
-            sign_lin.setVisibility(View.VISIBLE);
-            delete_activity.setVisibility(View.VISIBLE);
-        } else {
-            sign_lin.setVisibility(View.VISIBLE);
-            delete_activity.setVisibility(View.GONE);
-        }
+//        if (UserInfoModel.getInstance().getUser().getUserrole().equals(String.valueOf(Constants.SP))) {
+//            sign_lin.setVisibility(View.VISIBLE);
+//            delete_activity.setVisibility(View.VISIBLE);
+//        } else {
+//            sign_lin.setVisibility(View.VISIBLE);
+//            delete_activity.setVisibility(View.GONE);
+//        }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole", -1);
 
@@ -142,19 +142,21 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     if (actdetailModel.getSign()) {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
+                                            end_tv.setText("活动已过期");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
                                         } else {
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.VISIBLE);
+                                            delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.VISIBLE);
                                         }
 
                                     } else {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
+                                            end_tv.setText("活动已过期，无法报名");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
@@ -169,6 +171,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     if (actdetailModel.getSign()) {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
+                                            end_tv.setText("活动已过期");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
@@ -181,6 +184,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
                                     } else {
                                         if (actdetailModel.getEnd()) {
+                                            end_tv.setText("活动已过期，无法报名");
                                             end_tv.setVisibility(View.VISIBLE);
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
