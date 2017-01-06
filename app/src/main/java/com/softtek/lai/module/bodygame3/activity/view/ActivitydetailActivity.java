@@ -149,7 +149,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                         } else {
                                             end_tv.setVisibility(View.GONE);
                                             signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
+                                            delete_activity.setVisibility(View.VISIBLE);
                                             exit_lin.setVisibility(View.VISIBLE);
                                         }
 

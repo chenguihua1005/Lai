@@ -315,6 +315,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                com.github.snowdream.android.util.Log.i("点击页面。。。。。="+position);
+                int index=position-2;
+                if(index<0){
+                    return;
+                }
                 PartnersModel partnersModel = partnersModels.get(position-2);
                 if(partnersModel.isNotData){
                     return;
