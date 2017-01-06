@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -9,28 +10,63 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="@color/white"
-        android:gravity="center"
+        android:background="@color/mytoolbar_green"
         android:orientation="vertical">
 
-        <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/head_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/img_default" />
-
-        <TextView
-            android:id="@+id/tv_name"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal">
+
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_above="@id/tv_head_coach_name"
+                android:layout_marginBottom="12dp">
+
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/civ_head_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/img_default" />
+
+                <TextView
+                    android:id="@+id/tv_identity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/head_coach" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_head_coach_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="10dp"
         android:background="#e1e1e1" />
+
+    <com.softtek.lai.widgets.meetmehorizontallistview.MyListview
+        android:id="@+id/lv_service_team"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:divider="#e1e1e1"
+        android:dividerHeight="10dp"
+        android:scrollbars="none" />
 
 </LinearLayout>
