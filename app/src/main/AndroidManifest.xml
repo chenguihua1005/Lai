@@ -766,6 +766,9 @@
         <activity
             android:name=".module.bodygame3.more.view.LoveStudentActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.SupportTeamActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
