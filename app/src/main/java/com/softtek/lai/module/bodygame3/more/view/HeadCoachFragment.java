@@ -14,6 +14,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 
+import static java.security.AccessController.getContext;
+
 public class HeadCoachFragment extends Fragment implements View.OnClickListener {
 
     private RelativeLayout rl_invitation;
@@ -75,6 +77,7 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
                 intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
             }
+
 
             break;
         }
