@@ -14,8 +14,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 
-import static java.security.AccessController.getContext;
-
 public class HeadCoachFragment extends Fragment implements View.OnClickListener {
 
     private RelativeLayout rl_invitation;
@@ -23,6 +21,7 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
     private RelativeLayout rl_honor;
 
     private RelativeLayout rl_love_student;//爱心学员
+    private RelativeLayout rl_support_team;// 服务团队
 
 
     public HeadCoachFragment() {
@@ -44,11 +43,13 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
         rl_class_manager = (RelativeLayout) view.findViewById(R.id.rl_class_manager);
         rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);
+        rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);
 
         rl_invitation.setOnClickListener(this);
         rl_class_manager.setOnClickListener(this);
         rl_honor.setOnClickListener(this);
         rl_love_student.setOnClickListener(this);
+        rl_support_team.setOnClickListener(this);
     }
 
     @Override
@@ -77,8 +78,13 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
                 intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
             }
+            break;
 
-
+            case R.id.rl_support_team: {
+                Intent intent = new Intent(getContext(), SupportTeamActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
+            }
             break;
         }
     }
