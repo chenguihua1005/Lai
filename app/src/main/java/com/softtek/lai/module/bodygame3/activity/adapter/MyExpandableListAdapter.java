@@ -1,7 +1,10 @@
-package com.softtek.lai.module.bodygame3.activity.view;
+package com.softtek.lai.module.bodygame3.activity.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.DataSetObserver;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -16,24 +21,29 @@ import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 
 import java.util.List;
 
+import zilla.libcore.util.Util;
+
 /**
  * Created by lareina.qiao on 1/4/2017.
  */
 public class MyExpandableListAdapter implements ExpandableListAdapter {
     Context context;
+    Activity activity;
     private List<String> groupArray;
     private List<List<String>> childArray;
     private FcStDataModel fcStDataModel;
 
 
-    public MyExpandableListAdapter(Context context,List<String>groupArray,List<List<String>>childArray,FcStDataModel fcStDataModel)
+    public MyExpandableListAdapter(Activity activity,Context context,List<String>groupArray,List<List<String>>childArray,FcStDataModel fcStDataModel)
     {
+        this.activity=activity;
         this.context=context;
         this.groupArray=groupArray;
         this.childArray=childArray;
         this.fcStDataModel=fcStDataModel;
 
     }
+
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
 
@@ -106,7 +116,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View view = convertView;
         ChildHolder holder = null;
         if(view == null){
@@ -115,6 +125,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.childName = (TextView)view.findViewById(R.id.tv_child_name);
             holder.tv_value = (TextView)view.findViewById(R.id.tv_value);
             holder.im_aciton = (ImageView)view.findViewById(R.id.im_aciton);
+            holder.re_body= (RelativeLayout) view.findViewById(R.id.re_body);
             view.setTag(holder);
         }else{
             holder = (ChildHolder)view.getTag();
@@ -137,20 +148,83 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 holder.tv_value.setText(fcStDataModel.getHiplie());
                 break;
             case 3:
-                holder.childName.setText("上臂围");
+                holder.tv_value.setText(fcStDataModel.getUpArmGirth());
                 break;
             case 4:
-                holder.childName.setText("大腿围");
+                holder.tv_value.setText(fcStDataModel.getUpLegGirth());
                 break;
             case 5:
-                holder.childName.setText("小腿围");
+                holder.tv_value.setText(fcStDataModel.getDoLegGirth());
                 break;
         }
 
-
+//
         holder.childName.setText(childArray.get(groupPosition).get(childPosition));
-
+//        holder.re_body.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                switch (childPosition)
+//                {
+//                    case 0:
+//                        Util.toastMsg("点击啦");
+//                        break;
+//                    case 1:
+//                        break;
+//                    case 2:
+//                        break;
+//                    case 3:
+//                        break;
+//                    case 4:
+//                        break;
+//                    case 5:
+//                        break;
+//                }
+//            }
+//        });
         return view;
+    }
+    public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
+        final AlertDialog.Builder information_dialog = new AlertDialog.Builder(context);
+        final View view =  activity.getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(np1maxvalur);
+        np1.setValue(np1value);
+        np1.setMinValue(np1minvalue);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(np2maxvalue);
+        np2.setValue(np2value);
+        np2.setMinValue(np2minvalue);
+        np2.setWrapSelectorWheel(false);
+        information_dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (num == 0) {
+                    ChildHolder childHolder=new ChildHolder();
+                    childHolder.tv_value.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+//                    tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+//                    tv_write_chu_weight.setError(null);
+                } else if (num == 1) {
+//                    tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+//                    tv_retestWrite_nowweight.setError(null);
+                } else if (num == 2) {
+//                    tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                } else if (num == 3) {
+//                    tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+                }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+
+
     }
 
     @Override
@@ -207,6 +281,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
         public TextView childName;
         public TextView tv_value;
         public ImageView im_aciton;
+        public RelativeLayout re_body;
     }
 
 }
