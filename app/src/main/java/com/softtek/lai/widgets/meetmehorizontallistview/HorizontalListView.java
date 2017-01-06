@@ -206,6 +206,9 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      */
     private OnClickListener mOnClickListener;
 
+    private int yDown;
+    private int xDown;
+
     public HorizontalListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mEdgeGlowLeft = new EdgeEffectCompat(context);
@@ -1130,6 +1133,31 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 
         return super.onTouchEvent(event);
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        int x = (int) ev.getX();
+//        int y = (int) ev.getY();
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                xDown = x;
+//                yDown = y;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                int xDiff = Math.abs(x - xDown);
+//                int yDiff = Math.abs(y - yDown);
+//                if (yDiff - xDiff > 0) {
+//                    getParent().requestDisallowInterceptTouchEvent(false);
+//                } else {
+//                    getParent().requestDisallowInterceptTouchEvent(true);
+//                }
+////                isIntercept = yMove - yDown > 0;
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                break;
+//        }
+//        return super.onTouchEvent(ev);
+//    }
 
     /** Release the EdgeGlow so it animates */
     private void releaseEdgeGlow() {

@@ -2,8 +2,6 @@ package com.softtek.lai.widgets.meetmehorizontallistview;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.widget.ListView;
 
 /**
@@ -12,8 +10,8 @@ import android.widget.ListView;
 
 public class MyListview extends ListView {
 
-    private GestureDetector mGestureDetector;
-    OnTouchListener mGestureListener;
+//    private GestureDetector mGestureDetector;
+//    OnTouchListener mGestureListener;
 
     private int yDown;
     private int xDown;
@@ -24,30 +22,30 @@ public class MyListview extends ListView {
 
     public MyListview(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mGestureDetector = new GestureDetector(new YScrollDetector());
-        setFadingEdgeLength(0);
+//        mGestureDetector = new GestureDetector(new YScrollDetector());
+//        setFadingEdgeLength(0);
     }
 
     public MyListview(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        return super.onInterceptTouchEvent(ev)
+//                && mGestureDetector.onTouchEvent(ev);
+//    }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev)
-                && mGestureDetector.onTouchEvent(ev);
-    }
 
-
-    class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                float distanceX, float distanceY) {
-            if (Math.abs(distanceY) > Math.abs(distanceX)) {
-                return true;
-            }
-            return false;
-        }
+//    class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
+//        @Override
+//        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+//                                float distanceX, float distanceY) {
+//            if (Math.abs(distanceY) > Math.abs(distanceX)) {
+//                return true;
+//            }
+//            return false;
+//        }
 
 //        @Override
 //        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -59,5 +57,5 @@ public class MyListview extends ListView {
 //            int diffY = Math.abs(y1 - y2);
 //            return diffY - diffX > 0;
 //        }
-    }
+//    }
 }
