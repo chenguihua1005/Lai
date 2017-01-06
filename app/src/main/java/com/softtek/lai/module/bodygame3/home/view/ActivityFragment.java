@@ -596,7 +596,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     //如果班级是空
                                     ll_chuDate.setVisibility(View.GONE);
                                     ll_fuce.setVisibility(View.GONE);
-
+                                    tv_title.setText("暂无班级");
                                     return;
                                 }
                                 //标记日历中的活动/复测等标记
