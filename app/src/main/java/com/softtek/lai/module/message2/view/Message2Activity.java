@@ -128,7 +128,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                     ptrsv.setRefreshing();
                 }
             }
-        },400);
+        },300);
     }
 
     @Override
