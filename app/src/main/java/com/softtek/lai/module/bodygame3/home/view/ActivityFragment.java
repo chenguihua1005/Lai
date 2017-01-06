@@ -136,10 +136,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void onVisible() {
-        String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
-        if(!classId.equals("-1")&&!classId.equals(classid)){
-            isPrepared=false;
-            classid=classId;
+        String classId = SharedPreferenceService.getInstance().get("default_classId", "-1");
+        if (!classId.equals("-1") && !classId.equals(classid)) {
+            isPrepared = false;
+            classid = classId;
         }
         super.onVisible();
     }
@@ -148,7 +148,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-        classid= SharedPreferenceService.getInstance().get("default_classId","");
+        classid = SharedPreferenceService.getInstance().get("default_classId", "");
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -563,6 +563,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {
                         try {
+
                             pull.setRefreshing(false);
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
@@ -573,9 +574,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     fl_right.setVisibility(View.GONE);
                                 }
                                 //加载班级
+                                classModels.clear();
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
-                                    classModels.clear();
                                     classModels.addAll(activitydataModel.getList_Class());
                                     tv_title.getAdapter().notifyDataSetChanged();
                                     if (TextUtils.isEmpty(classid)) {
@@ -593,6 +594,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 } else {
                                     //如果班级是空
+                                    ll_chuDate.setVisibility(View.GONE);
+                                    ll_fuce.setVisibility(View.GONE);
+
                                     return;
                                 }
                                 //标记日历中的活动/复测等标记
@@ -901,6 +905,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     break;
                 }
             }
+
             tv_title.notifChange();
             if (classModels.isEmpty()) {
                 this.classModel = null;
@@ -911,6 +916,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 classid = this.classModel.getClassId();
 
             }
+            com.github.snowdream.android.util.Log.i("删除后班级的数量为======" + classModels.size());
+            com.github.snowdream.android.util.Log.i("删除后班级的id为======" + classid);
             lazyLoad();
         }
     }
