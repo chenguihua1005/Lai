@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,6 +41,8 @@ public class PreViewPicActivity extends BaseActivity{
     ImageView im_takepic;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.im_left)
+            ImageView im_left;
     File file;
     String images,photoname;
     private ImageFileSelector imageFileSelector;
@@ -57,9 +60,7 @@ public class PreViewPicActivity extends BaseActivity{
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                im_delete.setVisibility(View.VISIBLE);
-
+                images=file+"";
                 Picasso.with(PreViewPicActivity.this).load(new File(file)).fit().placeholder(R.drawable.default_icon_square).into(im_show_pic);
 
 
@@ -67,10 +68,9 @@ public class PreViewPicActivity extends BaseActivity{
 
             @Override
             public void onMutilSuccess(List<String> files) {
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                im_delete.setVisibility(View.VISIBLE);
                 file = new File(files.get(0));
-                Picasso.with(PreViewPicActivity.this).load(file).into(im_show_pic);
+                images=file+"";
+                Picasso.with(PreViewPicActivity.this).load(file).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_show_pic);
 
             }
 
@@ -111,6 +111,15 @@ public class PreViewPicActivity extends BaseActivity{
                 }).create().show();
             }
         });
+        im_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.putExtra("images",images);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -136,5 +145,17 @@ public class PreViewPicActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            //do something...
+            Intent intent=new Intent();
+            intent.putExtra("images",images);
+            setResult(RESULT_OK,intent);
+//            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

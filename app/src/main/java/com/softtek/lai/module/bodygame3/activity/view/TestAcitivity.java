@@ -38,7 +38,7 @@ public class TestAcitivity extends BaseActivity {
         fcStDataModel.setHiplie("104");
         exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,this,groupArray,childArray,fcStDataModel);
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,this,childArray,fcStDataModel);
         exlisview_body.setAdapter(adapter);
     }
 

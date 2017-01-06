@@ -2,9 +2,8 @@ package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.DataSetObserver;
-import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +11,16 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import zilla.libcore.util.Util;
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by lareina.qiao on 1/4/2017.
@@ -29,16 +28,17 @@ import zilla.libcore.util.Util;
 public class MyExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
-    private List<String> groupArray;
+    private String[] groupArray = new String[] { "group1", "group2"};
+//    private List<String> groupArray;
     private List<List<String>> childArray;
     private FcStDataModel fcStDataModel;
 
 
-    public MyExpandableListAdapter(Activity activity,Context context,List<String>groupArray,List<List<String>>childArray,FcStDataModel fcStDataModel)
+    public MyExpandableListAdapter(Activity activity,Context context,List<List<String>>childArray,FcStDataModel fcStDataModel)
     {
         this.activity=activity;
         this.context=context;
-        this.groupArray=groupArray;
+//        this.groupArray=groupArray;
         this.childArray=childArray;
         this.fcStDataModel=fcStDataModel;
 
@@ -56,7 +56,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return groupArray.size();
+        return groupArray.length;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return groupArray.get(groupPosition);
+        return groupArray[groupPosition];
     }
 
     @Override
@@ -98,19 +98,34 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.expandlist_group, null);
             holder.groupName = (TextView)view.findViewById(R.id.tv_group_name);
             holder.arrow = (ImageView)view.findViewById(R.id.arrow);
+            holder.group1= (RelativeLayout) view.findViewById(R.id.group1);
+            holder.group2= (RelativeLayout) view.findViewById(R.id.group2);
+
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
         }
 
-        //判断是否已经打开列表
-        if(isExpanded){
-            holder.arrow.setBackgroundResource(R.drawable.arrow_up_icon);
-        }else{
-            holder.arrow.setBackgroundResource(R.drawable.arrow_down_icon);
-        }
 
-//        holder.groupName.setText(groupArray.get(groupPosition));
+        switch (groupPosition)
+        {
+            case 0:
+                holder.group2.setVisibility(View.GONE);
+                holder.group1.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                holder.group2.setVisibility(View.VISIBLE);
+                holder.group1.setVisibility(View.GONE);
+                //判断是否已经打开列表
+                if(isExpanded){
+                    holder.arrow.setBackgroundResource(R.drawable.arrow_up_icon);
+                }else{
+                    holder.arrow.setBackgroundResource(R.drawable.arrow_down_icon);
+                }
+//                holder.groupName.setText(groupArray.get(groupPosition));
+
+                break;
+        }
 
         return view;
     }
@@ -126,6 +141,9 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.tv_value = (TextView)view.findViewById(R.id.tv_value);
             holder.im_aciton = (ImageView)view.findViewById(R.id.im_aciton);
             holder.re_body= (RelativeLayout) view.findViewById(R.id.re_body);
+            holder.tv_danwei= (TextView) view.findViewById(R.id.tv_danwei);
+            holder.im_pic= (ImageView) view.findViewById(R.id.im_pic);
+            holder.im_pic_icon= (ImageView) view.findViewById(R.id.im_pic_icon);
             view.setTag(holder);
         }else{
             holder = (ChildHolder)view.getTag();
@@ -136,96 +154,114 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
 //        }
 
         holder.im_aciton.setBackgroundResource(R.drawable.action_right);
-        switch (childPosition)
+        switch (groupPosition)
         {
             case 0:
-                holder.tv_value.setText(fcStDataModel.getCircum());
+                switch (childPosition)
+                {
+                    case 0:
+                        holder.tv_value.setText(fcStDataModel.getInitWeight());
+                        holder.tv_danwei.setText("斤");
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 1:
+                        holder.tv_value.setText(fcStDataModel.getWeight());
+                        holder.tv_danwei.setText("斤");
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 2:
+                        holder.tv_value.setText(fcStDataModel.getPysical());
+                        holder.tv_danwei.setText("%");
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 3:
+                        holder.tv_value.setText(fcStDataModel.getFat());
+                        holder.tv_danwei.setText("%");
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 4:
+                        holder.tv_danwei.setVisibility(View.GONE);
+                        holder.tv_value.setVisibility(View.GONE);
+                        if (!TextUtils.isEmpty(fcStDataModel.getImg()))
+                        {
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getImg()).fit().centerCrop().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        }
+                        else if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail()))
+                        {
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getImgThumbnail()).fit().centerCrop().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        }
+                        else {
+                            holder.im_pic_icon.setVisibility(View.VISIBLE);
+                        }
+
+                        break;
+                    case 5:
+                        holder.tv_value.setText(fcStDataModel.getDoLegGirth());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                }
                 break;
             case 1:
-                holder.tv_value.setText(fcStDataModel.getWaistline());
-                break;
-            case 2:
-                holder.tv_value.setText(fcStDataModel.getHiplie());
-                break;
-            case 3:
-                holder.tv_value.setText(fcStDataModel.getUpArmGirth());
-                break;
-            case 4:
-                holder.tv_value.setText(fcStDataModel.getUpLegGirth());
-                break;
-            case 5:
-                holder.tv_value.setText(fcStDataModel.getDoLegGirth());
+                switch (childPosition)
+                {
+                    case 0:
+                        holder.tv_value.setText(fcStDataModel.getCircum());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 1:
+                        holder.tv_value.setText(fcStDataModel.getWaistline());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 2:
+                        holder.tv_value.setText(fcStDataModel.getHiplie());
+                        holder.im_pic_icon.setVisibility(View.GONE);
+                        holder.im_pic.setVisibility(View.GONE);
+
+                        break;
+                    case 3:
+                        holder.tv_value.setText(fcStDataModel.getUpArmGirth());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 4:
+                        holder.tv_value.setText(fcStDataModel.getUpLegGirth());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                    case 5:
+                        holder.tv_value.setText(fcStDataModel.getDoLegGirth());
+                        holder.im_pic.setVisibility(View.GONE);
+                        holder.im_pic_icon.setVisibility(View.GONE);
+
+                        break;
+                }
                 break;
         }
 
 //
         holder.childName.setText(childArray.get(groupPosition).get(childPosition));
-//        holder.re_body.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                switch (childPosition)
-//                {
-//                    case 0:
-//                        Util.toastMsg("点击啦");
-//                        break;
-//                    case 1:
-//                        break;
-//                    case 2:
-//                        break;
-//                    case 3:
-//                        break;
-//                    case 4:
-//                        break;
-//                    case 5:
-//                        break;
-//                }
-//            }
-//        });
+//
         return view;
     }
-    public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
-        final AlertDialog.Builder information_dialog = new AlertDialog.Builder(context);
-        final View view =  activity.getLayoutInflater().inflate(R.layout.dimension_dialog, null);
-        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMaxValue(np1maxvalur);
-        np1.setValue(np1value);
-        np1.setMinValue(np1minvalue);
-        np1.setWrapSelectorWheel(false);
-        np2.setMaxValue(np2maxvalue);
-        np2.setValue(np2value);
-        np2.setMinValue(np2minvalue);
-        np2.setWrapSelectorWheel(false);
-        information_dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (num == 0) {
-                    ChildHolder childHolder=new ChildHolder();
-                    childHolder.tv_value.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                    tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-//                    tv_write_chu_weight.setError(null);
-                } else if (num == 1) {
-//                    tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                    tv_retestWrite_nowweight.setError(null);
-                } else if (num == 2) {
-//                    tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                } else if (num == 3) {
-//                    tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        }).create().show();
-
-
-    }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -275,12 +311,17 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     class GroupHolder{
         public TextView groupName;
         public ImageView arrow;
+        public RelativeLayout group1;
+        public RelativeLayout group2;
     }
 
     class ChildHolder{
         public TextView childName;
         public TextView tv_value;
+        public TextView tv_danwei;
         public ImageView im_aciton;
+        public ImageView im_pic;
+        public ImageView im_pic_icon;
         public RelativeLayout re_body;
     }
 

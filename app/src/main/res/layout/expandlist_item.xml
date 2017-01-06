@@ -37,12 +37,29 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
         <ImageView
+            android:id="@+id/im_pic_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/retest_write_takephoto"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/im_aciton"/>
+        <ImageView
+            android:id="@+id/im_pic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/im_aciton"/>
+        <ImageView
             android:id="@+id/im_aciton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
     <View

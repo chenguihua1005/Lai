@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -81,8 +82,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     ImageView im_pic;//图片
     @InjectView(R.id.im_pic_icon)
     ImageView im_pic_icon;
-//    @InjectView(R.id.tv_write)
-//    TextView tv_write;
 
     @InjectView(R.id.ll_retestWrite_chu_weight)
     RelativeLayout ll_retestWrite_chu_weight;
@@ -94,13 +93,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     RelativeLayout ll_retestWrite_neizhi;
     @InjectView(R.id.re_takephoto)
     RelativeLayout re_takephoto;
-
-//    @InjectView(R.id.im_retestwrite_takephoto)
-//    ImageView im_retestwrite_takephoto;
-//    @InjectView(R.id.im_retestwrite_showphoto)
-//    ImageView im_retestwrite_showphoto;
-//    @InjectView(R.id.im_delete)
-//    ImageView im_delete;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -117,6 +109,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     String classId, typeDate;
     private Long userId;
     private static final int GET_BODY = 2;//身体维度
+    private static final int GET_PREVIEW = 1;//查看大图
     private static final int BODY = 3;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int CAMERA_PREMISSION = 100;
@@ -133,16 +126,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
+    private List<String> child2=new ArrayList<>();
     MyExpandableListAdapter adapter;
 
     @Override
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_right.setText("提交");
-//        tv_write.setText("初始体重");
         progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
-//        im_delete.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         re_takephoto.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
@@ -150,7 +142,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         tv_takepho_guide.setOnClickListener(this);
-//        im_retestwrite_showphoto.setOnClickListener(this);
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
         imageFileSelector = new ImageFileSelector(this);
@@ -159,8 +150,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                im_delete.setVisibility(View.VISIBLE);
                 im_pic.setVisibility(View.VISIBLE);
                 im_pic_icon.setVisibility(View.GONE);
                 Picasso.with(FcStuActivity.this).load(new File(file)).fit().placeholder(R.drawable.default_icon_square).into(im_pic);
@@ -171,8 +160,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onMutilSuccess(List<String> files) {
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                im_delete.setVisibility(View.VISIBLE);
                 file = new File(files.get(0));
                 im_pic.setVisibility(View.VISIBLE);
                 im_pic_icon.setVisibility(View.GONE);
@@ -255,16 +242,28 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 fl_right.setEnabled(false);
                 break;
         }
-        groupArray.add(0,"身体围度（选填）");
-        child.add(0,"胸围");
-        child.add(1,"腰围");
-        child.add(2,"臀围");
-        child.add(3,"上臂围");
-        child.add(4,"大腿围");
+        child.add(0,"初始体重");
+        child.add(1,"当前体重");
+        child.add(2,"体脂");
+        child.add(3,"内脂");
+        child.add(4,"拍照上传");
         child.add(5,"小腿围");
-        childArray.add(child);
+        childArray.add(0,child);
+        child2.add(0,"胸围");
+        child2.add(1,"腰围");
+        child2.add(2,"臀围");
+        child2.add(3,"上臂围");
+        child2.add(4,"大腿围");
+        child2.add(5,"小腿围");
+        childArray.add(1,child2);
         exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
+        exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                return i==0?true:false;
+            }
+        });
         exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -321,12 +320,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_left:
                 finish();
                 break;
-            //删除照片
-//            case R.id.im_delete:
-//                im_retestwrite_showphoto.setVisibility(View.GONE);
-//                im_delete.setVisibility(View.GONE);
-//                filest = "";
-//                break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
 
@@ -353,7 +346,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //拍照事件
             case R.id.re_takephoto:
-                if (TextUtils.isEmpty(filest))
+                if (TextUtils.isEmpty(filest)&&!isExistP)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -387,7 +380,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     Intent intent1 = new Intent(this, PreViewPicActivity.class);
                     intent1.putExtra("images", filest);
                     intent1.putExtra("photoname", photoname);
-                    startActivity(intent1);
+                    startActivityForResult(intent1,GET_PREVIEW);
                 }
 
                 break;
@@ -405,12 +398,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 }
 
                 break;
-//            case R.id.im_retestwrite_showphoto:
-//                Intent intent1 = new Intent(this, PreViewPicActivity.class);
-//                intent1.putExtra("images", filest);
-//                intent1.putExtra("photoname", photoname);
-//                startActivity(intent1);
-//                break;
 
         }
     }
@@ -457,17 +444,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 }
                 gender = fcStDataModel.getGender();
                 tv_write_nick.setText(fcStDataModel.getUserName());
-                tv_retest_write_weekth.setText("第" + fcStDataModel.getWeekNum() + "周");
+                tv_retest_write_weekth.setText("(第" + fcStDataModel.getWeekNum() + "周)");
 
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     im_pic.setVisibility(View.VISIBLE);
                     im_pic_icon.setVisibility(View.GONE);
                     Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_pic);//图片
                     isExistP = true;
 
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                     im_pic.setVisibility(View.VISIBLE);
                     im_pic_icon.setVisibility(View.GONE);
                     Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_pic);//图片
@@ -480,8 +465,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 tv_retestWrite_nowweight.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
                 tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
                 tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-                adapter= new MyExpandableListAdapter(this,this,groupArray,childArray,fcStDataModel);
+                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel);
                 exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                };
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -516,6 +508,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
             fcStDataModel = (FcStDataModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite" + fcStDataModel);
+        }
+        if (requestCode == GET_PREVIEW && resultCode == RESULT_OK) {
+            filest=data.getStringExtra("images");
+            if (!TextUtils.isEmpty(filest)) {
+                Picasso.with(this).load(new File(filest)).placeholder(R.drawable.default_icon_square).centerCrop().fit().into(im_pic);
+            }
         }
         if (requestCode == BODY && resultCode == RESULT_OK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -682,4 +680,5 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 .setMessage(message)
                 .create().show();
     }
+
 }

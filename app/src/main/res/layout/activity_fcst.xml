@@ -298,7 +298,7 @@
             android:src="@drawable/default_icon_square"
             android:layout_toLeftOf="@+id/im_right5"
             android:layout_marginRight="10dp"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/im_pic_icon"
