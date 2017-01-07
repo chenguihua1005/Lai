@@ -42,6 +42,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -80,10 +81,25 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     private int classCount=0;
     private ClassModel model;
+    private List<ClassModel> classModels=new ArrayList<>();
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
         onRefresh();
+    }
+
+    @Override
+    protected void onVisible() {
+        String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
+        if(!classModels.isEmpty()){
+            for (ClassModel classModel:classModels){
+                if(classModel.getClassId().equals(classId)){
+                    model=classModel;
+                    break;
+                }
+            }
+        }
+        super.onVisible();
     }
 
     @Override
@@ -218,14 +234,27 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                             public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
                                 try {
                                     refresh.setRefreshing(false);
+                                    classModels.clear();
                                     if (listResponseData.getData() != null
                                             && !listResponseData.getData().isEmpty()) {
+                                        classModels.addAll(listResponseData.getData());
                                         MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
                                         classCount=listResponseData.getData().size();
                                         Bundle bundle=new Bundle();
                                         bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
                                         if(model!=null){
+                                            //如果有班级说明的在当前页面下拉刷新
                                             bundle.putParcelable("classModel",model);
+                                        }else {
+                                            //第一次没有班级的情况默认选取首页选择的班级
+                                            String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
+                                            for (ClassModel classModel:listResponseData.getData()){
+                                                if(classModel.getClassId().equals(classId)){
+                                                    model=classModel;
+                                                    bundle.putParcelable("classModel",model);
+                                                    break;
+                                                }
+                                            }
                                         }
                                         fragment.setArguments(bundle);
                                         getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commitAllowingStateLoss();

@@ -23,10 +23,13 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -47,16 +50,10 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     TextView tv_write_nick;
     @InjectView(R.id.tv_write_phone)
     TextView tv_write_phone;
-    @InjectView(R.id.tv_retest_write_weekth)
-    TextView tv_retest_write_weekth;
-    @InjectView(R.id.tv_write_starm)
-    TextView tv_write_starm;
-    @InjectView(R.id.tv_write_stard)
-    TextView tv_write_stard;
-    @InjectView(R.id.tv_write_endm)
-    TextView tv_write_endm;
-    @InjectView(R.id.tv_write_endd)
-    TextView tv_write_endd;
+    @InjectView(R.id.tv_write_star)
+    TextView tv_write_star;
+    @InjectView(R.id.tv_write_end)
+    TextView tv_write_end;
     @InjectView(R.id.tv_write_class)
     TextView tv_write_class;
     @InjectView(R.id.tv_write)
@@ -134,7 +131,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tv_title.setText("复测审核");
         tv_write.setText("初始体重：");
         tv_right.setText("审核通过");
         progressDialog =new ProgressDialog(this);
@@ -178,6 +174,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         accountId = getIntent().getLongExtra("accountId", 0);
         classId = getIntent().getStringExtra("classId");
         doData();
+
     }
 
     private void doData() {
@@ -221,21 +218,22 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 photoname=measuredDetailsModel.getImg();
             }
 
-            tv_write_class.setText(measuredDetailsModel.getClassName());
+            tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());
             tv_write_nick.setText(measuredDetailsModel.getUserName());
             tv_write_phone.setText(measuredDetailsModel.getMobile());
-            tv_retest_write_weekth.setText("第"+measuredDetailsModel.getWeekNum()+"周");
+            if (IsAudit==0)
+            {
+                tv_title.setText("复测审核"+"(第"+measuredDetailsModel.getWeekNum()+"周)");
+            }
             if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                 String[] stardate = measuredDetailsModel.getStartDate().split("-");
                 String[] stardate1 = stardate[2].split(" ");
-                tv_write_starm.setText(Long.parseLong(stardate[1]) + "");
-                tv_write_stard.setText(Long.parseLong(stardate1[0]) + "");
+                tv_write_star.setText(stardate[0]+"."+Long.parseLong(stardate[1]) + "."+Long.parseLong(stardate1[0]));
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getEndDate())) {
                 String[] enddate = measuredDetailsModel.getEndDate().split("-");
                 String[] enddate1 = enddate[2].split(" ");
-                tv_write_endm.setText(Long.parseLong(enddate[1]) + "");
-                tv_write_endd.setText(Long.parseLong(enddate1[0]) + "");
+                tv_write_end.setText(enddate[0]+"."+Long.parseLong(enddate[1]) + "."+Long.parseLong(enddate1[0]));
             }
             tv_write_chu_weight.setText("0.0".equals(measuredDetailsModel.getInitWeight()) ? "" : measuredDetailsModel.getInitWeight());
             tv_retestWrite_nowweight.setText("0.0".equals(measuredDetailsModel.getWeight()) ? "" : measuredDetailsModel.getWeight());
@@ -251,6 +249,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         }
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -684,9 +684,11 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 return;
             }
             if (!TextUtils.isEmpty(result.getAcBanner())) {
+                iv_perpage_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
             }
             if (!TextUtils.isEmpty(result.getPhoto())) {
+                iv_perpage_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
             }
             if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname())) {

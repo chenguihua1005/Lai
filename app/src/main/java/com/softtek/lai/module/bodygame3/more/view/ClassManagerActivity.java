@@ -36,6 +36,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -275,6 +276,10 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                                                         Log.i("关闭班级+"+responseData.toString());
                                                         if(responseData.getStatus()==200){
                                                             EventBus.getDefault().post(new UpdateClass(2,classModel));
+                                                            String classId=SharedPreferenceService.getInstance().get("default_classId","-1");
+                                                            if(!classId.equals("-1")&&classId.equals(classModel.getClassId())){
+                                                                SharedPreferenceService.getInstance().put("default_classId","-1");
+                                                            }
                                                             finish();
                                                         }else {
                                                             Util.toastMsg(responseData.getMsg());

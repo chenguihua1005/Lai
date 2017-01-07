@@ -67,6 +67,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -123,10 +124,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private int classrole;
     private ClassModel classModel;
 
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-    String str = formatter.format(curDate);
-
     public ActivityFragment() {
 
     }
@@ -138,10 +135,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     @Override
+    protected void onVisible() {
+        String classId = SharedPreferenceService.getInstance().get("default_classId", "-1");
+        if (!classId.equals("-1") && !classId.equals(classid)) {
+            isPrepared = false;
+            classid = classId;
+        }
+        super.onVisible();
+    }
+
+    @Override
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-
+        classid = SharedPreferenceService.getInstance().get("default_classId", "");
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -362,6 +369,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ll_fuce.setTag(tag);
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
+                                    ll_task.setVisibility(View.VISIBLE);
                                     todayactModels.clear();
                                     todayactModels.addAll(model.getList_Activity());
                                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -462,8 +470,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 //加载数据
                 if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                     gettodaydata(saveclassModel.getDates());
-                } else {
-                    gettodaydata(str);
                 }
 
                 new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
@@ -503,12 +509,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (operation == ActivitydetailActivity.ACTIVITY_DEL) {
                     int counts = data.getExtras().getInt("count");
                     if (counts == 0) {
-                        for (int i = 0; i < calendarModel_act.size(); i++) {
-                            if (calendarModel_act.get(i).getDate().equals(saveclassModel.getDates())) {
-                                material_calendar.removeDecorator(decorator_act);
-                                material_calendar.removeDecorator(eventDecoratorDot_act);
-                            }
+                        material_calendar.removeDecorators();
+                        CalendarDay calendarDay = getCalendarDay(saveclassModel.getDates());
+                        if (calendarModel_act.contains(calendarDay)) {
+                            calendarModel_act.remove(calendarDay);
+                            calendarModel_free.add(calendarDay);
                         }
+                        new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                        new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             Log.i("获取活动。。。。。。。。。", saveclassModel.getDates());
                             gettodaydata(saveclassModel.getDates());
@@ -516,8 +524,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     } else if (counts < todayactModels.size()) {
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                             gettodaydata(saveclassModel.getDates());
-                        } else {
-                            gettodaydata(str);
                         }
                     }
 
@@ -525,15 +531,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取退出活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    } else {
-                        gettodaydata(str);
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
                         Log.i("获取报名活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
-                    } else {
-                        gettodaydata(str);
                     }
                 }
             }
@@ -561,6 +563,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {
                         try {
+
                             pull.setRefreshing(false);
                             if (data.getData() != null) {
                                 ActivitydataModel activitydataModel = data.getData();
@@ -571,9 +574,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     fl_right.setVisibility(View.GONE);
                                 }
                                 //加载班级
+                                classModels.clear();
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
-                                    classModels.clear();
                                     classModels.addAll(activitydataModel.getList_Class());
                                     tv_title.getAdapter().notifyDataSetChanged();
                                     if (TextUtils.isEmpty(classid)) {
@@ -591,6 +594,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 } else {
                                     //如果班级是空
+                                    ll_chuDate.setVisibility(View.GONE);
+                                    ll_fuce.setVisibility(View.GONE);
+                                    tv_title.setText("暂无班级");
                                     return;
                                 }
                                 //标记日历中的活动/复测等标记
@@ -694,6 +700,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                             ll_task.removeAllViews();
                                             if (!activitydataModel.getList_Activity().isEmpty()) {
+                                                ll_task.setVisibility(View.VISIBLE);
                                                 Log.i("act and date", activitydataModel.getList_Activity().toString() + "," + saveclassModel.getDates());
                                                 todayactModels.clear();
                                                 //有活动
@@ -711,9 +718,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                             }
                                         }
+                                        if (model.getDateType() == 4) {
+                                            ll_fuce.setVisibility(View.GONE);
+                                            ll_task.removeAllViews();
+                                        }
                                         //如果是活动类型
-
                                         if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
+                                            ll_task.setVisibility(View.VISIBLE);
                                             ll_task.removeAllViews();
                                             ll_fuce.setVisibility(View.GONE);
                                             todayactModels.clear();
@@ -730,8 +741,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                         }
                                         break;
-
-
                                     }
                                 }
                             }
@@ -887,7 +896,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
             this.classModels.add(model);
-            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
             for (ClassModel model : classModels) {
@@ -896,7 +905,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     break;
                 }
             }
-            tv_title.getAdapter().notifyDataSetChanged();
+
+            tv_title.notifChange();
             if (classModels.isEmpty()) {
                 this.classModel = null;
                 classid = "";
@@ -906,6 +916,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 classid = this.classModel.getClassId();
 
             }
+            com.github.snowdream.android.util.Log.i("删除后班级的数量为======" + classModels.size());
+            com.github.snowdream.android.util.Log.i("删除后班级的id为======" + classid);
             lazyLoad();
         }
     }

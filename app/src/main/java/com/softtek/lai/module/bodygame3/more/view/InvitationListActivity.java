@@ -77,7 +77,8 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                return true;
+
+                return groupPosition==0?true:false;
             }
         });
         pageIndex=1;
