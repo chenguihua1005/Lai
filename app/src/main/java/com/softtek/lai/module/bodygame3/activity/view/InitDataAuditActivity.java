@@ -132,6 +132,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     RelativeLayout rootlayout;
     @InjectView(R.id.vi_noweight)
     View vi_noweight;
+    @InjectView(R.id.im_audit_states)
+    ImageView im_audit_states;
     //删除照片
     @InjectView(R.id.im_delete)
     ImageView im_delete;
@@ -183,6 +185,8 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
         if (IsAudit==1)
         {
             tv_right.setVisibility(View.INVISIBLE);
+            im_audit_states.setImageResource(R.drawable.passed);
+
         }
         else {
             tv_right.setText("审核通过");//保存数据

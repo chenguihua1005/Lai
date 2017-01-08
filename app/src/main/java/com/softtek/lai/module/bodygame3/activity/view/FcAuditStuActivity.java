@@ -102,6 +102,8 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     RelativeLayout ll_retestWrite_UpLeg;
     @InjectView(R.id.ll_retestWrite_doleg)
     RelativeLayout ll_retestWrite_doleg;
+    @InjectView(R.id.im_audit_states)
+    ImageView im_audit_states;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -144,6 +146,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         IsAudit = getIntent().getIntExtra("IsAudit", 0);
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
+            im_audit_states.setImageResource(R.drawable.passed);
         } else {
             resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
             switch (resetdatestatus)

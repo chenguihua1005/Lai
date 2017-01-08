@@ -15,8 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -31,6 +30,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.utils.DisplayUtil;
@@ -41,6 +41,7 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -56,7 +57,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_initwrite)
+@InjectLayout(R.layout.activity_fcst)
 public class WriteFCActivity extends BaseActivity implements View.OnClickListener,
         Validator.ValidationListener {
     //标题栏
@@ -66,18 +67,16 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.btn_retest_write_addbody)
-    Button btn_retest_write_addbody;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-    @InjectView(R.id.im_retestwrite_takephoto)
-    ImageView im_retestwrite_takephoto;
+//    @InjectView(R.id.im_retestwrite_takephoto)
+//    ImageView im_retestwrite_takephoto;
     //显示照片
-    @InjectView(R.id.im_retestwrite_showphoto)
-    ImageView im_retestwrite_showphoto;
+//    @InjectView(R.id.im_retestwrite_showphoto)
+//    ImageView im_retestwrite_showphoto;
     //删除照片
-    @InjectView(R.id.im_delete)
-    ImageView im_delete;
+//    @InjectView(R.id.im_delete)
+//    ImageView im_delete;
     //信息点击弹框
     //初始体重
     @InjectView(R.id.ll_retestWrite_chu_weight)
@@ -97,7 +96,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     //初始体重
     @InjectView(R.id.tv_write_chu_weight)
-    EditText tv_write_chu_weight;
+    TextView tv_write_chu_weight;
     //体脂
     @Required(order = 2, message = "体脂为必填项，请选择")
     @InjectView(R.id.tv_retestWrite_tizhi)
@@ -110,32 +109,17 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     //昵称
     @InjectView(R.id.tv_write_nick)
     TextView tv_write_nick;
-    //手机号
-    @InjectView(R.id.tv_write_phone)
-    TextView tv_write_phone;
+
     //头像
     @InjectView(R.id.iv_write_head)
     CircleImageView iv_write_head;
-    //班级名称
-    @InjectView(R.id.tv_write_class)
-    TextView tv_write_class;
+    @InjectView(R.id.exlisview_body)
+    ExpandableListView exlisview_body;
+
     //第几周期
     @InjectView(R.id.tv_retest_write_weekth)
     TextView tv_retest_write_weekth;
-    //开始月份
-    @InjectView(R.id.tv_write_starm)
-    TextView tv_write_starm;
-    //开始日期
-    @InjectView(R.id.tv_write_stard)
-    TextView tv_write_stard;
-    //结束月份
-    @InjectView(R.id.tv_write_endm)
-    TextView tv_write_endm;
-    //结束日期
-    @InjectView(R.id.tv_write_endd)
-    TextView tv_write_endd;
-    @InjectView(R.id.rootlayout)
-    RelativeLayout rootlayout;
+
     @InjectView(R.id.vi_noweight)
     View vi_noweight;
 
@@ -158,6 +142,13 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private ImageFileSelector imageFileSelector;
     String uri, photoname;
     boolean isExistP;
+    private List<String> groupArray=new ArrayList<>();
+    private List<List<String>> childArray=new ArrayList<>();
+    private List<String> child=new ArrayList<>();
+    private List<String> child2=new ArrayList<>();
+    private List<String> child3=new ArrayList<>();
+    MyExpandableListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,11 +156,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
-        im_retestwrite_takephoto.setOnClickListener(this);
-        btn_retest_write_addbody.setOnClickListener(this);
+//        im_retestwrite_takephoto.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
-        im_delete.setOnClickListener(this);
 
     }
 
@@ -178,7 +167,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         context = this;
         tv_right.setText("提交");
         progressDialog = new ProgressDialog(this);
-        im_retestwrite_showphoto.setOnClickListener(this);
+//        im_retestwrite_showphoto.setOnClickListener(this);
         vi_noweight.setVisibility(View.GONE);
         ll_retestWrite_nowweight.setVisibility(View.GONE);
     }
@@ -206,9 +195,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
-                Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+
+//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 filest = file;
                 isExistP = false;
 
@@ -217,10 +206,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                im_delete.setVisibility(View.VISIBLE);
+//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 file = new File(files.get(0));
-                Picasso.with(WriteFCActivity.this).load(file).fit().into(im_retestwrite_showphoto);
+//                Picasso.with(WriteFCActivity.this).load(file).fit().into(im_retestwrite_showphoto);
                 filest = file.toString();
                 isExistP = false;
             }
@@ -231,9 +219,89 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
-
         iv_email.setVisibility(View.INVISIBLE);
+        child.add(0,"初始体重");
+        child.add(1,"当前体重");
+        child.add(2,"体脂");
+        child.add(3,"内脂");
+        childArray.add(0,child);
+        child3.add(0,"胸围");
+        child3.add(1,"腰围");
+        child3.add(2,"臀围");
+        child3.add(3,"上臂围");
+        child3.add(4,"大腿围");
+        child3.add(5,"小腿围");
+        childArray.add(1,child2);
+        childArray.add(2,child2);
+        childArray.add(3,child3);
+        exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
+        exlisview_body.setGroupIndicator(null);
+        exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                switch (i)
+                {
+                    case 1:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WriteFCActivity.this);
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.M)
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == 0) {
+                                    //拍照
+                                    if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                            //允许弹出提示
+                                            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
+                                        } else {
+                                            //不允许弹出提示
+                                            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                        }
+                                    } else {
+                                        imageFileSelector.takePhoto(WriteFCActivity.this);
+                                    }
+                                } else if (which == 1) {
+                                    //照片
+                                    imageFileSelector.selectMutilImage(WriteFCActivity.this, 1);
+                                }
+                            }
+                        }).create().show();
+                        break;
+                }
+                return i==0||i==1||i==2?true:false;
+            }
+        });
+        exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                switch (i1)
+                {
+                    case 0:
+                        show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                        break;
+                    case 1:
+                        show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                        break;
+                    case 2:
+                        show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                        break;
+                    case 3:
+                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                        break;
+//                    case 4:
+//                        show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+//                        break;
+//                    case 3:
+
+//                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 9);
+//                        break;
+
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -245,8 +313,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             //删除照片
             case R.id.im_delete:
-                im_retestwrite_showphoto.setVisibility(View.GONE);
-                im_delete.setVisibility(View.GONE);
+//                im_retestwrite_showphoto.setVisibility(View.GONE);
                 filest = "";
                 break;
             //标题栏左返回
@@ -468,8 +535,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             default:
                 tv_right.setVisibility(View.INVISIBLE);
-                im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
-                btn_retest_write_addbody.setText("查看身体围度");
+//                im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
+//                btn_retest_write_addbody.setText("查看身体围度");
                 IsEdit = false;
                 doGetDataService("3");
                 break;
@@ -511,21 +578,20 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
                 final String url = AddressManager.get("photoHost");
                 tv_write_nick.setText(fcStDataModel.getUserName());//设置用户名
-                tv_write_phone.setText(fcStDataModel.getMobile());//手机号
                 if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
 
                     Picasso.with(context).load(url + fcStDataModel.getPhoto()).fit().into(iv_write_head);//头像
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(context).load(url + fcStDataModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                    Picasso.with(context).load(url + fcStDataModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
                     photourl = fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
                     isExistP = true;
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(context).load(url + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
+//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//                    Picasso.with(context).load(url + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
                     photourl = fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
@@ -534,18 +600,26 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photoname = fcStDataModel.getImg();
                 }
-                tv_write_class.setText(fcStDataModel.getClassName());//班级名
                 tv_retest_write_weekth.setText("班级周期");//当前周
                 String Stardata[] = fcStDataModel.getStartDate().split("-");
-                tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
-                tv_write_stard.setText(Long.parseLong(Stardata[2]) + "");//开班日
+//                tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
+//                tv_write_stard.setText(Long.parseLong(Stardata[2]) + "");//开班日
                 String Enddata[] = fcStDataModel.getEndDate().split("-");
-                tv_write_endm.setText(Long.parseLong(Enddata[1]) + "");//结束月
-                tv_write_endd.setText(Long.parseLong(Enddata[2]) + "");//结束日
+//                tv_write_endm.setText(Long.parseLong(Enddata[1]) + "");//结束月
+//                tv_write_endd.setText(Long.parseLong(Enddata[2]) + "");//结束日
                 tv_write_chu_weight.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());//初始体重
                 tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());//体脂
                 tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂
                 gender = fcStDataModel.getGender();
+                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                };
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
