@@ -22,6 +22,7 @@ import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.meetmehorizontallistview.SupportTeamViewPager;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,7 +63,7 @@ public class SupportTeamActivity extends BaseActivity {
     List<ServiceTeam.Waiter> waiterList = new ArrayList<>();
     private EasyAdapter serviceTeamAdapter;
     private int px;
-    private int currentPosition = 0;
+//    private int currentPosition = 0;
 
 
     @Override
@@ -71,6 +72,7 @@ public class SupportTeamActivity extends BaseActivity {
         int i1 = DisplayUtil.dip2px(this, 40L);
         px = (getResources().getDisplayMetrics().widthPixels - i1 * 2) / 4;
         serviceTeamAdapter = new EasyAdapter<ServiceTeam.ServiceModel>(this, serviceModelList, R.layout.item_service_team) {
+            int currentPosition = 0;
 
             @Override
             public void convert(ViewHolder holder, ServiceTeam.ServiceModel serviceModel, int position) {
@@ -83,6 +85,7 @@ public class SupportTeamActivity extends BaseActivity {
 //                waiterList.addAll(serviceModel.getWaiters());
                 makeData();
                 viewPagerTest(holder);
+                //
             }
         };
         lv_service_team.setAdapter(serviceTeamAdapter);
@@ -92,7 +95,7 @@ public class SupportTeamActivity extends BaseActivity {
     private void viewPagerTest(ViewHolder holder) {
         //
         RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
-        final ViewPager vp_test = holder.getView(R.id.vp_support_team);
+        final SupportTeamViewPager vp_test = holder.getView(R.id.vp_support_team);
         ImageView btn_p = holder.getView(R.id.btn_previous);
         ImageView btn_n = holder.getView(R.id.btn_next);
         //
@@ -114,6 +117,7 @@ public class SupportTeamActivity extends BaseActivity {
         btn_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int currentPosition = vp_test.getCurrentPosition();
                 currentPosition = currentPosition == 0 ? currentPosition : currentPosition - 1;
                 vp_test.setCurrentItem(currentPosition);
             }
@@ -121,22 +125,9 @@ public class SupportTeamActivity extends BaseActivity {
         btn_n.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int currentPosition = vp_test.getCurrentPosition();
                 currentPosition = currentPosition == waiterList.size() ? currentPosition : currentPosition + 1;
                 vp_test.setCurrentItem(currentPosition);
-            }
-        });
-        vp_test.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPosition = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
             }
         });
     }

@@ -47,7 +47,7 @@
         android:clipChildren="false">
 
 
-        <android.support.v4.view.ViewPager
+        <com.softtek.lai.widgets.meetmehorizontallistview.SupportTeamViewPager
             android:id="@+id/vp_support_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
