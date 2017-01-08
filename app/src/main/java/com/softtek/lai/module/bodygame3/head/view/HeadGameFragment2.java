@@ -3,8 +3,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -78,7 +76,7 @@ import zilla.libcore.util.Util;
 import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_head_game_fragment2)
-public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
+public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
     //toolbar标题
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;

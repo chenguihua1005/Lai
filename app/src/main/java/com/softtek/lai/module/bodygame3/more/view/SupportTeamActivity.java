@@ -1,8 +1,15 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.Intent;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -13,9 +20,8 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.meetmehorizontallistview.HorizontalListView;
-import com.softtek.lai.widgets.meetmehorizontallistview.MyListview;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,17 +56,20 @@ public class SupportTeamActivity extends BaseActivity {
     @InjectView(R.id.tv_head_coach_name)
     TextView tv_head_coach_name;
     @InjectView(R.id.lv_service_team)
-    MyListview lv_service_team;
+    ListView lv_service_team;
 
     List<ServiceTeam.ServiceModel> serviceModelList = new ArrayList<>();
     List<ServiceTeam.Waiter> waiterList = new ArrayList<>();
     private EasyAdapter serviceTeamAdapter;
-    private EasyAdapter waiterAdapter;
+    private int px;
+    private int currentPosition = 0;
 
-    boolean flag=true;
 
     @Override
     protected void initViews() {
+        //计算每一个成员item的宽高，设置给每一个成员item和viewpager
+        int i1 = DisplayUtil.dip2px(this, 40L);
+        px = (getResources().getDisplayMetrics().widthPixels - i1 * 2) / 4;
         serviceTeamAdapter = new EasyAdapter<ServiceTeam.ServiceModel>(this, serviceModelList, R.layout.item_service_team) {
 
             @Override
@@ -69,31 +78,106 @@ public class SupportTeamActivity extends BaseActivity {
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText(serviceModel.getCGName());
                 //
-                HorizontalListView hlv_service_member = holder.getView(R.id.hlv_service_member);
                 //两个adapter可以判断为null的时候再创建，先这样
                 waiterList.clear();
 //                waiterList.addAll(serviceModel.getWaiters());
                 makeData();
-                hlv_service_member.setAdapter(waiterAdapter);
+                viewPagerTest(holder);
             }
         };
         lv_service_team.setAdapter(serviceTeamAdapter);
 
-        waiterAdapter = new EasyAdapter<ServiceTeam.Waiter>(this, waiterList, R.layout.item_service_member) {
+    }
+
+    private void viewPagerTest(ViewHolder holder) {
+        //
+        RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
+        final ViewPager vp_test = holder.getView(R.id.vp_support_team);
+        ImageView btn_p = holder.getView(R.id.btn_previous);
+        ImageView btn_n = holder.getView(R.id.btn_next);
+        //
+        vp_test.setOffscreenPageLimit(4);
+//        vp_test.setPageMargin(10);
+        ViewGroup.LayoutParams layoutParams = vp_test.getLayoutParams();
+        layoutParams.width = px;
+        layoutParams.height = px;
+        vp_test.setLayoutParams(layoutParams);
+        vp_test.setAdapter(new MyAdapter2());
+        //监听事件
+        rl_test.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return vp_test.dispatchTouchEvent(event);
+            }
+        });
+        //
+        btn_p.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPosition = currentPosition == 0 ? currentPosition : currentPosition - 1;
+                vp_test.setCurrentItem(currentPosition);
+            }
+        });
+        btn_n.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPosition = currentPosition == waiterList.size() ? currentPosition : currentPosition + 1;
+                vp_test.setCurrentItem(currentPosition);
+            }
+        });
+        vp_test.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
-            public void convert(ViewHolder holder, ServiceTeam.Waiter waiterModel, int position) {
-                //成员头像
-                CircleImageView civ_member = holder.getView(R.id.civ_member);
-                setImage(civ_member, waiterModel.getWaiterImg());
-                //成员名
-                TextView tv_member_name = holder.getView(R.id.tv_member_name);
-                tv_member_name.setText(waiterModel.getWaiterName());
-
+            public void onPageSelected(int position) {
+                currentPosition = position;
             }
-        };
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
+
+
+    class MyAdapter2 extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            return 10;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ServiceTeam.Waiter waiter = waiterList.get(position);
+            View view = View.inflate(SupportTeamActivity.this, R.layout.item_service_member, null);
+            //填充数据
+            CircleImageView civ_member = (CircleImageView) view.findViewById(R.id.civ_member);
+            setImage(civ_member, waiter.getWaiterImg());
+            TextView tv_member_name = (TextView) view.findViewById(R.id.tv_member_name);
+            tv_member_name.setText(waiter.getWaiterName());
+            //设置成员item的宽高
+            ViewGroup.LayoutParams params = new ViewPager.LayoutParams();
+            params.width = px;
+            params.height = px;
+            view.setLayoutParams(params);
+            container.addView(view);
+            return view;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+
 
     private void makeData() {
 
@@ -120,7 +204,6 @@ public class SupportTeamActivity extends BaseActivity {
                 //暂时没判断异常的情况
                 ServiceTeam serviceTeam = serviceTeamResponseData.getData();
                 Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
-
 
                 serviceModelList.clear();
                 serviceModelList.addAll(serviceTeam.getServices());
