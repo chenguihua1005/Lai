@@ -477,12 +477,23 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
 
             } else if (requestCode == 2) {
+//                lazyLoad();
                 if (classrole == Constants.STUDENT) {
                     int IsInitW = data.getExtras().getInt("IsInitW");
+                    com.github.snowdream.android.util.Log.i("IsInitW"+IsInitW);
+
                     if (IsInitW == 1) {
                         tv_chustatus.setText("未审核");
-                        BtnTag tag = new BtnTag();
-                        tag.isfirst = 2;
+                        if(ll_chuDate.getTag()!=null){
+                            BtnTag tag= (BtnTag) ll_chuDate.getTag();
+                            tag.isfirst=2;
+                            ll_chuDate.setTag(tag);
+                        }
+//                        BtnTag tag = new BtnTag();
+//                        tag.isfirst = 2;
+//                        tag.role=Constants.STUDENT;
+//                        tag.date=saveclassModel.getDates();
+//                        ll_chuDate.setTag(tag);
                     }
                 } else {
                     int numbers = data.getExtras().getInt("Auditnum");
@@ -492,12 +503,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 3) {
                 com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
+//                lazyLoad();
                 if (classrole == Constants.STUDENT) {
                     int IsFcSt = data.getExtras().getInt("IsFcSt");
-                    if (IsFcSt == 1) {
-                        reset_time.setText("未审核");
-                        BtnTag tag = new BtnTag();
-                        tag.resetstatus = 2;
+                   if (IsFcSt == 1) {
+                      reset_time.setText("未审核");
+                     if(ll_fuce.getTag()!=null){
+                         BtnTag tag= (BtnTag) ll_fuce.getTag();
+                         tag.resetstatus=2;
+                         ll_fuce.setTag(tag);
+                     }
                     }
                 } else {
                     int numbers = data.getExtras().getInt("Auditnum");
