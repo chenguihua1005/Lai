@@ -17,30 +17,6 @@
 
     <include layout="@layout/expandable_head_contact" />
 
-    <LinearLayout
-        android:id="@+id/lin_group_send"
-        android:layout_width="fill_parent"
-        android:layout_height="60dip"
-        android:background="@color/grey"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dip"
-            android:src="@drawable/img_group" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dip"
-            android:gravity="center"
-            android:text="群发消息"
-            android:textSize="15sp" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/grid_list"
