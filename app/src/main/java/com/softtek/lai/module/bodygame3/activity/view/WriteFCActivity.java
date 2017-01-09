@@ -93,7 +93,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     String uri, photoname;
     int isExistP=0;//0没有图片1网络图片2文件图片
     boolean IsZhankai=false;
-    private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
     private List<String> child2=new ArrayList<>();
@@ -325,20 +324,13 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //删除照片
-            case R.id.im_delete:
-//                im_retestwrite_showphoto.setVisibility(View.GONE);
-                filest = "";
-                break;
             //标题栏左返回
             case R.id.ll_left:
                 finish();
                 break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-
                     validateLife.validate();
-
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
@@ -381,10 +373,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
                     Log.d("debug", "不是第一次运行");
                 }
-
-
                 break;
-
             case R.id.ll_retestWrite_chu_weight:
                 if (gender.equals("1")) {
                     show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
@@ -407,7 +396,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -439,9 +427,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 }
             };
         }
-
     }
-
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
