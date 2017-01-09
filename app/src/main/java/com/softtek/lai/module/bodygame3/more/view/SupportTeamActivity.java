@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -194,6 +195,7 @@ public class SupportTeamActivity extends BaseActivity {
             public void success(ResponseData<ServiceTeam> serviceTeamResponseData, Response response) {
                 //暂时没判断异常的情况
                 ServiceTeam serviceTeam = serviceTeamResponseData.getData();
+                Log.i(TAG, "data = " + new Gson().toJson(serviceTeamResponseData.getData()));
                 Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
 
                 serviceModelList.clear();
