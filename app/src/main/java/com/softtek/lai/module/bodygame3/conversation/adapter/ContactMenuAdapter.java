@@ -18,8 +18,9 @@ public class ContactMenuAdapter extends BaseAdapter {
     private Context mContext;
     private int count;
 
-    private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
-    private String[] menu_names = {"班级群", "新朋友", "群发消息"};
+    //    private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
+    private int[] menu_icons = {R.drawable.group_contact, R.drawable.msg_contact};
+    private String[] menu_names = {"班级群", "群发消息"};
 
     public ContactMenuAdapter(Context mContext, int count) {
         this.mContext = mContext;
@@ -27,7 +28,7 @@ public class ContactMenuAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     public void updateCount(int count) {
@@ -59,15 +60,15 @@ public class ContactMenuAdapter extends BaseAdapter {
 
         holder.menu_icon.setImageResource(menu_icons[i]);
         holder.menu_name.setText(menu_names[i]);
+//        if (1 == i) {
+//            if (count > 0) {
+//                holder.unread_msg_number.setVisibility(View.VISIBLE);
+//                holder.unread_msg_number.setText(String.valueOf(count));
+//            } else {
+//                holder.unread_msg_number.setVisibility(View.GONE);
+//            }
+//        }
         if (1 == i) {
-            if (count > 0) {
-                holder.unread_msg_number.setVisibility(View.VISIBLE);
-                holder.unread_msg_number.setText(String.valueOf(count));
-            } else {
-                holder.unread_msg_number.setVisibility(View.GONE);
-            }
-        }
-        if (2 == i) {
             holder.shuxian.setVisibility(View.GONE);
         }
         return view;
