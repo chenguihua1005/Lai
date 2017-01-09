@@ -18,6 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;
 import com.softtek.lai.utils.DisplayUtil;
@@ -63,6 +64,7 @@ public class SupportTeamActivity extends BaseActivity {
     List<ServiceTeam.Waiter> waiterList = new ArrayList<>();
     private EasyAdapter serviceTeamAdapter;
     private int px;
+    private String classId;
 
 
     @Override
@@ -77,7 +79,7 @@ public class SupportTeamActivity extends BaseActivity {
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
-        String classId = intent.getStringExtra("classId");
+        classId = intent.getStringExtra("classId");
 
         tv_title.setText("服务团队");
 
@@ -95,6 +97,7 @@ public class SupportTeamActivity extends BaseActivity {
                         serviceModelList.clear();
                         serviceModelList.addAll(serviceTeam.getServices());
                         if (serviceTeamAdapter == null) {
+                            //listview  null？
                             View headView = View.inflate(SupportTeamActivity.this, R.layout.head_support_team, null);
                             lv_service_team.addHeaderView(headView);
                             newAdapter();
@@ -236,7 +239,11 @@ public class SupportTeamActivity extends BaseActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String waiterCGId = waiter.getWaiterCGId();
+                    Long waiterAccount = waiter.getWaiterAccount();
+                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+                    intent.putExtra("ClassId", classId);
+                    intent.putExtra("AccountId", waiterAccount);
+                    startActivity(intent);
                 }
             });
             return view;
@@ -275,5 +282,9 @@ public class SupportTeamActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
