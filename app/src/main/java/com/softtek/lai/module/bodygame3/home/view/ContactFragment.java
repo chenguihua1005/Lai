@@ -295,7 +295,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     dialogDissmiss();
                     if (200 == status) {
                         ContactListModel model = contactListModelResponseData.getData();
-                        
+
                         if (model != null) {
 //                            count = model.getCount();
 //                            menuAdapter.updateCount(count);
@@ -333,6 +333,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                             }
                             adapter.notifyDataSetChanged();
 
+                            chooseView.clear();//清除之前的记录
                             for (int i = 0; i < groups.size(); i++) {
                                 list_contant.getRefreshableView().expandGroup(i);
                                 chooseView.buildCharaset(groups.get(i));
