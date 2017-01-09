@@ -63,50 +63,95 @@ public class SupportTeamActivity extends BaseActivity {
     List<ServiceTeam.Waiter> waiterList = new ArrayList<>();
     private EasyAdapter serviceTeamAdapter;
     private int px;
-//    private int currentPosition = 0;
 
 
     @Override
     protected void initViews() {
         //计算每一个成员item的宽高，设置给每一个成员item和viewpager
-        int i1 = DisplayUtil.dip2px(this, 40L);
-        px = (getResources().getDisplayMetrics().widthPixels - i1 * 2) / 4;
+        int i1 = DisplayUtil.dip2px(this, 35L); //35是箭头的宽度
+        px = (getResources().getDisplayMetrics().widthPixels - i1 * 2) / 4; //除以4是显示4个，计算一个的宽度
+
+//        makeData();
+    }
+
+    @Override
+    protected void initDatas() {
+        Intent intent = getIntent();
+        String classId = intent.getStringExtra("classId");
+
+        tv_title.setText("服务团队");
+
+        StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
+        String token = UserInfoModel.getInstance().getToken();
+        service.getServiceTeam(token, classId, new Callback<ResponseData<ServiceTeam>>() {
+            @Override
+            public void success(ResponseData<ServiceTeam> serviceTeamResponseData, Response response) {
+                //暂时没判断异常的情况
+                int status = serviceTeamResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        ServiceTeam serviceTeam = serviceTeamResponseData.getData();
+                        Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
+                        serviceModelList.clear();
+                        serviceModelList.addAll(serviceTeam.getServices());
+                        if (serviceTeamAdapter == null) {
+                            View headView = View.inflate(SupportTeamActivity.this, R.layout.head_support_team, null);
+                            lv_service_team.addHeaderView(headView);
+                            newAdapter();
+                            lv_service_team.setAdapter(serviceTeamAdapter);
+                        } else {
+                            serviceTeamAdapter.notifyDataSetChanged();
+                        }
+                        //顶部的头像和名字
+                        setImage(civ_head_image, serviceTeam.getCoachImg());
+                        tv_head_coach_name.setText(serviceTeam.getCoachName());
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+    }
+
+    private void newAdapter() {
         serviceTeamAdapter = new EasyAdapter<ServiceTeam.ServiceModel>(this, serviceModelList, R.layout.item_service_team) {
-            int currentPosition = 0;
 
             @Override
             public void convert(ViewHolder holder, ServiceTeam.ServiceModel serviceModel, int position) {
                 //组的别名
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText(serviceModel.getCGName());
-                //
-                //两个adapter可以判断为null的时候再创建，先这样
-                waiterList.clear();
+                //序号
+                TextView tv_group_number = holder.getView(R.id.tv_group_number);
+                tv_group_number.setText(String.valueOf(++position));
+                //设置学员adapter
+//                waiterList.clear();
 //                waiterList.addAll(serviceModel.getWaiters());
-                makeData();
-                viewPagerTest(holder);
-                //
+                viewPager(holder, serviceModel.getWaiters());
             }
         };
-        lv_service_team.setAdapter(serviceTeamAdapter);
-
     }
 
-    private void viewPagerTest(ViewHolder holder) {
-        //
-        RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
+    private void viewPager(ViewHolder holder, final List<ServiceTeam.Waiter> waiterList) {
+
         final SupportTeamViewPager vp_test = holder.getView(R.id.vp_support_team);
-        ImageView btn_p = holder.getView(R.id.btn_previous);
-        ImageView btn_n = holder.getView(R.id.btn_next);
-        //
+        vp_test.setAdapter(new SupportTeamVPAdapter(waiterList));
+        //设置viewpager可以显示的item的数量和viewpager的大小
         vp_test.setOffscreenPageLimit(4);
 //        vp_test.setPageMargin(10);
         ViewGroup.LayoutParams layoutParams = vp_test.getLayoutParams();
         layoutParams.width = px;
         layoutParams.height = px;
         vp_test.setLayoutParams(layoutParams);
-        vp_test.setAdapter(new MyAdapter2());
         //监听事件
+        RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
         rl_test.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -114,6 +159,7 @@ public class SupportTeamActivity extends BaseActivity {
             }
         });
         //
+        ImageView btn_p = holder.getView(R.id.btn_previous);
         btn_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,22 +168,31 @@ public class SupportTeamActivity extends BaseActivity {
                 vp_test.setCurrentItem(currentPosition);
             }
         });
+        ImageView btn_n = holder.getView(R.id.btn_next);
         btn_n.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int currentPosition = vp_test.getCurrentPosition();
-                currentPosition = currentPosition == waiterList.size() ? currentPosition : currentPosition + 1;
+                //currentPosition是索引，所以用waiterList.size()-1
+                currentPosition = currentPosition == waiterList.size() - 1 ? currentPosition : currentPosition + 1;
                 vp_test.setCurrentItem(currentPosition);
             }
         });
+
     }
 
 
-    class MyAdapter2 extends PagerAdapter {
+    private class SupportTeamVPAdapter extends PagerAdapter {
+
+        List<ServiceTeam.Waiter> waiterList;
+
+        private SupportTeamVPAdapter(List<ServiceTeam.Waiter> waiterList) {
+            this.waiterList = waiterList;
+        }
 
         @Override
         public int getCount() {
-            return 10;
+            return waiterList.size();
         }
 
         @Override
@@ -146,20 +201,39 @@ public class SupportTeamActivity extends BaseActivity {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ServiceTeam.Waiter waiter = waiterList.get(position);
+        public Object instantiateItem(final ViewGroup container, int position) {
+            final ServiceTeam.Waiter waiter = waiterList.get(position);
             View view = View.inflate(SupportTeamActivity.this, R.layout.item_service_member, null);
-            //填充数据
+            //成员头像
             CircleImageView civ_member = (CircleImageView) view.findViewById(R.id.civ_member);
             setImage(civ_member, waiter.getWaiterImg());
+            //成员名
             TextView tv_member_name = (TextView) view.findViewById(R.id.tv_member_name);
             tv_member_name.setText(waiter.getWaiterName());
+            //角色图片
+            ImageView iv_identity = (ImageView) view.findViewById(R.id.iv_identity);
+            String classRole = waiter.getClassRole();
+            switch (classRole) {
+                case "教练":
+                    iv_identity.setImageResource(R.drawable.coach);
+                    break;
+                case "助教":
+                    iv_identity.setImageResource(R.drawable.assistant);
+                    break;
+            }
             //设置成员item的宽高
             ViewGroup.LayoutParams params = new ViewPager.LayoutParams();
             params.width = px;
             params.height = px;
             view.setLayoutParams(params);
             container.addView(view);
+            //跳转到。。
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String waiterCGId = waiter.getWaiterCGId();
+                }
+            });
             return view;
         }
 
@@ -180,48 +254,14 @@ public class SupportTeamActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void initDatas() {
-        Intent intent = getIntent();
-        String classId = intent.getStringExtra("classId");
-
-        tv_title.setText("服务团队");
-
-        StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
-        String token = UserInfoModel.getInstance().getToken();
-        service.getServiceTeam(token, classId, new Callback<ResponseData<ServiceTeam>>() {
-            @Override
-            public void success(ResponseData<ServiceTeam> serviceTeamResponseData, Response response) {
-                //暂时没判断异常的情况
-                ServiceTeam serviceTeam = serviceTeamResponseData.getData();
-                Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
-
-                serviceModelList.clear();
-                serviceModelList.addAll(serviceTeam.getServices());
-                serviceTeamAdapter.notifyDataSetChanged();
-                setImage(civ_head_image, serviceTeam.getCoachImg());
-                tv_head_coach_name.setText(serviceTeam.getCoachName());
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-
-    }
-
     private void setImage(CircleImageView civ, String endUrl) {
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
-            Picasso.with(SupportTeamActivity.this).load(basePath + endUrl).into(civ);
+            Picasso.with(SupportTeamActivity.this).load(basePath + endUrl).placeholder(R.drawable.img_default).into(civ);
         }
     }
 
-
-    @OnClick({})
+    @OnClick({R.id.ll_left})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
