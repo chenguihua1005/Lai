@@ -477,33 +477,41 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
 
             } else if (requestCode == 2) {
-                if (classrole == Constants.STUDENT) {
-                    int IsInitW = data.getExtras().getInt("IsInitW");
-                    if (IsInitW == 1) {
-                        tv_chustatus.setText("未审核");
-                        BtnTag tag = new BtnTag();
-                        tag.isfirst = 2;
-                    }
-                } else {
-                    int numbers = data.getExtras().getInt("Auditnum");
-                    Log.i("numbers", numbers + "");
-                    tv_chustatus.setText("待审核" + numbers + "人");
-                }
+                lazyLoad();
+//                if (classrole == Constants.STUDENT) {
+//                    int IsInitW = data.getExtras().getInt("IsInitW");
+//                    com.github.snowdream.android.util.Log.i("IsInitW"+IsInitW);
+//
+//                    if (IsInitW == 1) {
+//                        tv_chustatus.setText("未审核");
+//                        BtnTag tag = new BtnTag();
+//                        tag.isfirst = 2;
+//                        tag.role=Constants.STUDENT;
+//                        tag.date=saveclassModel.getDates();
+//                        ll_chuDate.setTag(tag);
+//                    }
+//                } else {
+//                    int numbers = data.getExtras().getInt("Auditnum");
+//                    Log.i("numbers", numbers + "");
+//                    tv_chustatus.setText("待审核" + numbers + "人");
+//                }
 
             } else if (requestCode == 3) {
                 com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
-                if (classrole == Constants.STUDENT) {
-                    int IsFcSt = data.getExtras().getInt("IsFcSt");
-                    if (IsFcSt == 1) {
-                        reset_time.setText("未审核");
-                        BtnTag tag = new BtnTag();
-                        tag.resetstatus = 2;
-                    }
-                } else {
-                    int numbers = data.getExtras().getInt("Auditnum");
-                    Log.i("待审核人数", numbers + "");
-                    reset_time.setText("待审核" + numbers + "人");
-                }
+                lazyLoad();
+//                if (classrole == Constants.STUDENT) {
+//                    int IsFcSt = data.getExtras().getInt("IsFcSt");
+//                   if (IsFcSt == 1) {
+//                      reset_time.setText("未审核");
+//                        BtnTag tag = new BtnTag();
+//                        tag.resetstatus = 2;
+//                        ll_fuce.setTag(tag);
+//                    }
+//                } else {
+//                    int numbers = data.getExtras().getInt("Auditnum");
+//                    Log.i("待审核人数", numbers + "");
+//                    reset_time.setText("待审核" + numbers + "人");
+//                }
             } else if (requestCode == 110) {
                 int operation = data.getExtras().getInt("operation");
                 if (operation == ActivitydetailActivity.ACTIVITY_DEL) {
