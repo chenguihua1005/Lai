@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -302,9 +303,11 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
     String str = formatter.format(curDate);
+    String[] times = str.split(" ");
 
     private void showDateDialog() {
         final Calendar c = Calendar.getInstance();
@@ -317,6 +320,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+
         datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -326,13 +330,11 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 int day = datePicker.getDayOfMonth();
                 date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
                 dated = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
                 int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
                 Log.e("132", compare + "");
                 if (compare < 0) {
                     tv_activity_time.setText(str);
                 } else {
-
                     showTimeDialog();
                 }
 
@@ -349,9 +351,38 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 dateAndTime.set(Calendar.HOUR_OF_DAY, i);//时
                 dateAndTime.set(Calendar.MINUTE, i1);//分
-                tv_activity_time.setText(date + "" + new StringBuilder()
+                String choosetime = date + " " + new StringBuilder()
                         .append(i < 10 ? "0" + i : i).append(":")
-                        .append(i1 < 10 ? "0" + i1 : i1));
+                        .append(i1 < 10 ? "0" + i1 : i1);
+                Date datestr = null;
+                Date datetime = null;
+                try {
+                    datestr = formatter.parse(str);
+                    datetime = formatter.parse(choosetime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
+                if (compare < 0) {
+                    com.github.snowdream.android.util.Log.i("123.....");
+                    tv_activity_time.setText(str);
+                } else if (compare == 0) {
+                    com.github.snowdream.android.util.Log.i("456...");
+                    if (datestr.getTime() > datetime.getTime()) {
+                        tv_activity_time.setText(str);
+                    } else {
+                        tv_activity_time.setText(date + "" + new StringBuilder()
+                                .append(i < 10 ? "0" + i : i).append(":")
+                                .append(i1 < 10 ? "0" + i1 : i1));
+                    }
+                } else {
+                    com.github.snowdream.android.util.Log.i("567...");
+                    tv_activity_time.setText(date + "" + new StringBuilder()
+                            .append(i < 10 ? "0" + i : i).append(":")
+                            .append(i1 < 10 ? "0" + i1 : i1));
+
+                }
+
 
             }
         }, dateAndTime.get(Calendar.HOUR_OF_DAY),
