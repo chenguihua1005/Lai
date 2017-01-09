@@ -145,12 +145,6 @@
                     android:text=""
                     android:textColor="#333333"
                     android:textSize="15sp" />
-
-                <!--<ImageView-->
-                <!--android:id="@+id/iv_arrowmark"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/bodygame3_arrow" />-->
             </LinearLayout>
 
             <LinearLayout
