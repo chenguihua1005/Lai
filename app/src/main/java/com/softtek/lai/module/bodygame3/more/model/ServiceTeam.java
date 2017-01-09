@@ -46,6 +46,15 @@ public class ServiceTeam {
         private String WaiterImg;   //成员头像
         private String ClassRole;   //成员角色
         private String WaiterCGId;  //小组Id
+        private Long WaiterAccount;  //成员Id
+
+        public Long getWaiterAccount() {
+            return WaiterAccount;
+        }
+
+        public void setWaiterAccount(Long waiterAccount) {
+            WaiterAccount = waiterAccount;
+        }
 
         public Waiter() {
         }
@@ -89,6 +98,7 @@ public class ServiceTeam {
                     ", WaiterImg='" + WaiterImg + '\'' +
                     ", ClassRole='" + ClassRole + '\'' +
                     ", WaiterCGId='" + WaiterCGId + '\'' +
+                    ", WaiterAccount=" + WaiterAccount +
                     '}';
         }
     }

@@ -17,7 +17,10 @@ import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AssistantFragment extends Fragment implements View.OnClickListener{
+public class AssistantFragment extends Fragment implements View.OnClickListener {
+
+    private RelativeLayout rl_love_student;//爱心学员
+    private RelativeLayout rl_support_team;// 服务团队
 
 
     public AssistantFragment() {
@@ -35,16 +38,35 @@ public class AssistantFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RelativeLayout rl_honor= (RelativeLayout) view.findViewById(R.id.rl_honor);
+        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_honor.setOnClickListener(this);
+
+        rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);
+        rl_love_student.setOnClickListener(this);
+        rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);
+        rl_support_team.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
-        ClassModel model=getArguments().getParcelable("class");
+        ClassModel model = getArguments().getParcelable("class");
         switch (view.getId()) {
             case R.id.rl_honor: {
                 HonorActivity.startHonorActivity(getContext(), model.getClassId());
+            }
+            break;
+            case R.id.rl_love_student: {
+                Intent intent = new Intent(getContext(), LoveStudentActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
+            }
+            break;
+
+            case R.id.rl_support_team: {
+                Intent intent = new Intent(getContext(), SupportTeamActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
             }
             break;
         }
