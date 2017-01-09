@@ -158,14 +158,16 @@ public class SupportTeamActivity extends BaseActivity {
                 return vp_test.dispatchTouchEvent(event);
             }
         });
-        //
         ImageView btn_p = holder.getView(R.id.btn_previous);
         btn_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int currentPosition = vp_test.getCurrentPosition();
-                currentPosition = currentPosition == 0 ? currentPosition : currentPosition - 1;
-                vp_test.setCurrentItem(currentPosition);
+//                currentPosition = currentPosition == 0 ? currentPosition : currentPosition - 4;
+//                vp_test.setCurrentItem(currentPosition);
+                if (currentPosition != 0) {
+                    vp_test.setCurrentItem(currentPosition - 4);
+                }
             }
         });
         ImageView btn_n = holder.getView(R.id.btn_next);
@@ -174,8 +176,11 @@ public class SupportTeamActivity extends BaseActivity {
             public void onClick(View v) {
                 int currentPosition = vp_test.getCurrentPosition();
                 //currentPosition是索引，所以用waiterList.size()-1
-                currentPosition = currentPosition == waiterList.size() - 1 ? currentPosition : currentPosition + 1;
-                vp_test.setCurrentItem(currentPosition);
+//                currentPosition = currentPosition == waiterList.size() - 1 ? currentPosition : currentPosition + 4;
+//                vp_test.setCurrentItem(currentPosition);
+                if (currentPosition != waiterList.size() - 1) {
+                    vp_test.setCurrentItem(currentPosition + 4);
+                }
             }
         });
 
