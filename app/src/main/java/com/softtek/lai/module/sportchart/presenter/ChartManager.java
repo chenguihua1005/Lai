@@ -19,43 +19,40 @@ public class ChartManager {
 
     public ChartManager(ChartManagerCallback callback) {
         this.callback = callback;
-        service= ZillaApi.NormalRestAdapter.create(ChartService.class);
+        service = ZillaApi.NormalRestAdapter.create(ChartService.class);
     }
-    public void doGetStepCount(String accountid,String start,String end)
-    {
+
+    public void doGetStepCount(String accountid, String start, String end) {
         service.doGetStepCount(UserInfoModel.getInstance().getToken(), accountid, start, end, new RequestCallback<ResponseData<StepCountModel>>() {
             @Override
             public void success(ResponseData<StepCountModel> stepCountModelResponseData, Response response) {
-                if (stepCountModelResponseData.getStatus()==200)
-                {
-                    if (callback!=null)
-                    {
+                if (stepCountModelResponseData.getStatus() == 200) {
+                    if (callback != null) {
                         callback.getResu(stepCountModelResponseData.getData());
                     }
-                }
-                else {
-                    if (callback!=null)
-                    {
+                } else {
+                    if (callback != null) {
                         callback.getResu(null);
                     }
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-                if(callback!=null){
+                if (callback != null) {
                     callback.getResu(null);
                 }
             }
         });
     }
-    
+
 
     public void setCallback(ChartManagerCallback callback) {
         this.callback = callback;
     }
 
-    public interface ChartManagerCallback{
+    public interface ChartManagerCallback {
         void getResu(StepCountModel result);
     }
 }
