@@ -7,16 +7,19 @@
 
     <TextView
         android:id="@+id/rank_tv"
-        android:layout_width="40dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="20dp"
         android:text="1"
         android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/head_img"
@@ -31,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center"
-            android:text="Mark" />
+            android:text="Mark"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -50,8 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:paddingLeft="10dp"
-        android:text="A组"
-        android:textSize="20sp" />
+        android:text="A组" />
 
     <LinearLayout
         android:layout_width="wrap_content"
