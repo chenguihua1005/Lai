@@ -55,16 +55,12 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#e1e1e1" />
-
     <ListView
         android:id="@+id/lv_service_team"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:headerDividersEnabled="true"
         android:divider="#e1e1e1"
         android:dividerHeight="10dp"
         android:scrollbars="none" />

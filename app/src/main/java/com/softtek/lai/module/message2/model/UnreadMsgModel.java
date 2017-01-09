@@ -15,12 +15,14 @@ public class UnreadMsgModel {
     private String IsHasAngelMsg;
     private String IsHasActMsg;
     private String IsHasChaMsg;
+    private String IsHasFriendMsg;
     private String OperateMsg;
     private String NoticeMsg;
     private String MeasureMsg;
     private String AngleMsg;
     private String ActiveMsg;
     private String ChallMsg;
+    private String FriendMsg;
 
     @Override
     public String toString() {
@@ -38,6 +40,22 @@ public class UnreadMsgModel {
                 ", ActiveMsg='" + ActiveMsg + '\'' +
                 ", ChallMsg='" + ChallMsg + '\'' +
                 '}';
+    }
+
+    public String getIsHasFriendMsg() {
+        return IsHasFriendMsg;
+    }
+
+    public void setIsHasFriendMsg(String isHasFriendMsg) {
+        IsHasFriendMsg = isHasFriendMsg;
+    }
+
+    public String getFriendMsg() {
+        return FriendMsg;
+    }
+
+    public void setFriendMsg(String friendMsg) {
+        FriendMsg = friendMsg;
     }
 
     public String getIsHasNoticeMsg() {
