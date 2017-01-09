@@ -482,9 +482,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 }
                 break;
         }
-
     }
-
     private void setShare() {
         dialogShow("加载中");
         Bitmap b1 = getViewBitmap(chart);
