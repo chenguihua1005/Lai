@@ -239,11 +239,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text=""
+                android:text="活动已结束"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:textColor="@color/word5"
+                android:textColor="@color/white"
                 android:textSize="12sp"
+                android:background="@drawable/end_btn"
                android:layout_marginTop="15dp"
                 android:visibility="gone" />
 

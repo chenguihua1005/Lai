@@ -142,7 +142,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     if (actdetailModel.getSign()) {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
-                                            end_tv.setText("活动已过期");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
@@ -156,7 +155,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     } else {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
-                                            end_tv.setText("活动已过期，无法报名");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
@@ -171,7 +169,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                                     if (actdetailModel.getSign()) {
                                         if (actdetailModel.getEnd()) {
                                             end_tv.setVisibility(View.VISIBLE);
-                                            end_tv.setText("活动已过期");
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
                                             exit_lin.setVisibility(View.GONE);
@@ -184,7 +181,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
                                     } else {
                                         if (actdetailModel.getEnd()) {
-                                            end_tv.setText("活动已过期，无法报名");
                                             end_tv.setVisibility(View.VISIBLE);
                                             signup_activity.setVisibility(View.GONE);
                                             delete_activity.setVisibility(View.GONE);
