@@ -228,15 +228,15 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 switch (childPosition)
                 {
                     case 0:
-                        holder.tv_value.setText(fcStDataModel.getInitWeight());
+                        holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight());
                         holder.tv_danwei.setText("斤");
                         break;
                     case 1:
-                        holder.tv_value.setText(fcStDataModel.getPysical());
+                        holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical());
                         holder.tv_danwei.setText("%");
                         break;
                     case 2:
-                        holder.tv_value.setText(fcStDataModel.getFat());
+                        holder.tv_value.setText("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat());
                         holder.tv_danwei.setText("%");
                         break;
                 }

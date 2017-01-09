@@ -651,24 +651,40 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        //上传图片为空
-        if (TextUtils.isEmpty(filest)) {
-            //判断是否已经存在已上传图片
-            if (isExistP!=0) {
-                progressDialog.setMessage("正在提交数据，请等待");
-                progressDialog.show();
-                doSetPostData(true);
-            } else {
-                String message = "请上传图片";
-                new AlertDialog.Builder(this)
-                        .setMessage(message)
-                        .create().show();
-            }
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight()))
+        {
+            String message = "体重为必填";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }
+        else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical()))
+        {
+            String message = "体脂为必填";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }
+        else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat()))
+        {
+            String message = "内脂为必填";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }else if (isExistP==0) {
+                //判断是否已经存在已上传图片
+            String message = "请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+
+
 
         } else {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
-            doSetPostData(false);
+            doSetPostData();
+
         }
 
     }
@@ -696,8 +712,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             default:
                 tv_right.setVisibility(View.INVISIBLE);
-//                im_retestwrite_takephoto.setVisibility(View.INVISIBLE);
-//                btn_retest_write_addbody.setText("查看身体围度");
                 IsEdit = false;
                 doGetDataService("3");
                 break;
@@ -771,14 +785,14 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
 
     /*l录入*/
-    void doSetPostData(boolean status) {
-        Log.i("图片文件" + "身体维度上传" + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
+    void doSetPostData() {
+        Log.i("图片文件" + "身体维度上传" +"体重"+fcStDataModel.getInitWeight()+ "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
         multipartTypedOutput.addPart("classId", new TypedString(classId));
-        if (!status) {
+        if (isExistP==2) {
             multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
         }
-        multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getFat()));//体脂
+        multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getPysical()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(fcStDataModel.getFat()));//内脂
         multipartTypedOutput.addPart("ChuWeight", new TypedString(fcStDataModel.getInitWeight()));//初始体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum().toString()));//胸围
