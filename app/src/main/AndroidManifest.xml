@@ -270,9 +270,6 @@
             android:name=".module.message2.view.ZQSActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.activity.view.BodyweiduActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -755,9 +752,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.SearchClassActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.bodygame3.activity.view.TestAcitivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.activity.view.PreViewPicActivity"

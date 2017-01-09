@@ -18,7 +18,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -65,7 +64,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     String classId, typeDate;
     private Long userId;
     private static final int GET_PREVIEW = 1;//查看大图
-    private static final int BODY = 3;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int CAMERA_PREMISSION = 100;
     MultipartTypedOutput multipartTypedOutput;
@@ -77,7 +75,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     private ImageFileSelector imageFileSelector;
     int isExistP = 0;
     boolean IsZhankai=false;
-    private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
     private List<String> child2=new ArrayList<>();
@@ -389,46 +386,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                 break;
-            //拍照事件
-//            case R.id.re_takephoto:
-//                if (TextUtils.isEmpty(filest)&&!isExistP)
-//                {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                    builder.setItems(items, new DialogInterface.OnClickListener() {
-//                        @RequiresApi(api = Build.VERSION_CODES.M)
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (which == 0) {
-//                                //拍照
-//                                if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-//                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-//                                        //允许弹出提示
-//                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-//
-//                                    } else {
-//                                        //不允许弹出提示
-//                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-//                                    }
-//                                } else {
-//                                    imageFileSelector.takePhoto(FcStuActivity.this);
-//                                }
-//                            } else if (which == 1) {
-//                                //照片
-//                                imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
-//                            }
-//                        }
-//                    }).create().show();
-//
-//                }
-//                else {
-//                    Intent intent1 = new Intent(this, PreViewPicActivity.class);
-//                    intent1.putExtra("images", filest);
-//                    intent1.putExtra("photoname", photoname);
-//                    startActivityForResult(intent1,GET_PREVIEW);
-//                }
-//
-//                break;
+
             case R.id.tv_takepho_guide:
                 startActivity(new Intent(this,GuideActivity.class));
                 break;
@@ -506,18 +464,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 gender = fcStDataModel.getGender();
 
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-//                    im_pic.setVisibility(View.VISIBLE);
-//                    im_pic_icon.setVisibility(View.GONE);
-//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_pic);//图片
                     isExistP = 1;
+                    photoname = fcStDataModel.getImgThumbnail();
 
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-//                    im_pic.setVisibility(View.VISIBLE);
-//                    im_pic_icon.setVisibility(View.GONE);
-//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_pic);//图片
                     isExistP = 1;
-                }
-                if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photoname = fcStDataModel.getImg();
                 }
 
