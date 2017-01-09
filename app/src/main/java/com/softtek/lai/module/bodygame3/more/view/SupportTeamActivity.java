@@ -239,11 +239,11 @@ public class SupportTeamActivity extends BaseActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Long waiterAccount = waiter.getWaiterAccount();
-                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
-                    intent.putExtra("ClassId", classId);
-                    intent.putExtra("AccountId", waiterAccount);
-                    startActivity(intent);
+//                    Long waiterAccount = waiter.getWaiterAccount();
+//                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+//                    intent.putExtra("ClassId", classId);
+//                    intent.putExtra("AccountId", waiterAccount);
+//                    startActivity(intent);
                 }
             });
             return view;
