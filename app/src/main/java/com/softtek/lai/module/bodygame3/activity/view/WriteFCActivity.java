@@ -69,62 +69,16 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     TextView tv_right;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-//    @InjectView(R.id.im_retestwrite_takephoto)
-//    ImageView im_retestwrite_takephoto;
-    //显示照片
-//    @InjectView(R.id.im_retestwrite_showphoto)
-//    ImageView im_retestwrite_showphoto;
-    //删除照片
-//    @InjectView(R.id.im_delete)
-//    ImageView im_delete;
-    //信息点击弹框
-    //初始体重
-    @InjectView(R.id.ll_retestWrite_chu_weight)
-    RelativeLayout ll_retestWrite_chu_weight;
-    //现在体重
-    @InjectView(R.id.ll_retestWrite_nowweight)
-    RelativeLayout ll_retestWrite_nowweight;
-    //体脂
-    @InjectView(R.id.ll_retestWrite_tizhi)
-    RelativeLayout ll_retestWrite_tizhi;
-    //内脂
-    @InjectView(R.id.ll_retestWrite_neizhi)
-    RelativeLayout ll_retestWrite_neizhi;
+
 
     @LifeCircleInject
     ValidateLife validateLife;
 
-    //初始体重
-    @InjectView(R.id.tv_write_chu_weight)
-    TextView tv_write_chu_weight;
-    //体脂
-    @Required(order = 2, message = "体脂为必填项，请选择")
-    @InjectView(R.id.tv_retestWrite_tizhi)
-    TextView tv_retestWrite_tizhi;
-    //内脂
-    @Required(order = 3, message = "内脂为必填项，请选择")
-    @InjectView(R.id.tv_retestWrite_neizhi)
-    TextView tv_retestWrite_neizhi;
-
-    //昵称
-    @InjectView(R.id.tv_write_nick)
-    TextView tv_write_nick;
-
-    //头像
-    @InjectView(R.id.iv_write_head)
-    CircleImageView iv_write_head;
     @InjectView(R.id.exlisview_body)
     ExpandableListView exlisview_body;
 
-    //第几周期
-    @InjectView(R.id.tv_retest_write_weekth)
-    TextView tv_retest_write_weekth;
-
-    @InjectView(R.id.vi_noweight)
-    View vi_noweight;
-
     String gender = "1";//性别
-    private static final int GET_BODY = 2;//身体维度
+    private static final int GET_PRE = 1;//查看大图
     private static final int BODY = 3;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     FuceSevice service;
@@ -141,7 +95,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     boolean IsEdit = true;
     private ImageFileSelector imageFileSelector;
     String uri, photoname;
-    boolean isExistP;
+    int isExistP=0;//0没有图片1网络图片2文件图片
+    boolean IsZhankai=false;
     private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
@@ -155,10 +110,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-        ll_retestWrite_chu_weight.setOnClickListener(this);
-//        im_retestwrite_takephoto.setOnClickListener(this);
-        ll_retestWrite_tizhi.setOnClickListener(this);
-        ll_retestWrite_neizhi.setOnClickListener(this);
 
     }
 
@@ -167,9 +118,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         context = this;
         tv_right.setText("提交");
         progressDialog = new ProgressDialog(this);
-//        im_retestwrite_showphoto.setOnClickListener(this);
-        vi_noweight.setVisibility(View.GONE);
-        ll_retestWrite_nowweight.setVisibility(View.GONE);
     }
 
 
@@ -195,22 +143,46 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                Picasso.with(WriteFCActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
                 filest = file;
-                isExistP = false;
-
+                isExistP = 2;
+                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i==3) {
+                        if (IsZhankai) {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                };
 
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-//                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 file = new File(files.get(0));
-//                Picasso.with(WriteFCActivity.this).load(file).fit().into(im_retestwrite_showphoto);
                 filest = file.toString();
-                isExistP = false;
+                isExistP = 2;
+                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i==3)
+                    {
+                        if (IsZhankai)
+                        {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                };
             }
 
             @Override
@@ -221,9 +193,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
         iv_email.setVisibility(View.INVISIBLE);
         child.add(0,"初始体重");
-        child.add(1,"当前体重");
-        child.add(2,"体脂");
-        child.add(3,"内脂");
+        child.add(1,"体脂");
+        child.add(2,"内脂");
         childArray.add(0,child);
         child3.add(0,"胸围");
         child3.add(1,"腰围");
@@ -242,7 +213,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 switch (i)
                 {
                     case 1:
-                        if (!isExistP&&TextUtils.isEmpty(filest))
+                        if (isExistP==0)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(WriteFCActivity.this);
                             builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -275,9 +246,21 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                             Intent intent1 = new Intent(WriteFCActivity.this, PreViewPicActivity.class);
                             intent1.putExtra("images", filest);
                             intent1.putExtra("photoname", photoname);
-                            startActivity(intent1);
+                            startActivityForResult(intent1,GET_PRE);
                         }
 
+                        break;
+                    case 2:
+                        startActivity(new Intent(WriteFCActivity.this,GuideActivity.class));
+                        break;
+                    case 3:
+                        if (IsZhankai)
+                        {
+                            IsZhankai=false;
+                        }
+                        else {
+                            IsZhankai=true;
+                        }
                         break;
                 }
                 return i==0||i==1||i==2?true:false;
@@ -286,29 +269,54 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                switch (i1)
+                switch (i)
                 {
                     case 0:
-                        show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
-                        break;
-                    case 1:
-                        show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
-                        break;
-                    case 2:
-                        show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                        switch (i1)
+                        {
+                            case 0:
+                                if ("1".equals(gender)) {
+                                    show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
+                                }
+                                else {
+                                    show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
+                                }
+                                break;
+                            case 1:
+                                show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                break;
+                            case 2:
+                                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                break;
+
+                        }
                         break;
                     case 3:
-                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                        switch (i1)
+                        {
+                            case 0:
+                                show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                                break;
+                            case 1:
+                                show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                                break;
+                            case 2:
+                                show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                                break;
+                            case 3:
+                                show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                                break;
+                            case 4:
+                                show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                                break;
+                            case 5:
+                                show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                                break;
+
+                        }
                         break;
-//                    case 4:
-//                        show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
-//                        break;
-//                    case 3:
-
-//                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 9);
-//                        break;
-
                 }
+
                 return false;
             }
         });
@@ -332,7 +340,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-                if (TextUtils.isEmpty(tv_write_chu_weight.getText())) {
+                if (TextUtils.isEmpty(fcStDataModel.getInitWeight())) {
                     String message = "初始体重为必填项，请选择";
                     new AlertDialog.Builder(this)
                             .setMessage(message)
@@ -385,14 +393,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
 
                 break;
-            //添加身体围度
-            case R.id.btn_retest_write_addbody:
-                Intent intent = new Intent(WriteFCActivity.this, BodyweiduActivity.class);
-                intent.putExtra("retestWrite", fcStDataModel);
-                intent.putExtra("Audited", 2);
-                intent.putExtra("IsEdit", IsEdit);
-                startActivityForResult(intent, GET_BODY);
-                break;
+
             case R.id.ll_retestWrite_chu_weight:
                 if (gender.equals("1")) {
                     show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
@@ -420,41 +421,34 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        //身体围度值传递
-        if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
-            fcStDataModel = (FcStDataModel) data.getSerializableExtra("retestWrite");
-            Log.i("新学员录入围度:retestWrite" + fcStDataModel);
-        }
-        if (requestCode == BODY && resultCode == RESULT_OK) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                //允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                            } else {
-                                //不允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                            }
-                        } else {
-                            imageFileSelector.takePhoto(WriteFCActivity.this);
-                        }
-                    } else if (which == 1) {
-                        //照片
-                        imageFileSelector.selectImage(WriteFCActivity.this);
+        //查看大图
+        if (requestCode == GET_PRE && resultCode == RESULT_OK) {
+            filest=data.getStringExtra("images");
+            if (TextUtils.isEmpty(filest))
+            {
+                isExistP=1;
+            }
+            else {
+                isExistP=2;
+            }
+            adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+            exlisview_body.setAdapter(adapter);
+            int groupCount = exlisview_body.getCount();
+            for (int i=0; i<groupCount; i++)
+            {
+                if (i==0) {
+                    exlisview_body.expandGroup(i);
+                }
+                if (i==3)
+                {
+                    if (IsZhankai)
+                    {
+                        exlisview_body.expandGroup(i);
                     }
                 }
-            }).create().show();
-
+            };
         }
+
     }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -475,17 +469,174 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         information_dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (num == 0) {
-                    tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                } else if (num == 1) {
-
-                } else if (num == 2) {
-                    tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
-                } else if (num == 3) {
-                    tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
+                switch (num)
+                {
+                    case 0:
+                        fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        exlisview_body.setAdapter(adapter);
+                        int groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 3:
+                        fcStDataModel.setFat(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 4:
+                        fcStDataModel.setCircum(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 5:
+                        fcStDataModel.setWaistline(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 6:
+                        fcStDataModel.setHiplie(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 7:
+                        fcStDataModel.setUpArmGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 8:
+                        fcStDataModel.setUpLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 9:
+                        fcStDataModel.setDoLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
                 }
+
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -503,7 +654,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         //上传图片为空
         if (TextUtils.isEmpty(filest)) {
             //判断是否已经存在已上传图片
-            if (isExistP) {
+            if (isExistP!=0) {
                 progressDialog.setMessage("正在提交数据，请等待");
                 progressDialog.show();
                 doSetPostData(true);
@@ -587,41 +738,23 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             try {
 
                 final String url = AddressManager.get("photoHost");
-                tv_write_nick.setText(fcStDataModel.getUserName());//设置用户名
-                if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
 
-                    Picasso.with(context).load(url + fcStDataModel.getPhoto()).fit().into(iv_write_head);//头像
-                }
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                    Picasso.with(context).load(url + fcStDataModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
                     photourl = fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
-                    isExistP = true;
+                    isExistP = 1;
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-//                    im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//                    Picasso.with(context).load(url + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_retestwrite_showphoto);//图片
                     photourl = fcStDataModel.getImgThumbnail();
                     Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
-                    isExistP = true;
+                    isExistP = 1;
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photoname = fcStDataModel.getImg();
                 }
-                tv_retest_write_weekth.setText("班级周期");//当前周
-                String Stardata[] = fcStDataModel.getStartDate().split("-");
-//                tv_write_starm.setText(Long.parseLong(Stardata[1]) + "");//开班月
-//                tv_write_stard.setText(Long.parseLong(Stardata[2]) + "");//开班日
-                String Enddata[] = fcStDataModel.getEndDate().split("-");
-//                tv_write_endm.setText(Long.parseLong(Enddata[1]) + "");//结束月
-//                tv_write_endd.setText(Long.parseLong(Enddata[2]) + "");//结束日
-                tv_write_chu_weight.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());//初始体重
-                tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());//体脂
-                tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂
                 gender = fcStDataModel.getGender();
-                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel);
+                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i=0; i<groupCount; i++)
@@ -645,9 +778,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         if (!status) {
             multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
         }
-        multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
-        multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-        multipartTypedOutput.addPart("ChuWeight", new TypedString(tv_write_chu_weight.getText().toString()));//初始体重
+        multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getFat()));//体脂
+        multipartTypedOutput.addPart("fat", new TypedString(fcStDataModel.getFat()));//内脂
+        multipartTypedOutput.addPart("ChuWeight", new TypedString(fcStDataModel.getInitWeight()));//初始体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline().toString()));//腰围
         multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie().toString()));//臀围

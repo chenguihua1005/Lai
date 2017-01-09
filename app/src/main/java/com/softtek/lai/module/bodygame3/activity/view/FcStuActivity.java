@@ -122,7 +122,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     String filest, photoname;
     File file;
     private ImageFileSelector imageFileSelector;
-    boolean isExistP = false;
+    int isExistP = 0;
     private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
@@ -154,7 +154,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 im_pic_icon.setVisibility(View.GONE);
                 Picasso.with(FcStuActivity.this).load(new File(file)).fit().placeholder(R.drawable.default_icon_square).into(im_pic);
                 filest = file;
-                isExistP = false;
+                isExistP = 2;
 
             }
 
@@ -165,7 +165,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 im_pic_icon.setVisibility(View.GONE);
                 Picasso.with(FcStuActivity.this).load(file).into(im_pic);
                 filest = file.toString();
-                isExistP = false;
+                isExistP = 2;
 
             }
 
@@ -285,7 +285,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
                         break;
                     case 5:
-                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 9);
+                        show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
                         break;
 
                 }
@@ -345,45 +345,45 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 startActivityForResult(intent, GET_BODY);
                 break;
             //拍照事件
-            case R.id.re_takephoto:
-                if (TextUtils.isEmpty(filest)&&!isExistP)
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.M)
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                //拍照
-                                if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                        //允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                    } else {
-                                        //不允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                    }
-                                } else {
-                                    imageFileSelector.takePhoto(FcStuActivity.this);
-                                }
-                            } else if (which == 1) {
-                                //照片
-                                imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
-                            }
-                        }
-                    }).create().show();
-
-                }
-                else {
-                    Intent intent1 = new Intent(this, PreViewPicActivity.class);
-                    intent1.putExtra("images", filest);
-                    intent1.putExtra("photoname", photoname);
-                    startActivityForResult(intent1,GET_PREVIEW);
-                }
-
-                break;
+//            case R.id.re_takephoto:
+//                if (TextUtils.isEmpty(filest)&&!isExistP)
+//                {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                    builder.setItems(items, new DialogInterface.OnClickListener() {
+//                        @RequiresApi(api = Build.VERSION_CODES.M)
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            if (which == 0) {
+//                                //拍照
+//                                if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+//                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+//                                        //允许弹出提示
+//                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+//
+//                                    } else {
+//                                        //不允许弹出提示
+//                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+//                                    }
+//                                } else {
+//                                    imageFileSelector.takePhoto(FcStuActivity.this);
+//                                }
+//                            } else if (which == 1) {
+//                                //照片
+//                                imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
+//                            }
+//                        }
+//                    }).create().show();
+//
+//                }
+//                else {
+//                    Intent intent1 = new Intent(this, PreViewPicActivity.class);
+//                    intent1.putExtra("images", filest);
+//                    intent1.putExtra("photoname", photoname);
+//                    startActivityForResult(intent1,GET_PREVIEW);
+//                }
+//
+//                break;
             case R.id.tv_takepho_guide:
                 startActivity(new Intent(this,GuideActivity.class));
                 break;
@@ -450,13 +450,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                     im_pic.setVisibility(View.VISIBLE);
                     im_pic_icon.setVisibility(View.GONE);
                     Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_pic);//图片
-                    isExistP = true;
+                    isExistP = 1;
 
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     im_pic.setVisibility(View.VISIBLE);
                     im_pic_icon.setVisibility(View.GONE);
                     Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_pic);//图片
-                    isExistP = true;
+                    isExistP = 1;
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photoname = fcStDataModel.getImg();
@@ -465,15 +465,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 tv_retestWrite_nowweight.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
                 tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
                 tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel);
-                exlisview_body.setAdapter(adapter);
-                int groupCount = exlisview_body.getCount();
-                for (int i=0; i<groupCount; i++)
-                {
-                    if (i==0) {
-                        exlisview_body.expandGroup(i);
-                    }
-                };
+//                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,isExistP);
+//                exlisview_body.setAdapter(adapter);
+//                int groupCount = exlisview_body.getCount();
+//                for (int i=0; i<groupCount; i++)
+//                {
+//                    if (i==0) {
+//                        exlisview_body.expandGroup(i);
+//                    }
+//                };
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -652,7 +652,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         //上传图片为空
         if (TextUtils.isEmpty(filest)) {
             //判断是否已经存在已上传图片
-            if (isExistP) {
+            if (isExistP!=0) {
                 progressDialog.setMessage("正在提交数据，请等待");
                 progressDialog.show();
                 doSetPostData(true);

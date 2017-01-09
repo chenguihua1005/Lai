@@ -19,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -29,19 +30,25 @@ import zilla.libcore.file.AddressManager;
 public class MyExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
+    String filest,images;
+    int isWhatePic,firststatus;
     private String[] groupArray = new String[] {"group1","group2","group3","group4"};
 //    private List<String> groupArray;
     private List<List<String>> childArray;
     private FcStDataModel fcStDataModel;
 
 
-    public MyExpandableListAdapter(Activity activity,Context context,List<List<String>>childArray,FcStDataModel fcStDataModel)
+    public MyExpandableListAdapter(Activity activity,Context context,List<List<String>>childArray,FcStDataModel fcStDataModel,String filest,String images,int
+            isWhatePic,int firststatus  )
     {
         this.activity=activity;
         this.context=context;
-//        this.groupArray=groupArray;
         this.childArray=childArray;
         this.fcStDataModel=fcStDataModel;
+        this.filest=filest;
+        this.images=images;
+        this.isWhatePic=isWhatePic;
+        this.firststatus=firststatus;
 
     }
 
@@ -105,6 +112,9 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.group2= (LinearLayout) view.findViewById(R.id.group2);
             holder.group3= (LinearLayout) view.findViewById(R.id.group3);
             holder.tv_takepho_guide= (TextView) view.findViewById(R.id.tv_takepho_guide);
+            holder.tv_write_nick= (TextView) view.findViewById(R.id.tv_write_nick);
+            holder.iv_write_head= (ImageView) view.findViewById(R.id.iv_write_head);
+            holder.im_state= (ImageView) view.findViewById(R.id.im_state);
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
@@ -117,27 +127,59 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 holder.group2.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
+                holder.tv_write_nick.setText(fcStDataModel.getUserName());
+                if (!TextUtils.isEmpty(fcStDataModel.getPhoto()))
+                {
+                    Picasso.with(context).load(AddressManager.get("photoHost")).placeholder(R.drawable.img_default).centerCrop()
+                            .fit().into(holder.iv_write_head);
+                }
+                else {
+                    Picasso.with(context).load(R.drawable.img_default).centerCrop()
+                            .fit().into(holder.iv_write_head);
+                }
+                switch (firststatus)
+                {
+                    case 1:
+                        //未录入
+                        holder.im_state.setImageResource(R.drawable.nocomit_fc_icon);
+                        break;
+                    case 2:
+                        //待审核
+                        holder.im_state.setImageResource(R.drawable.reseted);
+                        break;
+                    case 3:
+                        //审核通过
+                        holder.im_state.setImageResource(R.drawable.passed
+                        );
+                        break;
+                }
+
                 break;
             case 1:
                 holder.group2.setVisibility(View.VISIBLE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(fcStDataModel.getImg()))
+                switch (isWhatePic)
                 {
-                    holder.im_pic_icon.setVisibility(View.GONE);
-                    holder.im_pic.setVisibility(View.VISIBLE);
-                    Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getImg()).centerCrop().fit().placeholder(R.drawable.default_icon_rect).into(holder.im_pic);
-                } else if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    holder.im_pic_icon.setVisibility(View.GONE);
-                    holder.im_pic.setVisibility(View.VISIBLE);
-                    Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getImgThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_rect).into(holder.im_pic);
-                }
-                else {
-                    holder.im_pic_icon.setVisibility(View.VISIBLE);
-                    holder.im_pic.setVisibility(View.GONE);
+                    case 0:
+                        //不存在图片
+                        holder.im_pic_icon.setVisibility(View.VISIBLE);
+                        holder.im_pic.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        holder.im_pic_icon.setVisibility(View.GONE);
+                        holder.im_pic.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(AddressManager.get("photoHost")+images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        break;
+                    case 2:
+                        holder.im_pic_icon.setVisibility(View.GONE);
+                        holder.im_pic.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(new File(filest)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        break;
                 }
                 break;
+
             case 2:
                 holder.group2.setVisibility(View.GONE);
                 holder.group1.setVisibility(View.GONE);
@@ -179,10 +221,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder = (ChildHolder)view.getTag();
         }
 
-//        if(childPosition == 0){
-//            holder.divider.setVisibility(View.GONE);
-//        }
-
         holder.im_aciton.setBackgroundResource(R.drawable.action_right);
         switch (groupPosition)
         {
@@ -194,14 +232,10 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                         holder.tv_danwei.setText("斤");
                         break;
                     case 1:
-                        holder.tv_value.setText(fcStDataModel.getWeight());
-                        holder.tv_danwei.setText("斤");
-                        break;
-                    case 2:
                         holder.tv_value.setText(fcStDataModel.getPysical());
                         holder.tv_danwei.setText("%");
                         break;
-                    case 3:
+                    case 2:
                         holder.tv_value.setText(fcStDataModel.getFat());
                         holder.tv_danwei.setText("%");
                         break;
@@ -298,8 +332,8 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     }
     class GroupHolder{
         public TextView groupName;
-        public TextView tv_takepho_guide;
-        public ImageView arrow,im_pic_icon,im_pic;
+        public TextView tv_takepho_guide,tv_write_nick;
+        public ImageView arrow,im_pic_icon,im_pic,iv_write_head,im_state;
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;
