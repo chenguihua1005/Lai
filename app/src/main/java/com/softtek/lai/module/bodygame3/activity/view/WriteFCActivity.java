@@ -242,32 +242,42 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 switch (i)
                 {
                     case 1:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(WriteFCActivity.this);
-                        builder.setItems(items, new DialogInterface.OnClickListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    //拍照
-                                    if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                            //允许弹出提示
-                                            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                        if (!isExistP&&TextUtils.isEmpty(filest))
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(WriteFCActivity.this);
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        //拍照
+                                        if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                                //允许弹出提示
+                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
+                                            } else {
+                                                //不允许弹出提示
+                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            }
                                         } else {
-                                            //不允许弹出提示
-                                            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            imageFileSelector.takePhoto(WriteFCActivity.this);
                                         }
-                                    } else {
-                                        imageFileSelector.takePhoto(WriteFCActivity.this);
+                                    } else if (which == 1) {
+                                        //照片
+                                        imageFileSelector.selectMutilImage(WriteFCActivity.this, 1);
                                     }
-                                } else if (which == 1) {
-                                    //照片
-                                    imageFileSelector.selectMutilImage(WriteFCActivity.this, 1);
                                 }
-                            }
-                        }).create().show();
+                            }).create().show();
+                        }
+                        else {
+                            Intent intent1 = new Intent(WriteFCActivity.this, PreViewPicActivity.class);
+                            intent1.putExtra("images", filest);
+                            intent1.putExtra("photoname", photoname);
+                            startActivity(intent1);
+                        }
+
                         break;
                 }
                 return i==0||i==1||i==2?true:false;
