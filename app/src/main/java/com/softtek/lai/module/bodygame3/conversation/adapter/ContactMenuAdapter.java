@@ -16,7 +16,6 @@ import com.softtek.lai.R;
 
 public class ContactMenuAdapter extends BaseAdapter {
     private Context mContext;
-    private LayoutInflater inflater;
     private int count;
 
     private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
@@ -24,7 +23,6 @@ public class ContactMenuAdapter extends BaseAdapter {
 
     public ContactMenuAdapter(Context mContext, int count) {
         this.mContext = mContext;
-        this.inflater = LayoutInflater.from(mContext);
     }
 
     @Override

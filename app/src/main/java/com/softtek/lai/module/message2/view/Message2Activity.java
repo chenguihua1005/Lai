@@ -21,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
 import com.softtek.lai.module.laisportmine.view.MyPkListActivity;
 import com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity;
 import com.softtek.lai.module.message2.model.UnreadMsgModel;
@@ -87,6 +88,13 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.text_unread_count_pk)
     TextView text_unread_count_pk;
 
+    @InjectView(R.id.rl_friend)
+    RelativeLayout rl_friend;
+    @InjectView(R.id.text_value_friend)
+    TextView text_value_friend;
+    @InjectView(R.id.text_unread_count_friend)
+    TextView text_unread_count_friend;
+
     @InjectView(R.id.ptrsv)
     PullToRefreshScrollView ptrsv;
 
@@ -109,6 +117,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
         rel_gs.setOnClickListener(this);
         rel_act.setOnClickListener(this);
         rel_pk.setOnClickListener(this);
+        rl_friend.setOnClickListener(this);
         ptrsv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ptrsv.setOnRefreshListener(this);
         ILoadingLayout startLabelse = ptrsv.getLoadingLayoutProxy(true,false);
@@ -155,6 +164,9 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
             case R.id.rel_pk://Pk列表
                 startActivityForResult(new Intent(this, MyPkListActivity.class),100);
                 break;
+            case R.id.rl_friend://新朋友列表
+                startActivityForResult(new Intent(this, NewFriendActivity.class), 100);
+                break;
         }
     }
 
@@ -169,7 +181,7 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                         ptrsv.setRefreshing();
                     }
                 }
-            },400);
+            },300);
         }
     }
 
@@ -182,10 +194,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(noticeMsg)) {
                     rel_fwc.setVisibility(View.VISIBLE);
                     text_value_fwc.setText(noticeMsg);
-                    text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
                     if ("0".equals(unreadMsgModel.getIsHasNoticeMsg())) {
                         text_unread_count_fwc.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_fwc.setText(unreadMsgModel.getIsHasNoticeMsg());
                         text_unread_count_fwc.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -196,10 +208,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(operateMsg)) {
                     rl_xzs.setVisibility(View.VISIBLE);
                     text_value_xzs.setText(operateMsg);
-                    text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
                     if ("0".equals(unreadMsgModel.getIsHasOperateMsg())) {
                         text_unread_count_xzs.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_xzs.setText(unreadMsgModel.getIsHasOperateMsg());
                         text_unread_count_xzs.setVisibility(View.VISIBLE);
                     }
 
@@ -211,10 +223,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(measureMsg)) {
                     rel_fc.setVisibility(View.VISIBLE);
                     text_value_fc.setText(measureMsg);
-                    text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
                     if ("0".equals(unreadMsgModel.getIsHasMeasureMsg())) {
                         text_unread_count_fc.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_fc.setText(unreadMsgModel.getIsHasMeasureMsg());
                         text_unread_count_fc.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -225,10 +237,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(angleMsg)) {
                     rel_gs.setVisibility(View.VISIBLE);
                     text_value_gs.setText(angleMsg);
-                    text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
                     if ("0".equals(unreadMsgModel.getIsHasAngelMsg())) {
                         text_unread_count_gs.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_gs.setText(unreadMsgModel.getIsHasAngelMsg());
                         text_unread_count_gs.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -239,10 +251,10 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(actMsg)) {
                     rel_act.setVisibility(View.VISIBLE);
                     text_value_act.setText(actMsg);
-                    text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
                     if ("0".equals(unreadMsgModel.getIsHasActMsg())) {
                         text_unread_count_act.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_act.setText(unreadMsgModel.getIsHasActMsg());
                         text_unread_count_act.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -253,14 +265,28 @@ public class Message2Activity extends BaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(chaMsg)) {
                     rel_pk.setVisibility(View.VISIBLE);
                     text_value_pk.setText(chaMsg);
-                    text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
                     if ("0".equals(unreadMsgModel.getIsHasChaMsg())) {
                         text_unread_count_pk.setVisibility(View.INVISIBLE);
                     } else {
+                        text_unread_count_pk.setText(unreadMsgModel.getIsHasChaMsg());
                         text_unread_count_pk.setVisibility(View.VISIBLE);
                     }
                 } else {
                     rel_pk.setVisibility(View.GONE);
+
+                }
+                String friendMsg = unreadMsgModel.getFriendMsg();
+                if (!TextUtils.isEmpty(friendMsg)) {
+                    rl_friend.setVisibility(View.VISIBLE);
+                    text_value_friend.setText(friendMsg);
+                    if ("0".equals(unreadMsgModel.getIsHasFriendMsg())) {
+                        text_unread_count_friend.setVisibility(View.INVISIBLE);
+                    } else {
+                        text_unread_count_friend.setText(unreadMsgModel.getIsHasFriendMsg());
+                        text_unread_count_friend.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    rl_friend.setVisibility(View.GONE);
 
                 }
 
