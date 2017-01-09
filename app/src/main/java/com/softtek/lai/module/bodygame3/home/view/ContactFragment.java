@@ -116,10 +116,13 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     if (0 == position) {
                         Intent intent = new Intent(getActivity(), GroupsActivity.class);//群聊列表
                         startActivity(intent);
-                    } else if (1 == position) {//新朋友
-                        Intent intent = new Intent(getActivity(), NewFriendActivity.class);//群聊列表
-                        startActivityForResult(intent, REFRESH_UI);
-                    } else if (2 == position) {
+                    }
+//                    else if (1 == position) {//新朋友
+//                        Intent intent = new Intent(getActivity(), NewFriendActivity.class);//群聊列表
+//                        startActivityForResult(intent, REFRESH_UI);
+//                    } else
+
+                    if (1 == position) {
                         Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
                         intent.putExtra("list", (Serializable) list);
                         startActivity(intent);
@@ -235,7 +238,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        getFriendPendingCount();
+//        getFriendPendingCount();
 
     }
 
@@ -294,8 +297,8 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                         ContactListModel model = contactListModelResponseData.getData();
                         
                         if (model != null) {
-                            count = model.getCount();
-                            menuAdapter.updateCount(count);
+//                            count = model.getCount();
+//                            menuAdapter.updateCount(count);
 
                             list.clear();
                             list.addAll(model.getContacts());
