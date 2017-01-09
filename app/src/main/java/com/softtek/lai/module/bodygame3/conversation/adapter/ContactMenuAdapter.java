@@ -18,8 +18,9 @@ public class ContactMenuAdapter extends BaseAdapter {
     private Context mContext;
     private int count;
 
-    private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
-    private String[] menu_names = {"班级群",  "群发消息"};
+    //    private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
+    private int[] menu_icons = {R.drawable.group_contact, R.drawable.msg_contact};
+    private String[] menu_names = {"班级群", "群发消息"};
 
     public ContactMenuAdapter(Context mContext, int count) {
         this.mContext = mContext;
