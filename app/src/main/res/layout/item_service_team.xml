@@ -17,6 +17,7 @@
             android:layout_marginLeft="15dp"
             android:background="@drawable/group_number"
             android:gravity="center"
+            android:paddingLeft="1dp"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -50,30 +51,31 @@
         <com.softtek.lai.widgets.meetmehorizontallistview.SupportTeamViewPager
             android:id="@+id/vp_support_team"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="10dp"
             android:clipChildren="false" />
 
         <ImageView
             android:id="@+id/btn_previous"
-            android:layout_width="40dp"
+            android:layout_width="35dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:background="@color/white"
-            android:padding="10dp"
-            android:src="@drawable/img_left" />
+            android:padding="12dp"
+            android:src="@drawable/left_arrow" />
 
 
         <ImageView
             android:id="@+id/btn_next"
-            android:layout_width="40dp"
+            android:layout_width="35dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@color/white"
-            android:padding="10dp"
-            android:src="@drawable/img_right" />
+            android:padding="12dp"
+            android:src="@drawable/right_arrow" />
     </RelativeLayout>
 
 </LinearLayout>
