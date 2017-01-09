@@ -107,6 +107,11 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_honor.setOnClickListener(this);
 
+        RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);////爱心学员
+        rl_love_student.setOnClickListener(this);
+        RelativeLayout rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);//// 服务团队
+        rl_support_team.setOnClickListener(this);
+
     }
 
     @Override
@@ -125,6 +130,20 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                 HonorActivity.startHonorActivity(getContext(), model.getClassId());
             }
             break;
+            case R.id.rl_love_student: {
+                Intent intent = new Intent(getContext(), LoveStudentActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
+            }
+            break;
+
+            case R.id.rl_support_team: {
+                Intent intent = new Intent(getContext(), SupportTeamActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
+            }
+            break;
+
             case rl_exit: {
                 new AlertDialog.Builder(getContext())
                         .setTitle("温馨提示")
