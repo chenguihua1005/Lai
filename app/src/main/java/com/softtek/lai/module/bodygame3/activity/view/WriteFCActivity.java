@@ -340,14 +340,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-                if (TextUtils.isEmpty(fcStDataModel.getInitWeight())) {
-                    String message = "初始体重为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else {
+
                     validateLife.validate();
-                }
+
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
@@ -472,7 +467,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 switch (num)
                 {
                     case 0:
-                        fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
                         int groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
@@ -651,7 +646,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         //验证成功
-        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight()))
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight())?"":fcStDataModel.getWeight()))
         {
             String message = "体重为必填";
             new AlertDialog.Builder(this)
@@ -786,7 +781,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     /*l录入*/
     void doSetPostData() {
-        Log.i("图片文件" + "身体维度上传" +"体重"+fcStDataModel.getInitWeight()+ "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
+        Log.i("图片文件" + "身体维度上传" +"体重"+fcStDataModel.getWeight()+ "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
         multipartTypedOutput.addPart("classId", new TypedString(classId));
         if (isExistP==2) {
@@ -794,7 +789,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
         multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getPysical()));//体脂
         multipartTypedOutput.addPart("fat", new TypedString(fcStDataModel.getFat()));//内脂
-        multipartTypedOutput.addPart("ChuWeight", new TypedString(fcStDataModel.getInitWeight()));//初始体重
+        multipartTypedOutput.addPart("ChuWeight", new TypedString(fcStDataModel.getWeight()));//初始体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline().toString()));//腰围
         multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie().toString()));//臀围

@@ -4,27 +4,21 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -34,8 +28,6 @@ import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -49,50 +41,14 @@ import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_fcst)
-public class FcStuActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-    @InjectView(R.id.iv_write_head)
-    CircleImageView iv_write_head;//头像
-    @InjectView(R.id.tv_write_nick)
-    TextView tv_write_nick;//昵称
-    @InjectView(R.id.tv_retest_write_weekth)
-    TextView tv_retest_write_weekth;//第几周
-    @InjectView(R.id.tv_write_chu_weight)
-    TextView tv_write_chu_weight;//初始体重
-    @InjectView(R.id.tv_retestWrite_nowweight)
-    TextView tv_retestWrite_nowweight;//现在体重
-    @Required(order = 1, message = "体脂为必填项，请选择")
-    @InjectView(R.id.tv_retestWrite_tizhi)
-    TextView tv_retestWrite_tizhi;//体脂
-    @Required(order = 2, message = "内脂为必填项，请选择")
-    @InjectView(R.id.tv_retestWrite_neizhi)
-    TextView tv_retestWrite_neizhi;//内脂
-    @InjectView(R.id.tv_takepho_guide)
-    TextView tv_takepho_guide;
+public class FcStuActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.exlisview_body)
     ExpandableListView exlisview_body;
-    @InjectView(R.id.im_pic)
-    ImageView im_pic;//图片
-    @InjectView(R.id.im_pic_icon)
-    ImageView im_pic_icon;
-
-    @InjectView(R.id.ll_retestWrite_chu_weight)
-    RelativeLayout ll_retestWrite_chu_weight;
-    @InjectView(R.id.ll_retestWrite_nowweight)
-    RelativeLayout ll_retestWrite_nowweight;
-    @InjectView(R.id.ll_retestWrite_tizhi)
-    RelativeLayout ll_retestWrite_tizhi;
-    @InjectView(R.id.ll_retestWrite_neizhi)
-    RelativeLayout ll_retestWrite_neizhi;
-    @InjectView(R.id.re_takephoto)
-    RelativeLayout re_takephoto;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -108,14 +64,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     String gender = "0";
     String classId, typeDate;
     private Long userId;
-    private static final int GET_BODY = 2;//身体维度
     private static final int GET_PREVIEW = 1;//查看大图
     private static final int BODY = 3;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int CAMERA_PREMISSION = 100;
     MultipartTypedOutput multipartTypedOutput;
-    @LifeCircleInject
-    ValidateLife validateLife;
     int resetstatus, resetdatestatus;
     private ProgressDialog progressDialog;
     boolean IsEdit = true;
@@ -123,10 +76,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     File file;
     private ImageFileSelector imageFileSelector;
     int isExistP = 0;
+    boolean IsZhankai=false;
     private List<String> groupArray=new ArrayList<>();
     private List<List<String>> childArray=new ArrayList<>();
     private List<String> child=new ArrayList<>();
     private List<String> child2=new ArrayList<>();
+    private List<String> child3=new ArrayList<>();
+
     MyExpandableListAdapter adapter;
 
     @Override
@@ -136,12 +92,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        re_takephoto.setOnClickListener(this);
-        ll_retestWrite_chu_weight.setOnClickListener(this);
-        ll_retestWrite_nowweight.setOnClickListener(this);
-        ll_retestWrite_tizhi.setOnClickListener(this);
-        ll_retestWrite_neizhi.setOnClickListener(this);
-        tv_takepho_guide.setOnClickListener(this);
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
         imageFileSelector = new ImageFileSelector(this);
@@ -150,22 +100,47 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         imageFileSelector.setCallback(new ImageFileSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                im_pic.setVisibility(View.VISIBLE);
-                im_pic_icon.setVisibility(View.GONE);
-                Picasso.with(FcStuActivity.this).load(new File(file)).fit().placeholder(R.drawable.default_icon_square).into(im_pic);
+
                 filest = file;
                 isExistP = 2;
-
+                isExistP = 2;
+                adapter=new MyExpandableListAdapter(FcStuActivity.this,FcStuActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,resetstatus);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i==3) {
+                        if (IsZhankai) {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                };
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
                 file = new File(files.get(0));
-                im_pic.setVisibility(View.VISIBLE);
-                im_pic_icon.setVisibility(View.GONE);
-                Picasso.with(FcStuActivity.this).load(file).into(im_pic);
                 filest = file.toString();
                 isExistP = 2;
+                adapter=new MyExpandableListAdapter(FcStuActivity.this,FcStuActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,resetstatus);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i==3)
+                    {
+                        if (IsZhankai)
+                        {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                };
 
             }
 
@@ -187,13 +162,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         resetdatestatus = getIntent().getIntExtra("resetdatestatus", 0);//接收复测日状态//复测日状态  1:已过去 2：进行中 3：未开始
         doData();
         multipartTypedOutput = new MultipartTypedOutput();
-        if (fcStDataModel != null) {
-            tv_write_chu_weight.setText(fcStDataModel.getInitWeight());//初始体重
-            tv_retestWrite_nowweight.setText(fcStDataModel.getWeight());//现在体重
-            tv_retestWrite_tizhi.setText(fcStDataModel.getPysical());//体脂
-            tv_retestWrite_neizhi.setText(fcStDataModel.getFat());//内脂
-            gender = fcStDataModel.getGender();
-        }
+
 
     }
 
@@ -246,49 +215,132 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
         child.add(1,"当前体重");
         child.add(2,"体脂");
         child.add(3,"内脂");
-        child.add(4,"拍照上传");
-        child.add(5,"小腿围");
         childArray.add(0,child);
-        child2.add(0,"胸围");
-        child2.add(1,"腰围");
-        child2.add(2,"臀围");
-        child2.add(3,"上臂围");
-        child2.add(4,"大腿围");
-        child2.add(5,"小腿围");
+        child3.add(0,"胸围");
+        child3.add(1,"腰围");
+        child3.add(2,"臀围");
+        child3.add(3,"上臂围");
+        child3.add(4,"大腿围");
+        child3.add(5,"小腿围");
         childArray.add(1,child2);
+        childArray.add(2,child2);
+        childArray.add(3,child3);
         exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
         exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                return i==0?true:false;
+                switch (i)
+                {
+                    case 1:
+                        if (isExistP==0)
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(FcStuActivity.this);
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        //拍照
+                                        if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                                //允许弹出提示
+                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+
+                                            } else {
+                                                //不允许弹出提示
+                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            }
+                                        } else {
+                                            imageFileSelector.takePhoto(FcStuActivity.this);
+                                        }
+                                    } else if (which == 1) {
+                                        //照片
+                                        imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
+                                    }
+                                }
+                            }).create().show();
+                        }
+                        else {
+                            Intent intent1 = new Intent(FcStuActivity.this, PreViewPicActivity.class);
+                            intent1.putExtra("images", filest);
+                            intent1.putExtra("photoname", photoname);
+                            startActivityForResult(intent1,GET_PREVIEW);
+                        }
+
+                        break;
+                    case 2:
+                        startActivity(new Intent(FcStuActivity.this,GuideActivity.class));
+                        break;
+                    case 3:
+                        if (IsZhankai)
+                        {
+                            IsZhankai=false;
+                        }
+                        else {
+                            IsZhankai=true;
+                        }
+                        break;
+                }
+                return i==0||i==1||i==2?true:false;
             }
         });
         exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                switch (i1)
+                switch (i)
                 {
                     case 0:
-                        show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
-                        break;
-                    case 1:
-                        show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
-                        break;
-                    case 2:
-                        show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                        switch (i1)
+                        {
+                            case 0:
+
+
+                                break;
+                            case 1:
+                                if ("1".equals(gender)) {
+                                    show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                }
+                                else {
+                                    show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                }
+                                break;
+                            case 2:
+                                show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                break;
+                            case 3:
+                                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                break;
+
+                        }
                         break;
                     case 3:
-                        show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
-                        break;
-                    case 4:
-                        show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
-                        break;
-                    case 5:
-                        show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
-                        break;
+                        switch (i1)
+                        {
+                            case 0:
+                                show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                                break;
+                            case 1:
+                                show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                                break;
+                            case 2:
+                                show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                                break;
+                            case 3:
+                                show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                                break;
+                            case 4:
+                                show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                                break;
+                            case 5:
+                                show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                                break;
 
+                        }
+                        break;
                 }
+
                 return false;
             }
         });
@@ -337,13 +389,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                 break;
-            case R.id.btn_retest_write_addbody:
-                Intent intent = new Intent(this, BodyweiduActivity.class);
-                intent.putExtra("retestWrite", fcStDataModel);
-                intent.putExtra("Audited", 2);
-                intent.putExtra("IsEdit", IsEdit);
-                startActivityForResult(intent, GET_BODY);
-                break;
             //拍照事件
 //            case R.id.re_takephoto:
 //                if (TextUtils.isEmpty(filest)&&!isExistP)
@@ -388,15 +433,33 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this,GuideActivity.class));
                 break;
             case R.id.fl_right:
-                if (TextUtils.isEmpty(tv_retestWrite_nowweight.getText())) {
+                if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight())?"":fcStDataModel.getWeight())) {
                     String message = "当前体重为必填项，请选择";
                     new AlertDialog.Builder(this)
                             .setMessage(message)
                             .create().show();
-                } else {
-                    validateLife.validate();
+                } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical())){
+                    String message = "体脂为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
                 }
-
+                else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat()))
+                {
+                    String message = "内脂为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                }
+                else if (isExistP==0){
+                    String message = "请上传照片";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                }
+                else {
+                    doSetPostData();
+                }
                 break;
 
         }
@@ -439,56 +502,49 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     void doSetData() {
         try {
             if (fcStDataModel != null) {
-                if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
-                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getPhoto()).fit().into(iv_write_head);
-                }
+
                 gender = fcStDataModel.getGender();
-                tv_write_nick.setText(fcStDataModel.getUserName());
-                tv_retest_write_weekth.setText("(第" + fcStDataModel.getWeekNum() + "周)");
 
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    im_pic.setVisibility(View.VISIBLE);
-                    im_pic_icon.setVisibility(View.GONE);
-                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_pic);//图片
+//                    im_pic.setVisibility(View.VISIBLE);
+//                    im_pic_icon.setVisibility(View.GONE);
+//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).placeholder(R.drawable.default_icon_square).fit().into(im_pic);//图片
                     isExistP = 1;
 
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-                    im_pic.setVisibility(View.VISIBLE);
-                    im_pic_icon.setVisibility(View.GONE);
-                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_pic);//图片
+//                    im_pic.setVisibility(View.VISIBLE);
+//                    im_pic_icon.setVisibility(View.GONE);
+//                    Picasso.with(this).load(AddressManager.get("photoHost") + fcStDataModel.getImg()).fit().placeholder(R.drawable.default_icon_square).into(im_pic);//图片
                     isExistP = 1;
                 }
                 if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photoname = fcStDataModel.getImg();
                 }
-                tv_write_chu_weight.setText("0.0".equals(fcStDataModel.getInitWeight()) ? "" : fcStDataModel.getInitWeight());
-                tv_retestWrite_nowweight.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
-                tv_retestWrite_tizhi.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
-                tv_retestWrite_neizhi.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-//                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,isExistP);
-//                exlisview_body.setAdapter(adapter);
-//                int groupCount = exlisview_body.getCount();
-//                for (int i=0; i<groupCount; i++)
-//                {
-//                    if (i==0) {
-//                        exlisview_body.expandGroup(i);
-//                    }
-//                };
+
+                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,isExistP,resetstatus);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i=0; i<groupCount; i++)
+                {
+                    if (i==0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                };
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    void doSetPostData(boolean status) {
+    void doSetPostData() {
         multipartTypedOutput.addPart("accountId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId", new TypedString(classId));
-        if (!status) {
+        if (isExistP==2) {
             multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
         }
-        multipartTypedOutput.addPart("pysical", new TypedString(tv_retestWrite_tizhi.getText().toString()));//体脂
-        multipartTypedOutput.addPart("fat", new TypedString(tv_retestWrite_neizhi.getText().toString()));//内脂
-        multipartTypedOutput.addPart("weight", new TypedString(tv_retestWrite_nowweight.getText().toString()));//现在体重
+        multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getPysical()));//体脂
+        multipartTypedOutput.addPart("fat", new TypedString(fcStDataModel.getFat()));//内脂
+        multipartTypedOutput.addPart("weight", new TypedString(fcStDataModel.getWeight()));//现在体重
         multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum().toString()));//胸围
         multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline().toString()));//腰围
         multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie().toString()));//臀围
@@ -503,46 +559,34 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        //身体围度值传递
-        if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
-            fcStDataModel = (FcStDataModel) data.getSerializableExtra("retestWrite");
-            Log.i("新学员录入围度:retestWrite" + fcStDataModel);
-        }
+        //查看大图返回图片
         if (requestCode == GET_PREVIEW && resultCode == RESULT_OK) {
             filest=data.getStringExtra("images");
-            if (!TextUtils.isEmpty(filest)) {
-                Picasso.with(this).load(new File(filest)).placeholder(R.drawable.default_icon_square).centerCrop().fit().into(im_pic);
+            if (TextUtils.isEmpty(filest))
+            {
+                isExistP=1;
             }
-        }
-        if (requestCode == BODY && resultCode == RESULT_OK) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                //允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                            } else {
-                                //不允许弹出提示
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                            }
-                        } else {
-                            imageFileSelector.takePhoto(FcStuActivity.this);
-                        }
-                    } else if (which == 1) {
-                        //照片
-                        imageFileSelector.selectImage(FcStuActivity.this);
+            else {
+                isExistP=2;
+            }
+            adapter=new MyExpandableListAdapter(FcStuActivity.this,FcStuActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,resetstatus);
+            exlisview_body.setAdapter(adapter);
+            int groupCount = exlisview_body.getCount();
+            for (int i=0; i<groupCount; i++)
+            {
+                if (i==0) {
+                    exlisview_body.expandGroup(i);
+                }
+                if (i==3)
+                {
+                    if (IsZhankai)
+                    {
+                        exlisview_body.expandGroup(i);
                     }
                 }
-            }).create().show();
-            Log.d("debug", "不是第一次运行");
+            };
         }
+
     }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -566,26 +610,78 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                 switch (num)
                 {
                     case 0:
-                        tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                        tv_write_chu_weight.setError(null);
+
                         break;
                     case 1:
-                        tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                        tv_retestWrite_nowweight.setError(null);
-                        break;
-                    case 2:
-                        tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                        break;
-                    case 3:
-                        tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                        break;
-                    case 4:
-                        fcStDataModel.setCircum(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
                         int groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 2:
+                        fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 3:
+                        fcStDataModel.setFat(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        };
+                        break;
+                    case 4:
+                        fcStDataModel.setCircum(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i=0; i<groupCount; i++)
+                        {
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
                     case 5:
@@ -594,7 +690,16 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
                     case 6:
@@ -603,7 +708,16 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
                     case 7:
@@ -612,7 +726,16 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
                     case 8:
@@ -621,7 +744,16 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
                     case 9:
@@ -630,7 +762,16 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
                         groupCount = exlisview_body.getCount();
                         for (int i=0; i<groupCount; i++)
                         {
-                            exlisview_body.expandGroup(i);
+                            if (i==0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i==3)
+                            {
+                                if (IsZhankai)
+                                {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
                         };
                         break;
 
@@ -647,38 +788,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    @Override
-    public void onValidationSucceeded() {
-        //上传图片为空
-        if (TextUtils.isEmpty(filest)) {
-            //判断是否已经存在已上传图片
-            if (isExistP!=0) {
-                progressDialog.setMessage("正在提交数据，请等待");
-                progressDialog.show();
-                doSetPostData(true);
-            } else {
-                String message = "请上传图片";
-                new AlertDialog.Builder(this)
-                        .setMessage(message)
-                        .create().show();
-            }
-
-        } else {
-            progressDialog.setMessage("正在提交数据，请等待");
-            progressDialog.show();
-            doSetPostData(false);
-        }
 
 
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-        String message = failedRule.getFailureMessage();
-        new AlertDialog.Builder(this)
-                .setMessage(message)
-                .create().show();
-    }
 
 }

@@ -115,6 +115,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.tv_write_nick= (TextView) view.findViewById(R.id.tv_write_nick);
             holder.iv_write_head= (ImageView) view.findViewById(R.id.iv_write_head);
             holder.im_state= (ImageView) view.findViewById(R.id.im_state);
+            holder.tv_retest_write_weekth= (TextView) view.findViewById(R.id.tv_retest_write_weekth);
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
@@ -136,6 +137,14 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 else {
                     Picasso.with(context).load(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
+                }
+                if (Integer.parseInt(fcStDataModel.getWeekNum())==0)
+                {
+                    holder.tv_retest_write_weekth.setVisibility(View.GONE);
+                }
+                else {
+                    holder.tv_retest_write_weekth.setText("(第"+fcStDataModel.getWeekNum()+"周)");
+
                 }
                 switch (firststatus)
                 {
@@ -225,20 +234,41 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
         switch (groupPosition)
         {
             case 0:
-                switch (childPosition)
-                {
-                    case 0:
-                        holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight())?"":fcStDataModel.getInitWeight());
-                        holder.tv_danwei.setText("斤");
-                        break;
-                    case 1:
-                        holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical());
-                        holder.tv_danwei.setText("%");
-                        break;
-                    case 2:
-                        holder.tv_value.setText("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat());
-                        holder.tv_danwei.setText("%");
-                        break;
+                if (childArray.get(groupPosition).size()==3) {
+                    switch (childPosition) {
+                        case 0:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
+                            holder.tv_danwei.setText("斤");
+                            break;
+                        case 1:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
+                            holder.tv_danwei.setText("%");
+                            break;
+                        case 2:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
+                            holder.tv_danwei.setText("%");
+                            break;
+                    }
+                }
+                else {
+                    switch (childPosition) {
+                        case 0:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight()) ? "" : fcStDataModel.getInitWeight());
+                            holder.tv_danwei.setText("斤");
+                            break;
+                        case 1:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
+                            holder.tv_danwei.setText("斤");
+                            break;
+                        case 2:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
+                            holder.tv_danwei.setText("%");
+                            break;
+                        case 3:
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
+                            holder.tv_danwei.setText("%");
+                            break;
+                    }
                 }
                 break;
             case 3:
@@ -331,7 +361,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
         return textView;
     }
     class GroupHolder{
-        public TextView groupName;
+        public TextView groupName,tv_retest_write_weekth;
         public TextView tv_takepho_guide,tv_write_nick;
         public ImageView arrow,im_pic_icon,im_pic,iv_write_head,im_state;
         public LinearLayout group1;
