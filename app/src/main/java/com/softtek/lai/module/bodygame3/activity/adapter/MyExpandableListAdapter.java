@@ -138,7 +138,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                     Picasso.with(context).load(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
                 }
-                if (Integer.parseInt(fcStDataModel.getWeekNum())==0)
+                if (childArray.get(groupPosition).size()==3)
                 {
                     holder.tv_retest_write_weekth.setVisibility(View.GONE);
                 }
