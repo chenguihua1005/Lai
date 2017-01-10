@@ -37,7 +37,7 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
             textView = (TextView) convertView.findViewById(R.id.tv_tinted_spinner);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                textView.setBackground(ContextCompat.getDrawable(mContext, mBackgroundSelector));
+                textView.setBackground(ContextCompat.getDrawable(mContext, R.color.greens));
             }
 
             convertView.setTag(new ViewHolder(textView));
@@ -46,7 +46,7 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
         }
 
         textView.setText(getItem(position).toString());
-        textView.setTextColor(mTextColor);
+        textView.setTextColor(mContext.getResources().getColor(R.color.white));
 
         return convertView;
     }

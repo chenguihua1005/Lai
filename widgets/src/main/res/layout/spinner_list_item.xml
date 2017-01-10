@@ -15,4 +15,4 @@
     android:textSize="12sp"
     android:background="#7eca2c"
     tools:text="Item"
-    tools:textColor="@android:color/black" />
+    tools:textColor="@android:color/white" />

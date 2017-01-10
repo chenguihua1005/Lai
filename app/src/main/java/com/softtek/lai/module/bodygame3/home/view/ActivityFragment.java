@@ -320,7 +320,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 2) {
                                                 ll_fuce.setEnabled(true);
-                                                reset_time.setText("未审核");
+                                                reset_time.setText("待审核");
                                                 tag.resetstatus = model.getIsRetest();
                                             } else if (model.getIsRetest() == 3) {
                                                 ll_fuce.setEnabled(true);
@@ -483,7 +483,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     com.github.snowdream.android.util.Log.i("IsInitW"+IsInitW);
 
                     if (IsInitW == 1) {
-                        tv_chustatus.setText("未审核");
+                        tv_chustatus.setText("待审核");
                         if(ll_chuDate.getTag()!=null){
                             BtnTag tag= (BtnTag) ll_chuDate.getTag();
                             tag.isfirst=2;
@@ -503,11 +503,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 3) {
                 com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
-//                lazyLoad();
                 if (classrole == Constants.STUDENT) {
                     int IsFcSt = data.getExtras().getInt("IsFcSt");
                    if (IsFcSt == 1) {
-                      reset_time.setText("未审核");
+                      reset_time.setText("待审核");
                      if(ll_fuce.getTag()!=null){
                          BtnTag tag= (BtnTag) ll_fuce.getTag();
                          tag.resetstatus=2;
@@ -630,7 +629,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     if (activitydataModel.getIsFirst() == 1) {
                                         tv_chustatus.setText("未录入");
                                     } else if (activitydataModel.getIsFirst() == 2) {
-                                        tv_chustatus.setText("未审核");
+                                        tv_chustatus.setText("待审核");
                                     } else if (activitydataModel.getIsFirst() == 3) {
                                         tv_chustatus.setText("已审核");
                                     }
@@ -664,7 +663,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                         reset_time.setText("未复测");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 2) {
-                                                        reset_time.setText("未审核");
+                                                        reset_time.setText("待审核");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 3) {
                                                         reset_time.setText("已审核");
@@ -678,7 +677,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                         reset_time.setText("未复测");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 2) {
-                                                        reset_time.setText("未审核");
+                                                        reset_time.setText("待审核");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 3) {
                                                         reset_time.setText("已审核");
@@ -795,12 +794,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 return;
             }
             if (material_calendar != null) {
-//                material_calendar.removeDecorators();
-//                material_calendar.removeDecorator(decorator);
-//                material_calendar.removeDecorator(decorator_act);
-//                material_calendar.removeDecorator(decorator_create);
-//                material_calendar.removeDecorator(decorator_free);
-//                material_calendar.invalidateDecorators();
                 decorator = new EventDecorator(Constants.RESET, calendarModel_reset, classrole, getActivity());
                 material_calendar.addDecorator(decorator);
                 decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
@@ -809,10 +802,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 material_calendar.addDecorator(decorator_create);
                 decorator_free = new EventDecorator(Constants.FREE, calendarModel_free, classrole, getActivity());
                 material_calendar.addDecorator(decorator_free);
-
             }
         }
-
     }
 
     EventDecoratorDot eventDecorator_reset;
@@ -928,8 +919,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 classid = this.classModel.getClassId();
 
             }
-            com.github.snowdream.android.util.Log.i("删除后班级的数量为======" + classModels.size());
-            com.github.snowdream.android.util.Log.i("删除后班级的id为======" + classid);
             lazyLoad();
         }
     }
@@ -940,8 +929,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         if (updateFuce.getClassId().equals(classid)) {
             lazyLoad();
         }
-
-
     }
 
     static class BtnTag {
