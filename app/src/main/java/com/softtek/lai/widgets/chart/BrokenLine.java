@@ -97,21 +97,27 @@ public class BrokenLine extends View{
                 int x=offset;
                 Paint.FontMetrics fm=textPaint.getFontMetrics();
                 int textHeight= (int) Math.ceil(fm.descent - fm.ascent)/2;
-                //textPaint.setTextAlign(Paint.Align.CENTER);
+                //用控件的宽度/x轴的数量
+                int textWidth;
+                if(xAxis.size()==1){
+                    String str=xAxis.get(0);
+                    textWidth= (int) textPaint.measureText(str,0,str.length());
+                }else {
+                    textWidth= width/(xAxis.size()-1);
+                }
                 for (int i=0,j=xAxis.size();i<j;i++){
                     String str=xAxis.get(i);
-                    int textWitdh= width/(xAxis.size()-1);
-                    if(i==j-1){
-                        xPoint[i]=x-offset;
-                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length())/2,height-textHeight,textPaint);
-                    }else if(i==0){
+                    if(i==0){
                         xPoint[i]=x;
                         canvas.drawText(str,x,height-textHeight,textPaint);
+                    } else if(i==j-1){
+                        xPoint[i]=x-offset;
+                        canvas.drawText(str,x-offset-textPaint.measureText(str,0,str.length())/2,height-textHeight,textPaint);
                     }else {
                         xPoint[i]=x;
                         canvas.drawText(str,x-textPaint.measureText(str,0,str.length())/2,height-textHeight,textPaint);
                     }
-                    x+=textWitdh;
+                    x+=textWidth;
                 }
             }
             List<Entry> yAxis=dataLine.getEntries();

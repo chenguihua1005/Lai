@@ -188,8 +188,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                             service.doCancleFocusAccount(
                                     UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    (long) (item.getAccountid()),
-//                                    Long.parseLong(item.getAccountid()),
+                                    item.getAccountid(),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {

@@ -299,8 +299,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/tv_stuclassname"/>
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
 

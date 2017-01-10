@@ -79,14 +79,5 @@ public class BrokenLineFragment1 extends Fragment {
             mBrokeChat.setDate(xAsix,data,maxValue);
         }
 
-//        for (int i = 0; i < 7; i++) {
-//            xAsix.add(i + "item");
-//            int value = (int) (Math.random() * 1000);
-//            Entry entry = new Entry(i, value);
-//            data.add(entry);
-//        }
-//        mBrokeChat.setDate(xAsix, data, maxValue);
-//        mBrokeChat.setTitle1("测试图");
-//        mBrokeChat.setTitle2("dsadsadas");
     }
 }
