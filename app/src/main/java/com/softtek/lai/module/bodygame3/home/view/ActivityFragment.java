@@ -533,7 +533,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                         new ApiSimulatorDot().executeOnExecutor(Executors.newSingleThreadExecutor());
                         if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                            Log.i("获取活动。。。。。。。。。", saveclassModel.getDates());
                             gettodaydata(saveclassModel.getDates());
                         }
                     } else if (counts < todayactModels.size()) {
@@ -544,12 +543,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
                 } else if (operation == ActivitydetailActivity.ACTIVITY_EXIT) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                        Log.i("获取退出活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
                     }
                 } else if (operation == ActivitydetailActivity.ACTIVITY_SIGN) {
                     if (!TextUtils.isEmpty(saveclassModel.getDates())) {
-                        Log.i("获取报名活动。。。。。。。。。", saveclassModel.getDates());
                         gettodaydata(saveclassModel.getDates());
                     }
                 }
