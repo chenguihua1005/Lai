@@ -548,8 +548,8 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                                         photos.clear();
                                         viewPager.removeAllViews();
                                         photos.addAll(zhaopianModel.getPhotoThumbnailList());
-                                        pageradapter.notifyDataSetChanged();
-                                        //adapterData();
+//                                        pageradapter.notifyDataSetChanged();
+                                        adapterData();
                                     } else {
                                         rl_container.setVisibility(View.GONE);
                                         no_photowalll.setVisibility(View.VISIBLE);
