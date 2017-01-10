@@ -166,7 +166,7 @@ public class HistoryDetailsBean implements Serializable{
         }
     }
 
-    public static class ListTop1Bean {
+    public static class ListTop1Bean implements Serializable{
 
         private int AccountId;
         private String UserName;
