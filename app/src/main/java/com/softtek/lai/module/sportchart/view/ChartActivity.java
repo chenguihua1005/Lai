@@ -106,6 +106,8 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     @InjectView(R.id.toolbar1)
     RelativeLayout toolbar1;
     DateForm dateForm;
+    @InjectView(R.id.im_cam)
+    ImageView im_cam;
 
     List<Entry> dates = new ArrayList<>();
     List<String> days = new ArrayList<>();
@@ -116,7 +118,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     private ProgressDialog progressDialog;
     private ChartService service;
     CharSequence[] items = {"拍照", "照片"};
-    private static final int CAMERA_PREMISSION = 100;
+    private static final int CAMERA_PREMISSION = 101;
     private ImageFileCropSelector imageFileCropSelector;
     private static final int Chart = 3;
     String Userid = "0";
@@ -163,12 +165,14 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
             @Override
             public void onSuccess(String file) {
                 progressDialog.show();
+                im_cam.setVisibility(View.GONE);
                 photoManager.doUploadPhoto(Userid, "1", file, progressDialog);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
                 progressDialog.show();
+                im_cam.setVisibility(View.GONE);
                 photoManager.doUploadPhoto(Userid, "1", files.get(0), progressDialog);
             }
 
@@ -406,7 +410,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                         }
                     }
                 }).create().show();
-
                 break;
             case R.id.fl_pers_right:
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -470,6 +473,11 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
+            case CAMERA_PREMISSION:
+                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                imageFileCropSelector.takePhoto(ChartActivity.this);
+            }
+                break;
             case LOCATION_PREMISSION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -682,12 +690,13 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 return;
             }
             if (!TextUtils.isEmpty(result.getAcBanner())) {
-                iv_perpage_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
+                im_cam.setVisibility(View.GONE);
+                Picasso.with(this).load(AddressManager.get("photoHost") + result.getAcBanner()).centerCrop()
+                        .placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
             }
             if (!TextUtils.isEmpty(result.getPhoto())) {
-                iv_perpage_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default).into(im_sport_personhead);
+                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).centerCrop().placeholder(R.drawable.default_icon_rect)
+                        .fit().error(R.drawable.img_default).into(im_sport_personhead);
             }
             if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname())) {
                 tv_perpagename.setText("我的主页");
@@ -697,6 +706,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 tv_perpagename.append("的主页");
                 iv_perpage_banner.setClickable(false);
                 fl_pers_right.setVisibility(View.INVISIBLE);
+                im_cam.setVisibility(View.GONE);
             }
             if (TextUtils.isEmpty(result.getTotalStep())) {
                 tv_step.setText("--");
@@ -738,10 +748,10 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 }
             } else {
                 //如果步数大于或者等于天数
-                for (int i = 0; i < 7; i++) {
+                for (int i = 6; i >= 0; i--) {
                     int step = Integer.parseInt(steps.get(6 - i).getTotalCnt());
                     maxStep = step > maxStep ? step : maxStep;
-                    Entry entry = new Entry(i, step);
+                    Entry entry = new Entry(6-i, step);
                     dates.add(entry);
                 }
             }
@@ -767,6 +777,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         if (result == null) {
             return;
         }
-        Picasso.with(ChartActivity.this).load(AddressManager.get("photoHost") + result.getPath()).fit().into(iv_perpage_banner);
+        Picasso.with(ChartActivity.this).load(AddressManager.get("photoHost") + result.getPath()).centerCrop()
+                .placeholder(R.drawable.default_icon_rect).fit().into(iv_perpage_banner);
     }
 }
