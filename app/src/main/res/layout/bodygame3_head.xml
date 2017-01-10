@@ -411,7 +411,6 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textSize="13sp"
-
                 app:textTint="@color/word" />
 
             <ImageView

@@ -46,7 +46,7 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
         }
 
         textView.setText(getItem(position).toString());
-        textView.setTextColor(mTextColor);
+        textView.setTextColor(mContext.getResources().getColor(R.color.white));
 
         return convertView;
     }
