@@ -268,7 +268,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                             break;
                         case 3:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-                            holder.tv_danwei.setText("%");
+                            holder.tv_danwei.setText("");
                             break;
                     }
                 }
