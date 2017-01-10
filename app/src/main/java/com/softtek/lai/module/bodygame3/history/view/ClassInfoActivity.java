@@ -289,13 +289,6 @@ public class ClassInfoActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.inject(this);
-    }
-
     @OnClick(R.id.honors)
     public void onClick() {
         HonorActivity.startHonorActivity2(ClassInfoActivity.this, historyClassModel.getClassId(), true);
@@ -525,8 +518,4 @@ public class ClassInfoActivity extends BaseActivity {
         getHistoryInfo();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

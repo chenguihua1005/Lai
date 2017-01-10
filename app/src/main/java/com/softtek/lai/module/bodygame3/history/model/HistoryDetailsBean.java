@@ -47,7 +47,7 @@ public class HistoryDetailsBean implements Serializable{
         this.list_Top1 = list_Top1;
     }
 
-    public static class ListWeightBean {
+    public static class ListWeightBean implements Serializable{
 
         private String GroupName;
         private String LossPer;
@@ -87,7 +87,7 @@ public class HistoryDetailsBean implements Serializable{
         }
     }
 
-    public static class ListWeightPerBean {
+    public static class ListWeightPerBean implements Serializable{
 
         private String GroupName;
         private String LossPer;
@@ -127,7 +127,7 @@ public class HistoryDetailsBean implements Serializable{
         }
     }
 
-    public static class ListFatPerBean {
+    public static class ListFatPerBean implements Serializable{
         private String GroupName;
         private String LossPer;
         private String GroupId;
